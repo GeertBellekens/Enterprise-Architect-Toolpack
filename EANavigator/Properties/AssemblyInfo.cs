@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("EANavigator")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("EA Navigator add-in")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Thuis")]
+[assembly: AssemblyCompany("Bellekens IT")]
 [assembly: AssemblyProduct("EANavigator")]
-[assembly: AssemblyCopyright("Copyright © Thuis 2010")]
+[assembly: AssemblyCopyright("Copyright © Geert Bellekens 2010-2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.*")]
+//[assembly: AssemblyFileVersion("1.0.0.0")]

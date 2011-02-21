@@ -50,5 +50,13 @@ namespace TSF.UmlToolingFramework.EANavigator
                 ((UML.Diagrams.Diagram)item.Tag).open();
             }
         }
+        
+        void NavigateListViewMouseDoubleClick(object sender, MouseEventArgs e)
+        {
+        	foreach (ListViewItem item in this.navigateListView.SelectedItems)
+            {
+                ((UML.Diagrams.Diagram)item.Tag).open();
+            }
+        }
     }
 }

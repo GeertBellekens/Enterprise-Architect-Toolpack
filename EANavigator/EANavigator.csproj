@@ -77,9 +77,9 @@
       <Project>{4161DD26-375F-4744-BA96-B70366E19A78}</Project>
       <Name>EAAddinFramework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\UML Tooling Framework\UMLToolingFramework\UMToolingFramework.csproj">
+    <ProjectReference Include="..\..\UML Tooling Framework\UMLToolingFramework\UMLToolingFramework.csproj">
       <Project>{0FC55607-C9D0-442D-941C-F23AD00CB318}</Project>
-      <Name>UMToolingFramework</Name>
+      <Name>UMLToolingFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
