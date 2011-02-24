@@ -83,9 +83,6 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	
 	        NavigatorList dialog = new NavigatorList(usingDiagrams.ToList());
 	        dialog.Show();
-        }else
-        {
-        	System.Windows.Forms.MessageBox.Show("Could not find operation.\nMake sure you either select:\n -An Operation in the project browser \n-A message in a sequence diagram that calls an existing Operation");
         }
     }
 
@@ -105,14 +102,17 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    {
    	   
        UML.Interactions.BasicInteractions.Message selectedMessage = this.model.selectedElement as UML.Interactions.BasicInteractions.Message;
+       UML.Classes.Kernel.Operation calledOperation = null;
        if (null != selectedMessage)
        {
-        return selectedMessage.calledOperation;
+        calledOperation = selectedMessage.calledOperation;
        }
-       else
+       if (calledOperation == null)
        {
-       	return null;
+       	System.Windows.Forms.MessageBox.Show("Could not find operation!\nMake sure you either select:\n-An Operation in the project browser \n-A message in a sequence diagram that calls an existing Operation"
+        	                                     ,"Missing Operation!",System.Windows.Forms.MessageBoxButtons.OK,System.Windows.Forms.MessageBoxIcon.Error);
        }
+       return calledOperation;
            
    }
    
