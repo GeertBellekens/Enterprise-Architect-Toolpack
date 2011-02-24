@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 4.0.1.7097
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinFramework", "..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj", "{4161DD26-375F-4744-BA96-B70366E19A78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinTester", "..\Enterprise-Architect-Add-in-Framework\EAAddinTester\EAAddinTester.csproj", "{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAddin", "..\Enterprise-Architect-Add-in-Framework\MyAddin\MyAddin.csproj", "{E7CDD133-70A7-4E27-8E47-EE200655A1EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EANavigator", ".\EANavigator\EANavigator.csproj", "{2BFBE8B8-528D-4844-BE0D-ECC68FE1CD1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMLToolingFramework", "..\UML-Tooling-Framework\UMLToolingFramework\UMLToolingFramework.csproj", "{0FC55607-C9D0-442D-941C-F23AD00CB318}"
+EndProject
+Project("{CFEE4113-1246-4D54-95CB-156813CB8593}") = "MyAddin_Setup", "..\Enterprise-Architect-Add-in-Framework\MyAddin_Setup\MyAddin_Setup.wixproj", "{5DF7F062-FF11-4CC4-BA70-06439AD1373A}"
+EndProject
+Project("{CFEE4113-1246-4D54-95CB-156813CB8593}") = "EANavigator_Setup", ".\EANavigator_Setup\EANavigator_Setup.wixproj", "{7C54252D-A8B4-4F6A-95EF-D47872A2FA18}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4161DD26-375F-4744-BA96-B70366E19A78}.Debug|x86.Build.0 = Debug|x86
+		{4161DD26-375F-4744-BA96-B70366E19A78}.Debug|x86.ActiveCfg = Debug|x86
+		{4161DD26-375F-4744-BA96-B70366E19A78}.Debug|Any CPU.Build.0 = Debug|x86
+		{4161DD26-375F-4744-BA96-B70366E19A78}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4161DD26-375F-4744-BA96-B70366E19A78}.Release|x86.Build.0 = Release|x86
+		{4161DD26-375F-4744-BA96-B70366E19A78}.Release|x86.ActiveCfg = Release|x86
+		{4161DD26-375F-4744-BA96-B70366E19A78}.Release|Any CPU.Build.0 = Release|x86
+		{4161DD26-375F-4744-BA96-B70366E19A78}.Release|Any CPU.ActiveCfg = Release|x86
+		{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}.Debug|x86.Build.0 = Debug|x86
+		{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}.Debug|x86.ActiveCfg = Debug|x86
+		{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}.Debug|Any CPU.Build.0 = Debug|x86
+		{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}.Release|x86.Build.0 = Release|x86
+		{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}.Release|x86.ActiveCfg = Release|x86
+		{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}.Release|Any CPU.Build.0 = Release|x86
+		{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}.Release|Any CPU.ActiveCfg = Release|x86
+		{E7CDD133-70A7-4E27-8E47-EE200655A1EA}.Debug|x86.Build.0 = Debug|Any CPU
+		{E7CDD133-70A7-4E27-8E47-EE200655A1EA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E7CDD133-70A7-4E27-8E47-EE200655A1EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7CDD133-70A7-4E27-8E47-EE200655A1EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7CDD133-70A7-4E27-8E47-EE200655A1EA}.Release|x86.Build.0 = Release|Any CPU
+		{E7CDD133-70A7-4E27-8E47-EE200655A1EA}.Release|x86.ActiveCfg = Release|Any CPU
+		{E7CDD133-70A7-4E27-8E47-EE200655A1EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7CDD133-70A7-4E27-8E47-EE200655A1EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BFBE8B8-528D-4844-BE0D-ECC68FE1CD1D}.Debug|x86.Build.0 = Debug|Any CPU
+		{2BFBE8B8-528D-4844-BE0D-ECC68FE1CD1D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2BFBE8B8-528D-4844-BE0D-ECC68FE1CD1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BFBE8B8-528D-4844-BE0D-ECC68FE1CD1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BFBE8B8-528D-4844-BE0D-ECC68FE1CD1D}.Release|x86.Build.0 = Release|Any CPU
+		{2BFBE8B8-528D-4844-BE0D-ECC68FE1CD1D}.Release|x86.ActiveCfg = Release|Any CPU
+		{2BFBE8B8-528D-4844-BE0D-ECC68FE1CD1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BFBE8B8-528D-4844-BE0D-ECC68FE1CD1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FC55607-C9D0-442D-941C-F23AD00CB318}.Debug|x86.Build.0 = Debug|x86
+		{0FC55607-C9D0-442D-941C-F23AD00CB318}.Debug|x86.ActiveCfg = Debug|x86
+		{0FC55607-C9D0-442D-941C-F23AD00CB318}.Debug|Any CPU.Build.0 = Debug|x86
+		{0FC55607-C9D0-442D-941C-F23AD00CB318}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0FC55607-C9D0-442D-941C-F23AD00CB318}.Release|x86.Build.0 = Release|x86
+		{0FC55607-C9D0-442D-941C-F23AD00CB318}.Release|x86.ActiveCfg = Release|x86
+		{0FC55607-C9D0-442D-941C-F23AD00CB318}.Release|Any CPU.Build.0 = Release|x86
+		{0FC55607-C9D0-442D-941C-F23AD00CB318}.Release|Any CPU.ActiveCfg = Release|x86
+		{5DF7F062-FF11-4CC4-BA70-06439AD1373A}.Debug|x86.Build.0 = Debug|x86
+		{5DF7F062-FF11-4CC4-BA70-06439AD1373A}.Debug|x86.ActiveCfg = Debug|x86
+		{5DF7F062-FF11-4CC4-BA70-06439AD1373A}.Debug|Any CPU.Build.0 = Debug|x86
+		{5DF7F062-FF11-4CC4-BA70-06439AD1373A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5DF7F062-FF11-4CC4-BA70-06439AD1373A}.Release|x86.Build.0 = Release|x86
+		{5DF7F062-FF11-4CC4-BA70-06439AD1373A}.Release|x86.ActiveCfg = Release|x86
+		{5DF7F062-FF11-4CC4-BA70-06439AD1373A}.Release|Any CPU.Build.0 = Release|x86
+		{5DF7F062-FF11-4CC4-BA70-06439AD1373A}.Release|Any CPU.ActiveCfg = Release|x86
+		{7C54252D-A8B4-4F6A-95EF-D47872A2FA18}.Debug|x86.Build.0 = Debug|x86
+		{7C54252D-A8B4-4F6A-95EF-D47872A2FA18}.Debug|x86.ActiveCfg = Debug|x86
+		{7C54252D-A8B4-4F6A-95EF-D47872A2FA18}.Debug|Any CPU.Build.0 = Debug|x86
+		{7C54252D-A8B4-4F6A-95EF-D47872A2FA18}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7C54252D-A8B4-4F6A-95EF-D47872A2FA18}.Release|x86.Build.0 = Release|x86
+		{7C54252D-A8B4-4F6A-95EF-D47872A2FA18}.Release|x86.ActiveCfg = Release|x86
+		{7C54252D-A8B4-4F6A-95EF-D47872A2FA18}.Release|Any CPU.Build.0 = Release|x86
+		{7C54252D-A8B4-4F6A-95EF-D47872A2FA18}.Release|Any CPU.ActiveCfg = Release|x86
+	EndGlobalSection
+EndGlobal
