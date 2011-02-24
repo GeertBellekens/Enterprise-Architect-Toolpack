@@ -13,7 +13,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	const string menuName = "-&Navigate";
     const string menuOperation = "&Operation";
     const string menuDiagrams = "&Diagrams";
-    private EA.Repository repository;
+    private UTF_EA.Model model = null;
 
 	public EAAddin():base()
 	{
@@ -35,11 +35,13 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 
         switch(ItemName) {
           case menuOperation:
-                IsEnabled = (selectedType == global::EA.ObjectType.otConnector
+                IsEnabled = (selectedType == EA.ObjectType.otConnector
                     && ((EA.Connector)selectedItem).Type == "Sequence");
             break;
           case menuDiagrams:
-            IsEnabled = selectedType == global::EA.ObjectType.otMethod;
+            IsEnabled = (selectedType == EA.ObjectType.otMethod
+                         ||(selectedType == EA.ObjectType.otConnector
+                            && ((EA.Connector)selectedItem).Type == "Sequence"));
             break;
           default:
             IsEnabled = false;
@@ -55,7 +57,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
                               String Location, 
                               String MenuName, String ItemName )
     {
-        this.repository = Repository;
+		this.model = new UTF_EA.Model(Repository);
       switch(ItemName) {
         case menuOperation   : 
             this.selectOperation();        
@@ -68,32 +70,52 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     // opens all  diagrams
     private void openDiagrams()
     {
-        UTF_EA.Model model = new UTF_EA.Model(this.repository);
-        UML.Classes.Kernel.Operation selectedOperation = model.selectedElement as UML.Classes.Kernel.Operation;
-        HashSet<UML.Diagrams.Diagram> usingDiagrams = selectedOperation.getUsingDiagrams<UML.Diagrams.Diagram>();
-
-        NavigatorList dialog = new NavigatorList(usingDiagrams.ToList());
-        dialog.Show();
-        /*foreach (UML.Diagrams.Diagram usingDiagram in usingDiagrams)
+        
+        UML.Classes.Kernel.Operation selectedOperation = this.model.selectedElement as UML.Classes.Kernel.Operation;
+        // if the selectedOperation is null we try to get the operation from the selected message
+        if (selectedOperation == null)
         {
-            usingDiagram.open();
-        }*/
+        	selectedOperation = this.getCalledOperationFromSelectedMessage();
+        }
+        if (selectedOperation != null)
+        {
+	        HashSet<UML.Diagrams.Diagram> usingDiagrams = selectedOperation.getUsingDiagrams<UML.Diagrams.Diagram>();
+	
+	        NavigatorList dialog = new NavigatorList(usingDiagrams.ToList());
+	        dialog.Show();
+        }else
+        {
+        	System.Windows.Forms.MessageBox.Show("Could not find operation.\nMake sure you either select:\n -An Operation in the project browser \n-A message in a sequence diagram that calls an existing Operation");
+        }
     }
 
    //selects the operation that is called by the selected message in the project browser 
    private void selectOperation()
    {
-       UTF_EA.Model model = new UTF_EA.Model(this.repository);
-       UML.Interactions.BasicInteractions.Message selectedMessage = model.selectedElement as UML.Interactions.BasicInteractions.Message;
-       if (null != selectedMessage){
-           UML.Classes.Kernel.Operation calledOperation = selectedMessage.calledOperation;
-           if (null != calledOperation){
-               model.selectElement(calledOperation);
-           }
-
-       }
-
+	   UML.Classes.Kernel.Operation calledOperation = this.getCalledOperationFromSelectedMessage();
+	   if (null != calledOperation){
+	       this.model.selectElement(calledOperation);
+	   }
    }
+   /// <summary>
+   /// Gets the selected message from the repository and returns the operation called by this message
+   /// </summary>
+   /// <returns>the operation called by the selected message</returns>
+   private UML.Classes.Kernel.Operation getCalledOperationFromSelectedMessage()
+   {
+   	   
+       UML.Interactions.BasicInteractions.Message selectedMessage = this.model.selectedElement as UML.Interactions.BasicInteractions.Message;
+       if (null != selectedMessage)
+       {
+        return selectedMessage.calledOperation;
+       }
+       else
+       {
+       	return null;
+       }
+           
+   }
+   
 
   }
 }
