@@ -31,7 +31,7 @@
         	this.cancelButton = new System.Windows.Forms.Button();
         	this.openButton = new System.Windows.Forms.Button();
         	this.navigateListView = new System.Windows.Forms.ListView();
-        	this.Diagram = new System.Windows.Forms.ColumnHeader();
+        	this.ItemHeader = new System.Windows.Forms.ColumnHeader();
         	this.OwnerHeader = new System.Windows.Forms.ColumnHeader();
         	this.SuspendLayout();
         	// 
@@ -64,7 +64,7 @@
         	        	        	| System.Windows.Forms.AnchorStyles.Left) 
         	        	        	| System.Windows.Forms.AnchorStyles.Right)));
         	this.navigateListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-        	        	        	this.Diagram,
+        	        	        	this.ItemHeader,
         	        	        	this.OwnerHeader});
         	this.navigateListView.FullRowSelect = true;
         	this.navigateListView.Location = new System.Drawing.Point(12, 12);
@@ -77,8 +77,8 @@
         	// 
         	// Diagram
         	// 
-        	this.Diagram.Text = "Diagram";
-        	this.Diagram.Width = 344;
+        	this.ItemHeader.Text = "Diagram";
+        	this.ItemHeader.Width = 344;
         	// 
         	// OwnerHeader
         	// 
@@ -103,7 +103,7 @@
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button openButton;
         private System.Windows.Forms.ListView navigateListView;
-        private System.Windows.Forms.ColumnHeader Diagram;
+        private System.Windows.Forms.ColumnHeader ItemHeader;
         private System.Windows.Forms.ColumnHeader OwnerHeader;
     }
 }

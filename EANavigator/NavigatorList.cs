@@ -37,6 +37,30 @@ namespace TSF.UmlToolingFramework.EANavigator
             }
 
         }
+        public NavigatorList(List<UML.Classes.Kernel.NamedElement> namedElements):base()
+        {
+        	InitializeComponent();
+        	this.Text = "Select Elements";
+        	this.ItemHeader.Text = "Element";
+        	this.openButton.Text = "Select";
+    		//fill the diagramList
+			foreach (UML.Classes.Kernel.NamedElement element in namedElements)
+            {
+                //add the element
+                ListViewItem item = new ListViewItem(element.name);
+                item.Tag = element;
+
+                string ownerName = string.Empty;
+
+                UML.Classes.Kernel.NamedElement owner = element.owner as UML.Classes.Kernel.NamedElement;
+                if (null != owner)
+                {
+                    ownerName = owner.name;
+                }
+                item.SubItems.Add(ownerName);
+                this.navigateListView.Items.Add(item);
+            }
+        }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
@@ -45,17 +69,29 @@ namespace TSF.UmlToolingFramework.EANavigator
 
         private void openButton_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in this.navigateListView.SelectedItems)
-            {
-                ((UML.Diagrams.Diagram)item.Tag).open();
-            }
+        	this.openSelectedElements();
         }
         
-        void NavigateListViewMouseDoubleClick(object sender, MouseEventArgs e)
+        private void NavigateListViewMouseDoubleClick(object sender, MouseEventArgs e)
+        {
+        	this.openSelectedElements();
+        }
+        private void openSelectedElements()
         {
         	foreach (ListViewItem item in this.navigateListView.SelectedItems)
             {
-                ((UML.Diagrams.Diagram)item.Tag).open();
+        		UML.Diagrams.Diagram diagram = item.Tag as UML.Diagrams.Diagram;
+        		if (null != diagram)
+        		{
+                	diagram.open();
+        		}else
+        		{
+        			UML.Classes.Kernel.NamedElement element = item.Tag as UML.Classes.Kernel.NamedElement;
+        			if (null != element)
+        			{
+        				((UTF_EA.Model) UML.UMLFactory.getInstance().model).selectElement(element);
+        			}
+        		}
             }
         }
     }

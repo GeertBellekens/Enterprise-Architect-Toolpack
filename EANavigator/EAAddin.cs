@@ -13,7 +13,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	const string menuName = "-&Navigate";
     const string menuOperation = "&Operation";
     const string menuDiagrams = "&Diagrams";
-    const string menuAbout = "&About";
+    const string menuAbout = "&About EA Navigator";
+    const string menuClassifier = "&Type";
+    const string menuParameterTypes = "&Parameter Types";
+    const string menuAttributesOrOperations = "&Using Attributes and Operations";
     private UTF_EA.Model model = null;
     
 
@@ -43,61 +46,55 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         /// In the case of the top-level menu it should be a single string or an array containing only one item, or Empty/null.</returns>
         public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
         {
-        	if (MenuName == string.Empty) {
+        	// initialize the model
+        	this.model = new UTF_EA.Model(Repository);
+        	switch (MenuName)
+        	{
+        	case "":
         		//return top level menu option
         		return this.menuHeader;
-        	} else if (MenuName == this.menuHeader) {
+        	case menuName:
+        		List<string> menuOptionsList = new List<string>();
+        		// get the selected element from the model
+        		UML.Classes.Kernel.Element selectedElement = this.model.selectedElement;
+        		if (selectedElement is UML.Classes.Kernel.Operation)
+        		{
+        			menuOptionsList.Add(menuDiagrams);
+        			menuOptionsList.Add(menuParameterTypes);
+        			
+        		}else if (selectedElement is UML.Interactions.BasicInteractions.Message)
+        		{
+        			menuOptionsList.Add(menuOperation);
+        			menuOptionsList.Add(menuDiagrams);
+        			menuOptionsList.Add(menuParameterTypes);
+        			
+        		}else if (selectedElement is UML.Classes.Kernel.Classifier)
+        		{
+        			menuOptionsList.Add(menuAttributesOrOperations);
+        			
+        		}else if (selectedElement is UML.Classes.Kernel.Property)
+        		{
+        			menuOptionsList.Add(menuClassifier);
+        		}
         		// show about menu option only when called from main menu
         		if (MenuLocation == "MainMenu")
         		{
-        			return new string[]{menuOperation,menuDiagrams,menuAbout};
-        		}
+        			menuOptionsList.Add(menuAbout);
+        			        		}
         		// return submenu options
-        		return this.menuOptions;
-        	} else {
+        		return menuOptionsList.ToArray();
+        	default: 
         		return string.Empty;
-        	}
+        	 }
             
         }
 
-    public override void EA_GetMenuState( EA.Repository Repository, 
-                                 String Location,
-                                 String MenuName, String ItemName, 
-                                 ref bool IsEnabled, ref bool IsChecked )
-    {
-      if( IsProjectOpen(Repository) ) {
-        Object selectedItem;
-        global::EA.ObjectType selectedType = 
-          Repository.GetContextItem(out selectedItem);
-
-        switch(ItemName) {
-          case menuOperation:
-                IsEnabled = (selectedType == EA.ObjectType.otConnector
-                    && ((EA.Connector)selectedItem).Type == "Sequence");
-            break;
-          case menuDiagrams:
-            IsEnabled = (selectedType == EA.ObjectType.otMethod
-                         ||(selectedType == EA.ObjectType.otConnector
-                            && ((EA.Connector)selectedItem).Type == "Sequence"));
-            break;
-          case menuAbout:
-            IsEnabled = true;
-            break;
-          default:
-            IsEnabled = false;
-            break;
-        }
-      } else {
-        // If no open project, disable all menu options
-        IsEnabled = false;
-      }
-    }
 
     public override void EA_MenuClick( global::EA.Repository Repository, 
                               String Location, 
                               String MenuName, String ItemName )
     {
-		this.model = new UTF_EA.Model(Repository);
+		
       switch(ItemName) {
         case menuOperation   : 
             this.selectOperation();        
@@ -105,6 +102,15 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         case menuDiagrams : 
             this.openDiagrams();      
             break;
+        case menuParameterTypes:
+            this.openParameterTypes();
+            break;
+        case menuAttributesOrOperations:
+        	this.openAttributesAndOperations();
+        	break;
+        case menuClassifier:
+        	this.openClassifier();
+        	break;
         case menuAbout :
             new AboutWindow().ShowDialog();
             break;
@@ -115,12 +121,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     private void openDiagrams()
     {
         
-        UML.Classes.Kernel.Operation selectedOperation = this.model.selectedElement as UML.Classes.Kernel.Operation;
+    	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation();
         // if the selectedOperation is null we try to get the operation from the selected message
-        if (selectedOperation == null)
-        {
-        	selectedOperation = this.getCalledOperationFromSelectedMessage();
-        }
         if (selectedOperation != null)
         {
 	        HashSet<UML.Diagrams.Diagram> usingDiagrams = selectedOperation.getUsingDiagrams<UML.Diagrams.Diagram>();
@@ -133,31 +135,60 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    //selects the operation that is called by the selected message in the project browser 
    private void selectOperation()
    {
-	   UML.Classes.Kernel.Operation calledOperation = this.getCalledOperationFromSelectedMessage();
+	   UML.Classes.Kernel.Operation calledOperation = this.getSelectedOperation();
 	   if (null != calledOperation){
 	       this.model.selectElement(calledOperation);
 	   }
    }
-   /// <summary>
-   /// Gets the selected message from the repository and returns the operation called by this message
-   /// </summary>
-   /// <returns>the operation called by the selected message</returns>
-   private UML.Classes.Kernel.Operation getCalledOperationFromSelectedMessage()
+   private void openParameterTypes()
    {
-   	   
-       UML.Interactions.BasicInteractions.Message selectedMessage = this.model.selectedElement as UML.Interactions.BasicInteractions.Message;
-       UML.Classes.Kernel.Operation calledOperation = null;
-       if (null != selectedMessage)
-       {
-        calledOperation = selectedMessage.calledOperation;
-       }
-       if (calledOperation == null)
-       {
-       	System.Windows.Forms.MessageBox.Show("Could not find operation!\nMake sure you either select:\n-An Operation in the project browser \n-A message in a sequence diagram that calls an existing Operation"
-        	                                     ,"Missing Operation!",System.Windows.Forms.MessageBoxButtons.OK,System.Windows.Forms.MessageBoxIcon.Error);
-       }
-       return calledOperation;
-           
+	   	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation();
+	   	HashSet<UML.Classes.Kernel.Parameter> parameters = selectedOperation.ownedParameters;
+	   	List<UML.Classes.Kernel.NamedElement> parameterTypes = new List<UML.Classes.Kernel.NamedElement>();
+	   	foreach (UML.Classes.Kernel.Parameter parameter in parameters) 
+	   	{
+	   		parameterTypes.Add(parameter.type);
+	   	}
+	   	NavigatorList dialog = new NavigatorList(parameterTypes);
+	   	dialog.Show();
+   }
+   private void openAttributesAndOperations()
+   {
+   	//TODO add implementation
+   }
+   private void openClassifier()
+   {
+   		UML.Classes.Kernel.Property selectedAttribute = this.model.selectedElement as UML.Classes.Kernel.Property;
+   		if (null != selectedAttribute)
+   		{
+   			this.model.selectElement(selectedAttribute.type);
+   		}
+   }
+   /// <summary>
+   /// Gets the selected operation from the model, either directly or through the selected message
+   /// </summary>
+   /// <returns>the selected operation, or the operation called by the selected message</returns>
+   private UML.Classes.Kernel.Operation getSelectedOperation()
+   {
+   	   // try if the the users selected an operation
+   	   UML.Classes.Kernel.Operation selectedOperation = this.model.selectedElement as UML.Classes.Kernel.Operation;
+   	   //selected element is not an operation, try to get he operation from the selected message
+   	   if (null == selectedOperation)
+   	   {
+	       UML.Interactions.BasicInteractions.Message selectedMessage = this.model.selectedElement as UML.Interactions.BasicInteractions.Message;
+	       
+	       if (null != selectedMessage)
+	       {
+		        selectedOperation = selectedMessage.calledOperation;
+	       
+		       if (selectedOperation == null)
+		       {
+		       	System.Windows.Forms.MessageBox.Show("Could not find operation!\nMake sure you either select:\n-An Operation in the project browser \n-A message in a sequence diagram that calls an existing Operation"
+		        	                                     ,"Missing Operation!",System.Windows.Forms.MessageBoxButtons.OK,System.Windows.Forms.MessageBoxIcon.Error);
+		       }
+	       }
+   	   }
+       return selectedOperation;
    }
    
 
