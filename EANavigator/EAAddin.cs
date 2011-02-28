@@ -155,6 +155,13 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    private void openAttributesAndOperations()
    {
    	//TODO add implementation
+   	UML.Classes.Kernel.Type selectedType = this.model.selectedElement as UML.Classes.Kernel.Type;
+   	// get the attributes that use the selected classifier as type
+   	List<UML.Classes.Kernel.NamedElement> operationsAndAttributes = selectedType.getUsingAttributes().Cast<UML.Classes.Kernel.NamedElement>().ToList();
+   	// get the parameters that use the selected classifier as type
+   	//TODO
+   	NavigatorList dialog = new NavigatorList(operationsAndAttributes);
+   	dialog.Show();
    }
    private void openClassifier()
    {
