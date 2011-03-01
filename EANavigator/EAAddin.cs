@@ -16,7 +16,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     const string menuAbout = "&About EA Navigator";
     const string menuClassifier = "&Type";
     const string menuParameterTypes = "&Parameter Types";
-    const string menuAttributesOrOperations = "&Using Attributes and Operations";
+    const string menuAttributes = "&Dependent Attributes";
+    const string menuParameters = "&Dependent Parameters";
     private UTF_EA.Model model = null;
     
 
@@ -70,7 +71,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         			
         		}else if (selectedElement is UML.Classes.Kernel.Classifier)
         		{
-        			menuOptionsList.Add(menuAttributesOrOperations);
+        			menuOptionsList.Add(menuAttributes);
+        			menuOptionsList.Add(menuParameters);
         			
         		}else if (selectedElement is UML.Classes.Kernel.Property)
         		{
@@ -105,8 +107,11 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         case menuParameterTypes:
             this.openParameterTypes();
             break;
-        case menuAttributesOrOperations:
-        	this.openAttributesAndOperations();
+        case menuAttributes:
+        	this.openAttributes();
+        	break;
+        case menuParameters:
+        	this.OpenParameters();
         	break;
         case menuClassifier:
         	this.openClassifier();
@@ -152,15 +157,22 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	   	NavigatorList dialog = new NavigatorList(parameterTypes);
 	   	dialog.Show();
    }
-   private void openAttributesAndOperations()
+   private void openAttributes()
    {
-   	//TODO add implementation
    	UML.Classes.Kernel.Type selectedType = this.model.selectedElement as UML.Classes.Kernel.Type;
    	// get the attributes that use the selected classifier as type
-   	List<UML.Classes.Kernel.NamedElement> operationsAndAttributes = selectedType.getUsingAttributes().Cast<UML.Classes.Kernel.NamedElement>().ToList();
+   	List<UML.Classes.Kernel.NamedElement> attributes = selectedType.getDependentTypedElements<UML.Classes.Kernel.Property>().Cast<UML.Classes.Kernel.NamedElement>().ToList();
+
+   	NavigatorList dialog = new NavigatorList(attributes);
+   	dialog.Show();
+   }
+   private void OpenParameters()
+   {
+   	UML.Classes.Kernel.Type selectedType = this.model.selectedElement as UML.Classes.Kernel.Type;
    	// get the parameters that use the selected classifier as type
-   	//TODO
-   	NavigatorList dialog = new NavigatorList(operationsAndAttributes);
+   	List<UML.Classes.Kernel.NamedElement> parameters = selectedType.getDependentTypedElements<UML.Classes.Kernel.Parameter>().Cast<UML.Classes.Kernel.NamedElement>().ToList();
+
+   	NavigatorList dialog = new NavigatorList(parameters);
    	dialog.Show();
    }
    private void openClassifier()

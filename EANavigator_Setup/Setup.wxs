@@ -3,7 +3,7 @@
 	<Product Id="*"
 		Name="EA Navigator"
 		Language="1033"
-		Version="1.0.0.0"
+		Version="1.1.0.0"
 		UpgradeCode="410992DC-63BF-45BE-A8B7-6732B818BE32"
 		Manufacturer="Geert Bellekens">
 		<Package Description="#Description"

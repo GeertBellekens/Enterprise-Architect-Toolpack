@@ -58,6 +58,11 @@ namespace TSF.UmlToolingFramework.EANavigator
                     ownerName = owner.name;
                 }
                 item.SubItems.Add(ownerName);
+                if (ownerName == string.Empty)
+                {
+                	item.ForeColor = SystemColors.GrayText;
+                }
+                item.UseItemStyleForSubItems = true;
                 this.navigateListView.Items.Add(item);
             }
         }
@@ -89,7 +94,7 @@ namespace TSF.UmlToolingFramework.EANavigator
         			UML.Classes.Kernel.NamedElement element = item.Tag as UML.Classes.Kernel.NamedElement;
         			if (null != element)
         			{
-        				((UTF_EA.Model) UML.UMLFactory.getInstance().model).selectElement(element);
+        				UML.UMLFactory.getInstance().model.selectElement(element);
         			}
         		}
             }
