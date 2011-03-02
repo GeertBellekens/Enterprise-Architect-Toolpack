@@ -69,7 +69,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         			menuOptionsList.Add(menuDiagrams);
         			menuOptionsList.Add(menuParameterTypes);
         			
-        		}else if (selectedElement is UML.Classes.Kernel.Classifier)
+        		}else if (selectedElement is UML.Classes.Kernel.Type)
         		{
         			menuOptionsList.Add(menuAttributes);
         			menuOptionsList.Add(menuParameters);
@@ -91,7 +91,13 @@ public class EAAddin:EAAddinFramework.EAAddinBase
             
         }
 
-
+	/// <summary>
+	/// Execute the actual functions
+	/// </summary>
+	/// <param name="Repository">the repository</param>
+	/// <param name="Location">menu location</param>
+	/// <param name="MenuName">menu name</param>
+	/// <param name="ItemName">option clicked</param>
     public override void EA_MenuClick( global::EA.Repository Repository, 
                               String Location, 
                               String MenuName, String ItemName )
@@ -145,6 +151,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	       this.model.selectElement(calledOperation);
 	   }
    }
+   /// <summary>
+   /// Opens the types of the parameters of the selected operation
+   /// </summary>
    private void openParameterTypes()
    {
 	   	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation();
@@ -157,15 +166,21 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	   	NavigatorList dialog = new NavigatorList(parameterTypes);
 	   	dialog.Show();
    }
+   /// <summary>
+   /// Opens the attributes of that use the selected element as type
+   /// </summary>
    private void openAttributes()
    {
    	UML.Classes.Kernel.Type selectedType = this.model.selectedElement as UML.Classes.Kernel.Type;
-   	// get the attributes that use the selected classifier as type
+   	// get the attributes that use the selected Type as type
    	List<UML.Classes.Kernel.NamedElement> attributes = selectedType.getDependentTypedElements<UML.Classes.Kernel.Property>().Cast<UML.Classes.Kernel.NamedElement>().ToList();
 
    	NavigatorList dialog = new NavigatorList(attributes);
    	dialog.Show();
    }
+   /// <summary>
+   /// Opens the parameters that use the selected element as type
+   /// </summary>
    private void OpenParameters()
    {
    	UML.Classes.Kernel.Type selectedType = this.model.selectedElement as UML.Classes.Kernel.Type;
@@ -175,6 +190,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	NavigatorList dialog = new NavigatorList(parameters);
    	dialog.Show();
    }
+   /// <summary>
+   /// Opens the type of the attribute
+   /// </summary>
    private void openClassifier()
    {
    		UML.Classes.Kernel.Property selectedAttribute = this.model.selectedElement as UML.Classes.Kernel.Property;
