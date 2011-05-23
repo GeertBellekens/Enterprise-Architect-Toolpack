@@ -18,6 +18,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     const string menuParameterTypes = "&Parameter Types";
     const string menuAttributes = "&Dependent Attributes";
     const string menuParameters = "&Dependent Parameters";
+    const string menuActions = "&Calling Actions";
     private UTF_EA.Model model = null;
     
 
@@ -62,6 +63,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         		{
         			menuOptionsList.Add(menuDiagrams);
         			menuOptionsList.Add(menuParameterTypes);
+        			menuOptionsList.Add(menuActions);
         			
         		}else if (selectedElement is UML.Interactions.BasicInteractions.Message)
         		{
@@ -112,6 +114,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
             break;
         case menuParameterTypes:
             this.openParameterTypes();
+            break;
+        case menuActions:
+            this.openActions();
             break;
         case menuAttributes:
         	this.openAttributes();
@@ -188,6 +193,13 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	List<UML.Classes.Kernel.NamedElement> parameters = selectedType.getDependentTypedElements<UML.Classes.Kernel.Parameter>().Cast<UML.Classes.Kernel.NamedElement>().ToList();
 
    	NavigatorList dialog = new NavigatorList(parameters);
+   	dialog.Show();
+   }
+   private void openActions()
+   {
+   	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation();
+   	HashSet<UML.Actions.BasicActions.CallOperationAction> callingActions = selectedOperation.getDependentCallOperationActions();
+   	NavigatorList dialog = new NavigatorList(callingActions.Cast<UML.Classes.Kernel.NamedElement>().ToList());
    	dialog.Show();
    }
    /// <summary>
