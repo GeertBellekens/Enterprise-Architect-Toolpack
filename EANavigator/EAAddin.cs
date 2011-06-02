@@ -19,6 +19,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     const string menuAttributes = "&Dependent Attributes";
     const string menuParameters = "&Dependent Parameters";
     const string menuActions = "&Calling Actions";
+    const string menuImplementation = "&Implementation";
     private UTF_EA.Model model = null;
     
 
@@ -64,12 +65,14 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         			menuOptionsList.Add(menuDiagrams);
         			menuOptionsList.Add(menuParameterTypes);
         			menuOptionsList.Add(menuActions);
+        			menuOptionsList.Add(menuImplementation);
         			
         		}else if (selectedElement is UML.Interactions.BasicInteractions.Message)
         		{
         			menuOptionsList.Add(menuOperation);
         			menuOptionsList.Add(menuDiagrams);
         			menuOptionsList.Add(menuParameterTypes);
+        			menuOptionsList.Add(menuImplementation);
         			
         		}else if (selectedElement is UML.Classes.Kernel.Type)
         		{
@@ -126,6 +129,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         	break;
         case menuClassifier:
         	this.openClassifier();
+        	break;
+        case menuImplementation:
+        	this.openImplementation();
         	break;
         case menuAbout :
             new AboutWindow().ShowDialog();
@@ -195,6 +201,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	NavigatorList dialog = new NavigatorList(parameters);
    	dialog.Show();
    }
+   /// <summary>
+   /// opens the CallOperationActions that call te selected operation
+   /// </summary>
    private void openActions()
    {
    	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation();
@@ -202,6 +211,27 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	NavigatorList dialog = new NavigatorList(callingActions.Cast<UML.Classes.Kernel.NamedElement>().ToList());
    	dialog.Show();
    }
+   /// <summary>
+   /// selects the implementation of the operation in the project browser, and opens all owned diagrams of the implementation.
+   /// </summary>
+   private void openImplementation()
+   {
+   	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation();
+   	if (selectedOperation != null )
+   	{
+   		foreach ( UML.CommonBehaviors.BasicBehaviors.Behavior implementation in selectedOperation.methods)
+   		{
+   			//select the behavior in the project browser
+	   		this.model.selectElement(implementation);
+	   		//open all owned diagrams
+	   		foreach (UML.Diagrams.Diagram diagram in implementation.ownedDiagrams) 
+	   		{
+	   			diagram.open();
+	   		}
+   		}
+   	}
+   }
+   
    /// <summary>
    /// Opens the type of the attribute
    /// </summary>
