@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Windows.Forms;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 
@@ -20,6 +20,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     const string menuParameters = "&Dependent Parameters";
     const string menuActions = "&Calling Actions";
     const string menuImplementation = "&Implementation";
+    const string menuFQN = "&To FQN";
     private UTF_EA.Model model = null;
     
 
@@ -83,11 +84,14 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         		{
         			menuOptionsList.Add(menuClassifier);
         		}
+        		// add FQN menu to all options
+        		menuOptionsList.Add(menuFQN);
         		// show about menu option only when called from main menu
         		if (MenuLocation == "MainMenu")
         		{
         			menuOptionsList.Add(menuAbout);
-        			        		}
+        		}
+        		
         		// return submenu options
         		return menuOptionsList.ToArray();
         	default: 
@@ -133,12 +137,36 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         case menuImplementation:
         	this.openImplementation();
         	break;
+        case menuFQN:
+        	this.selectFQN();
+        	break;
         case menuAbout :
             new AboutWindow().ShowDialog();
             break;
             
       }
     }
+    /// <summary>
+    /// select the element that matches the fqn in the clipboard
+    /// </summary>
+	void selectFQN()
+	{
+		if(Clipboard.ContainsText())
+		{
+		   
+			UML.UMLItem item = this.model.getItemFromFQN(Clipboard.GetText());
+			if (item != null)
+			{
+				item.select();
+			} else
+			{
+				MessageBox.Show("Could not find item" + Environment.NewLine + Clipboard.GetText());
+			}
+		}else
+		{
+			MessageBox.Show("Clipboard does nog contain text." + Environment.NewLine + "Please selecte a valid FQN");
+		}
+	}
     // opens all  diagrams
     private void openDiagrams()
     {
@@ -159,7 +187,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    {
 	   UML.Classes.Kernel.Operation calledOperation = this.getSelectedOperation();
 	   if (null != calledOperation){
-	       this.model.selectElement(calledOperation);
+	       this.model.selectedElement = calledOperation;
 	   }
    }
    /// <summary>
@@ -222,7 +250,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    		foreach ( UML.CommonBehaviors.BasicBehaviors.Behavior implementation in selectedOperation.methods)
    		{
    			//select the behavior in the project browser
-	   		this.model.selectElement(implementation);
+	   		this.model.selectedElement = implementation;
 	   		//open all owned diagrams
 	   		foreach (UML.Diagrams.Diagram diagram in implementation.ownedDiagrams) 
 	   		{
@@ -240,7 +268,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    		UML.Classes.Kernel.Property selectedAttribute = this.model.selectedElement as UML.Classes.Kernel.Property;
    		if (null != selectedAttribute)
    		{
-   			this.model.selectElement(selectedAttribute.type);
+   			this.model.selectedElement = selectedAttribute.type;
    		}
    }
    /// <summary>

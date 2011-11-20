@@ -94,7 +94,7 @@ namespace TSF.UmlToolingFramework.EANavigator
         			UML.Classes.Kernel.NamedElement element = item.Tag as UML.Classes.Kernel.NamedElement;
         			if (null != element)
         			{
-        				UML.UMLFactory.getInstance().model.selectElement(element);
+        				UML.UMLFactory.getInstance().model.selectedElement = element;
         			}
         		}
             }
