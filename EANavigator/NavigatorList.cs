@@ -13,7 +13,30 @@ namespace TSF.UmlToolingFramework.EANavigator
 {
     public partial class NavigatorList : Form
     {
-        public NavigatorList(List<UML.Diagrams.Diagram> diagrams):base()
+    	/// <summary>
+    	/// createas a new navigatorList based on the given list of UML Items
+    	/// </summary>
+    	/// <param name="items">the items to show</param>
+    	public NavigatorList(List<UML.UMLItem> items):base()
+        {
+    		if (items.Count > 0)
+    		{
+    			if (items[0] is UML.Diagrams.Diagram)
+    			{
+    				this.InitDiagrams(items.Cast<UML.Diagrams.Diagram>().ToList());
+    			}
+    			else
+    			{
+    				this.InitNamedElements(items.Cast<UML.Classes.Kernel.NamedElement>().ToList());
+    			}
+    		}
+    			
+        }
+    	/// <summary>
+    	/// initialise based on diagrams
+    	/// </summary>
+    	/// <param name="diagrams">the diagrams</param>
+        private void InitDiagrams(List<UML.Diagrams.Diagram> diagrams)
         {
             InitializeComponent();
 
@@ -37,7 +60,11 @@ namespace TSF.UmlToolingFramework.EANavigator
             }
 
         }
-        public NavigatorList(List<UML.Classes.Kernel.NamedElement> namedElements):base()
+        /// <summary>
+        /// initialise based on named elements
+        /// </summary>
+        /// <param name="namedElements"></param>
+        private void InitNamedElements(List<UML.Classes.Kernel.NamedElement> namedElements)
         {
         	InitializeComponent();
         	this.Text = "Select Elements";
@@ -66,12 +93,21 @@ namespace TSF.UmlToolingFramework.EANavigator
                 this.navigateListView.Items.Add(item);
             }
         }
-
+        
+		/// <summary>
+		/// close the window
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
+		/// <summary>
+		/// open the selected items
+		/// </summary>
+		/// <param name="sender">sedder</param>
+		/// <param name="e">params</param>
         private void openButton_Click(object sender, EventArgs e)
         {
         	this.openSelectedElements();
