@@ -36,7 +36,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NavigatorControl));
 			this.NavigatorTree = new System.Windows.Forms.TreeView();
+			this.NavigatorImageList = new System.Windows.Forms.ImageList(this.components);
 			this.SuspendLayout();
 			// 
 			// NavigatorTree
@@ -44,12 +47,30 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 									| System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
+			this.NavigatorTree.ImageIndex = 0;
+			this.NavigatorTree.ImageList = this.NavigatorImageList;
 			this.NavigatorTree.Location = new System.Drawing.Point(4, 4);
 			this.NavigatorTree.Name = "NavigatorTree";
+			this.NavigatorTree.SelectedImageIndex = 0;
+			this.NavigatorTree.ShowNodeToolTips = true;
 			this.NavigatorTree.Size = new System.Drawing.Size(400, 220);
 			this.NavigatorTree.TabIndex = 0;
 			this.NavigatorTree.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
 			this.NavigatorTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeMouseDoubleClick);
+			// 
+			// NavigatorImageList
+			// 
+			this.NavigatorImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("NavigatorImageList.ImageStream")));
+			this.NavigatorImageList.TransparentColor = System.Drawing.Color.Transparent;
+			this.NavigatorImageList.Images.SetKeyName(0, "dummy.png");
+			this.NavigatorImageList.Images.SetKeyName(1, "Attribute.png");
+			this.NavigatorImageList.Images.SetKeyName(2, "Class.png");
+			this.NavigatorImageList.Images.SetKeyName(3, "Operation.png");
+			this.NavigatorImageList.Images.SetKeyName(4, "SequenceDiagram.png");
+			this.NavigatorImageList.Images.SetKeyName(5, "Folder.png");
+			this.NavigatorImageList.Images.SetKeyName(6, "Primitive.png");
+			this.NavigatorImageList.Images.SetKeyName(7, "Message.png");
+			this.NavigatorImageList.Images.SetKeyName(8, "Action.png");
 			// 
 			// NavigatorControl
 			// 
@@ -60,6 +81,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.Size = new System.Drawing.Size(407, 227);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ImageList NavigatorImageList;
 		private System.Windows.Forms.TreeView NavigatorTree;
 	}
 }

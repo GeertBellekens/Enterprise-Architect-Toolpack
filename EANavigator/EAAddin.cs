@@ -31,7 +31,22 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		this.menuOptions = new string[] {menuOperation,menuDiagrams};
 		
 	}
-    
+	public override void EA_OnPostInitialized(EA.Repository Repository)
+	{
+		// initialize the model
+        this.model = new UTF_EA.Model(Repository);
+        if (this.navigatorControl != null)
+        {
+        	this.navigatorControl.clear();
+        }
+	}
+	public override void EA_FileOpen(EA.Repository Repository)
+	{
+		if (this.navigatorControl != null)
+        {
+        	this.navigatorControl.clear();
+        }
+	}
 	    /// <summary>
         /// The EA_GetMenuItems event enables the Add-In to provide the Enterprise Architect user interface with additional Add-In menu options in various context and main menus. When a user selects an Add-In menu option, an event is raised and passed back to the Add-In that originally defined that menu option.
         /// This event is raised just before Enterprise Architect has to show particular menu options to the user, and its use is described in the Define Menu Items topic.
@@ -51,8 +66,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         /// In the case of the top-level menu it should be a single string or an array containing only one item, or Empty/null.</returns>
         public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
         {
-        	// initialize the model
-        	this.model = new UTF_EA.Model(Repository);
+        	
         	switch (MenuName)
         	{
         	case "":
@@ -102,7 +116,11 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         			menuOptionsList.Add(menuParameterTypes);
         			menuOptionsList.Add(menuImplementation);
         			
-        		}else if (element is UML.Classes.Kernel.Type)
+        		}else if (element is UML.Classes.Kernel.PrimitiveType)
+        		{
+        			//add no options for primitive types	
+        		}
+        		else if (element is UML.Classes.Kernel.Type)
         		{
         			menuOptionsList.Add(menuAttributes);
         			menuOptionsList.Add(menuParameters);

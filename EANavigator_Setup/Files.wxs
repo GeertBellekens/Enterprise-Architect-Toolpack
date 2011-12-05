@@ -28,7 +28,7 @@
 						<RegistryValue Root="HKCR" Key="CLSID\{44699D83-4400-33BA-823C-5BD3E93005B6}\InprocServer32" Name="CodeBase" Value="file:///[#EANavigator.dll]" Type="string" Action="write" />
 					</Component>
 					<Component Id="RegistryEntry" Guid="94CE2F68-545D-4FAC-80F9-10888BFAAF06" UninstallWhenSuperseded="yes">
-						<RegistryKey Root="HKCU" Key="Software\Sparx Systems\EAAddins\EANavigator" Action="createAndRemoveOnUninstall">
+						<RegistryKey Root="HKLM" Key="Software\Sparx Systems\EAAddins\EA_Navigator" Action="createAndRemoveOnUninstall">
 							<RegistryValue Type="string" Value="TSF.UmlToolingFramework.EANavigator.EAAddin" />
 						</RegistryKey>
 					</Component>

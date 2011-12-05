@@ -3,11 +3,11 @@
 	<Product Id="*"
 		Name="EA Navigator"
 		Language="1033"
-		Version="1.3.0.1"
+		Version="2.0.0.1"
 		UpgradeCode="410992DC-63BF-45BE-A8B7-6732B818BE32"
 		Manufacturer="Geert Bellekens">
-		<Package Description="#Windows installer for EA Navigaor 1.3"
-			Comments="Execute to install EA Navigator 1.3"
+		<Package Description="#Windows installer for EA Navigaor 2.0"
+			Comments="Execute to install EA Navigator 2.0"
 			InstallerVersion="200"
 			Compressed="yes"/>
 		<!--
@@ -15,6 +15,20 @@
  			Specifies a single cab file to be embedded in the installer's .msi. 
 		-->
 		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
+		
+		<Upgrade Id="410992DC-63BF-45BE-A8B7-6732B818BE32">
+      	<UpgradeVersion Minimum="2.0.0.1"
+                      IncludeMinimum="no"
+                      OnlyDetect="yes"
+                      Language="1033"
+                      Property="NEWPRODUCTFOUND" />
+     	<UpgradeVersion Minimum="1.0.0.0"
+                      IncludeMinimum="yes"
+                      Maximum="2.0.0.1"
+                      IncludeMaximum="no"
+                      Language="1033"
+                      Property="UPGRADEFOUND" />
+    	</Upgrade>
 		
 		<!-- Installation directory and files are defined in Files.wxs -->
 		<Directory Id="TARGETDIR" Name="SourceDir"/>
@@ -36,5 +50,17 @@
 		-->
 		<Property Id="WIXUI_INSTALLDIR">INSTALLDIR</Property>
 		<UIRef Id="WixUI_InstallDir"/>
+	    <!-- Prevent downgrading -->
+    <CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
+ 
+    <!-- Sequences -->
+    <InstallExecuteSequence>
+      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+      <RemoveExistingProducts After="InstallValidate" />
+    </InstallExecuteSequence>
+   
+    <InstallUISequence>
+      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+    </InstallUISequence>
 	</Product>
 </Wix>
