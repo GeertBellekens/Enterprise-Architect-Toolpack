@@ -275,11 +275,14 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    {
    		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
 	   	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation(parentElement);
-	   	HashSet<UML.Classes.Kernel.Parameter> parameters = selectedOperation.ownedParameters;
-	   	foreach (UML.Classes.Kernel.Parameter parameter in parameters) 
-	   	{
-	   		elementsToNavigate.Add(parameter.type);
-	   	}
+        if (selectedOperation != null)
+        {
+            HashSet<UML.Classes.Kernel.Parameter> parameters = selectedOperation.ownedParameters;
+            foreach (UML.Classes.Kernel.Parameter parameter in parameters)
+            {
+                elementsToNavigate.Add(parameter.type);
+            }
+        }
 	   	return elementsToNavigate;
    }
    /// <summary>
@@ -359,7 +362,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	   //selected element is not an operation, try to get he operation from the selected message
    	   if (null == selectedOperation)
    	   {
-	       UML.Interactions.BasicInteractions.Message selectedMessage = this.model.selectedElement as UML.Interactions.BasicInteractions.Message;
+           UML.Interactions.BasicInteractions.Message selectedMessage = parentElement as UML.Interactions.BasicInteractions.Message;
 	       
 	       if (null != selectedMessage)
 	       {
