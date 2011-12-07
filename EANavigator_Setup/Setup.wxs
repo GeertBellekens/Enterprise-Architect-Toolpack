@@ -6,7 +6,7 @@
 		Version="2.0.0.2"
 		UpgradeCode="410992DC-63BF-45BE-A8B7-6732B818BE32"
 		Manufacturer="Geert Bellekens">
-		<Package Description="#Windows installer for EA Navigaor 2.0"
+		<Package Description="Windows installer for EA Navigaor 2.0"
 			Comments="Execute to install EA Navigator 2.0"
 			InstallerVersion="200"
 			Compressed="yes"/>

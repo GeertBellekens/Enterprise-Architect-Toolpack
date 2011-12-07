@@ -110,6 +110,30 @@ namespace TSF.UmlToolingFramework.EANavigator
 			return tooltip;
 		}
 		/// <summary>
+		/// returns the name to show as node name for this element
+		/// </summary>
+		/// <param name="element"></param>
+		private string getNodeName(UML.UMLItem element)
+		{
+			string name = element.name;
+			
+			if (element is UML.Classes.Kernel.Parameter)
+			{
+				UML.Classes.Kernel.Parameter parameter = (UML.Classes.Kernel.Parameter)element;
+				if (parameter.direction != UML.Classes.Kernel.ParameterDirectionKind._return)
+				{
+					name = parameter.name + " (" + this.getNodeName(parameter.operation) + ")";
+				}
+			}
+			else if (element is UML.Classes.Kernel.Feature)
+			{
+				UML.Classes.Kernel.Feature feature = (UML.Classes.Kernel.Feature)element;
+				name = feature.owner.name + "." + feature.name;
+			}
+			return name;
+			    
+		}
+		/// <summary>
 		/// adds an elementNode to the tree
 		/// </summary>
 		/// <param name="element">the source element</param>
@@ -117,7 +141,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private void addElementToTree(UML.UMLItem element,TreeNode parentNode)
 		{
 			//create new node
-			TreeNode elementNode = new TreeNode(element.name);
+			TreeNode elementNode = new TreeNode(this.getNodeName(element));
 			elementNode.Tag = element;
 			elementNode.ImageIndex = this.getImageIndex(element);
 			elementNode.SelectedImageIndex = this.getImageIndex(element);
@@ -141,14 +165,23 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 			else
 			{
+				
 				//remove duplicate
-				this.removeRootNode(element);
-				//no parentNode, add as new root node before any others
-				this.NavigatorTree.Nodes.Insert(0,elementNode);
-				//remove the excess nodes
-				this.removeExcessNodes();
-				//expand the node
-				elementNode.Expand();
+				if (this.removeRootNode(element))
+				{
+					//no parentNode, add as new root node before any others
+					this.NavigatorTree.Nodes.Insert(0,elementNode);
+					//remove the excess nodes
+					this.removeExcessNodes();
+					//expand the node
+					elementNode.Expand();
+				}
+				else 
+				{
+					//first node is already the one we need
+					elementNode = this.NavigatorTree.Nodes[0];
+				}
+
 				// select the node
 				NavigatorTree.SelectedNode = elementNode;
 			}
@@ -156,18 +189,29 @@ namespace TSF.UmlToolingFramework.EANavigator
 		}
 		/// <summary>
 		/// removes the rootnode representig the given element
+		/// unless it this node is the first rootnode.
+		/// In that case it simply returns false
 		/// </summary>
 		/// <param name="sourceElement">the element</param>
-		private void removeRootNode(UML.UMLItem sourceElement)
+		private bool removeRootNode(UML.UMLItem sourceElement)
 		{
 			for (int i = this.NavigatorTree.Nodes.Count -1;i >= 0;i--) 
 			{
 				TreeNode node = this.NavigatorTree.Nodes[i];
 				if (node.Tag.Equals(sourceElement))
 				{
-					node.Remove();
+					if( i > 0)
+					{
+						node.Remove();
+						return true;
+					}else
+					{
+						//if the node is the first root node then don't remove it but return false
+						return false;
+					}
 				}
 			}
+			return true;
 		}
 		/// <summary>
 		/// event launched just before a node is expanded
