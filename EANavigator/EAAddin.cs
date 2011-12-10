@@ -23,6 +23,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     const string menuFQN = "&To FQN";
     private UTF_EA.Model model = null;
     private NavigatorControl navigatorControl;
+    private bool fullyLoaded = false;
 
 	public EAAddin():base()
 	{
@@ -46,6 +47,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         {
         	this.navigatorControl.clear();
         }
+        this.fullyLoaded = true;
 	}
 	    /// <summary>
         /// The EA_GetMenuItems event enables the Add-In to provide the Enterprise Architect user interface with additional Add-In menu options in various context and main menus. When a user selects an Add-In menu option, an event is raised and passed back to the Add-In that originally defined that menu option.
@@ -207,19 +209,26 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	}
 	public override void EA_OnContextItemChanged(global::EA.Repository Repository, string GUID, global::EA.ObjectType ot)
     {
-    	if (this.navigatorControl == null)
-    	{
-    		this.navigatorControl = Repository.AddWindow("Navigate","TSF.UmlToolingFramework.EANavigator.NavigatorControl") as NavigatorControl;
-    		this.navigatorControl.BeforeExpand += new TreeViewCancelEventHandler( this.NavigatorTreeBeforeExpand);
-    	}
-    	if (this.navigatorControl != null && this.model != null)
-    	{
-    		if (this.model.selectedItem != null)
-    		{
-    			this.navigatorControl.setElement(this.model.selectedItem as UML.UMLItem);
-    		}
-    		
-    	}
+        if (fullyLoaded)
+        {
+            if (this.navigatorControl == null)
+            {
+                this.navigatorControl = Repository.AddWindow("Navigate", "TSF.UmlToolingFramework.EANavigator.NavigatorControl") as NavigatorControl;
+                this.navigatorControl.BeforeExpand += new TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
+            }
+            if (this.navigatorControl != null && this.model != null)
+            {
+                if (this.model.selectedItem != null)
+                {
+                    this.navigatorControl.setElement(this.model.selectedItem as UML.UMLItem);
+                }
+
+            }
+        }
+    }
+    public override void EA_FileClose(EA.Repository Repository)
+    {
+        this.fullyLoaded = false;
     }
     /// <summary>
     /// select the element that matches the fqn in the clipboard
