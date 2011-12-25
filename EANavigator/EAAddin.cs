@@ -21,6 +21,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     const string menuActions = "&Calling Actions";
     const string menuImplementation = "&Implementation";
     const string menuFQN = "&To FQN";
+    const string menuDiagramOperations = "&Operations";
+    
     private UTF_EA.Model model = null;
     private NavigatorControl navigatorControl;
     private bool fullyLoaded = false;
@@ -131,6 +133,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         		{
         			menuOptionsList.Add(menuClassifier);
         		}
+        		else if (element is UML.Diagrams.SequenceDiagram)
+        		{
+        			menuOptionsList.Add(menuDiagramOperations);
+        		}
         		return menuOptionsList;
         }
 	/// <summary>
@@ -172,6 +178,12 @@ public class EAAddin:EAAddinFramework.EAAddinBase
             
       }
     }
+	/// <summary>
+	/// returns the items to navigate based on the given element and chosen option.
+	/// </summary>
+	/// <param name="menuChoice">the chosen option</param>
+	/// <param name="parentElement">the elememnt</param>
+	/// <returns>list of items to navigate</returns>
 	public List<UML.UMLItem> getElementsToNavigate(string menuChoice,UML.UMLItem parentElement )
 	{
 		
@@ -202,11 +214,15 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	        case menuImplementation:
 	        	elementsToNavigate = this.getImplementation(parentElement);
 	        	break;
-			
+	        case menuDiagramOperations:
+	        	elementsToNavigate = this.getDiagramOperations(parentElement);
+				break;
 		}
 		 return elementsToNavigate;
 		 
 	}
+	
+
 	public override void EA_OnContextItemChanged(global::EA.Repository Repository, string GUID, global::EA.ObjectType ot)
     {
         if (fullyLoaded)
@@ -252,6 +268,21 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			MessageBox.Show("Clipboard does nog contain text." + Environment.NewLine + "Please selecte a valid FQN");
 		}
 		
+	}
+	/// <summary>
+	/// returns all operations called on the given diagram
+	/// </summary>
+	/// <param name="parentElement">the sequence diagram</param>
+	/// <returns>all operations called on the given diagram</returns>
+	private List<UML.UMLItem> getDiagramOperations(UML.UMLItem parentElement)
+	{
+		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		UML.Diagrams.SequenceDiagram diagram = parentElement as UML.Diagrams.SequenceDiagram;
+		if (diagram != null)
+		{
+			elementsToNavigate.AddRange(diagram.getCalledOperations());
+		}
+		return elementsToNavigate;
 	}
     // opens all  diagrams
     private List<UML.UMLItem> getDiagrams(UML.UMLItem parentElement)

@@ -26,6 +26,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int primitiveIndex = 6;
 		private int messagIndex = 7;
 		private int actionIndex = 8;
+		private int sequenceDiagramIndex = 9;
 		
 		private int maxNodes = 20;
 		
@@ -64,6 +65,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			else if (element is UML.Classes.Kernel.Operation)
 			{
 				imageIndex = this.operationIndex;
+			}
+			else if (element is UML.Diagrams.SequenceDiagram)
+			{
+				imageIndex = this.sequenceDiagramIndex;
 			}
 			else if( element is UML.Diagrams.Diagram)
 			{

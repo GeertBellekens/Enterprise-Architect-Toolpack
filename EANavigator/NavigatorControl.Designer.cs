@@ -66,11 +66,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(1, "Attribute.png");
 			this.NavigatorImageList.Images.SetKeyName(2, "Class.png");
 			this.NavigatorImageList.Images.SetKeyName(3, "Operation.png");
-			this.NavigatorImageList.Images.SetKeyName(4, "SequenceDiagram.png");
+			this.NavigatorImageList.Images.SetKeyName(4, "Diagram.png");
 			this.NavigatorImageList.Images.SetKeyName(5, "Folder.png");
 			this.NavigatorImageList.Images.SetKeyName(6, "Primitive.png");
 			this.NavigatorImageList.Images.SetKeyName(7, "Message.png");
 			this.NavigatorImageList.Images.SetKeyName(8, "Action.png");
+			this.NavigatorImageList.Images.SetKeyName(9, "SequenceDiagram.png");
 			// 
 			// NavigatorControl
 			// 
