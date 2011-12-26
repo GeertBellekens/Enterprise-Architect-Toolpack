@@ -22,6 +22,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     const string menuImplementation = "&Implementation";
     const string menuFQN = "&To FQN";
     const string menuDiagramOperations = "&Operations";
+    const string menuImplementedOperations = "&Implemented Operation";
     
     private UTF_EA.Model model = null;
     private NavigatorControl navigatorControl;
@@ -79,7 +80,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         	case menuName:
         		List<string> menuOptionsList = new List<string>();
         		// get the selected element from the model
-        		UML.Classes.Kernel.Element selectedElement = this.model.selectedElement;
+        		UML.UMLItem selectedElement = this.model.selectedItem;
         		//add the menuoptions depending on the type of element
         		menuOptionsList.AddRange(getMenuOptions(selectedElement));
         		// add FQN menu to all options
@@ -137,6 +138,17 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         		{
         			menuOptionsList.Add(menuDiagramOperations);
         		}
+        		else if (element is UML.Classes.Kernel.Parameter)
+        		{
+        			menuOptionsList.Add(menuOperation);
+        		}
+        		//now for behavior, could be a type as well
+        		if (element is UML.CommonBehaviors.BasicBehaviors.Behavior
+        		    || element is UML.Diagrams.Diagram && 
+        		    ((UML.Diagrams.Diagram)element).owner is UML.CommonBehaviors.BasicBehaviors.Behavior)
+        		{
+        			menuOptionsList.Add(menuImplementedOperations);
+        		}
         		return menuOptionsList;
         }
 	/// <summary>
@@ -160,7 +172,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	            new AboutWindow().ShowDialog();
 	            break;
            default:
-	            UML.UMLItem selectedItem = this.model.selectedElement as UML.UMLItem;
+	            UML.UMLItem selectedItem = this.model.selectedItem;
 	            if (selectedItem != null)
 	            {
 		            List<UML.UMLItem> elementsToNavigate = this.getElementsToNavigate(ItemName,selectedItem);
@@ -217,10 +229,14 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	        case menuDiagramOperations:
 	        	elementsToNavigate = this.getDiagramOperations(parentElement);
 				break;
+		    case menuImplementedOperations:
+	        	elementsToNavigate = this.getImplementedOperation(parentElement);
+				break;
 		}
 		 return elementsToNavigate;
 		 
 	}
+
 	
 
 	public override void EA_OnContextItemChanged(global::EA.Repository Repository, string GUID, global::EA.ObjectType ot)
@@ -269,6 +285,29 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		}
 		
 	}
+	
+	/// <summary>
+	/// returns the operation implemented by the given parentElement, 
+	/// or in case the parentElement is a diagram, by the owner of the parentElement
+	/// </summary>
+	/// <param name="parentElement">either a behavior, or a diagram owned by a behavior</param>
+	/// <returns>the implmented operation (specification)</returns>
+	private List<UML.UMLItem> getImplementedOperation(UML.UMLItem parentElement)
+	{
+		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		UML.CommonBehaviors.BasicBehaviors.Behavior behavior = parentElement as UML.CommonBehaviors.BasicBehaviors.Behavior;
+		//if the parent element is not a behavior it might be a diagram owned by a behavior
+		if (behavior == null
+		   && parentElement is UML.Diagrams.Diagram)
+		{
+			behavior = ((UML.Diagrams.Diagram)parentElement).owner as UML.CommonBehaviors.BasicBehaviors.Behavior;
+		}
+		if (behavior != null)
+		{
+			elementsToNavigate.Add(behavior.specification as UML.Classes.Kernel.Operation);	
+		}
+		return elementsToNavigate;
+	}
 	/// <summary>
 	/// returns all operations called on the given diagram
 	/// </summary>
@@ -301,10 +340,14 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    private List<UML.UMLItem> getOperation(UML.UMLItem parentElement)
    {
    	   List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+   	   if (parentElement is UML.Classes.Kernel.Parameter)
+   	   {
+   	   		elementsToNavigate.Add(((UML.Classes.Kernel.Parameter)parentElement).operation);
+   	   }
 	   UML.Classes.Kernel.Operation calledOperation = this.getSelectedOperation(parentElement);
 	   if (null != calledOperation)
 	   {
-	   	elementsToNavigate.Add(calledOperation);
+	   		elementsToNavigate.Add(calledOperation);
 	   }
 	   return elementsToNavigate;
    }

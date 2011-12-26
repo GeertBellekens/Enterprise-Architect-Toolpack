@@ -19,7 +19,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private const string dummyName = "None";
 		private int dummyIndex = 0;
 		private int attributeIndex = 1;
-		private int classIndex = 2;
+		private int elementIndex = 2;
 		private int operationIndex = 3;
 		private int diagramIndex = 4;
 		private int folderIndex = 5;
@@ -27,8 +27,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int messagIndex = 7;
 		private int actionIndex = 8;
 		private int sequenceDiagramIndex = 9;
-		
-		private int maxNodes = 20;
+		private int classIndex = 10;
+		private int stateMachineIndex = 11;
+		private int interactionIndex = 12;
+		private int activityIndex = 13;
+			
+		private int maxNodes = 50;
 		
 		
 		public NavigatorControl()
@@ -74,6 +78,18 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				imageIndex = this.diagramIndex;
 			}
+			else if (element is UML.Interactions.BasicInteractions.Interaction)
+			{
+				imageIndex = this.interactionIndex;
+			}
+			else if (element is UML.StateMachines.BehaviorStateMachines.StateMachine)
+			{
+				imageIndex = this.stateMachineIndex;
+			}
+			else if (element is UML.Activities.FundamentalActivities.Activity)
+			{
+				imageIndex = this.activityIndex;
+			}
 			else if (element is UML.Classes.Kernel.PrimitiveType)
 			{
 				imageIndex = this.primitiveIndex;
@@ -86,9 +102,13 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				imageIndex = this.actionIndex;
 			}
-			else
+			else if (element is UML.Classes.Kernel.Class)
 			{
 				imageIndex = this.classIndex;
+			}
+			else
+			{
+				imageIndex = this.elementIndex;
 			}
 			return imageIndex;
 		}

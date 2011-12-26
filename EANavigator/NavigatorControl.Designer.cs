@@ -64,7 +64,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.TransparentColor = System.Drawing.Color.Transparent;
 			this.NavigatorImageList.Images.SetKeyName(0, "dummy.png");
 			this.NavigatorImageList.Images.SetKeyName(1, "Attribute.png");
-			this.NavigatorImageList.Images.SetKeyName(2, "Class.png");
+			this.NavigatorImageList.Images.SetKeyName(2, "Element.png");
 			this.NavigatorImageList.Images.SetKeyName(3, "Operation.png");
 			this.NavigatorImageList.Images.SetKeyName(4, "Diagram.png");
 			this.NavigatorImageList.Images.SetKeyName(5, "Folder.png");
@@ -72,6 +72,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(7, "Message.png");
 			this.NavigatorImageList.Images.SetKeyName(8, "Action.png");
 			this.NavigatorImageList.Images.SetKeyName(9, "SequenceDiagram.png");
+			this.NavigatorImageList.Images.SetKeyName(10, "Class.png");
+			this.NavigatorImageList.Images.SetKeyName(11, "StateMachine.png");
+			this.NavigatorImageList.Images.SetKeyName(12, "Interaction.png");
+			this.NavigatorImageList.Images.SetKeyName(13, "Activity.png");
 			// 
 			// NavigatorControl
 			// 
