@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+        	System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NavigatorList));
         	this.cancelButton = new System.Windows.Forms.Button();
         	this.openButton = new System.Windows.Forms.Button();
         	this.navigateListView = new System.Windows.Forms.ListView();
@@ -75,7 +76,7 @@
         	this.navigateListView.View = System.Windows.Forms.View.Details;
         	this.navigateListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NavigateListViewMouseDoubleClick);
         	// 
-        	// Diagram
+        	// ItemHeader
         	// 
         	this.ItemHeader.Text = "Diagram";
         	this.ItemHeader.Width = 344;
@@ -93,6 +94,7 @@
         	this.Controls.Add(this.navigateListView);
         	this.Controls.Add(this.openButton);
         	this.Controls.Add(this.cancelButton);
+        	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.Name = "NavigatorList";
         	this.Text = "Open Diagram";
         	this.ResumeLayout(false);

@@ -121,7 +121,12 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         			menuOptionsList.Add(menuParameterTypes);
         			menuOptionsList.Add(menuImplementation);
         			
-        		}else if (element is UML.Classes.Kernel.PrimitiveType)
+        		}
+        		else if (element is UML.Actions.BasicActions.CallOperationAction)
+        		{
+        			menuOptionsList.Add(menuOperation);
+        		}
+        		else if (element is UML.Classes.Kernel.PrimitiveType)
         		{
         			//add no options for primitive types	
         		}
@@ -241,23 +246,44 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 
 	public override void EA_OnContextItemChanged(global::EA.Repository Repository, string GUID, global::EA.ObjectType ot)
     {
-        if (fullyLoaded)
+        if (fullyLoaded && this.model != null )
+        {       
+            if (this.model.selectedItem != null)
+            {
+            	this.navigate(this.model.selectedItem) ;
+            }
+        }
+    }
+	
+	private void navigate(UML.UMLItem item)
+	{
+		if (fullyLoaded)
         {
             if (this.navigatorControl == null)
             {
-                this.navigatorControl = Repository.AddWindow("Navigate", "TSF.UmlToolingFramework.EANavigator.NavigatorControl") as NavigatorControl;
+                this.navigatorControl = this.model.addWindow("Navigate", "TSF.UmlToolingFramework.EANavigator.NavigatorControl") as NavigatorControl;
                 this.navigatorControl.BeforeExpand += new TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
             }
             if (this.navigatorControl != null && this.model != null)
             {
-                if (this.model.selectedItem != null)
+                if (item != null)
                 {
-                    this.navigatorControl.setElement(this.model.selectedItem as UML.UMLItem);
+                    this.navigatorControl.setElement(item);
                 }
 
             }
         }
-    }
+	}
+	public override void EA_OnPostOpenDiagram(EA.Repository Repository, int DiagramID)
+	{
+		if (fullyLoaded && this.model != null )
+        {       
+            if (this.model.currentDiagram != null)
+            {
+            	this.navigate(this.model.currentDiagram) ;
+            }
+        }
+	}
     public override void EA_FileClose(EA.Repository Repository)
     {
         this.fullyLoaded = false;
@@ -336,15 +362,31 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         return elementsToNavigate;
     }
 
-   //selects the operation that is called by the selected message in the project browser 
+   /// <summary>
+   /// gets the operation for the parent element which can be
+   /// - an operation itself
+   /// - a message calling the operation
+   /// - a parameter for an operation
+   /// - a CallOperationAction
+   /// </summary>
+   /// <param name="parentElement">the element to get the operation from</param>
+   /// <returns>the operation for this parent element</returns>
    private List<UML.UMLItem> getOperation(UML.UMLItem parentElement)
    {
    	   List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+   	   UML.Classes.Kernel.Operation calledOperation = null;
    	   if (parentElement is UML.Classes.Kernel.Parameter)
    	   {
-   	   		elementsToNavigate.Add(((UML.Classes.Kernel.Parameter)parentElement).operation);
+   	   		calledOperation = ((UML.Classes.Kernel.Parameter)parentElement).operation;
    	   }
-	   UML.Classes.Kernel.Operation calledOperation = this.getSelectedOperation(parentElement);
+   	   else if (parentElement is UML.Actions.BasicActions.CallOperationAction)
+   	   {
+   	   		calledOperation = ((UML.Actions.BasicActions.CallOperationAction)parentElement).operation;
+   	   }
+   	   else
+   	   {
+   	   		calledOperation = this.getSelectedOperation(parentElement);
+   	   }
 	   if (null != calledOperation)
 	   {
 	   		elementsToNavigate.Add(calledOperation);

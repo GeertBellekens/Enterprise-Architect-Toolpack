@@ -32,6 +32,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutWindow));
 			this.ApplicationTitle = new System.Windows.Forms.Label();
 			this.VersionLabel = new System.Windows.Forms.Label();
 			this.Version = new System.Windows.Forms.Label();
@@ -41,6 +42,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.AuthorEmail = new System.Windows.Forms.LinkLabel();
 			this.HomePage = new System.Windows.Forms.LinkLabel();
 			this.OKButton = new System.Windows.Forms.Button();
+			this.NavigatorLogo = new System.Windows.Forms.PictureBox();
+			((System.ComponentModel.ISupportInitialize)(this.NavigatorLogo)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// ApplicationTitle
@@ -54,7 +57,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// VersionLabel
 			// 
-			this.VersionLabel.Location = new System.Drawing.Point(13, 71);
+			this.VersionLabel.Location = new System.Drawing.Point(13, 77);
 			this.VersionLabel.Name = "VersionLabel";
 			this.VersionLabel.Size = new System.Drawing.Size(100, 23);
 			this.VersionLabel.TabIndex = 1;
@@ -62,7 +65,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// Version
 			// 
-			this.Version.Location = new System.Drawing.Point(71, 71);
+			this.Version.Location = new System.Drawing.Point(71, 77);
 			this.Version.Name = "Version";
 			this.Version.Size = new System.Drawing.Size(100, 23);
 			this.Version.TabIndex = 2;
@@ -70,7 +73,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// DateLabel
 			// 
-			this.DateLabel.Location = new System.Drawing.Point(13, 84);
+			this.DateLabel.Location = new System.Drawing.Point(13, 90);
 			this.DateLabel.Name = "DateLabel";
 			this.DateLabel.Size = new System.Drawing.Size(100, 23);
 			this.DateLabel.TabIndex = 3;
@@ -78,7 +81,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// AssemblyDate
 			// 
-			this.AssemblyDate.Location = new System.Drawing.Point(71, 84);
+			this.AssemblyDate.Location = new System.Drawing.Point(71, 90);
 			this.AssemblyDate.Name = "AssemblyDate";
 			this.AssemblyDate.Size = new System.Drawing.Size(100, 23);
 			this.AssemblyDate.TabIndex = 4;
@@ -94,7 +97,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// AuthorEmail
 			// 
-			this.AuthorEmail.Location = new System.Drawing.Point(135, 38);
+			this.AuthorEmail.Location = new System.Drawing.Point(13, 52);
 			this.AuthorEmail.Name = "AuthorEmail";
 			this.AuthorEmail.Size = new System.Drawing.Size(127, 23);
 			this.AuthorEmail.TabIndex = 7;
@@ -125,11 +128,22 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.OKButton.UseVisualStyleBackColor = true;
 			this.OKButton.Click += new System.EventHandler(this.OKButtonClick);
 			// 
+			// NavigatorLogo
+			// 
+			this.NavigatorLogo.Image = ((System.Drawing.Image)(resources.GetObject("NavigatorLogo.Image")));
+			this.NavigatorLogo.Location = new System.Drawing.Point(162, 12);
+			this.NavigatorLogo.Name = "NavigatorLogo";
+			this.NavigatorLogo.Size = new System.Drawing.Size(100, 88);
+			this.NavigatorLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this.NavigatorLogo.TabIndex = 10;
+			this.NavigatorLogo.TabStop = false;
+			// 
 			// AboutWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(274, 192);
+			this.Controls.Add(this.NavigatorLogo);
 			this.Controls.Add(this.OKButton);
 			this.Controls.Add(this.HomePage);
 			this.Controls.Add(this.AuthorEmail);
@@ -139,11 +153,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.Controls.Add(this.Version);
 			this.Controls.Add(this.VersionLabel);
 			this.Controls.Add(this.ApplicationTitle);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "AboutWindow";
 			this.Text = "About EA Navigator";
+			((System.ComponentModel.ISupportInitialize)(this.NavigatorLogo)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.PictureBox NavigatorLogo;
 		private System.Windows.Forms.Button OKButton;
 		private System.Windows.Forms.LinkLabel HomePage;
 		private System.Windows.Forms.LinkLabel AuthorEmail;
