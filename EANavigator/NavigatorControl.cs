@@ -286,13 +286,17 @@ namespace TSF.UmlToolingFramework.EANavigator
 				}
 			}
 		}
-		
+		public event TreeNodeMouseClickEventHandler NodeDoubleClick;
 		void NavigatorTreeNodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			UML.UMLItem selectedElement = e.Node.Tag as UML.UMLItem;
 			if (selectedElement != null)
 			{
 				selectedElement.open();
+			}
+			if (NodeDoubleClick != null)
+			{
+				NodeDoubleClick(sender,e);
 			}
 		}
 	}

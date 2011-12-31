@@ -263,6 +263,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
             {
                 this.navigatorControl = this.model.addWindow("Navigate", "TSF.UmlToolingFramework.EANavigator.NavigatorControl") as NavigatorControl;
                 this.navigatorControl.BeforeExpand += new TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
+                this.navigatorControl.NodeDoubleClick += new TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeDoubleClick);
             }
             if (this.navigatorControl != null && this.model != null)
             {
@@ -504,6 +505,14 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    }
    
    
+   void NavigatorTreeNodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+   {
+   		UML.UMLItem selectedElement = e.Node.Tag as UML.UMLItem;
+   		if( selectedElement is UML.Diagrams.Diagram)
+   		{
+   			this.navigatorControl.setElement(selectedElement);
+   		}
+   }
    
    void NavigatorTreeBeforeExpand(object sender, TreeViewCancelEventArgs e)
    {
