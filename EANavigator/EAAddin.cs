@@ -23,6 +23,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     const string menuFQN = "&To FQN";
     const string menuDiagramOperations = "&Operations";
     const string menuImplementedOperations = "&Implemented Operation";
+    const string menuElementsViaTaggedValues = "&Elements via Tagged Values";
+    
+    const string taggedValueMenuSuffix = " Tags";
+    const string taggedValueMenuPrefix = "&";
     
     private UTF_EA.Model model = null;
     private NavigatorControl navigatorControl;
@@ -52,110 +56,140 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         }
         this.fullyLoaded = true;
 	}
-	    /// <summary>
-        /// The EA_GetMenuItems event enables the Add-In to provide the Enterprise Architect user interface with additional Add-In menu options in various context and main menus. When a user selects an Add-In menu option, an event is raised and passed back to the Add-In that originally defined that menu option.
-        /// This event is raised just before Enterprise Architect has to show particular menu options to the user, and its use is described in the Define Menu Items topic.
-        /// Also look at:
-        /// - EA_MenuClick
-        /// - EA_GetMenuState.
-        /// </summary>
-        /// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
-        /// Poll its members to retrieve model data and user interface status information.</param>
-        /// <param name="MenuLocation">String representing the part of the user interface that brought up the menu. 
-        /// Can be TreeView, MainMenu or Diagram.</param>
-        /// <param name="MenuName">The name of the parent menu for which sub-items are to be defined. In the case of the top-level menu it is an empty string.</param>
-        /// <returns>One of the following types:
-        /// - A string indicating the label for a single menu option.
-        /// - An array of strings indicating a multiple menu options.
-        /// - Empty (Visual Basic/VB.NET) or null (C#) to indicate that no menu should be displayed.
-        /// In the case of the top-level menu it should be a single string or an array containing only one item, or Empty/null.</returns>
-        public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
-        {
-        	
-        	switch (MenuName)
-        	{
-        	case "":
-        		//return top level menu option
-        		return this.menuHeader;
-        	case menuName:
-        		List<string> menuOptionsList = new List<string>();
-        		// get the selected element from the model
-        		UML.UMLItem selectedElement = this.model.selectedItem;
-        		//add the menuoptions depending on the type of element
-        		menuOptionsList.AddRange(getMenuOptions(selectedElement));
-        		// add FQN menu to all options
-        		menuOptionsList.Add(menuFQN);
-        		// show about menu option only when called from main menu
-        		if (MenuLocation == "MainMenu")
-        		{
-        			menuOptionsList.Add(menuAbout);
-        		}
-        		
-        		// return submenu options
-        		return menuOptionsList.ToArray();
-        	default: 
-        		return string.Empty;
-        	 }
-            
-        }
-	    /// <summary>
-	    /// returns the options depending on the type of the element
-	    /// </summary>
-	    /// <param name="element">element</param>
-	    /// <returns>a list of navigator menu options depending on the type of element</returns>
-        internal static List<string> getMenuOptions (UML.UMLItem element)
-        {
-        		List<string> menuOptionsList = new List<string>();
-        		
-        		if (element is UML.Classes.Kernel.Operation)
-        		{
-        			menuOptionsList.Add(menuDiagrams);
-        			menuOptionsList.Add(menuParameterTypes);
-        			menuOptionsList.Add(menuActions);
-        			menuOptionsList.Add(menuImplementation);
-        			
-        		}else if (element is UML.Interactions.BasicInteractions.Message)
-        		{
-        			menuOptionsList.Add(menuOperation);
-        			menuOptionsList.Add(menuDiagrams);
-        			menuOptionsList.Add(menuParameterTypes);
-        			menuOptionsList.Add(menuImplementation);
-        			
-        		}
-        		else if (element is UML.Actions.BasicActions.CallOperationAction)
-        		{
-        			menuOptionsList.Add(menuOperation);
-        		}
-        		else if (element is UML.Classes.Kernel.PrimitiveType)
-        		{
-        			//add no options for primitive types	
-        		}
-        		else if (element is UML.Classes.Kernel.Type)
-        		{
-        			menuOptionsList.Add(menuAttributes);
-        			menuOptionsList.Add(menuParameters);
-        			
-        		}else if (element is UML.Classes.Kernel.Property)
-        		{
-        			menuOptionsList.Add(menuClassifier);
-        		}
-        		else if (element is UML.Diagrams.SequenceDiagram)
-        		{
-        			menuOptionsList.Add(menuDiagramOperations);
-        		}
-        		else if (element is UML.Classes.Kernel.Parameter)
-        		{
-        			menuOptionsList.Add(menuOperation);
-        		}
-        		//now for behavior, could be a type as well
-        		if (element is UML.CommonBehaviors.BasicBehaviors.Behavior
-        		    || element is UML.Diagrams.Diagram && 
-        		    ((UML.Diagrams.Diagram)element).owner is UML.CommonBehaviors.BasicBehaviors.Behavior)
-        		{
-        			menuOptionsList.Add(menuImplementedOperations);
-        		}
-        		return menuOptionsList;
-        }
+    /// <summary>
+    /// The EA_GetMenuItems event enables the Add-In to provide the Enterprise Architect user interface with additional Add-In menu options in various context and main menus. When a user selects an Add-In menu option, an event is raised and passed back to the Add-In that originally defined that menu option.
+    /// This event is raised just before Enterprise Architect has to show particular menu options to the user, and its use is described in the Define Menu Items topic.
+    /// Also look at:
+    /// - EA_MenuClick
+    /// - EA_GetMenuState.
+    /// </summary>
+    /// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
+    /// Poll its members to retrieve model data and user interface status information.</param>
+    /// <param name="MenuLocation">String representing the part of the user interface that brought up the menu. 
+    /// Can be TreeView, MainMenu or Diagram.</param>
+    /// <param name="MenuName">The name of the parent menu for which sub-items are to be defined. In the case of the top-level menu it is an empty string.</param>
+    /// <returns>One of the following types:
+    /// - A string indicating the label for a single menu option.
+    /// - An array of strings indicating a multiple menu options.
+    /// - Empty (Visual Basic/VB.NET) or null (C#) to indicate that no menu should be displayed.
+    /// In the case of the top-level menu it should be a single string or an array containing only one item, or Empty/null.</returns>
+    public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
+    {
+    	
+    	switch (MenuName)
+    	{
+    	case "":
+    		//return top level menu option
+    		return this.menuHeader;
+    	case menuName:
+    		List<string> menuOptionsList = new List<string>();
+    		// get the selected element from the model
+    		UML.UMLItem selectedElement = this.model.selectedItem;
+    		//add the menuoptions depending on the type of element
+    		menuOptionsList.AddRange(getMenuOptions(selectedElement));
+    		// add FQN menu to all options
+    		menuOptionsList.Add(menuFQN);
+    		// show about menu option only when called from main menu
+    		if (MenuLocation == "MainMenu")
+    		{
+    			menuOptionsList.Add(menuAbout);
+    		}
+    		
+    		// return submenu options
+    		return menuOptionsList.ToArray();
+    	default: 
+    		return string.Empty;
+    	 }
+        
+    }
+    /// <summary>
+    /// returns the options depending on the type of the element
+    /// </summary>
+    /// <param name="element">element</param>
+    /// <returns>a list of navigator menu options depending on the type of element</returns>
+    internal static List<string> getMenuOptions (UML.UMLItem element)
+    {
+    		List<string> menuOptionsList = new List<string>();
+    		
+    		if (element is UML.Classes.Kernel.Operation)
+    		{
+    			menuOptionsList.Add(menuDiagrams);
+    			menuOptionsList.Add(menuParameterTypes);
+    			menuOptionsList.Add(menuActions);
+    			menuOptionsList.Add(menuImplementation);
+    			
+    		}else if (element is UML.Interactions.BasicInteractions.Message)
+    		{
+    			menuOptionsList.Add(menuOperation);
+    			menuOptionsList.Add(menuDiagrams);
+    			menuOptionsList.Add(menuParameterTypes);
+    			menuOptionsList.Add(menuImplementation);
+    			
+    		}
+    		else if (element is UML.Actions.BasicActions.CallOperationAction)
+    		{
+    			menuOptionsList.Add(menuOperation);
+    		}
+    		else if (element is UML.Classes.Kernel.PrimitiveType)
+    		{
+    			//add no options for primitive types	
+    		}
+    		else if (element is UML.Classes.Kernel.Type)
+    		{
+    			menuOptionsList.Add(menuAttributes);
+    			menuOptionsList.Add(menuParameters);
+    			
+    		}else if (element is UML.Classes.Kernel.Property)
+    		{
+    			menuOptionsList.Add(menuClassifier);
+    		}
+    		else if (element is UML.Diagrams.SequenceDiagram)
+    		{
+    			menuOptionsList.Add(menuDiagramOperations);
+    		}
+    		else if (element is UML.Classes.Kernel.Parameter)
+    		{
+    			menuOptionsList.Add(menuOperation);
+    		}
+    		//now for behavior, could be a type as well
+    		if (element is UML.CommonBehaviors.BasicBehaviors.Behavior
+    		    || element is UML.Diagrams.Diagram && 
+    		    ((UML.Diagrams.Diagram)element).owner is UML.CommonBehaviors.BasicBehaviors.Behavior)
+    		{
+    			menuOptionsList.Add(menuImplementedOperations);
+    		}
+    		//tagged values can be added to any UML element
+    		if (element is UML.Classes.Kernel.Element)
+    		{
+    			menuOptionsList.AddRange(getTaggedValueMenuItems(element as UML.Classes.Kernel.Element));
+    		}
+    		return menuOptionsList;
+    }
+    /// <summary>
+    /// creates a list of menuoptions based on the names of tagged values that reference another UML item
+    /// </summary>
+    /// <param name="ownerElement">the owner of the tagged values</param>
+    /// <returns>menuoptions for tagged values</returns>
+    private static List<string> getTaggedValueMenuItems(UML.Classes.Kernel.Element ownerElement)
+    {
+    	List<string> menuItems = new List<string>();
+    	foreach (UML.Profiles.TaggedValue taggedValue in ownerElement.taggedValues) 
+    	{
+    		if (taggedValue.tagValue is UML.UMLItem)
+    		{
+    			string menuName = taggedValueMenuName(taggedValue.name);
+    			if( !menuItems.Contains(menuName))
+    			{
+    				menuItems.Add(menuName);
+    			}
+    		}
+    	}
+    	return menuItems;
+    }
+    private static string taggedValueMenuName(string taggedValueName)
+    {
+    	return (taggedValueMenuPrefix + taggedValueName + taggedValueMenuSuffix);
+    }
 	/// <summary>
 	/// Execute the actual functions
 	/// </summary>
@@ -237,10 +271,17 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		    case menuImplementedOperations:
 	        	elementsToNavigate = this.getImplementedOperation(parentElement);
 				break;
+			default:
+				if( menuChoice.EndsWith(taggedValueMenuSuffix))
+				{
+					elementsToNavigate = this.getElementsViaTaggedValues(parentElement,menuChoice);
+				}
+				break;
 		}
 		 return elementsToNavigate;
 		 
 	}
+	
 
 	
 
@@ -335,6 +376,33 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		}
 		return elementsToNavigate;
 	}
+	/// <summary>
+	/// returns all elements referenced by the tagged values of the parent element
+	/// </summary>
+	/// <param name="parentElement">any UML.Classes.Kernel.Element</param>
+	/// <returns>all elements referenced by the tagged values of the parent element</returns>
+	private List<UML.UMLItem> getElementsViaTaggedValues(UML.UMLItem parentElement, string menuOption)
+	{
+		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		UML.Classes.Kernel.Element taggedValueOwner = parentElement as UML.Classes.Kernel.Element;
+		if (taggedValueOwner != null)
+		{
+			
+			foreach ( UML.Profiles.TaggedValue taggedValue in taggedValueOwner.taggedValues) 
+			{
+				if ( menuOption.Equals(taggedValueMenuName(taggedValue.name)))
+				{
+					UML.UMLItem elementToNavigate = taggedValue.tagValue as UML.UMLItem;
+					if (elementToNavigate != null)
+					{
+						elementsToNavigate.Add(elementToNavigate);
+					}
+				}
+			}
+		}
+		return elementsToNavigate;
+	}
+
 	/// <summary>
 	/// returns all operations called on the given diagram
 	/// </summary>
