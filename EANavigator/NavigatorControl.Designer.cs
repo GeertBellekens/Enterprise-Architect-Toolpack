@@ -76,6 +76,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(11, "StateMachine.png");
 			this.NavigatorImageList.Images.SetKeyName(12, "Interaction.png");
 			this.NavigatorImageList.Images.SetKeyName(13, "Activity.png");
+			this.NavigatorImageList.Images.SetKeyName(14, "TaggedValue.png");
 			// 
 			// NavigatorControl
 			// 

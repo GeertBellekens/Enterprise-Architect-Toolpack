@@ -31,6 +31,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int stateMachineIndex = 11;
 		private int interactionIndex = 12;
 		private int activityIndex = 13;
+		private int taggedValueIndex = 14;
 			
 		private int maxNodes = 50;
 		
@@ -106,6 +107,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				imageIndex = this.classIndex;
 			}
+			else if (element is UML.Profiles.TaggedValue)
+			{
+				imageIndex = this.taggedValueIndex;
+			}
 			else
 			{
 				imageIndex = this.elementIndex;
@@ -154,6 +159,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				UML.Classes.Kernel.Feature feature = (UML.Classes.Kernel.Feature)element;
 				name = feature.owner.name + "." + feature.name;
+			}
+			else if (element is UML.Profiles.TaggedValue)
+			{
+				UML.Profiles.TaggedValue taggedValue = (UML.Profiles.TaggedValue)element;
+				if (taggedValue.owner.name.Length > 0)
+				{
+					name = taggedValue.owner.name + "." + taggedValue.name;
+				}
 			}
 			return name;
 			    

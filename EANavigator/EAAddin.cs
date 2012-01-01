@@ -23,7 +23,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     const string menuFQN = "&To FQN";
     const string menuDiagramOperations = "&Operations";
     const string menuImplementedOperations = "&Implemented Operation";
-    const string menuElementsViaTaggedValues = "&Elements via Tagged Values";
+    const string menuDependentTaggedValues = "&Dependent Tagged Values";
     
     const string taggedValueMenuSuffix = " Tags";
     const string taggedValueMenuPrefix = "&";
@@ -163,6 +163,14 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		{
     			menuOptionsList.AddRange(getTaggedValueMenuItems(element as UML.Classes.Kernel.Element));
     		}
+    		//tagged values can reference only ElementWrappers, attributes and operations
+    		if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper 
+    		    || element is UML.Classes.Kernel.Property
+    		    || element is UML.Classes.Kernel.Operation)
+    		{
+    			menuOptionsList.Add(menuDependentTaggedValues);
+    		}
+    		
     		return menuOptionsList;
     }
     /// <summary>
@@ -271,6 +279,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		    case menuImplementedOperations:
 	        	elementsToNavigate = this.getImplementedOperation(parentElement);
 				break;
+			case menuDependentTaggedValues:
+	        	elementsToNavigate = this.getDependentTaggedValues(parentElement);
+				break;
 			default:
 				if( menuChoice.EndsWith(taggedValueMenuSuffix))
 				{
@@ -283,7 +294,6 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	}
 	
 
-	
 
 	public override void EA_OnContextItemChanged(global::EA.Repository Repository, string GUID, global::EA.ObjectType ot)
     {
@@ -352,6 +362,22 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			MessageBox.Show("Clipboard does nog contain text." + Environment.NewLine + "Please selecte a valid FQN");
 		}
 		
+	}
+	
+	/// <summary>
+	/// returns all tagged values that reference the given item
+	/// </summary>
+	/// <param name="parentItem"></param>
+	/// <returns></returns>
+	private List<UML.UMLItem>getDependentTaggedValues(UML.UMLItem parentItem)
+	{
+		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		UML.Classes.Kernel.Element parentElement = parentItem as UML.Classes.Kernel.Element;
+		if (parentElement != null)
+		{
+			elementsToNavigate.AddRange(parentElement.getReferencingTaggedValues());
+		}
+		return elementsToNavigate;
 	}
 	
 	/// <summary>
