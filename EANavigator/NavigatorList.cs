@@ -27,7 +27,7 @@ namespace TSF.UmlToolingFramework.EANavigator
     			}
     			else
     			{
-    				this.InitNamedElements(items.Cast<UML.Classes.Kernel.NamedElement>().ToList());
+    				this.InitNamedElements(items);
     			}
     		}
     			
@@ -64,14 +64,14 @@ namespace TSF.UmlToolingFramework.EANavigator
         /// initialise based on named elements
         /// </summary>
         /// <param name="namedElements"></param>
-        private void InitNamedElements(List<UML.Classes.Kernel.NamedElement> namedElements)
+        private void InitNamedElements(List<UML.UMLItem> namedElements)
         {
         	InitializeComponent();
         	this.Text = "Select Elements";
         	this.ItemHeader.Text = "Element";
         	this.openButton.Text = "Select";
     		//fill the diagramList
-			foreach (UML.Classes.Kernel.NamedElement element in namedElements)
+			foreach (UML.UMLItem element in namedElements)
             {
                 //add the element
                 ListViewItem item = new ListViewItem(element.name);
@@ -79,7 +79,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 
                 string ownerName = string.Empty;
 
-                UML.Classes.Kernel.NamedElement owner = element.owner as UML.Classes.Kernel.NamedElement;
+                UML.UMLItem owner = element.owner as UML.UMLItem;
                 if (null != owner)
                 {
                     ownerName = owner.name;
@@ -121,17 +121,10 @@ namespace TSF.UmlToolingFramework.EANavigator
         {
         	foreach (ListViewItem item in this.navigateListView.SelectedItems)
             {
-        		UML.Diagrams.Diagram diagram = item.Tag as UML.Diagrams.Diagram;
-        		if (null != diagram)
+        		UML.UMLItem element = item.Tag as UML.UMLItem;
+        		if (null != element)
         		{
-                	diagram.open();
-        		}else
-        		{
-        			UML.Classes.Kernel.NamedElement element = item.Tag as UML.Classes.Kernel.NamedElement;
-        			if (null != element)
-        			{
-        				UML.UMLFactory.getInstance().model.selectedElement = element;
-        			}
+                	element.open();
         		}
             }
         }

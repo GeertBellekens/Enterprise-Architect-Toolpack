@@ -23,10 +23,14 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     const string menuFQN = "&To FQN";
     const string menuDiagramOperations = "&Operations";
     const string menuImplementedOperations = "&Implemented Operation";
-    const string menuDependentTaggedValues = "&Dependent Tagged Values";
+    const string menuDependentTaggedValues = "&Referencing Tagged Values";
+    const string menuOwner = "&Owner";
     
     const string taggedValueMenuSuffix = " Tags";
     const string taggedValueMenuPrefix = "&";
+    
+    const string eaGUIDTagname = "ea_guid";
+    const string eaOperationGUIDTagName = "operation_guid";
     
     private UTF_EA.Model model = null;
     private NavigatorControl navigatorControl;
@@ -110,7 +114,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal static List<string> getMenuOptions (UML.UMLItem element)
     {
     		List<string> menuOptionsList = new List<string>();
-    		
+    		if (element is UML.UMLItem)
+    		{
+    			menuOptionsList.Add(menuOwner);
+    		}
     		if (element is UML.Classes.Kernel.Operation)
     		{
     			menuOptionsList.Add(menuDiagrams);
@@ -147,10 +154,6 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		{
     			menuOptionsList.Add(menuDiagramOperations);
     		}
-    		else if (element is UML.Classes.Kernel.Parameter)
-    		{
-    			menuOptionsList.Add(menuOperation);
-    		}
     		//now for behavior, could be a type as well
     		if (element is UML.CommonBehaviors.BasicBehaviors.Behavior
     		    || element is UML.Diagrams.Diagram && 
@@ -186,7 +189,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		if (taggedValue.tagValue is UML.UMLItem)
     		{
     			string menuName = taggedValueMenuName(taggedValue.name);
-    			if( !menuItems.Contains(menuName))
+    			//we don't want the "system" tagged values ea_guid and operation_guid to show up in the navigator
+    			if(menuName != taggedValueMenuName(eaGUIDTagname)
+    			   && menuName != taggedValueMenuName(eaOperationGUIDTagName)
+    			   && !menuItems.Contains(menuName))
     			{
     				menuItems.Add(menuName);
     			}
@@ -194,6 +200,11 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     	}
     	return menuItems;
     }
+    /// <summary>
+    /// adds the menu prefix and menu suffix to the tagged value name
+    /// </summary>
+    /// <param name="taggedValueName">the tagged value name</param>
+    /// <returns>the menu name for the tagged value name</returns>
     private static string taggedValueMenuName(string taggedValueName)
     {
     	return (taggedValueMenuPrefix + taggedValueName + taggedValueMenuSuffix);
@@ -282,6 +293,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			case menuDependentTaggedValues:
 	        	elementsToNavigate = this.getDependentTaggedValues(parentElement);
 				break;
+			case menuOwner:
+				elementsToNavigate = this.getOwner(parentElement);
+				break;
 			default:
 				if( menuChoice.EndsWith(taggedValueMenuSuffix))
 				{
@@ -292,6 +306,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		 return elementsToNavigate;
 		 
 	}
+	
+
 	
 
 
@@ -363,6 +379,21 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		}
 		
 	}
+	/// <summary>
+	/// returns the owner of the parentElement
+	/// </summary>
+	/// <param name="parentElement">the selected element</param>
+	/// <returns>the owner of the element</returns>
+	private List<UML.UMLItem> getOwner(UML.UMLItem parentElement)
+	{
+		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		UML.UMLItem owner = parentElement.owner;
+		if (owner != null)
+		{
+			elementsToNavigate.Add(owner);
+		}
+		return elementsToNavigate;
+	}
 	
 	/// <summary>
 	/// returns all tagged values that reference the given item
@@ -375,7 +406,15 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		UML.Classes.Kernel.Element parentElement = parentItem as UML.Classes.Kernel.Element;
 		if (parentElement != null)
 		{
-			elementsToNavigate.AddRange(parentElement.getReferencingTaggedValues());
+			foreach (UML.Profiles.TaggedValue taggedValue in parentElement.getReferencingTaggedValues()) 
+			{
+				//not for the "system" tagged values
+				if (taggedValue.name != eaGUIDTagname
+				   && taggedValue.name != eaOperationGUIDTagName)
+				{
+					elementsToNavigate.Add(taggedValue);
+				}
+			}
 		}
 		return elementsToNavigate;
 	}

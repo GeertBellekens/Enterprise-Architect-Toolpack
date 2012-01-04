@@ -32,6 +32,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int interactionIndex = 12;
 		private int activityIndex = 13;
 		private int taggedValueIndex = 14;
+		private int attributeTagIndex = 15;
+		private int elementTagIndex = 16;
+		private int operationTagIndex = 17;
+		private int relationTagIndex = 18;
+		private int parameterIndex = 19;
 			
 		private int maxNodes = 50;
 		
@@ -107,9 +112,38 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				imageIndex = this.classIndex;
 			}
+			else if (element is UML.Classes.Kernel.Parameter)
+			{
+				imageIndex = this.parameterIndex;
+			}
 			else if (element is UML.Profiles.TaggedValue)
 			{
-				imageIndex = this.taggedValueIndex;
+				UML.Profiles.TaggedValue taggedValue = (UML.Profiles.TaggedValue)element;
+				if (taggedValue.owner is UML.Classes.Kernel.Property)
+				{
+					imageIndex = this.attributeTagIndex;
+				}
+				else if (taggedValue.owner is UML.Classes.Kernel.Operation)
+				{
+					imageIndex = this.operationTagIndex;
+				}
+				else if (taggedValue.owner is UML.Classes.Kernel.Parameter)
+				{
+					//I don't really have an icon for parameters, so we use the operationtag icon.
+					imageIndex = this.operationTagIndex;
+				}
+				else if (taggedValue.owner is UML.Classes.Kernel.Relationship)
+				{
+					imageIndex = this.relationTagIndex;
+				}
+				else if (taggedValue.owner is UML.Classes.Kernel.Element)
+				{
+					imageIndex = this.elementTagIndex;
+				}
+				else 
+				{
+					imageIndex = this.taggedValueIndex;
+				}
 			}
 			else
 			{
