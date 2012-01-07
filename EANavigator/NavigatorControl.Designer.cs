@@ -67,7 +67,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(2, "Element.png");
 			this.NavigatorImageList.Images.SetKeyName(3, "Operation.png");
 			this.NavigatorImageList.Images.SetKeyName(4, "Diagram.png");
-			this.NavigatorImageList.Images.SetKeyName(5, "Folder.png");
+			this.NavigatorImageList.Images.SetKeyName(5, "Package_element.png");
 			this.NavigatorImageList.Images.SetKeyName(6, "Primitive.png");
 			this.NavigatorImageList.Images.SetKeyName(7, "Message.png");
 			this.NavigatorImageList.Images.SetKeyName(8, "Action.png");
@@ -82,6 +82,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(17, "OperationTag.png");
 			this.NavigatorImageList.Images.SetKeyName(18, "RelationTag.png");
 			this.NavigatorImageList.Images.SetKeyName(19, "Parameter.png");
+			this.NavigatorImageList.Images.SetKeyName(20, "Package.png");
+			this.NavigatorImageList.Images.SetKeyName(21, "Package_action.png");
+			this.NavigatorImageList.Images.SetKeyName(22, "Package_attribute.png");
+			this.NavigatorImageList.Images.SetKeyName(23, "Package_operation.png");
+			this.NavigatorImageList.Images.SetKeyName(24, "Package_parameter.png");
+			this.NavigatorImageList.Images.SetKeyName(25, "Package_sequenceDiagram.png");
+			this.NavigatorImageList.Images.SetKeyName(26, "Package_taggedValue.png");
+			this.NavigatorImageList.Images.SetKeyName(27, "ParameterTag.png");
+			this.NavigatorImageList.Images.SetKeyName(28, "Rootpackage.png");
 			// 
 			// NavigatorControl
 			// 

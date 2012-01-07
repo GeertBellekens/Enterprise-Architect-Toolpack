@@ -10,24 +10,26 @@ namespace TSF.UmlToolingFramework.EANavigator
 {
 public class EAAddin:EAAddinFramework.EAAddinBase
 {
-	const string menuName = "-&Navigate";
-    const string menuOperation = "&Operation";
-    const string menuDiagrams = "&Diagrams";
-    const string menuAbout = "&About EA Navigator";
-    const string menuClassifier = "&Type";
-    const string menuParameterTypes = "&Parameter Types";
-    const string menuAttributes = "&Dependent Attributes";
-    const string menuParameters = "&Dependent Parameters";
-    const string menuActions = "&Calling Actions";
-    const string menuImplementation = "&Implementation";
-    const string menuFQN = "&To FQN";
-    const string menuDiagramOperations = "&Operations";
-    const string menuImplementedOperations = "&Implemented Operation";
-    const string menuDependentTaggedValues = "&Referencing Tagged Values";
-    const string menuOwner = "&Owner";
+	internal const string menuName = "-&Navigate";
+    internal const string menuOperation = "&Operation";
+    internal const string menuDiagrams = "&Diagrams";
+    internal const string menuAbout = "&About EA Navigator";
+    //internal const string menuClassifier = "&Type";
+    internal const string menuParameterTypes = "&Parameter Types";
+    internal const string menuAttributes = "&Dependent Attributes";
+    internal const string menuParameters = "&Dependent Parameters";
+    internal const string menuActions = "&Calling Actions";
+    internal const string menuImplementation = "&Implementation";
+    internal const string menuFQN = "&To FQN";
+    internal const string menuDiagramOperations = "&Operations";
+    internal const string menuImplementedOperations = "&Implemented Operation";
+    internal const string menuDependentTaggedValues = "&Referencing Tagged Values";
     
-    const string taggedValueMenuSuffix = " Tags";
-    const string taggedValueMenuPrefix = "&";
+    internal const string taggedValueMenuSuffix = " Tags";
+    internal const string taggedValueMenuPrefix = "&";
+    
+    internal const string ownerMenuPrefix = "&Owner: ";
+    internal const string typeMenuPrefix = "&Type: ";
     
     const string eaGUIDTagname = "ea_guid";
     const string eaOperationGUIDTagName = "operation_guid";
@@ -106,6 +108,26 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     	 }
         
     }
+    internal static string getOwnerMenuName(UML.UMLItem element)
+    {
+    	string ownerMenuname = ownerMenuPrefix;
+    	if (element.owner != null)
+    	{
+    		ownerMenuname += element.owner.name;
+    	}
+    	return ownerMenuname;
+    }
+    internal static string getTypeMenuName(UML.UMLItem element)
+    {
+    	string typeMenuname = typeMenuPrefix;
+    	UML.Classes.Kernel.Property attribute = element as UML.Classes.Kernel.Property;
+    	if (attribute != null
+    	   && attribute.type != null)
+    	{
+    		typeMenuname += attribute.type.name;
+    	}
+    	return typeMenuname;
+    }
     /// <summary>
     /// returns the options depending on the type of the element
     /// </summary>
@@ -114,9 +136,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal static List<string> getMenuOptions (UML.UMLItem element)
     {
     		List<string> menuOptionsList = new List<string>();
-    		if (element is UML.UMLItem)
+    		if (element is UML.UMLItem
+    		   && element.owner != null)
     		{
-    			menuOptionsList.Add(menuOwner);
+    			menuOptionsList.Add(getOwnerMenuName(element));
     		}
     		if (element is UML.Classes.Kernel.Operation)
     		{
@@ -148,7 +171,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     			
     		}else if (element is UML.Classes.Kernel.Property)
     		{
-    			menuOptionsList.Add(menuClassifier);
+    			menuOptionsList.Add(getTypeMenuName(element));
     		}
     		else if (element is UML.Diagrams.SequenceDiagram)
     		{
@@ -243,6 +266,11 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		            	NavigatorList dialog = new NavigatorList(elementsToNavigate);
 		        		dialog.Show();
 		            }
+		            else
+		            {
+		            	string message = selectedItem.name + " does not have any " + ItemName.Replace("&",string.Empty);
+		            	MessageBox.Show(message,"Nothing to navigate",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+		            }
 	            }
             break;
             
@@ -278,9 +306,6 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	        case menuParameters:
 	        	elementsToNavigate = this.getParameters(parentElement);
 	        	break;
-	        case menuClassifier:
-	        	elementsToNavigate = this.getClassifier(parentElement);
-	        	break;
 	        case menuImplementation:
 	        	elementsToNavigate = this.getImplementation(parentElement);
 	        	break;
@@ -293,13 +318,19 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			case menuDependentTaggedValues:
 	        	elementsToNavigate = this.getDependentTaggedValues(parentElement);
 				break;
-			case menuOwner:
-				elementsToNavigate = this.getOwner(parentElement);
-				break;
 			default:
-				if( menuChoice.EndsWith(taggedValueMenuSuffix))
+				if(menuChoice.StartsWith(taggedValueMenuPrefix) 
+				   && menuChoice.EndsWith(taggedValueMenuSuffix))
 				{
 					elementsToNavigate = this.getElementsViaTaggedValues(parentElement,menuChoice);
+				}
+				else if (menuChoice == getOwnerMenuName(parentElement))
+				{
+					elementsToNavigate = this.getOwner(parentElement);
+				}
+				else if (menuChoice == getTypeMenuName(parentElement))
+				{
+					elementsToNavigate = this.getClassifier(parentElement);
 				}
 				break;
 		}

@@ -22,7 +22,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int elementIndex = 2;
 		private int operationIndex = 3;
 		private int diagramIndex = 4;
-		private int folderIndex = 5;
+		private int packageElementIndex = 5;
 		private int primitiveIndex = 6;
 		private int messagIndex = 7;
 		private int actionIndex = 8;
@@ -37,6 +37,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int operationTagIndex = 17;
 		private int relationTagIndex = 18;
 		private int parameterIndex = 19;
+		private int packageIndex = 20;
+		private int packageActionIndex = 21;
+		private int packageAttributeIndex = 22;
+		private int packageOperationIndex = 23;
+		private int packageParameterIndex = 24;
+		private int packageSequenceDiagramIndex = 25;
+		private int packageTaggedValuesIndex = 26;
+		private int parameterTagIndex = 27;
+		private int rootPackageIndex = 28;
 			
 		private int maxNodes = 50;
 		
@@ -75,6 +84,17 @@ namespace TSF.UmlToolingFramework.EANavigator
 			else if (element is UML.Classes.Kernel.Operation)
 			{
 				imageIndex = this.operationIndex;
+			}
+			else if (element is UML.Classes.Kernel.Package)
+			{
+				if (element.owner == null)
+				{
+					imageIndex = this.rootPackageIndex;
+				}
+				else
+				{
+					imageIndex = this.packageIndex;
+				}
 			}
 			else if (element is UML.Diagrams.SequenceDiagram)
 			{
@@ -129,8 +149,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 				}
 				else if (taggedValue.owner is UML.Classes.Kernel.Parameter)
 				{
-					//I don't really have an icon for parameters, so we use the operationtag icon.
-					imageIndex = this.operationTagIndex;
+					imageIndex = this.parameterTagIndex;
 				}
 				else if (taggedValue.owner is UML.Classes.Kernel.Relationship)
 				{
@@ -148,6 +167,56 @@ namespace TSF.UmlToolingFramework.EANavigator
 			else
 			{
 				imageIndex = this.elementIndex;
+			}
+			return imageIndex;
+		}
+		private int getFolderImageIndex(string menuOptionName)
+		{
+			int imageIndex;
+			switch (menuOptionName)
+			{
+				case EAAddin.menuActions:
+					imageIndex = this.packageActionIndex;
+					break;
+				case EAAddin.menuAttributes:
+					imageIndex = this.packageAttributeIndex;
+					break;
+				case EAAddin.menuDependentTaggedValues:
+					imageIndex = this.packageTaggedValuesIndex;
+					break;
+				case EAAddin.menuDiagramOperations:
+					imageIndex = this.packageOperationIndex;
+					break;
+				case EAAddin.menuDiagrams:
+					imageIndex = this.packageSequenceDiagramIndex;
+					break;
+				case EAAddin.menuImplementation:
+					imageIndex = this.packageSequenceDiagramIndex;
+					break;
+				case EAAddin.menuOperation:
+					imageIndex = this.packageOperationIndex;
+					break;
+				case EAAddin.menuImplementedOperations:
+					imageIndex = this.packageOperationIndex;
+					break;
+				case EAAddin.menuParameters:
+					imageIndex = this.packageParameterIndex;
+					break;
+				case EAAddin.menuParameterTypes:
+					imageIndex = this.packageElementIndex;
+					break;
+				default:
+					if( menuOptionName.StartsWith(EAAddin.taggedValueMenuPrefix)
+				   	&& menuOptionName.EndsWith(EAAddin.taggedValueMenuSuffix))
+				  	{
+				   		imageIndex = this.packageElementIndex;
+				  	}
+					else
+					{
+						//just in case we forgot a case				 
+						imageIndex = this.packageElementIndex;
+					}
+					break;
 			}
 			return imageIndex;
 		}
@@ -179,8 +248,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <param name="element"></param>
 		private string getNodeName(UML.UMLItem element)
 		{
-			string name = element.name;
 			
+			string name = string.Empty;
+			if (element != null)
+			{
+				name = element.name;
+			}
 			if (element is UML.Classes.Kernel.Parameter)
 			{
 				UML.Classes.Kernel.Parameter parameter = (UML.Classes.Kernel.Parameter)element;
@@ -210,21 +283,44 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		/// <param name="element">the source element</param>
 		/// <param name="parentNode">the parentNode. If null is passed then the node will be added as root node</param>
-		private void addElementToTree(UML.UMLItem element,TreeNode parentNode)
+		private TreeNode addElementToTree(UML.UMLItem element,TreeNode parentNode,TreeNode nodeToReplace = null)
 		{
 			//create new node
-			TreeNode elementNode = new TreeNode(this.getNodeName(element));
+			TreeNode elementNode;
+			if (nodeToReplace != null)
+			{
+				elementNode = nodeToReplace;
+				if (nodeToReplace.Text.StartsWith(EAAddin.ownerMenuPrefix.Replace("&",string.Empty)))
+				{
+					elementNode.Text = EAAddin.ownerMenuPrefix.Replace("&",string.Empty) + this.getNodeName(element);
+				}
+				//the type name is already ok
+				//remove dummy node
+				this.removeDummyNode(elementNode);
+			}
+			else
+			{
+				elementNode = new TreeNode(this.getNodeName(element));
+			}
 			elementNode.Tag = element;
-			elementNode.ImageIndex = this.getImageIndex(element);
-			elementNode.SelectedImageIndex = this.getImageIndex(element);
+			int imageIndex = this.getImageIndex(element);
+			elementNode.ImageIndex = imageIndex;
+			elementNode.SelectedImageIndex = imageIndex;
 			elementNode.ToolTipText = this.getToolTipText(element);
 			
+			//get sub menu option
+			List<string> subMenuOptions = EAAddin.getMenuOptions(element);
+			if (subMenuOptions.Count > 0)
+			{
+				this.removeDummyNode(elementNode);
+			}			
 			//add subnodes
-			foreach (string subNodeName in EAAddin.getMenuOptions(element)) 
+			foreach (string subNodeName in subMenuOptions) 
 			{
 				TreeNode subNode = new TreeNode(subNodeName.Replace("&",String.Empty));
-				subNode.ImageIndex = this.folderIndex;
-				subNode.SelectedImageIndex = this.folderIndex;
+				int subImageIndex = this.getFolderImageIndex(subNodeName);
+				subNode.ImageIndex = subImageIndex;
+				subNode.SelectedImageIndex = subImageIndex;
 				subNode.Nodes.Add( new TreeNode(dummyName,this.dummyIndex,this.dummyIndex));
 				elementNode.Nodes.Add(subNode);
 				
@@ -232,8 +328,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 			
 			if (parentNode != null)
 			{
-				this.removeDummyNode(parentNode);
-				parentNode.Nodes.Add(elementNode);
+				if (nodeToReplace == null)
+				{
+					this.removeDummyNode(parentNode);
+					parentNode.Nodes.Add(elementNode);
+				}
 			}
 			else
 			{
@@ -257,8 +356,9 @@ namespace TSF.UmlToolingFramework.EANavigator
 				// select the node
 				NavigatorTree.SelectedNode = elementNode;
 			}
-				
+			return elementNode;
 		}
+
 		/// <summary>
 		/// removes the rootnode representig the given element
 		/// unless it this node is the first rootnode.
@@ -292,8 +392,41 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <param name="e">arguments</param>
 		void NavigatorTreeBeforeExpand(object sender, TreeViewCancelEventArgs e)
 		{
+			foreach (TreeNode subNode in e.Node.Nodes)
+			{
+				if (this.isOwnerNode(subNode))
+				{
+					UML.UMLItem owner = ((UML.UMLItem)e.Node.Tag).owner;
+					if (owner != null)
+					{
+						this.addElementToTree(owner,e.Node,subNode);		
+					}
+				}
+				else if (this.isTypeNode(subNode))
+				{
+					UML.Classes.Kernel.Property attribute  = e.Node.Tag as UML.Classes.Kernel.Property;
+					if (attribute != null
+					    && attribute.type != null)
+					{
+						this.addElementToTree(attribute.type,e.Node,subNode);
+					}
+				}
+			}
 			if (BeforeExpand != null)
 				BeforeExpand(sender,e);
+		}
+		private bool isOwnerNode(TreeNode node)
+		{
+			return (!(node.Tag is UML.UMLItem)
+			   && node.Parent.Tag is UML.UMLItem
+			   && node.Text.StartsWith(EAAddin.ownerMenuPrefix.Replace("&",string.Empty)));
+
+		}
+		private bool isTypeNode(TreeNode node)
+		{
+			return (!(node.Tag is UML.UMLItem)
+			   && node.Parent.Tag is UML.UMLItem
+			   && node.Text.StartsWith(EAAddin.typeMenuPrefix.Replace("&",string.Empty)));
 		}
 		/// <summary>
 		/// remove the dummy node(s) from the given node
