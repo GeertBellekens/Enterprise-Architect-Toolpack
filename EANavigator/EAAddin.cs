@@ -402,7 +402,12 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 				item.select();
 			} else
 			{
-				MessageBox.Show("Could not find item" + Environment.NewLine + Clipboard.GetText());
+				string clipboardText = Clipboard.GetText();
+				if (clipboardText.Length > 255 )
+				{
+					clipboardText = clipboardText.Substring(0,255);
+				}
+				MessageBox.Show("Could not find item with the string found on your clipboard:" + Environment.NewLine + clipboardText,"EA Navigator: FQN not found",MessageBoxButtons.OK,MessageBoxIcon.Warning);
 			}
 		}else
 		{
