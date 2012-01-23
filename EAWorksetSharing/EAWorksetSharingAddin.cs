@@ -26,7 +26,7 @@ namespace EAWorksetSharing
 			//get current user
 			User currentUser = this.model.currentUser;
 			//debug
-			currentUser = new User(this.model,"login1","firstname1","lastname1");
+			//currentUser = new User(this.model,"login1","firstname1","lastname1");
 			//get all workingsets
 			List<WorkingSet> allWorkingSets = this.model.workingSets;
 			//open window
