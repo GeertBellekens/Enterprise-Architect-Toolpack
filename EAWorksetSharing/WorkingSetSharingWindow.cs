@@ -35,6 +35,9 @@ namespace EAWorksetSharing
 				this.meUserButton.Enabled = false;
 				this.MyWorkingSetsButton.Enabled = false;
 			}
+			//enable sorting
+			this.WorkingSetsList.ListViewItemSorter = new ListViewColumnSorter();
+			this.userList.ListViewItemSorter = new ListViewColumnSorter();
 			
 		}
 		
@@ -188,5 +191,15 @@ namespace EAWorksetSharing
 			
 		}
 			
+		
+		void WorkingSetsListColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			ListViewColumnSorter.sortColumn((ListView)sender, e.Column);
+		}
+		
+		void UserListColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			ListViewColumnSorter.sortColumn((ListView)sender, e.Column);
+		}
 	}
 }

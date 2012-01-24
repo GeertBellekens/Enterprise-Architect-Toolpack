@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EAWorksetSharingAddin.cs" />
+    <Compile Include="ListViewColumnSorter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkingSetSharingWindow.cs" />
     <Compile Include="WorkingSetSharingWindow.Designer.cs">

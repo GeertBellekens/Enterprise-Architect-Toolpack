@@ -138,6 +138,7 @@ namespace EAWorksetSharing
 			this.WorkingSetsList.TabIndex = 0;
 			this.WorkingSetsList.UseCompatibleStateImageBehavior = false;
 			this.WorkingSetsList.View = System.Windows.Forms.View.Details;
+			this.WorkingSetsList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.WorkingSetsListColumnClick);
 			// 
 			// workingSetHeader
 			// 
@@ -174,6 +175,7 @@ namespace EAWorksetSharing
 			this.userList.TabIndex = 4;
 			this.userList.UseCompatibleStateImageBehavior = false;
 			this.userList.View = System.Windows.Forms.View.Details;
+			this.userList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.UserListColumnClick);
 			// 
 			// userLoginHeader
 			// 
