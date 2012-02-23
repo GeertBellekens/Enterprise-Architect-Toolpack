@@ -54,6 +54,10 @@ namespace EAWorksetSharing
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.copyButton = new System.Windows.Forms.Button();
 			this.overWriteCheck = new System.Windows.Forms.CheckBox();
+			this.WorkingSetNameFilter = new System.Windows.Forms.TextBox();
+			this.workingSetLoginFilter = new System.Windows.Forms.TextBox();
+			this.workingSetFirstNameFilter = new System.Windows.Forms.TextBox();
+			this.workingSetLastNameFilter = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// allWorkingSetsButton
@@ -132,9 +136,9 @@ namespace EAWorksetSharing
 									this.loginHeader,
 									this.firstNameHeader,
 									this.lastNameHeader});
-			this.WorkingSetsList.Location = new System.Drawing.Point(12, 12);
+			this.WorkingSetsList.Location = new System.Drawing.Point(12, 38);
 			this.WorkingSetsList.Name = "WorkingSetsList";
-			this.WorkingSetsList.Size = new System.Drawing.Size(405, 395);
+			this.WorkingSetsList.Size = new System.Drawing.Size(405, 369);
 			this.WorkingSetsList.TabIndex = 0;
 			this.WorkingSetsList.UseCompatibleStateImageBehavior = false;
 			this.WorkingSetsList.View = System.Windows.Forms.View.Details;
@@ -169,9 +173,9 @@ namespace EAWorksetSharing
 									this.userLoginHeader,
 									this.userFirstNameHeader,
 									this.userLastNameHeader});
-			this.userList.Location = new System.Drawing.Point(423, 12);
+			this.userList.Location = new System.Drawing.Point(423, 38);
 			this.userList.Name = "userList";
-			this.userList.Size = new System.Drawing.Size(351, 395);
+			this.userList.Size = new System.Drawing.Size(351, 369);
 			this.userList.TabIndex = 4;
 			this.userList.UseCompatibleStateImageBehavior = false;
 			this.userList.View = System.Windows.Forms.View.Details;
@@ -217,13 +221,44 @@ namespace EAWorksetSharing
 			// overWriteCheck
 			// 
 			this.overWriteCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.overWriteCheck.Enabled = false;
 			this.overWriteCheck.Location = new System.Drawing.Point(529, 444);
 			this.overWriteCheck.Name = "overWriteCheck";
 			this.overWriteCheck.Size = new System.Drawing.Size(83, 24);
 			this.overWriteCheck.TabIndex = 8;
 			this.overWriteCheck.Text = "Overwrite";
 			this.overWriteCheck.UseVisualStyleBackColor = true;
+			// 
+			// WorkingSetNameFilter
+			// 
+			this.WorkingSetNameFilter.Location = new System.Drawing.Point(12, 12);
+			this.WorkingSetNameFilter.Name = "WorkingSetNameFilter";
+			this.WorkingSetNameFilter.Size = new System.Drawing.Size(139, 20);
+			this.WorkingSetNameFilter.TabIndex = 11;
+			this.WorkingSetNameFilter.TextChanged += new System.EventHandler(this.WorkingSetNameFilterTextChanged);
+			// 
+			// workingSetLoginFilter
+			// 
+			this.workingSetLoginFilter.Location = new System.Drawing.Point(157, 12);
+			this.workingSetLoginFilter.Name = "workingSetLoginFilter";
+			this.workingSetLoginFilter.Size = new System.Drawing.Size(51, 20);
+			this.workingSetLoginFilter.TabIndex = 12;
+			this.workingSetLoginFilter.TextChanged += new System.EventHandler(this.WorkingSetLoginFilterTextChanged);
+			// 
+			// workingSetFirstNameFilter
+			// 
+			this.workingSetFirstNameFilter.Location = new System.Drawing.Point(214, 12);
+			this.workingSetFirstNameFilter.Name = "workingSetFirstNameFilter";
+			this.workingSetFirstNameFilter.Size = new System.Drawing.Size(78, 20);
+			this.workingSetFirstNameFilter.TabIndex = 13;
+			this.workingSetFirstNameFilter.TextChanged += new System.EventHandler(this.WorkingSetFirstNameFilterTextChanged);
+			// 
+			// workingSetLastNameFilter
+			// 
+			this.workingSetLastNameFilter.Location = new System.Drawing.Point(298, 12);
+			this.workingSetLastNameFilter.Name = "workingSetLastNameFilter";
+			this.workingSetLastNameFilter.Size = new System.Drawing.Size(108, 20);
+			this.workingSetLastNameFilter.TabIndex = 14;
+			this.workingSetLastNameFilter.TextChanged += new System.EventHandler(this.WorkingSetLastNameFilterTextChanged);
 			// 
 			// WorkingSetSharingWindow
 			// 
@@ -232,6 +267,10 @@ namespace EAWorksetSharing
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(782, 476);
+			this.Controls.Add(this.workingSetLastNameFilter);
+			this.Controls.Add(this.workingSetFirstNameFilter);
+			this.Controls.Add(this.workingSetLoginFilter);
+			this.Controls.Add(this.WorkingSetNameFilter);
 			this.Controls.Add(this.overWriteCheck);
 			this.Controls.Add(this.copyButton);
 			this.Controls.Add(this.cancelButton);
@@ -247,7 +286,12 @@ namespace EAWorksetSharing
 			this.Name = "WorkingSetSharingWindow";
 			this.Text = "Copy Working Sets";
 			this.ResumeLayout(false);
+			this.PerformLayout();
 		}
+		private System.Windows.Forms.TextBox workingSetLastNameFilter;
+		private System.Windows.Forms.TextBox workingSetFirstNameFilter;
+		private System.Windows.Forms.TextBox workingSetLoginFilter;
+		private System.Windows.Forms.TextBox WorkingSetNameFilter;
 		private System.Windows.Forms.CheckBox overWriteCheck;
 		private System.Windows.Forms.Button copyButton;
 		private System.Windows.Forms.Button cancelButton;

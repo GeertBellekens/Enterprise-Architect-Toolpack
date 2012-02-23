@@ -48,24 +48,46 @@ namespace EAWorksetSharing
 			//then add all workingSets
 			foreach (WorkingSet workingSet in this.allWorkingSets) 
 			{
-				ListViewItem item = new ListViewItem(workingSet.name);
-				if (workingSet.user != null)
+				//only add workingsets if they match the filter
+				if (filterWorkingSet(workingSet))
 				{
-					item.SubItems.Add(workingSet.user.login);
-					item.SubItems.Add(workingSet.user.firstName);
-					item.SubItems.Add(workingSet.user.lastName);
+					ListViewItem item = new ListViewItem(workingSet.name);
+					if (workingSet.user != null)
+					{
+						item.SubItems.Add(workingSet.user.login);
+						item.SubItems.Add(workingSet.user.firstName);
+						item.SubItems.Add(workingSet.user.lastName);
+					}
+					else
+					{
+						item.SubItems.Add("-");
+						item.SubItems.Add("-");
+						item.SubItems.Add("-");
+					}
+					//set tag
+					item.Tag = workingSet;
+					//add to list
+					this.WorkingSetsList.Items.Add(item);
 				}
-				else
-				{
-					item.SubItems.Add("-");
-					item.SubItems.Add("-");
-					item.SubItems.Add("-");
-				}
-				//set tag
-				item.Tag = workingSet;
-				//add to list
-				this.WorkingSetsList.Items.Add(item);
 			}
+		}
+		/// <summary>
+		/// filters the workingsets based on the values in the filters entered by the user
+		/// </summary>
+		/// <param name="workingSet">the workingset to be filtered</param>
+		/// <returns>true if the workingset matches the filter</returns>
+		private bool filterWorkingSet(WorkingSet workingSet)
+		{
+			bool pass = true;
+			if (pass && this.WorkingSetNameFilter.TextLength > 0)
+				pass = workingSet.name.StartsWith(this.WorkingSetNameFilter.Text,StringComparison.InvariantCultureIgnoreCase);
+			if (pass && this.workingSetLoginFilter.TextLength > 0)
+				pass = workingSet.user != null && workingSet.user.login.StartsWith(this.workingSetLoginFilter.Text,StringComparison.InvariantCultureIgnoreCase);
+			if (pass && this.workingSetFirstNameFilter.TextLength > 0)
+				pass = workingSet.user != null && workingSet.user.firstName.StartsWith(this.workingSetFirstNameFilter.Text,StringComparison.InvariantCultureIgnoreCase);
+			if (pass && this.workingSetLastNameFilter.TextLength > 0)
+				pass = workingSet.user != null && workingSet.user.lastName.StartsWith(this.workingSetLastNameFilter.Text,StringComparison.InvariantCultureIgnoreCase);
+			return pass;
 		}
 		private void initializeUserList()
 		{
@@ -173,7 +195,7 @@ namespace EAWorksetSharing
 				foreach (ListViewItem userItem in this.userList.CheckedItems) 
 				{
 					User user = (User)userItem.Tag;
-					workingSet.copyToUser(user);
+					workingSet.copyToUser(user,this.overWriteCheck.Checked);
 				}
 			}
 		}
@@ -200,6 +222,27 @@ namespace EAWorksetSharing
 		void UserListColumnClick(object sender, ColumnClickEventArgs e)
 		{
 			ListViewColumnSorter.sortColumn((ListView)sender, e.Column);
+		}
+			
+		void WorkingSetNameFilterTextChanged(object sender, EventArgs e)
+		{
+			this.initializeWorkingSets();
+		}
+		
+		
+		void WorkingSetLoginFilterTextChanged(object sender, EventArgs e)
+		{
+			this.initializeWorkingSets();
+		}
+		
+		void WorkingSetFirstNameFilterTextChanged(object sender, EventArgs e)
+		{
+			this.initializeWorkingSets();
+		}
+		
+		void WorkingSetLastNameFilterTextChanged(object sender, EventArgs e)
+		{
+			this.initializeWorkingSets();
 		}
 	}
 }
