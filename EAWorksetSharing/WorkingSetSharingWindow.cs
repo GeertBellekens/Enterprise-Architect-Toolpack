@@ -27,9 +27,13 @@ namespace EAWorksetSharing
 			this.allWorkingSets = allWorkingSets;
 			this.allUsers = allUsers;
 			this.currentUser = currentUser;
-			
+			// initialize content
 			this.initializeWorkingSets();
 			this.initializeUserList();
+			// align filters
+			this.alignUserFilters();
+			this.alignWorkingSetFilters();
+			//check if we have a current user
 			if (this.currentUser == null)
 			{
 				this.meUserButton.Enabled = false;
@@ -40,7 +44,55 @@ namespace EAWorksetSharing
 			this.userList.ListViewItemSorter = new ListViewColumnSorter();
 			
 		}
-		
+		/// <summary>
+		/// align the user list filters with the columns
+		/// </summary>
+		private void alignUserFilters()
+		{
+			//adjust widths
+			int interSpace = 5;
+			this.userLoginFilter.Width = this.bottomAtZero(this.userLoginHeader.Width - interSpace);
+			this.userFirstNameFilter.Width =  this.bottomAtZero(this.userFirstNameHeader.Width - interSpace);
+			this.userLastNameFilter.Width = this.bottomAtZero(this.userLastNameHeader.Width - interSpace);
+			//adjust positions
+			this.userLoginFilter.Left = this.userList.Left;
+			this.userFirstNameFilter.Left = this.userLoginFilter.Left + userLoginHeader.Width;
+			this.userLastNameFilter.Left = this.userFirstNameFilter.Left + userFirstNameHeader.Width;
+			
+		}
+		/// <summary>
+		/// align the workingset filters with the columns
+		/// </summary>
+		private void alignWorkingSetFilters()
+		{
+			//adjust widths
+			int interSpace = 5;
+			this.WorkingSetNameFilter.Width = this.bottomAtZero(this.workingSetHeader.Width - interSpace);
+			this.workingSetLoginFilter.Width = this.bottomAtZero(this.loginHeader.Width - interSpace);
+			this.workingSetFirstNameFilter.Width =  this.bottomAtZero(this.firstNameHeader.Width - interSpace);
+			this.workingSetLastNameFilter.Width = this.bottomAtZero(this.lastNameHeader.Width - interSpace);
+			//adjust positions
+			this.WorkingSetNameFilter.Left = this.WorkingSetsList.Left;
+			this.workingSetLoginFilter.Left = this.WorkingSetNameFilter.Left + workingSetHeader.Width;
+			this.workingSetFirstNameFilter.Left = this.workingSetLoginFilter.Left + loginHeader.Width;
+			this.workingSetLastNameFilter.Left = this.workingSetFirstNameFilter.Left + firstNameHeader.Width;
+		}
+		/// <summary>
+		/// returns 0 if the width is negative
+		/// </summary>
+		/// <param name="width">a width</param>
+		/// <returns>0 if width is negative</returns>
+		private int bottomAtZero(int width)
+		{
+			if (width < 0)
+			{
+				return 0;
+			}
+			else
+			{
+				return width;
+			}
+		}
 		private void initializeWorkingSets()
 		{
 			//first clear all
@@ -89,6 +141,9 @@ namespace EAWorksetSharing
 				pass = workingSet.user != null && workingSet.user.lastName.StartsWith(this.workingSetLastNameFilter.Text,StringComparison.InvariantCultureIgnoreCase);
 			return pass;
 		}
+		/// <summary>
+		/// initialises the list of users
+		/// </summary>
 		private void initializeUserList()
 		{
 			//first clear all
@@ -96,14 +151,33 @@ namespace EAWorksetSharing
 			//then start adding the elements
 			foreach (User user in this.allUsers) 
 			{
-				ListViewItem item = new ListViewItem(user.login);
-				item.SubItems.Add(user.firstName);
-				item.SubItems.Add(user.lastName);
-				//set user as tag
-				item.Tag = user;
-				//add to list
-				this.userList.Items.Add(item);
+				if (this.filterUser(user))
+				{
+					ListViewItem item = new ListViewItem(user.login);
+					item.SubItems.Add(user.firstName);
+					item.SubItems.Add(user.lastName);
+					//set user as tag
+					item.Tag = user;
+					//add to list
+					this.userList.Items.Add(item);
+				}
 			}
+		}
+		/// <summary>
+		/// filters the given user agains the filters set on the gui
+		/// </summary>
+		/// <param name="user">the user to filter</param>
+		/// <returns>true if the user matches the filter</returns>
+		private bool filterUser(User user)
+		{
+			bool pass = true;
+			if (pass && this.userLoginFilter.TextLength > 0)
+				pass = user.login.StartsWith(this.userLoginFilter.Text,StringComparison.InvariantCultureIgnoreCase);
+			if (pass && this.userFirstNameFilter.TextLength > 0)
+				pass = user.firstName.StartsWith(this.userFirstNameFilter.Text,StringComparison.InvariantCultureIgnoreCase);
+			if (pass && this.userLastNameFilter.TextLength > 0)
+				pass = user.lastName.StartsWith(this.userLastNameFilter.Text,StringComparison.InvariantCultureIgnoreCase);
+			return pass;
 		}
 		
 		
@@ -243,6 +317,32 @@ namespace EAWorksetSharing
 		void WorkingSetLastNameFilterTextChanged(object sender, EventArgs e)
 		{
 			this.initializeWorkingSets();
+		}
+		
+		void UserLoginFilterTextChanged(object sender, EventArgs e)
+		{
+			this.initializeUserList();
+		}
+		
+		void UserFirstNameFilterTextChanged(object sender, EventArgs e)
+		{
+			this.initializeUserList();
+		}
+		
+		void UserLastNameFilterTextChanged(object sender, EventArgs e)
+		{
+			this.initializeUserList();
+		}
+		
+		
+		void WorkingSetsListColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+		{
+			this.alignWorkingSetFilters();
+		}
+		
+		void UserListColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+		{
+			this.alignUserFilters();
 		}
 	}
 }

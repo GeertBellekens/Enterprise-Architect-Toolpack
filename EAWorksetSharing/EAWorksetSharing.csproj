@@ -69,5 +69,13 @@
       <Name>UMLToolingFramework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Files" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\EAWorkingSetSharingIcon.ico" />
+    <None Include="Files\EAWorkingSetSharingIcon.pdn" />
+    <None Include="Files\Thumbs.db" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>
