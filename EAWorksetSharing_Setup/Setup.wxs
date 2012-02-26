@@ -3,11 +3,11 @@
 	<Product Id="*"
 		Name="EA Workingset Sharing"
 		Language="1033"
-		Version="1.0.0.1"
+		Version="1.0.1.0"
 		UpgradeCode="481DBFF8-05E4-4C21-8BD1-D2CC169AB6AC"
 		Manufacturer="Geert Bellekens">
-		<Package Description="#Windows installer for EA Workingset Sharing 1.0.0.1"
-			Comments="Execute to install EA Workingset Sharing 1.0.0.1"
+		<Package Description="#Windows installer for EA Workingset Sharing 1.0.1.0"
+			Comments="Execute to install EA Workingset Sharing 1.0.1.0"
 			InstallerVersion="200"
 			Compressed="yes"/>
 		
@@ -20,17 +20,17 @@
 		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
 		
 		<Upgrade Id="481DBFF8-05E4-4C21-8BD1-D2CC169AB6AC">
-      	<UpgradeVersion Minimum="1.0.0.1"
+      	<UpgradeVersion Minimum="1.0.1.0"
                       IncludeMinimum="no"
                       OnlyDetect="yes"
                       Language="1033"
                       Property="NEWPRODUCTFOUND" />
-     	<!--<UpgradeVersion Minimum="1.0.0.0"
+     	<UpgradeVersion Minimum="1.0.0.0"
                       IncludeMinimum="yes"
-                      Maximum="1.0.0.1"
+                      Maximum="1.0.1.0"
                       IncludeMaximum="no"
                       Language="1033"
-                      Property="UPGRADEFOUND" />-->
+                      Property="UPGRADEFOUND" />
     	</Upgrade>
 		
 		<!-- Installation directory and files are defined in Files.wxs -->
@@ -53,6 +53,19 @@
 			WixUI_Minimal is appropriate when your product has no optional 
 			features.
  		-->
-		<UIRef Id="WixUI_Minimal"/>
+		<Property Id="WIXUI_INSTALLDIR">INSTALLDIR</Property>
+		<UIRef Id="WixUI_InstallDir"/>
+	    <!-- Prevent downgrading -->
+	    <CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
+	 
+	    <!-- Sequences -->
+	    <InstallExecuteSequence>
+	      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+	      <RemoveExistingProducts After="InstallValidate" />
+	    </InstallExecuteSequence>
+	   
+	    <InstallUISequence>
+	      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+	    </InstallUISequence>
 	</Product>
 </Wix>

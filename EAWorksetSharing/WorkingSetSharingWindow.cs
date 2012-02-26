@@ -104,6 +104,7 @@ namespace EAWorksetSharing
 				if (filterWorkingSet(workingSet))
 				{
 					ListViewItem item = new ListViewItem(workingSet.name);
+					item.ImageIndex = 0;
 					if (workingSet.user != null)
 					{
 						item.SubItems.Add(workingSet.user.login);
@@ -154,6 +155,7 @@ namespace EAWorksetSharing
 				if (this.filterUser(user))
 				{
 					ListViewItem item = new ListViewItem(user.login);
+					item.ImageIndex = 1;
 					item.SubItems.Add(user.firstName);
 					item.SubItems.Add(user.lastName);
 					//set user as tag

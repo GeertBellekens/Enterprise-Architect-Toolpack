@@ -36,6 +36,7 @@ namespace EAWorksetSharing
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkingSetSharingWindow));
 			this.allWorkingSetsButton = new System.Windows.Forms.Button();
 			this.nonWorkingSetsButton = new System.Windows.Forms.Button();
@@ -63,6 +64,7 @@ namespace EAWorksetSharing
 			this.userFirstNameFilter = new System.Windows.Forms.TextBox();
 			this.userLastNameFilter = new System.Windows.Forms.TextBox();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
+			this.iconsImageList = new System.Windows.Forms.ImageList(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
 			this.splitContainer.Panel2.SuspendLayout();
@@ -149,6 +151,7 @@ namespace EAWorksetSharing
 			this.WorkingSetsList.Location = new System.Drawing.Point(8, 39);
 			this.WorkingSetsList.Name = "WorkingSetsList";
 			this.WorkingSetsList.Size = new System.Drawing.Size(405, 369);
+			this.WorkingSetsList.SmallImageList = this.iconsImageList;
 			this.WorkingSetsList.TabIndex = 16;
 			this.WorkingSetsList.UseCompatibleStateImageBehavior = false;
 			this.WorkingSetsList.View = System.Windows.Forms.View.Details;
@@ -187,6 +190,7 @@ namespace EAWorksetSharing
 			this.userList.Location = new System.Drawing.Point(3, 39);
 			this.userList.Name = "userList";
 			this.userList.Size = new System.Drawing.Size(351, 369);
+			this.userList.SmallImageList = this.iconsImageList;
 			this.userList.TabIndex = 17;
 			this.userList.UseCompatibleStateImageBehavior = false;
 			this.userList.View = System.Windows.Forms.View.Details;
@@ -328,6 +332,13 @@ namespace EAWorksetSharing
 			this.splitContainer.SplitterDistance = 416;
 			this.splitContainer.TabIndex = 18;
 			// 
+			// iconsImageList
+			// 
+			this.iconsImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconsImageList.ImageStream")));
+			this.iconsImageList.TransparentColor = System.Drawing.Color.Transparent;
+			this.iconsImageList.Images.SetKeyName(0, "WorkingSetIcon.png");
+			this.iconsImageList.Images.SetKeyName(1, "UserIcon.png");
+			// 
 			// WorkingSetSharingWindow
 			// 
 			this.AcceptButton = this.copyButton;
@@ -351,6 +362,7 @@ namespace EAWorksetSharing
 			this.splitContainer.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ImageList iconsImageList;
 		private System.Windows.Forms.SplitContainer splitContainer;
 		private System.Windows.Forms.TextBox userLastNameFilter;
 		private System.Windows.Forms.TextBox userFirstNameFilter;
