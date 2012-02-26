@@ -49,6 +49,7 @@ namespace EAWorksetSharing
 			this.loginHeader = new System.Windows.Forms.ColumnHeader();
 			this.firstNameHeader = new System.Windows.Forms.ColumnHeader();
 			this.lastNameHeader = new System.Windows.Forms.ColumnHeader();
+			this.iconsImageList = new System.Windows.Forms.ImageList(this.components);
 			this.userList = new System.Windows.Forms.ListView();
 			this.userLoginHeader = new System.Windows.Forms.ColumnHeader();
 			this.userFirstNameHeader = new System.Windows.Forms.ColumnHeader();
@@ -64,7 +65,6 @@ namespace EAWorksetSharing
 			this.userFirstNameFilter = new System.Windows.Forms.TextBox();
 			this.userLastNameFilter = new System.Windows.Forms.TextBox();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
-			this.iconsImageList = new System.Windows.Forms.ImageList(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
 			this.splitContainer.Panel2.SuspendLayout();
@@ -166,6 +166,7 @@ namespace EAWorksetSharing
 			// loginHeader
 			// 
 			this.loginHeader.Text = "Login";
+			this.loginHeader.Width = 68;
 			// 
 			// firstNameHeader
 			// 
@@ -176,6 +177,13 @@ namespace EAWorksetSharing
 			// 
 			this.lastNameHeader.Text = "Last Name";
 			this.lastNameHeader.Width = 107;
+			// 
+			// iconsImageList
+			// 
+			this.iconsImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconsImageList.ImageStream")));
+			this.iconsImageList.TransparentColor = System.Drawing.Color.Transparent;
+			this.iconsImageList.Images.SetKeyName(0, "WorkingSetIcon.png");
+			this.iconsImageList.Images.SetKeyName(1, "UserIcon.png");
 			// 
 			// userList
 			// 
@@ -200,6 +208,7 @@ namespace EAWorksetSharing
 			// userLoginHeader
 			// 
 			this.userLoginHeader.Text = "Login";
+			this.userLoginHeader.Width = 85;
 			// 
 			// userFirstNameHeader
 			// 
@@ -331,13 +340,6 @@ namespace EAWorksetSharing
 			this.splitContainer.Size = new System.Drawing.Size(780, 445);
 			this.splitContainer.SplitterDistance = 416;
 			this.splitContainer.TabIndex = 18;
-			// 
-			// iconsImageList
-			// 
-			this.iconsImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconsImageList.ImageStream")));
-			this.iconsImageList.TransparentColor = System.Drawing.Color.Transparent;
-			this.iconsImageList.Images.SetKeyName(0, "WorkingSetIcon.png");
-			this.iconsImageList.Images.SetKeyName(1, "UserIcon.png");
 			// 
 			// WorkingSetSharingWindow
 			// 
