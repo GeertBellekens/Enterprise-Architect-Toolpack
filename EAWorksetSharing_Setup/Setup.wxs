@@ -1,0 +1,58 @@
+﻿<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*"
+		Name="EA Workingset Sharing"
+		Language="1033"
+		Version="1.0.0.1"
+		UpgradeCode="481DBFF8-05E4-4C21-8BD1-D2CC169AB6AC"
+		Manufacturer="Geert Bellekens">
+		<Package Description="#Windows installer for EA Workingset Sharing 1.0.0.1"
+			Comments="Execute to install EA Workingset Sharing 1.0.0.1"
+			InstallerVersion="200"
+			Compressed="yes"/>
+		
+		<Icon Id="eaworksetsharing_icon.exe" SourceFile="..\EAWorksetSharing\Files\EAWorkingSetSharingIcon.ico"/>
+		<Property Id="ARPPRODUCTICON" Value="eaworksetsharing_icon.exe" />
+		<!--
+			Source media for the installation. 
+ 			Specifies a single cab file to be embedded in the installer's .msi. 
+		-->
+		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
+		
+		<Upgrade Id="481DBFF8-05E4-4C21-8BD1-D2CC169AB6AC">
+      	<UpgradeVersion Minimum="1.0.0.1"
+                      IncludeMinimum="no"
+                      OnlyDetect="yes"
+                      Language="1033"
+                      Property="NEWPRODUCTFOUND" />
+     	<!--<UpgradeVersion Minimum="1.0.0.0"
+                      IncludeMinimum="yes"
+                      Maximum="1.0.0.1"
+                      IncludeMaximum="no"
+                      Language="1033"
+                      Property="UPGRADEFOUND" />-->
+    	</Upgrade>
+		
+		<!-- Installation directory and files are defined in Files.wxs -->
+		<Directory Id="TARGETDIR" Name="SourceDir"/>
+		
+		<Feature Id="Complete"
+		         Title="EA Workingset Sharing"
+		         Description="Add-in for Enterprise Architect to share workingsets with other users"
+		         Level="1">
+		         <ComponentRef Id="EAWorkingSetFiles"/>
+				 <ComponentRef Id="EAWorkingSetRegistryEntries"/>
+		</Feature>
+		
+		<!--
+ 			Using the Wix UI library.
+
+			WixUI_Minimal is the most basic of the WixUI stock dialog sets.
+ 			Its sole dialog combines the welcome and license-agreement 
+			dialogs and omits the feature customization dialog. 
+			WixUI_Minimal is appropriate when your product has no optional 
+			features.
+ 		-->
+		<UIRef Id="WixUI_Minimal"/>
+	</Product>
+</Wix>

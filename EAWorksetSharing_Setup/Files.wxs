@@ -1,0 +1,50 @@
+﻿<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="INSTALLDIR" Name="EAWorkingSetSharing">
+					<Component Id="EAWorkingSetFiles" Guid="1811BF3F-97D6-4BCF-BB57-AC548B27A87C" DiskId="1">
+						<File Id="LicenseFile" Name="license.rtf" Source="license.rtf" />
+						<File Id="EAAddinFramework.dll" Name="EAAddinFramework.dll" Source="..\EAWorksetSharing\bin\Debug\EAAddinFramework.dll" />
+						<File Id="EAAddinFramework.pdb" Name="EAAddinFramework.pdb" Source="..\EAWorksetSharing\bin\Debug\EAAddinFramework.pdb" />
+						<File Id="EAWorksetSharing.pdb" Name="EAWorksetSharing.pdb" Source="..\EAWorksetSharing\bin\Debug\EAWorksetSharing.pdb" />
+						<File Id="Interop.EA.dll" Name="Interop.EA.dll" Source="..\EAWorksetSharing\bin\Debug\Interop.EA.dll" />
+						<File Id="UMLToolingFramework.dll" Name="UMLToolingFramework.dll" Source="..\EAWorksetSharing\bin\Debug\UMLToolingFramework.dll" />
+						<File Id="UMLToolingFramework.pdb" Name="UMLToolingFramework.pdb" Source="..\EAWorksetSharing\bin\Debug\UMLToolingFramework.pdb" />
+						<Class Id="{73FEC7EE-0452-3E20-B2E5-5AE167955822}" Context="InprocServer32" Description="EAWorksetSharing.ListViewColumnSorter" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAWorksetSharing.ListViewColumnSorter" Description="EAWorksetSharing.ListViewColumnSorter" />
+		                </Class>
+		                <Class Id="{FB20B694-AD9D-3BA8-A205-05EAB6B8AB9F}" Context="InprocServer32" Description="EAWorksetSharing.EAWorksetSharingAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAWorksetSharing.EAWorksetSharingAddin" Description="EAWorksetSharing.EAWorksetSharingAddin" />
+		                </Class>
+		                <File Id="filD1E0D60728C9B92806201A9449BC02E0" Name="EAWorksetSharing.dll" KeyPath="yes" Source="..\EAWorksetSharing\bin\Debug\EAWorksetSharing.dll" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{73FEC7EE-0452-3E20-B2E5-5AE167955822}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{73FEC7EE-0452-3E20-B2E5-5AE167955822}\InprocServer32\1.0.4439.11287" Name="Class" Value="EAWorksetSharing.ListViewColumnSorter" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{73FEC7EE-0452-3E20-B2E5-5AE167955822}\InprocServer32\1.0.4439.11287" Name="Assembly" Value="EAWorksetSharing, Version=1.0.4439.11287, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{73FEC7EE-0452-3E20-B2E5-5AE167955822}\InprocServer32\1.0.4439.11287" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{73FEC7EE-0452-3E20-B2E5-5AE167955822}\InprocServer32\1.0.4439.11287" Name="CodeBase" Value="file:///[#filD1E0D60728C9B92806201A9449BC02E0]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{73FEC7EE-0452-3E20-B2E5-5AE167955822}\InprocServer32" Name="Class" Value="EAWorksetSharing.ListViewColumnSorter" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{73FEC7EE-0452-3E20-B2E5-5AE167955822}\InprocServer32" Name="Assembly" Value="EAWorksetSharing, Version=1.0.4439.11287, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{73FEC7EE-0452-3E20-B2E5-5AE167955822}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{73FEC7EE-0452-3E20-B2E5-5AE167955822}\InprocServer32" Name="CodeBase" Value="file:///[#filD1E0D60728C9B92806201A9449BC02E0]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FB20B694-AD9D-3BA8-A205-05EAB6B8AB9F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FB20B694-AD9D-3BA8-A205-05EAB6B8AB9F}\InprocServer32\1.0.4439.11287" Name="Class" Value="EAWorksetSharing.EAWorksetSharingAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FB20B694-AD9D-3BA8-A205-05EAB6B8AB9F}\InprocServer32\1.0.4439.11287" Name="Assembly" Value="EAWorksetSharing, Version=1.0.4439.11287, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FB20B694-AD9D-3BA8-A205-05EAB6B8AB9F}\InprocServer32\1.0.4439.11287" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FB20B694-AD9D-3BA8-A205-05EAB6B8AB9F}\InprocServer32\1.0.4439.11287" Name="CodeBase" Value="file:///[#filD1E0D60728C9B92806201A9449BC02E0]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FB20B694-AD9D-3BA8-A205-05EAB6B8AB9F}\InprocServer32" Name="Class" Value="EAWorksetSharing.EAWorksetSharingAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FB20B694-AD9D-3BA8-A205-05EAB6B8AB9F}\InprocServer32" Name="Assembly" Value="EAWorksetSharing, Version=1.0.4439.11287, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FB20B694-AD9D-3BA8-A205-05EAB6B8AB9F}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FB20B694-AD9D-3BA8-A205-05EAB6B8AB9F}\InprocServer32" Name="CodeBase" Value="file:///[#filD1E0D60728C9B92806201A9449BC02E0]" Type="string" Action="write" />
+					</Component>
+					<Component Id="EAWorkingSetRegistryEntries" Guid="1299B86B-2A30-443D-A1C0-854D32B421DE" DiskId="1" >
+						<RegistryKey Root="HKCU" Key="Software\Sparx Systems\EAAddins\EAWorkingsetSharing" Action="createAndRemoveOnUninstall">
+							<RegistryValue Type="string" Value="EAWorksetSharing.EAWorksetSharingAddin" />
+						</RegistryKey>
+					</Component>
+
+				</Directory>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

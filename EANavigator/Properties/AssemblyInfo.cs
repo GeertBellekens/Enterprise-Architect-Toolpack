@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Bellekens IT")]
 [assembly: AssemblyProduct("EANavigator")]
-[assembly: AssemblyCopyright("Copyright © Geert Bellekens 2010-2011")]
+[assembly: AssemblyCopyright("Copyright © Geert Bellekens 2010-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
