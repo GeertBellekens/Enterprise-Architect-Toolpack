@@ -34,7 +34,7 @@ namespace EAWorksetSharing
 			}
 			else
 			{
-				return string.Empty;
+				return null;
 			}
 		}
 		
