@@ -411,7 +411,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			}
 		}else
 		{
-			MessageBox.Show("Clipboard does nog contain text." + Environment.NewLine + "Please selecte a valid FQN");
+			MessageBox.Show("Clipboard does not contain text." + Environment.NewLine + "Please selecte a valid FQN");
 		}
 		
 	}
