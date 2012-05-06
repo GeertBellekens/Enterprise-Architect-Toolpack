@@ -227,20 +227,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <returns>the tooltip text</returns>
 		private string getToolTipText(UML.UMLItem element)
 		{
-			string tooltip;
-			if (element is UML.Diagrams.Diagram)
-			{
-				tooltip = "Doubleclick to open diagram";
-			}
-			else if (element is UML.Classes.Kernel.PrimitiveType)
-			{
-				tooltip = "Primitives cannot be selected";
-			}
-			else
-			{
-				tooltip = "Doubleclick to select item in project browser";
-			}
-			return tooltip;
+			return element.fqn;
 		}
 		/// <summary>
 		/// returns the name to show as node name for this element

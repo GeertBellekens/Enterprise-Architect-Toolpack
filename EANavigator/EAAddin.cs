@@ -196,8 +196,17 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		{
     			menuOptionsList.Add(menuDependentTaggedValues);
     		}
-    		
+    		filterMenuOptions(menuOptionsList);
     		return menuOptionsList;
+    }
+    private static void filterMenuOptions(List<string> menuOptionsList)
+    {
+    	for (int i = menuOptionsList.Count -1 ;i>= 0 ;i--)
+    	{
+    		string settingName = menuOptionsList[i]+"Enabled";
+    		//string configvalue = System.Configuration.ConfigurationSettings.AppSettings[settingName];
+    		string configvalue2 = System.Configuration.ConfigurationManager.AppSettings[settingName];
+    	}
     }
     /// <summary>
     /// creates a list of menuoptions based on the names of tagged values that reference another UML item
