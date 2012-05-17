@@ -46,6 +46,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int packageTaggedValuesIndex = 26;
 		private int parameterTagIndex = 27;
 		private int rootPackageIndex = 28;
+		private int communicationDiagramIndex = 29;
 			
 		private int maxNodes = 50;
 		
@@ -99,6 +100,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			else if (element is UML.Diagrams.SequenceDiagram)
 			{
 				imageIndex = this.sequenceDiagramIndex;
+			}
+			else if (element is UML.Diagrams.CommunicationDiagram)
+			{
+				imageIndex = this.communicationDiagramIndex;
 			}
 			else if( element is UML.Diagrams.Diagram)
 			{

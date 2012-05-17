@@ -91,6 +91,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(26, "Package_taggedValue.png");
 			this.NavigatorImageList.Images.SetKeyName(27, "ParameterTag.png");
 			this.NavigatorImageList.Images.SetKeyName(28, "Rootpackage.png");
+			this.NavigatorImageList.Images.SetKeyName(29, "CommunicationDiagram.png");
 			// 
 			// NavigatorControl
 			// 

@@ -173,7 +173,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		{
     			menuOptionsList.Add(getTypeMenuName(element));
     		}
-    		else if (element is UML.Diagrams.SequenceDiagram)
+    		else if (element is UML.Diagrams.SequenceDiagram
+    		        || element is UML.Diagrams.CommunicationDiagram)
     		{
     			menuOptionsList.Add(menuDiagramOperations);
     		}
@@ -521,9 +522,15 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	private List<UML.UMLItem> getDiagramOperations(UML.UMLItem parentElement)
 	{
 		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
-		UML.Diagrams.SequenceDiagram diagram = parentElement as UML.Diagrams.SequenceDiagram;
-		if (diagram != null)
+		
+		if (parentElement is UML.Diagrams.SequenceDiagram)
 		{
+			UML.Diagrams.SequenceDiagram diagram = (UML.Diagrams.SequenceDiagram)parentElement;
+			elementsToNavigate.AddRange(diagram.getCalledOperations());
+		}
+		else if (parentElement is UML.Diagrams.CommunicationDiagram)
+		{
+			UML.Diagrams.CommunicationDiagram diagram = (UML.Diagrams.CommunicationDiagram)parentElement;
 			elementsToNavigate.AddRange(diagram.getCalledOperations());
 		}
 		return elementsToNavigate;
