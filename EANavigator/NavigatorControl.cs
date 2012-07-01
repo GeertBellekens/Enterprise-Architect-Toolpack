@@ -47,6 +47,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int parameterTagIndex = 27;
 		private int rootPackageIndex = 28;
 		private int communicationDiagramIndex = 29;
+		private int enumerationIndex = 30;
+		private int dataTypeIndex = 31;
 			
 		private int maxNodes = 50;
 		
@@ -168,6 +170,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 				{
 					imageIndex = this.taggedValueIndex;
 				}
+			}
+			else if (element is UML.Classes.Kernel.Enumeration)
+			{
+				imageIndex = this.enumerationIndex;
+			}
+			else if (element is UML.Classes.Kernel.DataType)
+			{
+				imageIndex = this.dataTypeIndex;
 			}
 			else
 			{
