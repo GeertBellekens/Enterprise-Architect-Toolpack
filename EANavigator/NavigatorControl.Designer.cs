@@ -40,6 +40,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NavigatorControl));
 			this.NavigatorTree = new System.Windows.Forms.TreeView();
 			this.NavigatorImageList = new System.Windows.Forms.ImageList(this.components);
+			this.navigatorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.openPropertiesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.selectBrowserMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.navigatorContextMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// NavigatorTree
@@ -56,6 +60,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorTree.Size = new System.Drawing.Size(400, 220);
 			this.NavigatorTree.TabIndex = 0;
 			this.NavigatorTree.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
+			this.NavigatorTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeMouseClick);
 			this.NavigatorTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeMouseDoubleClick);
 			// 
 			// NavigatorImageList
@@ -95,6 +100,28 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(30, "Enumeration.png");
 			this.NavigatorImageList.Images.SetKeyName(31, "DataType.png");
 			// 
+			// navigatorContextMenu
+			// 
+			this.navigatorContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+									this.openPropertiesMenuItem,
+									this.selectBrowserMenuItem});
+			this.navigatorContextMenu.Name = "navigatorContextMenu";
+			this.navigatorContextMenu.Size = new System.Drawing.Size(204, 70);
+			// 
+			// openPropertiesMenuItem
+			// 
+			this.openPropertiesMenuItem.Name = "openPropertiesMenuItem";
+			this.openPropertiesMenuItem.Size = new System.Drawing.Size(203, 22);
+			this.openPropertiesMenuItem.Text = "Open Properties";
+			this.openPropertiesMenuItem.Click += new System.EventHandler(this.OpenPropertiesMenuItemClick);
+			// 
+			// selectBrowserMenuItem
+			// 
+			this.selectBrowserMenuItem.Name = "selectBrowserMenuItem";
+			this.selectBrowserMenuItem.Size = new System.Drawing.Size(203, 22);
+			this.selectBrowserMenuItem.Text = "Select in Project Browser";
+			this.selectBrowserMenuItem.Click += new System.EventHandler(this.SelectBrowserMenuItemClick);
+			// 
 			// NavigatorControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -102,9 +129,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.Controls.Add(this.NavigatorTree);
 			this.Name = "NavigatorControl";
 			this.Size = new System.Drawing.Size(407, 227);
+			this.navigatorContextMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ToolStripMenuItem selectBrowserMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem openPropertiesMenuItem;
+		private System.Windows.Forms.ContextMenuStrip navigatorContextMenu;
 		private System.Windows.Forms.ImageList NavigatorImageList;
 		private System.Windows.Forms.TreeView NavigatorTree;
+		
+
 	}
 }

@@ -475,10 +475,45 @@ namespace TSF.UmlToolingFramework.EANavigator
 			if (selectedElement != null)
 			{
 				selectedElement.open();
+				//selectedElement.openProperties();
 			}
 			if (NodeDoubleClick != null)
 			{
 				NodeDoubleClick(sender,e);
+			}
+		}
+		
+		void OpenPropertiesMenuItemClick(object sender, EventArgs e)
+		{
+			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			if (selectedElement != null)
+			{
+				selectedElement.openProperties();
+			}
+		}
+		
+		void NavigatorTreeNodeMouseClick(object sender, System.Windows.Forms.TreeNodeMouseClickEventArgs e)
+		{
+			//set the selected node also with right mouse click
+			if (e.Button == MouseButtons.Right)
+			{
+				this.NavigatorTree.SelectedNode = e.Node;
+			}
+			//show context menu
+			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			if (e.Button == MouseButtons.Right
+			    && selectedElement != null)
+			{
+				this.navigatorContextMenu.Show(this.NavigatorTree,e.Location);
+			}
+		}
+		
+		void SelectBrowserMenuItemClick(object sender, EventArgs e)
+		{
+			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			if (selectedElement != null)
+			{
+				selectedElement.open();
 			}
 		}
 	}
