@@ -49,6 +49,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int communicationDiagramIndex = 29;
 		private int enumerationIndex = 30;
 		private int dataTypeIndex = 31;
+		private int selectInProjectBrowserIndex = 32;
+		private int openPropertiesIndex = 33;
 			
 		private int maxNodes = 50;
 		
@@ -504,7 +506,41 @@ namespace TSF.UmlToolingFramework.EANavigator
 			if (e.Button == MouseButtons.Right
 			    && selectedElement != null)
 			{
+				//set enabled status
+				this.enableDisableContexMenu(selectedElement);
+				//then actually show the menu
 				this.navigatorContextMenu.Show(this.NavigatorTree,e.Location);
+			}
+		}
+		/// <summary>
+		/// enables or disabled the context menu items based on the type of the selected element
+		/// </summary>
+		/// <param name="selectedElement">the selected element</param>
+		private void enableDisableContexMenu(UML.UMLItem selectedElement)
+		{
+			//both options should be disabled for connectors, 
+			if (selectedElement is UML.Classes.Kernel.Relationship)
+			{
+				this.setContextMenuItemsEnabled(false);
+			}
+			//or for tagged values on connectors because we can't open their properties dialog anyway.
+			else if (selectedElement is UML.Profiles.TaggedValue
+			         && ((UML.Profiles.TaggedValue)selectedElement).owner is UML.Classes.Kernel.Relationship)
+			{
+				this.setContextMenuItemsEnabled(false);
+			}
+			//standard should be enabled.
+			else
+			{
+				this.setContextMenuItemsEnabled(true);
+			}
+			    
+		}
+		private void setContextMenuItemsEnabled(bool enabled)
+		{
+			foreach (ToolStripMenuItem menuItem in this.navigatorContextMenu.Items) 
+			{
+				menuItem.Enabled = enabled;	
 			}
 		}
 		

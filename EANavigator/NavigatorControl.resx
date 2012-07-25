@@ -125,7 +125,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAABQ
-        TgAAAk1TRnQBSQFMAgEBIAEAAWABAAFgAQABEAEAARABAAT/AREBAAj/AUIBTQE2BwABNgMAASgDAAFA
+        TgAAAk1TRnQBSQFMAgEBIAEAAXABAAFwAQABEAEAARABAAT/AREBAAj/AUIBTQE2BwABNgMAASgDAAFA
         AwABkAMAAQEBAAEQBgABSP8A/wD/AP8A/wD/AP8A/wAkAAEpASUBKQElASkBJQEpASUBKQElASkBJQEp
         ASUBKQElASkBJQEpASUBKQElaAABjAExAc4BOQHOATkBzgE5Ac4BOQGMATEBnAFzAYwBMQHOATkBzgE5
         Ac4BOQEpASVEAAGZARkBmQEZAZkBGQGZARkBmQEZAZkBGQGZARkBmQEZAZkBGQGZARkBmQEZDAABjAEx
@@ -465,4 +465,24 @@
   <metadata name="navigatorContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>166, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="openPropertiesMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wQAADsEBuJFr7QAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAA3klEQVQ4T5WT
+        yw2EMAxEXQqluBRKSR2ccto6OC9XCqCElSjAm8lqIm/i/YA0SnB44w8gOa/mldJq1DyrRdr33UTEVNUE
+        8HmegwAeRxriiOEMBtu2xQaEsdIcIIXYm4FvgbCqVID3hHNOpeVUDZZlMUG/zNLDMMHDiHPFHvE2Axp4
+        GIaE/Yo9VK7Cv0xaBczgB+rhaV4rSA0G0ZtgJaiyN2hGOPgE3+4Pg/4ymCa1XoAR+8vAV8HMzF4NipGf
+        wdBCVAHBnwY+o8/q/4uvFWCQobq5hC1EwSux9mFcgfyzT6NjwhD8eVarAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="selectBrowserMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wQAADsEBuJFr7QAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAm0lEQVQ4T8WT
+        wQ2AIAxFGYVRGMVRmIMBnIOz05gwQLVNSkqhQsLBQ0+///3mow4A3M4Mzd6Hl7kG7gBsnkFYbwDS9AWQ
+        IRWgDRZAhxBgdi73MQpxKSVAgYeB8kzWcFeXS+mlFIgxQzgygWSipfEOAdDMowGW1gAwGRfP6+4usLQO
+        gGYLMNIqQJY2eg1dcFfi6idr7W39SAj9H/AAalq3e12qMBcAAAAASUVORK5CYII=
+</value>
+  </data>
 </root>

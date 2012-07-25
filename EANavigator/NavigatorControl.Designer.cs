@@ -110,6 +110,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// openPropertiesMenuItem
 			// 
+			this.openPropertiesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openPropertiesMenuItem.Image")));
 			this.openPropertiesMenuItem.Name = "openPropertiesMenuItem";
 			this.openPropertiesMenuItem.Size = new System.Drawing.Size(203, 22);
 			this.openPropertiesMenuItem.Text = "Open Properties";
@@ -117,6 +118,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// selectBrowserMenuItem
 			// 
+			this.selectBrowserMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("selectBrowserMenuItem.Image")));
 			this.selectBrowserMenuItem.Name = "selectBrowserMenuItem";
 			this.selectBrowserMenuItem.Size = new System.Drawing.Size(203, 22);
 			this.selectBrowserMenuItem.Text = "Select in Project Browser";
