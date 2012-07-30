@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using UML=TSF.UmlToolingFramework.UML;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace TSF.UmlToolingFramework.EANavigator
 {
@@ -49,11 +50,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int communicationDiagramIndex = 29;
 		private int enumerationIndex = 30;
 		private int dataTypeIndex = 31;
-		private int selectInProjectBrowserIndex = 32;
-		private int openPropertiesIndex = 33;
+
 			
 		private int maxNodes = 50;
 		
+		public NavigatorSettings settings {get;set;}
 		
 		public NavigatorControl()
 		{
@@ -471,18 +472,25 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 		}
 		public event TreeNodeMouseClickEventHandler NodeDoubleClick;
+		
 		void NavigatorTreeNodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			UML.UMLItem selectedElement = e.Node.Tag as UML.UMLItem;
 			if (selectedElement != null)
 			{
-				selectedElement.open();
-				//selectedElement.openProperties();
+				if (this.settings.isProjectBrowserDefaultAction())
+				{
+					selectedElement.open();
+				}
+				else 
+				{
+					selectedElement.openProperties();
+				}
 			}
-			if (NodeDoubleClick != null)
-			{
-				NodeDoubleClick(sender,e);
-			}
+//			if (NodeDoubleClick != null)
+//			{
+//				NodeDoubleClick(sender,e);
+//			}
 		}
 		
 		void OpenPropertiesMenuItemClick(object sender, EventArgs e)

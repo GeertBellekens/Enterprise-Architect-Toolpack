@@ -8,7 +8,7 @@
     <ProjectGuid>{2BFBE8B8-528D-4844-BE0D-ECC68FE1CD1D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EANavigator</RootNamespace>
+    <RootNamespace>TSF.UmlToolingFramework.EANavigator</RootNamespace>
     <AssemblyName>EANavigator</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -74,6 +75,7 @@
     <Compile Include="NavigatorList.Designer.cs">
       <DependentUpon>NavigatorList.cs</DependentUpon>
     </Compile>
+    <Compile Include="NavigatorSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -111,7 +113,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="EANavigator.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Files\OpenProperties.png" />
     <None Include="Files\SelectInProjectBrowser.png" />
   </ItemGroup>

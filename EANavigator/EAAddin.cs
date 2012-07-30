@@ -37,12 +37,14 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     private UTF_EA.Model model = null;
     private NavigatorControl navigatorControl;
     private bool fullyLoaded = false;
+    internal NavigatorSettings settings {get;set;}
 
 	public EAAddin():base()
 	{
 		this.menuHeader = menuName;
 		
 		this.menuOptions = new string[] {menuOperation,menuDiagrams};
+		this.settings = new NavigatorSettings();
 		
 	}
 	public override void EA_OnPostInitialized(EA.Repository Repository)
@@ -372,6 +374,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
                 this.navigatorControl = this.model.addWindow("Navigate", "TSF.UmlToolingFramework.EANavigator.NavigatorControl") as NavigatorControl;
                 this.navigatorControl.BeforeExpand += new TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
                 this.navigatorControl.NodeDoubleClick += new TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeDoubleClick);
+                this.navigatorControl.settings = this.settings;
             }
             if (this.navigatorControl != null && this.model != null)
             {
@@ -535,12 +538,17 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		}
 		return elementsToNavigate;
 	}
-    // opens all  diagrams
+    /// <summary>
+    /// get all using diagrams for the given element 
+    /// currently only used for operations
+    /// </summary>
+    /// <param name="parentElement">the element</param>
+    /// <returns>the diagrams using the given element</returns>
     private List<UML.UMLItem> getDiagrams(UML.UMLItem parentElement)
     {
         List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
     	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation(parentElement);
-        // if the selectedOperation is null we try to get the operation from the selected message
+        
         if (selectedOperation != null)
         {
         	elementsToNavigate.AddRange( selectedOperation.getUsingDiagrams<UML.Diagrams.Diagram>());
@@ -689,7 +697,11 @@ public class EAAddin:EAAddinFramework.EAAddinBase
        return selectedOperation;
    }
    
-   
+   /// <summary>
+   /// When a diagram is doubleclicked we need to set it a the main element
+   /// </summary>
+   /// <param name="sender">sender</param>
+   /// <param name="e">parameters</param>
    void NavigatorTreeNodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
    {
    		UML.UMLItem selectedElement = e.Node.Tag as UML.UMLItem;
@@ -698,7 +710,11 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    			this.navigatorControl.setElement(selectedElement);
    		}
    }
-   
+   /// <summary>
+   /// gets the elements of a package right before expanding
+   /// </summary>
+   /// <param name="sender">sender</param>
+   /// <param name="e">parameters</param>
    void NavigatorTreeBeforeExpand(object sender, TreeViewCancelEventArgs e)
    {
    	if (e.Node.Tag == null)
