@@ -43,7 +43,17 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.openPropertiesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.selectBrowserMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.navigatorToolStrip = new System.Windows.Forms.ToolStrip();
+			this.projectBrowserButton = new System.Windows.Forms.ToolStripButton();
+			this.propertiesButton = new System.Windows.Forms.ToolStripButton();
+			this.settingsButton = new System.Windows.Forms.ToolStripButton();
+			this.aboutButton = new System.Windows.Forms.ToolStripButton();
+			this.navigatorToolStripContainer = new System.Windows.Forms.ToolStripContainer();
 			this.navigatorContextMenu.SuspendLayout();
+			this.navigatorToolStrip.SuspendLayout();
+			this.navigatorToolStripContainer.TopToolStripPanel.SuspendLayout();
+			this.navigatorToolStripContainer.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// NavigatorTree
@@ -53,11 +63,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.NavigatorTree.ImageIndex = 0;
 			this.NavigatorTree.ImageList = this.NavigatorImageList;
-			this.NavigatorTree.Location = new System.Drawing.Point(4, 4);
+			this.NavigatorTree.Location = new System.Drawing.Point(0, 28);
 			this.NavigatorTree.Name = "NavigatorTree";
 			this.NavigatorTree.SelectedImageIndex = 0;
 			this.NavigatorTree.ShowNodeToolTips = true;
-			this.NavigatorTree.Size = new System.Drawing.Size(400, 220);
+			this.NavigatorTree.Size = new System.Drawing.Size(404, 196);
 			this.NavigatorTree.TabIndex = 0;
 			this.NavigatorTree.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
 			this.NavigatorTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeMouseClick);
@@ -104,7 +114,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			this.navigatorContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.openPropertiesMenuItem,
-									this.selectBrowserMenuItem});
+									this.selectBrowserMenuItem,
+									this.optionsMenuItem});
 			this.navigatorContextMenu.Name = "navigatorContextMenu";
 			this.navigatorContextMenu.Size = new System.Drawing.Size(204, 70);
 			// 
@@ -124,21 +135,120 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.selectBrowserMenuItem.Text = "Select in Project Browser";
 			this.selectBrowserMenuItem.Click += new System.EventHandler(this.SelectBrowserMenuItemClick);
 			// 
+			// optionsMenuItem
+			// 
+			this.optionsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("optionsMenuItem.Image")));
+			this.optionsMenuItem.Name = "optionsMenuItem";
+			this.optionsMenuItem.Size = new System.Drawing.Size(203, 22);
+			this.optionsMenuItem.Text = "Options";
+			this.optionsMenuItem.Click += new System.EventHandler(this.OptionsMenuItemClick);
+			// 
+			// navigatorToolStrip
+			// 
+			this.navigatorToolStrip.Dock = System.Windows.Forms.DockStyle.None;
+			this.navigatorToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.navigatorToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+									this.projectBrowserButton,
+									this.propertiesButton,
+									this.settingsButton,
+									this.aboutButton});
+			this.navigatorToolStrip.Location = new System.Drawing.Point(5, 0);
+			this.navigatorToolStrip.Name = "navigatorToolStrip";
+			this.navigatorToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.navigatorToolStrip.Size = new System.Drawing.Size(95, 25);
+			this.navigatorToolStrip.TabIndex = 1;
+			// 
+			// projectBrowserButton
+			// 
+			this.projectBrowserButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.projectBrowserButton.Image = ((System.Drawing.Image)(resources.GetObject("projectBrowserButton.Image")));
+			this.projectBrowserButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.projectBrowserButton.Name = "projectBrowserButton";
+			this.projectBrowserButton.Size = new System.Drawing.Size(23, 22);
+			this.projectBrowserButton.ToolTipText = "Select in project Browser";
+			this.projectBrowserButton.Click += new System.EventHandler(this.ProjectBrowserButtonClick);
+			// 
+			// propertiesButton
+			// 
+			this.propertiesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.propertiesButton.Image = ((System.Drawing.Image)(resources.GetObject("propertiesButton.Image")));
+			this.propertiesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.propertiesButton.Name = "propertiesButton";
+			this.propertiesButton.Size = new System.Drawing.Size(23, 22);
+			this.propertiesButton.ToolTipText = "Open properties";
+			this.propertiesButton.Click += new System.EventHandler(this.PropertiesButtonClick);
+			// 
+			// settingsButton
+			// 
+			this.settingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("settingsButton.Image")));
+			this.settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.settingsButton.Name = "settingsButton";
+			this.settingsButton.Size = new System.Drawing.Size(23, 22);
+			this.settingsButton.ToolTipText = "Settings";
+			this.settingsButton.Click += new System.EventHandler(this.SettingsButtonClick);
+			// 
+			// aboutButton
+			// 
+			this.aboutButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.aboutButton.Image = ((System.Drawing.Image)(resources.GetObject("aboutButton.Image")));
+			this.aboutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.aboutButton.Name = "aboutButton";
+			this.aboutButton.Size = new System.Drawing.Size(23, 22);
+			this.aboutButton.ToolTipText = "About EA Navigator";
+			this.aboutButton.Click += new System.EventHandler(this.AboutButtonClick);
+			// 
+			// navigatorToolStripContainer
+			// 
+			this.navigatorToolStripContainer.BottomToolStripPanelVisible = false;
+			// 
+			// navigatorToolStripContainer.ContentPanel
+			// 
+			this.navigatorToolStripContainer.ContentPanel.Size = new System.Drawing.Size(407, 2);
+			this.navigatorToolStripContainer.Dock = System.Windows.Forms.DockStyle.Top;
+			this.navigatorToolStripContainer.LeftToolStripPanelVisible = false;
+			this.navigatorToolStripContainer.Location = new System.Drawing.Point(0, 0);
+			this.navigatorToolStripContainer.Name = "navigatorToolStripContainer";
+			this.navigatorToolStripContainer.RightToolStripPanelVisible = false;
+			this.navigatorToolStripContainer.Size = new System.Drawing.Size(407, 27);
+			this.navigatorToolStripContainer.TabIndex = 1;
+			this.navigatorToolStripContainer.Text = "toolStripContainer1";
+			// 
+			// navigatorToolStripContainer.TopToolStripPanel
+			// 
+			this.navigatorToolStripContainer.TopToolStripPanel.Controls.Add(this.navigatorToolStrip);
+			// 
 			// NavigatorControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.navigatorToolStripContainer);
 			this.Controls.Add(this.NavigatorTree);
 			this.Name = "NavigatorControl";
 			this.Size = new System.Drawing.Size(407, 227);
 			this.navigatorContextMenu.ResumeLayout(false);
+			this.navigatorToolStrip.ResumeLayout(false);
+			this.navigatorToolStrip.PerformLayout();
+			this.navigatorToolStripContainer.TopToolStripPanel.ResumeLayout(false);
+			this.navigatorToolStripContainer.TopToolStripPanel.PerformLayout();
+			this.navigatorToolStripContainer.ResumeLayout(false);
+			this.navigatorToolStripContainer.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ToolStripContainer navigatorToolStripContainer;
+		private System.Windows.Forms.ToolStripButton aboutButton;
+		private System.Windows.Forms.ToolStripButton settingsButton;
+		private System.Windows.Forms.ToolStripButton propertiesButton;
+		private System.Windows.Forms.ToolStripButton projectBrowserButton;
+		private System.Windows.Forms.ToolStrip navigatorToolStrip;
+		private System.Windows.Forms.ToolStripMenuItem optionsMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem selectBrowserMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem openPropertiesMenuItem;
 		private System.Windows.Forms.ContextMenuStrip navigatorContextMenu;
 		private System.Windows.Forms.ImageList NavigatorImageList;
 		private System.Windows.Forms.TreeView NavigatorTree;
+		
+
 		
 
 	}

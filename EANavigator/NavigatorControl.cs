@@ -478,13 +478,13 @@ namespace TSF.UmlToolingFramework.EANavigator
 			UML.UMLItem selectedElement = e.Node.Tag as UML.UMLItem;
 			if (selectedElement != null)
 			{
-				if (this.settings.isProjectBrowserDefaultAction())
+				if (this.settings.projectBrowserDefaultAction)
 				{
-					selectedElement.open();
+					this.selectInProjectBrowser();
 				}
 				else 
 				{
-					selectedElement.openProperties();
+					this.openProperties();
 				}
 			}
 //			if (NodeDoubleClick != null)
@@ -495,11 +495,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 		void OpenPropertiesMenuItemClick(object sender, EventArgs e)
 		{
-			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
-			if (selectedElement != null)
-			{
-				selectedElement.openProperties();
-			}
+			this.openProperties();
 		}
 		
 		void NavigatorTreeNodeMouseClick(object sender, System.Windows.Forms.TreeNodeMouseClickEventArgs e)
@@ -552,13 +548,56 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 		}
 		
+		
 		void SelectBrowserMenuItemClick(object sender, EventArgs e)
+		{
+			this.selectInProjectBrowser();
+		}
+		
+		void OptionsMenuItemClick(object sender, EventArgs e)
+		{
+			this.showOptions();
+		}
+		private void openProperties()
+		{
+			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			if (selectedElement != null)
+			{
+				selectedElement.openProperties();
+			}
+		}
+		private void selectInProjectBrowser()
 		{
 			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
 			if (selectedElement != null)
 			{
 				selectedElement.open();
 			}
+		}
+		private void showOptions()
+		{
+			NavigatorSettingsForm optionsForm = new NavigatorSettingsForm(this.settings);
+			optionsForm.ShowDialog();
+		}
+		
+		void ProjectBrowserButtonClick(object sender, EventArgs e)
+		{
+			this.selectInProjectBrowser();
+		}
+		
+		void PropertiesButtonClick(object sender, EventArgs e)
+		{
+			this.openProperties();
+		}
+		
+		void SettingsButtonClick(object sender, EventArgs e)
+		{
+			this.showOptions();
+		}
+		
+		void AboutButtonClick(object sender, EventArgs e)
+		{
+			new AboutWindow().ShowDialog();
 		}
 	}
 }

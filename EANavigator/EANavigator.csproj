@@ -76,6 +76,10 @@
       <DependentUpon>NavigatorList.cs</DependentUpon>
     </Compile>
     <Compile Include="NavigatorSettings.cs" />
+    <Compile Include="NavigatorSettingsForm.cs" />
+    <Compile Include="NavigatorSettingsForm.Designer.cs">
+      <DependentUpon>NavigatorSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +91,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NavigatorList.resx">
       <DependentUpon>NavigatorList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NavigatorSettingsForm.resx">
+      <DependentUpon>NavigatorSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
