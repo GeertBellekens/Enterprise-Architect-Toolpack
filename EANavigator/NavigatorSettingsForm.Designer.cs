@@ -41,6 +41,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.projectBrowserRadioButton = new System.Windows.Forms.RadioButton();
 			this.okButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.showToolbarCheckBox = new System.Windows.Forms.CheckBox();
 			this.defaultActionGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -98,6 +99,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.CancelButtonClick);
 			// 
+			// showToolbarCheckBox
+			// 
+			this.showToolbarCheckBox.Location = new System.Drawing.Point(18, 99);
+			this.showToolbarCheckBox.Name = "showToolbarCheckBox";
+			this.showToolbarCheckBox.Size = new System.Drawing.Size(104, 24);
+			this.showToolbarCheckBox.TabIndex = 3;
+			this.showToolbarCheckBox.Text = "Show toolbar";
+			this.showToolbarCheckBox.UseVisualStyleBackColor = true;
+			this.showToolbarCheckBox.CheckedChanged += new System.EventHandler(this.ShowToolbarCheckBoxCheckedChanged);
+			// 
 			// NavigatorSettingsForm
 			// 
 			this.AcceptButton = this.okButton;
@@ -105,6 +116,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(284, 262);
+			this.Controls.Add(this.showToolbarCheckBox);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.okButton);
 			this.Controls.Add(this.defaultActionGroupBox);
@@ -113,6 +125,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.defaultActionGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.CheckBox showToolbarCheckBox;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button okButton;
 		private System.Windows.Forms.RadioButton propertiesRadioButton;

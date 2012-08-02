@@ -100,6 +100,25 @@ namespace TSF.UmlToolingFramework.EANavigator
 				}
 			}
 		}
+		public bool toolbarVisible
+		{
+			get
+			{
+				bool result;
+				if( bool.TryParse(this.currentConfig.AppSettings.Settings["toolbarVisible"].Value, out result))
+			   	{
+			   		return result;
+			   	}
+			    else 
+			  	{
+			   		return true;
+			   	}
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["toolbarVisible"].Value = value.ToString();
+			}
+		}
 		/// <summary>
 		/// saves the settings to the config file
 		/// </summary>

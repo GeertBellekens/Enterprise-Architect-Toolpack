@@ -54,7 +54,20 @@ namespace TSF.UmlToolingFramework.EANavigator
 			
 		private int maxNodes = 50;
 		
-		public NavigatorSettings settings {get;set;}
+		private NavigatorSettings _settings;
+		public NavigatorSettings settings 
+		{
+			get
+			{
+				return _settings;
+			}
+			
+			set
+			{
+				this._settings = value;
+				this.setToolbarVisibility();
+			}
+		}
 		
 		public NavigatorControl()
 		{
@@ -63,6 +76,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			//
 			InitializeComponent();
 
+		}
+		private void setToolbarVisibility()
+		{
+			this.toolbarVisible = settings.toolbarVisible;
 		}
 		/// <summary>
 		/// clears all nodes
@@ -578,6 +595,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			NavigatorSettingsForm optionsForm = new NavigatorSettingsForm(this.settings);
 			optionsForm.ShowDialog();
+			this.toolbarVisible = settings.toolbarVisible;
 		}
 		
 		void ProjectBrowserButtonClick(object sender, EventArgs e)
@@ -598,6 +616,43 @@ namespace TSF.UmlToolingFramework.EANavigator
 		void AboutButtonClick(object sender, EventArgs e)
 		{
 			new AboutWindow().ShowDialog();
+		}
+		public bool toolbarVisible
+		{
+			get
+			{
+				return this.navigatorToolStripContainer.Visible;
+			}
+			set
+			{
+				if (value)
+				{
+					this.navigatorToolStripContainer.Show();
+					//move the tree control down
+					this.NavigatorTree.Location =
+					new Point(this.NavigatorTree.Location.X,
+						          this.NavigatorTree.Location.Y + this.navigatorToolStripContainer.Size.Height);
+					//make it a litter smaller
+										this.NavigatorTree.Size = 
+						new Size(this.NavigatorTree.Size.Width,
+					                                   this.NavigatorTree.Size.Height - this.navigatorToolStripContainer.Size.Height);
+					//this.navigatorToolStrip.Show();
+				}
+				else 
+				{
+					this.navigatorToolStripContainer.Hide();
+					//move the tree control up.
+					this.NavigatorTree.Location = 
+					new Point(this.NavigatorTree.Location.X,
+						          this.NavigatorTree.Location.Y - this.navigatorToolStripContainer.Size.Height);
+					//make it a litter taller
+					this.NavigatorTree.Size = 
+						new Size(this.NavigatorTree.Size.Width,
+					                                   this.NavigatorTree.Size.Height + this.navigatorToolStripContainer.Size.Height);
+					//this.navigatorToolStrip.Hide();
+				}
+			}
+			
 		}
 	}
 }

@@ -217,6 +217,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// navigatorToolStripContainer.TopToolStripPanel
 			// 
 			this.navigatorToolStripContainer.TopToolStripPanel.Controls.Add(this.navigatorToolStrip);
+			this.navigatorToolStripContainer.Visible = false;
 			// 
 			// NavigatorControl
 			// 
