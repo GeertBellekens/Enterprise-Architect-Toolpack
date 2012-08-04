@@ -23,6 +23,7 @@
 		                    <ProgId Id="TSF.UmlToolingFramework.EANavigator.EAAddin" Description="TSF.UmlToolingFramework.EANavigator.EAAddin" />
 		                </Class>
 						<File Id="EANavigator.dll" Name="EANavigator.dll" KeyPath="yes" Source="..\EANavigator\bin\Debug\EANavigator.dll" />					
+						<File Id="EANavigator.dll.config" Name="EANavigator.dll.config" Source="..\EANavigator\bin\Debug\EANavigator.dll.config" />					
 						<RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
 		                <RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\InprocServer32\2.0.4356.7209" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.AboutWindow" Type="string" Action="write" />
 		                <RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\InprocServer32\2.0.4356.7209" Name="Assembly" Value="EANavigator, Version=2.0.4356.7209, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />

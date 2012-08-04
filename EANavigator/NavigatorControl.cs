@@ -625,7 +625,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 			set
 			{
-				if (value)
+				if (value&& !this.navigatorToolStripContainer.Visible)
 				{
 					this.navigatorToolStripContainer.Show();
 					//move the tree control down
@@ -638,7 +638,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 					                                   this.NavigatorTree.Size.Height - this.navigatorToolStripContainer.Size.Height);
 					//this.navigatorToolStrip.Show();
 				}
-				else 
+			else if (! value && this.navigatorToolStripContainer.Visible)
 				{
 					this.navigatorToolStripContainer.Hide();
 					//move the tree control up.

@@ -63,11 +63,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.NavigatorTree.ImageIndex = 0;
 			this.NavigatorTree.ImageList = this.NavigatorImageList;
-			this.NavigatorTree.Location = new System.Drawing.Point(0, 28);
+			this.NavigatorTree.Location = new System.Drawing.Point(0, 0);
 			this.NavigatorTree.Name = "NavigatorTree";
 			this.NavigatorTree.SelectedImageIndex = 0;
 			this.NavigatorTree.ShowNodeToolTips = true;
-			this.NavigatorTree.Size = new System.Drawing.Size(404, 196);
+			this.NavigatorTree.Size = new System.Drawing.Size(404, 224);
 			this.NavigatorTree.TabIndex = 0;
 			this.NavigatorTree.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
 			this.NavigatorTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeMouseClick);
