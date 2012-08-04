@@ -374,6 +374,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
                 this.navigatorControl = this.model.addWindow("Navigate", "TSF.UmlToolingFramework.EANavigator.NavigatorControl") as NavigatorControl;
                 this.navigatorControl.BeforeExpand += new TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
                 this.navigatorControl.NodeDoubleClick += new TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeDoubleClick);
+                this.navigatorControl.fqnButtonClick += new EventHandler(this.FqnButtonClick);
                 this.navigatorControl.settings = this.settings;
             }
             if (this.navigatorControl != null && this.model != null)
@@ -710,6 +711,15 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    			this.navigatorControl.setElement(selectedElement);
    		}
    }
+   /// <summary>
+   /// reacts to the vent that the FQN button is clicked in the EA NavigatorControl
+   /// </summary>
+   /// <param name="sender">sender</param>
+   /// <param name="e">arguments</param>
+   	void FqnButtonClick(object sender, EventArgs e)
+   	{
+   		this.selectFQN();
+	}
    /// <summary>
    /// gets the elements of a package right before expanding
    /// </summary>

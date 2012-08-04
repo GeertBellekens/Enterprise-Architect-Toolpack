@@ -654,5 +654,13 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 			
 		}
+		public event EventHandler fqnButtonClick;
+		void FqnButtonClick(object sender, EventArgs e)
+		{
+			if (this.fqnButton != null)
+			{
+				fqnButtonClick(sender,e);
+			}
+		}
 	}
 }
