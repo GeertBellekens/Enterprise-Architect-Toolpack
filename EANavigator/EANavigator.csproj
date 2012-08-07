@@ -65,6 +65,10 @@
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="EAAddin.cs" />
+    <Compile Include="FQNInputForm.cs" />
+    <Compile Include="FQNInputForm.Designer.cs">
+      <DependentUpon>FQNInputForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NavigatorControl.cs" />
     <Compile Include="NavigatorControl.Designer.cs">
       <DependentUpon>NavigatorControl.cs</DependentUpon>
@@ -85,6 +89,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FQNInputForm.resx">
+      <DependentUpon>FQNInputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NavigatorControl.resx">
       <DependentUpon>NavigatorControl.cs</DependentUpon>

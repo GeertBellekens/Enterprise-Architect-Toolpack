@@ -406,28 +406,66 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     /// </summary>
 	private void selectFQN()
 	{
-		UML.UMLItem item = null;
+		string fqn = string.Empty;
 		if(Clipboard.ContainsText())
 		{
-		   
-			item = this.model.getItemFromFQN(Clipboard.GetText());
-			if (item != null)
+			string clipboardText = Clipboard.GetText().Trim();
+			if (this.looksLikeFQN(clipboardText))
 			{
-				item.select();
-			} else
-			{
-				string clipboardText = Clipboard.GetText();
-				if (clipboardText.Length > 255 )
-				{
-					clipboardText = clipboardText.Substring(0,255);
-				}
-				MessageBox.Show("Could not find item with the string found on your clipboard:" + Environment.NewLine + clipboardText,"EA Navigator: FQN not found",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+				fqn = clipboardText;
 			}
-		}else
+		}
+		if (fqn == string.Empty)
 		{
-			MessageBox.Show("Clipboard does not contain text." + Environment.NewLine + "Please selecte a valid FQN");
+			FQNInputForm fqnForm = new FQNInputForm();
+			if (fqnForm.ShowDialog() == DialogResult.OK)
+			{
+				fqn = fqnForm.fqn;
+			}
+		}
+		if (fqn != string.Empty)
+		{
+			this.selectFQN(fqn);
 		}
 		
+	}
+	private void selectFQN(string fqn)
+	{
+		UML.UMLItem item = null;
+		item = this.model.getItemFromFQN(fqn);
+		
+		if (item != null)
+		{
+			item.select();
+		} 
+		else
+		{
+			string messageText;
+			if (fqn.Length > 255 )
+			{
+				messageText = fqn.Substring(0,255);
+			}
+			else
+			{
+				messageText = fqn;
+			}
+			MessageBox.Show("Could not find item with the string:" 
+			                + Environment.NewLine + messageText,
+			                "EA Navigator: FQN not found",
+			                MessageBoxButtons.OK,MessageBoxIcon.Warning);
+		}
+	}
+	private bool looksLikeFQN(string fqnCandidate)
+	{
+		bool looksFQN;
+		// FQN should contain at least one "."
+		looksFQN = fqnCandidate.Contains(".");
+		// FQN should not contain any newlines
+		if (looksFQN)
+		{
+			looksFQN = ! fqnCandidate.Contains(Environment.NewLine);
+		}
+		return looksFQN;
 	}
 	/// <summary>
 	/// returns the owner of the parentElement
