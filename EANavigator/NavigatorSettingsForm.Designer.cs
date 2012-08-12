@@ -36,6 +36,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NavigatorSettingsForm));
 			this.defaultActionGroupBox = new System.Windows.Forms.GroupBox();
 			this.propertiesRadioButton = new System.Windows.Forms.RadioButton();
 			this.projectBrowserRadioButton = new System.Windows.Forms.RadioButton();
@@ -120,8 +121,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.okButton);
 			this.Controls.Add(this.defaultActionGroupBox);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(300, 300);
 			this.Name = "NavigatorSettingsForm";
-			this.Text = "NavigatorSettingsForm";
+			this.Text = "EA Navigator Settings";
 			this.defaultActionGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}

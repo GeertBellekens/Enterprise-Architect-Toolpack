@@ -13,14 +13,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 {
     public partial class NavigatorList : Form
     {
+    	private UML.UMLItem context;
     	/// <summary>
     	/// createas a new navigatorList based on the given list of UML Items
     	/// </summary>
     	/// <param name="items">the items to show</param>
-    	public NavigatorList(List<UML.UMLItem> items):base()
+    	public NavigatorList(List<UML.UMLItem> items, UML.UMLItem context):base()
         {
     		if (items.Count > 0)
     		{
+    			this.context = context;
     			if (items[0] is UML.Diagrams.Diagram)
     			{
     				this.InitDiagrams(items.Cast<UML.Diagrams.Diagram>().ToList());
@@ -125,6 +127,11 @@ namespace TSF.UmlToolingFramework.EANavigator
         		if (null != element)
         		{
                 	element.open();
+        		}
+        		//if the element is a diagram then also select the context
+        		if (element is UML.Diagrams.Diagram)
+        		{
+        			((UML.Diagrams.Diagram)element).selectItem(context);
         		}
             }
         }

@@ -154,7 +154,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.Controls.Add(this.VersionLabel);
 			this.Controls.Add(this.ApplicationTitle);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "AboutWindow";
+			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.Text = "About EA Navigator";
 			((System.ComponentModel.ISupportInitialize)(this.NavigatorLogo)).EndInit();
 			this.ResumeLayout(false);

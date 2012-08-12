@@ -275,7 +275,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		            }
 		            else if (elementsToNavigate.Count > 1)
 		            {
-		            	NavigatorList dialog = new NavigatorList(elementsToNavigate);
+		            	NavigatorList dialog = new NavigatorList(elementsToNavigate,selectedItem);
 		        		dialog.Show();
 		            }
 		            else
@@ -449,10 +449,13 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			{
 				messageText = fqn;
 			}
-			MessageBox.Show("Could not find item with the string:" 
-			                + Environment.NewLine + messageText,
-			                "EA Navigator: FQN not found",
-			                MessageBoxButtons.OK,MessageBoxIcon.Warning);
+			FQNInputForm fqnForm = new FQNInputForm("Could not find item with the string:" 
+			                + Environment.NewLine + messageText);
+			if (fqnForm.ShowDialog() == DialogResult.OK
+			   && fqnForm.fqn.Length > 0)
+			{
+				this.selectFQN(fqnForm.fqn);
+			}
 		}
 	}
 	private bool looksLikeFQN(string fqnCandidate)

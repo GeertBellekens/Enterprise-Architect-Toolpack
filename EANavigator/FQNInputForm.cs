@@ -29,6 +29,13 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
 		}
+		public FQNInputForm(string message):this()
+		{
+			this.messageLabel.Text = message;
+			this.flowLayoutPanel1.Height += this.messageLabel.Height;
+			this.Height += this.messageLabel.Height;
+			this.messageLabel.Show();
+		}
 		
 		void OkButtonClick(object sender, EventArgs e)
 		{
@@ -36,5 +43,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.DialogResult = DialogResult.OK;
 			this.Close();
 		}
+		
+
 	}
 }

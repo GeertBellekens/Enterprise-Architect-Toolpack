@@ -588,7 +588,46 @@ namespace TSF.UmlToolingFramework.EANavigator
 			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
 			if (selectedElement != null)
 			{
+				//select the context before opening the element (and changing the selected node)
+				UML.UMLItem context = null;
+				if (selectedElement is UML.Diagrams.Diagram)
+				{
+					context = this.findContext(this.NavigatorTree.SelectedNode);
+				}
+				//actually open element
 				selectedElement.open();
+				//select the context if the selected element was a diagram
+				if (context != null)
+				{
+					((UML.Diagrams.Diagram)selectedElement).selectItem(context);
+				}
+			}
+		}
+		/// <summary>
+		/// finds the context of the given node. 
+		/// That is the first parent node that is a UMLItem
+		/// </summary>
+		/// <param name="node">the node to start searching from</param>
+		/// <returns>first parent node that is a UMLItem</returns>
+		private UML.UMLItem findContext(TreeNode node)
+		{
+			if (node.Parent != null)
+			{
+				if (node.Parent.Tag is UML.UMLItem)
+				{
+					//found it
+					return node.Parent.Tag as UML.UMLItem;
+				}
+				else
+				{
+					//search further up the tree.
+					return findContext(node.Parent);
+				}
+			}
+			else
+			{
+				//no need to search further since there's no parent
+				return null;
 			}
 		}
 		private void showOptions()
