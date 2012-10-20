@@ -7,6 +7,7 @@ using UML=TSF.UmlToolingFramework.UML;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Threading;
 
 namespace TSF.UmlToolingFramework.EANavigator
 {
@@ -54,6 +55,9 @@ namespace TSF.UmlToolingFramework.EANavigator
 			
 		private int maxNodes = 50;
 		
+		private BackgroundWorker backgroundWorker = new BackgroundWorker();
+		private List<UML.UMLItem> workQueue = new List<UML.UMLItem>();
+		
 		private NavigatorSettings _settings;
 		public NavigatorSettings settings 
 		{
@@ -75,8 +79,76 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-
+			//initialisation for background worder
+			//backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.WorkerSupportsCancellation = true;
+            backgroundWorker.DoWork += new DoWorkEventHandler(bw_DoWork);
+            //backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
+            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+			
 		}
+		
+		private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+			UML.UMLItem element = e.Argument as UML.UMLItem;
+			BackgroundWorker worker = sender as BackgroundWorker;
+			if (element != null)
+			{
+				//pass the new node to the runworkercompleted event
+            	e.Result = this.makeElementNode(element,null);
+			}
+ 			
+        }
+		/// <summary>
+		/// catches the event that the backgroundworker has finished.
+		/// in that case we should select the returned node
+		/// </summary>
+		/// <param name="sender">the backgroundworder</param>
+		/// <param name="e">the parameters</param>
+		private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if ((e.Cancelled == true))
+            {
+                //nothing?
+            }
+            else if (!(e.Error == null))
+            {
+                //nothing?
+            }
+            else
+            {
+            	//do the visual work for the new treenode
+            	TreeNode elementNode = (TreeNode)e.Result;
+            	
+            	//remove duplicate
+            	if (this.removeRootNode((UML.UMLItem)elementNode.Tag))
+				{
+					//no parentNode, add as new root node before any others
+					this.NavigatorTree.Nodes.Insert(0,elementNode);
+					//remove the excess nodes
+					this.removeExcessNodes();
+					//expand the node
+					elementNode.Expand();
+				}
+				else 
+				{
+					//first node is already the one we need
+					elementNode = this.NavigatorTree.Nodes[0];
+				}
+            	this.NavigatorTree.SelectedNode = (TreeNode)e.Result;
+            	//check if there's still something int the queue
+            	if (this.workQueue.Count > 0)
+            	{
+            		//get the last element in the queue
+            		UML.UMLItem nextElement = this.workQueue[this.workQueue.Count -1];
+            		//remove it
+            		this.workQueue.RemoveAt(this.workQueue.Count -1);
+            		//process it
+            		this.setElement(nextElement);
+            	}
+            }
+        }
+		
 		private void setToolbarVisibility()
 		{
 			this.toolbarVisible = settings.toolbarVisible;
@@ -94,9 +166,18 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <param name="newElement">the element to navigate</param>
 		public void setElement(UML.UMLItem newElement)
 		{
-			this.addElementToTree(newElement,null);
-			
+			if (! backgroundWorker.IsBusy)
+			{
+				//start new tread here to create new element
+				this.backgroundWorker.RunWorkerAsync(newElement);
+			}
+			else
+			{
+				//backgroundworker is still busy so we add the element to the workqueue instead
+				this.workQueue.Insert(0,newElement);
+			}
 		}
+		
 		private int getImageIndex(UML.UMLItem element)
 		{
 			int imageIndex;
@@ -305,7 +386,19 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		/// <param name="element">the source element</param>
 		/// <param name="parentNode">the parentNode. If null is passed then the node will be added as root node</param>
-		private TreeNode addElementToTree(UML.UMLItem element,TreeNode parentNode,TreeNode nodeToReplace = null)
+		/// <param name="nodeToReplace">the node to replace with new data</param>
+		private void addElementToTree(UML.UMLItem element,TreeNode parentNode,TreeNode nodeToReplace = null)
+		{
+			TreeNode elementNode = this.makeElementNode(element,parentNode,nodeToReplace);
+			// select the node
+			//NavigatorTree.SelectedNode = elementNode;
+		}
+		/// <summary>
+		/// adds an elementNode to the tree
+		/// </summary>
+		/// <param name="element">the source element</param>
+		/// <param name="parentNode">the parentNode. If null is passed then the node will be added as root node</param>
+		private TreeNode makeElementNode(UML.UMLItem element,TreeNode parentNode,TreeNode nodeToReplace = null)
 		{
 			//create new node
 			TreeNode elementNode;
@@ -358,25 +451,24 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 			else
 			{
-				
-				//remove duplicate
-				if (this.removeRootNode(element))
-				{
-					//no parentNode, add as new root node before any others
-					this.NavigatorTree.Nodes.Insert(0,elementNode);
-					//remove the excess nodes
-					this.removeExcessNodes();
-					//expand the node
-					elementNode.Expand();
-				}
-				else 
-				{
-					//first node is already the one we need
-					elementNode = this.NavigatorTree.Nodes[0];
-				}
+//				
+//				//remove duplicate
+//				if (this.removeRootNode(element))
+//				{
+//					//no parentNode, add as new root node before any others
+//					this.NavigatorTree.Nodes.Insert(0,elementNode);
+//					//remove the excess nodes
+//					this.removeExcessNodes();
+//					//expand the node
+//					elementNode.Expand();
+//				}
+//				else 
+//				{
+//					//first node is already the one we need
+//					elementNode = this.NavigatorTree.Nodes[0];
+//				}
 
-				// select the node
-				NavigatorTree.SelectedNode = elementNode;
+
 			}
 			return elementNode;
 		}
