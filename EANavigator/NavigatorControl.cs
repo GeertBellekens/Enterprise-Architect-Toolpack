@@ -123,12 +123,20 @@ namespace TSF.UmlToolingFramework.EANavigator
             	//remove duplicate
             	if (this.removeRootNode((UML.UMLItem)elementNode.Tag))
 				{
-					//no parentNode, add as new root node before any others
-					this.NavigatorTree.Nodes.Insert(0,elementNode);
-					//remove the excess nodes
-					this.removeExcessNodes();
-					//expand the node
-					elementNode.Expand();
+            		try
+            		{
+						//no parentNode, add as new root node before any others
+						this.NavigatorTree.Nodes.Insert(0,elementNode);
+						//remove the excess nodes
+						this.removeExcessNodes();
+						//expand the node
+						elementNode.Expand();
+            		}
+            		catch (Exception exception)
+            		{
+            			MessageBox.Show(exception.Message + Environment.NewLine + exception.StackTrace,"An error occured"
+            			                ,MessageBoxButtons.OK,MessageBoxIcon.Error);
+            		}
 				}
 				else 
 				{
