@@ -55,8 +55,13 @@ namespace TSF.UmlToolingFramework.EANavigator
 			
 		private int maxNodes = 50;
 		
+		//the background worker and workque to be able to handle a ContextItemChanged even multithreaded
 		private BackgroundWorker backgroundWorker = new BackgroundWorker();
 		private List<UML.UMLItem> workQueue = new List<UML.UMLItem>();
+		
+		//the delegate stuff for the thread save Treenode.Insert
+		private delegate void MethodDelegate(object nodeObject);
+		private MethodDelegate invoker; 
 		
 		private NavigatorSettings _settings;
 		public NavigatorSettings settings 
@@ -99,6 +104,17 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
  			
         }
+		
+		/// <summary>
+		/// inserts the given nodeObject as the first treenode in the NavigatorTree
+		/// </summary>
+		/// <param name="nodeObject"></param>
+		private void ThreadSaveInsertNode(object nodeObject) 
+		{
+			TreeNode elementNode = (TreeNode)nodeObject;
+			this.NavigatorTree.Nodes.Insert(0,elementNode);
+		} 
+
 		/// <summary>
 		/// catches the event that the backgroundworker has finished.
 		/// in that case we should select the returned node
@@ -126,7 +142,11 @@ namespace TSF.UmlToolingFramework.EANavigator
             		try
             		{
 						//no parentNode, add as new root node before any others
-						this.NavigatorTree.Nodes.Insert(0,elementNode);
+						//inserting a node sometimes causes an InvalidOperationException because its being called in the wrong thread
+						//doing it using the invoke should help.
+						invoker = new MethodDelegate(ThreadSaveInsertNode); 
+						this.NavigatorTree.Invoke(invoker, elementNode); 
+						//this.NavigatorTree.Nodes.Insert(0,elementNode);
 						//remove the excess nodes
 						this.removeExcessNodes();
 						//expand the node
