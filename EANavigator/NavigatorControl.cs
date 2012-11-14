@@ -58,6 +58,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		//the background worker and workque to be able to handle a ContextItemChanged even multithreaded
 		private BackgroundWorker backgroundWorker = new BackgroundWorker();
 		private List<UML.UMLItem> workQueue = new List<UML.UMLItem>();
+		private DateTime lastStartTime;
 		
 		//the delegate stuff for the thread save Treenode.Insert
 		private delegate void MethodDelegate(object nodeObject);
@@ -196,14 +197,30 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			if (! backgroundWorker.IsBusy)
 			{
-				//start new tread here to create new element
-				this.backgroundWorker.RunWorkerAsync(newElement);
+				this.startThread(newElement);
 			}
 			else
 			{
 				//backgroundworker is still busy so we add the element to the workqueue instead
-				this.workQueue.Insert(0,newElement);
+				TimeSpan runtime =  (DateTime.Now - lastStartTime);
+				if (runtime.TotalSeconds < 20 )
+				{
+					this.workQueue.Insert(0,newElement);
+				}
+				else
+				{
+					//unless it has been busy for more then 20 seconds. In that case we reset
+					this.workQueue.Clear();
+					this.startThread(newElement);
+				}
 			}
+		}
+		
+		private void startThread(UML.UMLItem newElement)
+		{
+				//start new tread here to create new element
+				this.lastStartTime = DateTime.Now;
+				this.backgroundWorker.RunWorkerAsync(newElement);
 		}
 		
 		private int getImageIndex(UML.UMLItem element)
