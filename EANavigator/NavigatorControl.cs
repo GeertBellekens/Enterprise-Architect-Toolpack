@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Threading;
+using EAAddinFramework.Utilities;
 
 namespace TSF.UmlToolingFramework.EANavigator
 {
@@ -56,7 +57,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int maxNodes = 50;
 		
 		//the background worker and workque to be able to handle a ContextItemChanged even multithreaded
-		private BackgroundWorker backgroundWorker = new BackgroundWorker();
+		private AbortableBackgroundWorker backgroundWorker = new AbortableBackgroundWorker();
 		private List<UML.UMLItem> workQueue = new List<UML.UMLItem>();
 		private DateTime lastStartTime;
 		
@@ -203,14 +204,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				//backgroundworker is still busy so we add the element to the workqueue instead
 				TimeSpan runtime =  (DateTime.Now - lastStartTime);
-				if (runtime.TotalSeconds < 20 )
+				if (runtime.TotalSeconds < 5 )
 				{
 					this.workQueue.Insert(0,newElement);
 				}
 				else
 				{
-					//unless it has been busy for more then 20 seconds. In that case we reset
+					//unless it has been busy for more then 5 seconds. In that case we reset
 					this.workQueue.Clear();
+					this.backgroundWorker.Abort();
+					this.backgroundWorker.Dispose();
 					this.startThread(newElement);
 				}
 			}
@@ -218,9 +221,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 		private void startThread(UML.UMLItem newElement)
 		{
+			if (! this.backgroundWorker.IsBusy)
+			{
 				//start new tread here to create new element
 				this.lastStartTime = DateTime.Now;
 				this.backgroundWorker.RunWorkerAsync(newElement);
+			}
 		}
 		
 		private int getImageIndex(UML.UMLItem element)
