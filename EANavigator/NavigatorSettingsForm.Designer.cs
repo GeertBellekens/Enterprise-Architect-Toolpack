@@ -44,6 +44,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.showToolbarCheckBox = new System.Windows.Forms.CheckBox();
 			this.useContextMenuCheckBox = new System.Windows.Forms.CheckBox();
+			this.trackSelectedElementCheckBox = new System.Windows.Forms.CheckBox();
 			this.defaultActionGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -123,6 +124,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.useContextMenuCheckBox.UseVisualStyleBackColor = true;
 			this.useContextMenuCheckBox.CheckedChanged += new System.EventHandler(this.UseContextMenuCheckBoxCheckedChanged);
 			// 
+			// trackSelectedElementCheckBox
+			// 
+			this.trackSelectedElementCheckBox.Location = new System.Drawing.Point(18, 161);
+			this.trackSelectedElementCheckBox.Name = "trackSelectedElementCheckBox";
+			this.trackSelectedElementCheckBox.Size = new System.Drawing.Size(261, 24);
+			this.trackSelectedElementCheckBox.TabIndex = 5;
+			this.trackSelectedElementCheckBox.Text = "Track Selected Element";
+			this.trackSelectedElementCheckBox.UseVisualStyleBackColor = true;
+			this.trackSelectedElementCheckBox.CheckedChanged += new System.EventHandler(this.TrackSelectedElementCheckBoxCheckedChanged);
+			// 
 			// NavigatorSettingsForm
 			// 
 			this.AcceptButton = this.okButton;
@@ -130,6 +141,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(284, 262);
+			this.Controls.Add(this.trackSelectedElementCheckBox);
 			this.Controls.Add(this.useContextMenuCheckBox);
 			this.Controls.Add(this.showToolbarCheckBox);
 			this.Controls.Add(this.cancelButton);
@@ -144,6 +156,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.defaultActionGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.CheckBox trackSelectedElementCheckBox;
 		private System.Windows.Forms.CheckBox useContextMenuCheckBox;
 		private System.Windows.Forms.CheckBox showToolbarCheckBox;
 		private System.Windows.Forms.Button cancelButton;

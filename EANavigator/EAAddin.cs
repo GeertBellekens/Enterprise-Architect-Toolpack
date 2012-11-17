@@ -25,6 +25,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal const string menuDiagramOperations = "&Operations";
     internal const string menuImplementedOperations = "&Implemented Operation";
     internal const string menuDependentTaggedValues = "&Referencing Tagged Values";
+    internal const string menuOpenInNavigator = "&Open in Navigator";
     
     internal const string taggedValueMenuSuffix = " Tags";
     internal const string taggedValueMenuPrefix = "&";
@@ -85,7 +86,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
     {
     	//check setting for context menus
-    	if (this.settings.contextmenuVisible || MenuLocation == "MainMenu")
+    	if (this.settings.contextmenuVisible || MenuLocation == "MainMenu"
+    	   || !this.settings.trackSelectedElement)
     	{
 	    	switch (MenuName)
 	    	{
@@ -94,8 +96,12 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	    		return this.menuHeader;
 	    	case menuName:
 	    		List<string> menuOptionsList = new List<string>();
+	    		if (!this.settings.trackSelectedElement)
+	    		{
+	    			menuOptionsList.Add(menuOpenInNavigator);
+	    		}
 	    		//Context menu
-	    		if (MenuLocation != "MainMenu")
+	    		if (MenuLocation != "MainMenu" && this.settings.contextmenuVisible)
 	    		{
 		    		// get the selected element from the model
 		    		UML.UMLItem selectedElement = this.model.selectedItem;
@@ -103,7 +109,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		    		menuOptionsList.AddRange(getMenuOptions(selectedElement));
 	    		}
 	    		// Main menu
-	    		else 
+	    		else if (MenuLocation == "MainMenu")
 	    		{
 	    			// add FQN menu to all options
 		    		menuOptionsList.Add(menuFQN);
@@ -285,6 +291,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 					this.navigatorControl.toolbarVisible = this.settings.toolbarVisible;
 				}
 				break;
+			case menuOpenInNavigator:
+				this.navigate();
+				break;
            default:
 	            UML.UMLItem selectedItem = this.model.selectedItem;
 	            if (selectedItem != null)
@@ -372,19 +381,24 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	}
 	
 
-	
-
-
 	public override void EA_OnContextItemChanged(global::EA.Repository Repository, string GUID, global::EA.ObjectType ot)
     {
-        if (fullyLoaded && this.model != null )
-        {       
+		if (this.settings.trackSelectedElement)
+		{
+			this.navigate();
+		}
+    }
+
+	private void navigate()
+	{	
+		if (fullyLoaded && this.model != null )
+	     {       
             if (this.model.selectedItem != null)
             {
             	this.navigate(this.model.selectedItem) ;
             }
         }
-    }
+	}
 	
 	private void navigate(UML.UMLItem item)
 	{
@@ -410,7 +424,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	}
 	public override void EA_OnPostOpenDiagram(EA.Repository Repository, int DiagramID)
 	{
-		if (fullyLoaded && this.model != null )
+		if (fullyLoaded && this.model != null && this.settings.trackSelectedElement)
         {       
             if (this.model.currentDiagram != null)
             {
