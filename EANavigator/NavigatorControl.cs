@@ -397,6 +397,34 @@ namespace TSF.UmlToolingFramework.EANavigator
 			return element.fqn;
 		}
 		/// <summary>
+		/// returns a string represenation of the stereotypes
+		/// </summary>
+		/// <param name="element">the element containing the stereotype</param>
+		/// <returns>a string containing the stereotype «stereo1,ste..»</returns>
+		private string getStereotypeString(UML.UMLItem element)
+		{
+			string stereotypeString = string.Empty;
+			int maxLength = 20;
+			if (element.stereotypes.Count > 0)
+			{
+				stereotypeString = "«";
+				foreach (UML.Profiles.Stereotype stereotype in element.stereotypes) 
+				{
+					if (stereotypeString.Length > 1)
+					{
+						stereotypeString += ", ";
+					}
+					stereotypeString += stereotype.name;
+					if (stereotypeString.Length > maxLength)
+					{
+						stereotypeString = stereotypeString.Substring(0,maxLength- 2) + "..";
+					}
+				}
+				stereotypeString += "» ";
+			}
+			return stereotypeString;
+		}
+		/// <summary>
 		/// returns the name to show as node name for this element
 		/// </summary>
 		/// <param name="element"></param>
@@ -406,7 +434,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 			string name = string.Empty;
 			if (element != null)
 			{
-				name = element.name;
+				name = this.getStereotypeString(element);
+				name += element.name;
 			}
 			if (element is UML.Classes.Kernel.Parameter)
 			{
@@ -419,7 +448,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			else if (element is UML.Classes.Kernel.Feature)
 			{
 				UML.Classes.Kernel.Feature feature = (UML.Classes.Kernel.Feature)element;
-				name = feature.owner.name + "." + feature.name;
+				name = feature.owner.name + "." + this.getStereotypeString(element)+ feature.name;
 			}
 			else if (element is UML.Profiles.TaggedValue)
 			{
