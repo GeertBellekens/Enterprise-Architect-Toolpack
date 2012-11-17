@@ -43,6 +43,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.okButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.showToolbarCheckBox = new System.Windows.Forms.CheckBox();
+			this.useContextMenuCheckBox = new System.Windows.Forms.CheckBox();
 			this.defaultActionGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -81,6 +82,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// okButton
 			// 
+			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.okButton.Location = new System.Drawing.Point(116, 227);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
@@ -91,6 +93,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// cancelButton
 			// 
+			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelButton.Location = new System.Drawing.Point(197, 227);
 			this.cancelButton.Name = "cancelButton";
@@ -104,11 +107,21 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			this.showToolbarCheckBox.Location = new System.Drawing.Point(18, 99);
 			this.showToolbarCheckBox.Name = "showToolbarCheckBox";
-			this.showToolbarCheckBox.Size = new System.Drawing.Size(104, 24);
+			this.showToolbarCheckBox.Size = new System.Drawing.Size(196, 24);
 			this.showToolbarCheckBox.TabIndex = 3;
 			this.showToolbarCheckBox.Text = "Show toolbar";
 			this.showToolbarCheckBox.UseVisualStyleBackColor = true;
 			this.showToolbarCheckBox.CheckedChanged += new System.EventHandler(this.ShowToolbarCheckBoxCheckedChanged);
+			// 
+			// useContextMenuCheckBox
+			// 
+			this.useContextMenuCheckBox.Location = new System.Drawing.Point(18, 130);
+			this.useContextMenuCheckBox.Name = "useContextMenuCheckBox";
+			this.useContextMenuCheckBox.Size = new System.Drawing.Size(261, 24);
+			this.useContextMenuCheckBox.TabIndex = 4;
+			this.useContextMenuCheckBox.Text = "Show Context Menus";
+			this.useContextMenuCheckBox.UseVisualStyleBackColor = true;
+			this.useContextMenuCheckBox.CheckedChanged += new System.EventHandler(this.UseContextMenuCheckBoxCheckedChanged);
 			// 
 			// NavigatorSettingsForm
 			// 
@@ -117,6 +130,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(284, 262);
+			this.Controls.Add(this.useContextMenuCheckBox);
 			this.Controls.Add(this.showToolbarCheckBox);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.okButton);
@@ -130,6 +144,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.defaultActionGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.CheckBox useContextMenuCheckBox;
 		private System.Windows.Forms.CheckBox showToolbarCheckBox;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button okButton;

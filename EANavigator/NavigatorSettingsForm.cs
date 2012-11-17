@@ -29,6 +29,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.projectBrowserRadioButton.Checked = settings.projectBrowserDefaultAction;
 			this.propertiesRadioButton.Checked = ! settings.projectBrowserDefaultAction;
 			this.showToolbarCheckBox.Checked = this.settings.toolbarVisible;
+			this.useContextMenuCheckBox.Checked = this.settings.contextmenuVisible;
 		}
 		
 		
@@ -60,6 +61,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 		void ShowToolbarCheckBoxCheckedChanged(object sender, EventArgs e)
 		{
 			this.settings.toolbarVisible = this.showToolbarCheckBox.Checked;
+		}
+		
+		void UseContextMenuCheckBoxCheckedChanged(object sender, EventArgs e)
+		{
+			this.settings.contextmenuVisible = this.useContextMenuCheckBox.Checked;
 		}
 	}
 }

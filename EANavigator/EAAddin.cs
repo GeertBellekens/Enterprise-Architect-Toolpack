@@ -14,6 +14,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal const string menuOperation = "&Operation";
     internal const string menuDiagrams = "&Diagrams";
     internal const string menuAbout = "&About EA Navigator";
+    internal const string menuSettings = "&Settings";
     //internal const string menuClassifier = "&Type";
     internal const string menuParameterTypes = "&Parameter Types";
     internal const string menuAttributes = "&Dependent Attributes";
@@ -83,31 +84,43 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     /// In the case of the top-level menu it should be a single string or an array containing only one item, or Empty/null.</returns>
     public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
     {
-    	
-    	switch (MenuName)
+    	//check setting for context menus
+    	if (this.settings.contextmenuVisible || MenuLocation == "MainMenu")
     	{
-    	case "":
-    		//return top level menu option
-    		return this.menuHeader;
-    	case menuName:
-    		List<string> menuOptionsList = new List<string>();
-    		// get the selected element from the model
-    		UML.UMLItem selectedElement = this.model.selectedItem;
-    		//add the menuoptions depending on the type of element
-    		menuOptionsList.AddRange(getMenuOptions(selectedElement));
-    		// add FQN menu to all options
-    		menuOptionsList.Add(menuFQN);
-    		// show about menu option only when called from main menu
-    		if (MenuLocation == "MainMenu")
-    		{
-    			menuOptionsList.Add(menuAbout);
-    		}
-    		
-    		// return submenu options
-    		return menuOptionsList.ToArray();
-    	default: 
-    		return string.Empty;
+	    	switch (MenuName)
+	    	{
+	    	case "":
+	    		//return top level menu option
+	    		return this.menuHeader;
+	    	case menuName:
+	    		List<string> menuOptionsList = new List<string>();
+	    		//Context menu
+	    		if (MenuLocation != "MainMenu")
+	    		{
+		    		// get the selected element from the model
+		    		UML.UMLItem selectedElement = this.model.selectedItem;
+		    		//add the menuoptions depending on the type of element
+		    		menuOptionsList.AddRange(getMenuOptions(selectedElement));
+	    		}
+	    		// Main menu
+	    		else 
+	    		{
+	    			// add FQN menu to all options
+		    		menuOptionsList.Add(menuFQN);
+		    		// setting
+		    		menuOptionsList.Add(menuSettings);
+		    		//menu about
+	    			menuOptionsList.Add(menuAbout);
+	    		}
+	    		
+	    		// return submenu options
+	    		return menuOptionsList.ToArray();
+	    	default: 
+	    		return string.Empty;
+	    	 }
     	 }
+    	//don't show menu;
+    	else return null;
         
     }
     internal static string getOwnerMenuName(UML.UMLItem element)
@@ -264,6 +277,14 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	       case menuAbout :
 	            new AboutWindow().ShowDialog();
 	            break;
+	       case menuSettings:
+	            new NavigatorSettingsForm(this.settings).ShowDialog();
+				//we need to set the toolbar in case that setting was changed
+				if (this.navigatorControl != null)
+				{
+					this.navigatorControl.toolbarVisible = this.settings.toolbarVisible;
+				}
+				break;
            default:
 	            UML.UMLItem selectedItem = this.model.selectedItem;
 	            if (selectedItem != null)
