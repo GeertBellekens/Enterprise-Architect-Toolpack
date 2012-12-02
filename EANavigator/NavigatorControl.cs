@@ -52,12 +52,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int communicationDiagramIndex = 29;
 		private int enumerationIndex = 30;
 		private int dataTypeIndex = 31;
-
+		
+		public bool working {get;set;}
+		
 			
 		private int maxNodes = 50;
 		
 		//the background worker and workque to be able to handle a ContextItemChanged even multithreaded
-		private AbortableBackgroundWorker backgroundWorker = new AbortableBackgroundWorker();
+		private BackgroundWorker backgroundWorker = new BackgroundWorker();
 		private List<UML.UMLItem> workQueue = new List<UML.UMLItem>();
 		private DateTime lastStartTime;
 		
@@ -86,12 +88,17 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-			//initialisation for background worder
-			//backgroundWorker.WorkerReportsProgress = true;
-            backgroundWorker.WorkerSupportsCancellation = true;
-            backgroundWorker.DoWork += new DoWorkEventHandler(bw_DoWork);
+			//initialisation for background worker
+			resetBackgroundWorker();
+
+		}
+		private void resetBackgroundWorker()
+		{
+			this.backgroundWorker = new BackgroundWorker();
+			this.backgroundWorker.WorkerSupportsCancellation = true;
+            this.backgroundWorker.DoWork += new DoWorkEventHandler(bw_DoWork);
             //backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+            this.backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 			
 		}
 		
@@ -128,6 +135,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             if ((e.Cancelled == true))
             {
                 //nothing?
+                
             }
             else if (!(e.Error == null))
             {
@@ -135,6 +143,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             }
             else
             {
+            	            	
             	//do the visual work for the new treenode
             	TreeNode elementNode = (TreeNode)e.Result;
             	
@@ -153,6 +162,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 						this.removeExcessNodes();
 						//expand the node
 						elementNode.Expand();
+						
             		}
             		catch (Exception exception)
             		{
@@ -166,6 +176,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 					elementNode = this.NavigatorTree.Nodes[0];
 				}
             	this.NavigatorTree.SelectedNode = (TreeNode)e.Result;
+            	            	
             	//check if there's still something int the queue
             	if (this.workQueue.Count > 0)
             	{
@@ -210,10 +221,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 				}
 				else
 				{
-					//unless it has been busy for more then 5 seconds. In that case we reset
-					this.workQueue.Clear();
-					this.backgroundWorker.Abort();
-					this.backgroundWorker.Dispose();
+					//for some reason sometimes the backgroundworker gets stuck. 
+					//This always seems to happen shortly after a right click (and thus a call to EA_GetMenuItems) when a lot of elements have been clicked in a short period of time.
+					//when its stuck it is calling a method on the EA API that never returns (someting like EA.Element.Name)
+					//I've tried everything to abort or cancel the thread, but nothing seems to work. 
+					//So the only solution that does seem to work is spawn a new thread and start using that one.
+					//In the long rung this will ofcourse cause the a memory/thread leak, but from personal experience, this only seems to happen a few times a day, and only when dealing with a large (and thus slow) model.
+					
+					//current backgoundworker is stuck. Start a new one.
+					this.resetBackgroundWorker();
+					//process the element
 					this.startThread(newElement);
 				}
 			}
@@ -223,6 +240,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			if (! this.backgroundWorker.IsBusy)
 			{
+				this.working = true;
 				//start new tread here to create new element
 				this.lastStartTime = DateTime.Now;
 				this.backgroundWorker.RunWorkerAsync(newElement);

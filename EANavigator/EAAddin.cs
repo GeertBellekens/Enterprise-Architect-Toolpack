@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
+using EAAddinFramework.Utilities;
 
 namespace TSF.UmlToolingFramework.EANavigator
 {
@@ -85,6 +86,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     /// In the case of the top-level menu it should be a single string or an array containing only one item, or Empty/null.</returns>
     public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
     {
+
     	//check setting for context menus
     	if (this.settings.contextmenuVisible || MenuLocation == "MainMenu"
     	   || !this.settings.trackSelectedElement)
@@ -103,10 +105,11 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	    		//Context menu
 	    		if (MenuLocation != "MainMenu" && this.settings.contextmenuVisible)
 	    		{
+
 		    		// get the selected element from the model
 		    		UML.UMLItem selectedElement = this.model.selectedItem;
-		    		//add the menuoptions depending on the type of element
 		    		menuOptionsList.AddRange(getMenuOptions(selectedElement));
+
 	    		}
 	    		// Main menu
 	    		else if (MenuLocation == "MainMenu")
@@ -118,7 +121,6 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		    		//menu about
 	    			menuOptionsList.Add(menuAbout);
 	    		}
-	    		
 	    		// return submenu options
 	    		return menuOptionsList.ToArray();
 	    	default: 
@@ -126,7 +128,11 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	    	 }
     	 }
     	//don't show menu;
-    	else return null;
+    	else
+    	{
+	    	return null;
+    	}
+    		
         
     }
     internal static string getOwnerMenuName(UML.UMLItem element)
