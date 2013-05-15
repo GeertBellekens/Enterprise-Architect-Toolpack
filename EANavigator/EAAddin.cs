@@ -416,6 +416,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
                 this.navigatorControl.BeforeExpand += new TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
                 this.navigatorControl.NodeDoubleClick += new TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeDoubleClick);
                 this.navigatorControl.fqnButtonClick += new EventHandler(this.FqnButtonClick);
+                this.navigatorControl.guidButtonClick += new EventHandler(this.GuidButtonClick);
                 this.navigatorControl.settings = this.settings;
             }
             if (this.navigatorControl != null && this.model != null)
@@ -441,6 +442,60 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     public override void EA_FileClose(EA.Repository Repository)
     {
         this.fullyLoaded = false;
+    }
+    /// <summary>
+    /// selects the element with the GUID in on the clipboard.
+    /// If the clipboard doesn't contain a GUID we will ask the user to input one.
+    /// </summary>
+    private void selectGUID()
+    {
+    	string guidString = string.Empty;
+		if(Clipboard.ContainsText())
+		{
+			string clipboardText = Clipboard.GetText().Trim();
+			if (this.isGUIDString(clipboardText))
+			{
+				guidString = clipboardText;
+			}
+		}
+		if (guidString == string.Empty)
+		{
+			//TODO
+			FQNInputForm fqnForm = new FQNInputForm();
+			if (fqnForm.ShowDialog() == DialogResult.OK)
+			{
+				guidString = fqnForm.fqn;
+			}
+		}
+		if (guidString != string.Empty)
+		{
+			this.selectGUID(guidString);
+		}
+    }
+    /// <summary>
+    /// selects the element with the given guid
+    /// </summary>
+    /// <param name="guidString">string containing a guid</param>
+    private void selectGUID(string guidString)
+    {
+    	UML.UMLItem item = null;
+		item = this.model.getItemFromGUID(guidString);
+		
+		if (item != null)
+		{
+			item.select();
+		} 
+		else
+		{
+			//TODO make GUID iso fqn
+			FQNInputForm fqnForm = new FQNInputForm("Could not find item with the GUID:" 
+			                + Environment.NewLine + guidString);
+			if (fqnForm.ShowDialog() == DialogResult.OK
+			   && fqnForm.fqn.Length > 0)
+			{
+				this.selectGUID(fqnForm.fqn);
+			}
+		}
     }
     /// <summary>
     /// select the element that matches the fqn in the clipboard
@@ -498,6 +553,15 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 				this.selectFQN(fqnForm.fqn);
 			}
 		}
+	}
+	/// <summary>
+	/// returns true if the given string is a valid GUID format
+	/// </summary>
+	/// <returns>true if the given string is a valid GUID format</returns>
+	private bool isGUIDString(string guidString)
+	{
+		//TODO
+		return true;
 	}
 	private bool looksLikeFQN(string fqnCandidate)
 	{
@@ -801,6 +865,15 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	void FqnButtonClick(object sender, EventArgs e)
    	{
    		this.selectFQN();
+	}
+   	/// <summary>
+   /// reacts to the vent that the GUID button is clicked in the EA NavigatorControl
+   /// </summary>
+   /// <param name="sender">sender</param>
+   /// <param name="e">arguments</param>
+   	void GuidButtonClick(object sender, EventArgs e)
+   	{
+   		this.selectGUID();
 	}
    /// <summary>
    /// gets the elements of a package right before expanding

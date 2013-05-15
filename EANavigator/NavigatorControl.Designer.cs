@@ -52,6 +52,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.settingsButton = new System.Windows.Forms.ToolStripButton();
 			this.aboutButton = new System.Windows.Forms.ToolStripButton();
 			this.navigatorToolStripContainer = new System.Windows.Forms.ToolStripContainer();
+			this.guidButton = new System.Windows.Forms.ToolStripButton();
 			this.navigatorContextMenu.SuspendLayout();
 			this.navigatorToolStrip.SuspendLayout();
 			this.navigatorToolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -153,13 +154,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 									this.projectBrowserButton,
 									this.propertiesButton,
 									this.fqnButton,
+									this.guidButton,
 									this.toolStripSeparator1,
 									this.settingsButton,
 									this.aboutButton});
-			this.navigatorToolStrip.Location = new System.Drawing.Point(0, 0);
+			this.navigatorToolStrip.Location = new System.Drawing.Point(3, 0);
 			this.navigatorToolStrip.Name = "navigatorToolStrip";
 			this.navigatorToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.navigatorToolStrip.Size = new System.Drawing.Size(155, 25);
+			this.navigatorToolStrip.Size = new System.Drawing.Size(193, 25);
 			this.navigatorToolStrip.TabIndex = 1;
 			// 
 			// projectBrowserButton
@@ -238,6 +240,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStripContainer.TopToolStripPanel.Controls.Add(this.navigatorToolStrip);
 			this.navigatorToolStripContainer.Visible = false;
 			// 
+			// guidButton
+			// 
+			this.guidButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.guidButton.Image = ((System.Drawing.Image)(resources.GetObject("guidButton.Image")));
+			this.guidButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.guidButton.Name = "guidButton";
+			this.guidButton.Size = new System.Drawing.Size(38, 22);
+			this.guidButton.Text = "GUID";
+			this.guidButton.Click += new System.EventHandler(this.GuidButtonClick);
+			// 
 			// NavigatorControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -255,6 +267,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStripContainer.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ToolStripButton guidButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripButton fqnButton;
 		private System.Windows.Forms.ToolStripContainer navigatorToolStripContainer;
