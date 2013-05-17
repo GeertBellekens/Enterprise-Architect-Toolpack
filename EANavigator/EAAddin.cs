@@ -27,6 +27,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal const string menuImplementedOperations = "&Implemented Operation";
     internal const string menuDependentTaggedValues = "&Referencing Tagged Values";
     internal const string menuOpenInNavigator = "&Open in Navigator";
+    internal const string menuLinkedToElementFeature = "&Link to Element Feature"
     
     internal const string taggedValueMenuSuffix = " Tags";
     internal const string taggedValueMenuPrefix = "&";
@@ -174,6 +175,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     			menuOptionsList.Add(menuParameterTypes);
     			menuOptionsList.Add(menuActions);
     			menuOptionsList.Add(menuImplementation);
+    			menuOptionsList.Add(menuLinkedToElementFeature);
     			
     		}else if (element is UML.Interactions.BasicInteractions.Message)
     		{
@@ -199,6 +201,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		}else if (element is UML.Classes.Kernel.Property)
     		{
     			menuOptionsList.Add(getTypeMenuName(element));
+    			menuOptionsList.Add(menuLinkedToElementFeature);
     		}
     		else if (element is UML.Diagrams.SequenceDiagram
     		        || element is UML.Diagrams.CommunicationDiagram)
@@ -216,6 +219,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		if (element is UML.Classes.Kernel.Element)
     		{
     			menuOptionsList.AddRange(getTaggedValueMenuItems(element as UML.Classes.Kernel.Element));
+    			menuOptionsList.Add(menuLinkedToElementFeature);
     		}
     		//tagged values can reference only ElementWrappers, attributes and operations
     		if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper 
@@ -365,6 +369,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 				break;
 			case menuDependentTaggedValues:
 	        	elementsToNavigate = this.getDependentTaggedValues(parentElement);
+				break;
+			case menuLinkedToElementFeature:
+	        	elementsToNavigate = this.getLinkedToElementFeatures(parentElement);
 				break;
 			default:
 				if(menuChoice.StartsWith(taggedValueMenuPrefix) 
@@ -615,6 +622,29 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		return elementsToNavigate;
 	}
 	
+	getLinkedToElementFeatures
+	
+		/// <summary>
+	/// returns all elements linked via the "link to element feature" 
+	/// </summary>
+	/// <param name="parentItem">the connected element</param>
+	/// <returns>attribute, operations and classes that are linked usign the "link to element feature" functionality</returns>
+	private List<UML.UMLItem>getLinkedToElementFeatures(UML.UMLItem parentItem)
+	{
+		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		//either the parent is a property, or it is a element
+		if (parentItem is UML.Classes.Kernel.Feature)
+		{
+			UML.Classes.Kernel.Feature parentFeature = (UML.Classes.Kernel.Feature)parentItem;
+			foreach (UML.Classes.Kernel.Relationship relation in parentFeature.relations)
+			{
+				
+			}
+		}
+		
+		return elementsToNavigate;
+	}		
+		
 	/// <summary>
 	/// returns the operation implemented by the given parentElement, 
 	/// or in case the parentElement is a diagram, by the owner of the parentElement
