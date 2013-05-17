@@ -27,7 +27,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal const string menuImplementedOperations = "&Implemented Operation";
     internal const string menuDependentTaggedValues = "&Referencing Tagged Values";
     internal const string menuOpenInNavigator = "&Open in Navigator";
-    internal const string menuLinkedToElementFeature = "&Link to Element Feature"
+    internal const string menuLinkedToElementFeature = "&Link to Element Feature";
     
     internal const string taggedValueMenuSuffix = " Tags";
     internal const string taggedValueMenuPrefix = "&";
@@ -622,7 +622,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		return elementsToNavigate;
 	}
 	
-	getLinkedToElementFeatures
+	
 	
 		/// <summary>
 	/// returns all elements linked via the "link to element feature" 
@@ -636,10 +636,11 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		if (parentItem is UML.Classes.Kernel.Feature)
 		{
 			UML.Classes.Kernel.Feature parentFeature = (UML.Classes.Kernel.Feature)parentItem;
-			foreach (UML.Classes.Kernel.Relationship relation in parentFeature.relations)
-			{
-				
-			}
+			//TODO
+//			foreach (UML.Classes.Kernel.Relationship relation in parentFeature.relations)
+//			{
+//				
+//			}
 		}
 		
 		return elementsToNavigate;
