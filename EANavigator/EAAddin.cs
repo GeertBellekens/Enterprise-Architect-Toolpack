@@ -23,6 +23,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal const string menuActions = "&Calling Actions";
     internal const string menuImplementation = "&Implementation";
     internal const string menuFQN = "&To FQN";
+    internal const string menuGUID = "&To GUID";
     internal const string menuDiagramOperations = "&Operations";
     internal const string menuImplementedOperations = "&Implemented Operation";
     internal const string menuDependentTaggedValues = "&Referencing Tagged Values";
@@ -115,8 +116,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	    		// Main menu
 	    		else if (MenuLocation == "MainMenu")
 	    		{
-	    			// add FQN menu to all options
+	    			// To FQN
 		    		menuOptionsList.Add(menuFQN);
+		    		// To GUID
+		    		menuOptionsList.Add(menuGUID);
 		    		// setting
 		    		menuOptionsList.Add(menuSettings);
 		    		//menu about
@@ -289,6 +292,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 
 	       case menuFQN:
 	        	this.selectFQN();
+	        	break;
+	       case menuGUID:
+	        	this.selectGUID();
 	        	break;
 	       case menuAbout :
 	            new AboutWindow().ShowDialog();
@@ -468,7 +474,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		if (guidString == string.Empty)
 		{
 			//TODO
-			FQNInputForm fqnForm = new FQNInputForm();
+			FQNInputForm fqnForm = new FQNInputForm("","Fill in the GUID","GUID:");
 			if (fqnForm.ShowDialog() == DialogResult.OK)
 			{
 				guidString = fqnForm.fqn;
@@ -496,7 +502,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		{
 			//TODO make GUID iso fqn
 			FQNInputForm fqnForm = new FQNInputForm("Could not find item with the GUID:" 
-			                + Environment.NewLine + guidString);
+			                + Environment.NewLine + guidString,"Fill in the GUID","GUID:");
 			if (fqnForm.ShowDialog() == DialogResult.OK
 			   && fqnForm.fqn.Length > 0)
 			{
@@ -553,7 +559,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 				messageText = fqn;
 			}
 			FQNInputForm fqnForm = new FQNInputForm("Could not find item with the string:" 
-			                + Environment.NewLine + messageText);
+			                + Environment.NewLine + messageText,"Fill in the Fully Qualified Name","FQN:");
 			if (fqnForm.ShowDialog() == DialogResult.OK
 			   && fqnForm.fqn.Length > 0)
 			{
@@ -567,9 +573,25 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// <returns>true if the given string is a valid GUID format</returns>
 	private bool isGUIDString(string guidString)
 	{
-		//TODO
+		
+		try
+		{
+			//try to make a new GUID with given string.
+			Guid guid = new Guid(guidString);
+		}
+		catch (FormatException)
+		{
+			//it didn't work, so no valid GUIDString
+			return false;
+		}
+		//it worked, so the string was a correct guid format
 		return true;
 	}
+	/// <summary>
+	/// does a basic check to verify that the given string sort of resembles an FQN sttring
+	/// </summary>
+	/// <param name="fqnCandidate">the string tot test</param>
+	/// <returns>true if the given string looks like an fqn</returns>
 	private bool looksLikeFQN(string fqnCandidate)
 	{
 		bool looksFQN;

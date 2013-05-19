@@ -29,12 +29,17 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
 		}
-		public FQNInputForm(string message):this()
+		public FQNInputForm(string message, string title,string label):this()
 		{
-			this.messageLabel.Text = message;
-			this.flowLayoutPanel1.Height += this.messageLabel.Height;
-			this.Height += this.messageLabel.Height;
-			this.messageLabel.Show();
+			this.fqnLabel.Text = label;
+			this.Text = title;
+			if (message != string.Empty)
+			{
+				this.messageLabel.Text = message;
+				this.flowLayoutPanel1.Height += this.messageLabel.Height;
+				this.Height += this.messageLabel.Height;
+				this.messageLabel.Show();
+			}
 		}
 		
 		void OkButtonClick(object sender, EventArgs e)
