@@ -178,7 +178,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     			menuOptionsList.Add(menuParameterTypes);
     			menuOptionsList.Add(menuActions);
     			menuOptionsList.Add(menuImplementation);
-    			menuOptionsList.Add(menuLinkedToElementFeature);
+    			//menuOptionsList.Add(menuLinkedToElementFeature);
     			
     		}else if (element is UML.Interactions.BasicInteractions.Message)
     		{
@@ -204,7 +204,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		}else if (element is UML.Classes.Kernel.Property)
     		{
     			menuOptionsList.Add(getTypeMenuName(element));
-    			menuOptionsList.Add(menuLinkedToElementFeature);
+    			//menuOptionsList.Add(menuLinkedToElementFeature);
     		}
     		else if (element is UML.Diagrams.SequenceDiagram
     		        || element is UML.Diagrams.CommunicationDiagram)
@@ -222,13 +222,14 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		if (element is UML.Classes.Kernel.Element)
     		{
     			menuOptionsList.AddRange(getTaggedValueMenuItems(element as UML.Classes.Kernel.Element));
-    			menuOptionsList.Add(menuLinkedToElementFeature);
     		}
     		//tagged values can reference only ElementWrappers, attributes and operations
+    		//same for link to element feature links
     		if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper 
     		    || element is UML.Classes.Kernel.Property
     		    || element is UML.Classes.Kernel.Operation)
     		{
+    			menuOptionsList.Add(menuLinkedToElementFeature);
     			menuOptionsList.Add(menuDependentTaggedValues);
     		}
     		filterMenuOptions(menuOptionsList);
@@ -658,13 +659,32 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		if (parentItem is UML.Classes.Kernel.Feature)
 		{
 			UML.Classes.Kernel.Feature parentFeature = (UML.Classes.Kernel.Feature)parentItem;
-			//TODO
-//			foreach (UML.Classes.Kernel.Relationship relation in parentFeature.relations)
-//			{
-//				
-//			}
+			
+			foreach (UML.Classes.Kernel.Relationship relation in parentFeature.relationships)
+			{
+				foreach (UML.UMLItem item in relation.relatedElements) 
+				{
+					if (!item.Equals(parentItem))
+					{
+						elementsToNavigate.Add(item);
+					}
+				}
+			}
 		}
-		
+		else if (parentItem is UML.Classes.Kernel.Element)
+		{
+			UML.Classes.Kernel.Element parentElement = (UML.Classes.Kernel.Element)parentItem;
+			foreach (UML.Classes.Kernel.Relationship relation in parentElement.relationships)
+			{
+				foreach (UML.UMLItem item in relation.relatedElements) 
+				{
+					if (item is UML.Classes.Kernel.Feature)
+					{
+						elementsToNavigate.Add(item);
+					}
+				}
+			}
+		}
 		return elementsToNavigate;
 	}		
 		
