@@ -3,11 +3,11 @@
 	<Product Id="*"
 		Name="EA Navigator"
 		Language="1033"
-		Version="2.4.0.0"
+		Version="2.4.1.0"
 		UpgradeCode="410992DC-63BF-45BE-A8B7-6732B818BE32"
 		Manufacturer="Geert Bellekens">
-		<Package Description="Windows installer for EA Navigator 2.4.0.0"
-			Comments="Execute to install EA Navigator 2.4.0.0"
+		<Package Description="Windows installer for EA Navigator 2.4.1.0"
+			Comments="Execute to install EA Navigator 2.4.1.0"
 			InstallerVersion="200"
 			Compressed="yes"/>
 		
@@ -21,14 +21,14 @@
 		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
 		
 		<Upgrade Id="410992DC-63BF-45BE-A8B7-6732B818BE32">
-      	<UpgradeVersion Minimum="2.4.0.0"
+      	<UpgradeVersion Minimum="2.4.1.0"
                       IncludeMinimum="no"
                       OnlyDetect="yes"
                       Language="1033"
                       Property="NEWPRODUCTFOUND" />
      	<UpgradeVersion Minimum="1.0.0.0"
                       IncludeMinimum="yes"
-                      Maximum="2.4.0.0"
+                      Maximum="2.4.1.0"
                       IncludeMaximum="no"
                       Language="1033"
                       Property="UPGRADEFOUND" />
