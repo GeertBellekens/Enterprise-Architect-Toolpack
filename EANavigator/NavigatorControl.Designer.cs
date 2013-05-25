@@ -47,13 +47,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStrip = new System.Windows.Forms.ToolStrip();
 			this.projectBrowserButton = new System.Windows.Forms.ToolStripButton();
 			this.propertiesButton = new System.Windows.Forms.ToolStripButton();
+			this.addToDiagramButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.fqnButton = new System.Windows.Forms.ToolStripButton();
 			this.guidButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.settingsButton = new System.Windows.Forms.ToolStripButton();
 			this.aboutButton = new System.Windows.Forms.ToolStripButton();
 			this.navigatorToolStripContainer = new System.Windows.Forms.ToolStripContainer();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.addToDiagramMenuOption = new System.Windows.Forms.ToolStripMenuItem();
 			this.navigatorContextMenu.SuspendLayout();
 			this.navigatorToolStrip.SuspendLayout();
 			this.navigatorToolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -119,9 +121,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.openPropertiesMenuItem,
 									this.selectBrowserMenuItem,
+									this.addToDiagramMenuOption,
 									this.optionsMenuItem});
 			this.navigatorContextMenu.Name = "navigatorContextMenu";
-			this.navigatorContextMenu.Size = new System.Drawing.Size(204, 70);
+			this.navigatorContextMenu.Size = new System.Drawing.Size(204, 114);
 			// 
 			// openPropertiesMenuItem
 			// 
@@ -154,6 +157,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.projectBrowserButton,
 									this.propertiesButton,
+									this.addToDiagramButton,
 									this.toolStripSeparator2,
 									this.fqnButton,
 									this.guidButton,
@@ -163,7 +167,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStrip.Location = new System.Drawing.Point(3, 0);
 			this.navigatorToolStrip.Name = "navigatorToolStrip";
 			this.navigatorToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.navigatorToolStrip.Size = new System.Drawing.Size(184, 25);
+			this.navigatorToolStrip.Size = new System.Drawing.Size(176, 25);
 			this.navigatorToolStrip.TabIndex = 1;
 			// 
 			// projectBrowserButton
@@ -186,6 +190,22 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.propertiesButton.ToolTipText = "Open properties";
 			this.propertiesButton.Click += new System.EventHandler(this.PropertiesButtonClick);
 			// 
+			// addToDiagramButton
+			// 
+			this.addToDiagramButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.addToDiagramButton.Image = ((System.Drawing.Image)(resources.GetObject("addToDiagramButton.Image")));
+			this.addToDiagramButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.addToDiagramButton.Name = "addToDiagramButton";
+			this.addToDiagramButton.Size = new System.Drawing.Size(23, 22);
+			this.addToDiagramButton.Text = "To Diagram";
+			this.addToDiagramButton.ToolTipText = "Add to diagram";
+			this.addToDiagramButton.Click += new System.EventHandler(this.AddToDiagramButtonClick);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			// 
 			// fqnButton
 			// 
 			this.fqnButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -204,6 +224,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.guidButton.Name = "guidButton";
 			this.guidButton.Size = new System.Drawing.Size(23, 22);
 			this.guidButton.Text = "GUID";
+			this.guidButton.ToolTipText = "Select element from GUID";
 			this.guidButton.Click += new System.EventHandler(this.GuidButtonClick);
 			// 
 			// toolStripSeparator1
@@ -252,10 +273,13 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStripContainer.TopToolStripPanel.Controls.Add(this.navigatorToolStrip);
 			this.navigatorToolStripContainer.Visible = false;
 			// 
-			// toolStripSeparator2
+			// addToDiagramMenuOption
 			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			this.addToDiagramMenuOption.Image = ((System.Drawing.Image)(resources.GetObject("addToDiagramMenuOption.Image")));
+			this.addToDiagramMenuOption.Name = "addToDiagramMenuOption";
+			this.addToDiagramMenuOption.Size = new System.Drawing.Size(203, 22);
+			this.addToDiagramMenuOption.Text = "Add to Diagram";
+			this.addToDiagramMenuOption.Click += new System.EventHandler(this.AddToDiagramMenuOptionClick);
 			// 
 			// NavigatorControl
 			// 
@@ -274,6 +298,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStripContainer.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ToolStripMenuItem addToDiagramMenuOption;
+		private System.Windows.Forms.ToolStripButton addToDiagramButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripButton guidButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;

@@ -196,7 +196,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		{
     			//add no options for primitive types	
     		}
-    		else if (element is UML.Classes.Kernel.Type)
+    		else if (element is UML.Classes.Kernel.Type 
+    		         && !(element is UML.Classes.Kernel.Relationship))
     		{
     			menuOptionsList.Add(menuAttributes);
     			menuOptionsList.Add(menuParameters);
@@ -439,7 +440,6 @@ public class EAAddin:EAAddinFramework.EAAddinBase
                 {
                     this.navigatorControl.setElement(item);
                 }
-
             }
         }
 	}
@@ -931,7 +931,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    		}
    }
    /// <summary>
-   /// reacts to the vent that the FQN button is clicked in the EA NavigatorControl
+   /// reacts to the event that the FQN button is clicked in the EA NavigatorControl
    /// </summary>
    /// <param name="sender">sender</param>
    /// <param name="e">arguments</param>
@@ -940,7 +940,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    		this.selectFQN();
 	}
    	/// <summary>
-   /// reacts to the vent that the GUID button is clicked in the EA NavigatorControl
+   /// reacts to the event that the GUID button is clicked in the EA NavigatorControl
    /// </summary>
    /// <param name="sender">sender</param>
    /// <param name="e">arguments</param>
@@ -948,6 +948,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	{
    		this.selectGUID();
 	}
+
    /// <summary>
    /// gets the elements of a package right before expanding
    /// </summary>

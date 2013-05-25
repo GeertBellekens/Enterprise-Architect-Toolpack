@@ -732,13 +732,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 			//both options should be disabled for connectors, 
 			if (selectedElement is UML.Classes.Kernel.Relationship)
 			{
-				this.setContextMenuItemsEnabled(false);
+				this.selectBrowserMenuItem.Enabled = false;
+				this.openPropertiesMenuItem.Enabled = false;
 			}
 			//or for tagged values on connectors because we can't open their properties dialog anyway.
 			else if (selectedElement is UML.Profiles.TaggedValue
 			         && ((UML.Profiles.TaggedValue)selectedElement).owner is UML.Classes.Kernel.Relationship)
-			{
-				this.setContextMenuItemsEnabled(false);
+			{	
+				this.selectBrowserMenuItem.Enabled = false;
+				this.openPropertiesMenuItem.Enabled = false;
 			}
 			//standard should be enabled.
 			else
@@ -771,6 +773,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 			if (selectedElement != null)
 			{
 				selectedElement.openProperties();
+			}
+		}
+		private void addToDiagram()
+		{
+			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			if (selectedElement != null)
+			{
+				selectedElement.addToCurrentDiagram();
+				selectedElement.selectInCurrentDiagram();
 			}
 		}
 		private void selectInProjectBrowser()
@@ -898,6 +909,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				guidButtonClick(sender,e);
 			}
+		}
+		void AddToDiagramButtonClick(object sender, EventArgs e)
+		{	
+			this.addToDiagram();
+		}
+		
+		void AddToDiagramMenuOptionClick(object sender, EventArgs e)
+		{
+			this.addToDiagram();
 		}
 	}
 }
