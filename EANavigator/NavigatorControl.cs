@@ -55,7 +55,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 		public bool working {get;set;}
 		
-			
+		public string quickSearchText {get;set;}
 		private int maxNodes = 50;
 		
 		//the background worker and workque to be able to handle a ContextItemChanged even multithreaded
@@ -918,6 +918,57 @@ namespace TSF.UmlToolingFramework.EANavigator
 		void AddToDiagramMenuOptionClick(object sender, EventArgs e)
 		{
 			this.addToDiagram();
+		}
+		public event EventHandler quickSearchTextChanged;
+		void QuickSearchComboBoxTextChanged(object sender, EventArgs e)
+		{
+			//we don't need to do anything if the text hasn't changed
+			if (this.quickSearchText != this.quickSearchComboBox.Text)
+				{
+				this.quickSearchText = this.quickSearchComboBox.Text;
+				//close quicksearch when nothing is in the quicksearch box.
+				if (quickSearchText.Length == 0)
+				{
+					this.quickSearchComboBox.Items.Clear();
+					this.quickSearchComboBox.DroppedDown = false;
+				}
+				else if (quickSearchText.Length > 0 
+				    && quickSearchTextChanged != null)
+				{
+					quickSearchTextChanged(sender, e);
+				}
+			}
+		}
+		public void setQuickSearchResults(List<UML.UMLItem> results)
+		{
+			this.quickSearchComboBox.Items.Clear();
+			this.quickSearchComboBox.DroppedDown = true;
+			this.quickSearchComboBox.Items.AddRange(results.ToArray());
+			this.quickSearchComboBox.ComboBox.DisplayMember = "name";
+			
+			this.quickSearchComboBox.Text = this.quickSearchText;
+			//make sure the cursor stays at the end of the text.
+			this.quickSearchComboBox.Select(this.quickSearchText.Length,0);
+		}
+
+		
+		void QuickSearchComboBoxSelectedIndexChanged(object sender, EventArgs e)
+		{
+			//TODO remove
+		}
+		
+		void QuickSearchComboBoxDropDownClosed(object sender, EventArgs e)
+		{
+			if( this.quickSearchComboBox.SelectedIndex > 0)
+			{
+				UML.UMLItem quickSearchSelectedItem = this.quickSearchComboBox.SelectedItem as UML.UMLItem;
+				{
+					if (quickSearchSelectedItem != null)
+				    {
+						this.setElement(quickSearchSelectedItem);
+				    }
+				}
+			}
 		}
 	}
 }

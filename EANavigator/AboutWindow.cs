@@ -27,7 +27,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// Set the assembly Date
 			this.AssemblyDate.Text = System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToShortDateString();
 			// Set the home page
-			this.HomePage.Links.Add(0,this.HomePage.Text.Length,"http://geertbellekens.wordpress.com/ea-navigator/");
+			this.HomePage.Links.Add(0,this.HomePage.Text.Length,"http://bellekens.com/ea-navigator/");
 			// Set the author email adress
 			this.AuthorEmail.Links.Add(0,this.AuthorEmail.Text.Length,"mailto:geert@bellekens.com");
 		}

@@ -43,6 +43,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.openPropertiesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.selectBrowserMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.addToDiagramMenuOption = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.navigatorToolStrip = new System.Windows.Forms.ToolStrip();
 			this.projectBrowserButton = new System.Windows.Forms.ToolStripButton();
@@ -54,8 +55,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.settingsButton = new System.Windows.Forms.ToolStripButton();
 			this.aboutButton = new System.Windows.Forms.ToolStripButton();
+			this.quickSearchComboBox = new System.Windows.Forms.ToolStripComboBox();
 			this.navigatorToolStripContainer = new System.Windows.Forms.ToolStripContainer();
-			this.addToDiagramMenuOption = new System.Windows.Forms.ToolStripMenuItem();
 			this.navigatorContextMenu.SuspendLayout();
 			this.navigatorToolStrip.SuspendLayout();
 			this.navigatorToolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -142,6 +143,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.selectBrowserMenuItem.Text = "Select in Project Browser";
 			this.selectBrowserMenuItem.Click += new System.EventHandler(this.SelectBrowserMenuItemClick);
 			// 
+			// addToDiagramMenuOption
+			// 
+			this.addToDiagramMenuOption.Image = ((System.Drawing.Image)(resources.GetObject("addToDiagramMenuOption.Image")));
+			this.addToDiagramMenuOption.Name = "addToDiagramMenuOption";
+			this.addToDiagramMenuOption.Size = new System.Drawing.Size(203, 22);
+			this.addToDiagramMenuOption.Text = "Add to Diagram";
+			this.addToDiagramMenuOption.Click += new System.EventHandler(this.AddToDiagramMenuOptionClick);
+			// 
 			// optionsMenuItem
 			// 
 			this.optionsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("optionsMenuItem.Image")));
@@ -163,11 +172,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 									this.guidButton,
 									this.toolStripSeparator1,
 									this.settingsButton,
-									this.aboutButton});
+									this.aboutButton,
+									this.quickSearchComboBox});
 			this.navigatorToolStrip.Location = new System.Drawing.Point(3, 0);
 			this.navigatorToolStrip.Name = "navigatorToolStrip";
 			this.navigatorToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.navigatorToolStrip.Size = new System.Drawing.Size(176, 25);
+			this.navigatorToolStrip.Size = new System.Drawing.Size(332, 25);
 			this.navigatorToolStrip.TabIndex = 1;
 			// 
 			// projectBrowserButton
@@ -252,6 +262,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.aboutButton.ToolTipText = "About EA Navigator";
 			this.aboutButton.Click += new System.EventHandler(this.AboutButtonClick);
 			// 
+			// quickSearchComboBox
+			// 
+			this.quickSearchComboBox.MaxDropDownItems = 10;
+			this.quickSearchComboBox.Name = "quickSearchComboBox";
+			this.quickSearchComboBox.Size = new System.Drawing.Size(121, 25);
+			this.quickSearchComboBox.ToolTipText = "Start typing for quick search";
+			this.quickSearchComboBox.DropDownClosed += new System.EventHandler(this.QuickSearchComboBoxDropDownClosed);
+			this.quickSearchComboBox.SelectedIndexChanged += new System.EventHandler(this.QuickSearchComboBoxSelectedIndexChanged);
+			this.quickSearchComboBox.TextChanged += new System.EventHandler(this.QuickSearchComboBoxTextChanged);
+			// 
 			// navigatorToolStripContainer
 			// 
 			this.navigatorToolStripContainer.BottomToolStripPanelVisible = false;
@@ -273,14 +293,6 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStripContainer.TopToolStripPanel.Controls.Add(this.navigatorToolStrip);
 			this.navigatorToolStripContainer.Visible = false;
 			// 
-			// addToDiagramMenuOption
-			// 
-			this.addToDiagramMenuOption.Image = ((System.Drawing.Image)(resources.GetObject("addToDiagramMenuOption.Image")));
-			this.addToDiagramMenuOption.Name = "addToDiagramMenuOption";
-			this.addToDiagramMenuOption.Size = new System.Drawing.Size(203, 22);
-			this.addToDiagramMenuOption.Text = "Add to Diagram";
-			this.addToDiagramMenuOption.Click += new System.EventHandler(this.AddToDiagramMenuOptionClick);
-			// 
 			// NavigatorControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -298,6 +310,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStripContainer.PerformLayout();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ToolStripComboBox quickSearchComboBox;
 		private System.Windows.Forms.ToolStripMenuItem addToDiagramMenuOption;
 		private System.Windows.Forms.ToolStripButton addToDiagramButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;

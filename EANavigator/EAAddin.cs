@@ -39,6 +39,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     const string eaGUIDTagname = "ea_guid";
     const string eaOperationGUIDTagName = "operation_guid";
     
+    private int maxQuickSearchResults = 10;
     private UTF_EA.Model model = null;
     private NavigatorControl navigatorControl;
     private bool fullyLoaded = false;
@@ -432,6 +433,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
                 this.navigatorControl.NodeDoubleClick += new TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeDoubleClick);
                 this.navigatorControl.fqnButtonClick += new EventHandler(this.FqnButtonClick);
                 this.navigatorControl.guidButtonClick += new EventHandler(this.GuidButtonClick);
+                this.navigatorControl.quickSearchTextChanged += new EventHandler(this.quickSearchTextChanged);
                 this.navigatorControl.settings = this.settings;
             }
             if (this.navigatorControl != null && this.model != null)
@@ -948,7 +950,15 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	{
    		this.selectGUID();
 	}
-
+   	void quickSearchTextChanged(object sender, EventArgs e)
+   	{
+   		this.quickSearch( this.navigatorControl.quickSearchText);
+   	}
+   	public void quickSearch(string searchText)
+   	{
+   		List<UML.UMLItem> matchingElements = this.model.getQuickSearchResults(searchText,this.maxQuickSearchResults);
+   		this.navigatorControl.setQuickSearchResults(matchingElements);
+   	}
    /// <summary>
    /// gets the elements of a package right before expanding
    /// </summary>
