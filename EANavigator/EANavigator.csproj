@@ -73,6 +73,10 @@
     <Compile Include="NavigatorControl.Designer.cs">
       <DependentUpon>NavigatorControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="NavigatorIcons.cs" />
+    <Compile Include="NavigatorIcons.Designer.cs">
+      <DependentUpon>NavigatorIcons.cs</DependentUpon>
+    </Compile>
     <Compile Include="NavigatorList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +89,7 @@
       <DependentUpon>NavigatorSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuickSearchComboBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AboutWindow.resx">
@@ -95,6 +100,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NavigatorControl.resx">
       <DependentUpon>NavigatorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NavigatorIcons.resx">
+      <DependentUpon>NavigatorIcons.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NavigatorList.resx">
       <DependentUpon>NavigatorList.cs</DependentUpon>

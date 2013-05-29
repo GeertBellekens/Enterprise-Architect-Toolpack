@@ -69,7 +69,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 									| System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.NavigatorTree.ImageIndex = 0;
-			this.NavigatorTree.ImageList = this.NavigatorImageList;
+			this.NavigatorTree.ImageList = NavigatorIcons.getInstance().imageList;
 			this.NavigatorTree.Location = new System.Drawing.Point(0, 0);
 			this.NavigatorTree.Name = "NavigatorTree";
 			this.NavigatorTree.SelectedImageIndex = 0;
@@ -177,7 +177,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStrip.Location = new System.Drawing.Point(3, 0);
 			this.navigatorToolStrip.Name = "navigatorToolStrip";
 			this.navigatorToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.navigatorToolStrip.Size = new System.Drawing.Size(332, 25);
+			this.navigatorToolStrip.Size = new System.Drawing.Size(299, 25);
 			this.navigatorToolStrip.TabIndex = 1;
 			// 
 			// projectBrowserButton
