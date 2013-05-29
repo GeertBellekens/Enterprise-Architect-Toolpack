@@ -39,7 +39,6 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NavigatorControl));
 			this.NavigatorTree = new System.Windows.Forms.TreeView();
-			this.NavigatorImageList = new System.Windows.Forms.ImageList(this.components);
 			this.navigatorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.openPropertiesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.selectBrowserMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +68,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 									| System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.NavigatorTree.ImageIndex = 0;
-			this.NavigatorTree.ImageList = NavigatorIcons.getInstance().imageList;
+			//this.NavigatorTree.ImageList = NavigatorIcons.getInstance().imageList;
 			this.NavigatorTree.Location = new System.Drawing.Point(0, 0);
 			this.NavigatorTree.Name = "NavigatorTree";
 			this.NavigatorTree.SelectedImageIndex = 0;
@@ -79,43 +78,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorTree.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
 			this.NavigatorTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeMouseClick);
 			this.NavigatorTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeMouseDoubleClick);
-			// 
-			// NavigatorImageList
-			// 
-			this.NavigatorImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("NavigatorImageList.ImageStream")));
-			this.NavigatorImageList.TransparentColor = System.Drawing.Color.Transparent;
-			this.NavigatorImageList.Images.SetKeyName(0, "dummy.png");
-			this.NavigatorImageList.Images.SetKeyName(1, "Attribute.png");
-			this.NavigatorImageList.Images.SetKeyName(2, "Element.png");
-			this.NavigatorImageList.Images.SetKeyName(3, "Operation.png");
-			this.NavigatorImageList.Images.SetKeyName(4, "Diagram.png");
-			this.NavigatorImageList.Images.SetKeyName(5, "Package_element.png");
-			this.NavigatorImageList.Images.SetKeyName(6, "Primitive.png");
-			this.NavigatorImageList.Images.SetKeyName(7, "Message.png");
-			this.NavigatorImageList.Images.SetKeyName(8, "Action.png");
-			this.NavigatorImageList.Images.SetKeyName(9, "SequenceDiagram.png");
-			this.NavigatorImageList.Images.SetKeyName(10, "Class.png");
-			this.NavigatorImageList.Images.SetKeyName(11, "StateMachine.png");
-			this.NavigatorImageList.Images.SetKeyName(12, "Interaction.png");
-			this.NavigatorImageList.Images.SetKeyName(13, "Activity.png");
-			this.NavigatorImageList.Images.SetKeyName(14, "TaggedValue.png");
-			this.NavigatorImageList.Images.SetKeyName(15, "AttributeTag.png");
-			this.NavigatorImageList.Images.SetKeyName(16, "ElementTag.png");
-			this.NavigatorImageList.Images.SetKeyName(17, "OperationTag.png");
-			this.NavigatorImageList.Images.SetKeyName(18, "RelationTag.png");
-			this.NavigatorImageList.Images.SetKeyName(19, "Parameter.png");
-			this.NavigatorImageList.Images.SetKeyName(20, "Package.png");
-			this.NavigatorImageList.Images.SetKeyName(21, "Package_action.png");
-			this.NavigatorImageList.Images.SetKeyName(22, "Package_attribute.png");
-			this.NavigatorImageList.Images.SetKeyName(23, "Package_operation.png");
-			this.NavigatorImageList.Images.SetKeyName(24, "Package_parameter.png");
-			this.NavigatorImageList.Images.SetKeyName(25, "Package_sequenceDiagram.png");
-			this.NavigatorImageList.Images.SetKeyName(26, "Package_taggedValue.png");
-			this.NavigatorImageList.Images.SetKeyName(27, "ParameterTag.png");
-			this.NavigatorImageList.Images.SetKeyName(28, "Rootpackage.png");
-			this.NavigatorImageList.Images.SetKeyName(29, "CommunicationDiagram.png");
-			this.NavigatorImageList.Images.SetKeyName(30, "Enumeration.png");
-			this.NavigatorImageList.Images.SetKeyName(31, "DataType.png");
+
 			// 
 			// navigatorContextMenu
 			// 
@@ -327,7 +290,6 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private System.Windows.Forms.ToolStripMenuItem selectBrowserMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem openPropertiesMenuItem;
 		private System.Windows.Forms.ContextMenuStrip navigatorContextMenu;
-		private System.Windows.Forms.ImageList NavigatorImageList;
 		private System.Windows.Forms.TreeView NavigatorTree;
 		
 

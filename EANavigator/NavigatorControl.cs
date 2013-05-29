@@ -56,6 +56,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			//set the image List of the tree to be able to show the icons
+			this.NavigatorTree.ImageList = NavigatorIcons.getInstance().imageList;
 			//initialisation for background worker
 			resetBackgroundWorker();
 
