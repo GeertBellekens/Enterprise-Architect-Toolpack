@@ -756,7 +756,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.quickSearchComboBox.Items.Clear();
 			this.quickSearchComboBox.DroppedDown = true;
 			this.quickSearchComboBox.Items.AddRange(results.ToArray());
-			this.quickSearchComboBox.ComboBox.DisplayMember = "name";
+			//this.quickSearchComboBox.DisplayMember = "name";
 			
 			this.quickSearchComboBox.Text = this.quickSearchText;
 			//make sure the cursor stays at the end of the text.
@@ -771,7 +771,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 		void QuickSearchComboBoxDropDownClosed(object sender, EventArgs e)
 		{
-			if( this.quickSearchComboBox.SelectedIndex > 0)
+			if( this.quickSearchComboBox.SelectedIndex >= 0)
 			{
 				UML.UMLItem quickSearchSelectedItem = this.quickSearchComboBox.SelectedItem as UML.UMLItem;
 				{

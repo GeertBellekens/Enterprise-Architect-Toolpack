@@ -10,6 +10,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using UML=TSF.UmlToolingFramework.UML;
 
 namespace TSF.UmlToolingFramework.EANavigator
 {
@@ -90,6 +91,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
 		}
+		public Image getImage(UML.UMLItem element)
+		{
+			return this.imageList.Images[this.getImageIndex(element)];
+		}
+		
 		public int getImageIndex(UML.UMLItem element)
 		{
 			int imageIndex;

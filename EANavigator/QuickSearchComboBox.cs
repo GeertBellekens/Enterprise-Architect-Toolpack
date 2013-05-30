@@ -1,46 +1,56 @@
-﻿
+﻿/*
+ * Created by SharpDevelop.
+ * User: wij
+ * Date: 29/05/2013
+ * Time: 5:26
+ * 
+ * To change this template use Tools | Options | Coding | Edit Standard Headers.
+ */
 using System;
-using System.Linq;
-using System.Windows.Forms;
+using System.ComponentModel;
 using System.Drawing;
-
-
-
+using System.Windows.Forms;
 
 namespace TSF.UmlToolingFramework.EANavigator
 {
 	/// <summary>
 	/// Description of QuickSearchComboBox.
 	/// </summary>
-	public class QuickSearchComboBox:ComboBox
+	public partial class QuickSearchComboBox : ComboBox
 	{
-		public ImageList imageList {get;set;}
-
+		private NavigatorIcons navigatorIcons {get;set;}
 		public QuickSearchComboBox()
 		{
-//			this.DrawMode = DrawMode.OwnerDrawFixed;
-//			this.DrawItem += new DrawItemEventHandler(QuickSearchComboBox_DrawItem);
+			//
+			// The InitializeComponent() call is required for Windows Forms designer support.
+			//
+			InitializeComponent();
+			this.navigatorIcons = NavigatorIcons.getInstance();
+			
+
+			this.DrawMode = DrawMode.OwnerDrawFixed;
+			this.DrawItem += new DrawItemEventHandler(QuickSearchComboBox_DrawItem);
 		}
-		
-//		private void QuickSearchComboBox_DrawItem(object sender, DrawItemEventArgs e)
-//        {    
-//            // Let's highlight the currently selected item like any well 
-//            // behaved combo box should
-//            e.Graphics.FillRectangle(Brushes.Bisque, e.Bounds);                
-//            e.Graphics.DrawString(arr[e.Index], myFont, Brushes.Blue, 
-//                                  new Point(imageArr[e.Index].Width*2,e.Bounds.Y)); 
-//           
-//            e.Graphics.DrawImage(imageArr[e.Index], new Point(e.Bounds.X, e.Bounds.Y));   
-//            
-//            //is the mouse hovering over a combobox item??            
-//            if((e.State & DrawItemState.Focus)==0)
-//            {                                                    
-//                //this code keeps the last item drawn from having a Bisque background. 
-//                e.Graphics.FillRectangle(Brushes.White, e.Bounds);                    
-//                e.Graphics.DrawString(arr[e.Index], myFont, Brushes.Blue, 
-//                                      new Point(imageArr[e.Index].Width*2,e.Bounds.Y));
-//                e.Graphics.DrawImage(imageArr[e.Index], new Point(e.Bounds.X, e.Bounds.Y)); 
-//            }    
-//        }  
+		/// <summary>
+		/// drawns the icon and the name of the element in the dropdown list
+		/// </summary>
+		/// <param name="sender">the sender</param>
+		/// <param name="e">the params</param>
+		private void QuickSearchComboBox_DrawItem(object sender, DrawItemEventArgs e)
+        { 
+			//get the selected element and its associated image
+			UML.UMLItem selectedElement = (UML.UMLItem)this.Items[e.Index];
+			Image elementImage = this.navigatorIcons.getImage(selectedElement);
+			//draw standard background and focusrectangle
+			e.DrawBackground();
+			e.DrawFocusRectangle();		
+						
+			//draw the name of the element
+			e.Graphics.DrawString(selectedElement.name, e.Font, new SolidBrush(e.ForeColor),
+                                  new Point(elementImage.Width + 2,e.Bounds.Y)); 
+            // draw the icon
+            e.Graphics.DrawImage(elementImage, new Point(e.Bounds.X, e.Bounds.Y));   
+             
+        }  
 	}
 }

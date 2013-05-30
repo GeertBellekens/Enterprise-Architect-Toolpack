@@ -90,6 +90,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuickSearchComboBox.cs" />
+    <Compile Include="QuickSearchComboBox.Designer.cs">
+      <DependentUpon>QuickSearchComboBox.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AboutWindow.resx">
