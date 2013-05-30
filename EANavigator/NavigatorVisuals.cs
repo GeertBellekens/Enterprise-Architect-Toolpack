@@ -17,7 +17,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 	/// <summary>
 	/// Description of NavigatorIcons.
 	/// </summary>
-	public partial class NavigatorIcons : UserControl
+	public partial class NavigatorVisuals : UserControl
 	{
 		private int dummyIndex = 0;
 		private int attributeIndex = 1;
@@ -56,7 +56,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <summary>
 		/// singleton instance
 		/// </summary>
-		private static NavigatorIcons instance;
+		private static NavigatorVisuals instance;
 		/// <summary>
 		/// the imageList to be used
 		/// </summary>
@@ -71,16 +71,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// singleton getInstance
 		/// </summary>
 		/// <returns>the signle instance of this class</returns>
-		public static NavigatorIcons getInstance()
+		public static NavigatorVisuals getInstance()
 		{
 			if (instance == null)
 			{
-				instance = new NavigatorIcons();
+				instance = new NavigatorVisuals();
 			}
 			return instance;
 		}
 		
-		private NavigatorIcons()
+		private NavigatorVisuals()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
@@ -257,6 +257,71 @@ namespace TSF.UmlToolingFramework.EANavigator
 		public int getDummyIndex()
 		{
 			return this.dummyIndex;
+		}
+				/// <summary>
+		/// returns a string represenation of the stereotypes
+		/// </summary>
+		/// <param name="element">the element containing the stereotype</param>
+		/// <returns>a string containing the stereotype «stereo1,ste..»</returns>
+		private string getStereotypeString(UML.UMLItem element)
+		{
+			string stereotypeString = string.Empty;
+			int maxLength = 20;
+			if (element.stereotypes.Count > 0)
+			{
+				stereotypeString = "«";
+				foreach (UML.Profiles.Stereotype stereotype in element.stereotypes) 
+				{
+					if (stereotypeString.Length > 1)
+					{
+						stereotypeString += ", ";
+					}
+					stereotypeString += stereotype.name;
+					if (stereotypeString.Length > maxLength)
+					{
+						stereotypeString = stereotypeString.Substring(0,maxLength- 2) + "..";
+					}
+				}
+				stereotypeString += "» ";
+			}
+			return stereotypeString;
+		}
+		/// <summary>
+		/// returns the name to show as node name for this element
+		/// </summary>
+		/// <param name="element"></param>
+		public string getNodeName(UML.UMLItem element)
+		{
+			
+			string name = string.Empty;
+			if (element != null)
+			{
+				name = this.getStereotypeString(element);
+				name += element.name;
+			}
+			if (element is UML.Classes.Kernel.Parameter)
+			{
+				UML.Classes.Kernel.Parameter parameter = (UML.Classes.Kernel.Parameter)element;
+				if (parameter.direction != UML.Classes.Kernel.ParameterDirectionKind._return)
+				{
+					name = parameter.name + " (" + this.getNodeName(parameter.operation) + ")";
+				}
+			}
+			else if (element is UML.Classes.Kernel.Feature)
+			{
+				UML.Classes.Kernel.Feature feature = (UML.Classes.Kernel.Feature)element;
+				name = feature.owner.name + "." + this.getStereotypeString(element)+ feature.name;
+			}
+			else if (element is UML.Profiles.TaggedValue)
+			{
+				UML.Profiles.TaggedValue taggedValue = (UML.Profiles.TaggedValue)element;
+				if (taggedValue.owner.name.Length > 0)
+				{
+					name = taggedValue.owner.name + "." + taggedValue.name;
+				}
+			}
+			return name;
+			    
 		}
 	}
 }

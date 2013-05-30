@@ -8,7 +8,7 @@
  */
 namespace TSF.UmlToolingFramework.EANavigator
 {
-	partial class NavigatorIcons
+	partial class NavigatorVisuals
 	{
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
@@ -37,7 +37,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NavigatorIcons));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NavigatorVisuals));
 			this.NavigatorImageList = new System.Windows.Forms.ImageList(this.components);
 			this.SuspendLayout();
 			// 

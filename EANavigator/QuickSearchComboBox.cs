@@ -18,14 +18,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 	/// </summary>
 	public partial class QuickSearchComboBox : ComboBox
 	{
-		private NavigatorIcons navigatorIcons {get;set;}
+		private NavigatorVisuals navigatorVisuals {get;set;}
 		public QuickSearchComboBox()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-			this.navigatorIcons = NavigatorIcons.getInstance();
+			this.navigatorVisuals = NavigatorVisuals.getInstance();
 			
 
 			this.DrawMode = DrawMode.OwnerDrawFixed;
@@ -39,17 +39,20 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private void QuickSearchComboBox_DrawItem(object sender, DrawItemEventArgs e)
         { 
 			//get the selected element and its associated image
-			UML.UMLItem selectedElement = (UML.UMLItem)this.Items[e.Index];
-			Image elementImage = this.navigatorIcons.getImage(selectedElement);
-			//draw standard background and focusrectangle
-			e.DrawBackground();
-			e.DrawFocusRectangle();		
-						
-			//draw the name of the element
-			e.Graphics.DrawString(selectedElement.name, e.Font, new SolidBrush(e.ForeColor),
-                                  new Point(elementImage.Width + 2,e.Bounds.Y)); 
-            // draw the icon
-            e.Graphics.DrawImage(elementImage, new Point(e.Bounds.X, e.Bounds.Y));   
+			if (e.Index >= 0)
+			{
+				UML.UMLItem selectedElement = (UML.UMLItem)this.Items[e.Index];
+				Image elementImage = this.navigatorVisuals.getImage(selectedElement);
+				//draw standard background and focusrectangle
+				e.DrawBackground();
+				e.DrawFocusRectangle();		
+							
+				//draw the name of the element
+				e.Graphics.DrawString(this.navigatorVisuals.getNodeName(selectedElement), e.Font, new SolidBrush(e.ForeColor),
+	                                  new Point(elementImage.Width + 2,e.Bounds.Y)); 
+	            // draw the icon
+	            e.Graphics.DrawImage(elementImage, new Point(e.Bounds.X, e.Bounds.Y));   
+			}
              
         }  
 	}

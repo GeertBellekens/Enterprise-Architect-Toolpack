@@ -73,9 +73,9 @@
     <Compile Include="NavigatorControl.Designer.cs">
       <DependentUpon>NavigatorControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="NavigatorIcons.cs" />
-    <Compile Include="NavigatorIcons.Designer.cs">
-      <DependentUpon>NavigatorIcons.cs</DependentUpon>
+    <Compile Include="NavigatorVisuals.cs" />
+    <Compile Include="NavigatorVisuals.Designer.cs">
+      <DependentUpon>NavigatorVisuals.cs</DependentUpon>
     </Compile>
     <Compile Include="NavigatorList.cs">
       <SubType>Form</SubType>
@@ -104,8 +104,8 @@
     <EmbeddedResource Include="NavigatorControl.resx">
       <DependentUpon>NavigatorControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NavigatorIcons.resx">
-      <DependentUpon>NavigatorIcons.cs</DependentUpon>
+    <EmbeddedResource Include="NavigatorVisuals.resx">
+      <DependentUpon>NavigatorVisuals.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NavigatorList.resx">
       <DependentUpon>NavigatorList.cs</DependentUpon>

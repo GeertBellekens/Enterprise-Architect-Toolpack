@@ -57,7 +57,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			//
 			InitializeComponent();
 			//set the image List of the tree to be able to show the icons
-			this.NavigatorTree.ImageList = NavigatorIcons.getInstance().imageList;
+			this.NavigatorTree.ImageList = NavigatorVisuals.getInstance().imageList;
 			//initialisation for background worker
 			resetBackgroundWorker();
 
@@ -226,71 +226,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			return element.fqn;
 		}
-		/// <summary>
-		/// returns a string represenation of the stereotypes
-		/// </summary>
-		/// <param name="element">the element containing the stereotype</param>
-		/// <returns>a string containing the stereotype «stereo1,ste..»</returns>
-		private string getStereotypeString(UML.UMLItem element)
-		{
-			string stereotypeString = string.Empty;
-			int maxLength = 20;
-			if (element.stereotypes.Count > 0)
-			{
-				stereotypeString = "«";
-				foreach (UML.Profiles.Stereotype stereotype in element.stereotypes) 
-				{
-					if (stereotypeString.Length > 1)
-					{
-						stereotypeString += ", ";
-					}
-					stereotypeString += stereotype.name;
-					if (stereotypeString.Length > maxLength)
-					{
-						stereotypeString = stereotypeString.Substring(0,maxLength- 2) + "..";
-					}
-				}
-				stereotypeString += "» ";
-			}
-			return stereotypeString;
-		}
-		/// <summary>
-		/// returns the name to show as node name for this element
-		/// </summary>
-		/// <param name="element"></param>
-		private string getNodeName(UML.UMLItem element)
-		{
-			
-			string name = string.Empty;
-			if (element != null)
-			{
-				name = this.getStereotypeString(element);
-				name += element.name;
-			}
-			if (element is UML.Classes.Kernel.Parameter)
-			{
-				UML.Classes.Kernel.Parameter parameter = (UML.Classes.Kernel.Parameter)element;
-				if (parameter.direction != UML.Classes.Kernel.ParameterDirectionKind._return)
-				{
-					name = parameter.name + " (" + this.getNodeName(parameter.operation) + ")";
-				}
-			}
-			else if (element is UML.Classes.Kernel.Feature)
-			{
-				UML.Classes.Kernel.Feature feature = (UML.Classes.Kernel.Feature)element;
-				name = feature.owner.name + "." + this.getStereotypeString(element)+ feature.name;
-			}
-			else if (element is UML.Profiles.TaggedValue)
-			{
-				UML.Profiles.TaggedValue taggedValue = (UML.Profiles.TaggedValue)element;
-				if (taggedValue.owner.name.Length > 0)
-				{
-					name = taggedValue.owner.name + "." + taggedValue.name;
-				}
-			}
-			return name;
-			    
-		}
+
+		
 		/// <summary>
 		/// adds an elementNode to the tree
 		/// </summary>
@@ -317,7 +254,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 				elementNode = nodeToReplace;
 				if (nodeToReplace.Text.StartsWith(EAAddin.ownerMenuPrefix.Replace("&",string.Empty)))
 				{
-					elementNode.Text = EAAddin.ownerMenuPrefix.Replace("&",string.Empty) + this.getNodeName(element);
+					elementNode.Text = EAAddin.ownerMenuPrefix.Replace("&",string.Empty) + NavigatorVisuals.getInstance().getNodeName(element);
 				}
 				//the type name is already ok
 				//remove dummy node
@@ -325,10 +262,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 			else
 			{
-				elementNode = new TreeNode(this.getNodeName(element));
+				elementNode = new TreeNode(NavigatorVisuals.getInstance().getNodeName(element));
 			}
 			elementNode.Tag = element;
-			int imageIndex = NavigatorIcons.getInstance().getImageIndex(element);
+			int imageIndex = NavigatorVisuals.getInstance().getImageIndex(element);
 			elementNode.ImageIndex = imageIndex;
 			elementNode.SelectedImageIndex = imageIndex;
 			elementNode.ToolTipText = this.getToolTipText(element);
@@ -343,10 +280,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			foreach (string subNodeName in subMenuOptions) 
 			{
 				TreeNode subNode = new TreeNode(subNodeName.Replace("&",String.Empty));
-				int subImageIndex = NavigatorIcons.getInstance().getFolderImageIndex(subNodeName);
+				int subImageIndex = NavigatorVisuals.getInstance().getFolderImageIndex(subNodeName);
 				subNode.ImageIndex = subImageIndex;
 				subNode.SelectedImageIndex = subImageIndex;
-				subNode.Nodes.Add( new TreeNode(dummyName,NavigatorIcons.getInstance().getDummyIndex(),NavigatorIcons.getInstance().getDummyIndex()));
+				subNode.Nodes.Add( new TreeNode(dummyName,NavigatorVisuals.getInstance().getDummyIndex(),NavigatorVisuals.getInstance().getDummyIndex()));
 				elementNode.Nodes.Add(subNode);
 				
 			}
