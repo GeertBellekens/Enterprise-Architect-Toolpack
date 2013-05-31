@@ -39,7 +39,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private void QuickSearchComboBox_DrawItem(object sender, DrawItemEventArgs e)
         { 
 			//get the selected element and its associated image
-			if (e.Index >= 0)
+			if (0 <= e.Index && e.Index  < this.Items.Count)
 			{
 				UML.UMLItem selectedElement = (UML.UMLItem)this.Items[e.Index];
 				Image elementImage = this.navigatorVisuals.getImage(selectedElement);

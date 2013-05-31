@@ -678,8 +678,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 				//close quicksearch when nothing is in the quicksearch box.
 				if (quickSearchText.Length == 0)
 				{
-					this.quickSearchComboBox.Items.Clear();
 					this.quickSearchComboBox.DroppedDown = false;
+					this.quickSearchComboBox.Items.Clear();
 				}
 				else if (quickSearchText.Length > 0 
 				    && quickSearchTextChanged != null)
