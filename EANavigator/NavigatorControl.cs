@@ -26,10 +26,13 @@ namespace TSF.UmlToolingFramework.EANavigator
 		public string quickSearchText {get;set;}
 		private int maxNodes = 50;
 		
-		//the background worker and workque to be able to handle a ContextItemChanged even multithreaded
-		private BackgroundWorker backgroundWorker = new BackgroundWorker();
+		//the background worker and workqueue to be able to handle a ContextItemChanged event multithreaded
+		private BackgroundWorker treeBackgroundWorker;
 		private List<UML.UMLItem> workQueue = new List<UML.UMLItem>();
 		private DateTime lastStartTime;
+		
+		//the backgroundworker for the quicksearch box
+		private BackgroundWorker quickSearchBackgroundWorker;
 		
 		//the delegate stuff for the thread save Treenode.Insert
 		private delegate void MethodDelegate(object nodeObject);
@@ -59,20 +62,50 @@ namespace TSF.UmlToolingFramework.EANavigator
 			//set the image List of the tree to be able to show the icons
 			this.NavigatorTree.ImageList = NavigatorVisuals.getInstance().imageList;
 			//initialisation for background worker
-			resetBackgroundWorker();
+			resetTreeBackgroundWorker();
+			//initialise quickSearch BackgroundWorker
+			initQuickSearchBackgroundWorker();
 
 		}
-		private void resetBackgroundWorker()
+		private void initQuickSearchBackgroundWorker()
 		{
-			this.backgroundWorker = new BackgroundWorker();
-			this.backgroundWorker.WorkerSupportsCancellation = true;
-            this.backgroundWorker.DoWork += new DoWorkEventHandler(bw_DoWork);
+			this.quickSearchBackgroundWorker = new BackgroundWorker();
+			this.quickSearchBackgroundWorker.WorkerSupportsCancellation = true;
+            this.quickSearchBackgroundWorker.DoWork += new DoWorkEventHandler(quickSearchBackground_DoWork);
             //backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-            this.backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+            this.quickSearchBackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(quickSearchBackgroundRunWorkerCompleted);
+			
+		}
+		private void quickSearchBackground_DoWork(object sender, DoWorkEventArgs e)
+        {
+			//pass the search string 
+			e.Result = e.Argument;
+			//fire the search event
+			quickSearchTextChanged(sender, e);
+			
+        }
+		
+		private void quickSearchBackgroundRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+			string searchedString =  e.Result as string;
+			if (searchedString != this.quickSearchText)
+			{
+				//search again in case the text has already changed in the meantime
+				this.handleSearchTextChange();
+			}
+		}
+		
+		private void resetTreeBackgroundWorker()
+		{
+			this.treeBackgroundWorker = new BackgroundWorker();
+			this.treeBackgroundWorker.WorkerSupportsCancellation = true;
+            this.treeBackgroundWorker.DoWork += new DoWorkEventHandler(treeBackground_DoWork);
+            //backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
+            this.treeBackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(treeBackgroundRunWorkerCompleted);
 			
 		}
 		
-		private void bw_DoWork(object sender, DoWorkEventArgs e)
+		private void treeBackground_DoWork(object sender, DoWorkEventArgs e)
         {
 			UML.UMLItem element = e.Argument as UML.UMLItem;
 			BackgroundWorker worker = sender as BackgroundWorker;
@@ -100,7 +133,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		/// <param name="sender">the backgroundworder</param>
 		/// <param name="e">the parameters</param>
-		private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		private void treeBackgroundRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if ((e.Cancelled == true))
             {
@@ -177,7 +210,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <param name="newElement">the element to navigate</param>
 		public void setElement(UML.UMLItem newElement)
 		{
-			if (! backgroundWorker.IsBusy)
+			if (! treeBackgroundWorker.IsBusy)
 			{
 				this.startThread(newElement);
 			}
@@ -199,7 +232,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 					//In the long rung this will ofcourse cause the a memory/thread leak, but from personal experience, this only seems to happen a few times a day, and only when dealing with a large (and thus slow) model.
 					
 					//current backgoundworker is stuck. Start a new one.
-					this.resetBackgroundWorker();
+					this.resetTreeBackgroundWorker();
 					//process the element
 					this.startThread(newElement);
 				}
@@ -208,12 +241,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 		private void startThread(UML.UMLItem newElement)
 		{
-			if (! this.backgroundWorker.IsBusy)
+			if (! this.treeBackgroundWorker.IsBusy)
 			{
 				this.working = true;
 				//start new tread here to create new element
 				this.lastStartTime = DateTime.Now;
-				this.backgroundWorker.RunWorkerAsync(newElement);
+				this.treeBackgroundWorker.RunWorkerAsync(newElement);
 			}
 		}
 		
@@ -671,42 +704,80 @@ namespace TSF.UmlToolingFramework.EANavigator
 		public event EventHandler quickSearchTextChanged;
 		void QuickSearchComboBoxTextChanged(object sender, EventArgs e)
 		{
-			//we don't need to do anything if the text hasn't changed
-			if (this.quickSearchText != this.quickSearchComboBox.Text)
-				{
-				this.quickSearchText = this.quickSearchComboBox.Text;
-				//close quicksearch when nothing is in the quicksearch box.
-				if (quickSearchText.Length == 0)
-				{
-					this.quickSearchComboBox.DroppedDown = false;
-					this.quickSearchComboBox.Items.Clear();
-				}
-				else if (quickSearchText.Length > 0 
-				    && quickSearchTextChanged != null)
-				{
-					quickSearchTextChanged(sender, e);
-				}
+			if(this.quickSearchComboBox.Text != this.quickSearchText)
+			{
+				this.quickSearchComboBox.Text = this.quickSearchText;
 			}
 		}
-		public void setQuickSearchResults(List<UML.UMLItem> results)
+		void QuickSearchComboBoxTextUpdate(object sender, System.EventArgs e)
 		{
-			this.quickSearchComboBox.Items.Clear();
-			this.quickSearchComboBox.DroppedDown = true;
-			this.quickSearchComboBox.Items.AddRange(results.ToArray());
-			//this.quickSearchComboBox.DisplayMember = "name";
+			this.handleSearchTextChange();
+		}
+		private void handleSearchTextChange()
+		{
+			this.quickSearchText = this.quickSearchComboBox.Text;
+			//close quicksearch when nothing is in the quicksearch box.
+			if (quickSearchText.Length == 0)
+			{
+				this.quickSearchComboBox.DroppedDown = false;
+				this.quickSearchComboBox.Items.Clear();
+				this.quickSearchComboBox.SelectedItem = null;
+				this.quickSearchComboBox.ResetText();
+				//to avoid error with index = 0 (invalidArgumenException) we add an empty string
+				this.quickSearchComboBox.Items.Add(string.Empty);
+			}
+			else if (quickSearchText.Length > 0 
+			    && quickSearchTextChanged != null
+			    && !this.quickSearchBackgroundWorker.IsBusy)
+			{
+				this.quickSearchBackgroundWorker.RunWorkerAsync(this.quickSearchText);
+			}	
+		}
+		
+		public void setQuickSearchResults(List<UML.UMLItem> results,string searchedString)
+		{
 			
+			//check if he searched string is not yet updated, else don't bother showing the results
+			if (searchedString == this.quickSearchText)
+			{
+				this.quickSearchComboBox.Invoke(new MethodDelegate(threadSafeSetQuickSearchItems),results);
+				
+
+			}
+		}
+		/// <summary>
+		/// sets the given results as items in the quicksearchcombobox
+		/// </summary>
+		/// <param name="nodeObject"></param>
+		private void threadSafeSetQuickSearchItems(object resultsObject) 
+		{
+			List<UML.UMLItem> results = (List<UML.UMLItem>)resultsObject;
+			this.quickSearchComboBox.Items.Clear();
+			this.quickSearchComboBox.SelectedItem = null;
+			this.quickSearchComboBox.ResetText();
+			
+			if (results.Count > 0)
+			{
+				this.quickSearchComboBox.Items.AddRange(results.ToArray());
+			}
+			else
+			{
+				//to avoid error with index = 0 (invalidArgumenException) we add an empty string
+				this.quickSearchComboBox.Items.Add(string.Empty);
+			}
+			this.quickSearchComboBox.DroppedDown = results.Count > 0;
+							
 			this.quickSearchComboBox.Text = this.quickSearchText;
 			//make sure the cursor stays at the end of the text.
-			this.quickSearchComboBox.Select(this.quickSearchText.Length,0);
-		}
-
+			this.quickSearchComboBox.Select(this.quickSearchComboBox.Text.Length,0);
+		} 
 		
 		void QuickSearchComboBoxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			//TODO remove
 		}
 		
-		void QuickSearchComboBoxDropDownClosed(object sender, EventArgs e)
+		void QuickSearchComboBoxSelectionChangeCommitted(object sender, EventArgs e)
 		{
 			if( this.quickSearchComboBox.SelectedIndex >= 0)
 			{
@@ -719,5 +790,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 				}
 			}
 		}
+		
+
 	}
 }

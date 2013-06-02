@@ -189,16 +189,16 @@
   <data name="addToDiagramButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAImSURBVDhPhZLra1JxHMb9D/oD+gvMlwOhN7EYg7HQXWgp
-        tCatFcG26FWBoyTc1lA32DDxxuZW5AXaBTfZjU1PnLbZvORl6lEnglKZQeDb5On8bDsdndUXHg78nuf5
-        wO98fwKT6RhELQ/O1PJbAt40ZoRCYU2c2VhuBuDPW/+PPwBS5A8xGwH8DPH/Cjg3CUAkEkEsFte+JMz3
-        6wFsuNEkZ8lCWkbFj5DKZeQkzPeJ6gDNzNMvOTy0DWNp14EBhaJ21igOcK62thDG1CpIhuSwUYvwnLyB
-        blMNw6qtlEgnWmuFf824UQcbPY/18ArWwi6kvwUR/ezDyw0ljOuLn0Kp0OWz6MW5Z1HaXUEL/PkdZL5/
-        BFM+ROyrF8cFDzxJI566RuDcPWj+VibWTE9m/aqfweIW/IV32MxoYY+OwBSQYfagB1OUFPcX+rCxv8WV
-        OYAnRl2Zp81wJ4xwRZVsqQ/mYA+sIVbhbswdSfDI2QXtawPK5TK3MQ7was8iG3XdgYa6BR3diSmvBHet
-        NyGbu43R5XYMOyRQWaeRz+dRrVa5TXGA7fgehpzX8WynHRO+DijMvXC42WvQ2+iYvoEXCxpEIum6MhG3
-        xucrGijsV/HYfY1VKwb1g4iexBE5TekNq0tIMElMTubqynWA8WU9OrVSSGe60D3TizGLGsViEdls9hLD
-        MP2VSqWf/+MuPCSPf1/+PnQIb4CGL/ABsVQCpVJJXjP/OwLBL2dHQrM7Hai8AAAAAElFTkSuQmCC
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAInSURBVDhPhZJta1JhHMb9Bn2APoH5ciD0JhZjMBa6B1oK
+        rUlrRbAtelXgKAm3tdQNGiY+sbkVqQfaA26HPbGpYdtsesyHHT3qRFAqMwh8m1ydY9vp6Kz+cHHgvq7r
+        B/f53yKL5QicWu6dquW3RIJpzIjF4pp4s7HcDCCct8EffwBcUTic2QgQZjj/r4AzkwNIJBJIpdLalwsL
+        /XoAG240ubNkIa3wJw6RymWUXFjoc6oDNDNPvuRw3zGMxR0XBlSq2lmjeMCZ2toojGk1kA0p4fAvgDx+
+        A8OGFqYVR4lO0621wr9m3GyAIzCHtcgyViME0t/CiH324fm6Gua1hU9Uirp4Gj0/d2xqJxG2IZjfRub7
+        RzDlA8S/enFUIEEmzXhMjMC9s9/8rUysWh69CGp+houbCBbeYSOjhzM2AktIgZf7PZjyy3F3vg/re5t8
+        mQeQcf+luYAVHtoMIqZmS32whntgp1hFujF7KMMDdxf0r00ol8v8xnjAq12bYpS4BZ3/BgyBTkx5Zbht
+        vw7F7E2MLrVj2CWDxj6NfD6ParXKb4oHbCV2MeS+iifb7ZjwdUBl7YXLw14jsIWO6Wt4Nq9DNJquK3Pi
+        1/h0WQeV8zIeeq6wasWgcRCx4wSiJymjaWURNJPE5GSurlwHGF8yolMvh3ymC90zvRizaVEsFpHNZi8w
+        DNNfqVT6hT/u3EMig3vK99QBvKEAfKEPiKdolEolZc3874hEvwBZV0KrvA+o9wAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="fqnButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

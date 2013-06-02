@@ -41,19 +41,23 @@ namespace TSF.UmlToolingFramework.EANavigator
 			//get the selected element and its associated image
 			if (0 <= e.Index && e.Index  < this.Items.Count)
 			{
-				UML.UMLItem selectedElement = (UML.UMLItem)this.Items[e.Index];
-				Image elementImage = this.navigatorVisuals.getImage(selectedElement);
-				//draw standard background and focusrectangle
-				e.DrawBackground();
-				e.DrawFocusRectangle();		
-							
-				//draw the name of the element
-				e.Graphics.DrawString(this.navigatorVisuals.getNodeName(selectedElement), e.Font, new SolidBrush(e.ForeColor),
-	                                  new Point(elementImage.Width + 2,e.Bounds.Y)); 
-	            // draw the icon
-	            e.Graphics.DrawImage(elementImage, new Point(e.Bounds.X, e.Bounds.Y));   
+				UML.UMLItem selectedElement = this.Items[e.Index] as UML.UMLItem;
+				if (selectedElement != null)
+				{
+					Image elementImage = this.navigatorVisuals.getImage(selectedElement);
+					//draw standard background and focusrectangle
+					e.DrawBackground();
+					e.DrawFocusRectangle();		
+								
+					//draw the name of the element
+					e.Graphics.DrawString(this.navigatorVisuals.getNodeName(selectedElement), e.Font, new SolidBrush(e.ForeColor),
+		                                  new Point(elementImage.Width + 2,e.Bounds.Y)); 
+		            // draw the icon
+		            e.Graphics.DrawImage(elementImage, new Point(e.Bounds.X, e.Bounds.Y));   
+				}
 			}
              
         }  
+		
 	}
 }

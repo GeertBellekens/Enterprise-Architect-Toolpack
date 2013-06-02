@@ -957,7 +957,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	public void quickSearch(string searchText)
    	{
    		List<UML.UMLItem> matchingElements = this.model.getQuickSearchResults(searchText,this.maxQuickSearchResults);
-   		this.navigatorControl.setQuickSearchResults(matchingElements);
+   		this.navigatorControl.setQuickSearchResults(matchingElements,searchText);
    	}
    /// <summary>
    /// gets the elements of a package right before expanding
