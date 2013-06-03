@@ -19,6 +19,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 	public partial class QuickSearchComboBox : ComboBox
 	{
 		private NavigatorVisuals navigatorVisuals {get;set;}
+		private ToolTip itemTooltip = new ToolTip();
 		public QuickSearchComboBox()
 		{
 			//
@@ -54,10 +55,25 @@ namespace TSF.UmlToolingFramework.EANavigator
 		                                  new Point(elementImage.Width + 2,e.Bounds.Y)); 
 		            // draw the icon
 		            e.Graphics.DrawImage(elementImage, new Point(e.Bounds.X, e.Bounds.Y));   
+		            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+		            {
+		            	 this.itemTooltip.Show(selectedElement.fqn,
+                            this, e.Bounds.Right, e.Bounds.Bottom);
+		            }
+		            else
+		            {
+		            	this.itemTooltip.Hide(this);
+		            }
 				}
 			}
              
-        }  
+        }
+		protected override void OnDropDownClosed(EventArgs e)
+		{
+			base.OnDropDownClosed(e);
+			this.itemTooltip.Hide(this);
+		}
+		
 		
 	}
 }

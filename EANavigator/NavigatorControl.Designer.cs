@@ -246,14 +246,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.quickSearchComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.quickSearchComboBox.FormattingEnabled = true;
-			this.quickSearchComboBox.Location = new System.Drawing.Point(189, 4);
+			this.quickSearchComboBox.Location = new System.Drawing.Point(185, 4);
 			this.quickSearchComboBox.MaxDropDownItems = 10;
 			this.quickSearchComboBox.Name = "quickSearchComboBox";
-			this.quickSearchComboBox.Size = new System.Drawing.Size(204, 21);
+			this.quickSearchComboBox.Size = new System.Drawing.Size(219, 21);
 			this.quickSearchComboBox.TabIndex = 2;
 			this.quickSearchComboBox.SelectionChangeCommitted += new System.EventHandler(this.QuickSearchComboBoxSelectionChangeCommitted);
 			this.quickSearchComboBox.TextUpdate += new System.EventHandler(this.QuickSearchComboBoxTextUpdate);
 			this.quickSearchComboBox.TextChanged += new System.EventHandler(this.QuickSearchComboBoxTextChanged);
+			this.quickSearchComboBox.Enter += new System.EventHandler(this.QuickSearchComboBoxEnter);
+			this.quickSearchComboBox.Leave += new System.EventHandler(this.QuickSearchComboBoxLeave);
 			// 
 			// NavigatorControl
 			// 
