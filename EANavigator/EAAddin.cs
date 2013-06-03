@@ -956,7 +956,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	}
    	public void quickSearch(string searchText)
    	{
-   		List<UML.UMLItem> matchingElements = this.model.getQuickSearchResults(searchText,this.maxQuickSearchResults);
+   		List<UML.UMLItem> matchingElements = this.model.getQuickSearchResults(searchText,this.maxQuickSearchResults,
+   		                                                                      this.settings.quickSearchElements,this.settings.quickSearchOperations,
+   		                                                                      this.settings.quickSearchAttributes,this.settings.quickSearchDiagrams);
    		this.navigatorControl.setQuickSearchResults(matchingElements,searchText);
    	}
    /// <summary>

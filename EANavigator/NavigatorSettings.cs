@@ -157,6 +157,82 @@ namespace TSF.UmlToolingFramework.EANavigator
 				this.currentConfig.AppSettings.Settings["trackSelectedElement"].Value = value.ToString();
 			}
 		}
+		public bool quickSearchElements
+		{
+			get
+			{
+				bool result;
+				if( bool.TryParse(this.currentConfig.AppSettings.Settings["quickSearchElements"].Value, out result))
+			   	{
+			   		return result;
+			   	}
+			    else 
+			  	{
+			   		return true;
+			   	}
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["quickSearchElements"].Value = value.ToString();
+			}
+		}
+		public bool quickSearchOperations
+		{
+			get
+			{
+				bool result;
+				if( bool.TryParse(this.currentConfig.AppSettings.Settings["quickSearchOperations"].Value, out result))
+			   	{
+			   		return result;
+			   	}
+			    else 
+			  	{
+			   		return true;
+			   	}
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["quickSearchOperations"].Value = value.ToString();
+			}
+		}
+		public bool quickSearchAttributes
+		{
+			get
+			{
+				bool result;
+				if( bool.TryParse(this.currentConfig.AppSettings.Settings["quickSearchAttributes"].Value, out result))
+			   	{
+			   		return result;
+			   	}
+			    else 
+			  	{
+			   		return true;
+			   	}
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["quickSearchAttributes"].Value = value.ToString();
+			}
+		}
+		public bool quickSearchDiagrams
+		{
+			get
+			{
+				bool result;
+				if( bool.TryParse(this.currentConfig.AppSettings.Settings["quickSearchDiagrams"].Value, out result))
+			   	{
+			   		return result;
+			   	}
+			    else 
+			  	{
+			   		return true;
+			   	}
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["quickSearchDiagrams"].Value = value.ToString();
+			}
+		}
 		/// <summary>
 		/// saves the settings to the config file
 		/// </summary>

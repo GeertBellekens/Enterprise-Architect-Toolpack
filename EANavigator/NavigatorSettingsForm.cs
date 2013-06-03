@@ -31,6 +31,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.showToolbarCheckBox.Checked = this.settings.toolbarVisible;
 			this.useContextMenuCheckBox.Checked = this.settings.contextmenuVisible;
 			this.trackSelectedElementCheckBox.Checked = this.settings.trackSelectedElement;
+			//quicksearch settings
+			this.quickSearchElementsCheck.Checked = this.settings.quickSearchElements;
+			this.quickSearchOperationsCheck.Checked = this.settings.quickSearchOperations;
+			this.quickSearchAttributesCheck.Checked = this.settings.quickSearchAttributes;
+			this.quickSearchDiagramsCheck.Checked = this.settings.quickSearchDiagrams;
 		}
 		
 		void OkButtonClick(object sender, EventArgs e)
@@ -68,6 +73,26 @@ namespace TSF.UmlToolingFramework.EANavigator
 		void TrackSelectedElementCheckBoxCheckedChanged(object sender, EventArgs e)
 		{
 			this.settings.trackSelectedElement = this.trackSelectedElementCheckBox.Checked;
+		}
+		
+		void QuickSearchElementsCheckCheckedChanged(object sender, EventArgs e)
+		{
+			this.settings.quickSearchElements = this.quickSearchElementsCheck.Checked;
+		}
+		
+		void QuickSearchOperationsCheckCheckedChanged(object sender, EventArgs e)
+		{
+			this.settings.quickSearchOperations = this.quickSearchOperationsCheck.Checked;
+		}
+		
+		void QuickSearchAttributesCheckCheckedChanged(object sender, EventArgs e)
+		{
+			this.settings.quickSearchAttributes = this.quickSearchAttributesCheck.Checked;
+		}
+		
+		void QuickSearchDiagramsCheckCheckedChanged(object sender, EventArgs e)
+		{
+			this.settings.quickSearchDiagrams = this.quickSearchDiagramsCheck.Checked;
 		}
 	}
 }
