@@ -55,6 +55,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 		                                  new Point(elementImage.Width + 2,e.Bounds.Y)); 
 		            // draw the icon
 		            e.Graphics.DrawImage(elementImage, new Point(e.Bounds.X, e.Bounds.Y));   
+		            
+		            // draw tooltip
 		            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
 		            {
 		            	 this.itemTooltip.Show(selectedElement.fqn,

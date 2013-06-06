@@ -310,7 +310,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 			else if (element is UML.Classes.Kernel.Feature)
 			{
 				UML.Classes.Kernel.Feature feature = (UML.Classes.Kernel.Feature)element;
-				name = feature.owner.name + "." + this.getStereotypeString(element)+ feature.name;
+				UML.Classes.Kernel.Element owner = feature.owner;
+				if (owner != null)
+				{
+					name = owner.name;
+				}
+				else
+				{
+					name = "[owner missing]";
+				}
+				name += "." + this.getStereotypeString(element)+ feature.name;
 			}
 			else if (element is UML.Profiles.TaggedValue)
 			{
