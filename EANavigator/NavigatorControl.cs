@@ -707,10 +707,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 		public event EventHandler quickSearchTextChanged;
 		void QuickSearchComboBoxTextChanged(object sender, EventArgs e)
 		{
-			if(this.quickSearchComboBox.Text != this.quickSearchText
-			  && this.quickSearchComboBox.Text != this.quickSearchEmpty )
+			if(this.quickSearchBox.Text != this.quickSearchText
+			  && this.quickSearchBox.Text != this.quickSearchEmpty )
 			{
-				this.quickSearchComboBox.Text = this.quickSearchText;
+				this.quickSearchBox.Text = this.quickSearchText;
 			}
 		}
 		void QuickSearchComboBoxTextUpdate(object sender, System.EventArgs e)
@@ -719,18 +719,18 @@ namespace TSF.UmlToolingFramework.EANavigator
 		}
 		private void handleSearchTextChange()
 		{
-			if (this.quickSearchComboBox.Text != this.quickSearchEmpty)
+			if (this.quickSearchBox.Text != this.quickSearchEmpty)
 			{
-				this.quickSearchText = this.quickSearchComboBox.Text;
+				this.quickSearchText = this.quickSearchBox.Text;
 				//close quicksearch when nothing is in the quicksearch box.
 				if (quickSearchText.Length == 0)
 				{
-					this.quickSearchComboBox.DroppedDown = false;
-					this.quickSearchComboBox.Items.Clear();
-					this.quickSearchComboBox.SelectedItem = null;
-					this.quickSearchComboBox.ResetText();
+					this.quickSearchBox.DroppedDown = false;
+					this.quickSearchBox.Items.Clear();
+					this.quickSearchBox.SelectedItem = null;
+					this.quickSearchBox.ResetText();
 					//to avoid error with index = 0 (invalidArgumenException) we add an empty string
-					this.quickSearchComboBox.Items.Add(string.Empty);
+					this.quickSearchBox.Items.Add(string.Empty);
 				}
 				else if (quickSearchText.Length > 0 
 				    && quickSearchTextChanged != null
@@ -743,8 +743,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 		private void setQuickSearchEmpty()
 		{
-			this.quickSearchComboBox.Text = this.quickSearchEmpty;
-			this.quickSearchComboBox.ForeColor = Color.Gray;
+			this.quickSearchBox.Text = this.quickSearchEmpty;
+			this.quickSearchBox.ForeColor = Color.Gray;
 		}
 		
 		public void setQuickSearchResults(List<UML.UMLItem> results,string searchedString)
@@ -753,7 +753,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			//check if he searched string is not yet updated, else don't bother showing the results
 			if (searchedString == this.quickSearchText)
 			{
-				this.quickSearchComboBox.Invoke(new MethodDelegate(threadSafeSetQuickSearchItems),results);
+				this.quickSearchBox.Invoke(new MethodDelegate(threadSafeSetQuickSearchItems),results);
 				
 
 			}
@@ -765,32 +765,31 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private void threadSafeSetQuickSearchItems(object resultsObject) 
 		{
 			List<UML.UMLItem> results = (List<UML.UMLItem>)resultsObject;
-			this.quickSearchComboBox.Items.Clear();
-			this.quickSearchComboBox.SelectedItem = null;
-			this.quickSearchComboBox.ResetText();
+			this.quickSearchBox.Items.Clear();
+			this.quickSearchBox.SelectedItem = null;
 			
 			if (results.Count > 0)
 			{
-				this.quickSearchComboBox.Items.AddRange(results.ToArray());
+				this.quickSearchBox.Items.AddRange(results.ToArray());
 			}
 			else
 			{
 				//to avoid error with index = 0 (invalidArgumenException) we add an empty string
-				this.quickSearchComboBox.Items.Add(string.Empty);
+				this.quickSearchBox.Items.Add(string.Empty);
 			}
-			this.quickSearchComboBox.DroppedDown = results.Count > 0;
+			this.quickSearchBox.DroppedDown = results.Count > 0;
 							
-			this.quickSearchComboBox.Text = this.quickSearchText;
-			//make sure the cursor stays at the end of the text.
-			this.quickSearchComboBox.Select(this.quickSearchComboBox.Text.Length,0);
+//			this.quickSearchComboBox.Text = this.quickSearchText;
+//			//make sure the cursor stays at the end of the text.
+//			this.quickSearchComboBox.Select(this.quickSearchComboBox.Text.Length,0);
 		} 
 
 		
 		void QuickSearchComboBoxSelectionChangeCommitted(object sender, EventArgs e)
 		{
-			if( this.quickSearchComboBox.SelectedIndex >= 0)
+			if( this.quickSearchBox.SelectedIndex >= 0)
 			{
-				UML.UMLItem quickSearchSelectedItem = this.quickSearchComboBox.SelectedItem as UML.UMLItem;
+				UML.UMLItem quickSearchSelectedItem = this.quickSearchBox.SelectedItem as UML.UMLItem;
 				{
 					if (quickSearchSelectedItem != null)
 				    {
@@ -804,19 +803,20 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 		void QuickSearchComboBoxEnter(object sender, EventArgs e)
 		{
-			if (this.quickSearchComboBox.Text == this.quickSearchEmpty)
+			if (this.quickSearchBox.Text == this.quickSearchEmpty)
 			{
-				this.quickSearchComboBox.Text = string.Empty;
-				this.quickSearchComboBox.ForeColor = this.ForeColor;
+				this.quickSearchBox.Text = string.Empty;
+				this.quickSearchBox.ForeColor = this.ForeColor;
 			}
 		}
 		
 		void QuickSearchComboBoxLeave(object sender, EventArgs e)
 		{
-			if (this.quickSearchComboBox.Text.Length == 0)
+			if (this.quickSearchBox.Text.Length == 0)
 			{
 				this.setQuickSearchEmpty();
 			}
+			this.quickSearchBox.DroppedDown = false;
 		}
 	}
 }

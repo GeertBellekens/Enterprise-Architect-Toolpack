@@ -20,6 +20,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 	{
 		private NavigatorVisuals navigatorVisuals {get;set;}
 		private ToolTip itemTooltip = new ToolTip();
+		private TextBox textBox;
 		public QuickSearchComboBox()
 		{
 			//
@@ -31,6 +32,22 @@ namespace TSF.UmlToolingFramework.EANavigator
 
 			this.DrawMode = DrawMode.OwnerDrawFixed;
 			this.DrawItem += new DrawItemEventHandler(QuickSearchComboBox_DrawItem);
+			
+			//textBox
+			this.textBox = new TextBox();
+			this.textBox.Location = this.Location;
+			this.textBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
+			this.textBox.Size = new Size(this.Width - 20, this.Height);
+			this.Controls.Add(this.textBox);
+			this.textBox.TextChanged += new System.EventHandler(this.textBoxTextChanged);
+						
+		}
+		
+		void textBoxTextChanged(object sender, EventArgs e)
+		{
+			//this.OnTextChanged(e);
+			this.OnTextUpdate(e);
 		}
 		/// <summary>
 		/// drawns the icon and the name of the element in the dropdown list
@@ -74,6 +91,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			base.OnDropDownClosed(e);
 			this.itemTooltip.Hide(this);
+		}
+		public override string Text {
+			get { return this.textBox.Text; }
+			set { this.textBox.Text = value; }
 		}
 		
 		

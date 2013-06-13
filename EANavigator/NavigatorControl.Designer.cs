@@ -55,7 +55,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.settingsButton = new System.Windows.Forms.ToolStripButton();
 			this.aboutButton = new System.Windows.Forms.ToolStripButton();
 			this.navigatorToolStripContainer = new System.Windows.Forms.ToolStripContainer();
-			this.quickSearchComboBox = new TSF.UmlToolingFramework.EANavigator.QuickSearchComboBox();
+			this.quickSearchBox = new TSF.UmlToolingFramework.EANavigator.QuickSearchBox();
 			this.navigatorContextMenu.SuspendLayout();
 			this.navigatorToolStrip.SuspendLayout();
 			this.navigatorToolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -240,28 +240,32 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStripContainer.TopToolStripPanel.Controls.Add(this.navigatorToolStrip);
 			this.navigatorToolStripContainer.Visible = false;
 			// 
-			// quickSearchComboBox
+			// quickSearchBox
 			// 
-			this.quickSearchComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.quickSearchBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
-			this.quickSearchComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.quickSearchComboBox.FormattingEnabled = true;
-			this.quickSearchComboBox.Location = new System.Drawing.Point(185, 4);
-			this.quickSearchComboBox.MaxDropDownItems = 10;
-			this.quickSearchComboBox.Name = "quickSearchComboBox";
-			this.quickSearchComboBox.Size = new System.Drawing.Size(219, 21);
-			this.quickSearchComboBox.TabIndex = 2;
-			this.quickSearchComboBox.SelectionChangeCommitted += new System.EventHandler(this.QuickSearchComboBoxSelectionChangeCommitted);
-			this.quickSearchComboBox.TextUpdate += new System.EventHandler(this.QuickSearchComboBoxTextUpdate);
-			this.quickSearchComboBox.TextChanged += new System.EventHandler(this.QuickSearchComboBoxTextChanged);
-			this.quickSearchComboBox.Enter += new System.EventHandler(this.QuickSearchComboBoxEnter);
-			this.quickSearchComboBox.Leave += new System.EventHandler(this.QuickSearchComboBoxLeave);
+			this.quickSearchBox.AutoSize = true;
+			this.quickSearchBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.quickSearchBox.DroppedDown = false;
+			this.quickSearchBox.FormattingEnabled = true;
+			this.quickSearchBox.Location = new System.Drawing.Point(185, 4);
+			this.quickSearchBox.MaxDropDownItems = 10;
+			this.quickSearchBox.Name = "quickSearchBox";
+			this.quickSearchBox.SelectedIndex = -1;
+			this.quickSearchBox.SelectedItem = null;
+			this.quickSearchBox.Size = new System.Drawing.Size(219, 23);
+			this.quickSearchBox.TabIndex = 2;
+			this.quickSearchBox.TextUpdate += new System.EventHandler(this.QuickSearchComboBoxTextUpdate);
+			this.quickSearchBox.SelectionChangeCommitted += new System.EventHandler(this.QuickSearchComboBoxSelectionChangeCommitted);
+			this.quickSearchBox.TextChanged += new System.EventHandler(this.QuickSearchComboBoxTextChanged);
+			this.quickSearchBox.Enter += new System.EventHandler(this.QuickSearchComboBoxEnter);
+			this.quickSearchBox.Leave += new System.EventHandler(this.QuickSearchComboBoxLeave);
 			// 
 			// NavigatorControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.quickSearchComboBox);
+			this.Controls.Add(this.quickSearchBox);
 			this.Controls.Add(this.navigatorToolStripContainer);
 			this.Controls.Add(this.NavigatorTree);
 			this.Name = "NavigatorControl";
@@ -274,8 +278,9 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.navigatorToolStripContainer.ResumeLayout(false);
 			this.navigatorToolStripContainer.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 		}
-		private TSF.UmlToolingFramework.EANavigator.QuickSearchComboBox quickSearchComboBox;
+		private TSF.UmlToolingFramework.EANavigator.QuickSearchBox quickSearchBox;
 		private System.Windows.Forms.ToolStripMenuItem addToDiagramMenuOption;
 		private System.Windows.Forms.ToolStripButton addToDiagramButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
