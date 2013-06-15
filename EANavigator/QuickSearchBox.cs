@@ -82,7 +82,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 		}
 		public event EventHandler SelectionChangeCommitted;
-		//TODO fire selectionchangecommitted
+		
 		void ListBoxClick(object sender, EventArgs e)
 		{
 			if (this.SelectionChangeCommitted != null
@@ -93,16 +93,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 		}
 		
-		void ListBoxKeyDown(object sender, KeyEventArgs e)
-		{
-			if (this.SelectionChangeCommitted != null
-				&& e.KeyCode == Keys.Return
-			    && this.listBox.SelectedItem != null)
-			{
-				this.DroppedDown = false;
-				this.SelectionChangeCommitted(this,e);
-			}
-		}
+
 		public System.Windows.Forms.ListBox.ObjectCollection Items
 		{
 			get {return this.listBox.Items;}
@@ -144,6 +135,60 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 
 		
-
+		private int mousePositionItemIndex()
+		{
+			int indexToSelect = -1;
+			//check the position of the mouse, and select the corresponding item
+			Point relativePosition = this.listBox.PointToClient(Cursor.Position);
+			if (relativePosition.Y >= 0)
+			{
+				indexToSelect = relativePosition.Y / this.listBox.ItemHeight;
+			}
+			return indexToSelect;
+		}
+		
+		void ListBoxMouseEnter(object sender, EventArgs e)
+		{
+			this.listBox.SelectedIndex = this.mousePositionItemIndex();
+		}
+		
+		
+		void ListBoxMouseLeave(object sender, EventArgs e)
+		{
+			this.SelectedIndex = -1;
+			this.itemTooltip.Hide(this);
+		}
+		
+		void ListBoxMouseMove(object sender, MouseEventArgs e)
+		{
+			int mouseIndex = this.mousePositionItemIndex();
+			if (mouseIndex < this.listBox.Items.Count)
+			{
+				this.listBox.SelectedIndex = mouseIndex;
+			}
+		}
+		
+		
+		void ListBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			if (this.SelectionChangeCommitted != null
+				&& e.KeyCode == Keys.Return
+			    && this.listBox.SelectedItem != null)
+			{
+				this.DroppedDown = false;
+				this.SelectionChangeCommitted(this,e);
+			}
+		}
+		
+		void TextBoxKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Down)
+			{
+				this.DroppedDown = true;
+				this.listBox.Focus();
+				this.SelectedIndex = 0;
+			}
+			
+		}
 	}
 }

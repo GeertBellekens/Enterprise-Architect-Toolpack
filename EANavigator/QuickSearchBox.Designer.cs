@@ -54,7 +54,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.listBox.Visible = false;
 			this.listBox.Click += new System.EventHandler(this.ListBoxClick);
 			this.listBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ListBoxDrawItem);
-			this.listBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListBoxKeyDown);
+			this.listBox.MouseEnter += new System.EventHandler(this.ListBoxMouseEnter);
+			this.listBox.MouseLeave += new System.EventHandler(this.ListBoxMouseLeave);
+			this.listBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ListBoxMouseMove);
+			this.listBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ListBoxPreviewKeyDown);
 			// 
 			// textBox
 			// 
@@ -66,6 +69,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.textBox.Size = new System.Drawing.Size(120, 20);
 			this.textBox.TabIndex = 1;
 			this.textBox.TextChanged += new System.EventHandler(this.TextBoxTextChanged);
+			this.textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxKeyDown);
 			// 
 			// QuickSearchBox
 			// 
@@ -80,5 +84,6 @@ namespace TSF.UmlToolingFramework.EANavigator
 		}
 		private System.Windows.Forms.TextBox textBox;
 		private System.Windows.Forms.ListBox listBox;
+		
 	}
 }
