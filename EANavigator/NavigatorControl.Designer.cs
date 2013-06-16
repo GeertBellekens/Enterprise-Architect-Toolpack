@@ -255,6 +255,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.quickSearchBox.SelectedItem = null;
 			this.quickSearchBox.Size = new System.Drawing.Size(219, 23);
 			this.quickSearchBox.TabIndex = 2;
+			this.quickSearchBox.Visible = false;
 			this.quickSearchBox.TextUpdate += new System.EventHandler(this.QuickSearchComboBoxTextUpdate);
 			this.quickSearchBox.SelectionChangeCommitted += new System.EventHandler(this.QuickSearchComboBoxSelectionChangeCommitted);
 			this.quickSearchBox.TextChanged += new System.EventHandler(this.QuickSearchComboBoxTextChanged);

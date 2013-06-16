@@ -620,7 +620,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			NavigatorSettingsForm optionsForm = new NavigatorSettingsForm(this.settings);
 			optionsForm.ShowDialog();
-			this.toolbarVisible = settings.toolbarVisible;
+			this.setToolbarVisibility();
 		}
 		
 		void ProjectBrowserButtonClick(object sender, EventArgs e)
@@ -653,6 +653,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 				if (value&& !this.navigatorToolStripContainer.Visible)
 				{
 					this.navigatorToolStripContainer.Show();
+					this.quickSearchBox.Show();
 					//move the tree control down
 					this.NavigatorTree.Location =
 					new Point(this.NavigatorTree.Location.X,
@@ -666,6 +667,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			else if (! value && this.navigatorToolStripContainer.Visible)
 				{
 					this.navigatorToolStripContainer.Hide();
+					this.quickSearchBox.Hide();
 					//move the tree control up.
 					this.NavigatorTree.Location = 
 					new Point(this.NavigatorTree.Location.X,

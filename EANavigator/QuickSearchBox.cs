@@ -45,7 +45,9 @@ namespace TSF.UmlToolingFramework.EANavigator
 		public bool DroppedDown
 		{
 			get {return this.listBox.Visible;}
-			set {this.listBox.Visible = value;}
+			set {
+				this.listBox.Visible = value;
+				if (! value) this.itemTooltip.Hide(this);}
 		}
 		public object SelectedItem
 		{
@@ -177,6 +179,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				this.DroppedDown = false;
 				this.SelectionChangeCommitted(this,e);
+			}
+			else if (e.KeyCode == Keys.Escape)
+			{
+				this.DroppedDown = false;
 			}
 		}
 		
