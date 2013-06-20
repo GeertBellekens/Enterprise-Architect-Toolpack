@@ -77,12 +77,22 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(29, "CommunicationDiagram.png");
 			this.NavigatorImageList.Images.SetKeyName(30, "Enumeration.png");
 			this.NavigatorImageList.Images.SetKeyName(31, "DataType.png");
+			this.NavigatorImageList.Images.SetKeyName(32, "Interface.png");
+			this.NavigatorImageList.Images.SetKeyName(33, "Signal.png");
+			this.NavigatorImageList.Images.SetKeyName(34, "Association_Element.png");
+			this.NavigatorImageList.Images.SetKeyName(35, "PackagingComponent.png");
+			this.NavigatorImageList.Images.SetKeyName(36, "Component.png");
+			this.NavigatorImageList.Images.SetKeyName(37, "ProvidedInterface.png");
+			this.NavigatorImageList.Images.SetKeyName(38, "RequiredInterface.png");
+			this.NavigatorImageList.Images.SetKeyName(39, "Object.png");
+			this.NavigatorImageList.Images.SetKeyName(40, "Port.png");
+			this.NavigatorImageList.Images.SetKeyName(41, "Artifact.png");
 			// 
-			// NavigatorIcons
+			// NavigatorVisuals
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Name = "NavigatorIcons";
+			this.Name = "NavigatorVisuals";
 			this.ResumeLayout(false);
 		}
 		private System.Windows.Forms.ImageList NavigatorImageList;

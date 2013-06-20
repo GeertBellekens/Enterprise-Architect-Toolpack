@@ -136,16 +136,23 @@ namespace TSF.UmlToolingFramework.EANavigator
 
 		
 
-		
+		/// <summary>
+		/// calculates the on which item the mouse is currently pointing.
+		/// </summary>
+		/// <returns>the index of the item on which the mouse is pointing</returns>
 		private int mousePositionItemIndex()
 		{
 			int indexToSelect = -1;
-			//check the position of the mouse, and select the corresponding item
+			
 			Point relativePosition = this.listBox.PointToClient(Cursor.Position);
 			if (relativePosition.Y >= 0)
 			{
 				indexToSelect = relativePosition.Y / this.listBox.ItemHeight;
 			}
+			if (indexToSelect > this.listBox.Items.Count)
+			{
+				indexToSelect = -1;
+			}						
 			return indexToSelect;
 		}
 		

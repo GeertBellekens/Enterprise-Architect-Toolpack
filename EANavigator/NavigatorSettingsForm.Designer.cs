@@ -50,6 +50,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.quickSearchAttributesCheck = new System.Windows.Forms.CheckBox();
 			this.quickSearchOperationsCheck = new System.Windows.Forms.CheckBox();
 			this.quickSearchElementsCheck = new System.Windows.Forms.CheckBox();
+			this.quickSearchAddToDiagramCheck = new System.Windows.Forms.CheckBox();
 			this.defaultActionGroupBox.SuspendLayout();
 			this.quickSearchBox.SuspendLayout();
 			this.SuspendLayout();
@@ -142,13 +143,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// quickSearchBox
 			// 
+			this.quickSearchBox.Controls.Add(this.quickSearchAddToDiagramCheck);
 			this.quickSearchBox.Controls.Add(this.quickSearchDiagramsCheck);
 			this.quickSearchBox.Controls.Add(this.quickSearchAttributesCheck);
 			this.quickSearchBox.Controls.Add(this.quickSearchOperationsCheck);
 			this.quickSearchBox.Controls.Add(this.quickSearchElementsCheck);
 			this.quickSearchBox.Location = new System.Drawing.Point(221, 13);
 			this.quickSearchBox.Name = "quickSearchBox";
-			this.quickSearchBox.Size = new System.Drawing.Size(128, 141);
+			this.quickSearchBox.Size = new System.Drawing.Size(128, 172);
 			this.quickSearchBox.TabIndex = 6;
 			this.quickSearchBox.TabStop = false;
 			this.quickSearchBox.Text = "Quick Search";
@@ -193,6 +195,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.quickSearchElementsCheck.UseVisualStyleBackColor = true;
 			this.quickSearchElementsCheck.CheckedChanged += new System.EventHandler(this.QuickSearchElementsCheckCheckedChanged);
 			// 
+			// quickSearchAddToDiagramCheck
+			// 
+			this.quickSearchAddToDiagramCheck.Location = new System.Drawing.Point(7, 139);
+			this.quickSearchAddToDiagramCheck.Name = "quickSearchAddToDiagramCheck";
+			this.quickSearchAddToDiagramCheck.Size = new System.Drawing.Size(104, 24);
+			this.quickSearchAddToDiagramCheck.TabIndex = 4;
+			this.quickSearchAddToDiagramCheck.Text = "Add to diagram";
+			this.quickSearchAddToDiagramCheck.UseVisualStyleBackColor = true;
+			this.quickSearchAddToDiagramCheck.CheckedChanged += new System.EventHandler(this.QuickSearchAddToDiagramCheckCheckedChanged);
+			// 
 			// NavigatorSettingsForm
 			// 
 			this.AcceptButton = this.okButton;
@@ -217,6 +229,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.quickSearchBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.CheckBox quickSearchAddToDiagramCheck;
 		private System.Windows.Forms.CheckBox quickSearchElementsCheck;
 		private System.Windows.Forms.CheckBox quickSearchOperationsCheck;
 		private System.Windows.Forms.CheckBox quickSearchAttributesCheck;

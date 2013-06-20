@@ -560,15 +560,20 @@ namespace TSF.UmlToolingFramework.EANavigator
 				selectedElement.openProperties();
 			}
 		}
-		private void addToDiagram()
+		private void addToDiagram(UML.UMLItem selectedElement)
 		{
-			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
 			if (selectedElement != null)
 			{
 				selectedElement.addToCurrentDiagram();
 				selectedElement.selectInCurrentDiagram();
 			}
 		}
+		private void addToDiagram()
+		{
+			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			this.addToDiagram(selectedElement);
+		}
+		
 		private void selectInProjectBrowser()
 		{
 			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
@@ -796,6 +801,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 					if (quickSearchSelectedItem != null)
 				    {
 						this.setElement(quickSearchSelectedItem);
+						if (settings.quickSearchAddToDiagram)
+						{
+							this.addToDiagram(quickSearchSelectedItem);
+						}
 				    }
 				}
 			}

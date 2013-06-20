@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using UML=TSF.UmlToolingFramework.UML;
+using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace TSF.UmlToolingFramework.EANavigator
 {
@@ -51,6 +52,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int communicationDiagramIndex = 29;
 		private int enumerationIndex = 30;
 		private int dataTypeIndex = 31;
+		private int interfaceIndex = 32;
+		private int signalIndex = 33;
+		private int associationElementIndex = 34;
+		private int packagingComponentIndex = 35;
+		private int componentIndex = 36;
+		private int providedInterfaceIndex = 37;
+		private int requiredInterfaceIndex = 38;
+		private int objectIndex = 39;
+		private int portIndex = 40;
+		private int artifactIndex = 41;
 		
 		
 		/// <summary>
@@ -115,7 +126,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 				}
 				else
 				{
-					imageIndex = this.packageIndex;
+					//packaging components are both components as packages.
+					if (element is UTF_EA.ElementWrapper && ((UTF_EA.ElementWrapper)element).subType == "PackagingComponent")
+					{
+						imageIndex = this.packagingComponentIndex;
+					}
+					else
+					{
+						imageIndex = this.packageIndex;
+					}
 				}
 			}
 			else if (element is UML.Diagrams.SequenceDiagram)
@@ -197,6 +216,48 @@ namespace TSF.UmlToolingFramework.EANavigator
 			else if (element is UML.Classes.Kernel.DataType)
 			{
 				imageIndex = this.dataTypeIndex;
+			}
+			else if (element is UML.Classes.Interfaces.Interface)
+			{
+				imageIndex = this.interfaceIndex;
+			}
+			else if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper)
+			{
+				//workaround to be able to display the correct icon, even if the element type hasn't been implemented in the UMLTooling Framework, of in case of EA specific element types such as requirement.
+				TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper elementWrapper = (TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper)element;
+				switch (elementWrapper.subType) 
+				{
+					case "Signal":
+						imageIndex = this.signalIndex;
+						break;
+					case "Association":
+						imageIndex = this.associationElementIndex;
+						break;
+					case "PackagingComponent": //TODO fix subtype for packaging components
+						imageIndex = this.packagingComponentIndex;
+						break;
+					case "Component":
+						imageIndex = this.componentIndex;
+						break;
+					case "ProvidedInterface":
+						imageIndex = this.providedInterfaceIndex;
+						break;
+					case "RequiredInterface":
+						imageIndex = this.requiredInterfaceIndex;
+						break;
+					case "Object":
+						imageIndex = this.objectIndex;
+						break;
+					case "Port":
+						imageIndex = this.portIndex;
+						break;
+					case "Artifact":
+						imageIndex = this.artifactIndex;
+						break;
+					default:
+						imageIndex = this.elementIndex;
+						break;
+				}
 			}
 			else
 			{

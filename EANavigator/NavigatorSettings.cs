@@ -233,6 +233,26 @@ namespace TSF.UmlToolingFramework.EANavigator
 				this.currentConfig.AppSettings.Settings["quickSearchDiagrams"].Value = value.ToString();
 			}
 		}
+		public bool quickSearchAddToDiagram
+		{
+			get
+			{
+				bool result;
+				if( bool.TryParse(this.currentConfig.AppSettings.Settings["quickSearchAddToDiagram"].Value, out result))
+			   	{
+			   		return result;
+			   	}
+			    else 
+			  	{
+			   		return false;
+			   	}
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["quickSearchAddToDiagram"].Value = value.ToString();
+			}
+		}
+		
 		/// <summary>
 		/// saves the settings to the config file
 		/// </summary>
