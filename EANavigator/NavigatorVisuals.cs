@@ -62,6 +62,21 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int objectIndex = 39;
 		private int portIndex = 40;
 		private int artifactIndex = 41;
+		private int partIndex = 42;
+		private int collaborationIndex = 43;
+		private int nodeIndex = 44;
+		private int deploymentSpecificationIndex = 45;
+		private int informationItemIndex = 46;
+		private int actorIndex = 47;
+		private int usecaseIndex = 48;
+		private int boundaryIndex = 49;
+		private int activityPartitionIndex = 50;
+		private int decisionIndex = 51;
+		private int eventIndex = 52;
+		private int activityInitialIndex = 53;
+		private int activityFinalIndex = 54;
+		private int flowFinalNodeIndex = 55;
+		private int synchronisationNodeIndex = 56;
 		
 		
 		/// <summary>
@@ -233,7 +248,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 					case "Association":
 						imageIndex = this.associationElementIndex;
 						break;
-					case "PackagingComponent": //TODO fix subtype for packaging components
+					case "PackagingComponent": 
 						imageIndex = this.packagingComponentIndex;
 						break;
 					case "Component":
@@ -254,6 +269,58 @@ namespace TSF.UmlToolingFramework.EANavigator
 					case "Artifact":
 						imageIndex = this.artifactIndex;
 						break;
+					case "Part":
+						imageIndex = this.partIndex;
+						break;
+					case "Collaboration":
+					case "CollaborationOccurrence":
+						imageIndex = this.collaborationIndex;
+						break;
+					case "Node":
+					case "Device":
+					case "ExecutionEnvironment":
+						imageIndex = this.nodeIndex;
+						break;
+					case "DeploymentSpecification":
+						imageIndex = this.deploymentSpecificationIndex;
+						break;
+					case "InformationItem":
+						imageIndex = this.informationItemIndex;
+						break;
+					case "Actor":
+						imageIndex = this.actorIndex;
+						break;	
+					case "UseCase":
+						imageIndex = this.usecaseIndex;
+						break;	
+					case "Boundary":
+						imageIndex = this.boundaryIndex;
+						break;
+					case "ActivityPartition":
+						imageIndex = this.activityPartitionIndex;
+						break;
+					case "CentralBufferNode":
+						imageIndex = this.classIndex;
+						break;	
+					case "Decision":
+					case "MergeNode":
+						imageIndex = this.decisionIndex;
+						break;
+					case "Event":
+						imageIndex = this.eventIndex;
+						break;
+					case "ActivityInitial":
+						imageIndex = this.activityInitialIndex;
+    					break;
+    				case "ActivityFinal":
+						imageIndex = this.activityFinalIndex;
+    					break;
+    				case "FlowFinal":
+  						imageIndex = this.flowFinalNodeIndex;
+    					break;
+    				case "SynchronisationNode":
+    					imageIndex = this.synchronisationNodeIndex;
+    					break;
 					default:
 						imageIndex = this.elementIndex;
 						break;

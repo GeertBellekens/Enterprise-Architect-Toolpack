@@ -87,6 +87,21 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(39, "Object.png");
 			this.NavigatorImageList.Images.SetKeyName(40, "Port.png");
 			this.NavigatorImageList.Images.SetKeyName(41, "Artifact.png");
+			this.NavigatorImageList.Images.SetKeyName(42, "Part.png");
+			this.NavigatorImageList.Images.SetKeyName(43, "Collaboration.png");
+			this.NavigatorImageList.Images.SetKeyName(44, "Node.png");
+			this.NavigatorImageList.Images.SetKeyName(45, "DeploymentSpecification.png");
+			this.NavigatorImageList.Images.SetKeyName(46, "InformationItem.png");
+			this.NavigatorImageList.Images.SetKeyName(47, "Actor.png");
+			this.NavigatorImageList.Images.SetKeyName(48, "Usecase.png");
+			this.NavigatorImageList.Images.SetKeyName(49, "Boundary.png");
+			this.NavigatorImageList.Images.SetKeyName(50, "ActivityPartition.png");
+			this.NavigatorImageList.Images.SetKeyName(51, "Decision.png");
+			this.NavigatorImageList.Images.SetKeyName(52, "Event.png");
+			this.NavigatorImageList.Images.SetKeyName(53, "ActivityInitial.png");
+			this.NavigatorImageList.Images.SetKeyName(54, "ActivityFinal.png");
+			this.NavigatorImageList.Images.SetKeyName(55, "FlowFinal.png");
+			this.NavigatorImageList.Images.SetKeyName(56, "SynchronisationNode.png");
 			// 
 			// NavigatorVisuals
 			// 
