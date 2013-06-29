@@ -77,6 +77,17 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int activityFinalIndex = 54;
 		private int flowFinalNodeIndex = 55;
 		private int synchronisationNodeIndex = 56;
+		private int interuptableActivityRegionIndex = 57;
+		private int expansionRegionIndex = 58;
+		private int exceptionHandlerIndex = 59;
+		private int objectNodeIndex = 60;
+		private int synchronizationIndex = 61;
+		private int lifeLineIndex = 62;
+		private int gateIndex = 63;
+		private int fragmentIndex = 64;
+		private int interactionStateIndex = 65;
+		private int stateIndex = 66;
+		private int entryPointIndex = 67;		
 		
 		
 		/// <summary>
@@ -304,22 +315,62 @@ namespace TSF.UmlToolingFramework.EANavigator
 						break;	
 					case "Decision":
 					case "MergeNode":
+					case "StateChoice":
 						imageIndex = this.decisionIndex;
 						break;
 					case "Event":
 						imageIndex = this.eventIndex;
 						break;
 					case "ActivityInitial":
+					case "StateInitial":
+					case "StateJunction":
 						imageIndex = this.activityInitialIndex;
     					break;
     				case "ActivityFinal":
+    				case "StateFinal":
 						imageIndex = this.activityFinalIndex;
     					break;
     				case "FlowFinal":
+    				case "StateExitPoint":
+    				case "StateTerminate":
   						imageIndex = this.flowFinalNodeIndex;
     					break;
     				case "SynchronisationNode":
     					imageIndex = this.synchronisationNodeIndex;
+    					break;
+    				case "InterruptibleActivityRegion":
+    					imageIndex = this.interuptableActivityRegionIndex;
+    					break;
+    				case "ExpansionRegion":
+    					imageIndex = this.expansionRegionIndex;
+    					break;
+    				case "ExceptionHandler":
+    					imageIndex = this.exceptionHandlerIndex;
+    					break;
+    				case "ObjectNode":
+    					imageIndex = this.objectNodeIndex;
+    					break; 
+    				case "Synchronization":
+    					imageIndex = this.synchronizationIndex;
+    					break;       					
+    				case "Sequence":
+    					imageIndex = this.lifeLineIndex;
+    					break;
+    				case "MessageEndpoint":
+    					imageIndex = this.gateIndex;
+    					break;
+    				case "InteractionFragment":
+    					imageIndex = this.fragmentIndex;
+    					break;
+    				case "InteractionState":
+    					imageIndex = this.interactionStateIndex;
+    					break;
+    				case "State":
+    					imageIndex = this.stateIndex;
+    					break;
+    				case "StateHistory":
+    				case "StateEntryPoint":
+    					imageIndex = this.entryPointIndex;
     					break;
 					default:
 						imageIndex = this.elementIndex;
