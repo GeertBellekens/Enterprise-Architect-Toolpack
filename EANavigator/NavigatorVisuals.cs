@@ -88,6 +88,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int interactionStateIndex = 65;
 		private int stateIndex = 66;
 		private int entryPointIndex = 67;		
+		private int timeLineIndex = 68;
+		private int requirementIndex = 69;
+		private int featureIndex = 70;
+		private int riskIndex = 71;
+		private int issueIndex = 72;
+		private int changeIndex = 73;
 		
 		
 		/// <summary>
@@ -371,6 +377,24 @@ namespace TSF.UmlToolingFramework.EANavigator
     				case "StateHistory":
     				case "StateEntryPoint":
     					imageIndex = this.entryPointIndex;
+    					break;
+    				case "TimeLine":
+    					imageIndex = this.timeLineIndex;
+    					break;
+    				case "Requirement":
+    					imageIndex = this.requirementIndex;
+    					break;
+    				case "Feature":
+    					imageIndex = this.featureIndex;
+    					break;
+    				case "Risk":
+    					imageIndex = this.riskIndex;
+    					break;
+    				case "Issue":
+    					imageIndex = this.issueIndex;
+    					break;
+    				case "Change":
+    					imageIndex = this.changeIndex;
     					break;
 					default:
 						imageIndex = this.elementIndex;
