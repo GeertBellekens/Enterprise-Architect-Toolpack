@@ -119,6 +119,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(71, "Risk.png");
 			this.NavigatorImageList.Images.SetKeyName(72, "Issue.png");
 			this.NavigatorImageList.Images.SetKeyName(73, "Change.png");
+			this.NavigatorImageList.Images.SetKeyName(74, "Screen.png");
+			this.NavigatorImageList.Images.SetKeyName(75, "UIControl.png");
+			this.NavigatorImageList.Images.SetKeyName(76, "Note.png");
+			this.NavigatorImageList.Images.SetKeyName(77, "Constraint.png");
+			this.NavigatorImageList.Images.SetKeyName(78, "Text.png");
+			this.NavigatorImageList.Images.SetKeyName(79, "Legend.png");
+			this.NavigatorImageList.Images.SetKeyName(80, "DiagramNotes.png");
+			this.NavigatorImageList.Images.SetKeyName(81, "Hyperlink.png");
 			// 
 			// NavigatorVisuals
 			// 

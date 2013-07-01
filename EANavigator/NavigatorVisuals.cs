@@ -94,6 +94,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int riskIndex = 71;
 		private int issueIndex = 72;
 		private int changeIndex = 73;
+		private int screenIdex = 74;
+		private int uiControlIndex = 75;
+		private int noteIndex = 76;
+		private int constraintIndex = 77;
+		private int textIndex = 78;
+		private int legendIndex = 79;
+		private int diagramNotesIndex = 80;
+		private int hyperlinkIndex = 81;
 		
 		
 		/// <summary>
@@ -395,6 +403,30 @@ namespace TSF.UmlToolingFramework.EANavigator
     					break;
     				case "Change":
     					imageIndex = this.changeIndex;
+    					break;
+    				case "Screen":
+    					imageIndex = this.screenIdex;
+    					break;
+    				case "GUIElement":
+    					imageIndex = this.uiControlIndex;
+    					break;
+    				case "Note":
+    					imageIndex = this.noteIndex;
+    					break;
+    				case "Constraint":
+    					imageIndex = this.constraintIndex;
+    					break;
+    				case "Text":
+    					imageIndex = this.textIndex;
+    					break;
+    				case "Legend":
+    					imageIndex = this.legendIndex;
+    					break;
+    				case "DiagramNotes":
+    					imageIndex = this.diagramNotesIndex;
+    					break;
+    				case "Hyperlink":
+    					imageIndex = this.hyperlinkIndex;
     					break;
 					default:
 						imageIndex = this.elementIndex;
