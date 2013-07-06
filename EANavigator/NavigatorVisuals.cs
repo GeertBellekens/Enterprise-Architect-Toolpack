@@ -24,7 +24,6 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int attributeIndex = 1;
 		private int elementIndex = 2;
 		private int operationIndex = 3;
-		private int diagramIndex = 4;
 		private int packageElementIndex = 5;
 		private int primitiveIndex = 6;
 		private int messagIndex = 7;
@@ -102,7 +101,18 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int legendIndex = 79;
 		private int diagramNotesIndex = 80;
 		private int hyperlinkIndex = 81;
-		
+		private int diagramIndex = 85;
+		private int classDiagramIndex = 4;
+		private int activityDiagramIndex = 82;
+		private int componentDiagramIndex = 83;
+		private int compositeStructureDiagramIndex = 84;
+		private int deploymentDiagramIndex = 86;
+		private int interactionOverviewDiagramIndex = 87;
+		private int objectDiagramIndex = 88;
+		private int packageDiagramIndex = 89;
+		private int stateMachineDiagramIndex = 90;
+		private int timingDiagramIndex = 91;
+		private int useCaseDiagramIndex =92;
 		
 		/// <summary>
 		/// singleton instance
@@ -177,17 +187,66 @@ namespace TSF.UmlToolingFramework.EANavigator
 					}
 				}
 			}
-			else if (element is UML.Diagrams.SequenceDiagram)
-			{
-				imageIndex = this.sequenceDiagramIndex;
-			}
-			else if (element is UML.Diagrams.CommunicationDiagram)
-			{
-				imageIndex = this.communicationDiagramIndex;
-			}
+
 			else if( element is UML.Diagrams.Diagram)
 			{
-				imageIndex = this.diagramIndex;
+				if (element is UML.Diagrams.ActivityDiagram)
+				{
+					imageIndex = this.activityDiagramIndex;
+				}
+				else if (element is UML.Diagrams.ClassDiagram)
+				{
+					imageIndex = this.classDiagramIndex;
+				}
+				else if (element is UML.Diagrams.CommunicationDiagram)
+				{
+					imageIndex = this.communicationDiagramIndex;
+				}
+				else if (element is UML.Diagrams.ComponentDiagram)
+				{
+					imageIndex = this.componentDiagramIndex;
+				}
+				else if (element is UML.Diagrams.CompositeStructureDiagram)
+				{
+					imageIndex = this.compositeStructureDiagramIndex;
+				}
+				else if (element is UML.Diagrams.DeploymentDiagram)
+				{
+					imageIndex = this.deploymentDiagramIndex;
+				}
+				else if (element is UML.Diagrams.InteractionOverviewDiagram)
+				{
+					imageIndex = this.interactionOverviewDiagramIndex;
+				}
+				else if (element is UML.Diagrams.ObjectDiagram)
+				{
+					imageIndex = this.objectDiagramIndex;
+				}
+				else if (element is UML.Diagrams.PackageDiagram)
+				{
+					imageIndex = this.packageDiagramIndex;
+				}
+				else if (element is UML.Diagrams.SequenceDiagram)
+				{
+					imageIndex = this.sequenceDiagramIndex;
+				}
+				else if (element is UML.Diagrams.StateMachineDiagram)
+				{
+					imageIndex = this.stateMachineDiagramIndex;
+				}
+				else if (element is UML.Diagrams.TimingDiagram)
+				{
+					imageIndex = this.timingDiagramIndex;
+				}
+				else if (element is UML.Diagrams.UseCaseDiagram)
+				{
+					imageIndex = this.useCaseDiagramIndex;
+				}
+				else 
+				{
+					// default diagram image
+					imageIndex = this.diagramIndex;
+				}
 			}
 			else if (element is UML.Interactions.BasicInteractions.Interaction)
 			{
