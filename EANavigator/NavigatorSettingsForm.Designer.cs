@@ -46,13 +46,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.useContextMenuCheckBox = new System.Windows.Forms.CheckBox();
 			this.trackSelectedElementCheckBox = new System.Windows.Forms.CheckBox();
 			this.quickSearchBox = new System.Windows.Forms.GroupBox();
+			this.quickSearchAddToDiagramCheck = new System.Windows.Forms.CheckBox();
 			this.quickSearchDiagramsCheck = new System.Windows.Forms.CheckBox();
 			this.quickSearchAttributesCheck = new System.Windows.Forms.CheckBox();
 			this.quickSearchOperationsCheck = new System.Windows.Forms.CheckBox();
 			this.quickSearchElementsCheck = new System.Windows.Forms.CheckBox();
-			this.quickSearchAddToDiagramCheck = new System.Windows.Forms.CheckBox();
+			this.quickSearchSelectCheckBox = new System.Windows.Forms.CheckBox();
+			this.ActionsGroupBox = new System.Windows.Forms.GroupBox();
 			this.defaultActionGroupBox.SuspendLayout();
 			this.quickSearchBox.SuspendLayout();
+			this.ActionsGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// defaultActionGroupBox
@@ -61,7 +64,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.defaultActionGroupBox.Controls.Add(this.projectBrowserRadioButton);
 			this.defaultActionGroupBox.Location = new System.Drawing.Point(12, 12);
 			this.defaultActionGroupBox.Name = "defaultActionGroupBox";
-			this.defaultActionGroupBox.Size = new System.Drawing.Size(202, 81);
+			this.defaultActionGroupBox.Size = new System.Drawing.Size(166, 81);
 			this.defaultActionGroupBox.TabIndex = 0;
 			this.defaultActionGroupBox.TabStop = false;
 			this.defaultActionGroupBox.Text = "Doubleclick action";
@@ -91,7 +94,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// okButton
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(197, 227);
+			this.okButton.Location = new System.Drawing.Point(213, 240);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 1;
@@ -103,7 +106,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(278, 227);
+			this.cancelButton.Location = new System.Drawing.Point(294, 240);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 2;
@@ -143,61 +146,21 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// quickSearchBox
 			// 
-			this.quickSearchBox.Controls.Add(this.quickSearchAddToDiagramCheck);
+			this.quickSearchBox.Controls.Add(this.ActionsGroupBox);
 			this.quickSearchBox.Controls.Add(this.quickSearchDiagramsCheck);
 			this.quickSearchBox.Controls.Add(this.quickSearchAttributesCheck);
 			this.quickSearchBox.Controls.Add(this.quickSearchOperationsCheck);
 			this.quickSearchBox.Controls.Add(this.quickSearchElementsCheck);
-			this.quickSearchBox.Location = new System.Drawing.Point(221, 13);
+			this.quickSearchBox.Location = new System.Drawing.Point(197, 12);
 			this.quickSearchBox.Name = "quickSearchBox";
-			this.quickSearchBox.Size = new System.Drawing.Size(128, 172);
+			this.quickSearchBox.Size = new System.Drawing.Size(173, 212);
 			this.quickSearchBox.TabIndex = 6;
 			this.quickSearchBox.TabStop = false;
 			this.quickSearchBox.Text = "Quick Search";
 			// 
-			// quickSearchDiagramsCheck
-			// 
-			this.quickSearchDiagramsCheck.Location = new System.Drawing.Point(7, 109);
-			this.quickSearchDiagramsCheck.Name = "quickSearchDiagramsCheck";
-			this.quickSearchDiagramsCheck.Size = new System.Drawing.Size(104, 24);
-			this.quickSearchDiagramsCheck.TabIndex = 3;
-			this.quickSearchDiagramsCheck.Text = "Diagrams";
-			this.quickSearchDiagramsCheck.UseVisualStyleBackColor = true;
-			this.quickSearchDiagramsCheck.CheckedChanged += new System.EventHandler(this.QuickSearchDiagramsCheckCheckedChanged);
-			// 
-			// quickSearchAttributesCheck
-			// 
-			this.quickSearchAttributesCheck.Location = new System.Drawing.Point(7, 78);
-			this.quickSearchAttributesCheck.Name = "quickSearchAttributesCheck";
-			this.quickSearchAttributesCheck.Size = new System.Drawing.Size(104, 24);
-			this.quickSearchAttributesCheck.TabIndex = 2;
-			this.quickSearchAttributesCheck.Text = "Attributes";
-			this.quickSearchAttributesCheck.UseVisualStyleBackColor = true;
-			this.quickSearchAttributesCheck.CheckedChanged += new System.EventHandler(this.QuickSearchAttributesCheckCheckedChanged);
-			// 
-			// quickSearchOperationsCheck
-			// 
-			this.quickSearchOperationsCheck.Location = new System.Drawing.Point(7, 47);
-			this.quickSearchOperationsCheck.Name = "quickSearchOperationsCheck";
-			this.quickSearchOperationsCheck.Size = new System.Drawing.Size(104, 24);
-			this.quickSearchOperationsCheck.TabIndex = 1;
-			this.quickSearchOperationsCheck.Text = "Operations";
-			this.quickSearchOperationsCheck.UseVisualStyleBackColor = true;
-			this.quickSearchOperationsCheck.CheckedChanged += new System.EventHandler(this.QuickSearchOperationsCheckCheckedChanged);
-			// 
-			// quickSearchElementsCheck
-			// 
-			this.quickSearchElementsCheck.Location = new System.Drawing.Point(7, 20);
-			this.quickSearchElementsCheck.Name = "quickSearchElementsCheck";
-			this.quickSearchElementsCheck.Size = new System.Drawing.Size(104, 24);
-			this.quickSearchElementsCheck.TabIndex = 0;
-			this.quickSearchElementsCheck.Text = "Elements";
-			this.quickSearchElementsCheck.UseVisualStyleBackColor = true;
-			this.quickSearchElementsCheck.CheckedChanged += new System.EventHandler(this.QuickSearchElementsCheckCheckedChanged);
-			// 
 			// quickSearchAddToDiagramCheck
 			// 
-			this.quickSearchAddToDiagramCheck.Location = new System.Drawing.Point(7, 139);
+			this.quickSearchAddToDiagramCheck.Location = new System.Drawing.Point(7, 16);
 			this.quickSearchAddToDiagramCheck.Name = "quickSearchAddToDiagramCheck";
 			this.quickSearchAddToDiagramCheck.Size = new System.Drawing.Size(104, 24);
 			this.quickSearchAddToDiagramCheck.TabIndex = 4;
@@ -205,13 +168,76 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.quickSearchAddToDiagramCheck.UseVisualStyleBackColor = true;
 			this.quickSearchAddToDiagramCheck.CheckedChanged += new System.EventHandler(this.QuickSearchAddToDiagramCheckCheckedChanged);
 			// 
+			// quickSearchDiagramsCheck
+			// 
+			this.quickSearchDiagramsCheck.Location = new System.Drawing.Point(11, 108);
+			this.quickSearchDiagramsCheck.Name = "quickSearchDiagramsCheck";
+			this.quickSearchDiagramsCheck.Size = new System.Drawing.Size(105, 24);
+			this.quickSearchDiagramsCheck.TabIndex = 3;
+			this.quickSearchDiagramsCheck.Text = "Diagrams";
+			this.quickSearchDiagramsCheck.UseVisualStyleBackColor = true;
+			this.quickSearchDiagramsCheck.CheckedChanged += new System.EventHandler(this.QuickSearchDiagramsCheckCheckedChanged);
+			// 
+			// quickSearchAttributesCheck
+			// 
+			this.quickSearchAttributesCheck.Location = new System.Drawing.Point(11, 78);
+			this.quickSearchAttributesCheck.Name = "quickSearchAttributesCheck";
+			this.quickSearchAttributesCheck.Size = new System.Drawing.Size(105, 24);
+			this.quickSearchAttributesCheck.TabIndex = 2;
+			this.quickSearchAttributesCheck.Text = "Attributes";
+			this.quickSearchAttributesCheck.UseVisualStyleBackColor = true;
+			this.quickSearchAttributesCheck.CheckedChanged += new System.EventHandler(this.QuickSearchAttributesCheckCheckedChanged);
+			// 
+			// quickSearchOperationsCheck
+			// 
+			this.quickSearchOperationsCheck.Location = new System.Drawing.Point(11, 48);
+			this.quickSearchOperationsCheck.Name = "quickSearchOperationsCheck";
+			this.quickSearchOperationsCheck.Size = new System.Drawing.Size(105, 24);
+			this.quickSearchOperationsCheck.TabIndex = 1;
+			this.quickSearchOperationsCheck.Text = "Operations";
+			this.quickSearchOperationsCheck.UseVisualStyleBackColor = true;
+			this.quickSearchOperationsCheck.CheckedChanged += new System.EventHandler(this.QuickSearchOperationsCheckCheckedChanged);
+			// 
+			// quickSearchElementsCheck
+			// 
+			this.quickSearchElementsCheck.Location = new System.Drawing.Point(11, 20);
+			this.quickSearchElementsCheck.Name = "quickSearchElementsCheck";
+			this.quickSearchElementsCheck.Size = new System.Drawing.Size(105, 24);
+			this.quickSearchElementsCheck.TabIndex = 0;
+			this.quickSearchElementsCheck.Text = "Elements";
+			this.quickSearchElementsCheck.UseVisualStyleBackColor = true;
+			this.quickSearchElementsCheck.CheckedChanged += new System.EventHandler(this.QuickSearchElementsCheckCheckedChanged);
+			// 
+			// quickSearchSelectCheckBox
+			// 
+			this.quickSearchSelectCheckBox.Location = new System.Drawing.Point(7, 42);
+			this.quickSearchSelectCheckBox.Name = "quickSearchSelectCheckBox";
+			this.quickSearchSelectCheckBox.Size = new System.Drawing.Size(152, 24);
+			this.quickSearchSelectCheckBox.TabIndex = 5;
+			this.quickSearchSelectCheckBox.Text = "Select in Project Browser";
+			this.quickSearchSelectCheckBox.UseVisualStyleBackColor = true;
+			this.quickSearchSelectCheckBox.CheckedChanged += new System.EventHandler(this.QuickSearchSelectCheckBoxCheckedChanged);
+			// 
+			// ActionsGroupBox
+			// 
+			this.ActionsGroupBox.Controls.Add(this.quickSearchSelectCheckBox);
+			this.ActionsGroupBox.Controls.Add(this.quickSearchAddToDiagramCheck);
+			this.ActionsGroupBox.Location = new System.Drawing.Point(4, 136);
+			this.ActionsGroupBox.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+			this.ActionsGroupBox.Name = "ActionsGroupBox";
+			this.ActionsGroupBox.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+			this.ActionsGroupBox.Size = new System.Drawing.Size(165, 69);
+			this.ActionsGroupBox.TabIndex = 7;
+			this.ActionsGroupBox.TabStop = false;
+			this.ActionsGroupBox.Text = "Actions";
+			// 
 			// NavigatorSettingsForm
 			// 
 			this.AcceptButton = this.okButton;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(365, 262);
+			this.ClientSize = new System.Drawing.Size(381, 275);
 			this.Controls.Add(this.quickSearchBox);
 			this.Controls.Add(this.trackSelectedElementCheckBox);
 			this.Controls.Add(this.useContextMenuCheckBox);
@@ -227,8 +253,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.Text = "EA Navigator Settings";
 			this.defaultActionGroupBox.ResumeLayout(false);
 			this.quickSearchBox.ResumeLayout(false);
+			this.ActionsGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.CheckBox quickSearchSelectCheckBox;
+		private System.Windows.Forms.GroupBox ActionsGroupBox;
 		private System.Windows.Forms.CheckBox quickSearchAddToDiagramCheck;
 		private System.Windows.Forms.CheckBox quickSearchElementsCheck;
 		private System.Windows.Forms.CheckBox quickSearchOperationsCheck;

@@ -37,6 +37,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.quickSearchAttributesCheck.Checked = this.settings.quickSearchAttributes;
 			this.quickSearchDiagramsCheck.Checked = this.settings.quickSearchDiagrams;
 			this.quickSearchAddToDiagramCheck.Checked = this.settings.quickSearchAddToDiagram;
+			this.quickSearchSelectCheckBox.Checked = this.settings.quickSearchSelectProjectBrowser ;
 		}
 		
 		void OkButtonClick(object sender, EventArgs e)
@@ -99,6 +100,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 		void QuickSearchAddToDiagramCheckCheckedChanged(object sender, EventArgs e)
 		{
 			this.settings.quickSearchAddToDiagram = this.quickSearchAddToDiagramCheck.Checked;
+		}
+		
+		void QuickSearchSelectCheckBoxCheckedChanged(object sender, EventArgs e)
+		{
+			this.settings.quickSearchSelectProjectBrowser = this.quickSearchSelectCheckBox.Checked;	
 		}
 	}
 }

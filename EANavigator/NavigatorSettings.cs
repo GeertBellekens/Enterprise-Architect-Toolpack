@@ -252,6 +252,25 @@ namespace TSF.UmlToolingFramework.EANavigator
 				this.currentConfig.AppSettings.Settings["quickSearchAddToDiagram"].Value = value.ToString();
 			}
 		}
+		public bool quickSearchSelectProjectBrowser
+		{
+			get
+			{
+				bool result;
+				if( bool.TryParse(this.currentConfig.AppSettings.Settings["quickSearchSelectProjectBrowser"].Value, out result))
+			   	{
+			   		return result;
+			   	}
+			    else 
+			  	{
+			   		return false;
+			   	}
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["quickSearchSelectProjectBrowser"].Value = value.ToString();
+			}
+		}
 		
 		/// <summary>
 		/// saves the settings to the config file

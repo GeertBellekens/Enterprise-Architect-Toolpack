@@ -224,6 +224,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 				if (runtime.TotalSeconds < 5 )
 				{
 					this.workQueue.Insert(0,newElement);
+					//make sure the queue doesn't get too large.
+					if (this.workQueue.Count > 10)
+					{
+						this.workQueue.RemoveAt(this.workQueue.Count -1);
+					}
 				}
 				else
 				{
@@ -786,9 +791,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 			this.quickSearchBox.DroppedDown = results.Count > 0;
 							
-//			this.quickSearchComboBox.Text = this.quickSearchText;
-//			//make sure the cursor stays at the end of the text.
-//			this.quickSearchComboBox.Select(this.quickSearchComboBox.Text.Length,0);
+
 		} 
 
 		
@@ -800,7 +803,17 @@ namespace TSF.UmlToolingFramework.EANavigator
 				{
 					if (quickSearchSelectedItem != null)
 				    {
-						this.setElement(quickSearchSelectedItem);
+						// if this element is to be selected in the project browser is will
+						// automatically be set as the main element
+						if (settings.quickSearchSelectProjectBrowser)
+						{
+							quickSearchSelectedItem.select();
+						}
+						else
+						{
+							this.setElement(quickSearchSelectedItem);
+						}
+						// also add to diagram if needed
 						if (settings.quickSearchAddToDiagram)
 						{
 							this.addToDiagram(quickSearchSelectedItem);
