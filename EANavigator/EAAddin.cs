@@ -402,12 +402,29 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		 
 	}
 	
-
+	/// <summary>
+	/// the EA hook we use to show the selected element in the Navigator window
+	/// </summary>
+	/// <param name="Repository"></param>
+	/// <param name="GUID"></param>
+	/// <param name="ot"></param>
 	public override void EA_OnContextItemChanged(global::EA.Repository Repository, string GUID, global::EA.ObjectType ot)
     {
-		if (this.settings.trackSelectedElement)
+		try
 		{
-			this.navigate();
+			if (this.settings.trackSelectedElement)
+			{			
+				this.navigate();
+			}
+		}
+		catch (Exception e)
+		{
+			//log debug information
+			Logger.logFileName = System.IO.Path.GetTempPath() + "EANavigatorDebug.log";
+			Logger.logError(e.Message + " " + e.StackTrace);
+			MessageBox.Show("Oops something went wrong! Please send the logfile at location: "+Environment.NewLine + Logger.logFileName 
+			                + Environment.NewLine + "to geert@bellekens.com for further investigation"
+			               , "EA Navigator Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
     }
 
