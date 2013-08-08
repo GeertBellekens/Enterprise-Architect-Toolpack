@@ -149,7 +149,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				indexToSelect = relativePosition.Y / this.listBox.ItemHeight;
 			}
-			if (indexToSelect > this.listBox.Items.Count)
+			if (indexToSelect >= this.listBox.Items.Count)
 			{
 				indexToSelect = -1;
 			}						

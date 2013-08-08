@@ -231,7 +231,12 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		    || element is UML.Classes.Kernel.Property
     		    || element is UML.Classes.Kernel.Operation)
     		{
-    			menuOptionsList.Add(menuLinkedToElementFeature);
+    			//the root package can't have links
+    			if (element.owner != null)
+    			{
+    				menuOptionsList.Add(menuLinkedToElementFeature);
+    			}
+    			//but it could be referenced by a tagged value
     			menuOptionsList.Add(menuDependentTaggedValues);
     		}
     		filterMenuOptions(menuOptionsList);
