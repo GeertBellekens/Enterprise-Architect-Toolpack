@@ -55,8 +55,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	}
 	public override void EA_OnPostInitialized(EA.Repository Repository)
 	{
-		// initialize the model
-        this.model = new UTF_EA.Model(Repository);
+
         if (this.navigatorControl != null)
         {
         	this.navigatorControl.clear();
@@ -64,6 +63,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	}
 	public override void EA_FileOpen(EA.Repository Repository)
 	{
+		// initialize the model
+        this.model = new UTF_EA.Model(Repository);
+		// clear the control
 		if (this.navigatorControl != null)
         {
         	this.navigatorControl.clear();

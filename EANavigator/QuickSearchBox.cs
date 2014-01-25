@@ -122,8 +122,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 		            // draw tooltip
 		            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
 		            {
-		            	 this.itemTooltip.Show(selectedElement.fqn,
-                            this, e.Bounds.Right, e.Bounds.Bottom);
+		            	 //this.itemTooltip.Show(selectedElement.fqn,this, e.Bounds.Right, e.Bounds.Bottom);
+		            	 this.itemTooltip.Show(selectedElement.fqn,this, e.Bounds.Left + 20, (int) (e.Bounds.Bottom + e.Bounds.Height * 1.5));
 		            }
 		            else
 		            {

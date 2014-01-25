@@ -206,6 +206,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		public void clear()
 		{
 			this.NavigatorTree.Nodes.Clear();
+			this.quickSearchBox.Text = string.Empty;
 		}
 		/// <summary>
 		/// set the main element to navigate
