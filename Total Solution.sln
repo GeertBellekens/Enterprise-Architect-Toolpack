@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-# SharpDevelop 4.2.1.8805
+# SharpDevelop 4.3
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinFramework", "..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj", "{4161DD26-375F-4744-BA96-B70366E19A78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinTester", "..\Enterprise-Architect-Add-in-Framework\EAAddinTester\EAAddinTester.csproj", "{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}"
@@ -21,6 +21,8 @@ EndProject
 Project("{CFEE4113-1246-4D54-95CB-156813CB8593}") = "EAWorksetSharing_Setup", "EAWorksetSharing_Setup\EAWorksetSharing_Setup.wixproj", "{9AD9553D-E78B-45C7-AE64-70A5EB3078A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalsamiqConnector", "BalsamiqConnector\BalsamiqConnector.csproj", "{31C912A3-A16F-4D18-AB74-B985309B545C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAScriptAddin", "EAScriptAddin\EAScriptAddin.csproj", "{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,5 +112,13 @@ Global
 		{31C912A3-A16F-4D18-AB74-B985309B545C}.Release|x86.ActiveCfg = Release|x86
 		{31C912A3-A16F-4D18-AB74-B985309B545C}.Release|Any CPU.Build.0 = Release|x86
 		{31C912A3-A16F-4D18-AB74-B985309B545C}.Release|Any CPU.ActiveCfg = Release|x86
+		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Debug|x86.Build.0 = Debug|Any CPU
+		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Release|x86.Build.0 = Release|Any CPU
+		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Release|x86.ActiveCfg = Release|Any CPU
+		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 EndGlobal
