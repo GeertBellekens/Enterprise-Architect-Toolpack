@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Interop.EA">
-      <HintPath>..\..\..\..\..\Program Files %28x86%29\Sparx Systems\EA\Interop.EA.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files %28x86%29\Sparx Systems\EA\Interop.EA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -61,11 +61,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj">
+    <ProjectReference Include="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj">
       <Project>{4161DD26-375F-4744-BA96-B70366E19A78}</Project>
       <Name>EAAddinFramework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UML-Tooling-Framework\UMLToolingFramework\UMLToolingFramework.csproj">
+    <ProjectReference Include="..\..\UML-Tooling-Framework\UMLToolingFramework\UMLToolingFramework.csproj">
       <Project>{0FC55607-C9D0-442D-941C-F23AD00CB318}</Project>
       <Name>UMLToolingFramework</Name>
     </ProjectReference>

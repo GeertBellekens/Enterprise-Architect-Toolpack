@@ -27,7 +27,7 @@ namespace EAScriptAddin
 		}
 		public override void EA_MenuClick(EA.Repository Repository, string MenuLocation, string MenuName, string ItemName)
 		{
-			switch (MenuName) {
+			switch (ItemName) {
 				case menuAbout:
 					this.test(Repository);
 					break;

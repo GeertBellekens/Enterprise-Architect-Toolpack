@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-# SharpDevelop 4.3
+# SharpDevelop 4.4
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinFramework", "..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj", "{4161DD26-375F-4744-BA96-B70366E19A78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinTester", "..\Enterprise-Architect-Add-in-Framework\EAAddinTester\EAAddinTester.csproj", "{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}"
