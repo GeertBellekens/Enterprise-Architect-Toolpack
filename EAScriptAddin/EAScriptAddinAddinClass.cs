@@ -200,7 +200,10 @@ namespace EAScriptAddin
         /// - "" : None-specialized Add-In.</returns>
         public override string EA_Connect(EA.Repository Repository)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name,null,string.Empty);
+            //return this.callFunctions(MethodBase.GetCurrentMethod().Name,null,string.Empty);
+            
+            //can't access the repository to get the scripts
+            return string.Empty;
         }
 
         /// <summary>
@@ -518,7 +521,9 @@ namespace EAScriptAddin
 		/// · MYADDIN-2hDfHKA5jf0GAjn92UvqAnxwC13dxQGJtH7zLHJ9Ym8=</returns>
 		public override string EA_GetSharedAddinName(EA.Repository Repository)
 		{
-			return this.callFunctions(MethodBase.GetCurrentMethod().Name,null,string.Empty);
+			//return this.callFunctions(MethodBase.GetCurrentMethod().Name,null,string.Empty);
+			//can't use repository yet.
+			return string.Empty;
 		}
 		
 		#endregion
@@ -1501,7 +1506,47 @@ namespace EAScriptAddin
 		/// <returns>Return a non-zero if the merge operation completed successfully and a zero value when the operation has been unsuccessful.</returns>
 		public override long MDG_Merge(EA.Repository Repository,string PackageGuid ,ref object SynchObjects,
 		                              ref string SynchType,ref object ExportObjects ,ref object ExportFiles , 
-		                              ref object ImportFiles ,ref string IgnoreLocked ,ref string Language ){return 0;}
+		                              ref object ImportFiles ,ref string IgnoreLocked ,ref string Language )
+		{
+			long returnValue = 0L;
+			object functionReturn = this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{PackageGuid , SynchObjects,
+			                                      	SynchType, ExportObjects, ExportFiles, ImportFiles ,IgnoreLocked ,Language,returnValue});
+        	//get the ref parameter values
+			if (functionReturn is object[] && ((object[])functionReturn).Length == 9 )
+        	{
+        		object[] refParams = (object[])functionReturn;
+        		//get SynchObjects
+        	    SynchObjects = refParams[1];
+        		//get SynchType
+        		if (refParams[2] is string)
+        		{
+        			SynchType = (string) refParams[2];
+        		}        	    
+				//get ExportObjects
+        	    ExportObjects = refParams[3];
+        	    //get ExportFiles
+        	    ExportFiles = refParams[4];
+        	    //get ImportFiles
+        	    ImportFiles = refParams[5];        	    
+        		//get IgnoreLocked
+        		if (refParams[6] is string)
+        		{
+        			IgnoreLocked = (string) refParams[6];
+        		}
+        	    //get Language
+        		if (refParams[7] is string)
+        		{
+        			Language = (string) refParams[7];
+        		}
+        		//get returnValue
+        		if (refParams[8] is long)
+        		{
+        			returnValue = (long) refParams[8];
+        		}
+        	}              	
+        
+			return returnValue;
+		}
 		
 		/// <summary>
 		/// MDG_NewClass enables the Add-In to alter details of a Class before it is created.
@@ -1514,7 +1559,28 @@ namespace EAScriptAddin
 		/// <param name="CodeID">A string used to identify the code element before it is created, for more information see MDG_View.</param>
 		/// <param name="Language">A string used to identify the programming language for the new Class. The language must be supported by Enterprise Architect.</param>
 		/// <returns>Returns a string containing the file path that should be assigned to the Class.</returns>
-		public override string MDG_NewClass(EA.Repository Repository,string PackageGuid,string CodeID,ref string Language ){return string.Empty;}
+		public override string MDG_NewClass(EA.Repository Repository,string PackageGuid,string CodeID,ref string Language )
+		{
+			string returnValue = string.Empty;
+			object functionReturn = this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{PackageGuid, CodeID, Language, returnValue});
+        	//get the ref parameter values
+			if (functionReturn is object[] && ((object[])functionReturn).Length == 4 )
+        	{
+        		object[] refParams = (object[])functionReturn;
+        		//get Language
+        		if (refParams[2] is string)
+        		{
+        			Language = (string) refParams[2];
+        		}        	    
+        		//get returnValue
+        		if (refParams[3] is string)
+        		{
+        			returnValue = (string) refParams[3];
+        		}
+        	}              	
+        
+			return returnValue;
+		}
 		
 		/// <summary>
 		/// MDG_PostGenerate enables the Add-In to handle file changes caused by generation.
@@ -1530,7 +1596,10 @@ namespace EAScriptAddin
 		/// <param name="FileContents">A string containing the proposed contents of the file.</param>
 		/// <returns>Return value depends on the type of event that this function is responding to (see summary). 
 		/// This function is required to handle two separate and distinct cases.</returns>
-		public override long MDG_PostGenerate(EA.Repository Repository,string PackageGuid,string FilePath,string FileContents ){return 0;}
+		public override long MDG_PostGenerate(EA.Repository Repository,string PackageGuid,string FilePath,string FileContents )
+		{
+			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{PackageGuid, FilePath, FileContents},0L);
+		}
 		
 		/// <summary>
 		/// MDG_PostMerge is called after a merge process has been completed.
@@ -1543,7 +1612,10 @@ namespace EAScriptAddin
         /// Poll its members to retrieve model data and user interface status information.</param>
 		/// <param name="PackageGuid">The GUID identifying the Enterprise Architect package sub-tree that is controlled by the Add-In.</param>
 		/// <returns>Return a zero value if the post-merge process has failed, a non-zero return indicates that the post-merge has been successful. Enterprise Architect assumes a non-zero return if this method is not implemented</returns>
-		public override long MDG_PostMerge(EA.Repository Repository,string PackageGuid){return 1;}
+		public override long MDG_PostMerge(EA.Repository Repository,string PackageGuid)
+		{
+			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{PackageGuid},1L);
+		}
 		
 		/// <summary>
 		/// MDG_PreGenerate enables the Add-In to deal with unsaved changes. 
@@ -1555,7 +1627,10 @@ namespace EAScriptAddin
         /// Poll its members to retrieve model data and user interface status information.</param>
 		/// <param name="PackageGuid">The GUID identifying the Enterprise Architect package sub-tree that is controlled by the Add-In.</param>
 		/// <returns>Return a zero value to abort generation. Any other value enables the generation to continue.</returns>
-		public override long MDG_PreGenerate(EA.Repository Repository,string PackageGuid){return 1;}
+		public override long MDG_PreGenerate(EA.Repository Repository,string PackageGuid)
+		{
+			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{PackageGuid},1L);
+		}
 		
 		/// <summary>
 		/// MDG_PreMerge is called after a merge process has been initiated by the user and before Enterprise Architect performs the merge process.
@@ -1569,7 +1644,10 @@ namespace EAScriptAddin
         /// Poll its members to retrieve model data and user interface status information.</param>
 		/// <param name="PackageGuid">The GUID identifying the Enterprise Architect package sub-tree that is controlled by the Add-In.</param>
 		/// <returns>A return value of zero indicates that the merge process will not occur. If the value is not zero the merge process will proceed. If this method is not implemented then it is assumed that a merge process is used.</returns>
-		public override long MDG_PreMerge(EA.Repository Repository, string PackageGuid){return 1;}
+		public override long MDG_PreMerge(EA.Repository Repository, string PackageGuid)
+		{
+			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{PackageGuid},1L);
+		}
 		
 		/// <summary>
 		/// MDG_PreReverse enables the Add-In to save file changes before being imported into Enterprise Architect.
@@ -1580,7 +1658,10 @@ namespace EAScriptAddin
         /// Poll its members to retrieve model data and user interface status information.</param>
 		/// <param name="PackageGuid">The GUID identifying the Enterprise Architect package sub-tree that is controlled by the Add-In.</param>
 		/// <param name="FilePaths">A string array of filepaths pointed to the files that are to be reverse engineered.</param>
-		public override void MDG_PreReverse(EA.Repository Repository, string PackageGuid,object FilePaths){}
+		public override void MDG_PreReverse(EA.Repository Repository, string PackageGuid,object FilePaths)
+		{
+			this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{PackageGuid,FilePaths});
+		}
 		
 		/// <summary>
 		/// MDG_RunExe enables the Add-In to run the target application. This function is called when the user selects the Add-Ins | Run Exe menu option. Respond to this event by launching the compiled application.
@@ -1589,7 +1670,10 @@ namespace EAScriptAddin
  		/// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
         /// Poll its members to retrieve model data and user interface status information.</param>
 		/// <param name="PackageGuid">The GUID identifying the Enterprise Architect package sub-tree that is controlled by the Add-In.</param>
-		public override void MDG_RunExe(EA.Repository Repository, string PackageGuid){}
+		public override void MDG_RunExe(EA.Repository Repository, string PackageGuid)
+		{
+			this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{PackageGuid});
+		}
 		
 		/// <summary>
 		/// MDG_View enables the Add-In to display user specified code elements. This function is called by Enterprise Architect when the user asks to view a particular code element. This enables the Add-In to present that element in its own way, usually in a code editor.
@@ -1607,7 +1691,10 @@ namespace EAScriptAddin
 		/// For example if a user has selected the m_Name attribute of Class1 located in namespace Name1, the class ID would be passed through in the following format:
 		/// @Name1#Class1%m_Name</param>
 		/// <returns>Return a non-zero value to indicate that the Add-In has processed the request. Returning a zero value results in Enterprise Architect employing the standard viewing process which is to launch the associated source file.</returns>
-		public override long MDG_View(EA.Repository Repository, string PackageGuid, string CodeID){return 0;}
+		public override long MDG_View(EA.Repository Repository, string PackageGuid, string CodeID)
+		{
+			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{PackageGuid,CodeID},0L);
+		}
 	
 		#endregion EA MDG Events
 		
