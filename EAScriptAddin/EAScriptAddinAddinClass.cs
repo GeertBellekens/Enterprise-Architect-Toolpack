@@ -21,10 +21,11 @@ namespace EAScriptAddin
 	public class EAScriptAddinAddinClass: EAAddinFramework.EAAddinBase
 	{
 		private const string menuMain = "-&Scripting Addin";
-		private const string menuAbout = "&About EA Script Add-in";
+		private const string menuSettings = "&Settings";
 		private UTF_EA.Model model;
 		private List<Script> allScripts {get;set;}
 		private List<ScriptFunction> _allFunctions;
+		private List<MethodInfo> AddinOperations; 
 		
 		#region Add-in specific operations
 		/// <summary>
@@ -51,8 +52,12 @@ namespace EAScriptAddin
 		/// </summary>
 		public EAScriptAddinAddinClass():base()
 		{
+			//get all defined EA_ and MDG_ operations
+			AddinOperations = typeof(EAScriptAddinAddinClass).GetMethods()
+        		.Where( x => x.Name.StartsWith("EA_")||x.Name.StartsWith("MDG_")).ToList<MethodInfo>();
+			
 			this.menuHeader = menuMain;
-			this.menuOptions = new String[] {menuAbout};
+			this.menuOptions = new String[] {menuSettings};
 		}
 		/// <summary>
 		/// executes the scriptfunctions with the given functionName and returns the boolean result of the function
@@ -176,15 +181,24 @@ namespace EAScriptAddin
         	//add-in part
 			switch (ItemName) 
 			{
-				case menuAbout:
-					//TODO show about window
+				case menuSettings:
+					this.showSettings();
 					break;
 			}
 			//call scriptfunctions
         	this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{MenuLocation,MenuName,ItemName});
         }
-    
-		
+    	
+        /// <summary>
+        /// show the settings dialog
+        /// </summary>
+        private void showSettings()
+        {
+			//reset the functions
+			this._allFunctions = null;
+			EAScriptAddinSettingForm settingsForm = new EAScriptAddinSettingForm(AddinOperations,this.allFunctions);
+			settingsForm.ShowDialog();        	
+        }
 		#region EA Add-In Events
         
         /// <summary>
@@ -245,7 +259,7 @@ namespace EAScriptAddin
 	        			string[] functionMenuOptions = (string[])functionReturn;
 	        			//add the about menu to the end
 	        			List<string> newMenuOptions = functionMenuOptions.ToList();
-	        			newMenuOptions.Add(menuAbout);
+	        			newMenuOptions.Add(menuSettings);
 	        			return newMenuOptions.ToArray<string>();
 	        		}
 	        		//TODO test what happens if the function returns a single string as submenu options
@@ -429,7 +443,8 @@ namespace EAScriptAddin
         /// Poll its members to retrieve model data and user interface status information.</param>
 		public override void EA_OnPostInitialized(EA.Repository Repository)
 		{
-			this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
+			//repository not ready yet
+			//this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
 		}
 		
 		/// <summary>
@@ -642,7 +657,8 @@ namespace EAScriptAddin
         /// Poll its members to retrieve model data and user interface status information.</param>
         public override void EA_OnInitializeUserRules(EA.Repository Repository)
         {
-        	this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
+        	//repository is not ready yet
+        	//this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
         }
         
         /// <summary>
@@ -1355,7 +1371,9 @@ namespace EAScriptAddin
         /// <returns>Return the MDG Technology as a single XML string.</returns>
         public override object EA_OnInitializeTechnologies(EA.Repository Repository)
         {
-        	return this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
+        	//repository is not ready yet
+        	//return this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
+        	return null;
         }
         
         /// <summary>
@@ -1368,10 +1386,11 @@ namespace EAScriptAddin
 		/// <param name="Info">Contains the following EventProperty object for the MDG Technology to be activated:
 		/// - TechnologyID: A string value corresponding to the MDG Technology ID.</param>
 		/// <returns>Return True to enable activation of the MDG Technology resource in the model. Return False to disable activation of the MDG Technology resource.</returns>
-        public override bool EA_OnPreActivateTechnology(EA.Repository Repository, EA.EventProperties Info)
-		{
-			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{Info},true);
-		}
+//        public override bool EA_OnPreActivateTechnology(EA.Repository Repository, EA.EventProperties Info)
+//		{
+//        	//repository not ready yet
+//			//return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{Info},true);
+//		}
         
         /// <summary>
         /// EA_OnPostActivateTechnology notifies Add-Ins that an MDG Technology resource has been activated in the model. This event occurs when a user activates an MDG Technology resource in the model (by clicking on the Set Active button on the MDG Technologies dialog or by selecting the technology in the list box in the Default Tools toolbar). The notification is provided immediately after the user succeeds in activating the MDG Technology, so that the Add-In can update the Technology if necessary.
@@ -1382,10 +1401,11 @@ namespace EAScriptAddin
 		/// <param name="Info">Contains the following EventProperty object for the MDG Technology to be activated:
 		/// - TechnologyID: A string value corresponding to the MDG Technology ID.</param>
 		/// <returns>Return True if the MDG Technology resource is updated during this notification. Return False otherwise.</returns>
-        public override bool EA_OnPostActivateTechnology(EA.Repository Repository, EA.EventProperties Info)
-		{
-			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{Info},true);
-		}
+//        public override bool EA_OnPostActivateTechnology(EA.Repository Repository, EA.EventProperties Info)
+//		{
+//        	//repository not ready yet
+//			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{Info},true);
+//		}
                 
         #endregion EA Technology Events
         
