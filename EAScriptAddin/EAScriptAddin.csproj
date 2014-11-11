@@ -58,6 +58,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutWindow.cs" />
+    <Compile Include="AboutWindow.Designer.cs">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="EAScriptAddinAddinClass.cs" />
     <Compile Include="EAScriptAddinSettingForm.cs" />
     <Compile Include="EAScriptAddinSettingForm.Designer.cs">
@@ -76,9 +80,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AboutWindow.resx">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EAScriptAddinSettingForm.resx">
       <DependentUpon>EAScriptAddinSettingForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Files" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\ScriptAddinIcon.ico" />
+    <None Include="Files\ScriptAddinIcon16.png" />
+    <None Include="Files\ScriptAddinIcon64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

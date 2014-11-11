@@ -36,7 +36,7 @@ namespace EAScriptAddin
 			this.modelFunctions = functions;
 			
 			this.operationsListBox.DisplayMember = "Name";
-			this.functionsCheckBox.DisplayMember = "fullName";
+			this.functionsListBox.DisplayMember = "fullName";
 			
 			foreach (MethodInfo operation in addinOperations)
 			{
@@ -53,11 +53,20 @@ namespace EAScriptAddin
 		
 		void OperationsListBoxSelectedIndexChanged(object sender, EventArgs e)
 		{
+			//clear the functions
+			this.functionsListBox.Items.Clear();
+			//get the selected operations
 			MethodInfo selectedOperation = (MethodInfo)this.operationsListBox.SelectedItem;
+			//add each corresponding function to the functions checkbox list
 			foreach (ScriptFunction function in this.modelFunctions.Where(x => x.name == selectedOperation.Name))
 			{
-			         	this.functionsCheckBox.Items.Add(function);
+			         	this.functionsListBox.Items.Add(function);
 			}
+		}
+		
+		void AboutButtonClick(object sender, EventArgs e)
+		{
+			new AboutWindow().ShowDialog();
 		}
 	}
 }

@@ -201,24 +201,13 @@ namespace EAScriptAddin
         }
 		#region EA Add-In Events
         
-        /// <summary>
-        /// EA_Connect events enable Add-Ins to identify their type and to respond to Enterprise Architect start up.
-        /// This event occurs when Enterprise Architect first loads your Add-In. Enterprise Architect itself is loading at this time so that while a Repository object is supplied, there is limited information that you can extract from it.
-        /// The chief uses for EA_Connect are in initializing global Add-In data and for identifying the Add-In as an MDG Add-In.
-        /// Also look at EA_Disconnect.
-        /// </summary>
-        /// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
-        /// Poll its members to retrieve model data and user interface status information.</param>
-        /// <returns>String identifying a specialized type of Add-In: 
-        /// - "MDG" : MDG Add-Ins receive MDG Events and extra menu options.
-        /// - "" : None-specialized Add-In.</returns>
-        public override string EA_Connect(EA.Repository Repository)
-        {
-            //return this.callFunctions(MethodBase.GetCurrentMethod().Name,null,string.Empty);
-            
-            //can't access the repository to get the scripts
-            return string.Empty;
-        }
+
+//can't access the repository to get the scripts        
+//        public override string EA_Connect(EA.Repository Repository)
+//        {
+//            //return this.callFunctions(MethodBase.GetCurrentMethod().Name,null,string.Empty);
+//            return string.Empty;
+//        }
 
         /// <summary>
         /// The EA_GetMenuItems event enables the Add-In to provide the Enterprise Architect user interface with additional Add-In menu options in various context and main menus. When a user selects an Add-In menu option, an event is raised and passed back to the Add-In that originally defined that menu option.
@@ -435,17 +424,12 @@ namespace EAScriptAddin
 			this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
 		}
 
-		/// <summary>
-		/// EA_OnPostInitialized notifies Add-Ins that the Repository object has finished loading and any necessary initialization steps can now be performed on the object.
-		/// For example, the Add-In can create an Output tab using Repository.CreateOutputTab.
-		/// </summary>
-		/// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
-        /// Poll its members to retrieve model data and user interface status information.</param>
-		public override void EA_OnPostInitialized(EA.Repository Repository)
-		{
-			//repository not ready yet
-			//this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
-		}
+
+//repository not ready yet
+//        public override void EA_OnPostInitialized(EA.Repository Repository)
+//		{
+//	//this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
+//		}
 		
 		/// <summary>
 		/// EA_OnPostTransform notifies Add-Ins that an MDG transformation has taken place with the output in the specified target package.
@@ -516,30 +500,13 @@ namespace EAScriptAddin
 			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{AddinKey},string.Empty);
 		}
 		
-		/// <summary>
-		/// As an add-in writer you can distribute keys to your add-in via the Enterprise Architect Keystore providing your 
-		/// keys are generated using a prefix that allows Enterprise Architect to identify the add-in to which they belong. 
-		/// EA_GetSharedAddinName is called by Enterprise Architect to determine what prefix an add-in is using. 
-		/// If a matching key is found in the keystore the License Management dialog will display the name returned 
-		/// by EA_AddinLicenseGetDescription to your users. 
-		/// Finally, when the user selects a key, that key will be passed to your add-in to validate 
-		/// by calling EA_AddinLicenseValidate.
-		/// </summary>
-        /// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
-        /// Poll its members to retrieve model data and user interface status information.</param>
-		/// <returns>A String containing a product name code for the provided Add-In. This will be shown in plain text at the start of any keys added to the keystore. We recommend contacting Sparx Systems directly with proposed values to ensure you don't clash with any other add-ins.
-		/// eg. The following keys would all be interpreted as belonging to an add-in returning "MYADDIN" from this function:
-		/// · MYADDIN-Test
-		/// · MYADDIN-{7AC4D426-9083-4fa2-93B7-25E2B7FB8DC5}
-		/// · MYADDIN-7AC4D426-9083-4fa2-93B7
-		/// · MYADDIN-25E2B7FB8DC5
-		/// · MYADDIN-2hDfHKA5jf0GAjn92UvqAnxwC13dxQGJtH7zLHJ9Ym8=</returns>
-		public override string EA_GetSharedAddinName(EA.Repository Repository)
-		{
-			//return this.callFunctions(MethodBase.GetCurrentMethod().Name,null,string.Empty);
-			//can't use repository yet.
-			return string.Empty;
-		}
+
+// can't use repository yet.		
+//		public override string EA_GetSharedAddinName(EA.Repository Repository)
+//		{
+//			//return this.callFunctions(MethodBase.GetCurrentMethod().Name,null,string.Empty);
+//			return string.Empty;
+//		}
 		
 		#endregion
 		
@@ -649,17 +616,12 @@ namespace EAScriptAddin
 
         #region EA Model Validation Broadcasts
         
-        /// <summary>
-        /// EA_OnInitializeUserRules is called on Enterprise Architect start-up and requests that the Add-In provide Enterprise Architect with a rule category and list of rule IDs for model validation.
-        /// This function must be implemented by any Add-In that is to perform its own model validation. It must call Project.DefineRuleCategory once and Project.DefineRule for each rule; these functions are described in the Project Interface section.
-        /// </summary>
-        /// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
-        /// Poll its members to retrieve model data and user interface status information.</param>
-        public override void EA_OnInitializeUserRules(EA.Repository Repository)
-        {
-        	//repository is not ready yet
-        	//this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
-        }
+
+//repository is not ready yet
+//        public override void EA_OnInitializeUserRules(EA.Repository Repository)
+//        {
+//        	//this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
+//        }
         
         /// <summary>
         /// EA_OnStartValidation notifies Add-Ins that a user has invoked the model validation command from Enterprise Architect.
@@ -1358,52 +1320,22 @@ namespace EAScriptAddin
 		
         #region EA Technology Events
         
-        /// <summary>
-        /// EA_OnInitializeTechnologies requests that an Add-In pass an MDG Technology to Enterprise Architect for loading.
-        /// This event occurs on Enterprise Architect startup. Return your technology XML to this function and Enterprise Architect loads and enables it.
-        /// </summary>
-        /// <example>
-        /// public object EA_OnInitializeTechnologies(EA.Repository Repository){
-        /// 	return My.Resources.MyTechnology;}
-        /// </example>
-        /// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
-        /// Poll its members to retrieve model data and user interface status information.</param>
-        /// <returns>Return the MDG Technology as a single XML string.</returns>
-        public override object EA_OnInitializeTechnologies(EA.Repository Repository)
-        {
-        	//repository is not ready yet
-        	//return this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
-        	return null;
-        }
-        
-        /// <summary>
-        /// EA_OnPreActivateTechnology notifies Add-Ins that an MDG Technology resource is about to be activated in the model. This event occurs when a user selects to activate an MDG Technology resource in the model (by clicking on the Set Active button on the MDG Technologies dialog or by selecting the technology in the list box in the Default Tools toolbar).
-        /// The notification is provided immediately after the user attempts to activate the MDG Technology, so that the Add-In can permit or disable activation of the Technology.
-        /// Also look at EA_OnPostActivateTechnology.
-        /// </summary>
-		/// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
-        /// Poll its members to retrieve model data and user interface status information.</param>
-		/// <param name="Info">Contains the following EventProperty object for the MDG Technology to be activated:
-		/// - TechnologyID: A string value corresponding to the MDG Technology ID.</param>
-		/// <returns>Return True to enable activation of the MDG Technology resource in the model. Return False to disable activation of the MDG Technology resource.</returns>
+
+//repository is not ready yet
+//        public override object EA_OnInitializeTechnologies(EA.Repository Repository)
+//        {
+//        	//return this.callFunctions(MethodBase.GetCurrentMethod().Name,null);
+//        	return null;
+//        }
+     
 //        public override bool EA_OnPreActivateTechnology(EA.Repository Repository, EA.EventProperties Info)
 //		{
-//        	//repository not ready yet
 //			//return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{Info},true);
 //		}
         
-        /// <summary>
-        /// EA_OnPostActivateTechnology notifies Add-Ins that an MDG Technology resource has been activated in the model. This event occurs when a user activates an MDG Technology resource in the model (by clicking on the Set Active button on the MDG Technologies dialog or by selecting the technology in the list box in the Default Tools toolbar). The notification is provided immediately after the user succeeds in activating the MDG Technology, so that the Add-In can update the Technology if necessary.
-        /// Also look at EA_OnPreActivateTechnology.
-        /// </summary>
-		/// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
-        /// Poll its members to retrieve model data and user interface status information.</param>
-		/// <param name="Info">Contains the following EventProperty object for the MDG Technology to be activated:
-		/// - TechnologyID: A string value corresponding to the MDG Technology ID.</param>
-		/// <returns>Return True if the MDG Technology resource is updated during this notification. Return False otherwise.</returns>
+//repository not ready yet
 //        public override bool EA_OnPostActivateTechnology(EA.Repository Repository, EA.EventProperties Info)
 //		{
-//        	//repository not ready yet
 //			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{Info},true);
 //		}
                 

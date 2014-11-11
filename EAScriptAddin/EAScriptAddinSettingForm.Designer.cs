@@ -36,30 +36,33 @@ namespace EAScriptAddin
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EAScriptAddinSettingForm));
 			this.operationsPanel = new System.Windows.Forms.Panel();
-			this.functionsCheckBox = new System.Windows.Forms.CheckedListBox();
+			this.functionsListBox = new System.Windows.Forms.CheckedListBox();
 			this.operationsListBox = new System.Windows.Forms.CheckedListBox();
 			this.OkButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.aboutButton = new System.Windows.Forms.Button();
 			this.operationsPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// operationsPanel
 			// 
-			this.operationsPanel.Controls.Add(this.functionsCheckBox);
+			this.operationsPanel.Controls.Add(this.functionsListBox);
 			this.operationsPanel.Controls.Add(this.operationsListBox);
 			this.operationsPanel.Location = new System.Drawing.Point(12, 12);
 			this.operationsPanel.Name = "operationsPanel";
 			this.operationsPanel.Size = new System.Drawing.Size(526, 388);
 			this.operationsPanel.TabIndex = 0;
 			// 
-			// functionsCheckBox
+			// functionsListBox
 			// 
-			this.functionsCheckBox.FormattingEnabled = true;
-			this.functionsCheckBox.Location = new System.Drawing.Point(266, 4);
-			this.functionsCheckBox.Name = "functionsCheckBox";
-			this.functionsCheckBox.Size = new System.Drawing.Size(257, 379);
-			this.functionsCheckBox.TabIndex = 1;
+			this.functionsListBox.FormattingEnabled = true;
+			this.functionsListBox.Location = new System.Drawing.Point(266, 4);
+			this.functionsListBox.Name = "functionsListBox";
+			this.functionsListBox.SelectionMode = System.Windows.Forms.SelectionMode.None;
+			this.functionsListBox.Size = new System.Drawing.Size(257, 169);
+			this.functionsListBox.TabIndex = 1;
 			// 
 			// operationsListBox
 			// 
@@ -90,6 +93,16 @@ namespace EAScriptAddin
 			this.cancelButton.Text = "Cancel";
 			this.cancelButton.UseVisualStyleBackColor = true;
 			// 
+			// aboutButton
+			// 
+			this.aboutButton.Location = new System.Drawing.Point(16, 417);
+			this.aboutButton.Name = "aboutButton";
+			this.aboutButton.Size = new System.Drawing.Size(75, 23);
+			this.aboutButton.TabIndex = 3;
+			this.aboutButton.Text = "About";
+			this.aboutButton.UseVisualStyleBackColor = true;
+			this.aboutButton.Click += new System.EventHandler(this.AboutButtonClick);
+			// 
 			// EAScriptAddinSettingForm
 			// 
 			this.AcceptButton = this.OkButton;
@@ -97,18 +110,21 @@ namespace EAScriptAddin
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(550, 452);
+			this.Controls.Add(this.aboutButton);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.OkButton);
 			this.Controls.Add(this.operationsPanel);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "EAScriptAddinSettingForm";
 			this.Text = "Settings";
 			this.operationsPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Button aboutButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button OkButton;
 		private System.Windows.Forms.CheckedListBox operationsListBox;
-		private System.Windows.Forms.CheckedListBox functionsCheckBox;
+		private System.Windows.Forms.CheckedListBox functionsListBox;
 		private System.Windows.Forms.Panel operationsPanel;
 	}
 }
