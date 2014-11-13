@@ -24,6 +24,7 @@ namespace EAScriptAddin
 	{
 		private List<MethodInfo> addinOperations;
 		private List<ScriptFunction> modelFunctions;
+		private Boolean checkBoxesReadOnly = false;
 		
 		public EAScriptAddinSettingForm(List<MethodInfo> operations, List<ScriptFunction> functions)
 		{
@@ -43,6 +44,8 @@ namespace EAScriptAddin
 				bool hasEquivalentFunction = functions.Exists(x => x.name == operation.Name);
 				this.operationsListBox.Items.Add(operation,hasEquivalentFunction);
 			}
+			//finished loading, now set the checkboxes readonly
+			this.checkBoxesReadOnly = true;
 		}
 		
 		void OkButtonClick(object sender, EventArgs e)
@@ -67,6 +70,15 @@ namespace EAScriptAddin
 		void AboutButtonClick(object sender, EventArgs e)
 		{
 			new AboutWindow().ShowDialog();
+		}
+		
+		void OperationsListBoxItemCheck(object sender, ItemCheckEventArgs e)
+		{
+			//don't allow the user to change the checked state
+			if (checkBoxesReadOnly)
+			{
+				e.NewValue = e.CurrentValue;
+			}
 		}
 	}
 }

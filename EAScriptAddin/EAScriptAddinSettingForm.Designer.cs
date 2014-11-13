@@ -48,34 +48,44 @@ namespace EAScriptAddin
 			// 
 			// operationsPanel
 			// 
+			this.operationsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+									| System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
 			this.operationsPanel.Controls.Add(this.functionsListBox);
 			this.operationsPanel.Controls.Add(this.operationsListBox);
 			this.operationsPanel.Location = new System.Drawing.Point(12, 12);
 			this.operationsPanel.Name = "operationsPanel";
-			this.operationsPanel.Size = new System.Drawing.Size(526, 388);
+			this.operationsPanel.Size = new System.Drawing.Size(567, 388);
 			this.operationsPanel.TabIndex = 0;
 			// 
 			// functionsListBox
 			// 
+			this.functionsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+									| System.Windows.Forms.AnchorStyles.Left) 
+									| System.Windows.Forms.AnchorStyles.Right)));
 			this.functionsListBox.FormattingEnabled = true;
 			this.functionsListBox.Location = new System.Drawing.Point(266, 4);
 			this.functionsListBox.Name = "functionsListBox";
 			this.functionsListBox.SelectionMode = System.Windows.Forms.SelectionMode.None;
-			this.functionsListBox.Size = new System.Drawing.Size(257, 169);
+			this.functionsListBox.Size = new System.Drawing.Size(298, 169);
 			this.functionsListBox.TabIndex = 1;
 			// 
 			// operationsListBox
 			// 
+			this.operationsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+									| System.Windows.Forms.AnchorStyles.Left)));
 			this.operationsListBox.FormattingEnabled = true;
 			this.operationsListBox.Location = new System.Drawing.Point(4, 4);
 			this.operationsListBox.Name = "operationsListBox";
 			this.operationsListBox.Size = new System.Drawing.Size(257, 379);
 			this.operationsListBox.TabIndex = 0;
+			this.operationsListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OperationsListBoxItemCheck);
 			this.operationsListBox.SelectedIndexChanged += new System.EventHandler(this.OperationsListBoxSelectedIndexChanged);
 			// 
 			// OkButton
 			// 
-			this.OkButton.Location = new System.Drawing.Point(462, 417);
+			this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.OkButton.Location = new System.Drawing.Point(504, 417);
 			this.OkButton.Name = "OkButton";
 			this.OkButton.Size = new System.Drawing.Size(75, 23);
 			this.OkButton.TabIndex = 1;
@@ -85,8 +95,9 @@ namespace EAScriptAddin
 			// 
 			// cancelButton
 			// 
+			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(381, 417);
+			this.cancelButton.Location = new System.Drawing.Point(423, 417);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 2;
@@ -95,6 +106,7 @@ namespace EAScriptAddin
 			// 
 			// aboutButton
 			// 
+			this.aboutButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.aboutButton.Location = new System.Drawing.Point(16, 417);
 			this.aboutButton.Name = "aboutButton";
 			this.aboutButton.Size = new System.Drawing.Size(75, 23);
@@ -109,12 +121,13 @@ namespace EAScriptAddin
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(550, 452);
+			this.ClientSize = new System.Drawing.Size(591, 452);
 			this.Controls.Add(this.aboutButton);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.OkButton);
 			this.Controls.Add(this.operationsPanel);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MinimumSize = new System.Drawing.Size(607, 490);
 			this.Name = "EAScriptAddinSettingForm";
 			this.Text = "Settings";
 			this.operationsPanel.ResumeLayout(false);
