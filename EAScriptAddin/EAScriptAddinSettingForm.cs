@@ -24,7 +24,8 @@ namespace EAScriptAddin
 	{
 		private List<MethodInfo> addinOperations;
 		private List<ScriptFunction> modelFunctions;
-		private Boolean checkBoxesReadOnly = false;
+		private bool checkBoxesReadOnly = false;
+		private bool showAllOperations = false;
 		
 		public EAScriptAddinSettingForm(List<MethodInfo> operations, List<ScriptFunction> functions)
 		{
@@ -38,14 +39,34 @@ namespace EAScriptAddin
 			
 			this.operationsListBox.DisplayMember = "Name";
 			this.functionsListBox.DisplayMember = "fullName";
+			//load the operations
+			this.reloadOperations();
+		}
+		/// <summary>
+		/// reloads the operations in the list box
+		/// </summary>
+		private void reloadOperations()
+		{
+			//set the checkboxes read/write
+			this.checkBoxesReadOnly = false;
 			
-			foreach (MethodInfo operation in addinOperations)
+			//clear the listboxes
+			this.operationsListBox.Items.Clear();
+			this.functionsListBox.Items.Clear();
+			
+			//add the operations
+			foreach (MethodInfo operation in this.addinOperations)
 			{
-				bool hasEquivalentFunction = functions.Exists(x => x.name == operation.Name);
-				this.operationsListBox.Items.Add(operation,hasEquivalentFunction);
+				bool hasEquivalentFunction = this.modelFunctions.Exists(x => x.name == operation.Name);
+				if (hasEquivalentFunction || showAllOperations)
+				{
+					this.operationsListBox.Items.Add(operation,hasEquivalentFunction);
+				}
 			}
-			//finished loading, now set the checkboxes readonly
+			//finished loading, now set the checkboxes back to readonly
 			this.checkBoxesReadOnly = true;
+			//select the first one
+			this.operationsListBox.SelectedIndex = 0;
 		}
 		
 		void OkButtonClick(object sender, EventArgs e)
@@ -63,7 +84,7 @@ namespace EAScriptAddin
 			//add each corresponding function to the functions checkbox list
 			foreach (ScriptFunction function in this.modelFunctions.Where(x => x.name == selectedOperation.Name))
 			{
-			         	this.functionsListBox.Items.Add(function);
+				this.functionsListBox.Items.Add(function,true);
 			}
 		}
 		
@@ -79,6 +100,12 @@ namespace EAScriptAddin
 			{
 				e.NewValue = e.CurrentValue;
 			}
+		}
+		
+		void AllOperationsCheckBoxCheckedChanged(object sender, EventArgs e)
+		{
+			this.showAllOperations = this.allOperationsCheckBox.Checked;
+			this.reloadOperations();
 		}
 	}
 }

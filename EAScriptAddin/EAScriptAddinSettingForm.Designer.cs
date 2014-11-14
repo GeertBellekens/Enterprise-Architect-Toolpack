@@ -43,6 +43,7 @@ namespace EAScriptAddin
 			this.OkButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.aboutButton = new System.Windows.Forms.Button();
+			this.allOperationsCheckBox = new System.Windows.Forms.CheckBox();
 			this.operationsPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -51,6 +52,7 @@ namespace EAScriptAddin
 			this.operationsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 									| System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
+			this.operationsPanel.Controls.Add(this.allOperationsCheckBox);
 			this.operationsPanel.Controls.Add(this.functionsListBox);
 			this.operationsPanel.Controls.Add(this.operationsListBox);
 			this.operationsPanel.Location = new System.Drawing.Point(12, 12);
@@ -115,6 +117,16 @@ namespace EAScriptAddin
 			this.aboutButton.UseVisualStyleBackColor = true;
 			this.aboutButton.Click += new System.EventHandler(this.AboutButtonClick);
 			// 
+			// allOperationsCheckBox
+			// 
+			this.allOperationsCheckBox.Location = new System.Drawing.Point(268, 180);
+			this.allOperationsCheckBox.Name = "allOperationsCheckBox";
+			this.allOperationsCheckBox.Size = new System.Drawing.Size(157, 24);
+			this.allOperationsCheckBox.TabIndex = 2;
+			this.allOperationsCheckBox.Text = "Show all operations";
+			this.allOperationsCheckBox.UseVisualStyleBackColor = true;
+			this.allOperationsCheckBox.CheckedChanged += new System.EventHandler(this.AllOperationsCheckBoxCheckedChanged);
+			// 
 			// EAScriptAddinSettingForm
 			// 
 			this.AcceptButton = this.OkButton;
@@ -133,6 +145,7 @@ namespace EAScriptAddin
 			this.operationsPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.CheckBox allOperationsCheckBox;
 		private System.Windows.Forms.Button aboutButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button OkButton;
