@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalsamiqConnector", "Balsam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAScriptAddin", "EAScriptAddin\EAScriptAddin.csproj", "{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}"
 EndProject
+Project("{CFEE4113-1246-4D54-95CB-156813CB8593}") = "EAScriptAddin_Setup", "EAScriptAddin_Setup\EAScriptAddin_Setup.wixproj", "{1D28720A-0A26-4C84-8631-7D7003F724C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -120,5 +122,13 @@ Global
 		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Release|x86.ActiveCfg = Release|Any CPU
 		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D28720A-0A26-4C84-8631-7D7003F724C3}.Debug|x86.Build.0 = Debug|Any CPU
+		{1D28720A-0A26-4C84-8631-7D7003F724C3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1D28720A-0A26-4C84-8631-7D7003F724C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D28720A-0A26-4C84-8631-7D7003F724C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D28720A-0A26-4C84-8631-7D7003F724C3}.Release|x86.Build.0 = Release|Any CPU
+		{1D28720A-0A26-4C84-8631-7D7003F724C3}.Release|x86.ActiveCfg = Release|Any CPU
+		{1D28720A-0A26-4C84-8631-7D7003F724C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D28720A-0A26-4C84-8631-7D7003F724C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 EndGlobal

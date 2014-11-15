@@ -1,0 +1,41 @@
+﻿<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*"
+		Name="EA Scripting Addin"
+		Language="1033"
+		Version="1.0.0.0"
+		UpgradeCode="CC366BB8-A704-42D6-8F2A-4B418CCBD31D"
+		Manufacturer="Bellekens IT">
+		<Package Description="#Description"
+			Comments="Comments"
+			InstallerVersion="200"
+			Compressed="yes"/>
+		<!--
+			Source media for the installation. 
+ 			Specifies a single cab file to be embedded in the installer's .msi. 
+		-->
+		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
+		
+		<!-- Installation directory and files are defined in Files.wxs -->
+		<Directory Id="TARGETDIR" Name="SourceDir"/>
+		
+		<Feature Id="Complete"
+		         Title="EA Scripting Addin"
+		         Description="Addin for Sparx Enterprise Architect that allows to use add-in functionality with scripting"
+		         Level="1">
+		         <ComponentRef Id="EAScriptingAddinFiles"/>
+				 <ComponentRef Id="EAScriptingRegistryEntries"/>
+		</Feature>
+		
+		<!--
+ 			Using the Wix UI library.
+
+			WixUI_Minimal is the most basic of the WixUI stock dialog sets.
+ 			Its sole dialog combines the welcome and license-agreement 
+			dialogs and omits the feature customization dialog. 
+			WixUI_Minimal is appropriate when your product has no optional 
+			features.
+ 		-->
+		<UIRef Id="WixUI_Minimal"/>
+	</Product>
+</Wix>

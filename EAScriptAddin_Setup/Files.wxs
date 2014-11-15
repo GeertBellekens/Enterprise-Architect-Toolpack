@@ -1,0 +1,53 @@
+﻿<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="INSTALLDIR" Name="EA Scripting Addin">
+					<Component Id="EAScriptingAddinFiles" Guid="8E59E143-AADC-44AA-B49E-CB7B06ED4E4C" DiskId="1" UninstallWhenSuperseded="yes">
+						<File Id="LicenseFile" Name="license.rtf" Source="license.rtf" />
+						<File Id="EAAddinFramework.dll" Name="EAAddinFramework.dll" Source="..\EAScriptAddin\bin\Debug\EAAddinFramework.dll" />
+						<File Id="EAAddinFramework.pdb" Name="EAAddinFramework.pdb" Source="..\EAScriptAddin\bin\Debug\EAAddinFramework.pdb" />
+						<File Id="EAAddinFramework.xml" Name="EAAddinFramework.xml" Source="..\EAScriptAddin\bin\Debug\EAAddinFramework.xml" />
+						<File Id="EAScriptAddin.pdb" Name="EAScriptAddin.pdb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.pdb" />
+						<File Id="EAScriptAddin.tlb" Name="EAScriptAddin.tlb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.tlb" />
+						<File Id="EAScriptAddin.wxs" Name="EAScriptAddin.wxs" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.wxs" />
+						<File Id="Interop.EA.dll" Name="Interop.EA.dll" Source="..\EAScriptAddin\bin\Debug\Interop.EA.dll" />
+						<File Id="Interop.MSScriptControl.dll" Name="Interop.MSScriptControl.dll" Source="..\EAScriptAddin\bin\Debug\Interop.MSScriptControl.dll" />
+						<File Id="UMLToolingFramework.dll" Name="UMLToolingFramework.dll" Source="..\EAScriptAddin\bin\Debug\UMLToolingFramework.dll" />
+						<File Id="UMLToolingFramework.pdb" Name="UMLToolingFramework.pdb" Source="..\EAScriptAddin\bin\Debug\UMLToolingFramework.pdb" />
+					    <Class Id="{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}" Context="InprocServer32" Description="EAScriptAddin.EAScriptAddinAddinClass" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAScriptAddin.EAScriptAddinAddinClass" Description="EAScriptAddin.EAScriptAddinAddinClass" />
+		                </Class>
+		                <Class Id="{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}" Context="InprocServer32" Description="EAScriptAddin.AboutWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAScriptAddin.AboutWindow" Description="EAScriptAddin.AboutWindow" />
+		                </Class>
+		                <File Id="filB0E416CBF883E412D94BCDB93E8B5EE3" KeyPath="yes" Name="EAScriptAddin.dll" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.dll" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32\1.0.5431.9940" Name="Class" Value="EAScriptAddin.EAScriptAddinAddinClass" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32\1.0.5431.9940" Name="Assembly" Value="EAScriptAddin, Version=1.0.5431.9940, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32\1.0.5431.9940" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32\1.0.5431.9940" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32" Name="Class" Value="EAScriptAddin.EAScriptAddinAddinClass" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32" Name="Assembly" Value="EAScriptAddin, Version=1.0.5431.9940, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32\1.0.5431.9940" Name="Class" Value="EAScriptAddin.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32\1.0.5431.9940" Name="Assembly" Value="EAScriptAddin, Version=1.0.5431.9940, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32\1.0.5431.9940" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32\1.0.5431.9940" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32" Name="Class" Value="EAScriptAddin.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32" Name="Assembly" Value="EAScriptAddin, Version=1.0.5431.9940, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+					</Component>
+					<Component Id="EAScriptingRegistryEntries" Guid="181A2237-EF7D-48D9-A6F8-43A4749AE0DF" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKCU" Key="Software\Sparx Systems\EAAddins\EA Scripting Addin">
+							<RegistryValue Type="string" Value="EAScriptAddin.EAScriptAddinAddinClass" />
+						</RegistryKey>
+					</Component>
+				</Directory>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+</Wix>
