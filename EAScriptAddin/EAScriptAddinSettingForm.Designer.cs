@@ -38,12 +38,14 @@ namespace EAScriptAddin
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EAScriptAddinSettingForm));
 			this.operationsPanel = new System.Windows.Forms.Panel();
+			this.allOperationsCheckBox = new System.Windows.Forms.CheckBox();
 			this.functionsListBox = new System.Windows.Forms.CheckedListBox();
 			this.operationsListBox = new System.Windows.Forms.CheckedListBox();
 			this.OkButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.aboutButton = new System.Windows.Forms.Button();
-			this.allOperationsCheckBox = new System.Windows.Forms.CheckBox();
+			this.ScriptCombo = new System.Windows.Forms.ComboBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.operationsPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -52,6 +54,8 @@ namespace EAScriptAddin
 			this.operationsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 									| System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
+			this.operationsPanel.Controls.Add(this.label1);
+			this.operationsPanel.Controls.Add(this.ScriptCombo);
 			this.operationsPanel.Controls.Add(this.allOperationsCheckBox);
 			this.operationsPanel.Controls.Add(this.functionsListBox);
 			this.operationsPanel.Controls.Add(this.operationsListBox);
@@ -59,6 +63,16 @@ namespace EAScriptAddin
 			this.operationsPanel.Name = "operationsPanel";
 			this.operationsPanel.Size = new System.Drawing.Size(567, 388);
 			this.operationsPanel.TabIndex = 0;
+			// 
+			// allOperationsCheckBox
+			// 
+			this.allOperationsCheckBox.Location = new System.Drawing.Point(4, 359);
+			this.allOperationsCheckBox.Name = "allOperationsCheckBox";
+			this.allOperationsCheckBox.Size = new System.Drawing.Size(157, 24);
+			this.allOperationsCheckBox.TabIndex = 2;
+			this.allOperationsCheckBox.Text = "Show all operations";
+			this.allOperationsCheckBox.UseVisualStyleBackColor = true;
+			this.allOperationsCheckBox.CheckedChanged += new System.EventHandler(this.AllOperationsCheckBoxCheckedChanged);
 			// 
 			// functionsListBox
 			// 
@@ -79,7 +93,7 @@ namespace EAScriptAddin
 			this.operationsListBox.FormattingEnabled = true;
 			this.operationsListBox.Location = new System.Drawing.Point(4, 4);
 			this.operationsListBox.Name = "operationsListBox";
-			this.operationsListBox.Size = new System.Drawing.Size(257, 379);
+			this.operationsListBox.Size = new System.Drawing.Size(257, 349);
 			this.operationsListBox.TabIndex = 0;
 			this.operationsListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OperationsListBoxItemCheck);
 			this.operationsListBox.SelectedIndexChanged += new System.EventHandler(this.OperationsListBoxSelectedIndexChanged);
@@ -117,15 +131,22 @@ namespace EAScriptAddin
 			this.aboutButton.UseVisualStyleBackColor = true;
 			this.aboutButton.Click += new System.EventHandler(this.AboutButtonClick);
 			// 
-			// allOperationsCheckBox
+			// ScriptCombo
 			// 
-			this.allOperationsCheckBox.Location = new System.Drawing.Point(268, 180);
-			this.allOperationsCheckBox.Name = "allOperationsCheckBox";
-			this.allOperationsCheckBox.Size = new System.Drawing.Size(157, 24);
-			this.allOperationsCheckBox.TabIndex = 2;
-			this.allOperationsCheckBox.Text = "Show all operations";
-			this.allOperationsCheckBox.UseVisualStyleBackColor = true;
-			this.allOperationsCheckBox.CheckedChanged += new System.EventHandler(this.AllOperationsCheckBoxCheckedChanged);
+			this.ScriptCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.ScriptCombo.FormattingEnabled = true;
+			this.ScriptCombo.Location = new System.Drawing.Point(266, 206);
+			this.ScriptCombo.Name = "ScriptCombo";
+			this.ScriptCombo.Size = new System.Drawing.Size(219, 21);
+			this.ScriptCombo.TabIndex = 3;
+			// 
+			// label1
+			// 
+			this.label1.Location = new System.Drawing.Point(266, 180);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(100, 23);
+			this.label1.TabIndex = 4;
+			this.label1.Text = "Default Script";
 			// 
 			// EAScriptAddinSettingForm
 			// 
@@ -145,6 +166,8 @@ namespace EAScriptAddin
 			this.operationsPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.ComboBox ScriptCombo;
+		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.CheckBox allOperationsCheckBox;
 		private System.Windows.Forms.Button aboutButton;
 		private System.Windows.Forms.Button cancelButton;

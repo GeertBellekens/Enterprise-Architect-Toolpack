@@ -24,19 +24,29 @@ namespace EAScriptAddin
 	{
 		private List<MethodInfo> addinOperations;
 		private List<ScriptFunction> modelFunctions;
+		private List<Script> modelScripts;
 		private bool checkBoxesReadOnly = false;
 		private bool showAllOperations = false;
+		private EAScriptAddinAddinClass controller;
 		
-		public EAScriptAddinSettingForm(List<MethodInfo> operations, List<ScriptFunction> functions)
+		public EAScriptAddinSettingForm(List<MethodInfo> operations, List<ScriptFunction> functions,List<Script> scripts,EAScriptAddinAddinClass scriptAddin)
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
 			
+			this.controller = scriptAddin;
+			
 			this.addinOperations = operations;
 			this.modelFunctions = functions;
-			
+			this.modelScripts = scripts;
+									
+			this.ScriptCombo.DisplayMember = "displayName";
+			foreach (Script script in this.modelScripts) 
+			{
+				this.ScriptCombo.Items.Add(script);
+			}
 			this.operationsListBox.DisplayMember = "Name";
 			this.functionsListBox.DisplayMember = "fullName";
 			//load the operations
@@ -66,7 +76,10 @@ namespace EAScriptAddin
 			//finished loading, now set the checkboxes back to readonly
 			this.checkBoxesReadOnly = true;
 			//select the first one
-			this.operationsListBox.SelectedIndex = 0;
+			if (this.operationsListBox.Items.Count > 0)
+			{
+				this.operationsListBox.SelectedIndex = 0;
+			}
 		}
 		
 		void OkButtonClick(object sender, EventArgs e)

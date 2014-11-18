@@ -196,7 +196,7 @@ namespace EAScriptAddin
         {
 			//reset the functions
 			this._allFunctions = null;
-			EAScriptAddinSettingForm settingsForm = new EAScriptAddinSettingForm(AddinOperations,this.allFunctions);
+			EAScriptAddinSettingForm settingsForm = new EAScriptAddinSettingForm(AddinOperations,this.allFunctions,this.allScripts, this);
 			settingsForm.ShowDialog();        	
         }
 		#region EA Add-In Events
