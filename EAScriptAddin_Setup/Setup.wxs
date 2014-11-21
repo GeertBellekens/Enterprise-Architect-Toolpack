@@ -3,18 +3,37 @@
 	<Product Id="*"
 		Name="EA Scripting Addin"
 		Language="1033"
-		Version="1.0.0.0"
+		Version="1.0.1.0"
 		UpgradeCode="CC366BB8-A704-42D6-8F2A-4B418CCBD31D"
-		Manufacturer="Bellekens IT">
+		Manufacturer="Geert Bellekens">
 		<Package Description="#Description"
 			Comments="Comments"
 			InstallerVersion="200"
 			Compressed="yes"/>
+		
+		<!-- icon for the installer -->
+		<Icon Id="scriptAddin_icon.exe" SourceFile="..\EAScriptAddin\Files\ScriptAddinIcon.ico"/>
+		<Property Id="ARPPRODUCTICON" Value="scriptAddin_icon.exe" />
+		
 		<!--
 			Source media for the installation. 
  			Specifies a single cab file to be embedded in the installer's .msi. 
 		-->
 		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
+		
+		<Upgrade Id="CC366BB8-A704-42D6-8F2A-4B418CCBD31D">
+      	<UpgradeVersion Minimum="1.0.1.0"
+                      IncludeMinimum="no"
+                      OnlyDetect="yes"
+                      Language="1033"
+                      Property="NEWPRODUCTFOUND" />
+     	<UpgradeVersion Minimum="1.0.0.0"
+                      IncludeMinimum="yes"
+                      Maximum="1.0.1.0"
+                      IncludeMaximum="no"
+                      Language="1033"
+                      Property="UPGRADEFOUND" />
+    	</Upgrade>
 		
 		<!-- Installation directory and files are defined in Files.wxs -->
 		<Directory Id="TARGETDIR" Name="SourceDir"/>
@@ -27,6 +46,27 @@
 				 <ComponentRef Id="EAScriptingRegistryEntries"/>
 		</Feature>
 		
+		<!-- Check for .Net framework 4.0 Client-->
+		<Property Id="NETFRAMEWORK40CL">
+		    <RegistrySearch Id="NetFramework40Cl"
+		                    Root="HKLM"
+		                    Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client"
+             				Name="Install"
+                    		Type="raw" />
+		</Property>
+		<!-- Check for .Net framework 4.0 Full-->
+		<Property Id="NETFRAMEWORK40FULL">
+		    <RegistrySearch Id="NetFramework40FULL"
+		                    Root="HKLM"
+		                    Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client"
+             				Name="Install"
+                    		Type="raw" />
+		</Property>
+		
+		<Condition Message="This application requires .NET Framework v4. Please install the .NET Framework then run this installer again.">
+   		 <![CDATA[Installed OR NETFRAMEWORK40CL OR NETFRAMEWORK40FULL]]>
+		</Condition>
+		
 		<!--
  			Using the Wix UI library.
 
@@ -37,5 +77,17 @@
 			features.
  		-->
 		<UIRef Id="WixUI_Minimal"/>
+		<!-- Prevent downgrading -->
+	    <CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
+	 
+	    <!-- Sequences -->
+	    <InstallExecuteSequence>
+	      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+	      <RemoveExistingProducts After="InstallValidate" />
+	    </InstallExecuteSequence>
+	   
+	    <InstallUISequence>
+	      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+	    </InstallUISequence>
 	</Product>
 </Wix>

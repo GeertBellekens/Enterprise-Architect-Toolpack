@@ -10,9 +10,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("EAScriptAddin")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Addin for Enterprise Architect to enable the use of Addin-events in scripting")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Bellekens IT")]
 [assembly: AssemblyProduct("EAScriptAddin")]
 [assembly: AssemblyCopyright("Copyright 2014")]
 [assembly: AssemblyTrademark("")]
