@@ -43,9 +43,15 @@ namespace EAScriptAddin
 			this.modelScripts = scripts;
 									
 			this.ScriptCombo.DisplayMember = "displayName";
+			//add the scripts to the combobox
 			foreach (Script script in this.modelScripts) 
 			{
 				this.ScriptCombo.Items.Add(script);
+			}
+			//select the first script
+			if (this.ScriptCombo.Items.Count > 0)
+			{
+				this.ScriptCombo.SelectedIndex = 0;
 			}
 			this.operationsListBox.DisplayMember = "Name";
 			this.functionsListBox.DisplayMember = "fullName";
@@ -119,6 +125,20 @@ namespace EAScriptAddin
 		{
 			this.showAllOperations = this.allOperationsCheckBox.Checked;
 			this.reloadOperations();
+		}
+		
+		void AddFunctionButtonClick(object sender, EventArgs e)
+		{
+			ScriptFunction newFunction = this.controller.addNewScriptFunction(this.operationsListBox.SelectedItem as MethodInfo, this.ScriptCombo.SelectedItem as Script);
+			//add this function to the list	
+			if (newFunction != null)
+			{
+				this.modelFunctions.Add(newFunction);
+				this.functionsListBox.Items.Add(newFunction,true);
+				this.checkBoxesReadOnly = false;
+				this.operationsListBox.SetItemChecked(operationsListBox.SelectedIndex, true);
+				this.checkBoxesReadOnly = true;
+			}
 		}
 	}
 }

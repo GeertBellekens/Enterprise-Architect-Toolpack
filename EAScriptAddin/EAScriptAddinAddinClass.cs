@@ -145,6 +145,16 @@ namespace EAScriptAddin
 			}
 			return returnValue;
 		}
+		
+		/// <summary>
+		/// adds a script function for the given methodinfo to the given script
+		/// </summary>
+		/// <param name="methodInfo">the methodinfo to use as a base</param>
+		/// <param name="script">the script to which the function should be added</param>
+		public ScriptFunction addNewScriptFunction(MethodInfo operation, Script script)
+		{
+			return script.addFunction(operation);
+		}
 		#endregion
 		#region EA Add-In operations
 		/// <summary>
@@ -1651,5 +1661,7 @@ namespace EAScriptAddin
 		#endregion EA MDG Events
 		
 		#endregion
+		
+
 	}
 }
