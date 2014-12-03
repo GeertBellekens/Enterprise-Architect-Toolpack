@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Product Id="*"
-		Name="EA Scripting Addin"
+		Name="EAScriptAddin"
 		Language="1033"
-		Version="1.0.2.1"
+		Version="1.0.3.0"
 		UpgradeCode="CC366BB8-A704-42D6-8F2A-4B418CCBD31D"
 		Manufacturer="Geert Bellekens">
 		<Package Description="#Description"
@@ -22,14 +22,14 @@
 		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
 		
 		<Upgrade Id="CC366BB8-A704-42D6-8F2A-4B418CCBD31D">
-      	<UpgradeVersion Minimum="1.0.2.1"
+      	<UpgradeVersion Minimum="1.0.3.0"
                       IncludeMinimum="no"
                       OnlyDetect="yes"
                       Language="1033"
                       Property="NEWPRODUCTFOUND" />
      	<UpgradeVersion Minimum="1.0.0.0"
                       IncludeMinimum="yes"
-                      Maximum="1.0.2.1"
+                      Maximum="1.0.3.0"
                       IncludeMaximum="no"
                       Language="1033"
                       Property="UPGRADEFOUND" />
@@ -39,7 +39,7 @@
 		<Directory Id="TARGETDIR" Name="SourceDir"/>
 		
 		<Feature Id="Complete"
-		         Title="EA Scripting Addin"
+		         Title="EAScriptAddin"
 		         Description="Addin for Sparx Enterprise Architect that allows to use add-in functionality with scripting"
 		         Level="1">
 		         <ComponentRef Id="EAScriptingAddinFiles"/>

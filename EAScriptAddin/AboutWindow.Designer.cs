@@ -157,7 +157,9 @@ namespace EAScriptAddin
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "AboutWindow";
+			this.ShowInTaskbar = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "About EAScriptAddin";
 			((System.ComponentModel.ISupportInitialize)(this.NavigatorLogo)).EndInit();
 			this.ResumeLayout(false);

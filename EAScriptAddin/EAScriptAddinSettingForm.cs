@@ -26,7 +26,7 @@ namespace EAScriptAddin
 		private List<ScriptFunction> modelFunctions;
 		private List<Script> modelScripts;
 		private bool checkBoxesReadOnly = false;
-		private bool showAllOperations = false;
+		private bool showAllOperations = true;
 		private EAScriptAddinAddinClass controller;
 		
 		public EAScriptAddinSettingForm(List<MethodInfo> operations, List<ScriptFunction> functions,List<Script> scripts,EAScriptAddinAddinClass scriptAddin)
@@ -109,16 +109,25 @@ namespace EAScriptAddin
 		
 		void AboutButtonClick(object sender, EventArgs e)
 		{
-			new AboutWindow().ShowDialog();
+			new AboutWindow().ShowDialog(this);
 		}
 		
 		void OperationsListBoxItemCheck(object sender, ItemCheckEventArgs e)
 		{
-			//don't allow the user to change the checked state
+			//only allow user to check, not to uncheck
 			if (checkBoxesReadOnly)
 			{
-				e.NewValue = e.CurrentValue;
+				if (e.NewValue == CheckState.Unchecked)
+				{
+					e.NewValue = e.CurrentValue;
+				}
+				//add the function if the user has checked the operation
+				else if (e.CurrentValue == CheckState.Unchecked && e.NewValue == CheckState.Checked)
+				{
+					this.addFunction();
+				}
 			}
+			
 		}
 		
 		void AllOperationsCheckBoxCheckedChanged(object sender, EventArgs e)
@@ -128,6 +137,10 @@ namespace EAScriptAddin
 		}
 		
 		void AddFunctionButtonClick(object sender, EventArgs e)
+		{
+			this.addFunction();
+		}
+		private void addFunction()
 		{
 			ScriptFunction newFunction = this.controller.addNewScriptFunction(this.operationsListBox.SelectedItem as MethodInfo, this.ScriptCombo.SelectedItem as Script);
 			//add this function to the list	
@@ -140,5 +153,6 @@ namespace EAScriptAddin
 				this.checkBoxesReadOnly = true;
 			}
 		}
+		
 	}
 }

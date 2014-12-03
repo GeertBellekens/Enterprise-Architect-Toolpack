@@ -20,7 +20,7 @@ namespace EAScriptAddin
 	/// </summary>
 	public class EAScriptAddinAddinClass: EAAddinFramework.EAAddinBase
 	{
-		private const string menuMain = "-&Scripting Addin";
+		private const string menuMain = "-&EAScriptAddin";
 		private const string menuSettings = "&Settings";
 		private UTF_EA.Model model;
 		private List<Script> allScripts {get;set;}
@@ -53,7 +53,7 @@ namespace EAScriptAddin
 		public EAScriptAddinAddinClass():base()
 		{
 			//get all defined EA_ and MDG_ operations
-			AddinOperations = typeof(EAScriptAddinAddinClass).GetMethods()
+			AddinOperations = typeof(EAScriptAddinAddinClass).GetMethods(BindingFlags.Instance|BindingFlags.Public|BindingFlags.DeclaredOnly)
         		.Where( x => x.Name.StartsWith("EA_")||x.Name.StartsWith("MDG_")).ToList<MethodInfo>();
 			
 			this.menuHeader = menuMain;

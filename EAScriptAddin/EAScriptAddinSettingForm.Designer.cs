@@ -99,6 +99,8 @@ namespace EAScriptAddin
 			// allOperationsCheckBox
 			// 
 			this.allOperationsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.allOperationsCheckBox.Checked = true;
+			this.allOperationsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.allOperationsCheckBox.Location = new System.Drawing.Point(4, 359);
 			this.allOperationsCheckBox.Name = "allOperationsCheckBox";
 			this.allOperationsCheckBox.Size = new System.Drawing.Size(157, 24);
