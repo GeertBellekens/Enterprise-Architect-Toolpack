@@ -79,5 +79,28 @@ namespace LicensekeyGenerator
 			}
 
 		}
+		
+		void ValidateButtonClick(object sender, EventArgs e)
+		{
+			string publicKey = @"<DSAKeyValue><P>hthfjDblWyX41cxvWEBwtmp02jOzBxSCSOFwMrlqdaNIYSn5nORPTXe+iV4mnvTg1taoAeao8t60T9BOQsSFu7AFgSCfviWS6mdk83iXkiA2pY74rc4frw==</P><Q>mkBpY5bMZ21PssiAkMf1b/s+O3s=</Q><G>FsxPsCco0DXMs6zNVywshs5CGiT3ThPbPKlqnY9aP4zX2QDwiW/M0ATc/6ERMtQgC7MPiZQOj6RiywvHuM3N2n/znIH4rc/4CtbVV5kM28IcoCPAz0xL4w==</G><Y>HAUdHYBwrISc5d4l8/jjR7gt+y67iHC7ReOMXDACUyGpzVp9S2ML98ElfuhUDJ0CnMrFrIHtfB2nL3tR2YQ1sgP2MG9yKfMwjkwsrOmHS/geNs9m4Fjnug==</Y><J>38rp34SlY2zMSi5gG5xXIrS1n2nWvdiJY0Il0mYegG+qtxm2FoXigxXrRqkp133nbKz94mwPAUNkuS4yP2BeSDid4Ko=</J><Seed>Wp+kyp+INeZpu+8ZQlSK9uliM2Y=</Seed><PgenCounter>sg==</PgenCounter></DSAKeyValue>";
+			License license = new License(this.keyTextBox.Text, publicKey);
+			if (license.isValid)
+			{
+				this.applicationDropDown.Text = license.application;
+				this.validUntilDatePicker.Value = license.validUntil;
+				this.floatingCheckbox.Checked = license.floating;
+				this.clientTextBox.Text = license.client;
+				this.keyTextBox.ForeColor = Color.LawnGreen;
+			}
+			else
+			{
+				this.applicationDropDown.Text = string.Empty;
+				this.validUntilDatePicker.Checked = false;
+				this.floatingCheckbox.Checked = false;
+				this.clientTextBox.Clear();
+				this.keyTextBox.ForeColor = Color.Red;
+			}
+			
+		}
 	}
 }

@@ -53,6 +53,7 @@ namespace LicensekeyGenerator
 			this.generateKeyPairButton = new System.Windows.Forms.Button();
 			this.floatingCheckbox = new System.Windows.Forms.CheckBox();
 			this.numberOfLicensesUpDown = new System.Windows.Forms.NumericUpDown();
+			this.validateButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.numberOfLicensesUpDown)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -215,11 +216,22 @@ namespace LicensekeyGenerator
 									0,
 									0});
 			// 
+			// validateButton
+			// 
+			this.validateButton.Location = new System.Drawing.Point(265, 405);
+			this.validateButton.Name = "validateButton";
+			this.validateButton.Size = new System.Drawing.Size(75, 23);
+			this.validateButton.TabIndex = 18;
+			this.validateButton.Text = "Validate";
+			this.validateButton.UseVisualStyleBackColor = true;
+			this.validateButton.Click += new System.EventHandler(this.ValidateButtonClick);
+			// 
 			// GeneratorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(719, 443);
+			this.Controls.Add(this.validateButton);
 			this.Controls.Add(this.numberOfLicensesUpDown);
 			this.Controls.Add(this.floatingCheckbox);
 			this.Controls.Add(this.generateKeyPairButton);
@@ -243,6 +255,7 @@ namespace LicensekeyGenerator
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Button validateButton;
 		private System.Windows.Forms.NumericUpDown numberOfLicensesUpDown;
 		private System.Windows.Forms.CheckBox floatingCheckbox;
 		private System.Windows.Forms.Button generateKeyPairButton;
