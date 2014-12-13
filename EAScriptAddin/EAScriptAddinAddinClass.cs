@@ -12,6 +12,7 @@ using EAAddinFramework.EASpecific;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using System.Reflection;
 using System.Linq;
+using EAAddinFramework.Licensing;
 
 namespace EAScriptAddin
 {
@@ -26,7 +27,7 @@ namespace EAScriptAddin
 		private List<Script> allScripts {get;set;}
 		private List<ScriptFunction> _allFunctions;
 		private List<MethodInfo> AddinOperations; 
-		
+		private string publicKey = "ACAACACc+VyfQ687AQMAAQAB";
 		#region Add-in specific operations
 		/// <summary>
 		/// All available functions in the scripts of the model
@@ -52,9 +53,9 @@ namespace EAScriptAddin
 		/// </summary>
 		public EAScriptAddinAddinClass():base()
 		{
-			//get all defined EA_ and MDG_ operations
+			//get all defined EA_ and MDG_ operations except for the operation with "addin" in the name because they are used to validate the license
 			AddinOperations = typeof(EAScriptAddinAddinClass).GetMethods(BindingFlags.Instance|BindingFlags.Public|BindingFlags.DeclaredOnly)
-        		.Where( x => x.Name.StartsWith("EA_")||x.Name.StartsWith("MDG_")).ToList<MethodInfo>();
+				.Where( x => (x.Name.StartsWith("EA_")||x.Name.StartsWith("MDG_"))&& !x.Name.ToLower().Contains("addin")).ToList<MethodInfo>();
 			
 			this.menuHeader = menuMain;
 			this.menuOptions = new String[] {menuSettings};
@@ -494,7 +495,10 @@ namespace EAScriptAddin
 		/// <returns>For the Add-in to validate against this key it should return true to indicate that the key is valid and has been handled.</returns>
 		public override bool EA_AddInLicenseValidate(EA.Repository Repository, string AddinKey)
 		{
-			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{AddinKey},false);
+			//for some strange reason EA wraps the key in a "{" and "}" so we need to remove them first
+			AddinKey = AddinKey.Replace("{",string.Empty).Replace("}",string.Empty);
+			License license = new License(AddinKey, publicKey);
+			return license.isValid;
 		}
 		
 		/// <summary>
@@ -507,16 +511,38 @@ namespace EAScriptAddin
 		/// <returns>A String containing a plain text description of the provided AddinKey.</returns>
 		public override string EA_AddinLicenseGetDescription(EA.Repository Repository, string AddinKey)
 		{
-			return this.callFunctions(MethodBase.GetCurrentMethod().Name,new object[]{AddinKey},string.Empty);
+			string licensedescription = string.Empty;
+			License license = new License(AddinKey, publicKey);
+			if (license.isValid)
+			{
+				licensedescription = "License for EAMatic issued to " + license.client; 
+			}
+			return licensedescription;
 		}
 		
 
-// can't use repository yet.		
-//		public override string EA_GetSharedAddinName(EA.Repository Repository)
-//		{
-//			//return this.callFunctions(MethodBase.GetCurrentMethod().Name,null,string.Empty);
-//			return string.Empty;
-//		}
+ 		/// <summary>
+		/// As an add-in writer you can distribute keys to your add-in via the Enterprise Architect Keystore providing your 
+		/// keys are generated using a prefix that allows Enterprise Architect to identify the add-in to which they belong. 
+		/// EA_GetSharedAddinName is called by Enterprise Architect to determine what prefix an add-in is using. 
+		/// If a matching key is found in the keystore the License Management dialog will display the name returned 
+		/// by EA_AddinLicenseGetDescription to your users. 
+		/// Finally, when the user selects a key, that key will be passed to your add-in to validate 
+		/// by calling EA_AddinLicenseValidate.
+		/// </summary>
+        /// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
+        /// Poll its members to retrieve model data and user interface status information.</param>
+		/// <returns>A String containing a product name code for the provided Add-In. This will be shown in plain text at the start of any keys added to the keystore. We recommend contacting Sparx Systems directly with proposed values to ensure you don't clash with any other add-ins.
+		/// eg. The following keys would all be interpreted as belonging to an add-in returning "MYADDIN" from this function:
+		/// · MYADDIN-Test
+		/// · MYADDIN-{7AC4D426-9083-4fa2-93B7-25E2B7FB8DC5}
+		/// · MYADDIN-7AC4D426-9083-4fa2-93B7
+		/// · MYADDIN-25E2B7FB8DC5
+		/// · MYADDIN-2hDfHKA5jf0GAjn92UvqAnxwC13dxQGJtH7zLHJ9Ym8=</returns>
+		public override string EA_GetSharedAddinName(EA.Repository Repository)
+		{
+			return "EAMatic";
+		}
 		
 		#endregion
 		
