@@ -170,8 +170,8 @@ namespace EAScriptAddin
 			// licenseExpiredLabel
 			// 
 			this.licenseExpiredLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.licenseExpiredLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.licenseExpiredLabel.ForeColor = System.Drawing.Color.Red;
+			this.licenseExpiredLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.licenseExpiredLabel.ForeColor = System.Drawing.Color.Black;
 			this.licenseExpiredLabel.Location = new System.Drawing.Point(111, 416);
 			this.licenseExpiredLabel.Name = "licenseExpiredLabel";
 			this.licenseExpiredLabel.Size = new System.Drawing.Size(306, 23);
@@ -179,6 +179,7 @@ namespace EAScriptAddin
 			this.licenseExpiredLabel.TabStop = true;
 			this.licenseExpiredLabel.Text = "No valid license found. Click here to purchase";
 			this.licenseExpiredLabel.Visible = false;
+			this.licenseExpiredLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LicenseExpiredLabelLinkClicked);
 			// 
 			// EAScriptAddinSettingForm
 			// 

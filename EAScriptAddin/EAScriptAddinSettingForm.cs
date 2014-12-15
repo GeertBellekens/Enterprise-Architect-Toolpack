@@ -58,7 +58,7 @@ namespace EAScriptAddin
 			//load the operations
 			this.reloadOperations();
 			
-			//set the link to purchase license TODO: get actual precise url
+			//set the link to purchase license 
 			this.licenseExpiredLabel.Links.Add(0,this.licenseExpiredLabel.Text.Length,"http://bellekens.com/ea-matic");
 			
 			//set the license status
@@ -75,8 +75,23 @@ namespace EAScriptAddin
 			this.allOperationsCheckBox.Enabled = licensed;
 			this.addFunctionButton.Enabled = licensed;
 			this.ScriptCombo.Enabled = licensed;
+			if (!licensed)
+			{				
+				this.licenseExpiredLabel.Text = "No valid license found. Click here to purchase";
+			}
 			this.licenseExpiredLabel.Visible = !licensed;
-		}
+			if( this.controller.licenseExpirationDate != null 
+			   && this.controller.licenseExpirationDate != DateTime.MaxValue)
+			{
+				//temporary license
+				this.licenseExpiredLabel.Text = "License expires " + this.controller.licenseExpirationDate.ToShortDateString() + ". Click here to purchase";
+				this.licenseExpiredLabel.Visible = true;
+			}
+			//set the link to purchase license
+			this.licenseExpiredLabel.Links.Clear();			
+			this.licenseExpiredLabel.Links.Add(0,this.licenseExpiredLabel.Text.Length,"http://bellekens.com/ea-matic");
+				
+		} 
 		/// <summary>
 		/// reloads the operations in the list box
 		/// </summary>
@@ -172,5 +187,10 @@ namespace EAScriptAddin
 			}
 		}
 		
+		
+		void LicenseExpiredLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
+		}
 	}
 }

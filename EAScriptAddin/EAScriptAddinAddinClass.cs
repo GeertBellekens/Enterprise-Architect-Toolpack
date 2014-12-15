@@ -36,6 +36,13 @@ namespace EAScriptAddin
 				return this.license.isValid;
 			}
 		}
+		public DateTime licenseExpirationDate
+		{
+			get
+			{
+				return this.license.validUntil;
+			}
+		}
 		#region Add-in specific operations
 		/// <summary>
 		/// All available functions in the scripts of the model
@@ -61,13 +68,9 @@ namespace EAScriptAddin
 		/// </summary>
 		public EAScriptAddinAddinClass():base()
 		{
-			//debug
-			EAAddinFramework.Utilities.Logger.log("starting addin class");
 			//set the evaluation license that expires after 30 days
-			string evaluationKey = "XNUU-UU15-WNHH-50KV-1AUP-V7U4-N6JK-V3GU-LUUT-VUTQ-YY8P-X62S-MRH4-XYNG-F7PP-X8NS-4J1P-XMNS-AWKH-YV8A-9WJ7-61DA-QJJ4-F74V-DNH3-A3HG-XVZZ";
+			string evaluationKey = "XMUU-UUUC-5355-429W-1AU4-9U3T-U3EF-GYD0-CRP3-6M80-GRCS-M1D0-YR8P-69D0-QR84-FHNG-2EKV-FXNA-9WKE-X680-WVMS-YNHL-SEHW-UZZZ";
 			this.license = new License(evaluationKey,this.publicKey);
-			//debug
-			EAAddinFramework.Utilities.Logger.log("evaluation license set");
 			//get all defined EA_ and MDG_ operations except for the operation with "addin" in the name because they are used to validate the license
 			AddinOperations = typeof(EAScriptAddinAddinClass).GetMethods(BindingFlags.Instance|BindingFlags.Public|BindingFlags.DeclaredOnly)
 				.Where( x => (x.Name.StartsWith("EA_")||x.Name.StartsWith("MDG_"))&& !x.Name.ToLower().Contains("addin")).ToList<MethodInfo>();
