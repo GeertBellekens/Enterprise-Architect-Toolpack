@@ -57,6 +57,25 @@ namespace EAScriptAddin
 			this.functionsListBox.DisplayMember = "fullName";
 			//load the operations
 			this.reloadOperations();
+			
+			//set the link to purchase license TODO: get actual precise url
+			this.licenseExpiredLabel.Links.Add(0,this.licenseExpiredLabel.Text.Length,"http://bellekens.com/ea-matic");
+			
+			//set the license status
+			this.setLicenseStatus(this.controller.isLicensed);
+		}
+		/// <summary>
+		/// disable all controls except for the about
+		/// </summary>
+		/// <param name="bool"></param>
+		private void setLicenseStatus(bool licensed )
+		{
+			this.operationsListBox.Enabled = licensed;
+			this.functionsListBox.Enabled = licensed;
+			this.allOperationsCheckBox.Enabled = licensed;
+			this.addFunctionButton.Enabled = licensed;
+			this.ScriptCombo.Enabled = licensed;
+			this.licenseExpiredLabel.Visible = !licensed;
 		}
 		/// <summary>
 		/// reloads the operations in the list box
@@ -127,7 +146,6 @@ namespace EAScriptAddin
 					this.addFunction();
 				}
 			}
-			
 		}
 		
 		void AllOperationsCheckBoxCheckedChanged(object sender, EventArgs e)

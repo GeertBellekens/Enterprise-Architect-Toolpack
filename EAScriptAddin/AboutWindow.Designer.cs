@@ -53,7 +53,7 @@ namespace EAScriptAddin
 			this.ApplicationTitle.Name = "ApplicationTitle";
 			this.ApplicationTitle.Size = new System.Drawing.Size(178, 23);
 			this.ApplicationTitle.TabIndex = 0;
-			this.ApplicationTitle.Text = "EAScriptAddin";
+			this.ApplicationTitle.Text = "EA-Matic";
 			// 
 			// VersionLabel
 			// 
@@ -112,7 +112,7 @@ namespace EAScriptAddin
 			this.HomePage.Size = new System.Drawing.Size(233, 23);
 			this.HomePage.TabIndex = 8;
 			this.HomePage.TabStop = true;
-			this.HomePage.Text = "EAScriptAddin Home Page";
+			this.HomePage.Text = "EA-Matic Home Page";
 			this.HomePage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HomePageLinkClicked);
 			// 
 			// OKButton
@@ -160,7 +160,7 @@ namespace EAScriptAddin
 			this.ShowInTaskbar = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "About EAScriptAddin";
+			this.Text = "About EA-Matic";
 			((System.ComponentModel.ISupportInitialize)(this.NavigatorLogo)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

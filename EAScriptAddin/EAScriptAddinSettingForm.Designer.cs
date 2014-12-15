@@ -39,7 +39,7 @@ namespace EAScriptAddin
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EAScriptAddinSettingForm));
 			this.operationsPanel = new System.Windows.Forms.Panel();
 			this.addFunctionButton = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
+			this.defaultScriptLabel = new System.Windows.Forms.Label();
 			this.ScriptCombo = new System.Windows.Forms.ComboBox();
 			this.allOperationsCheckBox = new System.Windows.Forms.CheckBox();
 			this.functionsListBox = new System.Windows.Forms.CheckedListBox();
@@ -47,6 +47,7 @@ namespace EAScriptAddin
 			this.OkButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.aboutButton = new System.Windows.Forms.Button();
+			this.licenseExpiredLabel = new System.Windows.Forms.LinkLabel();
 			this.operationsPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -56,7 +57,7 @@ namespace EAScriptAddin
 									| System.Windows.Forms.AnchorStyles.Left) 
 									| System.Windows.Forms.AnchorStyles.Right)));
 			this.operationsPanel.Controls.Add(this.addFunctionButton);
-			this.operationsPanel.Controls.Add(this.label1);
+			this.operationsPanel.Controls.Add(this.defaultScriptLabel);
 			this.operationsPanel.Controls.Add(this.ScriptCombo);
 			this.operationsPanel.Controls.Add(this.allOperationsCheckBox);
 			this.operationsPanel.Controls.Add(this.functionsListBox);
@@ -77,14 +78,14 @@ namespace EAScriptAddin
 			this.addFunctionButton.UseVisualStyleBackColor = true;
 			this.addFunctionButton.Click += new System.EventHandler(this.AddFunctionButtonClick);
 			// 
-			// label1
+			// defaultScriptLabel
 			// 
-			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(266, 181);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 23);
-			this.label1.TabIndex = 4;
-			this.label1.Text = "Default Script";
+			this.defaultScriptLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.defaultScriptLabel.Location = new System.Drawing.Point(266, 181);
+			this.defaultScriptLabel.Name = "defaultScriptLabel";
+			this.defaultScriptLabel.Size = new System.Drawing.Size(100, 23);
+			this.defaultScriptLabel.TabIndex = 4;
+			this.defaultScriptLabel.Text = "Default Script";
 			// 
 			// ScriptCombo
 			// 
@@ -166,6 +167,19 @@ namespace EAScriptAddin
 			this.aboutButton.UseVisualStyleBackColor = true;
 			this.aboutButton.Click += new System.EventHandler(this.AboutButtonClick);
 			// 
+			// licenseExpiredLabel
+			// 
+			this.licenseExpiredLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.licenseExpiredLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.licenseExpiredLabel.ForeColor = System.Drawing.Color.Red;
+			this.licenseExpiredLabel.Location = new System.Drawing.Point(111, 416);
+			this.licenseExpiredLabel.Name = "licenseExpiredLabel";
+			this.licenseExpiredLabel.Size = new System.Drawing.Size(306, 23);
+			this.licenseExpiredLabel.TabIndex = 4;
+			this.licenseExpiredLabel.TabStop = true;
+			this.licenseExpiredLabel.Text = "No valid license found. Click here to purchase";
+			this.licenseExpiredLabel.Visible = false;
+			// 
 			// EAScriptAddinSettingForm
 			// 
 			this.AcceptButton = this.OkButton;
@@ -173,6 +187,7 @@ namespace EAScriptAddin
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(591, 452);
+			this.Controls.Add(this.licenseExpiredLabel);
 			this.Controls.Add(this.aboutButton);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.OkButton);
@@ -184,9 +199,10 @@ namespace EAScriptAddin
 			this.operationsPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.LinkLabel licenseExpiredLabel;
 		private System.Windows.Forms.Button addFunctionButton;
 		private System.Windows.Forms.ComboBox ScriptCombo;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label defaultScriptLabel;
 		private System.Windows.Forms.CheckBox allOperationsCheckBox;
 		private System.Windows.Forms.Button aboutButton;
 		private System.Windows.Forms.Button cancelButton;

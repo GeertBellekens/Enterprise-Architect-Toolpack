@@ -27,7 +27,7 @@ namespace EAScriptAddin
 			// Set the assembly Date
 			this.AssemblyDate.Text = System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToShortDateString();
 			// Set the home page
-			this.HomePage.Links.Add(0,this.HomePage.Text.Length,"http://bellekens.com/");
+			this.HomePage.Links.Add(0,this.HomePage.Text.Length,"http://bellekens.com/ea-matic");
 			// Set the author email adress
 			this.AuthorEmail.Links.Add(0,this.AuthorEmail.Text.Length,"mailto:geert@bellekens.com");
 		}

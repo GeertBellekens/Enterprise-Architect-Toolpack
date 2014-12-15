@@ -21,13 +21,21 @@ namespace EAScriptAddin
 	/// </summary>
 	public class EAScriptAddinAddinClass: EAAddinFramework.EAAddinBase
 	{
-		private const string menuMain = "-&EAScriptAddin";
+		private const string menuMain = "-&EA-Matic";
 		private const string menuSettings = "&Settings";
 		private UTF_EA.Model model;
 		private List<Script> allScripts {get;set;}
 		private List<ScriptFunction> _allFunctions;
 		private List<MethodInfo> AddinOperations; 
 		private string publicKey = "ACAACACc+VyfQ687AQMAAQAB";
+		private License license;
+		public bool isLicensed
+		{
+			get
+			{
+				return this.license.isValid;
+			}
+		}
 		#region Add-in specific operations
 		/// <summary>
 		/// All available functions in the scripts of the model
@@ -53,6 +61,13 @@ namespace EAScriptAddin
 		/// </summary>
 		public EAScriptAddinAddinClass():base()
 		{
+			//debug
+			EAAddinFramework.Utilities.Logger.log("starting addin class");
+			//set the evaluation license that expires after 30 days
+			string evaluationKey = "XNUU-UU15-WNHH-50KV-1AUP-V7U4-N6JK-V3GU-LUUT-VUTQ-YY8P-X62S-MRH4-XYNG-F7PP-X8NS-4J1P-XMNS-AWKH-YV8A-9WJ7-61DA-QJJ4-F74V-DNH3-A3HG-XVZZ";
+			this.license = new License(evaluationKey,this.publicKey);
+			//debug
+			EAAddinFramework.Utilities.Logger.log("evaluation license set");
 			//get all defined EA_ and MDG_ operations except for the operation with "addin" in the name because they are used to validate the license
 			AddinOperations = typeof(EAScriptAddinAddinClass).GetMethods(BindingFlags.Instance|BindingFlags.Public|BindingFlags.DeclaredOnly)
 				.Where( x => (x.Name.StartsWith("EA_")||x.Name.StartsWith("MDG_"))&& !x.Name.ToLower().Contains("addin")).ToList<MethodInfo>();
@@ -125,22 +140,24 @@ namespace EAScriptAddin
 		private object callFunctions(string functionName, object[] parameters)
 		{
 			object returnValue = null;
-			
-			int numberofParameters = 0;
-			if (parameters != null)
+			if (this.isLicensed)
 			{
-				numberofParameters = parameters.Length;
-			}
-			
-			List<ScriptFunction> functions = this.allFunctions.FindAll(f => f.name == functionName && f.numberOfParameters == numberofParameters);
-			foreach (ScriptFunction function in functions) 
-			{
-				if (function != null)
+				int numberofParameters = 0;
+				if (parameters != null)
 				{
-					object result = function.execute(parameters);
-					if (result != null)
+					numberofParameters = parameters.Length;
+				}
+				
+				List<ScriptFunction> functions = this.allFunctions.FindAll(f => f.name == functionName && f.numberOfParameters == numberofParameters);
+				foreach (ScriptFunction function in functions) 
+				{
+					if (function != null)
 					{
-						returnValue = result;
+						object result = function.execute(parameters);
+						if (result != null)
+						{
+							returnValue = result;
+						}
 					}
 				}
 			}
@@ -485,9 +502,14 @@ namespace EAScriptAddin
 		
 		#region Add-In License Management Events
 		/// <summary>
-		/// When a user directly enters a license key that doesn't match a Sparx Systems key into the License Management dialog EA_AddInLicenseValidate is broadcast to all Enterprise Architect Add-Ins, providing them with a chance to use the Add-In key to determine the level of functionality to provide. When a key is retrieved from the Sparx Systems Keystore only the target Add-In will be called with the key.
-		/// For the Add-In to validate itself against this key, the Add-In's EA_AddinLicenseValidate handler should return true to confirm that the license has been validated. As the EA_AddinLicenseValidate event is broadcast to all Add-Ins, one license can validate many Add-Ins.
-		/// If an Add-In elects to handle a license key by returning true to EA_AddinLicenseValidate, it is called upon to provide a description of the license key through the EA_AddinLicenseGetDescription event. If more than one Add-In elects to handle a license key, the first Add-In that returns true to EA_AddinLicenseValidate is queried for the license key description.
+		/// When a user directly enters a license key that doesn't match a Sparx Systems key into the License Management dialog EA_AddInLicenseValidate is broadcast to all Enterprise Architect Add-Ins, 
+		/// providing them with a chance to use the Add-In key to determine the level of functionality to provide. 
+		/// When a key is retrieved from the Sparx Systems Keystore only the target Add-In will be called with the key.
+		/// For the Add-In to validate itself against this key, the Add-In's EA_AddinLicenseValidate handler should return true to confirm that the license has been validated. 
+		/// As the EA_AddinLicenseValidate event is broadcast to all Add-Ins, one license can validate many Add-Ins.
+		/// If an Add-In elects to handle a license key by returning true to EA_AddinLicenseValidate, it is called upon to provide a description of the license key through the 
+		/// EA_AddinLicenseGetDescription event. 
+		/// If more than one Add-In elects to handle a license key, the first Add-In that returns true to EA_AddinLicenseValidate is queried for the license key description.
 		/// </summary>
         /// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
         /// Poll its members to retrieve model data and user interface status information.</param>
@@ -495,9 +517,14 @@ namespace EAScriptAddin
 		/// <returns>For the Add-in to validate against this key it should return true to indicate that the key is valid and has been handled.</returns>
 		public override bool EA_AddInLicenseValidate(EA.Repository Repository, string AddinKey)
 		{
-			//for some strange reason EA wraps the key in a "{" and "}" so we need to remove them first
-			AddinKey = AddinKey.Replace("{",string.Empty).Replace("}",string.Empty);
-			License license = new License(AddinKey, publicKey);
+			License eaLicense = new License(AddinKey, publicKey);
+			if (eaLicense.isValid)
+			{
+				//the license is valid so replace the evaluation license with this one
+				this.license = eaLicense;
+			}
+			//debug
+			EAAddinFramework.Utilities.Logger.log("license.Isvalid = "+eaLicense.isValid.ToString()+" for license key: " + AddinKey);
 			return license.isValid;
 		}
 		
@@ -515,7 +542,7 @@ namespace EAScriptAddin
 			License license = new License(AddinKey, publicKey);
 			if (license.isValid)
 			{
-				licensedescription = "License for EAMatic issued to " + license.client; 
+				licensedescription = "License for EA-Matic issued to " + license.client; 
 			}
 			return licensedescription;
 		}
