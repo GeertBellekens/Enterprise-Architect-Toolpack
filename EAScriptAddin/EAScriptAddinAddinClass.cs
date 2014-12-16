@@ -29,6 +29,7 @@ namespace EAScriptAddin
 		private List<MethodInfo> AddinOperations; 
 		private string publicKey = "ACAACACc+VyfQ687AQMAAQAB";
 		private License license;
+		private DateTime scriptTimestamp;
 		public bool isLicensed
 		{
 			get
@@ -59,6 +60,7 @@ namespace EAScriptAddin
 					{
 						this._allFunctions.AddRange(script.functions);
 					}
+					this.scriptTimestamp = DateTime.Now;
 				}
 				return this._allFunctions;
 			}
@@ -142,6 +144,8 @@ namespace EAScriptAddin
 		/// <returns>the object returned by the scriptfunction</returns>
 		private object callFunctions(string functionName, object[] parameters)
 		{
+			//reset the scripts if needed
+			this.resetScripts();
 			object returnValue = null;
 			if (this.isLicensed)
 			{
@@ -165,6 +169,17 @@ namespace EAScriptAddin
 				}
 			}
 			return returnValue;
+		}
+		/// <summary>
+		/// every 5 minutes we reset the scripts to make sure we are working with the lastest version
+		/// </summary>
+		private void resetScripts()
+		{
+			TimeSpan difference = DateTime.Now - scriptTimestamp;
+			if (difference.TotalMinutes > 5)
+			{
+				this._allFunctions = null;
+			}
 		}
 		
 		/// <summary>
