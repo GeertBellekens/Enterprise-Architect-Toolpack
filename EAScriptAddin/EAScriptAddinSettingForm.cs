@@ -173,17 +173,24 @@ namespace EAScriptAddin
 		{
 			this.addFunction();
 		}
+		/// <summary>
+		/// add a function for the selected operation to the selected script
+		/// </summary>
 		private void addFunction()
 		{
-			ScriptFunction newFunction = this.controller.addNewScriptFunction(this.operationsListBox.SelectedItem as MethodInfo, this.ScriptCombo.SelectedItem as Script);
-			//add this function to the list	
-			if (newFunction != null)
+			if (this.operationsListBox.SelectedItem != null
+			    && this.ScriptCombo.SelectedItem != null)
 			{
-				this.modelFunctions.Add(newFunction);
-				this.functionsListBox.Items.Add(newFunction,true);
-				this.checkBoxesReadOnly = false;
-				this.operationsListBox.SetItemChecked(operationsListBox.SelectedIndex, true);
-				this.checkBoxesReadOnly = true;
+				ScriptFunction newFunction = this.controller.addNewScriptFunction(this.operationsListBox.SelectedItem as MethodInfo, this.ScriptCombo.SelectedItem as Script);
+				//add this function to the list	
+				if (newFunction != null)
+				{
+					this.modelFunctions.Add(newFunction);
+					this.functionsListBox.Items.Add(newFunction,true);
+					this.checkBoxesReadOnly = false;
+					this.operationsListBox.SetItemChecked(operationsListBox.SelectedIndex, true);
+					this.checkBoxesReadOnly = true;
+				}
 			}
 		}
 		

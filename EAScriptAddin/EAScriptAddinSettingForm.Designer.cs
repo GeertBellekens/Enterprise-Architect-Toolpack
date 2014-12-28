@@ -70,9 +70,9 @@ namespace EAScriptAddin
 			// addFunctionButton
 			// 
 			this.addFunctionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.addFunctionButton.Location = new System.Drawing.Point(266, 234);
+			this.addFunctionButton.Location = new System.Drawing.Point(481, 205);
 			this.addFunctionButton.Name = "addFunctionButton";
-			this.addFunctionButton.Size = new System.Drawing.Size(98, 23);
+			this.addFunctionButton.Size = new System.Drawing.Size(86, 23);
 			this.addFunctionButton.TabIndex = 5;
 			this.addFunctionButton.Text = "Add Function";
 			this.addFunctionButton.UseVisualStyleBackColor = true;
@@ -81,11 +81,12 @@ namespace EAScriptAddin
 			// defaultScriptLabel
 			// 
 			this.defaultScriptLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.defaultScriptLabel.Location = new System.Drawing.Point(266, 181);
+			this.defaultScriptLabel.Location = new System.Drawing.Point(267, 188);
 			this.defaultScriptLabel.Name = "defaultScriptLabel";
-			this.defaultScriptLabel.Size = new System.Drawing.Size(100, 23);
+			this.defaultScriptLabel.Size = new System.Drawing.Size(100, 16);
 			this.defaultScriptLabel.TabIndex = 4;
-			this.defaultScriptLabel.Text = "Default Script";
+			this.defaultScriptLabel.Text = "Script";
+			this.defaultScriptLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// ScriptCombo
 			// 
@@ -94,7 +95,7 @@ namespace EAScriptAddin
 			this.ScriptCombo.FormattingEnabled = true;
 			this.ScriptCombo.Location = new System.Drawing.Point(266, 207);
 			this.ScriptCombo.Name = "ScriptCombo";
-			this.ScriptCombo.Size = new System.Drawing.Size(219, 21);
+			this.ScriptCombo.Size = new System.Drawing.Size(209, 21);
 			this.ScriptCombo.TabIndex = 3;
 			// 
 			// allOperationsCheckBox
