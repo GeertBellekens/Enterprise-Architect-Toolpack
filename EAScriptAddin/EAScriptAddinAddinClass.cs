@@ -289,9 +289,9 @@ namespace EAScriptAddin
 	        	else
 	        	{
 	        		// return submenu options
-	        		if (functionReturn is string[])
+	        		if (functionReturn is object[])
 	        		{
-	        			string[] functionMenuOptions = (string[])functionReturn;
+	        			string[] functionMenuOptions = Array.ConvertAll<object, string>((object [])functionReturn, o => o.ToString());
 	        			//add the about menu to the end
 	        			List<string> newMenuOptions = functionMenuOptions.ToList();
 	        			newMenuOptions.Add(menuSettings);
