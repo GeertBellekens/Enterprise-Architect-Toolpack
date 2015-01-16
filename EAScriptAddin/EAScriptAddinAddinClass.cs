@@ -55,7 +55,7 @@ namespace EAScriptAddin
 				if (this._allFunctions == null)
 				{
 					this._allFunctions = new List<ScriptFunction>();
-					this.allScripts = Script.getAllScripts(model);
+					this.allScripts = Script.getEAMaticScripts(model);
 					foreach ( Script script in this.allScripts) 
 					{
 						this._allFunctions.AddRange(script.functions);

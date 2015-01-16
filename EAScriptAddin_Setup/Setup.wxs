@@ -3,10 +3,10 @@
 	<Product Id="*"
 		Name="EA-Matic"
 		Language="1033"
-		Version="1.0.8.0"
+		Version="1.0.9.0"
 		UpgradeCode="CC366BB8-A704-42D6-8F2A-4B418CCBD31D"
 		Manufacturer="Geert Bellekens">
-		<Package Description="Installs EA-Matic v1.0.8.0 to this computer"
+		<Package Description="Installs EA-Matic v1.0.9.0 to this computer"
 			Comments="Requires Enterprise Architect to function."
 			InstallerVersion="200"
 			Compressed="yes"/>
@@ -22,14 +22,14 @@
 		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
 		
 		<Upgrade Id="CC366BB8-A704-42D6-8F2A-4B418CCBD31D">
-      	<UpgradeVersion Minimum="1.0.8.0"
+      	<UpgradeVersion Minimum="1.0.9.0"
                       IncludeMinimum="no"
                       OnlyDetect="yes"
                       Language="1033"
                       Property="NEWPRODUCTFOUND" />
      	<UpgradeVersion Minimum="1.0.0.0"
                       IncludeMinimum="yes"
-                      Maximum="1.0.8.0"
+                      Maximum="1.0.9.0"
                       IncludeMaximum="no"
                       Language="1033"
                       Property="UPGRADEFOUND" />
