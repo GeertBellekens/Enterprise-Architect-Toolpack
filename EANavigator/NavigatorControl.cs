@@ -394,7 +394,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <param name="sender">sender</param>
 		/// <param name="e">arguments</param>
 		void NavigatorTreeBeforeExpand(object sender, TreeViewCancelEventArgs e)
-		{
+		{		
 			foreach (TreeNode subNode in e.Node.Nodes)
 			{
 				if (this.isOwnerNode(subNode))
