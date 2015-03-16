@@ -28,6 +28,8 @@ Project("{CFEE4113-1246-4D54-95CB-156813CB8593}") = "EAScriptAddin_Setup", "EASc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicensekeyGenerator", "LicensekeyGenerator\LicensekeyGenerator.csproj", "{E08CA016-61CF-42E7-B043-7A73CD9B8280}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinManager", "EAAddinManager\EAAddinManager.csproj", "{30B86434-1822-4C23-97BD-6891ED4662A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -140,5 +142,13 @@ Global
 		{E08CA016-61CF-42E7-B043-7A73CD9B8280}.Release|x86.ActiveCfg = Release|Any CPU
 		{E08CA016-61CF-42E7-B043-7A73CD9B8280}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E08CA016-61CF-42E7-B043-7A73CD9B8280}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30B86434-1822-4C23-97BD-6891ED4662A0}.Debug|x86.Build.0 = Debug|Any CPU
+		{30B86434-1822-4C23-97BD-6891ED4662A0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{30B86434-1822-4C23-97BD-6891ED4662A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30B86434-1822-4C23-97BD-6891ED4662A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30B86434-1822-4C23-97BD-6891ED4662A0}.Release|x86.Build.0 = Release|Any CPU
+		{30B86434-1822-4C23-97BD-6891ED4662A0}.Release|x86.ActiveCfg = Release|Any CPU
+		{30B86434-1822-4C23-97BD-6891ED4662A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30B86434-1822-4C23-97BD-6891ED4662A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 EndGlobal
