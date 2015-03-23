@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
+using Microsoft.Win32;
 
 using EAAddinFramework.EASpecific;
 
@@ -26,8 +27,46 @@ namespace EAAddinManager
 		
 		public EAAddinManagerAddinClass():base()
 		{
+			this.menuHeader = menuMain;
+			this.menuOptions = new String[] {menuSettings};
+			
 			EAAddinFramework.Utilities.Logger.log("EAAddinManagerAddinClass():base() executed");
-			addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
+			
+//			//addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
+//			
+//			// software classes
+//			RegistryKey controlKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\MyAddin.MyEAControl");
+//			controlKey.SetValue(string.Empty,"MyAddin.MyEAControl");
+//			RegistryKey clsidKey = controlKey.CreateSubKey("CLSID");
+//			clsidKey.SetValue(string.Empty,"{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}");
+//			
+//			//CLSID
+//			RegistryKey classKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}");
+//			classKey.SetValue(string.Empty,"MyAddin.MyEAControl");
+//			
+//			//implemented category
+//			Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}\Implemented Categories");
+//			Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}");
+//			
+//			//inprocerver
+//			RegistryKey inprocKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}\InprocServer32");
+//			inprocKey.SetValue(string.Empty,"mscoree.dll");
+//			inprocKey.SetValue("ThreadingModel","Both");
+//			inprocKey.SetValue("Class","MyAddin.MyEAControl");
+//			inprocKey.SetValue("Assembly","MyAddin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+//			inprocKey.SetValue("RuntimeVersion","v4.0.30319");
+//			inprocKey.SetValue("CodeBase","file:///C:/Users/wij/Documents/BellekensIT/Development/Enterprise-Architect-Add-in-Framework/MyAddin/bin/Debug/MyAddin.dll");
+//			
+//			//version
+//			RegistryKey versionKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}\InprocServer32\1.0.0.0");
+//			versionKey.SetValue("Class","MyAddin.MyEAControl");
+//			versionKey.SetValue("Assembly","MyAddin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+//			versionKey.SetValue("RuntimeVersion","v4.0.30319");
+//			versionKey.SetValue("CodeBase","file:///C:/Users/wij/Documents/BellekensIT/Development/Enterprise-Architect-Add-in-Framework/MyAddin/bin/Debug/MyAddin.dll");
+//
+//			//ProgID
+//			RegistryKey progIdkey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}\ProgId");
+//			progIdkey.SetValue(string.Empty,"MyAddin.MyEAControl");
 		}
 		
 		#region callMethods
@@ -110,7 +149,8 @@ namespace EAAddinManager
 		
 		private void showSettings()
 		{
-			//TODO
+			//debug
+			addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
 		}
 		
 		#region EA Add-In operations
