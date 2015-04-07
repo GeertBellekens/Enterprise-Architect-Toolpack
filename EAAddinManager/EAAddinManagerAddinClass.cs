@@ -8,11 +8,13 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using Microsoft.Win32;
+using System.Reflection;
 
 using EAAddinFramework.EASpecific;
+using Microsoft.Win32;
 
 namespace EAAddinManager
 {
@@ -24,51 +26,79 @@ namespace EAAddinManager
 		public List<EAAddin> addins = new List<EAAddin>();
 		private const string menuMain = "-&Addin Manager";
 		private const string menuSettings = "&Manage Addins";
+		private string localAddinPath = @"%appdata%\Bellekens\EAAddinManager\Addins\";
+		internal EAAddinManagerConfig config;
 		
 		public EAAddinManagerAddinClass():base()
 		{
 			this.menuHeader = menuMain;
 			this.menuOptions = new String[] {menuSettings};
-			
-			EAAddinFramework.Utilities.Logger.log("EAAddinManagerAddinClass():base() executed");
-			
-//			//addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
-//			
-//			// software classes
-//			RegistryKey controlKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\MyAddin.MyEAControl");
-//			controlKey.SetValue(string.Empty,"MyAddin.MyEAControl");
-//			RegistryKey clsidKey = controlKey.CreateSubKey("CLSID");
-//			clsidKey.SetValue(string.Empty,"{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}");
-//			
-//			//CLSID
-//			RegistryKey classKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}");
-//			classKey.SetValue(string.Empty,"MyAddin.MyEAControl");
-//			
-//			//implemented category
-//			Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}\Implemented Categories");
-//			Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}");
-//			
-//			//inprocerver
-//			RegistryKey inprocKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}\InprocServer32");
-//			inprocKey.SetValue(string.Empty,"mscoree.dll");
-//			inprocKey.SetValue("ThreadingModel","Both");
-//			inprocKey.SetValue("Class","MyAddin.MyEAControl");
-//			inprocKey.SetValue("Assembly","MyAddin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-//			inprocKey.SetValue("RuntimeVersion","v4.0.30319");
-//			inprocKey.SetValue("CodeBase","file:///C:/Users/wij/Documents/BellekensIT/Development/Enterprise-Architect-Add-in-Framework/MyAddin/bin/Debug/MyAddin.dll");
-//			
-//			//version
-//			RegistryKey versionKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}\InprocServer32\1.0.0.0");
-//			versionKey.SetValue("Class","MyAddin.MyEAControl");
-//			versionKey.SetValue("Assembly","MyAddin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-//			versionKey.SetValue("RuntimeVersion","v4.0.30319");
-//			versionKey.SetValue("CodeBase","file:///C:/Users/wij/Documents/BellekensIT/Development/Enterprise-Architect-Add-in-Framework/MyAddin/bin/Debug/MyAddin.dll");
-//
-//			//ProgID
-//			RegistryKey progIdkey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\Wow6432Node\CLSID\{01CE6C0D-0BF0-409A-9CB6-DB7D96A05A20}\ProgId");
-//			progIdkey.SetValue(string.Empty,"MyAddin.MyEAControl");
+			this.config = new EAAddinManagerConfig();
+						
 		}
 		
+		public void getLatestVersionOfAddins()
+		{
+			//check if there are any new versions
+			foreach (string addingLocation in this.config.addinFileLocations) 
+			{
+				//getLatestVersionOfAddins(addingLocation, string.Empty);
+			}
+		}
+		
+		private void getLatestVersionOfFiles(string directory, string subPath)
+		{
+			string localPath = Path.Combine(this.localAddinPath + subPath);
+			//check all the files
+			foreach (string filepath in Directory.GetFiles(localPath,"*.dll"))
+			{
+				string localFilePath = Path.Combine(localPath, Path.GetFileName(filepath));
+				if (File.Exists(localFilePath))
+				{
+					FileVersionInfo fileInfo = FileVersionInfo.GetVersionInfo(localFilePath);
+					//fileInfo.FileVersion
+				}
+				               
+			}
+		}
+		private bool remoteVersionIsNewer(string remotePath, string localPath)
+		{
+			//check all the files
+			foreach (string remoteFilepath in Directory.GetFiles(remotePath,"*.dll"))
+			{
+				string localFilePath = Path.Combine(localPath, Path.GetFileName(remoteFilepath));
+				if (File.Exists(localFilePath))
+				{
+					FileVersionInfo localFileInfo = FileVersionInfo.GetVersionInfo(localFilePath);
+					FileVersionInfo remoteFileInfo = FileVersionInfo.GetVersionInfo(remoteFilepath);
+					Version localVersion = new Version(localFileInfo.FileVersion);
+					Version remoteVersion = new Version(remoteFileInfo.FileVersion);
+					int compareResult = localVersion.CompareTo(remoteVersion);
+					if (compareResult < 0 )
+					{
+						return true;
+					}
+					else if (compareResult > 0)
+					{
+						return false;
+					}
+				}
+				else
+				{
+					//file doesn't exist locally so the remote version is definitely newer
+					return true;
+				}
+			}
+			//if we get this far we check the subdirectories
+			bool isNewer = false;
+			foreach (string remoteSubPath in Directory.GetDirectories(remotePath))
+			{
+				string subPath = Path.GetFileName(Path.GetDirectoryName(remoteSubPath));
+				string localSubPath = Path.Combine(localPath + "\\",subPath);
+				isNewer = remoteVersionIsNewer(remoteSubPath, localSubPath);
+			}
+			return isNewer;
+		}
 		#region callMethods
 		/// <summary>
 		/// executes the corresponding methods on the addins with the given metho name and returns result of the methods
@@ -150,7 +180,18 @@ namespace EAAddinManager
 		private void showSettings()
 		{
 			//debug
-			addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
+			//read config
+
+			foreach (string addinLocation in this.config.addinFileLocations) 
+			{
+				//addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
+				addins.Add(new EAAddinFramework.EASpecific.EAAddin(addinLocation));
+			}
+			foreach (AddinConfig addinConfig in this.config.addinConfigs) 
+			{
+				string dllpath = addinConfig.dllPath;
+			} 
+			//addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
 		}
 		
 		#region EA Add-In operations
