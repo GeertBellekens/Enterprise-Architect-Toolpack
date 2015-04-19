@@ -10,7 +10,6 @@
 						<File Id="EAAddinFramework.xml" Name="EAAddinFramework.xml" Source="..\EAScriptAddin\bin\Debug\EAAddinFramework.xml" />
 						<File Id="EAScriptAddin.pdb" Name="EAScriptAddin.pdb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.pdb" />
 						<File Id="EAScriptAddin.tlb" Name="EAScriptAddin.tlb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.tlb" />
-						<File Id="EAScriptAddin.wxs" Name="EAScriptAddin.wxs" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.wxs" />
 						<File Id="Interop.EA.dll" Name="Interop.EA.dll" Source="..\EAScriptAddin\bin\Debug\Interop.EA.dll" />
 						<File Id="Interop.MSScriptControl.dll" Name="Interop.MSScriptControl.dll" Source="..\EAScriptAddin\bin\Debug\Interop.MSScriptControl.dll" />
 						<File Id="UMLToolingFramework.dll" Name="UMLToolingFramework.dll" Source="..\EAScriptAddin\bin\Debug\UMLToolingFramework.dll" />

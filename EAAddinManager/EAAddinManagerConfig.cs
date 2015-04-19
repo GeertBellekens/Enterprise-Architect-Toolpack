@@ -42,11 +42,17 @@ namespace EAAddinManager
 		  //merge the default settings
 		  this.mergeDefaultSettings();
 		}
-		public AddinConfigs addinConfigs
+		public List<AddinConfig> addinConfigs
 		{
+			
 			get
 			{
-				return this.addinConfigSection.addinConfigs;
+				List<AddinConfig> configs = new List<AddinConfig>();
+				foreach (ConnectionStringSettings addinConfig in this.currentConfig.ConnectionStrings.ConnectionStrings)
+				{
+					configs.Add( new AddinConfig());
+				}
+				return configs;
 			}
 		}
 		private AddinConfigSection addinConfigSection

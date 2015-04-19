@@ -181,6 +181,7 @@ namespace EAAddinManager
 		{
 			//debug
 			//read config
+			
 
 			foreach (string addinLocation in this.config.addinFileLocations) 
 			{
