@@ -70,6 +70,7 @@ namespace EAScriptAddin
 			// addFunctionButton
 			// 
 			this.addFunctionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.addFunctionButton.Enabled = false;
 			this.addFunctionButton.Location = new System.Drawing.Point(481, 205);
 			this.addFunctionButton.Name = "addFunctionButton";
 			this.addFunctionButton.Size = new System.Drawing.Size(86, 23);
@@ -91,12 +92,15 @@ namespace EAScriptAddin
 			// ScriptCombo
 			// 
 			this.ScriptCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ScriptCombo.DropDownHeight = 107;
 			this.ScriptCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.ScriptCombo.FormattingEnabled = true;
+			this.ScriptCombo.IntegralHeight = false;
 			this.ScriptCombo.Location = new System.Drawing.Point(266, 207);
 			this.ScriptCombo.Name = "ScriptCombo";
 			this.ScriptCombo.Size = new System.Drawing.Size(209, 21);
 			this.ScriptCombo.TabIndex = 3;
+			this.ScriptCombo.SelectedIndexChanged += new System.EventHandler(this.ScriptComboSelectedIndexChanged);
 			// 
 			// allOperationsCheckBox
 			// 

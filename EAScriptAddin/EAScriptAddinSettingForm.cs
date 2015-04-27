@@ -151,7 +151,8 @@ namespace EAScriptAddin
 			//only allow user to check, not to uncheck
 			if (checkBoxesReadOnly)
 			{
-				if (e.NewValue == CheckState.Unchecked)
+				if (e.NewValue == CheckState.Unchecked ||
+				   (ScriptCombo.SelectedItem != null &&  ((Script)this.ScriptCombo.SelectedItem).isStatic))
 				{
 					e.NewValue = e.CurrentValue;
 				}
@@ -179,7 +180,8 @@ namespace EAScriptAddin
 		private void addFunction()
 		{
 			if (this.operationsListBox.SelectedItem != null
-			    && this.ScriptCombo.SelectedItem != null)
+			    && this.ScriptCombo.SelectedItem != null
+			    && ! ((Script)this.ScriptCombo.SelectedItem).isStatic )
 			{
 				ScriptFunction newFunction = this.controller.addNewScriptFunction(this.operationsListBox.SelectedItem as MethodInfo, this.ScriptCombo.SelectedItem as Script);
 				//add this function to the list	
@@ -198,6 +200,19 @@ namespace EAScriptAddin
 		void LicenseExpiredLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
+		}
+		
+		void ScriptComboSelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (this.ScriptCombo.SelectedItem != null
+			    && ! ((Script)this.ScriptCombo.SelectedItem).isStatic)
+			{
+				this.addFunctionButton.Enabled = true;
+			}
+			else
+			{
+				this.addFunctionButton.Enabled = false;
+			}
 		}
 	}
 }
