@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddinConfig.cs" />
     <Compile Include="EAAddinManagerAddinClass.cs" />
     <Compile Include="EAAddinManagerConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

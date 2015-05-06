@@ -26,7 +26,7 @@ namespace EAAddinManager
 		public List<EAAddin> addins = new List<EAAddin>();
 		private const string menuMain = "-&Addin Manager";
 		private const string menuSettings = "&Manage Addins";
-		private string localAddinPath = @"%appdata%\Bellekens\EAAddinManager\Addins\";
+		private string localAddinPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) , @"Bellekens\EAAddinManager\Addins\");
 		internal EAAddinManagerConfig config;
 		
 		public EAAddinManagerAddinClass():base()
@@ -39,10 +39,25 @@ namespace EAAddinManager
 		
 		public void getLatestVersionOfAddins()
 		{
-			//check if there are any new versions
-			foreach (string addingLocation in this.config.addinFileLocations) 
+			foreach (AddinConfig addinConfig in this.config.addinConfigs) 
 			{
-				//getLatestVersionOfAddins(addingLocation, string.Empty);
+				foreach (string addinSearchPath in this.config.addinSearchPaths) 
+				{
+				//addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
+				//this.getLatestVersionOfFiles();
+				}
+			}
+		}
+		private void loadAddins()
+		{
+			//loop the addins
+			foreach (AddinConfig addinConfig in this.config.addinConfigs) 
+			{
+				string addinPath = localAddinPath +  addinConfig.name + "\\" + addinConfig.dllPath;
+				if (addinConfig.load && File.Exists(addinPath))
+				{
+					addins.Add(new EAAddinFramework.EASpecific.EAAddin(addinPath));
+				}
 			}
 		}
 		
@@ -180,18 +195,7 @@ namespace EAAddinManager
 		private void showSettings()
 		{
 			//debug
-			//read config
-			
-
-			foreach (string addinLocation in this.config.addinFileLocations) 
-			{
-				//addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
-				addins.Add(new EAAddinFramework.EASpecific.EAAddin(addinLocation));
-			}
-			foreach (AddinConfig addinConfig in this.config.addinConfigs) 
-			{
-				string dllpath = addinConfig.dllPath;
-			} 
+			this.loadAddins();
 			//addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
 		}
 		

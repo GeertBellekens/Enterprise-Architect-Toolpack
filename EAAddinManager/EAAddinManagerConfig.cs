@@ -9,7 +9,7 @@
 using System.Configuration;
 using System.Linq;
 using System.Collections.Generic;
-using System.Configuration;
+
 
 namespace EAAddinManager
 {
@@ -42,33 +42,7 @@ namespace EAAddinManager
 		  //merge the default settings
 		  this.mergeDefaultSettings();
 		}
-		public List<AddinConfig> addinConfigs
-		{
-			
-			get
-			{
-				List<AddinConfig> configs = new List<AddinConfig>();
-				foreach (ConnectionStringSettings addinConfig in this.currentConfig.ConnectionStrings.ConnectionStrings)
-				{
-					configs.Add( new AddinConfig());
-				}
-				return configs;
-			}
-		}
-		private AddinConfigSection addinConfigSection
-		{
-			get
-			{
-				AddinConfigSection section = (AddinConfigSection)this.currentConfig.GetSection("AddinConfigSection");
-				if (section == null)
-				{
-					section = new AddinConfigSection();
-				}
-				return section;
-				//return (AddinConfigSection)this.currentConfig.GetSection("addinConfigSection") ?? new AddinConfigSection();
-			}
-		}
-		
+
 		/// <summary>
 		/// gets the default settings config.
 		/// </summary>
@@ -97,133 +71,41 @@ namespace EAAddinManager
 			// save the configuration
 			currentConfig.Save();
 		}
-		public List<string> addinFileLocations
+		public List<string> addinSearchPaths
 		{
 			get
 			{
 				List<string> addinLocations = new List<string>();
-				string configValue = this.currentConfig.AppSettings.Settings["AddinDllLocation"].Value;
+				string configValue = this.currentConfig.AppSettings.Settings["AddinSearchPaths"].Value;
 				addinLocations.AddRange(configValue.Split(';'));
 			   	return addinLocations;
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["AddinDllLocation"].Value = string.Join(";", value);
+				this.currentConfig.AppSettings.Settings["AddinSearchPaths"].Value = string.Join(";", value);
+			}
+		}
+		public List<AddinConfig> addinConfigs {
+			get
+			{
+				List<AddinConfig> configs = new List<AddinConfig>();
+				foreach (ConnectionStringSettings  connectionString  in this.currentConfig.ConnectionStrings.ConnectionStrings) 
+				{
+					if (connectionString.ProviderName == "EA-Matic")
+					{
+						configs.Add(new AddinConfig(connectionString));
+					}
+				}
+				return configs;
+			}
+			set
+			{
+				//TODO
 			}
 		}
 		
+	
+
+		
 	}
-		public class AddinConfig :ConfigurationElement
-		{
-	        [ConfigurationProperty("name", IsRequired = true)]
-	        public string name
-	        {
-	            get
-	            {
-	                return this["name"] as string;
-	            }
-	            set
-	            {
-	            	this["name"] = value;
-	            }
-	        }
-	        [ConfigurationProperty("version", IsRequired = true)]
-	        public string version
-	        {
-	            get
-	            {
-	                return this["version"] as string;
-	            }
-	           	set
-	            {
-	            	this["version"] = value;
-	            }
-	        }
-	        [ConfigurationProperty("load", IsRequired = true, DefaultValue = true)]
-	        public bool load
-	        {
-	            get
-	            {
-	            	return (bool)this["load"];
-	            }
-	           	set
-	            {
-	            	this["load"] = value;
-	            }
-	        }
-	        [ConfigurationProperty("dllPath", IsRequired = true)]
-	        public string dllPath
-	        {
-	            get
-	            {
-	                return this["dllPath"] as string;
-	            }
-	           	set
-	            {
-	            	this["dllPath"] = value;
-	            }
-	        }
-		}
-		
-		public class AddinConfigs : ConfigurationElementCollection
-	    {
-	        public AddinConfig this[int index]
-	        {
-	            get
-	            {
-	                return base.BaseGet(index) as AddinConfig ;
-	            }
-	            set
-	            {
-	                if (base.BaseGet(index) != null)
-	                {
-	                    base.BaseRemoveAt(index);
-	                }
-	                this.BaseAdd(index, value);
-	            }
-	        }
-	
-	       public new AddinConfig this[string responseString]
-	       {
-	            get { return (AddinConfig) BaseGet(responseString); }
-	            set
-	            {
-	                if(BaseGet(responseString) != null)
-	                {
-	                    BaseRemoveAt(BaseIndexOf(BaseGet(responseString)));
-	                }
-	                BaseAdd(value);
-	            }
-	        }
-	
-	        protected override ConfigurationElement CreateNewElement()
-	        {
-	            return new AddinConfig();
-	        }
-	
-	        protected override object GetElementKey(ConfigurationElement element)
-	        {
-	            return ((AddinConfig)element).name;
-	        }
-	    }
-		
-		public class AddinConfigSection: ConfigurationSection
-	    {
-	
-	        public static AddinConfigSection GetConfig()
-	        {
-	            return (AddinConfigSection)ConfigurationManager.GetSection("AddinConfigSection") ?? new AddinConfigSection();
-	        }
-	
-	        [ConfigurationProperty("addinConfigs")]
-	        [ConfigurationCollection(typeof(AddinConfigs), AddItemName = "addinConfig")]
-	        public AddinConfigs addinConfigs
-	        {
-	            get
-	            {
-	            	return (AddinConfigs)this["addinConfigs"];
-	            }
-	        }
-		
-	    }
 }
