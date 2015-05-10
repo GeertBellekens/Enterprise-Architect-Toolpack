@@ -26,7 +26,7 @@ namespace EAAddinManager
 		public List<EAAddin> addins = new List<EAAddin>();
 		private const string menuMain = "-&Addin Manager";
 		private const string menuSettings = "&Manage Addins";
-		private string localAddinPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) , @"Bellekens\EAAddinManager\Addins\");
+		
 		internal EAAddinManagerConfig config;
 		
 		public EAAddinManagerAddinClass():base()
@@ -48,12 +48,31 @@ namespace EAAddinManager
 				}
 			}
 		}
+		private void copyAddinToLocalFolder(AddinConfig addinConfig, bool alwaysCopy)
+		{
+			string localDllPath = this.config.getLocalAddinPath(addinConfig);
+			foreach (string addinSearchPath in this.config.addinSearchPaths) 
+			{
+				string remoteDllPath = this.config.getRemoteAddinPath(addinConfig, addinSearchPath);
+				if (File.Exists (remoteDllPath))
+				{
+					//found the right folder
+					if (alwaysCopy || this.remoteVersionIsNewer(remoteDllPath,localDllPath))
+					{
+						//copy the remote folder over the local folder
+						directoryCopy(addinSearchPath + addinConfig.name ,this.config.localAddinPath +  addinConfig.name , true);
+					}
+				}
+			}
+		}
 		private void loadAddins()
 		{
 			//loop the addins
 			foreach (AddinConfig addinConfig in this.config.addinConfigs) 
 			{
-				string addinPath = localAddinPath +  addinConfig.name + "\\" + addinConfig.dllPath;
+				//first make sure we have the last version
+				this.copyAddinToLocalFolder(addinConfig,false);
+				string addinPath = this.config.getLocalAddinPath(addinConfig);
 				if (addinConfig.load && File.Exists(addinPath))
 				{
 					addins.Add(new EAAddinFramework.EASpecific.EAAddin(addinPath));
@@ -63,7 +82,7 @@ namespace EAAddinManager
 		
 		private void getLatestVersionOfFiles(string directory, string subPath)
 		{
-			string localPath = Path.Combine(this.localAddinPath + subPath);
+			string localPath = Path.Combine(this.config.localAddinPath + subPath);
 			//check all the files
 			foreach (string filepath in Directory.GetFiles(localPath,"*.dll"))
 			{
@@ -78,14 +97,12 @@ namespace EAAddinManager
 		}
 		private bool remoteVersionIsNewer(string remotePath, string localPath)
 		{
-			//check all the files
-			foreach (string remoteFilepath in Directory.GetFiles(remotePath,"*.dll"))
+			if (File.Exists(localPath))
 			{
-				string localFilePath = Path.Combine(localPath, Path.GetFileName(remoteFilepath));
-				if (File.Exists(localFilePath))
+				FileVersionInfo localFileInfo = FileVersionInfo.GetVersionInfo(localPath);
+				FileVersionInfo remoteFileInfo = FileVersionInfo.GetVersionInfo(remotePath);
+				try
 				{
-					FileVersionInfo localFileInfo = FileVersionInfo.GetVersionInfo(localFilePath);
-					FileVersionInfo remoteFileInfo = FileVersionInfo.GetVersionInfo(remoteFilepath);
 					Version localVersion = new Version(localFileInfo.FileVersion);
 					Version remoteVersion = new Version(remoteFileInfo.FileVersion);
 					int compareResult = localVersion.CompareTo(remoteVersion);
@@ -93,27 +110,71 @@ namespace EAAddinManager
 					{
 						return true;
 					}
-					else if (compareResult > 0)
+					else
+					{
+						return false;
+					}
+				} catch (System.FormatException)
+				{
+					//fileversion not in correct format. check on created date instead
+					DateTime localCreationDate =  File.GetCreationTime(localPath);
+					DateTime remoteCreationDate =  File.GetCreationTime(remotePath);
+					int compareResult = localCreationDate.CompareTo(remoteCreationDate);
+					if (compareResult < 0 )
+					{
+						return true;
+					}
+					else
 					{
 						return false;
 					}
 				}
-				else
-				{
-					//file doesn't exist locally so the remote version is definitely newer
-					return true;
-				}
 			}
-			//if we get this far we check the subdirectories
-			bool isNewer = false;
-			foreach (string remoteSubPath in Directory.GetDirectories(remotePath))
+			else
 			{
-				string subPath = Path.GetFileName(Path.GetDirectoryName(remoteSubPath));
-				string localSubPath = Path.Combine(localPath + "\\",subPath);
-				isNewer = remoteVersionIsNewer(remoteSubPath, localSubPath);
+				//file doesn't exist locally so the remote version is definitely newer
+				return true;
 			}
-			return isNewer;
 		}
+		
+		private static void directoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
+	    {
+	        // Get the subdirectories for the specified directory.
+	        DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+	        DirectoryInfo[] dirs = dir.GetDirectories();
+	
+	        if (!dir.Exists)
+	        {
+	            throw new DirectoryNotFoundException(
+	                "Source directory does not exist or could not be found: "
+	                + sourceDirName);
+	        }
+	
+	        // If the destination directory doesn't exist, create it. 
+	        if (!Directory.Exists(destDirName))
+	        {
+	            Directory.CreateDirectory(destDirName);
+	        }
+	
+	        // Get the files in the directory and copy them to the new location.
+	        FileInfo[] files = dir.GetFiles();
+	        foreach (FileInfo file in files)
+	        {
+	            string temppath = Path.Combine(destDirName, file.Name);
+	            file.CopyTo(temppath, false);
+	        }
+	
+	        // If copying subdirectories, copy them and their contents to new location. 
+	        if (copySubDirs)
+	        {
+	            foreach (DirectoryInfo subdir in dirs)
+	            {
+	                string temppath = Path.Combine(destDirName, subdir.Name);
+	                directoryCopy(subdir.FullName, temppath, copySubDirs);
+	            }
+	        }
+	    }
+		
 		#region callMethods
 		/// <summary>
 		/// executes the corresponding methods on the addins with the given metho name and returns result of the methods

@@ -6,10 +6,11 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-using System.Configuration;
-using System.Linq;
+using System;
 using System.Collections.Generic;
-
+using System.Configuration;
+using System.IO;
+using System.Linq;
 
 namespace EAAddinManager
 {
@@ -42,7 +43,18 @@ namespace EAAddinManager
 		  //merge the default settings
 		  this.mergeDefaultSettings();
 		}
-
+		private string _localAddinPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) , @"Bellekens\EAAddinManager\Addins\");
+		public string localAddinPath {get {return this._localAddinPath;}}
+		
+		public string getLocalAddinPath (AddinConfig addinConfig)
+		{
+			return localAddinPath +  addinConfig.name + "\\" + addinConfig.dllPath;
+		}
+		public string getRemoteAddinPath (AddinConfig addinConfig, string remotePath)
+		{
+			return remotePath +  addinConfig.name + "\\" + addinConfig.dllPath;
+		}
+		                                 
 		/// <summary>
 		/// gets the default settings config.
 		/// </summary>
