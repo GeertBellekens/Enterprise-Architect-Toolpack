@@ -75,7 +75,7 @@ namespace EAAddinManager
 				string addinPath = this.config.getLocalAddinPath(addinConfig);
 				if (addinConfig.load && File.Exists(addinPath))
 				{
-					addins.Add(new EAAddinFramework.EASpecific.EAAddin(addinPath));
+					addins.Add(new EAAddinFramework.EASpecific.EAAddin(addinPath, addinConfig.name));
 				}
 			}
 		}
@@ -329,38 +329,100 @@ namespace EAAddinManager
         /// In the case of the top-level menu it should be a single string or an array containing only one item, or Empty/null.</returns>
         public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
         {
-        	object functionReturn = this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, MenuLocation,MenuName});
-        	//add an "about" menu option.
-        	if (MenuLocation == "MainMenu")
+        	if (this.addins.Count > 1)
+			{
+				//if there is more then one addin then we show "Addin Manager" as top level menu, then show menu options for each addin and only then show the actual menu
+				// so - EA Addin Manager
+				//	    - Addin 1
+				//			Addin1 menu
+				//	    - Addin 2
+				//			Addin2 menu
+				//		Addin Manager settings
+				if (MenuName == string.Empty)
+	        	{
+	        		return this.menuHeader;
+				}
+				else if (MenuName == this.menuHeader)
+				{
+					List<string> addinMenuHeaders = new List<string>();
+					foreach (EAAddin addin in this.addins) 
+					{
+						//return an array with the names of the addins
+						object functionReturn = addin.callmethod(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, MenuLocation,string.Empty});
+						// return submenu options
+		        		if (functionReturn is object[])
+		        		{
+		        			string[] functionMenuOptions = Array.ConvertAll<object, string>((object [])functionReturn, o => o.ToString());
+		        			addinMenuHeaders.AddRange(functionMenuOptions);
+		        		}
+		        		else if (functionReturn is string && (string)functionReturn != string.Empty )
+		        		{
+		        			addinMenuHeaders.Add((string)functionReturn);
+		        		}
+					}
+					//then add the menu settings tot the end
+					addinMenuHeaders.Add(menuSettings);
+					return addinMenuHeaders.ToArray<string>();
+				}
+				else
+				{
+					//then we call each addin with the menu name
+					//the first one to retu		
+					List<string> addinMenuOptions = new List<string>();					
+					foreach (EAAddin addin in this.addins) 
+					{
+						//return an array with the names of the addins
+						object functionReturn = addin.callmethod(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, MenuLocation,MenuName});
+						// return submenu options
+		        		if (functionReturn is object[])
+		        		{
+		        			string[] functionMenuOptions = Array.ConvertAll<object, string>((object [])functionReturn, o => o.ToString());
+		        			addinMenuOptions.AddRange(functionMenuOptions);
+		        		}
+		        		else if (functionReturn is string && (string)functionReturn != string.Empty)
+		        		{
+		        			addinMenuOptions.Add((string)functionReturn);
+		        		}
+					}
+					return addinMenuOptions.ToArray<string>();
+				}
+			}
+        	else //addins.count <= 1
         	{
-	        	if (MenuName == string.Empty)
+	        	object functionReturn = this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, MenuLocation,MenuName});
+	        	//add an "about" menu option.
+	        	if (MenuLocation == "MainMenu")
 	        	{
-	        		//return top level menu option
-	        		if( functionReturn == null)
-	        		{
-	        			return this.menuHeader;
-	        		}
-	        	} 
-	        	else
-	        	{
-	        		// return submenu options
-	        		if (functionReturn is object[])
-	        		{
-	        			string[] functionMenuOptions = Array.ConvertAll<object, string>((object [])functionReturn, o => o.ToString());
-	        			//add the about menu to the end
-	        			List<string> newMenuOptions = functionMenuOptions.ToList();
-	        			newMenuOptions.Add(menuSettings);
-	        			return newMenuOptions.ToArray<string>();
-	        		}
-	        		//TODO test what happens if the function returns a single string as submenu options
-	        		else
-	        		{
-	        			return this.menuOptions;
-	        		}
-	        		
-	        	} 
+		        	if (MenuName == string.Empty)
+		        	{
+		        		//return top level menu option
+		        		if( functionReturn == null)
+		        		{
+		        			return this.menuHeader;
+		        		}
+		        	} 
+		        	else
+		        	{
+		        		// return submenu options
+		        		if (functionReturn is object[])
+		        		{
+		        			string[] functionMenuOptions = Array.ConvertAll<object, string>((object [])functionReturn, o => o.ToString());
+		        			//add the about menu to the end
+		        			List<string> newMenuOptions = functionMenuOptions.ToList();
+		        			newMenuOptions.Add(menuSettings);
+		        			return newMenuOptions.ToArray<string>();
+		        		}
+		        		//TODO test what happens if the function returns a single string as submenu options
+		        		else
+		        		{
+		        			return this.menuOptions;
+		        		}
+		        		
+		        	} 
+	        	}
+	        	return functionReturn;
         	}
-        	return functionReturn;           
+
         }
 
         /// <summary>
