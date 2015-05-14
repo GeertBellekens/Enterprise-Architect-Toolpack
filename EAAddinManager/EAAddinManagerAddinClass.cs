@@ -70,14 +70,24 @@ namespace EAAddinManager
 			//loop the addins
 			foreach (AddinConfig addinConfig in this.config.addinConfigs) 
 			{
-				//first make sure we have the last version
-				this.copyAddinToLocalFolder(addinConfig,false);
-				string addinPath = this.config.getLocalAddinPath(addinConfig);
-				if (addinConfig.load && File.Exists(addinPath))
-				{
-					addins.Add(new EAAddinFramework.EASpecific.EAAddin(addinPath, addinConfig.name));
-				}
+				loadAddin(addinConfig);
 			}
+		}
+		internal void loadAddin(AddinConfig addinConfig)
+		{
+			//first make sure we have the last version
+			this.copyAddinToLocalFolder(addinConfig,false);
+			string addinPath = this.config.getLocalAddinPath(addinConfig);
+			if (addinConfig.load && File.Exists(addinPath))
+			{
+				addins.Add(new EAAddinFramework.EASpecific.EAAddin(addinPath, addinConfig.name));
+			}
+		}
+		internal AddinConfig loadAddin(string filePath)
+		{
+			AddinConfig addinConfig = new AddinConfig(filePath);
+			this.loadAddin(addinConfig);
+			return addinConfig;
 		}
 		
 		private void getLatestVersionOfFiles(string directory, string subPath)
@@ -255,9 +265,9 @@ namespace EAAddinManager
 		
 		private void showSettings()
 		{
-			//debug
-			this.loadAddins();
-			//addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
+			//show the form
+			EAAddinManagerSettingsForm settingsForm = new EAAddinManagerSettingsForm(this);
+			settingsForm.ShowDialog();
 		}
 		
 		#region EA Add-In operations
@@ -296,8 +306,15 @@ namespace EAAddinManager
 					this.showSettings();
 					break;
 			}
-			//call scriptfunctions
-        	this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, MenuLocation,MenuName,ItemName});
+			
+			foreach (EAAddin addin in this.addins) 
+            {
+            	if ( addin.lastMenuOptions.Contains(ItemName) 
+				    && (addin.lastMenuOptions.Contains(MenuName)||MenuName == this.menuHeader || MenuName == string.Empty ))
+            	{
+            		addin.callmethod(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, MenuLocation,MenuName,ItemName});
+            	}
+			}
         }
     	
 
@@ -307,6 +324,9 @@ namespace EAAddinManager
     
         public override string EA_Connect(EA.Repository Repository)
         {
+        	//load the addins
+        	this.loadAddins();
+        	//call the same method on the addins
         	return this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository},string.Empty);
         }
 
@@ -329,6 +349,15 @@ namespace EAAddinManager
         /// In the case of the top-level menu it should be a single string or an array containing only one item, or Empty/null.</returns>
         public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
         {
+        	//clear the last menu options for all addins
+        	if (MenuName == string.Empty)
+        	{
+        		foreach (EAAddin addin in this.addins) 
+        		{
+        			addin.lastMenuOptions.Clear();
+        		}
+        	}
+        	
         	if (this.addins.Count > 1)
 			{
 				//if there is more then one addin then we show "Addin Manager" as top level menu, then show menu options for each addin and only then show the actual menu
@@ -353,10 +382,14 @@ namespace EAAddinManager
 		        		if (functionReturn is object[])
 		        		{
 		        			string[] functionMenuOptions = Array.ConvertAll<object, string>((object [])functionReturn, o => o.ToString());
+		        			//store the menu options as the last menuoptions for this add-in
+		        			addin.lastMenuOptions.AddRange(functionMenuOptions);
 		        			addinMenuHeaders.AddRange(functionMenuOptions);
 		        		}
 		        		else if (functionReturn is string && (string)functionReturn != string.Empty )
 		        		{
+		        			//store this as the last menu options
+		        			addin.lastMenuOptions.Add((string)functionReturn);
 		        			addinMenuHeaders.Add((string)functionReturn);
 		        		}
 					}
@@ -366,23 +399,30 @@ namespace EAAddinManager
 				}
 				else
 				{
-					//then we call each addin with the menu name
-					//the first one to retu		
+					//then we call each addin with the menu name	
 					List<string> addinMenuOptions = new List<string>();					
 					foreach (EAAddin addin in this.addins) 
 					{
-						//return an array with the names of the addins
-						object functionReturn = addin.callmethod(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, MenuLocation,MenuName});
-						// return submenu options
-		        		if (functionReturn is object[])
-		        		{
-		        			string[] functionMenuOptions = Array.ConvertAll<object, string>((object [])functionReturn, o => o.ToString());
-		        			addinMenuOptions.AddRange(functionMenuOptions);
-		        		}
-		        		else if (functionReturn is string && (string)functionReturn != string.Empty)
-		        		{
-		        			addinMenuOptions.Add((string)functionReturn);
-		        		}
+						//we only need to do this if the menuname is in the list of last menu options returned by this addin
+						if (addin.lastMenuOptions.Contains(MenuName))
+						{
+							//return an array with the names of the addins
+							object functionReturn = addin.callmethod(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, MenuLocation,MenuName});
+							// return submenu options
+			        		if (functionReturn is object[])
+			        		{
+			        			string[] functionMenuOptions = Array.ConvertAll<object, string>((object [])functionReturn, o => o.ToString());
+			        			//store the menu options as the last menuoptions for this add-in
+		        				addin.lastMenuOptions.AddRange(functionMenuOptions);
+			        			addinMenuOptions.AddRange(functionMenuOptions);
+			        		}
+			        		else if (functionReturn is string && (string)functionReturn != string.Empty)
+			        		{
+			        			//store this as the last menu options
+		        				addin.lastMenuOptions.Add((string)functionReturn);
+			        			addinMenuOptions.Add((string)functionReturn);
+			        		}
+						}
 					}
 					return addinMenuOptions.ToArray<string>();
 				}
@@ -390,6 +430,22 @@ namespace EAAddinManager
         	else //addins.count <= 1
         	{
 	        	object functionReturn = this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, MenuLocation,MenuName});
+	        	//store the add-ins last menu options
+	        	if (this.addins.Count == 1)
+	        	{
+	        		if (functionReturn is object[])
+	        		{
+	        			string[] functionMenuOptions = Array.ConvertAll<object, string>((object [])functionReturn, o => o.ToString());
+	        			//store the menu options as the last menuoptions for this add-in
+	        			this.addins[0].lastMenuOptions.AddRange(functionMenuOptions);
+	
+	        		}
+	        		else if (functionReturn is string && (string)functionReturn != string.Empty)
+	        		{
+	        			//store this as the last menu options
+	    				this.addins[0].lastMenuOptions.Add((string)functionReturn);
+	        		}
+	        	}
 	        	//add an "about" menu option.
 	        	if (MenuLocation == "MainMenu")
 	        	{
@@ -412,7 +468,10 @@ namespace EAAddinManager
 		        			newMenuOptions.Add(menuSettings);
 		        			return newMenuOptions.ToArray<string>();
 		        		}
-		        		//TODO test what happens if the function returns a single string as submenu options
+		        		else if (functionReturn is string && (string)functionReturn != string.Empty)
+		        		{
+		        			return (string)functionReturn;
+		        		}
 		        		else
 		        		{
 		        			return this.menuOptions;
@@ -440,21 +499,20 @@ namespace EAAddinManager
         /// <param name="IsChecked">Boolean. Set to True to check this particular menu option.</param>
         public override void EA_GetMenuState(EA.Repository Repository, string MenuLocation, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
         {
-            object returnValue = this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository,  MenuLocation, MenuName, ItemName, IsEnabled, IsChecked});
-        	if (returnValue is object[] && ((object[])returnValue).Length == 5 )
-        	{
-        		object[] refParams = (object[])returnValue;
-        		//get IsEnabled
-        		if (refParams[3] is bool)
-        		{
-        			IsEnabled = (bool) refParams[3];
-        		}
-        	    //get IsChecked
-        		if (refParams[4] is bool)
-        		{
-        			IsChecked = (bool) refParams[4];
-        		}
-        	}
+            //object returnValue = this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository,  MenuLocation, MenuName, ItemName, IsEnabled, IsChecked});
+            foreach (EAAddin addin in this.addins) 
+            {
+            	if (addin.lastMenuOptions.Contains(ItemName)
+            	    && (addin.lastMenuOptions.Contains(MenuName)||MenuName == this.menuHeader || MenuName == string.Empty ))
+            	{
+            		object[] refParams = new object[]{ Repository,  MenuLocation, MenuName, ItemName, IsEnabled, IsChecked};
+            		object returnValue = addin.callmethod(MethodBase.GetCurrentMethod().Name,refParams); 
+	        		//get IsEnabled
+	    			IsEnabled = (bool) refParams[4];
+					//get IsChecked
+	    			IsChecked = (bool) refParams[5];
+            	}
+            }
         }
 
 
@@ -1384,27 +1442,12 @@ namespace EAAddinManager
         /// is updated, the new value is stored in the repository on exit of the function.</param>
         public override void EA_OnAttributeTagEdit(EA.Repository Repository, long AttributeID, ref string TagName, ref string TagValue, ref string TagNotes) 
         {
-        	
-        	object returnValue = this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, AttributeID,TagName,TagValue,TagNotes});
-        	if (returnValue is object[] && ((object[])returnValue).Length == 4 )
-        	{
-        		object[] refParams = (object[])returnValue;
-        		//get TagName
-        		if (refParams[1] is string)
-        		{
-        			TagName = (string) refParams[1];
-        		}
-        		//get TagValue
-        		if (refParams[2] is string)
-        		{
-        			TagValue = (string) refParams[2];
-        		}
-        	    //get TagNotes
-        		if (refParams[3] is string)
-        		{
-        			TagNotes = (string) refParams[3];
-        		}
-        	}
+        	object[] refParams = new object[]{ Repository, AttributeID,TagName,TagValue,TagNotes};
+        	this.callMethods(MethodBase.GetCurrentMethod().Name,refParams);
+        	//get reference parameter values
+        	TagName = (string) refParams[2];
+        	TagValue = (string) refParams[3];
+        	TagNotes = (string) refParams[4];
         }
 		
         /// <summary>
@@ -1423,26 +1466,12 @@ namespace EAAddinManager
         /// <param name="TagNotes">The current value of the Tagged Value notes; if the value 
         public override void EA_OnConnectorTagEdit(EA.Repository Repository, long ConnectorID, ref string TagName, ref string TagValue, ref string TagNotes) 
         {
-        	object returnValue = this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, ConnectorID,TagName,TagValue,TagNotes});
-        	if (returnValue is object[] && ((object[])returnValue).Length == 4 )
-        	{
-        		object[] refParams = (object[])returnValue;
-        		//get TagName
-        		if (refParams[1] is string)
-        		{
-        			TagName = (string) refParams[1];
-        		}
-        		//get TagValue
-        		if (refParams[2] is string)
-        		{
-        			TagValue = (string) refParams[2];
-        		}
-        	    //get TagNotes
-        		if (refParams[3] is string)
-        		{
-        			TagNotes = (string) refParams[3];
-        		}
-        	}        	
+        	object[] refParams = new object[]{ Repository, ConnectorID,TagName,TagValue,TagNotes};
+        	this.callMethods(MethodBase.GetCurrentMethod().Name,refParams);
+        	//get reference parameter values
+        	TagName = (string) refParams[2];
+        	TagValue = (string) refParams[3];
+        	TagNotes = (string) refParams[4];     	
         }
 
         /// <summary>
@@ -1461,26 +1490,12 @@ namespace EAAddinManager
         /// <param name="TagNotes">The current value of the Tagged Value notes; if the value 
         public override void EA_OnElementTagEdit(EA.Repository Repository, long ObjectID, ref string TagName, ref string TagValue, ref string TagNotes) 
         {
-        	object returnValue = this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, ObjectID,TagName,TagValue,TagNotes});
-        	if (returnValue is object[] && ((object[])returnValue).Length == 4 )
-        	{
-        		object[] refParams = (object[])returnValue;
-        		//get TagName
-        		if (refParams[1] is string)
-        		{
-        			TagName = (string) refParams[1];
-        		}
-        		//get TagValue
-        		if (refParams[2] is string)
-        		{
-        			TagValue = (string) refParams[2];
-        		}
-        	    //get TagNotes
-        		if (refParams[3] is string)
-        		{
-        			TagNotes = (string) refParams[3];
-        		}
-        	}              	
+        	object[] refParams = new object[]{ Repository, ObjectID,TagName,TagValue,TagNotes};
+        	this.callMethods(MethodBase.GetCurrentMethod().Name,refParams);
+        	//get reference parameter values
+        	TagName = (string) refParams[2];
+        	TagValue = (string) refParams[3];
+        	TagNotes = (string) refParams[4];            	
         }
 
         /// <summary>
@@ -1499,26 +1514,12 @@ namespace EAAddinManager
         /// <param name="TagNotes">The current value of the Tagged Value notes; if the value 
         public override void EA_OnMethodTagEdit(EA.Repository Repository, long MethodID, ref string TagName, ref string TagValue, ref string TagNotes) 
         {
-        	object returnValue = this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, MethodID,TagName,TagValue,TagNotes});
-        	if (returnValue is object[] && ((object[])returnValue).Length == 4 )
-        	{
-        		object[] refParams = (object[])returnValue;
-        		//get TagName
-        		if (refParams[1] is string)
-        		{
-        			TagName = (string) refParams[1];
-        		}
-        		//get TagValue
-        		if (refParams[2] is string)
-        		{
-        			TagValue = (string) refParams[2];
-        		}
-        	    //get TagNotes
-        		if (refParams[3] is string)
-        		{
-        			TagNotes = (string) refParams[3];
-        		}
-        	}              	
+        	object[] refParams = new object[]{ Repository, MethodID, TagName, TagValue, TagNotes};
+        	this.callMethods(MethodBase.GetCurrentMethod().Name,refParams);
+        	//get reference parameter values
+        	TagName = (string) refParams[2];
+        	TagValue = (string) refParams[3];
+        	TagNotes = (string) refParams[4];            	
         }
         #endregion
 		
@@ -1529,7 +1530,6 @@ namespace EAAddinManager
         public override object EA_OnInitializeTechnologies(EA.Repository Repository)
         {
         	return this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{Repository});
-        	return null;
         }
      
         public override bool EA_OnPreActivateTechnology(EA.Repository Repository, EA.EventProperties Info)
@@ -1664,43 +1664,18 @@ namespace EAAddinManager
 		                              ref string SynchType,ref object ExportObjects ,ref object ExportFiles , 
 		                              ref object ImportFiles ,ref string IgnoreLocked ,ref string Language )
 		{
-			long returnValue = 0L;
-			object functionReturn = this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, PackageGuid , SynchObjects,
-			                                      	SynchType, ExportObjects, ExportFiles, ImportFiles ,IgnoreLocked ,Language,returnValue});
-        	//get the ref parameter values
-			if (functionReturn is object[] && ((object[])functionReturn).Length == 9 )
-        	{
-        		object[] refParams = (object[])functionReturn;
-        		//get SynchObjects
-        	    SynchObjects = refParams[1];
-        		//get SynchType
-        		if (refParams[2] is string)
-        		{
-        			SynchType = (string) refParams[2];
-        		}        	    
-				//get ExportObjects
-        	    ExportObjects = refParams[3];
-        	    //get ExportFiles
-        	    ExportFiles = refParams[4];
-        	    //get ImportFiles
-        	    ImportFiles = refParams[5];        	    
-        		//get IgnoreLocked
-        		if (refParams[6] is string)
-        		{
-        			IgnoreLocked = (string) refParams[6];
-        		}
-        	    //get Language
-        		if (refParams[7] is string)
-        		{
-        			Language = (string) refParams[7];
-        		}
-        		//get returnValue
-        		if (refParams[8] is long)
-        		{
-        			returnValue = (long) refParams[8];
-        		}
-        	}              	
-        
+			object[] refParams = new object[]{ Repository, PackageGuid , SynchObjects,
+			                                      	SynchType, ExportObjects, ExportFiles, ImportFiles ,IgnoreLocked ,Language};
+			long returnValue = this.callMethods(MethodBase.GetCurrentMethod().Name,refParams,0L);
+	    	//get the ref parameter values
+    	    SynchObjects = refParams[2];
+    	    SynchType = (string) refParams[3];
+    	    ExportObjects = refParams[4];
+    	    ExportFiles = refParams[5];
+    	    ImportFiles = refParams[6];   
+			IgnoreLocked = (string) refParams[7];
+			Language = (string) refParams[8];
+        	//return 
 			return returnValue;
 		}
 		
@@ -1717,24 +1692,11 @@ namespace EAAddinManager
 		/// <returns>Returns a string containing the file path that should be assigned to the Class.</returns>
 		public override string MDG_NewClass(EA.Repository Repository,string PackageGuid,string CodeID,ref string Language )
 		{
-			string returnValue = string.Empty;
-			object functionReturn = this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository, PackageGuid, CodeID, Language, returnValue});
+			object[] refParams = new object[]{ Repository, PackageGuid, CodeID, Language};
+			string returnValue = this.callMethods(MethodBase.GetCurrentMethod().Name,refParams,string.Empty);
         	//get the ref parameter values
-			if (functionReturn is object[] && ((object[])functionReturn).Length == 4 )
-        	{
-        		object[] refParams = (object[])functionReturn;
-        		//get Language
-        		if (refParams[2] is string)
-        		{
-        			Language = (string) refParams[2];
-        		}        	    
-        		//get returnValue
-        		if (refParams[3] is string)
-        		{
-        			returnValue = (string) refParams[3];
-        		}
-        	}              	
-        
+        	Language = (string) refParams[3]; 	
+        	//return
 			return returnValue;
 		}
 		

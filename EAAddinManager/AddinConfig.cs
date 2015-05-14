@@ -8,6 +8,8 @@
  */
 using System;
 using System.Configuration;
+using System.Diagnostics;
+using System.IO;
 
 namespace EAAddinManager
 {
@@ -27,6 +29,13 @@ namespace EAAddinManager
 			this.dllPath = conStrSplitted[0];
 			this.load = bool.Parse(conStrSplitted[1]);
 			this.version = conStrSplitted[2];
+		}
+		public AddinConfig(string filePath)
+		{
+			this.name = new FileInfo(filePath).Directory.Name;
+			this.dllPath = Path.GetFileName(filePath);
+			this.version = FileVersionInfo.GetVersionInfo(filePath).FileVersion;
+			this.load = true;
 		}
 	}
 
