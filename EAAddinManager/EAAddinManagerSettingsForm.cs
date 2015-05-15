@@ -63,10 +63,7 @@ namespace EAAddinManager
 			if (this.addinsListView.SelectedItems.Count > 0)
 			{
 				AddinConfig selectedConfig = (AddinConfig)this.addinsListView.SelectedItems[0].Tag;
-				this.nameTextBox.Text = selectedConfig.name;
-				this.fileTextBox.Text = selectedConfig.dllPath;
-				this.versionTextBox.Text = selectedConfig.version;
-				this.loadCheckBox.Checked = selectedConfig.load;
+				this.refreshAddinFields(selectedConfig);
 			}
 			else
 			{
@@ -115,6 +112,32 @@ namespace EAAddinManager
             	//select the last one
             	this.addinsListView.Items[this.addinsListView.Items.Count -1].Selected = true;
             }
+		}
+		
+		void BrowseNameButtonClick(object sender, EventArgs e)
+		{
+			if (this.addinsListView.SelectedItems.Count > 0)
+			{
+				AddinConfig currentConfig = (AddinConfig)this.addinsListView.SelectedItems[0].Tag;
+				// Create an instance of the open file dialog box.
+	            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+				//set the initial directory
+	            folderBrowserDialog.SelectedPath = currentConfig.directory;
+	            
+	            if(folderBrowserDialog.ShowDialog() == DialogResult.OK)
+	            {
+	            	currentConfig.directory = folderBrowserDialog.SelectedPath;
+	            	//update fields
+	            	this.refreshAddinFields(currentConfig);
+	            }
+			}
+		}
+		void refreshAddinFields(AddinConfig selectedConfig)
+		{
+			this.nameTextBox.Text = selectedConfig.name;
+			this.fileTextBox.Text = selectedConfig.dllPath;
+			this.versionTextBox.Text = selectedConfig.version;
+			this.loadCheckBox.Checked = selectedConfig.load;
 		}
 	}
 }

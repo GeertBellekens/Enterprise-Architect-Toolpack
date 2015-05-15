@@ -266,6 +266,9 @@ namespace EAAddinManager
 		private void showSettings()
 		{
 			//show the form
+			//debug
+			this.loadAddins();
+			
 			EAAddinManagerSettingsForm settingsForm = new EAAddinManagerSettingsForm(this);
 			settingsForm.ShowDialog();
 		}
@@ -325,7 +328,7 @@ namespace EAAddinManager
         public override string EA_Connect(EA.Repository Repository)
         {
         	//load the addins
-        	this.loadAddins();
+        	//this.loadAddins();
         	//call the same method on the addins
         	return this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository},string.Empty);
         }

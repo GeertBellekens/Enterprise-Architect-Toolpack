@@ -45,7 +45,7 @@ namespace EAAddinManager
 			this.updateButton = new System.Windows.Forms.Button();
 			this.deleteAddinButton = new System.Windows.Forms.Button();
 			this.addAddinButton = new System.Windows.Forms.Button();
-			this.browseButton = new System.Windows.Forms.Button();
+			this.browseNameButton = new System.Windows.Forms.Button();
 			this.loadCheckBox = new System.Windows.Forms.CheckBox();
 			this.versionTextBox = new System.Windows.Forms.TextBox();
 			this.versionLabel = new System.Windows.Forms.Label();
@@ -57,6 +57,7 @@ namespace EAAddinManager
 			this.locationsListBox = new System.Windows.Forms.ListBox();
 			this.okButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.browseFileButton = new System.Windows.Forms.Button();
 			this.addinsGrupBox.SuspendLayout();
 			this.locationsGroupBox.SuspendLayout();
 			this.SuspendLayout();
@@ -89,12 +90,13 @@ namespace EAAddinManager
 			// 
 			// addinsGrupBox
 			// 
+			this.addinsGrupBox.Controls.Add(this.browseFileButton);
 			this.addinsGrupBox.Controls.Add(this.fileTextBox);
 			this.addinsGrupBox.Controls.Add(this.fileLabel);
 			this.addinsGrupBox.Controls.Add(this.updateButton);
 			this.addinsGrupBox.Controls.Add(this.deleteAddinButton);
 			this.addinsGrupBox.Controls.Add(this.addAddinButton);
-			this.addinsGrupBox.Controls.Add(this.browseButton);
+			this.addinsGrupBox.Controls.Add(this.browseNameButton);
 			this.addinsGrupBox.Controls.Add(this.loadCheckBox);
 			this.addinsGrupBox.Controls.Add(this.versionTextBox);
 			this.addinsGrupBox.Controls.Add(this.versionLabel);
@@ -114,7 +116,7 @@ namespace EAAddinManager
 			this.fileTextBox.Location = new System.Drawing.Point(267, 77);
 			this.fileTextBox.Name = "fileTextBox";
 			this.fileTextBox.ReadOnly = true;
-			this.fileTextBox.Size = new System.Drawing.Size(210, 20);
+			this.fileTextBox.Size = new System.Drawing.Size(165, 20);
 			this.fileTextBox.TabIndex = 11;
 			// 
 			// fileLabel
@@ -154,14 +156,15 @@ namespace EAAddinManager
 			this.addAddinButton.UseVisualStyleBackColor = true;
 			this.addAddinButton.Click += new System.EventHandler(this.AddAddinButtonClick);
 			// 
-			// browseButton
+			// browseNameButton
 			// 
-			this.browseButton.Location = new System.Drawing.Point(321, 177);
-			this.browseButton.Name = "browseButton";
-			this.browseButton.Size = new System.Drawing.Size(75, 23);
-			this.browseButton.TabIndex = 6;
-			this.browseButton.Text = "Browse";
-			this.browseButton.UseVisualStyleBackColor = true;
+			this.browseNameButton.Location = new System.Drawing.Point(438, 32);
+			this.browseNameButton.Name = "browseNameButton";
+			this.browseNameButton.Size = new System.Drawing.Size(29, 23);
+			this.browseNameButton.TabIndex = 6;
+			this.browseNameButton.Text = "...";
+			this.browseNameButton.UseVisualStyleBackColor = true;
+			this.browseNameButton.Click += new System.EventHandler(this.BrowseNameButtonClick);
 			// 
 			// loadCheckBox
 			// 
@@ -178,7 +181,7 @@ namespace EAAddinManager
 			this.versionTextBox.Location = new System.Drawing.Point(267, 121);
 			this.versionTextBox.Name = "versionTextBox";
 			this.versionTextBox.ReadOnly = true;
-			this.versionTextBox.Size = new System.Drawing.Size(210, 20);
+			this.versionTextBox.Size = new System.Drawing.Size(165, 20);
 			this.versionTextBox.TabIndex = 4;
 			// 
 			// versionLabel
@@ -195,7 +198,7 @@ namespace EAAddinManager
 			this.nameTextBox.Location = new System.Drawing.Point(267, 34);
 			this.nameTextBox.Name = "nameTextBox";
 			this.nameTextBox.ReadOnly = true;
-			this.nameTextBox.Size = new System.Drawing.Size(210, 20);
+			this.nameTextBox.Size = new System.Drawing.Size(165, 20);
 			this.nameTextBox.TabIndex = 2;
 			// 
 			// nameLabel
@@ -266,6 +269,15 @@ namespace EAAddinManager
 			this.cancelButton.Text = "Cancel";
 			this.cancelButton.UseVisualStyleBackColor = true;
 			// 
+			// browseFileButton
+			// 
+			this.browseFileButton.Location = new System.Drawing.Point(438, 75);
+			this.browseFileButton.Name = "browseFileButton";
+			this.browseFileButton.Size = new System.Drawing.Size(29, 23);
+			this.browseFileButton.TabIndex = 12;
+			this.browseFileButton.Text = "...";
+			this.browseFileButton.UseVisualStyleBackColor = true;
+			// 
 			// EAAddinManagerSettingsForm
 			// 
 			this.AcceptButton = this.okButton;
@@ -284,6 +296,7 @@ namespace EAAddinManager
 			this.locationsGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Button browseFileButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button okButton;
 		private System.Windows.Forms.ListBox locationsListBox;
@@ -295,7 +308,7 @@ namespace EAAddinManager
 		private System.Windows.Forms.Label versionLabel;
 		private System.Windows.Forms.TextBox versionTextBox;
 		private System.Windows.Forms.CheckBox loadCheckBox;
-		private System.Windows.Forms.Button browseButton;
+		private System.Windows.Forms.Button browseNameButton;
 		private System.Windows.Forms.Button addAddinButton;
 		private System.Windows.Forms.Button deleteAddinButton;
 		private System.Windows.Forms.Button updateButton;
