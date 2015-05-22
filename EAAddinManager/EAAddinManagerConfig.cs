@@ -103,7 +103,7 @@ namespace EAAddinManager
 				List<AddinConfig> configs = new List<AddinConfig>();
 				foreach (ConnectionStringSettings  connectionString  in this.currentConfig.ConnectionStrings.ConnectionStrings) 
 				{
-					if (connectionString.ProviderName == "EA-Matic")
+					if (connectionString.ProviderName == "EA Addin Manager")
 					{
 						configs.Add(new AddinConfig(connectionString));
 					}
@@ -112,8 +112,24 @@ namespace EAAddinManager
 			}
 			set
 			{
-				//TODO
+				//first remove all connectionstrings for EA Addin Manager
+				foreach (ConnectionStringSettings  connectionString  in this.currentConfig.ConnectionStrings.ConnectionStrings) 
+				{
+					if (connectionString.ProviderName == "EA Addin Manager")
+					{
+						this.currentConfig.ConnectionStrings.ConnectionStrings.Remove(connectionString);
+					}
+				}
+				//then add them 
+				foreach (AddinConfig addinConfig in value) 
+				{
+					currentConfig.ConnectionStrings.ConnectionStrings.Add(addinConfig.getConnectionString());
+				}
 			}
+		}
+		public void save()
+		{
+			this.currentConfig.Save();
 		}
 		
 	

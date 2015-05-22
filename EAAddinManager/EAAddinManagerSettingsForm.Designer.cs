@@ -40,6 +40,7 @@ namespace EAAddinManager
 			this.addinNameHeader = new System.Windows.Forms.ColumnHeader();
 			this.loadHeader = new System.Windows.Forms.ColumnHeader();
 			this.addinsGrupBox = new System.Windows.Forms.GroupBox();
+			this.browseFileButton = new System.Windows.Forms.Button();
 			this.fileTextBox = new System.Windows.Forms.TextBox();
 			this.fileLabel = new System.Windows.Forms.Label();
 			this.updateButton = new System.Windows.Forms.Button();
@@ -57,7 +58,7 @@ namespace EAAddinManager
 			this.locationsListBox = new System.Windows.Forms.ListBox();
 			this.okButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
-			this.browseFileButton = new System.Windows.Forms.Button();
+			this.applyButton = new System.Windows.Forms.Button();
 			this.addinsGrupBox.SuspendLayout();
 			this.locationsGroupBox.SuspendLayout();
 			this.SuspendLayout();
@@ -76,6 +77,7 @@ namespace EAAddinManager
 			this.addinsListView.TabIndex = 0;
 			this.addinsListView.UseCompatibleStateImageBehavior = false;
 			this.addinsListView.View = System.Windows.Forms.View.Details;
+			this.addinsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.AddinsListViewItemSelectionChanged);
 			this.addinsListView.SelectedIndexChanged += new System.EventHandler(this.AddinsListViewSelectedIndexChanged);
 			// 
 			// addinNameHeader
@@ -109,6 +111,16 @@ namespace EAAddinManager
 			this.addinsGrupBox.TabIndex = 1;
 			this.addinsGrupBox.TabStop = false;
 			this.addinsGrupBox.Text = "Add-ins";
+			// 
+			// browseFileButton
+			// 
+			this.browseFileButton.Location = new System.Drawing.Point(438, 75);
+			this.browseFileButton.Name = "browseFileButton";
+			this.browseFileButton.Size = new System.Drawing.Size(29, 23);
+			this.browseFileButton.TabIndex = 12;
+			this.browseFileButton.Text = "...";
+			this.browseFileButton.UseVisualStyleBackColor = true;
+			this.browseFileButton.Click += new System.EventHandler(this.BrowseFileButtonClick);
 			// 
 			// fileTextBox
 			// 
@@ -174,6 +186,7 @@ namespace EAAddinManager
 			this.loadCheckBox.TabIndex = 5;
 			this.loadCheckBox.Text = "Load Add-in";
 			this.loadCheckBox.UseVisualStyleBackColor = true;
+			this.loadCheckBox.CheckedChanged += new System.EventHandler(this.LoadCheckBoxCheckedChanged);
 			// 
 			// versionTextBox
 			// 
@@ -251,7 +264,7 @@ namespace EAAddinManager
 			// 
 			// okButton
 			// 
-			this.okButton.Location = new System.Drawing.Point(339, 383);
+			this.okButton.Location = new System.Drawing.Point(256, 383);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 3;
@@ -262,21 +275,22 @@ namespace EAAddinManager
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(420, 383);
+			this.cancelButton.Location = new System.Drawing.Point(337, 383);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 4;
 			this.cancelButton.Text = "Cancel";
 			this.cancelButton.UseVisualStyleBackColor = true;
 			// 
-			// browseFileButton
+			// applyButton
 			// 
-			this.browseFileButton.Location = new System.Drawing.Point(438, 75);
-			this.browseFileButton.Name = "browseFileButton";
-			this.browseFileButton.Size = new System.Drawing.Size(29, 23);
-			this.browseFileButton.TabIndex = 12;
-			this.browseFileButton.Text = "...";
-			this.browseFileButton.UseVisualStyleBackColor = true;
+			this.applyButton.Location = new System.Drawing.Point(418, 383);
+			this.applyButton.Name = "applyButton";
+			this.applyButton.Size = new System.Drawing.Size(75, 23);
+			this.applyButton.TabIndex = 5;
+			this.applyButton.Text = "Apply";
+			this.applyButton.UseVisualStyleBackColor = true;
+			this.applyButton.Click += new System.EventHandler(this.ApplyButtonClick);
 			// 
 			// EAAddinManagerSettingsForm
 			// 
@@ -285,6 +299,7 @@ namespace EAAddinManager
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(505, 418);
+			this.Controls.Add(this.applyButton);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.okButton);
 			this.Controls.Add(this.locationsGroupBox);
@@ -296,6 +311,7 @@ namespace EAAddinManager
 			this.locationsGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Button applyButton;
 		private System.Windows.Forms.Button browseFileButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button okButton;

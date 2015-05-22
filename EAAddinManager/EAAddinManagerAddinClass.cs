@@ -65,15 +65,16 @@ namespace EAAddinManager
 				}
 			}
 		}
-		private void loadAddins()
+		internal void loadAddins()
 		{
+			this.addins.Clear();
 			//loop the addins
 			foreach (AddinConfig addinConfig in this.config.addinConfigs) 
 			{
 				loadAddin(addinConfig);
 			}
 		}
-		internal void loadAddin(AddinConfig addinConfig)
+		private void loadAddin(AddinConfig addinConfig)
 		{
 			//first make sure we have the last version
 			this.copyAddinToLocalFolder(addinConfig,false);
@@ -267,7 +268,7 @@ namespace EAAddinManager
 		{
 			//show the form
 			//debug
-			this.loadAddins();
+			//this.loadAddins();
 			
 			EAAddinManagerSettingsForm settingsForm = new EAAddinManagerSettingsForm(this);
 			settingsForm.ShowDialog();
@@ -328,7 +329,7 @@ namespace EAAddinManager
         public override string EA_Connect(EA.Repository Repository)
         {
         	//load the addins
-        	//this.loadAddins();
+        	this.loadAddins();
         	//call the same method on the addins
         	return this.callMethods(MethodBase.GetCurrentMethod().Name,new object[]{ Repository},string.Empty);
         }

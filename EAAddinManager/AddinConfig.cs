@@ -54,6 +54,14 @@ namespace EAAddinManager
 			this.version = FileVersionInfo.GetVersionInfo(filePath).FileVersion;
 			this.load = true;
 		}
+		internal ConnectionStringSettings getConnectionString()
+		{
+			ConnectionStringSettings connectionString = new ConnectionStringSettings();
+			connectionString.ConnectionString = string.Join(";", new string[]{this.dllPath, this.load.ToString(), this.version});
+			connectionString.Name = this.directory;
+			connectionString.ProviderName = "EA Addin Manager";
+			return connectionString;
+		}
 		private void resolveDllPath()
 		{
 			if (!string.IsNullOrEmpty(this.dllPath))

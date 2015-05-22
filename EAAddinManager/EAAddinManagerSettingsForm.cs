@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -60,18 +61,7 @@ namespace EAAddinManager
 		
 		void AddinsListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (this.addinsListView.SelectedItems.Count > 0)
-			{
-				AddinConfig selectedConfig = (AddinConfig)this.addinsListView.SelectedItems[0].Tag;
-				this.refreshAddinFields(selectedConfig);
-			}
-			else
-			{
-				this.nameTextBox.Text = string.Empty;
-				this.fileTextBox.Text = string.Empty;
-				this.versionTextBox.Text = string.Empty;
-				this.loadCheckBox.Checked = false;
-			}
+			
 		}
 		
 		void DeleteAddinButtonClick(object sender, EventArgs e)
@@ -88,23 +78,35 @@ namespace EAAddinManager
 		}
 		void OkButtonClick(object sender, System.EventArgs e)
 		{
-			//TODO save
+			this.save();
+			//close the window
 			this.Close();
+		}
+		private void save()
+		{
+			//addins
+			List<AddinConfig> addinconfigs = new List<AddinConfig>();
+			foreach (ListViewItem configItem in this.addinsListView.Items) 
+			{
+				addinconfigs.Add((AddinConfig)configItem.Tag);
+			}
+			this.config.addinConfigs = addinconfigs;
+			//search paths
+			List<string> locations = new List<string>();
+			foreach (string location in this.locationsListBox.Items) 
+			{
+				locations.Add(location);
+			}
+			this.config.addinSearchPaths = locations;
+			//save the config
+			this.config.save();
+			//load the add-ins
+			this.addinManager.loadAddins();
 		}
 		
 		void AddAddinButtonClick(object sender, EventArgs e)
 		{
-			// Create an instance of the open file dialog box.
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            // Set filter options and filter index.
-            openFileDialog.Filter = "EA Addin files (.dll)|*.dll|All Files (*.*)|*.*";
-            openFileDialog.FilterIndex = 1;
-            openFileDialog.Multiselect = false;
-            if (config.addinSearchPaths.Count > 0)
-            {
-            	openFileDialog.InitialDirectory = this.config.addinSearchPaths[0];
-            }
+			OpenFileDialog openFileDialog = getAddinFileDialog("Select a new add-in dll",string.Empty);
             if(openFileDialog.ShowDialog() == DialogResult.OK)
             {
             	AddinConfig newConfig = this.addinManager.loadAddin(openFileDialog.FileName);
@@ -138,6 +140,75 @@ namespace EAAddinManager
 			this.fileTextBox.Text = selectedConfig.dllPath;
 			this.versionTextBox.Text = selectedConfig.version;
 			this.loadCheckBox.Checked = selectedConfig.load;
+		}
+		
+		void BrowseFileButtonClick(object sender, EventArgs e)
+		{
+			AddinConfig currentConfig = (AddinConfig)this.addinsListView.SelectedItems[0].Tag;
+			OpenFileDialog openFileDialog = getAddinFileDialog("Select the add-in dll", currentConfig.directory);
+            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+            	
+            	currentConfig = this.addinManager.loadAddin(openFileDialog.FileName);
+            	//show the new fields
+            	this.refreshAddinFields(currentConfig);
+            }			
+		}
+
+		private OpenFileDialog getAddinFileDialog(string title, string initialDirectory)
+		{
+			// Create an instance of the open file dialog box.
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            // Set filter options and filter index.
+            openFileDialog.Filter = "EA Addin files (.dll)|*.dll|All Files (*.*)|*.*";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.Multiselect = false;
+            openFileDialog.Title = title;
+			if (initialDirectory == string.Empty && config.addinSearchPaths.Count > 0)
+            {
+            	openFileDialog.InitialDirectory = this.config.addinSearchPaths[0];
+            }
+			else
+			{
+				openFileDialog.InitialDirectory = initialDirectory;
+			}
+            return openFileDialog;
+		}
+		
+		void ApplyButtonClick(object sender, EventArgs e)
+		{
+			this.save();
+		}
+		
+		void AddinsListViewItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+		{
+			AddinConfig selectedConfig = (AddinConfig)e.Item.Tag;
+			if (e.IsSelected)
+			{
+				this.refreshAddinFields(selectedConfig);
+			}
+			else
+			{
+				this.nameTextBox.Text = string.Empty;
+				this.fileTextBox.Text = string.Empty;
+				this.versionTextBox.Text = string.Empty;
+				this.loadCheckBox.Checked = false;
+			}
+		}
+
+		
+		void LoadCheckBoxCheckedChanged(object sender, EventArgs e)
+		{
+			if (this.addinsListView.SelectedItems.Count == 1)
+			{
+				AddinConfig selectedConfig = (AddinConfig)this.addinsListView.SelectedItems[0].Tag;
+				selectedConfig.load = this.loadCheckBox.Checked;
+			}
+			else
+			{
+				this.loadCheckBox.Checked = false;
+			}
 		}
 	}
 }
