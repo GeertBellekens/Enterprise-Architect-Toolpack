@@ -43,7 +43,6 @@ namespace EAAddinManager
 			this.browseFileButton = new System.Windows.Forms.Button();
 			this.fileTextBox = new System.Windows.Forms.TextBox();
 			this.fileLabel = new System.Windows.Forms.Label();
-			this.updateButton = new System.Windows.Forms.Button();
 			this.deleteAddinButton = new System.Windows.Forms.Button();
 			this.addAddinButton = new System.Windows.Forms.Button();
 			this.browseNameButton = new System.Windows.Forms.Button();
@@ -78,7 +77,6 @@ namespace EAAddinManager
 			this.addinsListView.UseCompatibleStateImageBehavior = false;
 			this.addinsListView.View = System.Windows.Forms.View.Details;
 			this.addinsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.AddinsListViewItemSelectionChanged);
-			this.addinsListView.SelectedIndexChanged += new System.EventHandler(this.AddinsListViewSelectedIndexChanged);
 			// 
 			// addinNameHeader
 			// 
@@ -95,7 +93,6 @@ namespace EAAddinManager
 			this.addinsGrupBox.Controls.Add(this.browseFileButton);
 			this.addinsGrupBox.Controls.Add(this.fileTextBox);
 			this.addinsGrupBox.Controls.Add(this.fileLabel);
-			this.addinsGrupBox.Controls.Add(this.updateButton);
 			this.addinsGrupBox.Controls.Add(this.deleteAddinButton);
 			this.addinsGrupBox.Controls.Add(this.addAddinButton);
 			this.addinsGrupBox.Controls.Add(this.browseNameButton);
@@ -138,15 +135,6 @@ namespace EAAddinManager
 			this.fileLabel.Size = new System.Drawing.Size(100, 23);
 			this.fileLabel.TabIndex = 10;
 			this.fileLabel.Text = "File";
-			// 
-			// updateButton
-			// 
-			this.updateButton.Location = new System.Drawing.Point(402, 177);
-			this.updateButton.Name = "updateButton";
-			this.updateButton.Size = new System.Drawing.Size(75, 23);
-			this.updateButton.TabIndex = 9;
-			this.updateButton.Text = "Update";
-			this.updateButton.UseVisualStyleBackColor = true;
 			// 
 			// deleteAddinButton
 			// 
@@ -252,6 +240,7 @@ namespace EAAddinManager
 			this.addLocationButton.TabIndex = 9;
 			this.addLocationButton.Text = "Add";
 			this.addLocationButton.UseVisualStyleBackColor = true;
+			this.addLocationButton.Click += new System.EventHandler(this.AddLocationButtonClick);
 			// 
 			// locationsListBox
 			// 
@@ -327,7 +316,6 @@ namespace EAAddinManager
 		private System.Windows.Forms.Button browseNameButton;
 		private System.Windows.Forms.Button addAddinButton;
 		private System.Windows.Forms.Button deleteAddinButton;
-		private System.Windows.Forms.Button updateButton;
 		private System.Windows.Forms.Label fileLabel;
 		private System.Windows.Forms.TextBox fileTextBox;
 		private System.Windows.Forms.GroupBox addinsGrupBox;

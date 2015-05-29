@@ -21,6 +21,8 @@ namespace EAAddinManager
 	{
 		protected Configuration defaultConfig {get;set;}
 		protected Configuration currentConfig {get;set;}
+		private List<string> _addinSearchPaths;
+		private List<AddinConfig> _addinConfigs;
 		public EAAddinManagerConfig()
 		{
 		  Configuration roamingConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoaming);
@@ -43,6 +45,7 @@ namespace EAAddinManager
 		  //merge the default settings
 		  this.mergeDefaultSettings();
 		}
+		
 		private string _localAddinPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) , @"Bellekens\EAAddinManager\Addins\");
 		public string localAddinPath {get {return this._localAddinPath;}}
 		
@@ -87,49 +90,74 @@ namespace EAAddinManager
 		{
 			get
 			{
-				List<string> addinLocations = new List<string>();
-				string configValue = this.currentConfig.AppSettings.Settings["AddinSearchPaths"].Value;
-				addinLocations.AddRange(configValue.Split(';'));
-			   	return addinLocations;
+				if (this._addinSearchPaths == null)
+				{
+					this.getAddinSearchPaths();
+				}
+				return this._addinSearchPaths;
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["AddinSearchPaths"].Value = string.Join(";", value);
+				this._addinSearchPaths = value;
 			}
 		}
 		public List<AddinConfig> addinConfigs {
 			get
 			{
-				List<AddinConfig> configs = new List<AddinConfig>();
-				foreach (ConnectionStringSettings  connectionString  in this.currentConfig.ConnectionStrings.ConnectionStrings) 
+				if (this._addinConfigs == null)
 				{
-					if (connectionString.ProviderName == "EA Addin Manager")
-					{
-						configs.Add(new AddinConfig(connectionString));
-					}
+					this.getAddinConfigs();
 				}
-				return configs;
+				return this._addinConfigs;
 			}
 			set
 			{
-				//first remove all connectionstrings for EA Addin Manager
-				foreach (ConnectionStringSettings  connectionString  in this.currentConfig.ConnectionStrings.ConnectionStrings) 
-				{
-					if (connectionString.ProviderName == "EA Addin Manager")
-					{
-						this.currentConfig.ConnectionStrings.ConnectionStrings.Remove(connectionString);
-					}
-				}
-				//then add them 
-				foreach (AddinConfig addinConfig in value) 
-				{
-					currentConfig.ConnectionStrings.ConnectionStrings.Add(addinConfig.getConnectionString());
-				}
+				this._addinConfigs = value;
 			}
 		}
 		public void save()
 		{
+			this.setAddinConfigs();
+			this.setAddinSearchPaths();
+			
 			this.currentConfig.Save();
+		}
+		private void getAddinConfigs()
+		{
+			this._addinConfigs = new List<AddinConfig>();
+			foreach (ConnectionStringSettings  connectionString  in this.currentConfig.ConnectionStrings.ConnectionStrings) 
+			{
+				if (connectionString.ProviderName == "EA Addin Manager")
+				{
+					this._addinConfigs.Add(new AddinConfig(connectionString));
+				}
+			}
+		}
+		private void setAddinConfigs()
+		{
+			//first remove all connectionstrings for EA Addin Manager
+			foreach (ConnectionStringSettings  connectionString  in this.currentConfig.ConnectionStrings.ConnectionStrings) 
+			{
+				if (connectionString.ProviderName == "EA Addin Manager")
+				{
+					this.currentConfig.ConnectionStrings.ConnectionStrings.Remove(connectionString);
+				}
+			}
+			//then add them 
+			foreach (AddinConfig addinConfig in this._addinConfigs) 
+			{
+				currentConfig.ConnectionStrings.ConnectionStrings.Add(addinConfig.getConnectionString());
+			}
+		}
+		private void setAddinSearchPaths()
+		{
+			this.currentConfig.AppSettings.Settings["AddinSearchPaths"].Value = string.Join(";", this.addinSearchPaths);
+		}
+		private void getAddinSearchPaths()
+		{
+				this._addinSearchPaths = new List<string>();
+				string configValue = this.currentConfig.AppSettings.Settings["AddinSearchPaths"].Value;
+				this._addinSearchPaths.AddRange(configValue.Split(';'));
 		}
 		
 	

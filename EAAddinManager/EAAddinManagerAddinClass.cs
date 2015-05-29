@@ -37,17 +37,11 @@ namespace EAAddinManager
 						
 		}
 		
-		public void getLatestVersionOfAddins()
-		{
-			foreach (AddinConfig addinConfig in this.config.addinConfigs) 
-			{
-				foreach (string addinSearchPath in this.config.addinSearchPaths) 
-				{
-				//addins.Add(new EAAddinFramework.EASpecific.EAAddin( @"C:\Users\wij\Documents\BellekensIT\Development\Enterprise-Architect-Add-in-Framework\MyAddin\bin\Debug\MyAddin.dll"));
-				//this.getLatestVersionOfFiles();
-				}
-			}
-		}
+		/// <summary>
+		/// copy the remote addin files to the local folder
+		/// </summary>
+		/// <param name="addinConfig">the addin config to copy the files for</param>
+		/// <param name="alwaysCopy">if false then only copy if remote version is newer</param>
 		private void copyAddinToLocalFolder(AddinConfig addinConfig, bool alwaysCopy)
 		{
 			string localDllPath = this.config.getLocalAddinPath(addinConfig);
@@ -65,6 +59,9 @@ namespace EAAddinManager
 				}
 			}
 		}
+		/// <summary>
+		/// Loads all the addins defined in the config
+		/// </summary>
 		internal void loadAddins()
 		{
 			this.addins.Clear();
@@ -74,6 +71,10 @@ namespace EAAddinManager
 				loadAddin(addinConfig);
 			}
 		}
+		/// <summary>
+		/// load a single addin as defined by the given config
+		/// </summary>
+		/// <param name="addinConfig">the config for the addin to load</param>
 		private void loadAddin(AddinConfig addinConfig)
 		{
 			//first make sure we have the last version
@@ -84,13 +85,22 @@ namespace EAAddinManager
 				addins.Add(new EAAddinFramework.EASpecific.EAAddin(addinPath, addinConfig.name));
 			}
 		}
+		/// <summary>
+		/// load an addin based on a filepath
+		/// </summary>
+		/// <param name="filePath">the filepath to the addin dll</param>
+		/// <returns></returns>
 		internal AddinConfig loadAddin(string filePath)
 		{
 			AddinConfig addinConfig = new AddinConfig(filePath);
 			this.loadAddin(addinConfig);
 			return addinConfig;
 		}
-		
+		/// <summary>
+		/// gets the latest version of the addin files
+		/// </summary>
+		/// <param name="directory">the directory to start from</param>
+		/// <param name="subPath">the path to the actual files</param>
 		private void getLatestVersionOfFiles(string directory, string subPath)
 		{
 			string localPath = Path.Combine(this.config.localAddinPath + subPath);
@@ -106,6 +116,13 @@ namespace EAAddinManager
 				               
 			}
 		}
+		/// <summary>
+		/// returns true if the remote version is newer then the local version
+		/// if we can't use the version then the creation date will be used to compare the files
+		/// </summary>
+		/// <param name="remotePath">the path for the remote file</param>
+		/// <param name="localPath">the path for the local file</param>
+		/// <returns>true if the remote version is newer then the local version</returns>
 		private bool remoteVersionIsNewer(string remotePath, string localPath)
 		{
 			if (File.Exists(localPath))
@@ -131,7 +148,7 @@ namespace EAAddinManager
 					DateTime localCreationDate =  File.GetCreationTime(localPath);
 					DateTime remoteCreationDate =  File.GetCreationTime(remotePath);
 					int compareResult = localCreationDate.CompareTo(remoteCreationDate);
-					if (compareResult < 0 )
+					if (compareResult > 0 )
 					{
 						return true;
 					}
@@ -147,7 +164,12 @@ namespace EAAddinManager
 				return true;
 			}
 		}
-		
+		/// <summary>
+		/// copy the source directory to the destination directory
+		/// </summary>
+		/// <param name="sourceDirName">path to the source directory</param>
+		/// <param name="destDirName">path to the target directory</param>
+		/// <param name="copySubDirs">if true then all subdirectories will be copied as well</param>
 		private static void directoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
 	    {
 	        // Get the subdirectories for the specified directory.
@@ -172,7 +194,7 @@ namespace EAAddinManager
 	        foreach (FileInfo file in files)
 	        {
 	            string temppath = Path.Combine(destDirName, file.Name);
-	            file.CopyTo(temppath, false);
+	            file.CopyTo(temppath, true);
 	        }
 	
 	        // If copying subdirectories, copy them and their contents to new location. 

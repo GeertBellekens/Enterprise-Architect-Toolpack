@@ -32,8 +32,9 @@ namespace EAAddinManager
 			this.initialize();
 			
 		}
-		private void addConfig(AddinConfig addinConfig)
+		private void addConfigToListView(AddinConfig addinConfig)
 		{
+			//add it to the view
 			ListViewItem item = new ListViewItem(addinConfig.name);
 			item.Tag = addinConfig;
 			item.SubItems.Add(addinConfig.load.ToString());
@@ -42,39 +43,51 @@ namespace EAAddinManager
 		private void initialize()
 		{
 			//add the addin configs to the list
-			foreach (AddinConfig addinConfig in this.config.addinConfigs) 
-			{
-				addConfig(addinConfig);
-			}
+			this.refreshAddinConfigs();
 			//select the first one
 			if (this.addinsListView.Items.Count > 0)
 			{
 				this.addinsListView.Items[0].Selected = true;
 			}
 			//add the add-in locations
+			refreshAddinSearchPaths();
+
+		}
+		private void refreshAddinConfigs()
+		{
+			this.addinsListView.Items.Clear();
+			foreach (AddinConfig addinConfig in this.config.addinConfigs) 
+			{
+				addConfigToListView(addinConfig);
+			}
+				
+		}
+		private void refreshAddinSearchPaths()
+		{
+			this.locationsListBox.Items.Clear();
+			//add the add-in locations
 			foreach (string  addinLocation in this.config.addinSearchPaths) 
 			{
 				this.locationsListBox.Items.Add(addinLocation);
 			}
 		}
-
 		
-		void AddinsListViewSelectedIndexChanged(object sender, EventArgs e)
-		{
-			
-		}
 		
 		void DeleteAddinButtonClick(object sender, EventArgs e)
 		{
 			foreach (ListViewItem selectedItem in this.addinsListView.SelectedItems)
 			{
+				//remove from config
+				this.config.addinConfigs.Remove((AddinConfig)selectedItem.Tag);
+				//remove from listview
 				this.addinsListView.Items.Remove(selectedItem);
 			}
 		}
 		
 		void DeleteLocationButtonClick(object sender, EventArgs e)
 		{
-			this.locationsListBox.Items.Remove(this.locationsListBox.SelectedItem); 
+			this.config.addinSearchPaths.Remove((string)this.locationsListBox.SelectedItem);
+			this.refreshAddinSearchPaths();
 		}
 		void OkButtonClick(object sender, System.EventArgs e)
 		{
@@ -84,20 +97,6 @@ namespace EAAddinManager
 		}
 		private void save()
 		{
-			//addins
-			List<AddinConfig> addinconfigs = new List<AddinConfig>();
-			foreach (ListViewItem configItem in this.addinsListView.Items) 
-			{
-				addinconfigs.Add((AddinConfig)configItem.Tag);
-			}
-			this.config.addinConfigs = addinconfigs;
-			//search paths
-			List<string> locations = new List<string>();
-			foreach (string location in this.locationsListBox.Items) 
-			{
-				locations.Add(location);
-			}
-			this.config.addinSearchPaths = locations;
 			//save the config
 			this.config.save();
 			//load the add-ins
@@ -110,7 +109,8 @@ namespace EAAddinManager
             if(openFileDialog.ShowDialog() == DialogResult.OK)
             {
             	AddinConfig newConfig = this.addinManager.loadAddin(openFileDialog.FileName);
-            	this.addConfig(newConfig);
+            	this.config.addinConfigs.Add(newConfig);
+            	this.addConfigToListView(newConfig);
             	//select the last one
             	this.addinsListView.Items[this.addinsListView.Items.Count -1].Selected = true;
             }
@@ -144,15 +144,18 @@ namespace EAAddinManager
 		
 		void BrowseFileButtonClick(object sender, EventArgs e)
 		{
-			AddinConfig currentConfig = (AddinConfig)this.addinsListView.SelectedItems[0].Tag;
-			OpenFileDialog openFileDialog = getAddinFileDialog("Select the add-in dll", currentConfig.directory);
-            if(openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-            	
-            	currentConfig = this.addinManager.loadAddin(openFileDialog.FileName);
-            	//show the new fields
-            	this.refreshAddinFields(currentConfig);
-            }			
+			if (this.addinsListView.SelectedItems.Count == 1)
+			{
+				AddinConfig currentConfig = (AddinConfig)this.addinsListView.SelectedItems[0].Tag;
+				OpenFileDialog openFileDialog = getAddinFileDialog("Select the add-in dll", currentConfig.directory);
+	            if(openFileDialog.ShowDialog() == DialogResult.OK)
+	            {
+	            	
+	            	currentConfig = this.addinManager.loadAddin(openFileDialog.FileName);
+	            	//show the new fields
+	            	this.refreshAddinFields(currentConfig);
+	            }		
+			}
 		}
 
 		private OpenFileDialog getAddinFileDialog(string title, string initialDirectory)
@@ -209,6 +212,27 @@ namespace EAAddinManager
 			{
 				this.loadCheckBox.Checked = false;
 			}
+		}
+		
+		void AddLocationButtonClick(object sender, EventArgs e)
+		{
+							
+				// Create an instance of the open file dialog box.
+	            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+				//set the initial directory
+				if (this.config.addinSearchPaths.Count > 0)
+				{
+					folderBrowserDialog.SelectedPath = this.config.addinSearchPaths[0];
+				}
+	            
+	            if(folderBrowserDialog.ShowDialog() == DialogResult.OK)
+	            {
+	            	this.config.addinSearchPaths.Add(folderBrowserDialog.SelectedPath);
+	            	//trigger update TODO: catch Add event in config.
+	            	this.config.addinSearchPaths = this.config.addinSearchPaths;
+	            	//update fields
+	            	this.refreshAddinSearchPaths();
+	            }
 		}
 	}
 }
