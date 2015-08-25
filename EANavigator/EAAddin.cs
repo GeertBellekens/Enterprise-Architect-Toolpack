@@ -29,6 +29,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal const string menuDependentTaggedValues = "&Referencing Tagged Values";
     internal const string menuOpenInNavigator = "&Open in Navigator";
     internal const string menuLinkedToElementFeature = "&Link to Element Feature";
+    internal const string menuCompositeDiagram = "&Composite Diagram";
+    internal const string menuCompositeElement = "&Composite Element";
     
     internal const string taggedValueMenuSuffix = " Tags";
     internal const string taggedValueMenuPrefix = "&";
@@ -222,6 +224,16 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		{
     			menuOptionsList.Add(menuImplementedOperations);
     		}
+    		//composite diagram
+    		if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper)
+    		{
+    			menuOptionsList.Add(menuCompositeDiagram);
+    		}
+    		//and the element(s) for which this is a composite diagram
+    		if (element is UML.Diagrams.Diagram)
+    		{
+    			menuOptionsList.Add(menuCompositeElement);
+    		}
     		//tagged values can be added to any UML element
     		if (element is UML.Classes.Kernel.Element)
     		{
@@ -241,6 +253,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     			//but it could be referenced by a tagged value
     			menuOptionsList.Add(menuDependentTaggedValues);
     		}
+
     		filterMenuOptions(menuOptionsList);
     		return menuOptionsList;
     }
@@ -389,6 +402,12 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			case menuLinkedToElementFeature:
 	        	elementsToNavigate = this.getLinkedToElementFeatures(parentElement);
 				break;
+			case menuCompositeDiagram:
+				elementsToNavigate = this.getCompositeDiagram(parentElement);
+				break;
+			case menuCompositeElement:
+				elementsToNavigate = this.getCompositeElements(parentElement);
+				break;
 			default:
 				if(menuChoice.StartsWith(taggedValueMenuPrefix) 
 				   && menuChoice.EndsWith(taggedValueMenuSuffix))
@@ -408,6 +427,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		 return elementsToNavigate;
 		 
 	}
+	
+
 	
 	/// <summary>
 	/// the EA hook we use to show the selected element in the Navigator window
@@ -942,6 +963,31 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	   }
        return selectedOperation;
    }
+   	private List<UML.UMLItem> getCompositeElements(UML.UMLItem parentElement)
+	{
+		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		UML.Diagrams.Diagram compositeDiagram = parentElement as UML.Diagrams.Diagram;
+		if (compositeDiagram != null)
+		{
+			
+		}
+		return elementsToNavigate;
+	}
+	
+	private List<UML.UMLItem> getCompositeDiagram(UML.UMLItem parentElement)
+	{
+		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+   		UML.Classes.Kernel.Element selectedElement = parentElement as UML.Classes.Kernel.Element;
+   		if (selectedElement != null)
+   		{
+   			UML.Diagrams.Diagram compositediagram = selectedElement.compositeDiagram;
+   			if (compositediagram != null)
+   			{
+   				elementsToNavigate.Add(compositediagram);
+   			}
+   		}
+   		return elementsToNavigate;
+	}
    
    /// <summary>
    /// When a diagram is doubleclicked we need to set it a the main element
