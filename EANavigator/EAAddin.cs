@@ -969,7 +969,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		UML.Diagrams.Diagram compositeDiagram = parentElement as UML.Diagrams.Diagram;
 		if (compositeDiagram != null)
 		{
-			
+			elementsToNavigate = compositeDiagram.compositeElements.Cast<UML.UMLItem>().ToList();
 		}
 		return elementsToNavigate;
 	}
