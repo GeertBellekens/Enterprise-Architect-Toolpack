@@ -138,6 +138,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(90, "StateMachineDiagram.png");
 			this.NavigatorImageList.Images.SetKeyName(91, "Timingdiagram.png");
 			this.NavigatorImageList.Images.SetKeyName(92, "UseCaseDiagram.png");
+			this.NavigatorImageList.Images.SetKeyName(93, "Package_composite.png");
 			// 
 			// NavigatorVisuals
 			// 

@@ -113,6 +113,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int stateMachineDiagramIndex = 90;
 		private int timingDiagramIndex = 91;
 		private int useCaseDiagramIndex =92;
+		private int PackageCompositeIndex =93;
 		
 		/// <summary>
 		/// singleton instance
@@ -533,6 +534,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 				case EAAddin.menuParameterTypes:
 					imageIndex = this.packageElementIndex;
 					break;
+				case EAAddin.menuCompositeDiagram:
+					imageIndex = this.PackageCompositeIndex;
+					break;	
+				case EAAddin.menuCompositeElement:
+					imageIndex = this.PackageCompositeIndex;
+					break;						
 				default:
 					if( menuOptionName.StartsWith(EAAddin.taggedValueMenuPrefix)
 				   	&& menuOptionName.EndsWith(EAAddin.taggedValueMenuSuffix))
