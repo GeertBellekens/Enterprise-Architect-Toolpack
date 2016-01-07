@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicensekeyGenerator", "Lice
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinManager", "EAAddinManager\EAAddinManager.csproj", "{30B86434-1822-4C23-97BD-6891ED4662A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECDMMessageComposer", "ECDMMessageComposer\ECDMMessageComposer.csproj", "{D800D986-DF66-4447-AD33-2E1D1ACF63FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -150,5 +152,13 @@ Global
 		{30B86434-1822-4C23-97BD-6891ED4662A0}.Release|x86.ActiveCfg = Release|Any CPU
 		{30B86434-1822-4C23-97BD-6891ED4662A0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{30B86434-1822-4C23-97BD-6891ED4662A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D800D986-DF66-4447-AD33-2E1D1ACF63FD}.Debug|x86.Build.0 = Debug|Any CPU
+		{D800D986-DF66-4447-AD33-2E1D1ACF63FD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D800D986-DF66-4447-AD33-2E1D1ACF63FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D800D986-DF66-4447-AD33-2E1D1ACF63FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D800D986-DF66-4447-AD33-2E1D1ACF63FD}.Release|x86.Build.0 = Release|Any CPU
+		{D800D986-DF66-4447-AD33-2E1D1ACF63FD}.Release|x86.ActiveCfg = Release|Any CPU
+		{D800D986-DF66-4447-AD33-2E1D1ACF63FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D800D986-DF66-4447-AD33-2E1D1ACF63FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 EndGlobal
