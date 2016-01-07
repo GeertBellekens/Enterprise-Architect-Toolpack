@@ -1,15 +1,12 @@
-﻿/*
- * Created by SharpDevelop.
- * User: Geert
- * Date: 5/01/2016
- * Time: 9:35
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
+﻿
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using UML=TSF.UmlToolingFramework.UML;
+using SchemaBuilderFramework;
+using UTF_EA = TSF.UmlToolingFramework.Wrappers.EA;
+using EAAddinFramework.SchemaBuilder;
 
 namespace ECDMMessageComposer
 {
@@ -18,6 +15,8 @@ namespace ECDMMessageComposer
 	/// </summary>
 	public class ECDMMessageComposerAddin : EAAddinFramework.EAAddinBase
 	{
+		private UML.UMLModel model;
+		private SchemaBuilderFactory schemaFactory;
 		/// <summary>
 		/// Tell EA the name of this Schema composer add-in
 		/// </summary>
@@ -49,40 +48,29 @@ namespace ECDMMessageComposer
 		/// <param name="composer"></param>
 		public override void EA_GenerateFromSchema(EA.Repository Repository, EA.SchemaComposer composer, string exports)
 		{
-			foreach (EA.SchemaType schemaType in getSchemaTypes(composer)) 
+			//TODO move this to the appropriate event
+			this.model = new UTF_EA.Model(Repository);
+			this.schemaFactory = EASchemaBuilderFactory.getInstance(this.model);
+			//
+			Schema schema = this.schemaFactory.createSchema(composer);
+			foreach (SchemaElement schemaElement in schema.elements) 
 			{
-				EA.ModelType modelType = composer.FindInModel(schemaType.TypeID);
-				//loop the properties
-				foreach (EA.SchemaProperty property in getSchemaProperties(schemaType)) 
-				{
-					string propertyName = property.Name;
-				}
-			} 
+				UML.Classes.Kernel.Classifier sourceElement = schemaElement.sourceElement;
+				string name = sourceElement.name;
+			}
+				
+//			foreach (EA.SchemaType schemaType in getSchemaTypes(composer)) 
+//			{
+//				EA.ModelType modelType = composer.FindInModel(schemaType.TypeID);
+//				//loop the properties
+//				foreach (EA.SchemaProperty property in getSchemaProperties(schemaType)) 
+//				{
+//					string propertyName = property.Name;
+//				}
+//			} 
 		}
 		
-		private List<EA.SchemaType> getSchemaTypes (EA.SchemaComposer composer)
-		{
-			List<EA.SchemaType> schemaTypes = new List<EA.SchemaType>();
-			EA.SchemaTypeEnum schemaTypeEnumerator = composer.SchemaTypes;
-            EA.SchemaType schemaType = schemaTypeEnumerator.GetFirst();
-            while (schemaType != null)
-            {
-                schemaTypes.Add(schemaType);
-                schemaType = schemaTypeEnumerator.GetNext();
-            }
-            return schemaTypes;
-		}
-		private List<EA.SchemaProperty> getSchemaProperties (EA.SchemaType schemaType)
-		{
-			List<EA.SchemaProperty> schemaProperties = new List<EA.SchemaProperty>();
-			EA.SchemaPropEnum schemaPropEnumerator = schemaType.Properties;
-			EA.SchemaProperty schemaProperty = schemaPropEnumerator.GetFirst();
-			while (	schemaProperty != null)
-			{
-				schemaProperties.Add(schemaProperty);
-				schemaProperty = schemaPropEnumerator.GetNext();
-			}
-			return schemaProperties;
-		}
+		
+
 	}
 }
