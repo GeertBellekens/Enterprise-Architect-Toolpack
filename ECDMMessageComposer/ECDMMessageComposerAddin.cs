@@ -57,6 +57,25 @@ namespace ECDMMessageComposer
 			{
 				UML.Classes.Kernel.Classifier sourceElement = schemaElement.sourceElement;
 				string name = sourceElement.name;
+				//loop the properties
+				foreach (SchemaProperty property in schemaElement.schemaProperties) 
+				{
+					UML.Classes.Kernel.Property sourceProperty = property.sourceProperty;
+					string propertyName = sourceProperty.name;
+				}
+				//loop the associations
+				foreach (SchemaAssociation schemaAssociation in schemaElement.schemaAssociations) 
+				{
+					foreach (SchemaElement relatedSchemaElement in schemaAssociation.relatedElements) 
+					{
+						string relatedSchemaElementName = relatedSchemaElement.sourceElement.name;
+					}
+					UML.Classes.Kernel.Association association = schemaAssociation.sourceAssociation;
+					foreach (UML.Classes.Kernel.Element relatedElement in association.relatedElements) 
+					{
+						string relatedElementName = relatedElement.name;	
+					}
+				}
 			}
 				
 //			foreach (EA.SchemaType schemaType in getSchemaTypes(composer)) 
