@@ -15,8 +15,27 @@ namespace ECDMMessageComposer
 	/// </summary>
 	public class ECDMMessageComposerAddin : EAAddinFramework.EAAddinBase
 	{
+		 // define menu constants
+        const string menuName = "-&ECDM Message Composer";
+        const string menuAbout = "&About";
 		private UML.UMLModel model;
 		private SchemaBuilderFactory schemaFactory;
+		public ECDMMessageComposerAddin():base()
+		{
+			this.menuHeader = menuName;
+			this.menuOptions = new string[]{menuAbout};
+		}
+		/// <summary>
+        /// Initializes the model and schemaFactory with the new Repository object.
+        /// </summary>
+        /// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
+        /// Poll its members to retrieve model data and user interface status information.</param>
+		public override void EA_FileOpen(EA.Repository Repository)
+		{
+			//initialize the model
+			this.model = new UTF_EA.Model(Repository);
+			this.schemaFactory = EASchemaBuilderFactory.getInstance(this.model);
+		}
 		/// <summary>
 		/// Tell EA the name of this Schema composer add-in
 		/// </summary>
@@ -48,11 +67,8 @@ namespace ECDMMessageComposer
 		/// <param name="composer"></param>
 		public override void EA_GenerateFromSchema(EA.Repository Repository, EA.SchemaComposer composer, string exports)
 		{
-			//TODO move this to the appropriate event
-			this.model = new UTF_EA.Model(Repository);
-			this.schemaFactory = EASchemaBuilderFactory.getInstance(this.model);
-			//
 			Schema schema = this.schemaFactory.createSchema(composer);
+			UML.Classes.Kernel.Package targetPackage = this.model.getUserSelectedPackage();
 			foreach (SchemaElement schemaElement in schema.elements) 
 			{
 				UML.Classes.Kernel.Classifier sourceElement = schemaElement.sourceElement;
@@ -76,20 +92,7 @@ namespace ECDMMessageComposer
 						string relatedElementName = relatedElement.name;	
 					}
 				}
-			}
-				
-//			foreach (EA.SchemaType schemaType in getSchemaTypes(composer)) 
-//			{
-//				EA.ModelType modelType = composer.FindInModel(schemaType.TypeID);
-//				//loop the properties
-//				foreach (EA.SchemaProperty property in getSchemaProperties(schemaType)) 
-//				{
-//					string propertyName = property.Name;
-//				}
-//			} 
+			}		
 		}
-		
-		
-
 	}
 }
