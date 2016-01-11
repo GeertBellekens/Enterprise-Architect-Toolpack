@@ -70,8 +70,23 @@ namespace ECDMMessageComposer
 			Schema schema = this.schemaFactory.createSchema(composer);
 			UML.Classes.Kernel.Package targetPackage = this.model.getUserSelectedPackage();
 			schema.createSubsetModel(targetPackage);
-			//TODO: then make a diagram and put the subset on it
-			
+			// then make a diagram and put the subset on it
+			UML.Diagrams.ClassDiagram subsetDiagram = this.model.factory.createNewDiagram<UML.Diagrams.ClassDiagram>(targetPackage, targetPackage.name);
+			subsetDiagram.save();	
+			//put the subset elements on the new diagram
+			foreach (SchemaElement schemaElement in schema.elements) 
+			{
+				if (schemaElement.subsetElement != null)
+				{
+					subsetDiagram.addToDiagram(schemaElement.subsetElement);
+				}else
+				{
+					//we add the source element if the subset element doesn't exist.
+					subsetDiagram.addToDiagram(schemaElement.sourceElement);
+				}
+			}
+			//layout the diagram (this will open the diagram as well)
+			subsetDiagram.autoLayout();
 		}
 	}
 }
