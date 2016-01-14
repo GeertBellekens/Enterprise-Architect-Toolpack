@@ -18,6 +18,8 @@ namespace ECDMMessageComposer
 		 // define menu constants
         const string menuName = "-&ECDM Message Composer";
         const string menuAbout = "&About";
+
+        
 		private UML.UMLModel model;
 		private SchemaBuilderFactory schemaFactory;
 		public ECDMMessageComposerAddin():base()
@@ -36,6 +38,8 @@ namespace ECDMMessageComposer
 			this.model = new UTF_EA.Model(Repository);
 			this.schemaFactory = EASchemaBuilderFactory.getInstance(this.model);
 		}
+		
+
 		/// <summary>
 		/// Tell EA the name of this Schema composer add-in
 		/// </summary>
@@ -56,6 +60,9 @@ namespace ECDMMessageComposer
 		/// <param name="profile">the EA SchemaProfile object</param>
 		public override void EA_GetProfileInfo(EA.Repository Repository, EA.SchemaProfile profile)
 		{
+			//make sure the tagged value types we need are there
+			((EASchemaBuilderFactory)this.schemaFactory).checkTaggedValueTypes();
+			//tell EA our export format name
             profile.AddExportFormat("ECDM Message");
 		}
 		
@@ -69,24 +76,27 @@ namespace ECDMMessageComposer
 		{
 			Schema schema = this.schemaFactory.createSchema(composer);
 			UML.Classes.Kernel.Package targetPackage = this.model.getUserSelectedPackage();
-			schema.createSubsetModel(targetPackage);
-			// then make a diagram and put the subset on it
-			UML.Diagrams.ClassDiagram subsetDiagram = this.model.factory.createNewDiagram<UML.Diagrams.ClassDiagram>(targetPackage, targetPackage.name);
-			subsetDiagram.save();	
-			//put the subset elements on the new diagram
-			foreach (SchemaElement schemaElement in schema.elements) 
+			if (targetPackage != null)
 			{
-				if (schemaElement.subsetElement != null)
+				schema.createSubsetModel(targetPackage);
+				// then make a diagram and put the subset on it
+				UML.Diagrams.ClassDiagram subsetDiagram = this.model.factory.createNewDiagram<UML.Diagrams.ClassDiagram>(targetPackage, targetPackage.name);
+				subsetDiagram.save();	
+				//put the subset elements on the new diagram
+				foreach (SchemaElement schemaElement in schema.elements) 
 				{
-					subsetDiagram.addToDiagram(schemaElement.subsetElement);
-				}else
-				{
-					//we add the source element if the subset element doesn't exist.
-					subsetDiagram.addToDiagram(schemaElement.sourceElement);
+					if (schemaElement.subsetElement != null)
+					{
+						subsetDiagram.addToDiagram(schemaElement.subsetElement);
+					}else
+					{
+						//we add the source element if the subset element doesn't exist.
+						subsetDiagram.addToDiagram(schemaElement.sourceElement);
+					}
 				}
+				//layout the diagram (this will open the diagram as well)
+				subsetDiagram.autoLayout();
 			}
-			//layout the diagram (this will open the diagram as well)
-			subsetDiagram.autoLayout();
 		}
 	}
 }
