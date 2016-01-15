@@ -7,6 +7,7 @@ using UML=TSF.UmlToolingFramework.UML;
 using SchemaBuilderFramework;
 using UTF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using EAAddinFramework.SchemaBuilder;
+using EAAddinFramework.Utilities;
 
 namespace ECDMMessageComposer
 {
@@ -78,10 +79,13 @@ namespace ECDMMessageComposer
 			UML.Classes.Kernel.Package targetPackage = this.model.getUserSelectedPackage();
 			if (targetPackage != null)
 			{
+				Logger.log("before ECDMMessageComposerAddin::schema.createSubsetModel");
 				schema.createSubsetModel(targetPackage);
+				Logger.log("after ECDMMessageComposerAddin::schema.createSubsetModel");
 				// then make a diagram and put the subset on it
 				UML.Diagrams.ClassDiagram subsetDiagram = this.model.factory.createNewDiagram<UML.Diagrams.ClassDiagram>(targetPackage, targetPackage.name);
-				subsetDiagram.save();	
+				subsetDiagram.save();
+				Logger.log("after ECDMMessageComposerAddin::create subsetDiagram");				
 				//put the subset elements on the new diagram
 				foreach (SchemaElement schemaElement in schema.elements) 
 				{
@@ -94,8 +98,10 @@ namespace ECDMMessageComposer
 						subsetDiagram.addToDiagram(schemaElement.sourceElement);
 					}
 				}
+				Logger.log("after ECDMMessageComposerAddin::adding elements");	
 				//layout the diagram (this will open the diagram as well)
 				subsetDiagram.autoLayout();
+				Logger.log("after ECDMMessageComposerAddin::autolayout");
 			}
 		}
 	}
