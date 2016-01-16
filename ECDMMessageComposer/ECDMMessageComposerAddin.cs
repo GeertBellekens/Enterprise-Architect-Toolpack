@@ -75,17 +75,20 @@ namespace ECDMMessageComposer
 		/// <param name="composer"></param>
 		public override void EA_GenerateFromSchema(EA.Repository Repository, EA.SchemaComposer composer, string exports)
 		{
+			//See if it is faster with this flag
+			Repository.BatchAppend = true;
+			
 			Schema schema = this.schemaFactory.createSchema(composer);
 			UML.Classes.Kernel.Package targetPackage = this.model.getUserSelectedPackage();
 			if (targetPackage != null)
 			{
-				Logger.log("before ECDMMessageComposerAddin::schema.createSubsetModel");
+				//Logger.log("before ECDMMessageComposerAddin::schema.createSubsetModel");
 				schema.createSubsetModel(targetPackage);
-				Logger.log("after ECDMMessageComposerAddin::schema.createSubsetModel");
+				//Logger.log("after ECDMMessageComposerAddin::schema.createSubsetModel");
 				// then make a diagram and put the subset on it
 				UML.Diagrams.ClassDiagram subsetDiagram = this.model.factory.createNewDiagram<UML.Diagrams.ClassDiagram>(targetPackage, targetPackage.name);
 				subsetDiagram.save();
-				Logger.log("after ECDMMessageComposerAddin::create subsetDiagram");				
+				//Logger.log("after ECDMMessageComposerAddin::create subsetDiagram");				
 				//put the subset elements on the new diagram
 				foreach (SchemaElement schemaElement in schema.elements) 
 				{
@@ -98,10 +101,12 @@ namespace ECDMMessageComposer
 						subsetDiagram.addToDiagram(schemaElement.sourceElement);
 					}
 				}
-				Logger.log("after ECDMMessageComposerAddin::adding elements");	
+				//Logger.log("after ECDMMessageComposerAddin::adding elements");	
+				//set back to normal
+				Repository.BatchAppend = false;
 				//layout the diagram (this will open the diagram as well)
 				subsetDiagram.autoLayout();
-				Logger.log("after ECDMMessageComposerAddin::autolayout");
+				//Logger.log("after ECDMMessageComposerAddin::autolayout");
 			}
 		}
 	}
