@@ -40,6 +40,24 @@ namespace ECDMMessageComposer
 			this.schemaFactory = EASchemaBuilderFactory.getInstance(this.model);
 		}
 		
+		/// <summary>
+		/// only needed for the about menu
+        /// </summary>
+        /// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
+        /// Poll its members to retrieve model data and user interface status information.</param>
+		/// <param name="MenuLocation">String representing the part of the user interface that brought up the menu. 
+        /// Can be TreeView, MainMenu or Diagram.</param>
+        /// <param name="MenuName">The name of the parent menu for which sub-items must be defined. In the case of the top-level menu it is an empty string.</param>
+        /// <param name="ItemName">The name of the option actually clicked, for example, Create a New Invoice.</param>
+		public override void EA_MenuClick(EA.Repository Repository, string MenuLocation, string MenuName, string ItemName)
+		{
+			switch(ItemName) 
+			{
+		       case menuAbout :
+		            new AboutWindow().ShowDialog();
+		            break;
+			}
+		}
 
 		/// <summary>
 		/// Tell EA the name of this Schema composer add-in
@@ -47,7 +65,8 @@ namespace ECDMMessageComposer
 		/// <param name="Repository">the repository object</param>
 		/// <param name="displayName">the name that will be displayed</param>
 		/// <returns>true</returns>
-		public override bool EA_IsSchemaExporter(EA.Repository Repository, ref string displayName)
+		//public override bool EA_IsSchemaExporter(EA.Repository Repository, ref string displayName)
+		public bool EA_IsSchemaExporter(EA.Repository Repository, ref string displayName)
 		{
 			displayName = "ECDM Message Composer";
 			return true;
