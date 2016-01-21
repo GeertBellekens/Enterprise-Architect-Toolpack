@@ -39,6 +39,16 @@ namespace ECDMMessageComposer
 			this.model = new UTF_EA.Model(Repository);
 			this.schemaFactory = EASchemaBuilderFactory.getInstance(this.model);
 		}
+		/// <summary>
+		/// initialize the add-in class
+		/// </summary>
+		/// <param name="Repository"></param>
+		private void initialize(EA.Repository Repository)
+		{
+			//initialize the model
+			this.model = new UTF_EA.Model(Repository);
+			this.schemaFactory = EASchemaBuilderFactory.getInstance(this.model);
+		}
 		
 		/// <summary>
 		/// only needed for the about menu
@@ -80,10 +90,22 @@ namespace ECDMMessageComposer
 		/// <param name="profile">the EA SchemaProfile object</param>
 		public override void EA_GetProfileInfo(EA.Repository Repository, EA.SchemaProfile profile)
 		{
+			//for some reason EA seems to sometimes create a new instance of the add-in.
+			//to avoid nullpointer exception we inititialize the model and factory again if needed
+			if (this.model == null || this.schemaFactory == null)
+			{
+				this.initialize(Repository);
+			}
 			//make sure the tagged value types we need are there
-			((EASchemaBuilderFactory)this.schemaFactory).checkTaggedValueTypes();
+			if (this.schemaFactory != null)
+			{
+				((EASchemaBuilderFactory)this.schemaFactory).checkTaggedValueTypes();
+			}
 			//tell EA our export format name
-            profile.AddExportFormat("ECDM Message");
+			if (profile != null)
+			{
+            	profile.AddExportFormat("ECDM Message");
+			}
 		}
 		
 		/// <summary>
