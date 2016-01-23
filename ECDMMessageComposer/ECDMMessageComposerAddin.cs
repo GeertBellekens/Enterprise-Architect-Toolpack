@@ -116,13 +116,43 @@ namespace ECDMMessageComposer
 		/// <param name="composer"></param>
 		public override void EA_GenerateFromSchema(EA.Repository Repository, EA.SchemaComposer composer, string exports)
 		{
-			//See if it is faster with this flag
-			Repository.BatchAppend = true;
-			
+
 			Schema schema = this.schemaFactory.createSchema(composer);
-			UML.Classes.Kernel.Package targetPackage = this.model.getUserSelectedPackage();
+			UML.Classes.Kernel.Element selectedElement = this.model.getUserSelectedElement(new List<string>{"Class", "Package"});
+			var targetPackage = selectedElement as UML.Classes.Kernel.Package;
+			if (targetPackage != null )
+			{
+
+				this.createNewMessageSubset(schema, targetPackage);
+			}
+			else
+			{
+				this.updateMessageSubset(schema, selectedElement as UML.Classes.Kernel.Class);
+			}
+
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="schema"></param>
+		/// <param name="messageElement"></param>
+		private void updateMessageSubset(Schema schema, UML.Classes.Kernel.Class messageElement)
+		{
+			if (messageElement != null)
+			{
+				schema.updateSubsetModel(messageElement);
+			}
+		}
+		/// <summary>
+		/// Creates a new message subset from the given schema in the given targetPackage
+		/// </summary>
+		/// <param name="schema">the Schema to generate a message subset from</param>
+		/// <param name="targetPackage">the Package to create the new Message subset in</param>
+		private void createNewMessageSubset(Schema schema, UML.Classes.Kernel.Package targetPackage)
+		{
 			if (targetPackage != null)
 			{
+
 				//Logger.log("before ECDMMessageComposerAddin::schema.createSubsetModel");
 				schema.createSubsetModel(targetPackage);
 				//Logger.log("after ECDMMessageComposerAddin::schema.createSubsetModel");
@@ -143,8 +173,6 @@ namespace ECDMMessageComposer
 					}
 				}
 				//Logger.log("after ECDMMessageComposerAddin::adding elements");	
-				//set back to normal
-				Repository.BatchAppend = false;
 				//layout the diagram (this will open the diagram as well)
 				subsetDiagram.autoLayout();
 				//Logger.log("after ECDMMessageComposerAddin::autolayout");
