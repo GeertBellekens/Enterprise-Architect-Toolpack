@@ -128,6 +128,9 @@ namespace ECDMMessageComposer
 			else
 			{
 				this.updateMessageSubset(schema, selectedElement as UML.Classes.Kernel.Class);
+				//refresh all open diagram to show the changes
+				//TODO: go through framework
+				Repository.RefreshOpenDiagrams(true);
 			}
 
 		}
