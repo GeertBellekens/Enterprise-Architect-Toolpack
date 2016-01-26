@@ -135,10 +135,10 @@ namespace ECDMMessageComposer
 
 		}
 		/// <summary>
-		/// 
+		/// updates an existing message subset for a schema
 		/// </summary>
-		/// <param name="schema"></param>
-		/// <param name="messageElement"></param>
+		/// <param name="schema">the schema to use as basis</param>
+		/// <param name="messageElement">the root element of the subset</param>
 		private void updateMessageSubset(Schema schema, UML.Classes.Kernel.Class messageElement)
 		{
 			if (messageElement != null)
