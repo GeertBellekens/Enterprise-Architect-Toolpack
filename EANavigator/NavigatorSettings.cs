@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: wij
- * Date: 26/07/2012
- * Time: 5:41
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using System.Configuration;

@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml.Schema;
 using UML=TSF.UmlToolingFramework.UML;
 using SchemaBuilderFramework;
 using UTF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using EAAddinFramework.SchemaBuilder;
+using System.Linq;
 using EAAddinFramework.Utilities;
 
 namespace ECDMMessageComposer
@@ -23,6 +25,7 @@ namespace ECDMMessageComposer
         
 		private UML.UMLModel model;
 		private SchemaBuilderFactory schemaFactory;
+		private ECDMMessageComposerSettings settings = new ECDMMessageComposerSettings();
 		public ECDMMessageComposerAddin():base()
 		{
 			this.menuHeader = menuName;
@@ -118,19 +121,35 @@ namespace ECDMMessageComposer
 		{
 
 			Schema schema = this.schemaFactory.createSchema(composer);
+			schema.ignoredStereotypes = this.settings.ignoredStereotypes;
+			schema.ignoredTaggedValues = this.settings.ignoredTaggedValues;
 			UML.Classes.Kernel.Element selectedElement = this.model.getUserSelectedElement(new List<string>{"Class", "Package"});
 			var targetPackage = selectedElement as UML.Classes.Kernel.Package;
 			if (targetPackage != null )
 			{
-
-				this.createNewMessageSubset(schema, targetPackage);
+				//check if the already contains classes
+				var classElement = targetPackage.ownedElements.First(x => x is UML.Classes.Kernel.Class) as UML.Classes.Kernel.Class;
+				DialogResult response = DialogResult.No;
+				if (classElement != null)
+				{
+					response = MessageBox.Show("Package already contains one or more classes" + Environment.NewLine + "Would you like to update an existing subset model?"
+					                ,"Update existing subset model?",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question,MessageBoxDefaultButton.Button1);
+				}
+				if (response == DialogResult.No)
+				{
+					this.createNewMessageSubset(schema, targetPackage);
+				}
+				else if (response == DialogResult.Yes)
+				{
+					this.updateMessageSubset(schema, classElement);
+				}
+				//if the user choose cancel we don't do anything
 			}
 			else
 			{
 				this.updateMessageSubset(schema, selectedElement as UML.Classes.Kernel.Class);
 				//refresh all open diagram to show the changes
-				//TODO: go through framework
-				Repository.RefreshOpenDiagrams(true);
+				this.model.reloadDiagrams();
 			}
 
 		}
@@ -144,6 +163,31 @@ namespace ECDMMessageComposer
 			if (messageElement != null)
 			{
 				schema.updateSubsetModel(messageElement);
+			}
+			//add all elements to all diagrams in the same package as the messageElement
+			foreach (UML.Diagrams.Diagram diagram in messageElement.owningPackage.ownedDiagrams) 
+			{
+				int xPos = 10;
+				int yPos = 10;
+				foreach ( SchemaElement schemaElement in schema.elements) 
+				{
+					if (! diagram.contains(schemaElement.subsetElement))
+					{
+						UML.Diagrams.DiagramElement diagramElement = diagram.addToDiagram(schemaElement.subsetElement);
+						if (diagramElement != null)
+						{	//save before changing the element position
+							diagramElement.save();
+							diagramElement.xPosition = xPos;
+							diagramElement.yPosition = yPos;
+							diagramElement.save();
+							xPos += 50;
+							yPos += 20;
+						}
+					}
+				}
+				//show the diagram
+				diagram.reFresh();
+				diagram.open();
 			}
 		}
 		/// <summary>
