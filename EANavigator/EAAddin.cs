@@ -225,7 +225,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     			menuOptionsList.Add(menuImplementedOperations);
     		}
     		//composite diagram
-    		if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper)
+    		if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper
+    		    && ! (element is TSF.UmlToolingFramework.Wrappers.EA.RootPackage))
     		{
     			menuOptionsList.Add(menuCompositeDiagram);
     		}

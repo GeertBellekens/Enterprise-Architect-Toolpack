@@ -27,6 +27,9 @@
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
   <ItemGroup>
     <WixExtension Include="$(WixToolPath)\WixUIExtension.dll" />
   </ItemGroup>

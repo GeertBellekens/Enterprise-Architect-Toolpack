@@ -94,7 +94,7 @@ namespace ECDMMessageComposer
 		{
 			get
 			{
-				return this.currentConfig.AppSettings.Settings["ignoredTaggedValues"].Value.Split(',').ToList<string>();
+				return this.currentConfig.AppSettings.Settings["ignoredTaggedValues"].Value.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();
 			}
 			set
 			{
@@ -108,7 +108,7 @@ namespace ECDMMessageComposer
 		{
 			get
 			{
-				return this.currentConfig.AppSettings.Settings["ignoredStereotypes"].Value.Split(',').ToList<string>();
+				return this.currentConfig.AppSettings.Settings["ignoredStereotypes"].Value.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();
 			}
 			set
 			{

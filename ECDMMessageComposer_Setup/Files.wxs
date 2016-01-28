@@ -31,6 +31,7 @@
 						<RegistryValue Root="HKCR" Key="CLSID\{39CBB071-5DEE-33D9-B05E-E0F3EEE63BE4}\InprocServer32" Name="Assembly" Value="ECDMMessageComposer, Version=1.0.5860.16065, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
 						<RegistryValue Root="HKCR" Key="CLSID\{39CBB071-5DEE-33D9-B05E-E0F3EEE63BE4}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
 						<RegistryValue Root="HKCR" Key="CLSID\{39CBB071-5DEE-33D9-B05E-E0F3EEE63BE4}\InprocServer32" Name="CodeBase" Value="file:///[#ECDMMessageComposer.dll]" Type="string" Action="write" />
+						<File Id="ECDMMessageComposer.dll.config" Name="ECDMMessageComposer.dll.config" Source="..\ECDMMessageComposer\ECDMMessageComposer.dll.config" />
 					</Component>
 					<Component Id="RegistryEntry" Guid="85CE2F68-545D-4FBB-80F9-10888BFAAF07" UninstallWhenSuperseded="yes">
 						<RegistryKey Root="HKCU" Key="Software\Sparx Systems\EAAddins\ECDM Message Composer">

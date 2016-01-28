@@ -21,6 +21,7 @@ namespace ECDMMessageComposer
 		 // define menu constants
         const string menuName = "-&ECDM Message Composer";
         const string menuAbout = "&About";
+        const string menuSettings = "&Settings";
 
         
 		private UML.UMLModel model;
@@ -29,7 +30,7 @@ namespace ECDMMessageComposer
 		public ECDMMessageComposerAddin():base()
 		{
 			this.menuHeader = menuName;
-			this.menuOptions = new string[]{menuAbout};
+			this.menuOptions = new string[]{menuSettings, menuAbout};
 		}
 		/// <summary>
         /// Initializes the model and schemaFactory with the new Repository object.
@@ -68,6 +69,9 @@ namespace ECDMMessageComposer
 			{
 		       case menuAbout :
 		            new AboutWindow().ShowDialog();
+		            break;
+		       case menuSettings:
+		            new SettingsWindow(this.settings).ShowDialog();
 		            break;
 			}
 		}
@@ -124,32 +128,37 @@ namespace ECDMMessageComposer
 			schema.ignoredStereotypes = this.settings.ignoredStereotypes;
 			schema.ignoredTaggedValues = this.settings.ignoredTaggedValues;
 			UML.Classes.Kernel.Element selectedElement = this.model.getUserSelectedElement(new List<string>{"Class", "Package"});
-			var targetPackage = selectedElement as UML.Classes.Kernel.Package;
-			if (targetPackage != null )
+			if (selectedElement != null)
 			{
-				//check if the already contains classes
-				var classElement = targetPackage.ownedElements.First(x => x is UML.Classes.Kernel.Class) as UML.Classes.Kernel.Class;
-				DialogResult response = DialogResult.No;
-				if (classElement != null)
+				var targetPackage = selectedElement as UML.Classes.Kernel.Package;
+				if (targetPackage != null )
 				{
-					response = MessageBox.Show("Package already contains one or more classes" + Environment.NewLine + "Would you like to update an existing subset model?"
-					                ,"Update existing subset model?",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question,MessageBoxDefaultButton.Button1);
+					//check if the already contains classes
+					var classElement = targetPackage.ownedElements.FirstOrDefault(x => x is UML.Classes.Kernel.Class) as UML.Classes.Kernel.Class;
+					DialogResult response = DialogResult.No;
+					if (classElement != null)
+					{
+						response = MessageBox.Show("Package already contains one or more classes" + Environment.NewLine + "Would you like to update an existing subset model?"
+						                ,"Update existing subset model?",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question,MessageBoxDefaultButton.Button1);
+						Cursor.Current = Cursors.WaitCursor;
+					}
+					if (response == DialogResult.No)
+					{
+						this.createNewMessageSubset(schema, targetPackage);
+					}
+					else if (response == DialogResult.Yes)
+					{
+						this.updateMessageSubset(schema, classElement);
+					}
+					//if the user choose cancel we don't do anything
 				}
-				if (response == DialogResult.No)
+				else
 				{
-					this.createNewMessageSubset(schema, targetPackage);
+					this.updateMessageSubset(schema, selectedElement as UML.Classes.Kernel.Class);
+					//refresh all open diagram to show the changes
+					this.model.reloadDiagrams();
 				}
-				else if (response == DialogResult.Yes)
-				{
-					this.updateMessageSubset(schema, classElement);
-				}
-				//if the user choose cancel we don't do anything
-			}
-			else
-			{
-				this.updateMessageSubset(schema, selectedElement as UML.Classes.Kernel.Class);
-				//refresh all open diagram to show the changes
-				this.model.reloadDiagrams();
+				Cursor.Current = Cursors.Default;
 			}
 
 		}
@@ -164,18 +173,48 @@ namespace ECDMMessageComposer
 			{
 				schema.updateSubsetModel(messageElement);
 			}
-			//add all elements to all diagrams in the same package as the messageElement
-			foreach (UML.Diagrams.Diagram diagram in messageElement.owningPackage.ownedDiagrams) 
+			var subsetDiagrams = messageElement.owningPackage.ownedDiagrams;
+			if (subsetDiagrams.Count > 0)
 			{
+				//if there are existing diagram then we update the existing diagrams
+				updateExistingDiagrams(schema, subsetDiagrams);
+			}
+			else
+			{
+				//if not we create a new diagram
+				createNewSubsetDiagram(schema, messageElement.owningPackage);
+			}
+		}
+		/// <summary>
+		/// Creates a new message subset from the given schema in the given targetPackage
+		/// </summary>
+		/// <param name="schema">the Schema to generate a message subset from</param>
+		/// <param name="targetPackage">the Package to create the new Message subset in</param>
+		private void createNewMessageSubset(Schema schema, UML.Classes.Kernel.Package targetPackage)
+		{
+			if (targetPackage != null)
+			{
+				//Logger.log("before ECDMMessageComposerAddin::schema.createSubsetModel");
+				schema.createSubsetModel(targetPackage);
+				createNewSubsetDiagram(schema, targetPackage);
+			}
+		}
+		/// <summary>
+		/// update the given diagrams with the schema elements that don't appear ont he diagram yet.
+		/// </summary>
+		/// <param name="schema">the schema that should be visualised</param>
+		/// <param name="subsetDiagrams">list of diagrams to update</param>
+		static void updateExistingDiagrams(Schema schema, HashSet<UML.Diagrams.Diagram> subsetDiagrams)
+		{
+			//add all elements to all diagrams in the same package as the messageElement
+			foreach (UML.Diagrams.Diagram diagram in subsetDiagrams) {
 				int xPos = 10;
 				int yPos = 10;
-				foreach ( SchemaElement schemaElement in schema.elements) 
-				{
-					if (! diagram.contains(schemaElement.subsetElement))
-					{
+				foreach (SchemaElement schemaElement in schema.elements) {
+					if (!diagram.contains(schemaElement.subsetElement)) {
 						UML.Diagrams.DiagramElement diagramElement = diagram.addToDiagram(schemaElement.subsetElement);
-						if (diagramElement != null)
-						{	//save before changing the element position
+						if (diagramElement != null) {
+							//save before changing the element position
 							diagramElement.save();
 							diagramElement.xPosition = xPos;
 							diagramElement.yPosition = yPos;
@@ -191,30 +230,24 @@ namespace ECDMMessageComposer
 			}
 		}
 		/// <summary>
-		/// Creates a new message subset from the given schema in the given targetPackage
+		/// create a new subsetdiagram that will visualize the whole schema
 		/// </summary>
-		/// <param name="schema">the Schema to generate a message subset from</param>
-		/// <param name="targetPackage">the Package to create the new Message subset in</param>
-		private void createNewMessageSubset(Schema schema, UML.Classes.Kernel.Package targetPackage)
+		/// <param name="schema">the schema to visualize</param>
+		/// <param name="targetPackage">the package where the new diagram should be created.</param>
+		void createNewSubsetDiagram(Schema schema, UML.Classes.Kernel.Package targetPackage)
 		{
 			if (targetPackage != null)
 			{
-
-				//Logger.log("before ECDMMessageComposerAddin::schema.createSubsetModel");
-				schema.createSubsetModel(targetPackage);
 				//Logger.log("after ECDMMessageComposerAddin::schema.createSubsetModel");
 				// then make a diagram and put the subset on it
 				UML.Diagrams.ClassDiagram subsetDiagram = this.model.factory.createNewDiagram<UML.Diagrams.ClassDiagram>(targetPackage, targetPackage.name);
 				subsetDiagram.save();
 				//Logger.log("after ECDMMessageComposerAddin::create subsetDiagram");				
 				//put the subset elements on the new diagram
-				foreach (SchemaElement schemaElement in schema.elements) 
-				{
-					if (schemaElement.subsetElement != null)
-					{
+				foreach (SchemaElement schemaElement in schema.elements) {
+					if (schemaElement.subsetElement != null) {
 						subsetDiagram.addToDiagram(schemaElement.subsetElement);
-					}else
-					{
+					} else {
 						//we add the source element if the subset element doesn't exist.
 						subsetDiagram.addToDiagram(schemaElement.sourceElement);
 					}
