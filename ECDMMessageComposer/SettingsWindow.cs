@@ -27,7 +27,6 @@ namespace ECDMMessageComposer
 			InitializeComponent();
 			this.settings = settings;
 			this.loadData();
-
 			
 		}
 		private void loadData()
@@ -38,8 +37,21 @@ namespace ECDMMessageComposer
 				this.ignoredStereoTypesGrid.Rows.Add(stereotype);
 			}
 			//get the ignored tagged values
+			foreach (string  stereotype in this.settings.ignoredTaggedValues) 
+			{
+				this.ignoredTaggedValuesGrid.Rows.Add(stereotype);
+			}
 		}
 		private void saveChanges()
+		{
+			//get the stereotypes from the grid
+			this.extractStereotypes();
+			//get the tagged values from the grid
+			this.extractTaggedValues();
+			//save changes
+			this.settings.save();
+		}
+		private void extractStereotypes()
 		{
 			//make new stereotypes list
 			var stereotypes = new List<string>();
@@ -53,15 +65,28 @@ namespace ECDMMessageComposer
 				}
 			}
 			this.settings.ignoredStereotypes = stereotypes;
-			//save changes
-			this.settings.save();
+		}
+		private void extractTaggedValues()
+		{
+			//make new tagged values list
+			var tagedValues = new List<string>();
+			//get ignored tagged values from grid
+			foreach (DataGridViewRow row in this.ignoredTaggedValuesGrid.Rows)
+			{
+				string tagedValue = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : string.Empty;
+				if (tagedValue != string.Empty)
+				{
+					tagedValues.Add(tagedValue);
+				}
+			}
+			this.settings.ignoredTaggedValues = tagedValues;
 		}
 
 		void DeleteStereotypeButtonClick(object sender, EventArgs e)
 		{
 			foreach (DataGridViewRow row in this.ignoredStereoTypesGrid.SelectedRows) 
 			{
-				if (! row.IsNewRow)
+				if (!row.IsNewRow)
 				{
 					ignoredStereoTypesGrid.Rows.Remove(row);
 				}
@@ -72,5 +97,25 @@ namespace ECDMMessageComposer
 			this.saveChanges();
 			this.Close();
 		}
+
+		void ApplyButtonClick(object sender, EventArgs e)
+		{
+			this.saveChanges();
+		}
+		void CancelButtonClick(object sender, EventArgs e)
+		{
+			this.Close();
+		}
+		void DeleteTaggedValueButtonClick(object sender, EventArgs e)
+		{
+			foreach (DataGridViewRow row in this.ignoredTaggedValuesGrid.SelectedRows) 
+			{
+				if (!row.IsNewRow)
+				{
+					ignoredTaggedValuesGrid.Rows.Remove(row);
+				}
+			}
+		}
+		
 	}
 }

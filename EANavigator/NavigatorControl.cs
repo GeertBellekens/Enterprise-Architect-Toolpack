@@ -266,7 +266,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <returns>the tooltip text</returns>
 		private string getToolTipText(UML.UMLItem element)
 		{
-			return element.fqn;
+			//Getting some strange RPC_E_WRONG_THREAD error while getting the owner ElementWrapper.
+			//Disablign the tooltiptext for now to avoid the error
+			//return element.fqn;
+			//TODO: figure out how to deal with this properly
+			return string.Empty;
 		}
 
 		

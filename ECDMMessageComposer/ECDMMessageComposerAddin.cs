@@ -54,6 +54,15 @@ namespace ECDMMessageComposer
 			this.schemaFactory = EASchemaBuilderFactory.getInstance(this.model);
 		}
 		
+		public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
+		{
+			//only show the menu in the main menu
+			if (MenuLocation == "MainMenu")
+			{
+				return base.EA_GetMenuItems(Repository, MenuLocation, MenuName);
+			}
+			else return null;
+		}
 		/// <summary>
 		/// only needed for the about menu
         /// </summary>
@@ -133,6 +142,7 @@ namespace ECDMMessageComposer
 				var targetPackage = selectedElement as UML.Classes.Kernel.Package;
 				if (targetPackage != null )
 				{
+					Cursor.Current = Cursors.WaitCursor;
 					//check if the already contains classes
 					var classElement = targetPackage.ownedElements.FirstOrDefault(x => x is UML.Classes.Kernel.Class) as UML.Classes.Kernel.Class;
 					DialogResult response = DialogResult.No;
@@ -140,7 +150,7 @@ namespace ECDMMessageComposer
 					{
 						response = MessageBox.Show("Package already contains one or more classes" + Environment.NewLine + "Would you like to update an existing subset model?"
 						                ,"Update existing subset model?",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question,MessageBoxDefaultButton.Button1);
-						Cursor.Current = Cursors.WaitCursor;
+						
 					}
 					if (response == DialogResult.No)
 					{
@@ -150,7 +160,7 @@ namespace ECDMMessageComposer
 					{
 						this.updateMessageSubset(schema, classElement);
 					}
-					//if the user choose cancel we don't do anything
+					//if the user chose cancel we don't do anything
 				}
 				else
 				{
