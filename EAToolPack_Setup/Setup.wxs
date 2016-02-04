@@ -1,35 +1,31 @@
 ﻿<?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Product Id="*"
-		Name="EA-Matic"
+		Name="Bellekens EA Toolpack"
 		Language="1033"
-		Version="2.0.0.0"
-		UpgradeCode="CC366BB8-A704-42D6-8F2A-4B418CCBD31D"
-		Manufacturer="Geert Bellekens">
-		<Package Description="Installs EA-Matic v2.0.0.0 to this computer"
-			Comments="Requires Enterprise Architect to function."
+		Version="1.0.0.0"
+		UpgradeCode="38FA9DDF-F162-4EB2-A836-0A66A78F5EC6"
+		Manufacturer="Bellekens">
+		<Package Description="#Installs the Bellekens EA Toolpack on this computer"
+			Comments="Comments"
 			InstallerVersion="200"
 			Compressed="yes"/>
 		
-		<!-- icon for the installer -->
-		<Icon Id="scriptAddin_icon.exe" SourceFile="..\EAScriptAddin\Files\ScriptAddinIcon.ico"/>
-		<Property Id="ARPPRODUCTICON" Value="scriptAddin_icon.exe" />
+		<Icon Id="Bellekens.ico" SourceFile=".\Files\Bellekens.ico"/>
+		<Property Id="ARPPRODUCTICON" Value="Bellekens.ico" />
+		<Property Id="ARPHELPLINK" Value="http://bellekens.com" />
 		
-		<!--
-			Source media for the installation. 
- 			Specifies a single cab file to be embedded in the installer's .msi. 
-		-->
 		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
 		
-		<Upgrade Id="CC366BB8-A704-42D6-8F2A-4B418CCBD31D">
-      	<UpgradeVersion Minimum="2.0.0.0"
+		<Upgrade Id="38FA9DDF-F162-4EB2-A836-0A66A78F5EC6">
+      	<UpgradeVersion Minimum="1.0.0.0"
                       IncludeMinimum="no"
                       OnlyDetect="yes"
                       Language="1033"
                       Property="NEWPRODUCTFOUND" />
-     	<UpgradeVersion Minimum="1.0.0.0"
+     	<UpgradeVersion Minimum="0.1.0.0"
                       IncludeMinimum="yes"
-                      Maximum="2.0.0.0"
+                      Maximum="1.0.0.0"
                       IncludeMaximum="no"
                       Language="1033"
                       Property="UPGRADEFOUND" />
@@ -38,14 +34,34 @@
 		<!-- Installation directory and files are defined in Files.wxs -->
 		<Directory Id="TARGETDIR" Name="SourceDir"/>
 		
-		<Feature Id="Complete"
-		         Title="EA-Matic"
-		         Description="Addin for Sparx Enterprise Architect that allows to use add-in functionality with scripting"
+		<Feature Id="EAAddinFramework"
+		         Title="EA addin Framework"
+		         Description="Shared framework component for all add-ins"
+		         Absent="disallow"
 		         Level="1">
-		         <ComponentRef Id="EAScriptingAddinFiles"/>
-				 <ComponentRef Id="EAScriptingRegistryEntries"/>
+		         <ComponentRef Id="Framework_AddinFiles"/>
+		</Feature>		
+		<Feature Id="ECDMMesageComposer"
+		         Title="ECDM Message composer"
+		         Description="Enterprise Architect schema composer add-in"
+		         Level="1">
+		         <ComponentRef Id="ECDM_AddinFiles"/>
+				 <ComponentRef Id="ECDM_RegistryEntry"/>
 		</Feature>
-		
+		<Feature Id="EANavigator"
+		         Title="EA Navigator"
+		         Description="Add-in for easy navigation in a model"
+		         Level="1">
+		         <ComponentRef Id="EANavigator_AddinFiles"/>
+				 <ComponentRef Id="EANavigator_RegistryEntry"/>
+		</Feature>
+		<Feature Id="EAMatic"
+		         Title="EA-Matic"
+		         Description="Use scripting as a substitute for compiled add-ins"
+		         Level="1">
+		         <ComponentRef Id="EAMatic_AddinFiles"/>
+				 <ComponentRef Id="EAMatic_RegistryEntry"/>
+		</Feature>
 		<!-- Check for .Net framework 4.0 Client-->
 		<Property Id="NETFRAMEWORK40CL">
 		    <RegistrySearch Id="NetFramework40Cl"
@@ -67,18 +83,7 @@
    		 <![CDATA[Installed OR NETFRAMEWORK40CL OR NETFRAMEWORK40FULL]]>
 		</Condition>
 		
-		<!--
- 			Using the Wix UI library.
-
-			WixUI_Minimal is the most basic of the WixUI stock dialog sets.
- 			Its sole dialog combines the welcome and license-agreement 
-			dialogs and omits the feature customization dialog. 
-			WixUI_Minimal is appropriate when your product has no optional 
-			features.
- 		-->
-		<UIRef Id="WixUI_Minimal"/>
-		<!-- Prevent downgrading -->
-	    <CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
+		<CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
 	 
 	    <!-- Sequences -->
 	    <InstallExecuteSequence>
@@ -89,5 +94,15 @@
 	    <InstallUISequence>
 	      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
 	    </InstallUISequence>
+		
+		<!-- 
+			Using the Wix UI library
+ 
+			With the the WixUI_FeatureTree dialog set the user goes 
+			directly from the license agreement dialog to the feature 
+			customization dialog. This dialog set is useful
+			when your product installs all features by default. 
+		-->
+		<UIRef Id="WixUI_FeatureTree"/>
 	</Product>
 </Wix>

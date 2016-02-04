@@ -268,9 +268,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			//Getting some strange RPC_E_WRONG_THREAD error while getting the owner ElementWrapper.
 			//Disablign the tooltiptext for now to avoid the error
-			//return element.fqn;
-			//TODO: figure out how to deal with this properly
-			return string.Empty;
+			//Enabled again after installing all addins together
+			return element.fqn;
 		}
 
 		

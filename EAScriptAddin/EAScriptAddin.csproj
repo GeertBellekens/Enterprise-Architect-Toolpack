@@ -97,6 +97,7 @@
     <Folder Include="Files" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Files\license.rtf" />
     <None Include="Files\ScriptAddinIcon.ico" />
     <None Include="Files\ScriptAddinIcon16.png" />
     <None Include="Files\ScriptAddinIcon64.png" />

@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaBuilderFramework", ".
 EndProject
 Project("{CFEE4113-1246-4D54-95CB-156813CB8593}") = "ECDMMessageComposer_Setup", "ECDMMessageComposer_Setup\ECDMMessageComposer_Setup.wixproj", "{BDD5BBF1-A5B9-438D-A90D-D50C85AF028C}"
 EndProject
+Project("{CFEE4113-1246-4D54-95CB-156813CB8593}") = "EAToolPack_Setup", "EAToolPack_Setup\EAToolPack_Setup.wixproj", "{F4B5D7F7-D931-4A7E-8ACD-5FFD719CEEF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -180,5 +182,13 @@ Global
 		{BDD5BBF1-A5B9-438D-A90D-D50C85AF028C}.Release|x86.Build.0 = Release|x86
 		{BDD5BBF1-A5B9-438D-A90D-D50C85AF028C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDD5BBF1-A5B9-438D-A90D-D50C85AF028C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4B5D7F7-D931-4A7E-8ACD-5FFD719CEEF0}.Debug|x86.ActiveCfg = Debug|x86
+		{F4B5D7F7-D931-4A7E-8ACD-5FFD719CEEF0}.Debug|x86.Build.0 = Debug|x86
+		{F4B5D7F7-D931-4A7E-8ACD-5FFD719CEEF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4B5D7F7-D931-4A7E-8ACD-5FFD719CEEF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4B5D7F7-D931-4A7E-8ACD-5FFD719CEEF0}.Release|x86.ActiveCfg = Release|x86
+		{F4B5D7F7-D931-4A7E-8ACD-5FFD719CEEF0}.Release|x86.Build.0 = Release|x86
+		{F4B5D7F7-D931-4A7E-8ACD-5FFD719CEEF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4B5D7F7-D931-4A7E-8ACD-5FFD719CEEF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
