@@ -144,7 +144,7 @@ namespace ECDMMessageComposer
 				{
 					Cursor.Current = Cursors.WaitCursor;
 					//check if the already contains classes
-					var classElement = targetPackage.ownedElements.FirstOrDefault(x => x is UML.Classes.Kernel.Class) as UML.Classes.Kernel.Class;
+					var classElement = targetPackage.ownedElements.FirstOrDefault(x => (x is UML.Classes.Kernel.Class || x is UML.Classes.Kernel.Enumeration) ) as UML.Classes.Kernel.Classifier;
 					DialogResult response = DialogResult.No;
 					if (classElement != null)
 					{
@@ -177,7 +177,7 @@ namespace ECDMMessageComposer
 		/// </summary>
 		/// <param name="schema">the schema to use as basis</param>
 		/// <param name="messageElement">the root element of the subset</param>
-		private void updateMessageSubset(Schema schema, UML.Classes.Kernel.Class messageElement)
+		private void updateMessageSubset(Schema schema, UML.Classes.Kernel.Classifier messageElement)
 		{
 			if (messageElement != null)
 			{
