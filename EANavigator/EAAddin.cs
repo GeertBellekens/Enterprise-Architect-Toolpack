@@ -43,7 +43,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     
     private int maxQuickSearchResults = 10;
     private UTF_EA.Model model = null;
-    private NavigatorControl navigatorControl;
+    private NavigatorControl _navigatorControl;
+    
     private bool fullyLoaded = false;
     internal NavigatorSettings settings {get;set;}
 
@@ -55,6 +56,27 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		this.settings = new NavigatorSettings();
 		
 	}
+	private NavigatorControl navigatorControl
+	{
+		get
+		{
+			if (this.fullyLoaded)
+			{
+				if (this._navigatorControl == null)
+				{
+					this._navigatorControl = this.model.addWindow("Navigate", "TSF.UmlToolingFramework.EANavigator.NavigatorControl") as NavigatorControl;
+	                this._navigatorControl.BeforeExpand += new TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
+	                this._navigatorControl.NodeDoubleClick += new TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeDoubleClick);
+	                this._navigatorControl.fqnButtonClick += new EventHandler(this.FqnButtonClick);
+	                this._navigatorControl.guidButtonClick += new EventHandler(this.GuidButtonClick);
+	                this._navigatorControl.quickSearchTextChanged += new EventHandler(this.quickSearchTextChanged);
+	                this._navigatorControl.settings = this.settings;
+				}
+			}
+			return this._navigatorControl;
+		}
+	}
+	
 	public override void EA_OnPostInitialized(EA.Repository Repository)
 	{
 
@@ -67,12 +89,13 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	{
 		// initialize the model
         this.model = new UTF_EA.Model(Repository);
-		// clear the control
+		// indicate that we are now fully loaded
+        this.fullyLoaded = true;
+        // clear the control
 		if (this.navigatorControl != null)
         {
         	this.navigatorControl.clear();
         }
-        this.fullyLoaded = true;
 	}
     /// <summary>
     /// The EA_GetMenuItems event enables the Add-In to provide the Enterprise Architect user interface with additional Add-In menu options in various context and main menus. When a user selects an Add-In menu option, an event is raised and passed back to the Add-In that originally defined that menu option.
@@ -472,16 +495,6 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	{
 		if (fullyLoaded)
         {
-            if (this.navigatorControl == null)
-            {
-                this.navigatorControl = this.model.addWindow("Navigate", "TSF.UmlToolingFramework.EANavigator.NavigatorControl") as NavigatorControl;
-                this.navigatorControl.BeforeExpand += new TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
-                this.navigatorControl.NodeDoubleClick += new TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeDoubleClick);
-                this.navigatorControl.fqnButtonClick += new EventHandler(this.FqnButtonClick);
-                this.navigatorControl.guidButtonClick += new EventHandler(this.GuidButtonClick);
-                this.navigatorControl.quickSearchTextChanged += new EventHandler(this.quickSearchTextChanged);
-                this.navigatorControl.settings = this.settings;
-            }
             if (this.navigatorControl != null && this.model != null)
             {
                 if (item != null)
