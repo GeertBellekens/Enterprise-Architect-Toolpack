@@ -41,6 +41,10 @@ namespace ECDMMessageComposer
 			{
 				this.ignoredTaggedValuesGrid.Rows.Add(stereotype);
 			}
+			//addDataTypes checkbox
+			this.addDataTypesCheckBox.Checked = this.settings.addDataTypes;
+			//addSourceElements checkbox
+			this.addSourceElementCheckBox.Checked = this.settings.addSourceElements;
 		}
 		private void saveChanges()
 		{
@@ -48,6 +52,9 @@ namespace ECDMMessageComposer
 			this.extractStereotypes();
 			//get the tagged values from the grid
 			this.extractTaggedValues();
+			//diagram options
+			this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
+			this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;
 			//save changes
 			this.settings.save();
 		}

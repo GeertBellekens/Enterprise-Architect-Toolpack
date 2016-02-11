@@ -254,10 +254,27 @@ namespace ECDMMessageComposer
 				subsetDiagram.save();
 				//Logger.log("after ECDMMessageComposerAddin::create subsetDiagram");				
 				//put the subset elements on the new diagram
-				foreach (SchemaElement schemaElement in schema.elements) {
-					if (schemaElement.subsetElement != null) {
+				foreach (SchemaElement schemaElement in schema.elements) 
+				{
+					if (schemaElement.subsetElement != null) 
+					{
 						subsetDiagram.addToDiagram(schemaElement.subsetElement);
-					} else {
+					} 
+					bool addSourceElement = false;
+					//check the settings to see if we need to add the source element
+					if (schemaElement.sourceElement is UML.Classes.Kernel.Class
+					    ||schemaElement.sourceElement is UML.Classes.Kernel.Enumeration)
+				    {
+						addSourceElement = this.settings.addSourceElements;
+				    }
+					else
+					{
+						//or the datatype
+						addSourceElement = this.settings.addDataTypes;
+					}
+					//add source element to the diagram if needed
+					if (addSourceElement)
+					{
 						//we add the source element if the subset element doesn't exist.
 						subsetDiagram.addToDiagram(schemaElement.sourceElement);
 					}

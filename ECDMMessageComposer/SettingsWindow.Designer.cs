@@ -24,7 +24,9 @@ namespace ECDMMessageComposer
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
 		private System.Windows.Forms.Button deleteTaggedValueButton;
 		private System.Windows.Forms.SplitContainer splitContainer1;
-		
+		private System.Windows.Forms.GroupBox diagramOptionsGroupBox;
+		private System.Windows.Forms.CheckBox addSourceElementCheckBox;
+		private System.Windows.Forms.CheckBox addDataTypesCheckBox;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -48,21 +50,25 @@ namespace ECDMMessageComposer
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsWindow));
 			this.ignoredStereoTypesGrid = new System.Windows.Forms.DataGridView();
+			this.StereotypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.deleteStereotypeButton = new System.Windows.Forms.Button();
 			this.okButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.applyButton = new System.Windows.Forms.Button();
 			this.ignoredTaggedValuesGrid = new System.Windows.Forms.DataGridView();
+			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.deleteTaggedValueButton = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.StereotypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.diagramOptionsGroupBox = new System.Windows.Forms.GroupBox();
+			this.addSourceElementCheckBox = new System.Windows.Forms.CheckBox();
+			this.addDataTypesCheckBox = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.diagramOptionsGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ignoredStereoTypesGrid
@@ -77,13 +83,20 @@ namespace ECDMMessageComposer
 			this.ignoredStereoTypesGrid.Name = "ignoredStereoTypesGrid";
 			this.ignoredStereoTypesGrid.RowHeadersVisible = false;
 			this.ignoredStereoTypesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ignoredStereoTypesGrid.Size = new System.Drawing.Size(154, 150);
+			this.ignoredStereoTypesGrid.Size = new System.Drawing.Size(160, 151);
 			this.ignoredStereoTypesGrid.TabIndex = 0;
+			// 
+			// StereotypeColumn
+			// 
+			this.StereotypeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.StereotypeColumn.HeaderText = "Ignored Stereotypes";
+			this.StereotypeColumn.Name = "StereotypeColumn";
+			this.StereotypeColumn.ToolTipText = "Classes with these stereotypes will not be deleted when updating a subset model";
 			// 
 			// deleteStereotypeButton
 			// 
 			this.deleteStereotypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.deleteStereotypeButton.Location = new System.Drawing.Point(81, 159);
+			this.deleteStereotypeButton.Location = new System.Drawing.Point(87, 160);
 			this.deleteStereotypeButton.Name = "deleteStereotypeButton";
 			this.deleteStereotypeButton.Size = new System.Drawing.Size(75, 23);
 			this.deleteStereotypeButton.TabIndex = 1;
@@ -94,7 +107,7 @@ namespace ECDMMessageComposer
 			// okButton
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(101, 222);
+			this.okButton.Location = new System.Drawing.Point(115, 316);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 2;
@@ -106,7 +119,7 @@ namespace ECDMMessageComposer
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(182, 222);
+			this.cancelButton.Location = new System.Drawing.Point(196, 316);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 3;
@@ -117,7 +130,7 @@ namespace ECDMMessageComposer
 			// applyButton
 			// 
 			this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.applyButton.Location = new System.Drawing.Point(263, 222);
+			this.applyButton.Location = new System.Drawing.Point(277, 316);
 			this.applyButton.Name = "applyButton";
 			this.applyButton.Size = new System.Drawing.Size(75, 23);
 			this.applyButton.TabIndex = 4;
@@ -137,13 +150,21 @@ namespace ECDMMessageComposer
 			this.ignoredTaggedValuesGrid.Name = "ignoredTaggedValuesGrid";
 			this.ignoredTaggedValuesGrid.RowHeadersVisible = false;
 			this.ignoredTaggedValuesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ignoredTaggedValuesGrid.Size = new System.Drawing.Size(154, 150);
+			this.ignoredTaggedValuesGrid.Size = new System.Drawing.Size(162, 151);
 			this.ignoredTaggedValuesGrid.TabIndex = 5;
+			// 
+			// dataGridViewTextBoxColumn1
+			// 
+			this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.dataGridViewTextBoxColumn1.HeaderText = "Ignored Tagged Values";
+			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+			this.dataGridViewTextBoxColumn1.ToolTipText = "These tagged values will be left untouched when they have a value in the subset m" +
+	"odel";
 			// 
 			// deleteTaggedValueButton
 			// 
 			this.deleteTaggedValueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.deleteTaggedValueButton.Location = new System.Drawing.Point(82, 159);
+			this.deleteTaggedValueButton.Location = new System.Drawing.Point(90, 160);
 			this.deleteTaggedValueButton.Name = "deleteTaggedValueButton";
 			this.deleteTaggedValueButton.Size = new System.Drawing.Size(75, 23);
 			this.deleteTaggedValueButton.TabIndex = 6;
@@ -168,24 +189,40 @@ namespace ECDMMessageComposer
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.deleteTaggedValueButton);
 			this.splitContainer1.Panel2.Controls.Add(this.ignoredTaggedValuesGrid);
-			this.splitContainer1.Size = new System.Drawing.Size(326, 204);
-			this.splitContainer1.SplitterDistance = 159;
+			this.splitContainer1.Size = new System.Drawing.Size(340, 205);
+			this.splitContainer1.SplitterDistance = 165;
 			this.splitContainer1.TabIndex = 7;
 			// 
-			// StereotypeColumn
+			// diagramOptionsGroupBox
 			// 
-			this.StereotypeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.StereotypeColumn.HeaderText = "Ignored Stereotypes";
-			this.StereotypeColumn.Name = "StereotypeColumn";
-			this.StereotypeColumn.ToolTipText = "Classes with these stereotypes will not be deleted when updating a subset model";
+			this.diagramOptionsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.diagramOptionsGroupBox.Controls.Add(this.addSourceElementCheckBox);
+			this.diagramOptionsGroupBox.Controls.Add(this.addDataTypesCheckBox);
+			this.diagramOptionsGroupBox.Location = new System.Drawing.Point(14, 223);
+			this.diagramOptionsGroupBox.Name = "diagramOptionsGroupBox";
+			this.diagramOptionsGroupBox.Size = new System.Drawing.Size(338, 87);
+			this.diagramOptionsGroupBox.TabIndex = 8;
+			this.diagramOptionsGroupBox.TabStop = false;
+			this.diagramOptionsGroupBox.Text = "New Diagram Options";
 			// 
-			// dataGridViewTextBoxColumn1
+			// addSourceElementCheckBox
 			// 
-			this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.dataGridViewTextBoxColumn1.HeaderText = "Ignored Tagged Values";
-			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-			this.dataGridViewTextBoxColumn1.ToolTipText = "These tagged values will be left untouched when they have a value in the subset m" +
-	"odel";
+			this.addSourceElementCheckBox.Location = new System.Drawing.Point(7, 50);
+			this.addSourceElementCheckBox.Name = "addSourceElementCheckBox";
+			this.addSourceElementCheckBox.Size = new System.Drawing.Size(143, 24);
+			this.addSourceElementCheckBox.TabIndex = 1;
+			this.addSourceElementCheckBox.Text = "Add Source Elements";
+			this.addSourceElementCheckBox.UseVisualStyleBackColor = true;
+			// 
+			// addDataTypesCheckBox
+			// 
+			this.addDataTypesCheckBox.Location = new System.Drawing.Point(7, 20);
+			this.addDataTypesCheckBox.Name = "addDataTypesCheckBox";
+			this.addDataTypesCheckBox.Size = new System.Drawing.Size(104, 24);
+			this.addDataTypesCheckBox.TabIndex = 0;
+			this.addDataTypesCheckBox.Text = "Add Datatypes";
+			this.addDataTypesCheckBox.UseVisualStyleBackColor = true;
 			// 
 			// SettingsWindow
 			// 
@@ -193,7 +230,8 @@ namespace ECDMMessageComposer
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(350, 257);
+			this.ClientSize = new System.Drawing.Size(364, 351);
+			this.Controls.Add(this.diagramOptionsGroupBox);
 			this.Controls.Add(this.applyButton);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.okButton);
@@ -211,6 +249,7 @@ namespace ECDMMessageComposer
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.diagramOptionsGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

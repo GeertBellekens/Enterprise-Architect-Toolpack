@@ -16,25 +16,25 @@
 						<File Id="LogicNP.CryptoLicensing.xml" Name="LogicNP.CryptoLicensing.xml" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\LogicNP.CryptoLicensing.xml" />
 						<File Id="SchemaBuilderFramework.dll" Name="SchemaBuilderFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\SchemaBuilderFramework.dll" />
 						<File Id="SchemaBuilderFramework.pdb" Name="SchemaBuilderFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\SchemaBuilderFramework.pdb" />
-						<Class Id="{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.Model" ThreadingModel="free" ForeignServer="mscoree.dll">
+						<Class Id="{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.Model" ThreadingModel="both" ForeignServer="mscoree.dll">
 		                    <ProgId Id="TSF.UmlToolingFramework.Wrappers.EA.Model" Description="TSF.UmlToolingFramework.Wrappers.EA.Model" />
 		                </Class>
-		                <Class Id="{180BA927-71A5-3C71-BD05-6CF94D75637B}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.VBScriptLanguage" ThreadingModel="free" ForeignServer="mscoree.dll">
+		                <Class Id="{180BA927-71A5-3C71-BD05-6CF94D75637B}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.VBScriptLanguage" ThreadingModel="both" ForeignServer="mscoree.dll">
 		                    <ProgId Id="EAAddinFramework.EASpecific.VBScriptLanguage" Description="EAAddinFramework.EASpecific.VBScriptLanguage" />
 		                </Class>
-		                <Class Id="{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.JavaScriptLanguage" ThreadingModel="free" ForeignServer="mscoree.dll">
+		                <Class Id="{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.JavaScriptLanguage" ThreadingModel="both" ForeignServer="mscoree.dll">
 		                    <ProgId Id="EAAddinFramework.EASpecific.JavaScriptLanguage" Description="EAAddinFramework.EASpecific.JavaScriptLanguage" />
 		                </Class>
-		                <Class Id="{68C0423C-BE87-3FC0-867F-3B3AD8899F75}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" ThreadingModel="free" ForeignServer="mscoree.dll">
+		                <Class Id="{68C0423C-BE87-3FC0-867F-3B3AD8899F75}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" ThreadingModel="both" ForeignServer="mscoree.dll">
 		                    <ProgId Id="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" Description="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" />
 		                </Class>
-		                <Class Id="{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}" Context="InprocServer32" Description="EAAddinFramework.Utilities.AbortableBackgroundWorker" ThreadingModel="free" ForeignServer="mscoree.dll">
+		                <Class Id="{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}" Context="InprocServer32" Description="EAAddinFramework.Utilities.AbortableBackgroundWorker" ThreadingModel="both" ForeignServer="mscoree.dll">
 		                    <ProgId Id="EAAddinFramework.Utilities.AbortableBackgroundWorker" Description="EAAddinFramework.Utilities.AbortableBackgroundWorker" />
 		                </Class>
-		                <Class Id="{850B8C4A-DF5B-3131-94D0-E1B66A985760}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" ThreadingModel="free" ForeignServer="mscoree.dll">
+		                <Class Id="{850B8C4A-DF5B-3131-94D0-E1B66A985760}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" ThreadingModel="both" ForeignServer="mscoree.dll">
 		                    <ProgId Id="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" Description="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" />
 		                </Class>
-		                <Class Id="{94A27A87-240D-3FCC-A2D5-722259FC3AD8}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.JScriptLanguage" ThreadingModel="free" ForeignServer="mscoree.dll">
+		                <Class Id="{94A27A87-240D-3FCC-A2D5-722259FC3AD8}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.JScriptLanguage" ThreadingModel="both" ForeignServer="mscoree.dll">
 		                    <ProgId Id="EAAddinFramework.EASpecific.JScriptLanguage" Description="EAAddinFramework.EASpecific.JScriptLanguage" />
 		                </Class>
 		                <ProgId Id="Record" />
@@ -113,7 +113,7 @@
 		                <RegistryValue Root="HKCR" Key="Record\{A0F592E8-6AE0-3469-BB01-1E6F4CF80613}\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
 		                <RegistryValue Root="HKCR" Key="Record\{A0F592E8-6AE0-3469-BB01-1E6F4CF80613}\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
 		                <RegistryValue Root="HKCR" Key="Record\{A0F592E8-6AE0-3469-BB01-1E6F4CF80613}\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-						<Class Id="{1402C8E8-F55F-3CB9-ABA1-9DECB7FE7772}" Context="InprocServer32" Description="TSF.UmlToolingFramework.UML.Classes.Kernel.UnlimitedNatural" ThreadingModel="free" ForeignServer="mscoree.dll">
+						<Class Id="{1402C8E8-F55F-3CB9-ABA1-9DECB7FE7772}" Context="InprocServer32" Description="TSF.UmlToolingFramework.UML.Classes.Kernel.UnlimitedNatural" ThreadingModel="both" ForeignServer="mscoree.dll">
 		                    <ProgId Id="TSF.UmlToolingFramework.UML.Classes.Kernel.UnlimitedNatural" Description="TSF.UmlToolingFramework.UML.Classes.Kernel.UnlimitedNatural" />
 		                </Class>
 		                <RegistryValue Root="HKCR" Key="CLSID\{1402C8E8-F55F-3CB9-ABA1-9DECB7FE7772}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
@@ -168,7 +168,7 @@
 						<File Id="ECDMMessageComposer.pdb" Name="ECDMMessageComposer.pdb" Source="..\ECDMMessageComposer\bin\Debug\ECDMMessageComposer.pdb" />
 						<File Id="ECDMMessageComposer.tlb" Name="ECDMMessageComposer.tlb" Source="..\ECDMMessageComposer\bin\Debug\ECDMMessageComposer.tlb" />
 						<File Id="ECDMMessageComposer.dll.config" Name="ECDMMessageComposer.dll.config" Source="..\ECDMMessageComposer\ECDMMessageComposer.dll.config" />
-						<Class Id="{39CBB071-5DEE-33D9-B05E-E0F3EEE63BE4}" Context="InprocServer32" Description="ECDMMessageComposer.ECDMMessageComposerAddin" ThreadingModel="free" ForeignServer="mscoree.dll">
+						<Class Id="{39CBB071-5DEE-33D9-B05E-E0F3EEE63BE4}" Context="InprocServer32" Description="ECDMMessageComposer.ECDMMessageComposerAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="ECDMMessageComposer.ECDMMessageComposerAddin" Description="ECDMMessageComposer.ECDMMessageComposerAddin" />
 						</Class>
 						<RegistryValue Root="HKCR" Key="CLSID\{39CBB071-5DEE-33D9-B05E-E0F3EEE63BE4}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
@@ -190,44 +190,92 @@
 						<File Id="EANavigator_License" Name="EA Navigator license.rtf" Source="..\EANavigator\Files\license.rtf" />
 						<File Id="EANavigator.pdb" Name="EANavigator.pdb" Source="..\EANavigator\bin\Debug\EANavigator.pdb" />
 						<File Id="EANavigator.tlb" Name="EANavigator.tlb" Source="..\EANavigator\bin\Debug\EANavigator.tlb" />
-						<Class Id="{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}" Context="InprocServer32" Description="TSF.UmlToolingFramework.EANavigator.AboutWindow" ThreadingModel="free" ForeignServer="mscoree.dll">
-							<ProgId Id="TSF.UmlToolingFramework.EANavigator.AboutWindow" Description="TSF.UmlToolingFramework.EANavigator.AboutWindow" />
-						</Class>
-						<Class Id="{29FE6E24-9486-4D55-AC16-0200C1B477F2}" Context="InprocServer32" Description="TSF.UmlToolingFramework.EANavigator.NavigatorControl" ThreadingModel="free" ForeignServer="mscoree.dll">
-							<ProgId Id="TSF.UmlToolingFramework.EANavigator.NavigatorControl" Description="TSF.UmlToolingFramework.EANavigator.NavigatorControl" />
-						</Class>
-						<Class Id="{2B9338CD-2DEE-3C5F-96AC-C26EE2CE426D}" Context="InprocServer32" Description="TSF.UmlToolingFramework.EANavigator.EAAddin" ThreadingModel="free" ForeignServer="mscoree.dll">
-							<ProgId Id="TSF.UmlToolingFramework.EANavigator.EAAddin" Description="TSF.UmlToolingFramework.EANavigator.EAAddin" />
-						</Class>
-						<File Id="EANavigator.dll" Name="EANavigator.dll" KeyPath="yes" Source="..\EANavigator\bin\Debug\EANavigator.dll" />
 						<File Id="EANavigator.dll.config" Name="EANavigator.dll.config" Source="..\EANavigator\bin\Debug\EANavigator.dll.config" />
-						<RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\InprocServer32\2.4.5160.13333" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.AboutWindow" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\InprocServer32\2.4.5160.13333" Name="Assembly" Value="EANavigator, Version=2.4.5160.13333, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\InprocServer32\2.4.5160.13333" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\InprocServer32\2.4.5160.13333" Name="CodeBase" Value="file:///[#EANavigator.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.AboutWindow" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\InprocServer32" Name="Assembly" Value="EANavigator, Version=2.4.5160.13333, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{265E9DB6-E000-3EC3-8B55-5726B1FEF8D9}\InprocServer32" Name="CodeBase" Value="file:///[#EANavigator.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32\2.4.5160.13333" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.NavigatorControl" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32\2.4.5160.13333" Name="Assembly" Value="EANavigator, Version=2.4.5160.13333, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32\2.4.5160.13333" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32\2.4.5160.13333" Name="CodeBase" Value="file:///[#EANavigator.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.NavigatorControl" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32" Name="Assembly" Value="EANavigator, Version=2.4.5160.13333, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32" Name="CodeBase" Value="file:///[#EANavigator.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{2B9338CD-2DEE-3C5F-96AC-C26EE2CE426D}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{2B9338CD-2DEE-3C5F-96AC-C26EE2CE426D}\InprocServer32\2.4.5160.13333" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.EAAddin" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{2B9338CD-2DEE-3C5F-96AC-C26EE2CE426D}\InprocServer32\2.4.5160.13333" Name="Assembly" Value="EANavigator, Version=2.4.5160.13333, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{2B9338CD-2DEE-3C5F-96AC-C26EE2CE426D}\InprocServer32\2.4.5160.13333" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{2B9338CD-2DEE-3C5F-96AC-C26EE2CE426D}\InprocServer32\2.4.5160.13333" Name="CodeBase" Value="file:///[#EANavigator.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{2B9338CD-2DEE-3C5F-96AC-C26EE2CE426D}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.EAAddin" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{2B9338CD-2DEE-3C5F-96AC-C26EE2CE426D}\InprocServer32" Name="Assembly" Value="EANavigator, Version=2.4.5160.13333, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{2B9338CD-2DEE-3C5F-96AC-C26EE2CE426D}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{2B9338CD-2DEE-3C5F-96AC-C26EE2CE426D}\InprocServer32" Name="CodeBase" Value="file:///[#EANavigator.dll]" Type="string" Action="write" />
+						<Class Id="{25D570E0-DBD2-300E-936A-5CEB11A5C5C5}" Context="InprocServer32" Description="TSF.UmlToolingFramework.EANavigator.EAAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="TSF.UmlToolingFramework.EANavigator.EAAddin" Description="TSF.UmlToolingFramework.EANavigator.EAAddin" />
+		                </Class>
+		                <Class Id="{29FE6E24-9486-4D55-AC16-0200C1B477F2}" Context="InprocServer32" Description="TSF.UmlToolingFramework.EANavigator.NavigatorControl" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="TSF.UmlToolingFramework.EANavigator.NavigatorControl" Description="TSF.UmlToolingFramework.EANavigator.NavigatorControl" />
+		                </Class>
+		                <Class Id="{47018BB3-03BA-33FF-B82B-4BF47DB9DFFF}" Context="InprocServer32" Description="TSF.UmlToolingFramework.EANavigator.QuickSearchBox" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="TSF.UmlToolingFramework.EANavigator.QuickSearchBox" Description="TSF.UmlToolingFramework.EANavigator.QuickSearchBox" />
+		                </Class>
+		                <Class Id="{7EFE0386-C29E-38CF-A266-5C59A58C94EF}" Context="InprocServer32" Description="TSF.UmlToolingFramework.EANavigator.QuickSearchComboBox" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="TSF.UmlToolingFramework.EANavigator.QuickSearchComboBox" Description="TSF.UmlToolingFramework.EANavigator.QuickSearchComboBox" />
+		                </Class>
+		                <Class Id="{C4539ADA-5264-3035-93B3-373FD6DB9F26}" Context="InprocServer32" Description="TSF.UmlToolingFramework.EANavigator.NavigatorSettings" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="TSF.UmlToolingFramework.EANavigator.NavigatorSettings" Description="TSF.UmlToolingFramework.EANavigator.NavigatorSettings" />
+		                </Class>
+		                <Class Id="{C5D01C22-66FC-381F-AAB8-E38B1E0AAC47}" Context="InprocServer32" Description="TSF.UmlToolingFramework.EANavigator.AboutWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="TSF.UmlToolingFramework.EANavigator.AboutWindow" Description="TSF.UmlToolingFramework.EANavigator.AboutWindow" />
+		                </Class>
+		                <Class Id="{F09531B4-535D-3B96-A119-6150249D53C8}" Context="InprocServer32" Description="TSF.UmlToolingFramework.EANavigator.FQNInputForm" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="TSF.UmlToolingFramework.EANavigator.FQNInputForm" Description="TSF.UmlToolingFramework.EANavigator.FQNInputForm" />
+		                </Class>
+		                <File Id="filB155DC1E8CD1FB5125EF3FB4E90B4F71" KeyPath="yes" Source="..\EANavigator\bin\Debug\EANavigator.dll" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25D570E0-DBD2-300E-936A-5CEB11A5C5C5}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25D570E0-DBD2-300E-936A-5CEB11A5C5C5}\InprocServer32\2.4.5883.20689" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.EAAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25D570E0-DBD2-300E-936A-5CEB11A5C5C5}\InprocServer32\2.4.5883.20689" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25D570E0-DBD2-300E-936A-5CEB11A5C5C5}\InprocServer32\2.4.5883.20689" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25D570E0-DBD2-300E-936A-5CEB11A5C5C5}\InprocServer32\2.4.5883.20689" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25D570E0-DBD2-300E-936A-5CEB11A5C5C5}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.EAAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25D570E0-DBD2-300E-936A-5CEB11A5C5C5}\InprocServer32" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25D570E0-DBD2-300E-936A-5CEB11A5C5C5}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25D570E0-DBD2-300E-936A-5CEB11A5C5C5}\InprocServer32" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32\2.4.5883.20689" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.NavigatorControl" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32\2.4.5883.20689" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32\2.4.5883.20689" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32\2.4.5883.20689" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.NavigatorControl" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{29FE6E24-9486-4D55-AC16-0200C1B477F2}\InprocServer32" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{47018BB3-03BA-33FF-B82B-4BF47DB9DFFF}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{47018BB3-03BA-33FF-B82B-4BF47DB9DFFF}\InprocServer32\2.4.5883.20689" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.QuickSearchBox" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{47018BB3-03BA-33FF-B82B-4BF47DB9DFFF}\InprocServer32\2.4.5883.20689" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{47018BB3-03BA-33FF-B82B-4BF47DB9DFFF}\InprocServer32\2.4.5883.20689" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{47018BB3-03BA-33FF-B82B-4BF47DB9DFFF}\InprocServer32\2.4.5883.20689" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{47018BB3-03BA-33FF-B82B-4BF47DB9DFFF}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.QuickSearchBox" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{47018BB3-03BA-33FF-B82B-4BF47DB9DFFF}\InprocServer32" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{47018BB3-03BA-33FF-B82B-4BF47DB9DFFF}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{47018BB3-03BA-33FF-B82B-4BF47DB9DFFF}\InprocServer32" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{7EFE0386-C29E-38CF-A266-5C59A58C94EF}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{7EFE0386-C29E-38CF-A266-5C59A58C94EF}\InprocServer32\2.4.5883.20689" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.QuickSearchComboBox" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{7EFE0386-C29E-38CF-A266-5C59A58C94EF}\InprocServer32\2.4.5883.20689" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{7EFE0386-C29E-38CF-A266-5C59A58C94EF}\InprocServer32\2.4.5883.20689" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{7EFE0386-C29E-38CF-A266-5C59A58C94EF}\InprocServer32\2.4.5883.20689" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{7EFE0386-C29E-38CF-A266-5C59A58C94EF}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.QuickSearchComboBox" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{7EFE0386-C29E-38CF-A266-5C59A58C94EF}\InprocServer32" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{7EFE0386-C29E-38CF-A266-5C59A58C94EF}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{7EFE0386-C29E-38CF-A266-5C59A58C94EF}\InprocServer32" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C4539ADA-5264-3035-93B3-373FD6DB9F26}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C4539ADA-5264-3035-93B3-373FD6DB9F26}\InprocServer32\2.4.5883.20689" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.NavigatorSettings" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C4539ADA-5264-3035-93B3-373FD6DB9F26}\InprocServer32\2.4.5883.20689" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C4539ADA-5264-3035-93B3-373FD6DB9F26}\InprocServer32\2.4.5883.20689" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C4539ADA-5264-3035-93B3-373FD6DB9F26}\InprocServer32\2.4.5883.20689" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C4539ADA-5264-3035-93B3-373FD6DB9F26}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.NavigatorSettings" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C4539ADA-5264-3035-93B3-373FD6DB9F26}\InprocServer32" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C4539ADA-5264-3035-93B3-373FD6DB9F26}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C4539ADA-5264-3035-93B3-373FD6DB9F26}\InprocServer32" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C5D01C22-66FC-381F-AAB8-E38B1E0AAC47}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C5D01C22-66FC-381F-AAB8-E38B1E0AAC47}\InprocServer32\2.4.5883.20689" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C5D01C22-66FC-381F-AAB8-E38B1E0AAC47}\InprocServer32\2.4.5883.20689" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C5D01C22-66FC-381F-AAB8-E38B1E0AAC47}\InprocServer32\2.4.5883.20689" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C5D01C22-66FC-381F-AAB8-E38B1E0AAC47}\InprocServer32\2.4.5883.20689" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C5D01C22-66FC-381F-AAB8-E38B1E0AAC47}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C5D01C22-66FC-381F-AAB8-E38B1E0AAC47}\InprocServer32" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C5D01C22-66FC-381F-AAB8-E38B1E0AAC47}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{C5D01C22-66FC-381F-AAB8-E38B1E0AAC47}\InprocServer32" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\InprocServer32\2.4.5883.20689" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.FQNInputForm" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\InprocServer32\2.4.5883.20689" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\InprocServer32\2.4.5883.20689" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\InprocServer32\2.4.5883.20689" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.EANavigator.FQNInputForm" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\InprocServer32" Name="Assembly" Value="EANavigator, Version=2.4.5883.20689, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\InprocServer32" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
 					</Component>
 					<Component Id="EANavigator_RegistryEntry" Guid="94CE2F68-545D-4FAC-80F9-10888BFAAF06" UninstallWhenSuperseded="yes">
 						<RegistryKey Root="HKCU" Key="Software\Sparx Systems\EAAddins\EA_Navigator">
@@ -238,10 +286,10 @@
 						<File Id="EAMatic_LicenseFile" Name="EA-Matic license.rtf" Source="..\EAScriptAddin\\Files\license.rtf" />
 						<File Id="EAScriptAddin.pdb" Name="EAScriptAddin.pdb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.pdb" />
 						<File Id="EAScriptAddin.tlb" Name="EAScriptAddin.tlb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.tlb" />
-						<Class Id="{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}" Context="InprocServer32" Description="EAScriptAddin.EAScriptAddinAddinClass" ThreadingModel="free" ForeignServer="mscoree.dll">
+						<Class Id="{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}" Context="InprocServer32" Description="EAScriptAddin.EAScriptAddinAddinClass" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="EAScriptAddin.EAScriptAddinAddinClass" Description="EAScriptAddin.EAScriptAddinAddinClass" />
 						</Class>
-						<Class Id="{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}" Context="InprocServer32" Description="EAScriptAddin.AboutWindow" ThreadingModel="free" ForeignServer="mscoree.dll">
+						<Class Id="{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}" Context="InprocServer32" Description="EAScriptAddin.AboutWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="EAScriptAddin.AboutWindow" Description="EAScriptAddin.AboutWindow" />
 						</Class>
 						<File Id="filB0E416CBF883E412D94BCDB93E8B5EE3" KeyPath="yes" Name="EAScriptAddin.dll" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.dll" />

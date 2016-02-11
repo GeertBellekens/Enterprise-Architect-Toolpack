@@ -82,11 +82,7 @@ namespace ECDMMessageComposer
 		  // Get the mapped configuration file.
 		   currentConfig = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
 		}
-		public bool isOptionEnabled(UML.UMLItem parentElement,string option)
-		{
-			//default
-			return true;
-		}
+		
 		/// <summary>
 		/// list of tagged value names to ignore when updating tagged values
 		/// </summary>
@@ -113,6 +109,36 @@ namespace ECDMMessageComposer
 			set
 			{
 				this.currentConfig.AppSettings.Settings["ignoredStereotypes"].Value = string.Join(",",value);
+			}
+		}
+		/// <summary>
+		/// indicates if the data types should be added to the diagram
+		/// </summary>
+		public bool addDataTypes
+		{
+			get
+			{
+				bool result;
+				return bool.TryParse(this.currentConfig.AppSettings.Settings["addDataTypes"].Value, out result) ? result : true;
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["addDataTypes"].Value = value.ToString();
+			}
+		}
+		/// <summary>
+		/// indicates if the data types should be added to the diagram
+		/// </summary>
+		public bool addSourceElements
+		{
+			get
+			{
+				bool result;
+				return bool.TryParse(this.currentConfig.AppSettings.Settings["addSourceElements"].Value, out result) ? result : true;
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["addSourceElements"].Value = value.ToString();
 			}
 		}
 		

@@ -455,7 +455,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			for (int i = this.NavigatorTree.Nodes.Count -1; i > this.maxNodes;i--)
 			{
-				this.NavigatorTree.Nodes.RemoveAt(i);
+				try
+				{
+					this.NavigatorTree.Nodes.RemoveAt(i);
+				}catch (NullReferenceException)
+				{
+					// swallow nullpointer exception.
+					// if a node does not exist we don't need to remove it anymore
+					// this sometimes happens with rare multithreaded race conditions
+				}
 			}
 		}
 		public event TreeViewCancelEventHandler BeforeExpand;
