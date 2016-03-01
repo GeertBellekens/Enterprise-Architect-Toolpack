@@ -168,6 +168,17 @@
   <metadata name="navigatorToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>331, 17</value>
   </metadata>
+  <data name="openInNavigatorButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEKSURBVDhPtZLBSsNAEIb3UXwHX2AfxVOfoyQaSIUW9GKo
+        hxLQs9ijl1KKAc1F400oVXrTQw568DTOP8mW3XQjKdSBn5AJ3zezSdReqpcQOenlTg6t1IhbgLrU/wp8
+        a2utAcj17yPwg5wn2OE2BeGcwmhBJ4N7ue8s4JYFZxSfPdJw/CR9AZplC7BucFzBH+UPXUye6ermldLb
+        pUjqY7m1EXxW0wFHpxnDBd0t1iJCrh9K/xY4G2AEEwDH57lMNvDL+7cI9IFnAyPA10S4RaPLgtLpUuDi
+        7WszXeuWDQxsS3BmgAZezRT1jzwSnyDhl2L/B4AAeyVbAoYRbjtplUDQNU2JCHYtI1FKqV+mdObeM3D0
+        gwAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="projectBrowserButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

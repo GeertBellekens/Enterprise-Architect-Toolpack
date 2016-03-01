@@ -70,6 +70,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	                this._navigatorControl.fqnButtonClick += new EventHandler(this.FqnButtonClick);
 	                this._navigatorControl.guidButtonClick += new EventHandler(this.GuidButtonClick);
 	                this._navigatorControl.quickSearchTextChanged += new EventHandler(this.quickSearchTextChanged);
+	                this._navigatorControl.openInNavigatorClick += new EventHandler( this.openInNavigatorClick);
 	                this._navigatorControl.settings = this.settings;
 				}
 			}
@@ -1034,6 +1035,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	{
    		this.selectGUID();
 	}
+   	void openInNavigatorClick(object sender, EventArgs e)
+   	{
+   		this.navigate();
+   	}
    	void quickSearchTextChanged(object sender, EventArgs e)
    	{
    		this.quickSearch( this.navigatorControl.quickSearchText);

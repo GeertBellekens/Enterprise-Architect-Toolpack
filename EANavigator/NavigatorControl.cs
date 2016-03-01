@@ -703,6 +703,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 			
 		}
+		public event EventHandler openInNavigatorClick;
+		void OpenInNavigatorButtonClick(object sender, EventArgs e)
+		{
+			if (this.openInNavigatorButton != null)
+			{
+				openInNavigatorClick(sender,e);
+			}
+		}
 		public event EventHandler fqnButtonClick;
 		void FqnButtonClick(object sender, EventArgs e)
 		{
@@ -854,5 +862,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 			this.quickSearchBox.DroppedDown = false;
 		}
+		
+
 	}
 }
