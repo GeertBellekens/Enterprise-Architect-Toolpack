@@ -182,7 +182,7 @@
 						<RegistryValue Root="HKCR" Key="CLSID\{39CBB071-5DEE-33D9-B05E-E0F3EEE63BE4}\InprocServer32" Name="CodeBase" Value="file:///[#ECDMMessageComposer.dll]" Type="string" Action="write" />
 					</Component>
 					<Component Id="ECDM_RegistryEntry" Guid="85CE2F68-545D-4FBB-80F9-10888BFAAF07" UninstallWhenSuperseded="yes">
-						<RegistryKey Root="HKCU" Key="Software\Sparx Systems\EAAddins\ECDM Message Composer">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\ECDM Message Composer">
 							<RegistryValue Type="string" Value="ECDMMessageComposer.ECDMMessageComposerAddin" />
 						</RegistryKey>
 					</Component>
@@ -278,7 +278,7 @@
 		                <RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\InprocServer32" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
 					</Component>
 					<Component Id="EANavigator_RegistryEntry" Guid="94CE2F68-545D-4FAC-80F9-10888BFAAF06" UninstallWhenSuperseded="yes">
-						<RegistryKey Root="HKCU" Key="Software\Sparx Systems\EAAddins\EA_Navigator">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\EA_Navigator">
 							<RegistryValue Type="string" Value="TSF.UmlToolingFramework.EANavigator.EAAddin" />
 						</RegistryKey>
 					</Component>
@@ -314,7 +314,7 @@
 						
 					</Component>
 					<Component Id="EAMatic_RegistryEntry" Guid="181A2237-EF7D-48D9-A6F8-43A4749AE0DF" UninstallWhenSuperseded="yes">
-						<RegistryKey Root="HKCU" Key="Software\Sparx Systems\EAAddins\EA-Matic">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\EA-Matic">
 							<RegistryValue Type="string" Value="EAScriptAddin.EAScriptAddinAddinClass" />
 						</RegistryKey>
 					</Component>
