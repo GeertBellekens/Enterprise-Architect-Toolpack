@@ -136,7 +136,7 @@ namespace ECDMMessageComposer
 			Schema schema = this.schemaFactory.createSchema(composer);
 			schema.ignoredStereotypes = this.settings.ignoredStereotypes;
 			schema.ignoredTaggedValues = this.settings.ignoredTaggedValues;
-			UML.Classes.Kernel.Element selectedElement = this.model.getUserSelectedElement(new List<string>{"Class", "Package"});
+			UML.Classes.Kernel.Element selectedElement = this.model.getUserSelectedElement(new List<string>{"Package"});
 			if (selectedElement != null)
 			{
 				var targetPackage = selectedElement as UML.Classes.Kernel.Package;
