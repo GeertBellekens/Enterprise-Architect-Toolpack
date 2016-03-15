@@ -17,8 +17,6 @@
 						<File Id="UMLToolingFramework.dll" Name="UMLToolingFramework.dll" Source="..\ECDMMessageComposer\bin\Debug\UMLToolingFramework.dll" />
 						<File Id="UMLToolingFramework.pdb" Name="UMLToolingFramework.pdb" Source="..\ECDMMessageComposer\bin\Debug\UMLToolingFramework.pdb" />
 						<File Id="Interop.EA.dll" Name="Interop.EA.dll" Source="..\ECDMMessageComposer\bin\Debug\Interop.EA.dll" />
-						<File Id="LogicNP.CryptoLicensing.dll" Name="LogicNP.CryptoLicensing.dll" Source="..\ECDMMessageComposer\bin\Debug\LogicNP.CryptoLicensing.dll" />
-						<File Id="LogicNP.CryptoLicensing.xml" Name="LogicNP.CryptoLicensing.xml" Source="..\ECDMMessageComposer\bin\Debug\LogicNP.CryptoLicensing.xml" />
 						<Class Id="{39CBB071-5DEE-33D9-B05E-E0F3EEE63BE4}" Context="InprocServer32" Description="ECDMMessageComposer.ECDMMessageComposerAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="ECDMMessageComposer.ECDMMessageComposerAddin" Description="ECDMMessageComposer.ECDMMessageComposerAddin" />
 						</Class>

@@ -12,8 +12,6 @@
 						<File Id="Interop.MSScriptControl.dll" Name="Interop.MSScriptControl.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\Interop.MSScriptControl.dll" />
 						<File Id="UMLToolingFramework.dll" Name="UMLToolingFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\UMLToolingFramework.dll" />
 						<File Id="UMLToolingFramework.pdb" Name="UMLToolingFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\UMLToolingFramework.pdb" />
-						<File Id="LogicNP.CryptoLicensing.dll" Name="LogicNP.CryptoLicensing.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\LogicNP.CryptoLicensing.dll" />
-						<File Id="LogicNP.CryptoLicensing.xml" Name="LogicNP.CryptoLicensing.xml" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\LogicNP.CryptoLicensing.xml" />
 						<File Id="SchemaBuilderFramework.dll" Name="SchemaBuilderFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\SchemaBuilderFramework.dll" />
 						<File Id="SchemaBuilderFramework.pdb" Name="SchemaBuilderFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\SchemaBuilderFramework.pdb" />
 						<Class Id="{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.Model" ThreadingModel="both" ForeignServer="mscoree.dll">

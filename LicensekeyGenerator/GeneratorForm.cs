@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
-using EAAddinFramework.Licensing;
+//using EAAddinFramework.Licensing;
 
 namespace LicensekeyGenerator
 {
@@ -35,20 +35,20 @@ namespace LicensekeyGenerator
 		
 		void ValidateButtonClick(object sender, EventArgs e)
 		{
-			string publicKey = "ACAACACc+VyfQ687AQMAAQAB";
-			License license = new License(this.keyTextBox.Text, publicKey);
-			if (license.isValid)
-			{
-				this.floatingCheckbox.Checked = license.floating;
-				this.clientTextBox.Text = license.client;
-				this.keyTextBox.ForeColor = Color.ForestGreen;
-			}
-			else
-			{
-				this.floatingCheckbox.Checked = false;
-				this.clientTextBox.Clear();
-				this.keyTextBox.ForeColor = Color.Red;
-			}
+//			string publicKey = "ACAACACc+VyfQ687AQMAAQAB";
+//			License license = new License(this.keyTextBox.Text, publicKey);
+//			if (license.isValid)
+//			{
+//				this.floatingCheckbox.Checked = license.floating;
+//				this.clientTextBox.Text = license.client;
+//				this.keyTextBox.ForeColor = Color.ForestGreen;
+//			}
+//			else
+//			{
+//				this.floatingCheckbox.Checked = false;
+//				this.clientTextBox.Clear();
+//				this.keyTextBox.ForeColor = Color.Red;
+//			}
 			
 		}
 	}

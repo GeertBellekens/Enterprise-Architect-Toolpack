@@ -14,8 +14,6 @@
 						<File Id="Interop.MSScriptControl.dll" Name="Interop.MSScriptControl.dll" Source="..\EAScriptAddin\bin\Debug\Interop.MSScriptControl.dll" />
 						<File Id="UMLToolingFramework.dll" Name="UMLToolingFramework.dll" Source="..\EAScriptAddin\bin\Debug\UMLToolingFramework.dll" />
 						<File Id="UMLToolingFramework.pdb" Name="UMLToolingFramework.pdb" Source="..\EAScriptAddin\bin\Debug\UMLToolingFramework.pdb" />
-						<File Id="LogicNP.CryptoLicensing.dll" Name="LogicNP.CryptoLicensing.dll" Source="..\EAScriptAddin\bin\Debug\LogicNP.CryptoLicensing.dll" />
-						<File Id="LogicNP.CryptoLicensing.xml" Name="LogicNP.CryptoLicensing.xml" Source="..\EAScriptAddin\bin\Debug\LogicNP.CryptoLicensing.xml" />
 						<Class Id="{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}" Context="InprocServer32" Description="EAScriptAddin.EAScriptAddinAddinClass" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="EAScriptAddin.EAScriptAddinAddinClass" Description="EAScriptAddin.EAScriptAddinAddinClass" />
 						</Class>

@@ -12,7 +12,7 @@ using EAAddinFramework.EASpecific;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using System.Reflection;
 using System.Linq;
-using EAAddinFramework.Licensing;
+//using EAAddinFramework.Licensing;
 
 namespace EAScriptAddin
 {
