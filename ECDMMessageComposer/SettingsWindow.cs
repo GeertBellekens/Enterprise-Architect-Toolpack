@@ -45,6 +45,8 @@ namespace ECDMMessageComposer
 			this.addDataTypesCheckBox.Checked = this.settings.addDataTypes;
 			//addSourceElements checkbox
 			this.addSourceElementCheckBox.Checked = this.settings.addSourceElements;
+            //copySourceElements checkbox
+            this.copyDatatypesCheckbox.Checked = settings.copyDataTypes;
 		}
 		private void saveChanges()
 		{
@@ -55,6 +57,7 @@ namespace ECDMMessageComposer
 			//diagram options
 			this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
 			this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;
+		    this.settings.copyDataTypes = this.copyDatatypesCheckbox.Checked;
 			//save changes
 			this.settings.save();
 		}

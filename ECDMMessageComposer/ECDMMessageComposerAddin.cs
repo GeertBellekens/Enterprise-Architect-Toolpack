@@ -181,7 +181,8 @@ namespace ECDMMessageComposer
 		{
 			if (messageElement != null)
 			{
-				schema.updateSubsetModel(messageElement);
+                bool copyDataType = this.settings.copyDataTypes;
+                schema.updateSubsetModel(messageElement, copyDataType);
 			}
 			var subsetDiagrams = messageElement.owningPackage.ownedDiagrams;
 			if (subsetDiagrams.Count > 0)
@@ -204,8 +205,10 @@ namespace ECDMMessageComposer
 		{
 			if (targetPackage != null)
 			{
-				//Logger.log("before ECDMMessageComposerAddin::schema.createSubsetModel");
-				schema.createSubsetModel(targetPackage);
+                //Logger.log("before ECDMMessageComposerAddin::schema.createSubsetModel");
+                //Todo create global setting
+                bool copyDataType = this.settings.copyDataTypes;
+                schema.createSubsetModel(targetPackage, copyDataType);
 				createNewSubsetDiagram(schema, targetPackage);
 			}
 		}
@@ -252,14 +255,15 @@ namespace ECDMMessageComposer
 				// then make a diagram and put the subset on it
 				UML.Diagrams.ClassDiagram subsetDiagram = this.model.factory.createNewDiagram<UML.Diagrams.ClassDiagram>(targetPackage, targetPackage.name);
 				subsetDiagram.save();
-				//Logger.log("after ECDMMessageComposerAddin::create subsetDiagram");				
-				//put the subset elements on the new diagram
-				foreach (SchemaElement schemaElement in schema.elements) 
+                //Logger.log("after ECDMMessageComposerAddin::create subsetDiagram");				
+                //put the subset elements on the new diagram
+              
+                foreach (SchemaElement schemaElement in schema.elements) 
 				{
 					if (schemaElement.subsetElement != null) 
 					{
-						subsetDiagram.addToDiagram(schemaElement.subsetElement);
-					} 
+                        subsetDiagram.addToDiagram(schemaElement.subsetElement);
+                    } 
 					bool addSourceElement = false;
 					//check the settings to see if we need to add the source element
 					if (schemaElement.sourceElement is UML.Classes.Kernel.Class

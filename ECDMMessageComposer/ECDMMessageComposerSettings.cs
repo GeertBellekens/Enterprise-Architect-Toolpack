@@ -126,6 +126,19 @@ namespace ECDMMessageComposer
 				this.currentConfig.AppSettings.Settings["addDataTypes"].Value = value.ToString();
 			}
 		}
+
+        /// <summary>
+        /// Copy Datatypes to subset
+        /// </summary>
+        public bool copyDataTypes
+	    {
+	        get
+            {
+                bool result;
+                return bool.TryParse(this.currentConfig.AppSettings.Settings["copyDataTypes"].Value, out result) ? result : true;
+            }
+            set { this.currentConfig.AppSettings.Settings["copyDataTypes"].Value = value.ToString(); }
+	    }
 		/// <summary>
 		/// indicates if the data types should be added to the diagram
 		/// </summary>
