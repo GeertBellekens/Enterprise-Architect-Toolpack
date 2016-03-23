@@ -274,7 +274,14 @@ namespace ECDMMessageComposer
 					else
 					{
 						//or the datatype
-						addSourceElement = this.settings.addDataTypes;
+						if (schemaElement.subsetElement != null)
+						{
+							addSourceElement = this.settings.addSourceElements;
+						}
+						else
+						{
+							addSourceElement = this.settings.addDataTypes;
+						}
 					}
 					//add source element to the diagram if needed
 					if (addSourceElement)
