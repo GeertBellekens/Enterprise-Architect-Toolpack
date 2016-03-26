@@ -281,6 +281,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <param name="nodeToReplace">the node to replace with new data</param>
 		private void addElementToTree(UML.UMLItem element,TreeNode parentNode,TreeNode nodeToReplace = null)
 		{
+			this.NavigatorTree.CollapseAll();
 			TreeNode elementNode = this.makeElementNode(element,parentNode,nodeToReplace);
 			// select the node
 			//NavigatorTree.SelectedNode = elementNode;
