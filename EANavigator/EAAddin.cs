@@ -264,14 +264,16 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		{
     			menuOptionsList.AddRange(getTaggedValueMenuItems(element as UML.Classes.Kernel.Element));
     		}
-    		//tagged values can reference only ElementWrappers, attributes and operations
+    		//tagged values can reference only ElementWrappers, attributes, relationships and operations
     		//same for link to element feature links
     		if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper 
     		    || element is UML.Classes.Kernel.Property
-    		    || element is UML.Classes.Kernel.Operation)
+    		    || element is UML.Classes.Kernel.Operation
+    		    || element is UML.Classes.Kernel.Relationship)
     		{
     			//the root package can't have links
-    			if (element.owner != null)
+    			if (element.owner != null 
+    			    && !(element is UML.Classes.Kernel.Relationship))
     			{
     				menuOptionsList.Add(menuLinkedToElementFeature);
     			}
