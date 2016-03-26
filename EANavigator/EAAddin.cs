@@ -31,6 +31,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal const string menuLinkedToElementFeature = "&Link to Element Feature";
     internal const string menuCompositeDiagram = "&Composite Diagram";
     internal const string menuCompositeElement = "&Composite Element";
+    internal const string menuInDiagrams= "&In Diagrams";
     
     internal const string taggedValueMenuSuffix = " Tags";
     internal const string taggedValueMenuPrefix = "&";
@@ -264,6 +265,11 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		{
     			menuOptionsList.AddRange(getTaggedValueMenuItems(element as UML.Classes.Kernel.Element));
     		}
+    		//relationships
+    		if (element is UML.Classes.Kernel.Relationship)
+    		{
+    			menuOptionsList.Add(menuInDiagrams);
+    		}
     		//tagged values can reference only ElementWrappers, attributes, relationships and operations
     		//same for link to element feature links
     		if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper 
@@ -434,6 +440,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 				break;
 			case menuCompositeElement:
 				elementsToNavigate = this.getCompositeElements(parentElement);
+				break;
+			case menuInDiagrams:
+				elementsToNavigate = this.getDepentDiagrams(parentElement);
 				break;
 			default:
 				if(menuChoice.StartsWith(taggedValueMenuPrefix) 
@@ -709,9 +718,19 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		return elementsToNavigate;
 	}
 	
+	/// <summary>
+	/// returns all diagrams that show this item
+	/// </summary>
+	/// <param name="parentElement"></param>
+	/// <returns></returns>
+	private	List<UML.UMLItem> getDepentDiagrams(UML.UMLItem parentElement)
+	{
+		var elementsToNavigate = new List<UML.UMLItem>();
+		elementsToNavigate.AddRange(parentElement.getDependentDiagrams());
+		return elementsToNavigate;
+	}
 	
-	
-		/// <summary>
+	/// <summary>
 	/// returns all elements linked via the "link to element feature" 
 	/// </summary>
 	/// <param name="parentItem">the connected element</param>
