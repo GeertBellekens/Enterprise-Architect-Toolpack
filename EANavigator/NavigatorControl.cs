@@ -126,6 +126,9 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <param name="nodeObject"></param>
 		private void ThreadSaveInsertNode(object nodeObject) 
 		{
+			//collapse all nodes before adding a new one
+			this.NavigatorTree.CollapseAll();
+			//then add the new one
 			TreeNode elementNode = (TreeNode)nodeObject;
 			this.NavigatorTree.Nodes.Insert(0,elementNode);
 		} 
@@ -281,7 +284,6 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <param name="nodeToReplace">the node to replace with new data</param>
 		private void addElementToTree(UML.UMLItem element,TreeNode parentNode,TreeNode nodeToReplace = null)
 		{
-			this.NavigatorTree.CollapseAll();
 			TreeNode elementNode = this.makeElementNode(element,parentNode,nodeToReplace);
 			// select the node
 			//NavigatorTree.SelectedNode = elementNode;
