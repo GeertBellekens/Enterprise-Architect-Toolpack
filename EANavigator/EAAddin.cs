@@ -61,7 +61,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	{
 		get
 		{
-			if (this.fullyLoaded)
+			//we cannot show windows in the lite edition
+			if (this.fullyLoaded && ! this.model.isLiteEdition)
 			{
 				if (this._navigatorControl == null)
 				{

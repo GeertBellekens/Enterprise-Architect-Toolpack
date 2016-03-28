@@ -202,6 +202,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private void setToolbarVisibility()
 		{
 			this.toolbarVisible = settings.toolbarVisible;
+			this.openInNavigatorButton.Enabled = !settings.trackSelectedElement;
 		}
 		/// <summary>
 		/// clears all nodes
