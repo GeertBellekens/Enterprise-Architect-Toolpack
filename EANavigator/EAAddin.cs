@@ -570,7 +570,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		
 		if (item != null)
 		{
+			//select in EA
 			item.select();
+			//navigate in EA Navigator (often not needed but do it anyway)
+			this.navigate(item);
 		} 
 		else
 		{

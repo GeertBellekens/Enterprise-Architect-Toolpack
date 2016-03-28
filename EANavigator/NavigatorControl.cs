@@ -593,6 +593,17 @@ namespace TSF.UmlToolingFramework.EANavigator
 			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
 			this.addToDiagram(selectedElement);
 		}
+		/// <summary>
+		/// copies the GUID of the selected element to the clipboard
+		/// </summary>
+		void copyGUID()
+		{
+			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			if (selectedElement.uniqueID != null)
+			{
+				Clipboard.SetText(selectedElement.uniqueID);
+			}
+		}
 		
 		private void selectInProjectBrowser()
 		{
@@ -607,6 +618,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 				}
 				//actually open element
 				selectedElement.open();
+				if (selectedElement is UML.Classes.Kernel.Relationship) 
+				{
+					this.setElement(selectedElement);
+				}
 				//select the context if the selected element was a diagram
 				if (context != null)
 				{
@@ -739,6 +754,18 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			this.addToDiagram();
 		}
+		void CopyGUIDButtonClick(object sender, EventArgs e)
+		{
+			this.copyGUID();
+		}
+		
+		void CopyGUIDMenuItemClick(object sender, EventArgs e)
+		{
+			this.copyGUID();
+		}
+
+
+
 		public event EventHandler quickSearchTextChanged;
 		void QuickSearchComboBoxTextChanged(object sender, EventArgs e)
 		{
@@ -865,6 +892,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 			this.quickSearchBox.DroppedDown = false;
 		}
+		
+
 		
 
 	}

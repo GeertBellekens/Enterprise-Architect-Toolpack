@@ -44,20 +44,22 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.selectBrowserMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.addToDiagramMenuOption = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.copyGUIDMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.navigatorToolStrip = new System.Windows.Forms.ToolStrip();
+			this.openInNavigatorButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.projectBrowserButton = new System.Windows.Forms.ToolStripButton();
 			this.propertiesButton = new System.Windows.Forms.ToolStripButton();
 			this.addToDiagramButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.fqnButton = new System.Windows.Forms.ToolStripButton();
 			this.guidButton = new System.Windows.Forms.ToolStripButton();
+			this.copyGUIDButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.settingsButton = new System.Windows.Forms.ToolStripButton();
 			this.aboutButton = new System.Windows.Forms.ToolStripButton();
 			this.navigatorToolStripContainer = new System.Windows.Forms.ToolStripContainer();
 			this.quickSearchBox = new TSF.UmlToolingFramework.EANavigator.QuickSearchBox();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.openInNavigatorButton = new System.Windows.Forms.ToolStripButton();
 			this.navigatorContextMenu.SuspendLayout();
 			this.navigatorToolStrip.SuspendLayout();
 			this.navigatorToolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -72,7 +74,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorTree.Location = new System.Drawing.Point(0, 0);
 			this.NavigatorTree.Name = "NavigatorTree";
 			this.NavigatorTree.ShowNodeToolTips = true;
-			this.NavigatorTree.Size = new System.Drawing.Size(404, 224);
+			this.NavigatorTree.Size = new System.Drawing.Size(407, 224);
 			this.NavigatorTree.TabIndex = 0;
 			this.NavigatorTree.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
 			this.NavigatorTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeMouseClick);
@@ -84,9 +86,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 									this.openPropertiesMenuItem,
 									this.selectBrowserMenuItem,
 									this.addToDiagramMenuOption,
-									this.optionsMenuItem});
+									this.optionsMenuItem,
+									this.copyGUIDMenuItem});
 			this.navigatorContextMenu.Name = "navigatorContextMenu";
-			this.navigatorContextMenu.Size = new System.Drawing.Size(204, 92);
+			this.navigatorContextMenu.Size = new System.Drawing.Size(204, 136);
 			// 
 			// openPropertiesMenuItem
 			// 
@@ -120,6 +123,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.optionsMenuItem.Text = "Options";
 			this.optionsMenuItem.Click += new System.EventHandler(this.OptionsMenuItemClick);
 			// 
+			// copyGUIDMenuItem
+			// 
+			this.copyGUIDMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyGUIDMenuItem.Image")));
+			this.copyGUIDMenuItem.Name = "copyGUIDMenuItem";
+			this.copyGUIDMenuItem.Size = new System.Drawing.Size(203, 22);
+			this.copyGUIDMenuItem.Text = "Copy GUID";
+			this.copyGUIDMenuItem.ToolTipText = "Copy the GUID of the selected element to the clipboard.";
+			this.copyGUIDMenuItem.Click += new System.EventHandler(this.CopyGUIDMenuItemClick);
+			// 
 			// navigatorToolStrip
 			// 
 			this.navigatorToolStrip.Dock = System.Windows.Forms.DockStyle.None;
@@ -133,14 +145,32 @@ namespace TSF.UmlToolingFramework.EANavigator
 									this.toolStripSeparator2,
 									this.fqnButton,
 									this.guidButton,
+									this.copyGUIDButton,
 									this.toolStripSeparator1,
 									this.settingsButton,
 									this.aboutButton});
 			this.navigatorToolStrip.Location = new System.Drawing.Point(3, 0);
 			this.navigatorToolStrip.Name = "navigatorToolStrip";
 			this.navigatorToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.navigatorToolStrip.Size = new System.Drawing.Size(204, 25);
+			this.navigatorToolStrip.Size = new System.Drawing.Size(228, 25);
 			this.navigatorToolStrip.TabIndex = 1;
+			// 
+			// openInNavigatorButton
+			// 
+			this.openInNavigatorButton.AutoToolTip = false;
+			this.openInNavigatorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.openInNavigatorButton.Image = ((System.Drawing.Image)(resources.GetObject("openInNavigatorButton.Image")));
+			this.openInNavigatorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.openInNavigatorButton.Name = "openInNavigatorButton";
+			this.openInNavigatorButton.Size = new System.Drawing.Size(23, 22);
+			this.openInNavigatorButton.Text = "Open";
+			this.openInNavigatorButton.ToolTipText = "Show selected item in EA Navigator";
+			this.openInNavigatorButton.Click += new System.EventHandler(this.OpenInNavigatorButtonClick);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
 			// 
 			// projectBrowserButton
 			// 
@@ -199,6 +229,16 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.guidButton.ToolTipText = "Select element from GUID";
 			this.guidButton.Click += new System.EventHandler(this.GuidButtonClick);
 			// 
+			// copyGUIDButton
+			// 
+			this.copyGUIDButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.copyGUIDButton.Image = ((System.Drawing.Image)(resources.GetObject("copyGUIDButton.Image")));
+			this.copyGUIDButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.copyGUIDButton.Name = "copyGUIDButton";
+			this.copyGUIDButton.Size = new System.Drawing.Size(23, 22);
+			this.copyGUIDButton.Text = "Copy GUID";
+			this.copyGUIDButton.Click += new System.EventHandler(this.CopyGUIDButtonClick);
+			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -230,12 +270,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// 
 			// navigatorToolStripContainer.ContentPanel
 			// 
-			this.navigatorToolStripContainer.ContentPanel.Size = new System.Drawing.Size(207, 2);
+			this.navigatorToolStripContainer.ContentPanel.Size = new System.Drawing.Size(234, 2);
 			this.navigatorToolStripContainer.LeftToolStripPanelVisible = false;
 			this.navigatorToolStripContainer.Location = new System.Drawing.Point(0, 0);
 			this.navigatorToolStripContainer.Name = "navigatorToolStripContainer";
 			this.navigatorToolStripContainer.RightToolStripPanelVisible = false;
-			this.navigatorToolStripContainer.Size = new System.Drawing.Size(207, 27);
+			this.navigatorToolStripContainer.Size = new System.Drawing.Size(234, 27);
 			this.navigatorToolStripContainer.TabIndex = 1;
 			this.navigatorToolStripContainer.Text = "toolStripContainer1";
 			// 
@@ -252,12 +292,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.quickSearchBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.quickSearchBox.DroppedDown = false;
 			this.quickSearchBox.FormattingEnabled = true;
-			this.quickSearchBox.Location = new System.Drawing.Point(210, 2);
+			this.quickSearchBox.Location = new System.Drawing.Point(237, 4);
 			this.quickSearchBox.MaxDropDownItems = 10;
 			this.quickSearchBox.Name = "quickSearchBox";
 			this.quickSearchBox.SelectedIndex = -1;
 			this.quickSearchBox.SelectedItem = null;
-			this.quickSearchBox.Size = new System.Drawing.Size(191, 23);
+			this.quickSearchBox.Size = new System.Drawing.Size(167, 23);
 			this.quickSearchBox.TabIndex = 2;
 			this.quickSearchBox.Visible = false;
 			this.quickSearchBox.TextUpdate += new System.EventHandler(this.QuickSearchComboBoxTextUpdate);
@@ -265,23 +305,6 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.quickSearchBox.TextChanged += new System.EventHandler(this.QuickSearchComboBoxTextChanged);
 			this.quickSearchBox.Enter += new System.EventHandler(this.QuickSearchComboBoxEnter);
 			this.quickSearchBox.Leave += new System.EventHandler(this.QuickSearchComboBoxLeave);
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-			// 
-			// openInNavigatorButton
-			// 
-			this.openInNavigatorButton.AutoToolTip = false;
-			this.openInNavigatorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.openInNavigatorButton.Image = ((System.Drawing.Image)(resources.GetObject("openInNavigatorButton.Image")));
-			this.openInNavigatorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.openInNavigatorButton.Name = "openInNavigatorButton";
-			this.openInNavigatorButton.Size = new System.Drawing.Size(23, 22);
-			this.openInNavigatorButton.Text = "Open";
-			this.openInNavigatorButton.ToolTipText = "Show selected item in EA Navigator";
-			this.openInNavigatorButton.Click += new System.EventHandler(this.OpenInNavigatorButtonClick);
 			// 
 			// NavigatorControl
 			// 
@@ -302,6 +325,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripButton copyGUIDButton;
+		private System.Windows.Forms.ToolStripMenuItem copyGUIDMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripButton openInNavigatorButton;
 		private TSF.UmlToolingFramework.EANavigator.QuickSearchBox quickSearchBox;
