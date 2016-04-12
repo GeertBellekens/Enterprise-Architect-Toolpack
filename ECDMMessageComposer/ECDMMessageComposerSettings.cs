@@ -126,7 +126,35 @@ namespace ECDMMessageComposer
 				this.currentConfig.AppSettings.Settings["addDataTypes"].Value = value.ToString();
 			}
 		}
-
+				/// <summary>
+		/// indicates if the data types should be added to the diagram
+		/// </summary>
+		public bool limitDataTypes
+		{
+			get
+			{
+				bool result;
+				return bool.TryParse(this.currentConfig.AppSettings.Settings["limitDataTypes"].Value, out result) ? result : true;
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["limitDataTypes"].Value = value.ToString();
+			}
+		}
+		/// <summary>
+		/// list of stereotypes of elements to ignore when updating a subset model
+		/// </summary>
+		public List<string> dataTypesToCopy
+		{
+			get
+			{
+				return this.currentConfig.AppSettings.Settings["dataTypesToCopy"].Value.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["dataTypesToCopy"].Value = string.Join(",",value);
+			}
+		}
         /// <summary>
         /// Copy Datatypes to subset
         /// </summary>

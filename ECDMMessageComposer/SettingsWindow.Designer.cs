@@ -63,8 +63,11 @@ namespace ECDMMessageComposer
 			this.addSourceElementCheckBox = new System.Windows.Forms.CheckBox();
 			this.addDataTypesCheckBox = new System.Windows.Forms.CheckBox();
 			this.copyDatatypesCheckbox = new System.Windows.Forms.CheckBox();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.button1 = new System.Windows.Forms.Button();
+			this.dataTypeOptionsGroupBox = new System.Windows.Forms.GroupBox();
+			this.limitDatatypesCheckBox = new System.Windows.Forms.CheckBox();
+			this.deleteDataTypeButton = new System.Windows.Forms.Button();
+			this.dataTypesGridView = new System.Windows.Forms.DataGridView();
+			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -72,7 +75,8 @@ namespace ECDMMessageComposer
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.diagramOptionsGroupBox.SuspendLayout();
-			this.groupBox1.SuspendLayout();
+			this.dataTypeOptionsGroupBox.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataTypesGridView)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// ignoredStereoTypesGrid
@@ -87,7 +91,7 @@ namespace ECDMMessageComposer
 			this.ignoredStereoTypesGrid.Name = "ignoredStereoTypesGrid";
 			this.ignoredStereoTypesGrid.RowHeadersVisible = false;
 			this.ignoredStereoTypesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ignoredStereoTypesGrid.Size = new System.Drawing.Size(166, 186);
+			this.ignoredStereoTypesGrid.Size = new System.Drawing.Size(174, 101);
 			this.ignoredStereoTypesGrid.TabIndex = 0;
 			// 
 			// StereotypeColumn
@@ -100,7 +104,7 @@ namespace ECDMMessageComposer
 			// deleteStereotypeButton
 			// 
 			this.deleteStereotypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.deleteStereotypeButton.Location = new System.Drawing.Point(93, 195);
+			this.deleteStereotypeButton.Location = new System.Drawing.Point(101, 110);
 			this.deleteStereotypeButton.Name = "deleteStereotypeButton";
 			this.deleteStereotypeButton.Size = new System.Drawing.Size(75, 23);
 			this.deleteStereotypeButton.TabIndex = 1;
@@ -111,7 +115,7 @@ namespace ECDMMessageComposer
 			// okButton
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(115, 380);
+			this.okButton.Location = new System.Drawing.Point(131, 411);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 2;
@@ -123,7 +127,7 @@ namespace ECDMMessageComposer
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(196, 380);
+			this.cancelButton.Location = new System.Drawing.Point(212, 411);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 3;
@@ -134,7 +138,7 @@ namespace ECDMMessageComposer
 			// applyButton
 			// 
 			this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.applyButton.Location = new System.Drawing.Point(277, 380);
+			this.applyButton.Location = new System.Drawing.Point(293, 411);
 			this.applyButton.Name = "applyButton";
 			this.applyButton.Size = new System.Drawing.Size(75, 23);
 			this.applyButton.TabIndex = 4;
@@ -154,7 +158,7 @@ namespace ECDMMessageComposer
 			this.ignoredTaggedValuesGrid.Name = "ignoredTaggedValuesGrid";
 			this.ignoredTaggedValuesGrid.RowHeadersVisible = false;
 			this.ignoredTaggedValuesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ignoredTaggedValuesGrid.Size = new System.Drawing.Size(159, 186);
+			this.ignoredTaggedValuesGrid.Size = new System.Drawing.Size(167, 101);
 			this.ignoredTaggedValuesGrid.TabIndex = 5;
 			// 
 			// dataGridViewTextBoxColumn1
@@ -168,7 +172,7 @@ namespace ECDMMessageComposer
 			// deleteTaggedValueButton
 			// 
 			this.deleteTaggedValueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.deleteTaggedValueButton.Location = new System.Drawing.Point(84, 195);
+			this.deleteTaggedValueButton.Location = new System.Drawing.Point(92, 110);
 			this.deleteTaggedValueButton.Name = "deleteTaggedValueButton";
 			this.deleteTaggedValueButton.Size = new System.Drawing.Size(75, 23);
 			this.deleteTaggedValueButton.TabIndex = 6;
@@ -193,8 +197,8 @@ namespace ECDMMessageComposer
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.deleteTaggedValueButton);
 			this.splitContainer1.Panel2.Controls.Add(this.ignoredTaggedValuesGrid);
-			this.splitContainer1.Size = new System.Drawing.Size(340, 226);
-			this.splitContainer1.SplitterDistance = 171;
+			this.splitContainer1.Size = new System.Drawing.Size(356, 141);
+			this.splitContainer1.SplitterDistance = 179;
 			this.splitContainer1.TabIndex = 7;
 			// 
 			// diagramOptionsGroupBox
@@ -204,10 +208,10 @@ namespace ECDMMessageComposer
 			this.diagramOptionsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.diagramOptionsGroupBox.Controls.Add(this.addSourceElementCheckBox);
 			this.diagramOptionsGroupBox.Controls.Add(this.addDataTypesCheckBox);
-			this.diagramOptionsGroupBox.Location = new System.Drawing.Point(12, 298);
+			this.diagramOptionsGroupBox.Location = new System.Drawing.Point(12, 329);
 			this.diagramOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 75);
 			this.diagramOptionsGroupBox.Name = "diagramOptionsGroupBox";
-			this.diagramOptionsGroupBox.Size = new System.Drawing.Size(340, 76);
+			this.diagramOptionsGroupBox.Size = new System.Drawing.Size(356, 76);
 			this.diagramOptionsGroupBox.TabIndex = 8;
 			this.diagramOptionsGroupBox.TabStop = false;
 			this.diagramOptionsGroupBox.Text = "New Diagram Options";
@@ -235,36 +239,73 @@ namespace ECDMMessageComposer
 			// copyDatatypesCheckbox
 			// 
 			this.copyDatatypesCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.copyDatatypesCheckbox.Location = new System.Drawing.Point(6, 16);
+			this.copyDatatypesCheckbox.Location = new System.Drawing.Point(6, 19);
 			this.copyDatatypesCheckbox.Name = "copyDatatypesCheckbox";
 			this.copyDatatypesCheckbox.Size = new System.Drawing.Size(162, 24);
 			this.copyDatatypesCheckbox.TabIndex = 2;
 			this.copyDatatypesCheckbox.Text = "Copy Datatypes to subset";
 			this.copyDatatypesCheckbox.UseVisualStyleBackColor = true;
+			this.copyDatatypesCheckbox.CheckedChanged += new System.EventHandler(this.CopyDatatypesCheckboxCheckedChanged);
 			// 
-			// groupBox1
+			// dataTypeOptionsGroupBox
 			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			this.dataTypeOptionsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox1.Controls.Add(this.button1);
-			this.groupBox1.Controls.Add(this.copyDatatypesCheckbox);
-			this.groupBox1.Location = new System.Drawing.Point(12, 247);
-			this.groupBox1.MinimumSize = new System.Drawing.Size(0, 45);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(340, 46);
-			this.groupBox1.TabIndex = 9;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "General Options";
+			this.dataTypeOptionsGroupBox.Controls.Add(this.limitDatatypesCheckBox);
+			this.dataTypeOptionsGroupBox.Controls.Add(this.deleteDataTypeButton);
+			this.dataTypeOptionsGroupBox.Controls.Add(this.dataTypesGridView);
+			this.dataTypeOptionsGroupBox.Controls.Add(this.copyDatatypesCheckbox);
+			this.dataTypeOptionsGroupBox.Location = new System.Drawing.Point(12, 162);
+			this.dataTypeOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 45);
+			this.dataTypeOptionsGroupBox.Name = "dataTypeOptionsGroupBox";
+			this.dataTypeOptionsGroupBox.Size = new System.Drawing.Size(356, 162);
+			this.dataTypeOptionsGroupBox.TabIndex = 9;
+			this.dataTypeOptionsGroupBox.TabStop = false;
+			this.dataTypeOptionsGroupBox.Text = "Datatype Options";
 			// 
-			// button1
+			// limitDatatypesCheckBox
 			// 
-			this.button1.Enabled = false;
-			this.button1.Location = new System.Drawing.Point(259, 16);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 3;
-			this.button1.Text = "Limit to";
-			this.button1.UseVisualStyleBackColor = true;
+			this.limitDatatypesCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.limitDatatypesCheckBox.Location = new System.Drawing.Point(6, 49);
+			this.limitDatatypesCheckBox.Name = "limitDatatypesCheckBox";
+			this.limitDatatypesCheckBox.Size = new System.Drawing.Size(162, 24);
+			this.limitDatatypesCheckBox.TabIndex = 8;
+			this.limitDatatypesCheckBox.Text = "Limit Datatypes to copy";
+			this.limitDatatypesCheckBox.UseVisualStyleBackColor = true;
+			this.limitDatatypesCheckBox.CheckedChanged += new System.EventHandler(this.LimitDatatypesCheckBoxCheckedChanged);
+			// 
+			// deleteDataTypeButton
+			// 
+			this.deleteDataTypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.deleteDataTypeButton.Location = new System.Drawing.Point(274, 130);
+			this.deleteDataTypeButton.Name = "deleteDataTypeButton";
+			this.deleteDataTypeButton.Size = new System.Drawing.Size(75, 23);
+			this.deleteDataTypeButton.TabIndex = 7;
+			this.deleteDataTypeButton.Text = "Delete";
+			this.deleteDataTypeButton.UseVisualStyleBackColor = true;
+			this.deleteDataTypeButton.Click += new System.EventHandler(this.DeleteDataTypeButtonClick);
+			// 
+			// dataTypesGridView
+			// 
+			this.dataTypesGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.dataTypesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataTypesGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+			this.dataGridViewTextBoxColumn2});
+			this.dataTypesGridView.Location = new System.Drawing.Point(174, 19);
+			this.dataTypesGridView.Name = "dataTypesGridView";
+			this.dataTypesGridView.RowHeadersVisible = false;
+			this.dataTypesGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.dataTypesGridView.Size = new System.Drawing.Size(175, 105);
+			this.dataTypesGridView.TabIndex = 6;
+			// 
+			// dataGridViewTextBoxColumn2
+			// 
+			this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.dataGridViewTextBoxColumn2.HeaderText = "Datatypes to copy";
+			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+			this.dataGridViewTextBoxColumn2.ToolTipText = "Only copy these datatypes to the subset model";
 			// 
 			// SettingsWindow
 			// 
@@ -272,8 +313,8 @@ namespace ECDMMessageComposer
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(364, 411);
-			this.Controls.Add(this.groupBox1);
+			this.ClientSize = new System.Drawing.Size(380, 442);
+			this.Controls.Add(this.dataTypeOptionsGroupBox);
 			this.Controls.Add(this.diagramOptionsGroupBox);
 			this.Controls.Add(this.applyButton);
 			this.Controls.Add(this.cancelButton);
@@ -293,13 +334,20 @@ namespace ECDMMessageComposer
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.diagramOptionsGroupBox.ResumeLayout(false);
-			this.groupBox1.ResumeLayout(false);
+			this.dataTypeOptionsGroupBox.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataTypesGridView)).EndInit();
 			this.ResumeLayout(false);
 
 		}
+		//this.ResumeLayout(false);
+
+		
 
         private System.Windows.Forms.CheckBox copyDatatypesCheckbox;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.GroupBox dataTypeOptionsGroupBox;
+        private System.Windows.Forms.Button deleteDataTypeButton;
+        private System.Windows.Forms.CheckBox limitDatatypesCheckBox;
+        private System.Windows.Forms.DataGridView dataTypesGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
     }
 }

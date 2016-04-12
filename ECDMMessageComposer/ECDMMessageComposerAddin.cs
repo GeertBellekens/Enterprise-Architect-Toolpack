@@ -182,7 +182,12 @@ namespace ECDMMessageComposer
 			if (messageElement != null)
 			{
                 bool copyDataType = this.settings.copyDataTypes;
-                schema.updateSubsetModel(messageElement, copyDataType);
+                List<String>datatypesToCopy = null;
+                if (copyDataType)
+                {
+                	datatypesToCopy = this.settings.dataTypesToCopy;
+                }
+                schema.updateSubsetModel(messageElement, copyDataType, datatypesToCopy);
 			}
 			var subsetDiagrams = messageElement.owningPackage.ownedDiagrams;
 			if (subsetDiagrams.Count > 0)
@@ -208,7 +213,12 @@ namespace ECDMMessageComposer
                 //Logger.log("before ECDMMessageComposerAddin::schema.createSubsetModel");
                 //Todo create global setting
                 bool copyDataType = this.settings.copyDataTypes;
-                schema.createSubsetModel(targetPackage, copyDataType);
+                List<String>datatypesToCopy = null;
+                if (copyDataType)
+                {
+                	datatypesToCopy = this.settings.dataTypesToCopy;
+                }
+                schema.createSubsetModel(targetPackage, copyDataType, datatypesToCopy);
 				createNewSubsetDiagram(schema, targetPackage);
 			}
 		}

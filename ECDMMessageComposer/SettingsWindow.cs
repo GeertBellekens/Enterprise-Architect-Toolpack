@@ -27,6 +27,7 @@ namespace ECDMMessageComposer
 			InitializeComponent();
 			this.settings = settings;
 			this.loadData();
+			this.enableDisable();
 			
 		}
 		private void loadData()
@@ -41,12 +42,25 @@ namespace ECDMMessageComposer
 			{
 				this.ignoredTaggedValuesGrid.Rows.Add(stereotype);
 			}
+			//get the datatypes to copy
+			foreach (string  datatype in this.settings.dataTypesToCopy) 
+			{
+				this.dataTypesGridView.Rows.Add(datatype);
+			}			
 			//addDataTypes checkbox
 			this.addDataTypesCheckBox.Checked = this.settings.addDataTypes;
 			//addSourceElements checkbox
 			this.addSourceElementCheckBox.Checked = this.settings.addSourceElements;
             //copySourceElements checkbox
             this.copyDatatypesCheckbox.Checked = settings.copyDataTypes;
+            //limit datatypes checkbox
+            this.limitDatatypesCheckBox.Checked = settings.limitDataTypes;
+		}
+		private void enableDisable()
+		{
+			this.limitDatatypesCheckBox.Enabled = addDataTypesCheckBox.Checked;
+			this.dataTypesGridView.Enabled = this.limitDatatypesCheckBox.Checked;
+			this.deleteDataTypeButton.Enabled = this.dataTypesGridView.Enabled;
 		}
 		private void saveChanges()
 		{
@@ -54,12 +68,31 @@ namespace ECDMMessageComposer
 			this.extractStereotypes();
 			//get the tagged values from the grid
 			this.extractTaggedValues();
+			//get the datatypes from the grid
+			this.extractDataTypes();
 			//diagram options
 			this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
 			this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;
+			//datatype options
 		    this.settings.copyDataTypes = this.copyDatatypesCheckbox.Checked;
+		    this.settings.limitDataTypes = this.limitDatatypesCheckBox.Checked;
 			//save changes
 			this.settings.save();
+		}
+		private void extractDataTypes()
+		{
+			//make new datatypes list
+			var datatypes = new List<string>();
+			//get datatypes from grid
+			foreach (DataGridViewRow row in this.dataTypesGridView.Rows)
+			{
+				string datatype = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : string.Empty;
+				if (datatype != string.Empty)
+				{
+					datatypes.Add(datatype);
+				}
+			}
+			this.settings.dataTypesToCopy = datatypes;
 		}
 		private void extractStereotypes()
 		{
@@ -83,10 +116,10 @@ namespace ECDMMessageComposer
 			//get ignored tagged values from grid
 			foreach (DataGridViewRow row in this.ignoredTaggedValuesGrid.Rows)
 			{
-				string tagedValue = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : string.Empty;
-				if (tagedValue != string.Empty)
+				string taggedValue = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : string.Empty;
+				if (taggedValue != string.Empty)
 				{
-					tagedValues.Add(tagedValue);
+					tagedValues.Add(taggedValue);
 				}
 			}
 			this.settings.ignoredTaggedValues = tagedValues;
@@ -125,6 +158,24 @@ namespace ECDMMessageComposer
 					ignoredTaggedValuesGrid.Rows.Remove(row);
 				}
 			}
+		}
+		void DeleteDataTypeButtonClick(object sender, EventArgs e)
+		{
+			foreach (DataGridViewRow row in this.dataTypesGridView.SelectedRows) 
+			{
+				if (!row.IsNewRow)
+				{
+					dataTypesGridView.Rows.Remove(row);
+				}
+			}
+		}
+		void CopyDatatypesCheckboxCheckedChanged(object sender, EventArgs e)
+		{
+			this.enableDisable();
+		}
+		void LimitDatatypesCheckBoxCheckedChanged(object sender, EventArgs e)
+		{
+			this.enableDisable();
 		}
 		
 	}
