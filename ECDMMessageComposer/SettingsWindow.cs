@@ -58,7 +58,7 @@ namespace ECDMMessageComposer
 		}
 		private void enableDisable()
 		{
-			this.limitDatatypesCheckBox.Enabled = addDataTypesCheckBox.Checked;
+			this.limitDatatypesCheckBox.Enabled = copyDatatypesCheckbox.Checked;
 			this.dataTypesGridView.Enabled = this.limitDatatypesCheckBox.Checked;
 			this.deleteDataTypeButton.Enabled = this.dataTypesGridView.Enabled;
 		}

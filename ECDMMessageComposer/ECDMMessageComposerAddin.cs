@@ -183,7 +183,7 @@ namespace ECDMMessageComposer
 			{
                 bool copyDataType = this.settings.copyDataTypes;
                 List<String>datatypesToCopy = null;
-                if (copyDataType)
+                if (copyDataType && this.settings.limitDataTypes)
                 {
                 	datatypesToCopy = this.settings.dataTypesToCopy;
                 }
@@ -214,7 +214,7 @@ namespace ECDMMessageComposer
                 //Todo create global setting
                 bool copyDataType = this.settings.copyDataTypes;
                 List<String>datatypesToCopy = null;
-                if (copyDataType)
+                if (copyDataType && this.settings.limitDataTypes)
                 {
                 	datatypesToCopy = this.settings.dataTypesToCopy;
                 }
