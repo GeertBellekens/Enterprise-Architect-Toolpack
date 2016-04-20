@@ -27,6 +27,13 @@ namespace ECDMMessageComposer
 		private System.Windows.Forms.GroupBox diagramOptionsGroupBox;
 		private System.Windows.Forms.CheckBox addSourceElementCheckBox;
 		private System.Windows.Forms.CheckBox addDataTypesCheckBox;
+        private System.Windows.Forms.CheckBox copyDatatypesCheckbox;
+        private System.Windows.Forms.GroupBox dataTypeOptionsGroupBox;
+        private System.Windows.Forms.Button deleteDataTypeButton;
+        private System.Windows.Forms.CheckBox limitDatatypesCheckBox;
+        private System.Windows.Forms.DataGridView dataTypesGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.CheckBox copyGeneralizationsCheckBox;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -68,6 +75,7 @@ namespace ECDMMessageComposer
 			this.deleteDataTypeButton = new System.Windows.Forms.Button();
 			this.dataTypesGridView = new System.Windows.Forms.DataGridView();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.copyGeneralizationsCheckBox = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -251,6 +259,7 @@ namespace ECDMMessageComposer
 			// 
 			this.dataTypeOptionsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
+			this.dataTypeOptionsGroupBox.Controls.Add(this.copyGeneralizationsCheckBox);
 			this.dataTypeOptionsGroupBox.Controls.Add(this.limitDatatypesCheckBox);
 			this.dataTypeOptionsGroupBox.Controls.Add(this.deleteDataTypeButton);
 			this.dataTypeOptionsGroupBox.Controls.Add(this.dataTypesGridView);
@@ -307,6 +316,16 @@ namespace ECDMMessageComposer
 			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
 			this.dataGridViewTextBoxColumn2.ToolTipText = "Only copy these datatypes to the subset model";
 			// 
+			// copyGeneralizationsCheckBox
+			// 
+			this.copyGeneralizationsCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.copyGeneralizationsCheckBox.Location = new System.Drawing.Point(6, 79);
+			this.copyGeneralizationsCheckBox.Name = "copyGeneralizationsCheckBox";
+			this.copyGeneralizationsCheckBox.Size = new System.Drawing.Size(162, 24);
+			this.copyGeneralizationsCheckBox.TabIndex = 9;
+			this.copyGeneralizationsCheckBox.Text = "Copy Generalizations";
+			this.copyGeneralizationsCheckBox.UseVisualStyleBackColor = true;
+			// 
 			// SettingsWindow
 			// 
 			this.AcceptButton = this.okButton;
@@ -338,16 +357,18 @@ namespace ECDMMessageComposer
 			((System.ComponentModel.ISupportInitialize)(this.dataTypesGridView)).EndInit();
 			this.ResumeLayout(false);
 
+			this.Text = "ECDM Message Composer settings";
+			((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).EndInit();
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+			this.splitContainer1.ResumeLayout(false);
+			this.diagramOptionsGroupBox.ResumeLayout(false);
+			this.dataTypeOptionsGroupBox.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataTypesGridView)).EndInit();
+			this.ResumeLayout(false);
 		}
 		//this.ResumeLayout(false);
-
-		
-
-        private System.Windows.Forms.CheckBox copyDatatypesCheckbox;
-        private System.Windows.Forms.GroupBox dataTypeOptionsGroupBox;
-        private System.Windows.Forms.Button deleteDataTypeButton;
-        private System.Windows.Forms.CheckBox limitDatatypesCheckBox;
-        private System.Windows.Forms.DataGridView dataTypesGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
     }
 }

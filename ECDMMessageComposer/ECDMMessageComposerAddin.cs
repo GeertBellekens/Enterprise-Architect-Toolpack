@@ -133,9 +133,7 @@ namespace ECDMMessageComposer
 		public override void EA_GenerateFromSchema(EA.Repository Repository, EA.SchemaComposer composer, string exports)
 		{
 
-			Schema schema = this.schemaFactory.createSchema(composer);
-			schema.ignoredStereotypes = this.settings.ignoredStereotypes;
-			schema.ignoredTaggedValues = this.settings.ignoredTaggedValues;
+			Schema schema = this.schemaFactory.createSchema(composer, this.settings);
 			UML.Classes.Kernel.Element selectedElement = this.model.getUserSelectedElement(new List<string>{"Package"});
 			if (selectedElement != null)
 			{
@@ -187,7 +185,7 @@ namespace ECDMMessageComposer
                 {
                 	datatypesToCopy = this.settings.dataTypesToCopy;
                 }
-                schema.updateSubsetModel(messageElement, copyDataType, datatypesToCopy);
+                schema.updateSubsetModel(messageElement);
 			}
 			var subsetDiagrams = messageElement.owningPackage.ownedDiagrams;
 			if (subsetDiagrams.Count > 0)
@@ -218,7 +216,7 @@ namespace ECDMMessageComposer
                 {
                 	datatypesToCopy = this.settings.dataTypesToCopy;
                 }
-                schema.createSubsetModel(targetPackage, copyDataType, datatypesToCopy);
+                schema.createSubsetModel(targetPackage);
 				createNewSubsetDiagram(schema, targetPackage);
 			}
 		}

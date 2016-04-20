@@ -55,12 +55,15 @@ namespace ECDMMessageComposer
             this.copyDatatypesCheckbox.Checked = settings.copyDataTypes;
             //limit datatypes checkbox
             this.limitDatatypesCheckBox.Checked = settings.limitDataTypes;
+            //copy Generalizations checkbox
+            this.copyGeneralizationsCheckBox.Checked = settings.copyDataTypeGeneralizations;
 		}
 		private void enableDisable()
 		{
 			this.limitDatatypesCheckBox.Enabled = copyDatatypesCheckbox.Checked;
 			this.dataTypesGridView.Enabled = this.limitDatatypesCheckBox.Checked;
 			this.deleteDataTypeButton.Enabled = this.dataTypesGridView.Enabled;
+			this.copyGeneralizationsCheckBox.Enabled = this.copyDatatypesCheckbox.Checked;
 		}
 		private void saveChanges()
 		{
@@ -76,6 +79,7 @@ namespace ECDMMessageComposer
 			//datatype options
 		    this.settings.copyDataTypes = this.copyDatatypesCheckbox.Checked;
 		    this.settings.limitDataTypes = this.limitDatatypesCheckBox.Checked;
+		    this.settings.copyDataTypeGeneralizations = this.copyGeneralizationsCheckBox.Checked;
 			//save changes
 			this.settings.save();
 		}
@@ -177,6 +181,7 @@ namespace ECDMMessageComposer
 		{
 			this.enableDisable();
 		}
+
 		
 	}
 }

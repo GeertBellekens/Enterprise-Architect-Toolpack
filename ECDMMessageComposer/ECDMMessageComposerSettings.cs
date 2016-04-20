@@ -4,13 +4,14 @@ using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using System.Configuration;
 using System.Linq;
 using System.Collections.Generic;
+using SBF=SchemaBuilderFramework;
 
 namespace ECDMMessageComposer
 {
 	/// <summary>
 	/// Description of ECDMMessageComposerSettings.
 	/// </summary>
-	public class ECDMMessageComposerSettings
+	public class ECDMMessageComposerSettings:SBF.SchemaSettings
 	{
 
 		protected Configuration defaultConfig {get;set;}
@@ -82,7 +83,7 @@ namespace ECDMMessageComposer
 		  // Get the mapped configuration file.
 		   currentConfig = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
 		}
-		
+
 		/// <summary>
 		/// list of tagged value names to ignore when updating tagged values
 		/// </summary>
@@ -126,7 +127,22 @@ namespace ECDMMessageComposer
 				this.currentConfig.AppSettings.Settings["addDataTypes"].Value = value.ToString();
 			}
 		}
-				/// <summary>
+		/// <summary>
+		/// indicates if datatype generalizations should be copied tot he subset datatypes
+		/// </summary>
+		public bool copyDataTypeGeneralizations
+		{
+			get
+			{
+				bool result;
+				return bool.TryParse(this.currentConfig.AppSettings.Settings["copyDataTypeGeneralizations"].Value, out result) ? result : true;
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["copyDataTypeGeneralizations"].Value = value.ToString();
+			}
+		}
+		/// <summary>
 		/// indicates if the data types should be added to the diagram
 		/// </summary>
 		public bool limitDataTypes
