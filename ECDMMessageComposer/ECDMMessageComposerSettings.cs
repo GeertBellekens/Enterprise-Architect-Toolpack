@@ -198,9 +198,29 @@ namespace ECDMMessageComposer
 				this.currentConfig.AppSettings.Settings["addSourceElements"].Value = value.ToString();
 			}
 		}
-		
-
-	}
+		public string sourceAttributeTagName
+		{
+			get
+			{
+				return this.currentConfig.AppSettings.Settings["sourceAttributeTagName"].Value;
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["sourceAttributeTagName"].Value = value;
+			}
+		}
+        public string sourceAssociationTagName
+        {
+			get
+			{
+				return this.currentConfig.AppSettings.Settings["sourceAssociationTagName"].Value;
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["sourceAssociationTagName"].Value = value;
+			}
+		}
+    }
 }
 
 

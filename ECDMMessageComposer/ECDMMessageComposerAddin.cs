@@ -25,6 +25,7 @@ namespace ECDMMessageComposer
 
         
 		private UML.UMLModel model;
+		private UTF_EA.Model EAModel {get{return this.model as UTF_EA.Model;}}
 		private SchemaBuilderFactory schemaFactory;
 		private ECDMMessageComposerSettings settings = new ECDMMessageComposerSettings();
 		public ECDMMessageComposerAddin():base()
@@ -40,8 +41,7 @@ namespace ECDMMessageComposer
 		public override void EA_FileOpen(EA.Repository Repository)
 		{
 			//initialize the model
-			this.model = new UTF_EA.Model(Repository);
-			this.schemaFactory = EASchemaBuilderFactory.getInstance(this.model);
+			this.initialize(Repository);
 		}
 		/// <summary>
 		/// initialize the add-in class
@@ -115,7 +115,7 @@ namespace ECDMMessageComposer
 			//make sure the tagged value types we need are there
 			if (this.schemaFactory != null)
 			{
-				((EASchemaBuilderFactory)this.schemaFactory).checkTaggedValueTypes();
+				this.checkTaggedValueTypes();
 			}
 			//tell EA our export format name
 			if (profile != null)
@@ -124,6 +124,32 @@ namespace ECDMMessageComposer
 			}
 		}
 		
+				
+		/// <summary>
+		/// in order for the relations to work we need tagged value types "sourceAttribute and "sourceAssociation".
+		/// If they don't exists we add them
+		/// </summary>
+		private void checkTaggedValueTypes()
+		{
+			if (this.model != null)
+			{
+				if (!this.EAModel.taggedValueTypeExists(this.settings.sourceAttributeTagName))
+				{
+					string sourceAttributeTagDetail = 
+	@"Type=RefGUID;
+	Values=Attribute;
+	AppliesTo=Attribute;";
+						this.EAModel.addTaggedValueType(this.settings.sourceAttributeTagName,"is derived from this Attribute",sourceAttributeTagDetail);
+				}
+				if (!this.EAModel.taggedValueTypeExists(this.settings.sourceAssociationTagName))
+				{
+					string sourceAssociationTagDetail = 
+	@"Type=String;
+	AppliesTo=Association,Aggregation;";
+						this.EAModel.addTaggedValueType(this.settings.sourceAssociationTagName,"is derived from this Association",sourceAssociationTagDetail);
+				}
+ 			}
+		}
 		/// <summary>
 		/// If a user selects any of the outputs listed by the Add-in, this function will be invoked. 
 		/// The function receives the Schema Composer automation interface, which can be used to traverse the schema.
