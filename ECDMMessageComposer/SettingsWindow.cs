@@ -57,6 +57,10 @@ namespace ECDMMessageComposer
             this.limitDatatypesCheckBox.Checked = settings.limitDataTypes;
             //copy Generalizations checkbox
             this.copyGeneralizationsCheckBox.Checked = settings.copyDataTypeGeneralizations;
+            //sourceAttributeTag
+            this.attributeTagTextBox.Text = settings.sourceAttributeTagName;
+            //sourceAssociationTag
+            this.associationTagTextBox.Text = settings.sourceAssociationTagName;
 		}
 		private void enableDisable()
 		{
@@ -80,6 +84,9 @@ namespace ECDMMessageComposer
 		    this.settings.copyDataTypes = this.copyDatatypesCheckbox.Checked;
 		    this.settings.limitDataTypes = this.limitDatatypesCheckBox.Checked;
 		    this.settings.copyDataTypeGeneralizations = this.copyGeneralizationsCheckBox.Checked;
+		    //tracebility tag names
+		    this.settings.sourceAttributeTagName = this.attributeTagTextBox.Text;
+		    this.settings.sourceAssociationTagName = this.associationTagTextBox.Text;
 			//save changes
 			this.settings.save();
 		}
