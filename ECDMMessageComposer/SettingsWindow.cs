@@ -61,6 +61,8 @@ namespace ECDMMessageComposer
             this.attributeTagTextBox.Text = settings.sourceAttributeTagName;
             //sourceAssociationTag
             this.associationTagTextBox.Text = settings.sourceAssociationTagName;
+            //redirectGeneralizationsToSubset
+            this.RedirectGeneralizationsCheckBox.Checked = this.settings.redirectGeneralizationsToSubset;
 		}
 		private void enableDisable()
 		{
@@ -77,6 +79,8 @@ namespace ECDMMessageComposer
 			this.extractTaggedValues();
 			//get the datatypes from the grid
 			this.extractDataTypes();
+			//general options
+		    this.settings.redirectGeneralizationsToSubset = this.RedirectGeneralizationsCheckBox.Checked;
 			//diagram options
 			this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
 			this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;

@@ -220,6 +220,21 @@ namespace ECDMMessageComposer
 				this.currentConfig.AppSettings.Settings["sourceAssociationTagName"].Value = value;
 			}
 		}
+		/// <summary>
+		/// indicates whether the generalizations should be copied to the subset if the parent element is in the subset as well.
+		/// </summary>
+		public bool redirectGeneralizationsToSubset 
+		{
+			get
+			{
+				bool result;
+				return bool.TryParse(this.currentConfig.AppSettings.Settings["redirectGeneralizationsToSubset"].Value, out result) ? result : false;
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["redirectGeneralizationsToSubset"].Value = value.ToString();
+			}
+		}
     }
 }
 
