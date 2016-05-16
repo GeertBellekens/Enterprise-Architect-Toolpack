@@ -787,7 +787,16 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		{
 			foreach (var informationFlow in classifier.getConveyingFlows()) 
 			{
-				elementsToNavigate.AddRange(informationFlow.realizations);
+				//if the informationFlow has no realizations then we add the informationflow itself.
+				if (informationFlow.realizations.Count == 0)
+				{
+					elementsToNavigate.Add(informationFlow);
+				}
+				else
+				{
+					//otherwise we add the realizations
+					elementsToNavigate.AddRange(informationFlow.realizations);
+				}
 			}
 		}
 		return elementsToNavigate;
