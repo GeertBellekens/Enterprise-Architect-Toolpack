@@ -32,6 +32,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal const string menuCompositeDiagram = "&Composite Diagram";
     internal const string menuCompositeElement = "&Composite Element";
     internal const string menuInDiagrams= "&In Diagrams";
+    internal const string menuConveyedElements= "&Conveyed Elements";
+    internal const string menuConveyingConnectors= "&Conveying Connectors";
     
     internal const string taggedValueMenuSuffix = " Tags";
     internal const string taggedValueMenuPrefix = "&";
@@ -250,6 +252,19 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		{
     			menuOptionsList.Add(menuImplementedOperations);
     		}
+    		//conveying connectors
+    		if (element is UML.Classes.Kernel.Classifier 
+    		    && !(element is UML.Classes.Kernel.Relationship) 
+    		    || element is UML.Classes.AssociationClasses.AssociationClass)
+    		{
+    			menuOptionsList.Add(menuConveyingConnectors);
+    		}
+    		//conveyed elements
+    		if (element is UML.Classes.Kernel.Relationship
+    		    && !(element is UML.Classes.AssociationClasses.AssociationClass))
+    		{
+    			menuOptionsList.Add(menuConveyedElements);
+    		}
     		//composite diagram
     		if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper
     		    && ! (element is TSF.UmlToolingFramework.Wrappers.EA.RootPackage))
@@ -445,6 +460,12 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			case menuInDiagrams:
 				elementsToNavigate = this.getDepentDiagrams(parentElement);
 				break;
+			case menuConveyingConnectors:
+				elementsToNavigate = this.getConveyingConnectors(parentElement);
+				break;
+			case menuConveyedElements:
+				elementsToNavigate = this.getConveyedElements(parentElement);
+				break;				
 			default:
 				if(menuChoice.StartsWith(taggedValueMenuPrefix) 
 				   && menuChoice.EndsWith(taggedValueMenuSuffix))
@@ -733,7 +754,43 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		elementsToNavigate.AddRange(parentElement.getDependentDiagrams());
 		return elementsToNavigate;
 	}
-	
+	/// <summary>
+	/// returns the conveying connectors for the given classifier
+	/// </summary>
+	/// <param name="parentElement">the selected classifier</param>
+	/// <returns>the conveying connectors</returns>
+	List<UML.UMLItem> getConveyingConnectors(UML.UMLItem parentElement)
+	{
+		var elementsToNavigate = new List<UML.UMLItem>();
+		var classifier = parentElement as UML.Classes.Kernel.Classifier;
+		if (classifier != null)
+		{
+			foreach (var informationFlow in classifier.getConveyingFlows()) 
+			{
+				elementsToNavigate.AddRange(informationFlow.realizations);
+			}
+		}
+		return elementsToNavigate;
+	}
+	/// <summary>
+	/// returnst he elements conveyed by the given connector
+	/// </summary>
+	/// <param name="parentElement">the selected connector</param>
+	/// <returns>the elements conveyed by the given connector</returns>
+	List<UML.UMLItem> getConveyedElements(UML.UMLItem parentElement)
+	{
+		var elementsToNavigate = new List<UML.UMLItem>();
+		var connector = parentElement as UML.Classes.Kernel.Relationship;
+		if (connector != null)
+		{
+			foreach (var informationFlow in connector.getInformationFlows())
+			{
+				elementsToNavigate.AddRange(informationFlow.conveyed);
+			}
+		}
+		return elementsToNavigate;
+	}
+
 	/// <summary>
 	/// returns all elements linked via the "link to element feature" 
 	/// </summary>

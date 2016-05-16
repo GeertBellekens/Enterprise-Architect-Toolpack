@@ -115,7 +115,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int useCaseDiagramIndex =92;
 		private int packageCompositeIndex =93;
 		private int package_DiagramIndex =94;
-		
+		private int Package_informationItemIndex = 95;
 		/// <summary>
 		/// singleton instance
 		/// </summary>
@@ -322,6 +322,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				imageIndex = this.interfaceIndex;
 			}
+			else if (element is UML.InfomationFlows.InformationItem)
+			{
+				imageIndex = this.informationItemIndex;;
+			}
 			else if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper)
 			{
 				//workaround to be able to display the correct icon, even if the element type hasn't been implemented in the UMLTooling Framework, of in case of EA specific element types such as requirement.
@@ -369,9 +373,6 @@ namespace TSF.UmlToolingFramework.EANavigator
 						break;
 					case "DeploymentSpecification":
 						imageIndex = this.deploymentSpecificationIndex;
-						break;
-					case "InformationItem":
-						imageIndex = this.informationItemIndex;
 						break;
 					case "Actor":
 						imageIndex = this.actorIndex;
@@ -543,7 +544,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 					break;						
 				case EAAddin.menuInDiagrams:
 					imageIndex = this.package_DiagramIndex;
-					break;						
+					break;
+				case EAAddin.menuConveyedElements:
+				case EAAddin.menuConveyingConnectors:
+					imageIndex = this.Package_informationItemIndex;
+					break;
 				default:
 					if( menuOptionName.StartsWith(EAAddin.taggedValueMenuPrefix)
 				   	&& menuOptionName.EndsWith(EAAddin.taggedValueMenuSuffix))

@@ -140,6 +140,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.NavigatorImageList.Images.SetKeyName(92, "UseCaseDiagram.png");
 			this.NavigatorImageList.Images.SetKeyName(93, "Package_composite.png");
 			this.NavigatorImageList.Images.SetKeyName(94, "Package_Diagram.png");
+			this.NavigatorImageList.Images.SetKeyName(95, "Package_informationItem.png");
 			// 
 			// NavigatorVisuals
 			// 
