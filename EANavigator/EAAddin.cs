@@ -34,6 +34,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal const string menuInDiagrams= "&In Diagrams";
     internal const string menuConveyedElements= "&Conveyed Elements";
     internal const string menuConveyingConnectors= "&Conveying Connectors";
+    internal const string menuAssociationClass = "&Association Class";
+	internal const string menuAssociation = "&Association";    	
     
     internal const string taggedValueMenuSuffix = " Tags";
     internal const string taggedValueMenuPrefix = "&";
@@ -230,7 +232,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     			//add no options for primitive types	
     		}
     		else if (element is UML.Classes.Kernel.Type 
-    		         && !(element is UML.Classes.Kernel.Relationship))
+    		         && !(element is UML.Classes.Kernel.Relationship)
+    		        || element is UML.Classes.AssociationClasses.AssociationClass)
     		{
     			menuOptionsList.Add(menuAttributes);
     			menuOptionsList.Add(menuParameters);
@@ -275,6 +278,17 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		if (element is UML.Diagrams.Diagram)
     		{
     			menuOptionsList.Add(menuCompositeElement);
+    		}
+    		//from associatioinclasses we allow navigation to the related association.
+    		if (element is UML.Classes.AssociationClasses.AssociationClass)
+    		{
+    			menuOptionsList.Add(menuAssociation);
+    		}
+    		//because an associationclass is also an association we add an else if
+    		//navigate to the related associationclass
+    		else if (element is UML.Classes.Kernel.Association)
+    		{
+    			menuOptionsList.Add(menuAssociationClass);
     		}
     		//tagged values can be added to any UML element
     		if (element is UML.Classes.Kernel.Element)
@@ -465,7 +479,13 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 				break;
 			case menuConveyedElements:
 				elementsToNavigate = this.getConveyedElements(parentElement);
-				break;				
+				break;
+			case menuAssociationClass:
+				elementsToNavigate = this.getAssociationClass(parentElement);
+				break;
+			case menuAssociation:
+				elementsToNavigate = this.getRelatedAssociation(parentElement);
+				break;
 			default:
 				if(menuChoice.StartsWith(taggedValueMenuPrefix) 
 				   && menuChoice.EndsWith(taggedValueMenuSuffix))
@@ -787,6 +807,38 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			{
 				elementsToNavigate.AddRange(informationFlow.conveyed);
 			}
+		}
+		return elementsToNavigate;
+	}
+	/// <summary>
+	/// gets the AssociationClass for the given association
+	/// </summary>
+	/// <param name="parentElement">the selected association</param>
+	/// <returns>the AssociationClass for the given association.</returns>
+	List<UML.UMLItem> getAssociationClass(UML.UMLItem parentElement)
+	{
+		var elementsToNavigate = new List<UML.UMLItem>();
+		var association = parentElement as UTF_EA.Association;
+		if (association != null
+		    && association.associationClass != null)
+		{
+			elementsToNavigate.Add(association.associationClass);
+		}
+		return elementsToNavigate;
+	}
+	/// <summary>
+	/// gets the related Association for an AssociationClass
+	/// </summary>
+	/// <param name="parentElement">the selected AssociationClass</param>
+	/// <returns>the related association</returns>
+	List<UML.UMLItem> getRelatedAssociation(UML.UMLItem parentElement)
+	{
+		var elementsToNavigate = new List<UML.UMLItem>();
+		var associationClass = parentElement as UTF_EA.AssociationClass;
+		if (associationClass != null
+		    && associationClass.relatedAssociation != null)
+		{
+			elementsToNavigate.Add(associationClass.relatedAssociation);
 		}
 		return elementsToNavigate;
 	}

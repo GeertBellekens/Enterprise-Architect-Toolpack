@@ -116,6 +116,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int packageCompositeIndex =93;
 		private int package_DiagramIndex =94;
 		private int Package_informationItemIndex = 95;
+		private int AssociationClassIndex = 96;
+		private int Package_AssociationClassIndex = 97;
 		/// <summary>
 		/// singleton instance
 		/// </summary>
@@ -165,6 +167,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			if (element is UML.Classes.Kernel.Property)
 			{
 				imageIndex = this.attributeIndex;
+			}
+			else if (element is UML.Classes.AssociationClasses.AssociationClass)
+			{
+				imageIndex = this.AssociationClassIndex;
 			}
 			else if (element is UML.Classes.Kernel.Operation)
 			{
@@ -266,6 +272,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				imageIndex = this.primitiveIndex;
 			}
+			else if (element is UML.Classes.Kernel.Class)
+			{
+				imageIndex = this.classIndex;
+			}
 			else if (element is UML.Classes.Kernel.Relationship)
 			{
 				imageIndex = this.messagIndex;
@@ -273,10 +283,6 @@ namespace TSF.UmlToolingFramework.EANavigator
 			else if (element is UML.Actions.BasicActions.Action)
 			{
 				imageIndex = this.actionIndex;
-			}
-			else if (element is UML.Classes.Kernel.Class)
-			{
-				imageIndex = this.classIndex;
 			}
 			else if (element is UML.Classes.Kernel.Parameter)
 			{
@@ -548,6 +554,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 				case EAAddin.menuConveyedElements:
 				case EAAddin.menuConveyingConnectors:
 					imageIndex = this.Package_informationItemIndex;
+					break;
+				case EAAddin.menuAssociation:
+				case EAAddin.menuAssociationClass:
+					imageIndex = this.Package_AssociationClassIndex;
 					break;
 				default:
 					if( menuOptionName.StartsWith(EAAddin.taggedValueMenuPrefix)
