@@ -3,10 +3,10 @@
 	<Product Id="*"
 		Name="Bellekens EA Toolpack"
 		Language="1033"
-		Version="1.0.18.0"
+		Version="1.0.19.0"
 		UpgradeCode="38FA9DDF-F162-4EB2-A836-0A66A78F5EC6"
 		Manufacturer="Bellekens">
-		<Package Description="Installs the Bellekens EA Toolpack v1.0.18.0 on this computer"
+		<Package Description="Installs the Bellekens EA Toolpack v1.0.19.0 on this computer"
 			Comments="Contains EA Navigator, EA-Matic and ECDM Message Composer"
 			InstallerVersion="200"
 			Compressed="yes"
@@ -19,14 +19,14 @@
 		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
 		
 		<Upgrade Id="38FA9DDF-F162-4EB2-A836-0A66A78F5EC6">
-      	<UpgradeVersion Minimum="1.0.18.0"
+      	<UpgradeVersion Minimum="1.0.19.0"
                       IncludeMinimum="no"
                       OnlyDetect="yes"
                       Language="1033"
                       Property="NEWPRODUCTFOUND" />
      	<UpgradeVersion Minimum="0.1.0.0"
                       IncludeMinimum="yes"
-                      Maximum="1.0.18.0"
+                      Maximum="1.0.19.0"
                       IncludeMaximum="no"
                       Language="1033"
                       Property="UPGRADEFOUND" />
@@ -48,6 +48,7 @@
 		         Level="1">
 		         <ComponentRef Id="ECDM_AddinFiles"/>
 				 <ComponentRef Id="ECDM_RegistryEntry"/>
+				 <ComponentRef Id="ECDM_RegistryEntry_x86"/>
 		</Feature>
 		<Feature Id="EANavigator"
 		         Title="EA Navigator"
@@ -55,6 +56,7 @@
 		         Level="1">
 		         <ComponentRef Id="EANavigator_AddinFiles"/>
 				 <ComponentRef Id="EANavigator_RegistryEntry"/>
+				 <ComponentRef Id="EANavigator_RegistryEntry_x86"/>
 		</Feature>
 		<Feature Id="EAMatic"
 		         Title="EA-Matic"
@@ -62,6 +64,7 @@
 		         Level="1">
 		         <ComponentRef Id="EAMatic_AddinFiles"/>
 				 <ComponentRef Id="EAMatic_RegistryEntry"/>
+				 <ComponentRef Id="EAMatic_RegistryEntry_x86"/>
 		</Feature>
 		<!-- Check for .Net framework 4.0 Client-->
 		<Property Id="NETFRAMEWORK40CL">

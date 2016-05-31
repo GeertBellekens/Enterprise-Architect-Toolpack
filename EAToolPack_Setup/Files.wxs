@@ -183,6 +183,13 @@
 						<RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\ECDM Message Composer">
 							<RegistryValue Type="string" Value="ECDMMessageComposer.ECDMMessageComposerAddin" />
 						</RegistryKey>
+						<Condition> %PROCESSOR_ARCHITECTURE="AMD64" OR %PROCESSOR_ARCHITECTURE="IE64"</Condition>
+					</Component>
+					<Component Id="ECDM_RegistryEntry_x86" Guid="4499B923-94E4-42E0-A606-4980CD460F6D" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\ECDM Message Composer">
+							<RegistryValue Type="string" Value="ECDMMessageComposer.ECDMMessageComposerAddin" />
+						</RegistryKey>
+						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
 					</Component>
 					<Component Id="EANavigator_AddinFiles" Guid="DE2A4AFA-C6D9-45DB-90F5-57AE0758383D" DiskId="1">
 						<File Id="EANavigator_License" Name="EA Navigator license.rtf" Source="..\EANavigator\Files\license.rtf" />
@@ -279,6 +286,13 @@
 						<RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\EA_Navigator">
 							<RegistryValue Type="string" Value="TSF.UmlToolingFramework.EANavigator.EAAddin" />
 						</RegistryKey>
+						<Condition> %PROCESSOR_ARCHITECTURE="AMD64" OR %PROCESSOR_ARCHITECTURE="IE64"</Condition>
+					</Component>
+					<Component Id="EANavigator_RegistryEntry_x86" Guid="C701DEB7-8473-4E78-82B9-2F58747A405C" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA_Navigator">
+							<RegistryValue Type="string" Value="TSF.UmlToolingFramework.EANavigator.EAAddin" />
+						</RegistryKey>
+						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
 					</Component>
 					<Component Id="EAMatic_AddinFiles" Guid="8E59E143-AADC-44AA-B49E-CB7B06ED4E4C" DiskId="1" UninstallWhenSuperseded="yes">
 						<File Id="EAMatic_LicenseFile" Name="EA-Matic license.rtf" Source="..\EAScriptAddin\\Files\license.rtf" />
@@ -315,6 +329,13 @@
 						<RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\EA-Matic">
 							<RegistryValue Type="string" Value="EAScriptAddin.EAScriptAddinAddinClass" />
 						</RegistryKey>
+					<Condition> %PROCESSOR_ARCHITECTURE="AMD64" OR %PROCESSOR_ARCHITECTURE="IE64"</Condition>
+					</Component>
+					<Component Id="EAMatic_RegistryEntry_x86" Guid="9590F506-E0FF-4F01-8062-80A90EDAD845" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA-Matic">
+							<RegistryValue Type="string" Value="EAScriptAddin.EAScriptAddinAddinClass" />
+						</RegistryKey>
+						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
 					</Component>
 				</Directory>
 			</Directory>
