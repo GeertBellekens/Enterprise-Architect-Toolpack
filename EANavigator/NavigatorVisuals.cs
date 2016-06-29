@@ -118,6 +118,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int Package_informationItemIndex = 95;
 		private int AssociationClassIndex = 96;
 		private int Package_AssociationClassIndex = 97;
+		private int enumerationLiteralIndex = 98;
 		/// <summary>
 		/// singleton instance
 		/// </summary>
@@ -167,6 +168,10 @@ namespace TSF.UmlToolingFramework.EANavigator
 			if (element is UML.Classes.Kernel.Property)
 			{
 				imageIndex = this.attributeIndex;
+			}
+			else if (element is UML.Classes.Kernel.EnumerationLiteral)
+			{
+				imageIndex = this.enumerationLiteralIndex;
 			}
 			else if (element is UML.Classes.AssociationClasses.AssociationClass)
 			{

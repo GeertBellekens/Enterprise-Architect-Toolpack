@@ -63,6 +63,8 @@ namespace ECDMMessageComposer
             this.associationTagTextBox.Text = settings.sourceAssociationTagName;
             //redirectGeneralizationsToSubset
             this.RedirectGeneralizationsCheckBox.Checked = this.settings.redirectGeneralizationsToSubset;
+            this.prefixNotesCheckBox.Checked =  this.settings.prefixNotes;
+		    this.notesPrefixTextBox.Text = this.settings.prefixNotesText;
 		}
 		private void enableDisable()
 		{
@@ -70,6 +72,7 @@ namespace ECDMMessageComposer
 			this.dataTypesGridView.Enabled = this.limitDatatypesCheckBox.Checked;
 			this.deleteDataTypeButton.Enabled = this.dataTypesGridView.Enabled;
 			this.copyGeneralizationsCheckBox.Enabled = this.copyDatatypesCheckbox.Checked;
+			this.notesPrefixTextBox.Enabled = this.prefixNotesCheckBox.Checked;
 		}
 		private void saveChanges()
 		{
@@ -81,6 +84,8 @@ namespace ECDMMessageComposer
 			this.extractDataTypes();
 			//general options
 		    this.settings.redirectGeneralizationsToSubset = this.RedirectGeneralizationsCheckBox.Checked;
+		    this.settings.prefixNotes = this.prefixNotesCheckBox.Checked;
+		    this.settings.prefixNotesText = this.notesPrefixTextBox.Text;
 			//diagram options
 			this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
 			this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;
@@ -192,7 +197,10 @@ namespace ECDMMessageComposer
 		{
 			this.enableDisable();
 		}
-
-		
+		void PrefixNotesCheckBoxCheckedChanged(object sender, EventArgs e)
+		{
+			this.enableDisable();
+		}
+	
 	}
 }

@@ -235,6 +235,35 @@ namespace ECDMMessageComposer
 				this.currentConfig.AppSettings.Settings["redirectGeneralizationsToSubset"].Value = value.ToString();
 			}
 		}
+		/// <summary>
+		/// indicates whether the notes in the subset elements should be prefixed
+		/// </summary>
+		public bool prefixNotes 
+		{
+			get
+			{
+				bool result;
+				return bool.TryParse(this.currentConfig.AppSettings.Settings["prefixNotes"].Value, out result) ? result : false;
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["prefixNotes"].Value = value.ToString();
+			}
+		}
+		/// <summary>
+		/// the prefix to use when prefixing the notes
+		/// </summary>
+		public string prefixNotesText
+        {
+			get
+			{
+				return this.currentConfig.AppSettings.Settings["prefixNotesText"].Value;
+			}
+			set
+			{
+				this.currentConfig.AppSettings.Settings["prefixNotesText"].Value = value;
+			}
+		}
     }
 }
 
