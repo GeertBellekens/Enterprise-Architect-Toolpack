@@ -29,13 +29,14 @@ namespace EAImvertor
         private UTF_EA.Model model = null;
     	private ImvertorControl _imvertorControl;
        	private bool fullyLoaded = false;
+       	private EAImvertorSettings settings;
 		//constructor
         public EAImvertorAddin():base()
 		{
 			this.menuHeader = menuName;
 			
 			this.menuOptions = new string[] {menuSettings,menuSettings};
-			//this.settings = new NavigatorSettings();
+			this.settings = new EAImvertorSettings();
 		}
 		
         private ImvertorControl imvertorControl
