@@ -61,8 +61,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutWindow.cs" />
+    <Compile Include="AboutWindow.Designer.cs">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="EAImvertorAddin.cs" />
     <Compile Include="EAImvertorSettings.cs" />
+    <Compile Include="EAImvertorSettingsForm.cs" />
+    <Compile Include="EAImvertorSettingsForm.Designer.cs">
+      <DependentUpon>EAImvertorSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImvertorControl.cs" />
     <Compile Include="ImvertorControl.Designer.cs">
       <DependentUpon>ImvertorControl.cs</DependentUpon>
@@ -80,6 +88,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AboutWindow.resx">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EAImvertorSettingsForm.resx">
+      <DependentUpon>EAImvertorSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ImvertorControl.resx">
       <DependentUpon>ImvertorControl.cs</DependentUpon>
     </EmbeddedResource>
