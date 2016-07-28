@@ -139,7 +139,7 @@ namespace EAImvertor
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "EAImvertorSettingsForm";
-			this.Text = "EAImvertorSettingsForm";
+			this.Text = "EA Imvertor settings";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -35,7 +35,7 @@ namespace EAImvertor
 		{
 			this.menuHeader = menuName;
 			
-			this.menuOptions = new string[] {menuSettings,menuAbout};
+			this.menuOptions = new string[] {menuSettings,menuAbout,"Test"};
 			this.settings = new EAImvertorSettings();
 		}
 		
@@ -125,6 +125,10 @@ namespace EAImvertor
 		            break;
 		       case menuSettings:
 		            new EAImvertorSettingsForm(this.settings).ShowDialog();
+		            break;
+		       case "Test":
+		            //debugging
+		            new EAImvertorJob(null).startJob(this.settings.imvertorURL,this.settings.defaultPIN,"ChainTranslateAndReport:0.96","IMKAD compile","");
 		            break;
 			}
 		}       

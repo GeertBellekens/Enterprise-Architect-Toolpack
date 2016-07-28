@@ -50,8 +50,7 @@ namespace EAImvertor
 			// 
 			// imvertorJobGrid
 			// 
-			this.imvertorJobGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Left) 
+			this.imvertorJobGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this.imvertorJobGrid.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.packageHeader,
@@ -61,7 +60,7 @@ namespace EAImvertor
 			this.imvertorJobGrid.HoverSelection = true;
 			this.imvertorJobGrid.Location = new System.Drawing.Point(3, 3);
 			this.imvertorJobGrid.Name = "imvertorJobGrid";
-			this.imvertorJobGrid.Size = new System.Drawing.Size(366, 119);
+			this.imvertorJobGrid.Size = new System.Drawing.Size(366, 97);
 			this.imvertorJobGrid.TabIndex = 0;
 			this.imvertorJobGrid.UseCompatibleStateImageBehavior = false;
 			this.imvertorJobGrid.View = System.Windows.Forms.View.Details;
@@ -80,7 +79,7 @@ namespace EAImvertor
 			// retryButton
 			// 
 			this.retryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.retryButton.Location = new System.Drawing.Point(212, 127);
+			this.retryButton.Location = new System.Drawing.Point(213, 106);
 			this.retryButton.Name = "retryButton";
 			this.retryButton.Size = new System.Drawing.Size(75, 23);
 			this.retryButton.TabIndex = 1;
@@ -90,8 +89,9 @@ namespace EAImvertor
 			// 
 			// resultsButton
 			// 
-			this.resultsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.resultsButton.Location = new System.Drawing.Point(293, 127);
+			this.resultsButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.resultsButton.Location = new System.Drawing.Point(294, 106);
 			this.resultsButton.Name = "resultsButton";
 			this.resultsButton.Size = new System.Drawing.Size(75, 23);
 			this.resultsButton.TabIndex = 2;

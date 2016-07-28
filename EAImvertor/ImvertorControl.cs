@@ -40,10 +40,7 @@ namespace EAImvertor
 		public void clear()
 		{
 			//TODO: clear the control
-		}
-		
-
-		
+		}	
 		public event EventHandler retryButtonClick;
 		void RetryButtonClick(object sender, EventArgs e)
 		{
@@ -64,5 +61,6 @@ namespace EAImvertor
 		{
 			this.resizeGridColumns();
 		}
+		
 	}
 }
