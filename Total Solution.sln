@@ -1,7 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 # SharpDevelop 5.1
+VisualStudioVersion = 12.0.20827.3
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinFramework", "..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj", "{4161DD26-375F-4744-BA96-B70366E19A78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinTester", "..\Enterprise-Architect-Add-in-Framework\EAAddinTester\EAAddinTester.csproj", "{427AD7F0-BDF7-40CC-9A24-E56D7E61842D}"
@@ -39,6 +41,8 @@ EndProject
 Project("{CFEE4113-1246-4D54-95CB-156813CB8593}") = "EAToolPack_Setup", "EAToolPack_Setup\EAToolPack_Setup.wixproj", "{F4B5D7F7-D931-4A7E-8ACD-5FFD719CEEF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAImvertor", "EAImvertor\EAImvertor.csproj", "{9279CEA8-2B8B-42FA-9791-3E1C6F268720}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EADatabaseTransformer", "EADatabaseTransformer\EADatabaseTransformer.csproj", "{FA1DF927-ED65-49ED-87D5-8AA59E18CA73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -200,5 +204,13 @@ Global
 		{9279CEA8-2B8B-42FA-9791-3E1C6F268720}.Release|x86.Build.0 = Release|x86
 		{9279CEA8-2B8B-42FA-9791-3E1C6F268720}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9279CEA8-2B8B-42FA-9791-3E1C6F268720}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA1DF927-ED65-49ED-87D5-8AA59E18CA73}.Debug|x86.ActiveCfg = Debug|x86
+		{FA1DF927-ED65-49ED-87D5-8AA59E18CA73}.Debug|x86.Build.0 = Debug|x86
+		{FA1DF927-ED65-49ED-87D5-8AA59E18CA73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA1DF927-ED65-49ED-87D5-8AA59E18CA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA1DF927-ED65-49ED-87D5-8AA59E18CA73}.Release|x86.ActiveCfg = Release|x86
+		{FA1DF927-ED65-49ED-87D5-8AA59E18CA73}.Release|x86.Build.0 = Release|x86
+		{FA1DF927-ED65-49ED-87D5-8AA59E18CA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA1DF927-ED65-49ED-87D5-8AA59E18CA73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
