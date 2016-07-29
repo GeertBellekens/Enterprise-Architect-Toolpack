@@ -21,6 +21,13 @@ namespace EAImvertor
 		private System.Windows.Forms.Button applyButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button okButton;
+		private System.Windows.Forms.TextBox defaultPropertiesPathTextBox;
+		private System.Windows.Forms.Label DefaultPropertiesPathLabel;
+		private System.Windows.Forms.TextBox defaultPropertiesTextBox;
+		private System.Windows.Forms.Label defaultPropertiesLabel;
+		private System.Windows.Forms.Button browseDefaultPropertiesFileButton;
+		private System.Windows.Forms.TextBox defaultProcessTextBox;
+		private System.Windows.Forms.Label defaultProcessLabel;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -51,6 +58,13 @@ namespace EAImvertor
 			this.applyButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.okButton = new System.Windows.Forms.Button();
+			this.defaultPropertiesPathTextBox = new System.Windows.Forms.TextBox();
+			this.DefaultPropertiesPathLabel = new System.Windows.Forms.Label();
+			this.defaultPropertiesTextBox = new System.Windows.Forms.TextBox();
+			this.defaultPropertiesLabel = new System.Windows.Forms.Label();
+			this.browseDefaultPropertiesFileButton = new System.Windows.Forms.Button();
+			this.defaultProcessTextBox = new System.Windows.Forms.TextBox();
+			this.defaultProcessLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// ImvertorURLLabel
@@ -65,20 +79,20 @@ namespace EAImvertor
 			// 
 			this.ImvertorURLTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.ImvertorURLTextbox.Location = new System.Drawing.Point(121, 12);
+			this.ImvertorURLTextbox.Location = new System.Drawing.Point(139, 12);
 			this.ImvertorURLTextbox.Name = "ImvertorURLTextbox";
-			this.ImvertorURLTextbox.Size = new System.Drawing.Size(153, 20);
+			this.ImvertorURLTextbox.Size = new System.Drawing.Size(211, 20);
 			this.ImvertorURLTextbox.TabIndex = 1;
 			// 
 			// defaultPinTextBox
 			// 
 			this.defaultPinTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.defaultPinTextBox.Location = new System.Drawing.Point(121, 36);
+			this.defaultPinTextBox.Location = new System.Drawing.Point(139, 36);
 			this.defaultPinTextBox.MinimumSize = new System.Drawing.Size(153, 20);
 			this.defaultPinTextBox.Name = "defaultPinTextBox";
-			this.defaultPinTextBox.Size = new System.Drawing.Size(153, 20);
-			this.defaultPinTextBox.TabIndex = 3;
+			this.defaultPinTextBox.Size = new System.Drawing.Size(211, 20);
+			this.defaultPinTextBox.TabIndex = 2;
 			// 
 			// defaultPinLabel
 			// 
@@ -91,10 +105,10 @@ namespace EAImvertor
 			// applyButton
 			// 
 			this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.applyButton.Location = new System.Drawing.Point(199, 91);
+			this.applyButton.Location = new System.Drawing.Point(275, 168);
 			this.applyButton.Name = "applyButton";
 			this.applyButton.Size = new System.Drawing.Size(75, 23);
-			this.applyButton.TabIndex = 7;
+			this.applyButton.TabIndex = 9;
 			this.applyButton.Text = "Apply";
 			this.applyButton.UseVisualStyleBackColor = true;
 			this.applyButton.Click += new System.EventHandler(this.ApplyButtonClick);
@@ -103,23 +117,87 @@ namespace EAImvertor
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(118, 91);
+			this.cancelButton.Location = new System.Drawing.Point(194, 168);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
-			this.cancelButton.TabIndex = 6;
+			this.cancelButton.TabIndex = 8;
 			this.cancelButton.Text = "Cancel";
 			this.cancelButton.UseVisualStyleBackColor = true;
 			// 
 			// okButton
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(37, 91);
+			this.okButton.Location = new System.Drawing.Point(113, 168);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
-			this.okButton.TabIndex = 5;
+			this.okButton.TabIndex = 7;
 			this.okButton.Text = "OK";
 			this.okButton.UseVisualStyleBackColor = true;
 			this.okButton.Click += new System.EventHandler(this.OkButtonClick);
+			// 
+			// defaultPropertiesPathTextBox
+			// 
+			this.defaultPropertiesPathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.defaultPropertiesPathTextBox.Location = new System.Drawing.Point(139, 114);
+			this.defaultPropertiesPathTextBox.MinimumSize = new System.Drawing.Size(153, 20);
+			this.defaultPropertiesPathTextBox.Name = "defaultPropertiesPathTextBox";
+			this.defaultPropertiesPathTextBox.Size = new System.Drawing.Size(181, 20);
+			this.defaultPropertiesPathTextBox.TabIndex = 5;
+			// 
+			// DefaultPropertiesPathLabel
+			// 
+			this.DefaultPropertiesPathLabel.Location = new System.Drawing.Point(12, 117);
+			this.DefaultPropertiesPathLabel.Name = "DefaultPropertiesPathLabel";
+			this.DefaultPropertiesPathLabel.Size = new System.Drawing.Size(133, 23);
+			this.DefaultPropertiesPathLabel.TabIndex = 10;
+			this.DefaultPropertiesPathLabel.Text = "Default Properties Path";
+			// 
+			// defaultPropertiesTextBox
+			// 
+			this.defaultPropertiesTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.defaultPropertiesTextBox.Location = new System.Drawing.Point(139, 88);
+			this.defaultPropertiesTextBox.Name = "defaultPropertiesTextBox";
+			this.defaultPropertiesTextBox.Size = new System.Drawing.Size(211, 20);
+			this.defaultPropertiesTextBox.TabIndex = 4;
+			// 
+			// defaultPropertiesLabel
+			// 
+			this.defaultPropertiesLabel.Location = new System.Drawing.Point(12, 91);
+			this.defaultPropertiesLabel.Name = "defaultPropertiesLabel";
+			this.defaultPropertiesLabel.Size = new System.Drawing.Size(100, 23);
+			this.defaultPropertiesLabel.TabIndex = 8;
+			this.defaultPropertiesLabel.Text = "Default Properties";
+			// 
+			// browseDefaultPropertiesFileButton
+			// 
+			this.browseDefaultPropertiesFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.browseDefaultPropertiesFileButton.Location = new System.Drawing.Point(326, 113);
+			this.browseDefaultPropertiesFileButton.Name = "browseDefaultPropertiesFileButton";
+			this.browseDefaultPropertiesFileButton.Size = new System.Drawing.Size(24, 20);
+			this.browseDefaultPropertiesFileButton.TabIndex = 6;
+			this.browseDefaultPropertiesFileButton.Text = "...";
+			this.browseDefaultPropertiesFileButton.UseVisualStyleBackColor = true;
+			this.browseDefaultPropertiesFileButton.Click += new System.EventHandler(this.BrowseDefaultPropertiesFileButtonClick);
+			// 
+			// defaultProcessTextBox
+			// 
+			this.defaultProcessTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.defaultProcessTextBox.Location = new System.Drawing.Point(139, 62);
+			this.defaultProcessTextBox.MinimumSize = new System.Drawing.Size(153, 20);
+			this.defaultProcessTextBox.Name = "defaultProcessTextBox";
+			this.defaultProcessTextBox.Size = new System.Drawing.Size(211, 20);
+			this.defaultProcessTextBox.TabIndex = 3;
+			// 
+			// defaultProcessLabel
+			// 
+			this.defaultProcessLabel.Location = new System.Drawing.Point(12, 65);
+			this.defaultProcessLabel.Name = "defaultProcessLabel";
+			this.defaultProcessLabel.Size = new System.Drawing.Size(100, 23);
+			this.defaultProcessLabel.TabIndex = 15;
+			this.defaultProcessLabel.Text = "Default Process";
 			// 
 			// EAImvertorSettingsForm
 			// 
@@ -127,7 +205,14 @@ namespace EAImvertor
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(283, 126);
+			this.ClientSize = new System.Drawing.Size(359, 203);
+			this.Controls.Add(this.defaultProcessTextBox);
+			this.Controls.Add(this.defaultProcessLabel);
+			this.Controls.Add(this.browseDefaultPropertiesFileButton);
+			this.Controls.Add(this.defaultPropertiesPathTextBox);
+			this.Controls.Add(this.DefaultPropertiesPathLabel);
+			this.Controls.Add(this.defaultPropertiesTextBox);
+			this.Controls.Add(this.defaultPropertiesLabel);
 			this.Controls.Add(this.applyButton);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.okButton);
@@ -138,6 +223,7 @@ namespace EAImvertor
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(375, 242);
 			this.Name = "EAImvertorSettingsForm";
 			this.Text = "EA Imvertor settings";
 			this.ResumeLayout(false);

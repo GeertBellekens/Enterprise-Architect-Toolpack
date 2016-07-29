@@ -29,10 +29,6 @@ namespace EAImvertor
 			}
 		}
 		#endregion
-
-		
-		public EAImvertorSettings()
-		{}
 		
 		/// <summary>
 		/// the URL for the Imvertor Service
@@ -41,11 +37,11 @@ namespace EAImvertor
 		{
 			get
 			{
-				return this.currentConfig.AppSettings.Settings["imvertorURL"].Value;
+				return this.getValue("imvertorURL");
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["imvertorURL"].Value = value;
+				this.setValue("imvertorURL",value);
 			}
 		}
 		/// <summary>
@@ -55,14 +51,46 @@ namespace EAImvertor
 		{
 			get
 			{
-				return this.currentConfig.AppSettings.Settings["defaultPIN"].Value;
+				return this.getValue("defaultPIN");
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["defaultPIN"].Value = value;
+				this.setValue("defaultPIN",value);
 			}
 		}
-				
-
+		public string defaultProcessName
+		{
+			get
+			{
+				return this.getValue("defaultProcessName");
+			}
+			set
+			{
+				this.setValue("defaultProcessName",value);
+			}
+		}
+		public string defaultProperties
+		{
+			get
+			{
+				return this.getValue("defaultProperties");
+			}
+			set
+			{
+				this.setValue("defaultProperties",value);
+			}
+		}
+		public string defaultPropertiesFilePath
+		{
+			get
+			{
+				return this.getValue("defaultPropertiesFilePath");
+			}
+			set
+			{
+				this.setValue("defaultPropertiesFilePath",value);
+			}
+		}
+		
 	}
 }

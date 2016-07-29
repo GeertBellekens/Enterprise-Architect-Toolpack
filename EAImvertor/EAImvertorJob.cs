@@ -18,11 +18,11 @@ namespace EAImvertor
 		{
 			this.sourcePackage = package;
 		}
-		public void startJob(string imvertorURL, string pincode,string processName ,string imvertorProperties, string imvertorHistoryFilePath)
+		public void startJob(string imvertorURL, string pincode,string processName ,string imvertorProperties,string imvertorPropertiesFilePath, string imvertorHistoryFilePath)
 			//		
 		{
 			var response = this.Upload(imvertorURL +"/imvertor-executor/upload",pincode,processName,imvertorProperties
-			                           ,@"C:\temp\SampleApplication.1.xmi",imvertorHistoryFilePath,@"C:\temp\SampleApplication.1.properties");
+			                           ,@"C:\temp\SampleApplication.1.xmi",imvertorHistoryFilePath,imvertorPropertiesFilePath);
 			// convert stream to string
 			StreamReader reader = new StreamReader(response);
 			string text = reader.ReadToEnd();
@@ -33,7 +33,7 @@ namespace EAImvertor
 		    HttpContent processNameContent = new StringContent(processName);
 		    HttpContent propertiesContent = new StringContent(imvertorProperties);
 		    HttpContent pincodeContent = new StringContent(pincode);
-		    HttpContent ownerContent = new StringContent("Kadaster");
+		    HttpContent ownerContent = new StringContent("Kadaster"); //TODO: remove once Arjan changed the code on the server
 		    HttpContent modelFileContent = null;
 			if (File.Exists(modelFilePath)) modelFileContent = new StreamContent(File.OpenRead(modelFilePath));
 		    HttpContent historyFileContent = null;

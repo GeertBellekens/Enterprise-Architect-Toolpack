@@ -31,6 +31,9 @@ namespace EAImvertor
 		{
 			this.ImvertorURLTextbox.Text = this.settings.imvertorURL;
 			this.defaultPinTextBox.Text = this.settings.defaultPIN;
+			this.defaultProcessTextBox.Text = this.settings.defaultProcessName;
+			this.defaultPropertiesTextBox.Text = this.settings.defaultProperties;
+			this.defaultPropertiesPathTextBox.Text = this.settings.defaultPropertiesFilePath;
 		}
 		/// <summary>
 		/// save the data from the form to the settings
@@ -39,6 +42,9 @@ namespace EAImvertor
 		{
 			this.settings.imvertorURL = this.ImvertorURLTextbox.Text;
 			this.settings.defaultPIN = this.defaultPinTextBox.Text;
+			this.settings.defaultProcessName = this.defaultProcessTextBox.Text;
+			this.settings.defaultProperties = this.defaultPropertiesTextBox.Text;
+			this.settings.defaultPropertiesFilePath = this.defaultPropertiesPathTextBox.Text;			
 			this.settings.save();
 		}
 		void OkButtonClick(object sender, EventArgs e)
@@ -49,6 +55,20 @@ namespace EAImvertor
 		void ApplyButtonClick(object sender, EventArgs e)
 		{
 			this.saveChanges();
+		}
+		void BrowseDefaultPropertiesFileButtonClick(object sender, EventArgs e)
+		{
+			//let the user select a file
+            OpenFileDialog browsePropertiesFileDialog = new OpenFileDialog();
+            browsePropertiesFileDialog.Filter = "Properties Files (.properties)|*.properties";
+            browsePropertiesFileDialog.FilterIndex = 1;
+            browsePropertiesFileDialog.Multiselect = false;
+            var dialogResult = browsePropertiesFileDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+            	//if the user selected the file then put the filename in the abbreviationsfileTextBox
+                this.defaultPropertiesPathTextBox.Text = browsePropertiesFileDialog.FileName;
+            }
 		}
 	}
 }

@@ -128,7 +128,8 @@ namespace EAImvertor
 		            break;
 		       case "Test":
 		            //debugging
-		            new EAImvertorJob(null).startJob(this.settings.imvertorURL,this.settings.defaultPIN,"ChainTranslateAndReport:0.96","IMKAD compile","");
+		            new EAImvertorJob(null).startJob(this.settings.imvertorURL,this.settings.defaultPIN,this.settings.defaultProcessName
+		                                             ,this.settings.defaultProperties,this.settings.defaultPropertiesFilePath,"");
 		            break;
 			}
 		}       
