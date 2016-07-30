@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using System.Linq;
+using System.ComponentModel;
+using EAAddinFramework.Utilities;
 
 namespace EAImvertor
 {
@@ -30,6 +32,7 @@ namespace EAImvertor
     	private ImvertorControl _imvertorControl;
        	private bool fullyLoaded = false;
        	private EAImvertorSettings settings;
+       	private BackgroundWorker imvertorJobBackgroundWorker;
 		//constructor
         public EAImvertorAddin():base()
 		{
@@ -128,10 +131,30 @@ namespace EAImvertor
 		            break;
 		       case "Test":
 		            //debugging
-		            new EAImvertorJob(null).startJob(this.settings.imvertorURL,this.settings.defaultPIN,this.settings.defaultProcessName
-		                                             ,this.settings.defaultProperties,this.settings.defaultPropertiesFilePath,"");
+		            test();
+		            
 		            break;
 			}
-		}       
+		}
+		private void test()
+		{
+			//do everything in a backgroundthread
+			this.imvertorJobBackgroundWorker = new BackgroundWorker();
+			this.imvertorJobBackgroundWorker.WorkerSupportsCancellation = true;
+            this.imvertorJobBackgroundWorker.DoWork += new DoWorkEventHandler(imvertorBackground_DoWork);
+            //backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
+            this.imvertorJobBackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(imvertorBackgroundRunWorkerCompleted);
+            this.imvertorJobBackgroundWorker.RunWorkerAsync();
+
+		}
+		private void imvertorBackground_DoWork(object sender, DoWorkEventArgs e)
+		{
+			new EAImvertorJob(null).startJob(this.settings.imvertorURL,this.settings.defaultPIN,this.settings.defaultProcessName
+		                                             ,this.settings.defaultProperties,this.settings.defaultPropertiesFilePath,"");
+		}
+		private void imvertorBackgroundRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			Logger.log("imvertorJob finished");
+		}
 	}
 }
