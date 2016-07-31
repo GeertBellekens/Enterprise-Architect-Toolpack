@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Xml;
+using System.Xml.Serialization;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using System.Linq;
@@ -67,8 +68,10 @@ namespace EAImvertor
 		{
 			_imvertorURL = imvertorURL;
 			_pincode = pincode;
+			string xmiFileName = Path.GetTempFileName();
+			this.sourcePackage.exportToXMI(xmiFileName);
 			this._jobID = this.Upload(imvertorURL +"/imvertor-executor/upload",pincode,processName,imvertorProperties
-			                           ,@"C:\temp\SampleApplication.1.xmi",imvertorHistoryFilePath,imvertorPropertiesFilePath);
+			                           ,xmiFileName,imvertorHistoryFilePath,imvertorPropertiesFilePath);
 
 			Logger.log(this.reportUrl);
 			getJobReport(imvertorURL, pincode,0);
