@@ -36,8 +36,6 @@ namespace EAImvertor
         public EAImvertorAddin():base()
 		{
 			this.menuHeader = menuName;
-			
-			this.menuOptions = new string[] {menuSettings,menuAbout,"Test"};
 			this.settings = new EAImvertorSettings();
 		}
 		
@@ -53,13 +51,7 @@ namespace EAImvertor
 						this._imvertorControl = this.model.addWindow("Imvertor", "EAImvertor.ImvertorControl") as ImvertorControl;
 						this._imvertorControl.resultsButtonClick += this.resultsButtonClick;
 						this._imvertorControl.retryButtonClick += this.retryButtonClick;
-//		                this._navigatorControl.BeforeExpand += new TreeViewCancelEventHandler(this.NavigatorTreeBeforeExpand);
-//		                this._navigatorControl.NodeDoubleClick += new TreeNodeMouseClickEventHandler(this.NavigatorTreeNodeDoubleClick);
-//		                this._navigatorControl.fqnButtonClick += new EventHandler(this.FqnButtonClick);
-//		                this._navigatorControl.guidButtonClick += new EventHandler(this.GuidButtonClick);
-//		                this._navigatorControl.quickSearchTextChanged += new EventHandler(this.quickSearchTextChanged);
-//		                this._navigatorControl.openInNavigatorClick += new EventHandler( this.openInNavigatorClick);
-//		                this._navigatorControl.settings = this.settings;
+						this.imvertorControl.viewWarningsButtonClick += this.viewWarningsButtonClick;
 					}
 				}
 				return this._imvertorControl;
@@ -98,7 +90,18 @@ namespace EAImvertor
 		/// <param name="e">arguments</param>
 		void resultsButtonClick(object sender, EventArgs e)
 		{
-			//TODO
+			if (this.imvertorControl.selectedJob != null)
+				this.imvertorControl.selectedJob.downloadResults();
+		}
+		/// <summary>
+		/// reacts to the event that the viewWarningsButton is clicked in the ImvertorControl
+		/// </summary>
+		/// <param name="sender">sender</param>
+		/// <param name="e">arguments</param>
+		void viewWarningsButtonClick(object sender, EventArgs e)
+		{
+			if (this.imvertorControl.selectedJob != null)
+				this.imvertorControl.selectedJob.viewReport();
 		}
 		/// <summary>
 		/// reacts to the event that the retryButton is clicked in the ImvertorControl
@@ -108,7 +111,25 @@ namespace EAImvertor
 		void retryButtonClick(object sender, EventArgs e)
 		{
 			//TODO
-		}		
+		}
+
+		public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
+		{
+			List<string> menuOptionsList = new List<string>();
+			var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
+			if (selectedPackage != null)
+			{
+				menuOptionsList.Add(menuPublish);
+			}
+			if ( MenuLocation == "MainMenu") 
+			{
+				menuOptionsList.Add(menuSettings);
+				menuOptionsList.Add(menuAbout);
+			}
+			this.menuOptions = menuOptionsList.ToArray();
+			//call base operation
+			return base.EA_GetMenuItems(Repository, MenuLocation, MenuName);
+		}
 		/// <summary>
 		/// only needed for the about menu
         /// </summary>
@@ -128,14 +149,12 @@ namespace EAImvertor
 		       case menuSettings:
 		            new EAImvertorSettingsForm(this.settings).ShowDialog();
 		            break;
-		       case "Test":
-		            //debugging
-		            test();
-		            
+		       case menuPublish:
+		            publish();
 		            break;
 			}
 		}
-		private void test()
+		private void publish()
 		{
 			//create new backgroundWorker
 			var imvertorJobBackgroundWorker = new BackgroundWorker();
@@ -146,7 +165,7 @@ namespace EAImvertor
             
             //get selected package
             var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
-            var imvertorJob = new EAImvertorJob(selectedPackage);
+            var imvertorJob = new EAImvertorJob(selectedPackage, this.settings);
             
             //update gui
             this._imvertorControl.addJob(imvertorJob);
@@ -159,12 +178,13 @@ namespace EAImvertor
 		{
 			var imvertorJob = e.Argument as EAImvertorJob;
 			if (imvertorJob != null)
-			imvertorJob.startJob(this.settings.imvertorURL,this.settings.defaultPIN,this.settings.defaultProcessName
-		                                             ,this.settings.defaultProperties,this.settings.defaultPropertiesFilePath,"");
+			imvertorJob.startJob(this.settings);
+			//pass the job as result
+			e.Result = imvertorJob;
 		}
 		private void imvertorBackgroundRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			this._imvertorControl.refreshJobInfo();
+			this._imvertorControl.refreshJobInfo(e.Result as EAImvertorJob);
 			Logger.log("imvertorJob finished");
 		}
 	}

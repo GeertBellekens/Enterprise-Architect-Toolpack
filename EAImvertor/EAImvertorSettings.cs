@@ -91,6 +91,16 @@ namespace EAImvertor
 				this.setValue("defaultPropertiesFilePath",value);
 			}
 		}
-		
+		public string defaultHistoryFilePath
+		{
+			get
+			{
+				return this.getValue("defaultHistoryFilePath");
+			}
+			set
+			{
+				this.setValue("defaultHistoryFilePath",value);
+			}
+		}	
 	}
 }

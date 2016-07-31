@@ -34,6 +34,7 @@ namespace EAImvertor
 			this.defaultProcessTextBox.Text = this.settings.defaultProcessName;
 			this.defaultPropertiesTextBox.Text = this.settings.defaultProperties;
 			this.defaultPropertiesPathTextBox.Text = this.settings.defaultPropertiesFilePath;
+			this.defaultHistoryFileTextBox.Text = this.settings.defaultHistoryFilePath;
 		}
 		/// <summary>
 		/// save the data from the form to the settings
@@ -44,7 +45,8 @@ namespace EAImvertor
 			this.settings.defaultPIN = this.defaultPinTextBox.Text;
 			this.settings.defaultProcessName = this.defaultProcessTextBox.Text;
 			this.settings.defaultProperties = this.defaultPropertiesTextBox.Text;
-			this.settings.defaultPropertiesFilePath = this.defaultPropertiesPathTextBox.Text;			
+			this.settings.defaultPropertiesFilePath = this.defaultPropertiesPathTextBox.Text;	
+			this.settings.defaultHistoryFilePath = this.defaultHistoryFileTextBox.Text;			
 			this.settings.save();
 		}
 		void OkButtonClick(object sender, EventArgs e)
@@ -68,6 +70,20 @@ namespace EAImvertor
             {
             	//if the user selected the file then put the filename in the abbreviationsfileTextBox
                 this.defaultPropertiesPathTextBox.Text = browsePropertiesFileDialog.FileName;
+            }
+		}
+		void BrowseDefaultHistoryFileButtonClick(object sender, EventArgs e)
+		{
+						//let the user select a file
+            OpenFileDialog browseHistoryFileDialog = new OpenFileDialog();
+            browseHistoryFileDialog.Filter = "History files|*.xls;*.xlsx";
+            browseHistoryFileDialog.FilterIndex = 1;
+            browseHistoryFileDialog.Multiselect = false;
+            var dialogResult = browseHistoryFileDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+            	//if the user selected the file then put the filename in the abbreviationsfileTextBox
+                this.defaultHistoryFileTextBox.Text = browseHistoryFileDialog.FileName;
             }
 		}
 	}

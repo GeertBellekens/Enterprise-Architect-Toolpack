@@ -21,15 +21,19 @@ namespace EAImvertor
 		private string _jobID;
 		private string _status;
 		private string _zipUrl;
+		private EAImvertorSettings _settings;
+		public EAImvertorSettings settings
+		{
+			get {return this._settings;}
+		}
 		private string reportUrl
 		{
-			get{return _imvertorURL + "imvertor-executor/report?pin=" + _pincode + "&job=" + _jobID;}
+			get{return _settings.imvertorURL+ "imvertor-executor/report?pin=" + settings.defaultPIN + "&job=" + _jobID;}
 		}
-		string _imvertorURL;
-		string _pincode;
-		public EAImvertorJob(UML.Classes.Kernel.Package package)
+		public EAImvertorJob(UML.Classes.Kernel.Package package, EAImvertorSettings settings)
 		{
 			this._sourcePackage = package;
+			this._settings = settings;
 			this._status = "Created";
 		}
 		//public properties
@@ -63,18 +67,17 @@ namespace EAImvertor
 					break;
 			}
 		}
-		public void startJob(string imvertorURL, string pincode,string processName ,string imvertorProperties,string imvertorPropertiesFilePath, string imvertorHistoryFilePath)
-			//		
+		//public void startJob(string imvertorURL, string pincode,string processName ,string imvertorProperties,string imvertorPropertiesFilePath, string imvertorHistoryFilePath)
+		public void startJob(EAImvertorSettings settings)
 		{
-			_imvertorURL = imvertorURL;
-			_pincode = pincode;
+			this._settings = settings;
 			string xmiFileName = Path.GetTempFileName();
 			this.sourcePackage.exportToXMI(xmiFileName);
-			this._jobID = this.Upload(imvertorURL +"/imvertor-executor/upload",pincode,processName,imvertorProperties
-			                           ,xmiFileName,imvertorHistoryFilePath,imvertorPropertiesFilePath);
+			this._jobID = this.Upload(settings.imvertorURL+"/imvertor-executor/upload",settings.defaultPIN,settings.defaultProcessName,settings.defaultProperties
+			                           ,xmiFileName,settings.defaultHistoryFilePath,settings.defaultPropertiesFilePath);
 
 			Logger.log(this.reportUrl);
-			getJobReport(imvertorURL, pincode,0);
+			getJobReport(_settings.imvertorURL, this.settings.defaultPIN,0);
 		}
 		public void downloadResults()
 		{
@@ -115,7 +118,7 @@ namespace EAImvertor
 							var zipNode = xmlReport.SelectSingleNode("//zip");
 							if (zipNode != null)
 							{
-								this._zipUrl = this._imvertorURL + zipNode.InnerText;
+								this._zipUrl = this.settings.imvertorURL + zipNode.InnerText;
 							}
 						}
 					}

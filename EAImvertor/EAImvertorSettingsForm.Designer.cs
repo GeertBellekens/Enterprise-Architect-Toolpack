@@ -28,6 +28,9 @@ namespace EAImvertor
 		private System.Windows.Forms.Button browseDefaultPropertiesFileButton;
 		private System.Windows.Forms.TextBox defaultProcessTextBox;
 		private System.Windows.Forms.Label defaultProcessLabel;
+		private System.Windows.Forms.Button browseDefaultHistoryFileButton;
+		private System.Windows.Forms.TextBox defaultHistoryFileTextBox;
+		private System.Windows.Forms.Label defaultHistoryFileLabel;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -65,6 +68,9 @@ namespace EAImvertor
 			this.browseDefaultPropertiesFileButton = new System.Windows.Forms.Button();
 			this.defaultProcessTextBox = new System.Windows.Forms.TextBox();
 			this.defaultProcessLabel = new System.Windows.Forms.Label();
+			this.browseDefaultHistoryFileButton = new System.Windows.Forms.Button();
+			this.defaultHistoryFileTextBox = new System.Windows.Forms.TextBox();
+			this.defaultHistoryFileLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// ImvertorURLLabel
@@ -105,7 +111,7 @@ namespace EAImvertor
 			// applyButton
 			// 
 			this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.applyButton.Location = new System.Drawing.Point(275, 168);
+			this.applyButton.Location = new System.Drawing.Point(275, 195);
 			this.applyButton.Name = "applyButton";
 			this.applyButton.Size = new System.Drawing.Size(75, 23);
 			this.applyButton.TabIndex = 9;
@@ -117,7 +123,7 @@ namespace EAImvertor
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(194, 168);
+			this.cancelButton.Location = new System.Drawing.Point(194, 195);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 8;
@@ -127,7 +133,7 @@ namespace EAImvertor
 			// okButton
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(113, 168);
+			this.okButton.Location = new System.Drawing.Point(113, 195);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 7;
@@ -151,7 +157,7 @@ namespace EAImvertor
 			this.DefaultPropertiesPathLabel.Name = "DefaultPropertiesPathLabel";
 			this.DefaultPropertiesPathLabel.Size = new System.Drawing.Size(133, 23);
 			this.DefaultPropertiesPathLabel.TabIndex = 10;
-			this.DefaultPropertiesPathLabel.Text = "Default Properties Path";
+			this.DefaultPropertiesPathLabel.Text = "Default Properties File";
 			// 
 			// defaultPropertiesTextBox
 			// 
@@ -199,13 +205,45 @@ namespace EAImvertor
 			this.defaultProcessLabel.TabIndex = 15;
 			this.defaultProcessLabel.Text = "Default Process";
 			// 
+			// browseDefaultHistoryFileButton
+			// 
+			this.browseDefaultHistoryFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.browseDefaultHistoryFileButton.Location = new System.Drawing.Point(326, 142);
+			this.browseDefaultHistoryFileButton.Name = "browseDefaultHistoryFileButton";
+			this.browseDefaultHistoryFileButton.Size = new System.Drawing.Size(24, 20);
+			this.browseDefaultHistoryFileButton.TabIndex = 17;
+			this.browseDefaultHistoryFileButton.Text = "...";
+			this.browseDefaultHistoryFileButton.UseVisualStyleBackColor = true;
+			this.browseDefaultHistoryFileButton.Click += new System.EventHandler(this.BrowseDefaultHistoryFileButtonClick);
+			// 
+			// defaultHistoryFileTextBox
+			// 
+			this.defaultHistoryFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.defaultHistoryFileTextBox.Location = new System.Drawing.Point(139, 143);
+			this.defaultHistoryFileTextBox.MinimumSize = new System.Drawing.Size(153, 20);
+			this.defaultHistoryFileTextBox.Name = "defaultHistoryFileTextBox";
+			this.defaultHistoryFileTextBox.Size = new System.Drawing.Size(181, 20);
+			this.defaultHistoryFileTextBox.TabIndex = 16;
+			// 
+			// defaultHistoryFileLabel
+			// 
+			this.defaultHistoryFileLabel.Location = new System.Drawing.Point(12, 146);
+			this.defaultHistoryFileLabel.Name = "defaultHistoryFileLabel";
+			this.defaultHistoryFileLabel.Size = new System.Drawing.Size(133, 23);
+			this.defaultHistoryFileLabel.TabIndex = 18;
+			this.defaultHistoryFileLabel.Text = "Default History File";
+			// 
 			// EAImvertorSettingsForm
 			// 
 			this.AcceptButton = this.okButton;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(359, 203);
+			this.ClientSize = new System.Drawing.Size(359, 230);
+			this.Controls.Add(this.browseDefaultHistoryFileButton);
+			this.Controls.Add(this.defaultHistoryFileTextBox);
+			this.Controls.Add(this.defaultHistoryFileLabel);
 			this.Controls.Add(this.defaultProcessTextBox);
 			this.Controls.Add(this.defaultProcessLabel);
 			this.Controls.Add(this.browseDefaultPropertiesFileButton);
