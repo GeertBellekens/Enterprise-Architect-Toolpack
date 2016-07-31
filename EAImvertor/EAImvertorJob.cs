@@ -16,26 +16,79 @@ namespace EAImvertor
 	/// </summary>
 	public class EAImvertorJob
 	{
-		private UML.Classes.Kernel.Package sourcePackage;
-		private string jobID;
+		private UML.Classes.Kernel.Package _sourcePackage;
+		private string _jobID;
+		private string _status;
+		private string _zipUrl;
+		private string reportUrl
+		{
+			get{return _imvertorURL + "imvertor-executor/report?pin=" + _pincode + "&job=" + _jobID;}
+		}
+		string _imvertorURL;
+		string _pincode;
 		public EAImvertorJob(UML.Classes.Kernel.Package package)
 		{
-			this.sourcePackage = package;
+			this._sourcePackage = package;
+			this._status = "Created";
+		}
+		//public properties
+		public UML.Classes.Kernel.Package sourcePackage
+		{
+			get { return this._sourcePackage; }
+		}
+		public string jobID
+		{
+			get { return this._jobID; }
+		}
+		public string status
+		{
+			get { return this._status; }
+		}
+		private void setStatus(string jobStatus)
+		{
+			switch (jobStatus) 
+			{
+				case "1":
+					this._status = "Queued";
+					break;
+				case "2":
+					this._status = "In Progress";
+					break;
+				case "3":
+					this._status = "Finished";
+					break;
+				default:
+					this._status = "Error";
+					break;
+			}
 		}
 		public void startJob(string imvertorURL, string pincode,string processName ,string imvertorProperties,string imvertorPropertiesFilePath, string imvertorHistoryFilePath)
 			//		
 		{
-			this.jobID = this.Upload(imvertorURL +"/imvertor-executor/upload",pincode,processName,imvertorProperties
+			_imvertorURL = imvertorURL;
+			_pincode = pincode;
+			this._jobID = this.Upload(imvertorURL +"/imvertor-executor/upload",pincode,processName,imvertorProperties
 			                           ,@"C:\temp\SampleApplication.1.xmi",imvertorHistoryFilePath,imvertorPropertiesFilePath);
 
-			Logger.log(imvertorURL + "imvertor-executor/report?pin=" + pincode + "&job=" + jobID);
-			getReportJob(imvertorURL, pincode,0);
+			Logger.log(this.reportUrl);
+			getJobReport(imvertorURL, pincode,0);
 		}
-		private void getReportJob(string imvertorURL, string pincode, int tries)
+		public void downloadResults()
+		{
+			if (! string.IsNullOrEmpty(this._zipUrl))
+			{
+				System.Diagnostics.Process.Start(this._zipUrl);
+			}
+		}
+		public void viewReport()
+		{
+			System.Diagnostics.Process.Start(this.reportUrl);
+		}
+		private void getJobReport(string imvertorURL, string pincode, int tries)
 		{
 			if (tries < 10) //try ten times
 			{
-				var xmlReport = getReport(imvertorURL + "imvertor-executor/report?pin=" + pincode + "&job=" + jobID);
+				var xmlReport = getReport(this.reportUrl);
 				if (xmlReport != null)
 				{
 					Logger.log ("report at try "  + tries.ToString() + " " + xmlReport.InnerXml);
@@ -43,13 +96,24 @@ namespace EAImvertor
 					if (statusNode != null)
 					{
 						string jobStatus = statusNode.InnerText;
-						if (jobStatus == "1" || jobStatus == "2") //if status queued or in progress then try again
+						//set the status
+						this.setStatus(jobStatus);
+						if (this.status == "Queued" || this.status == "In Progress" ) //if status queued or in progress then try again
 						{
 							//wait ten seconds
 							Thread.Sleep(new TimeSpan(0,0,10));
 							//then try again
 							tries++;
-							getReportJob(imvertorURL, pincode, tries);
+							getJobReport(imvertorURL, pincode, tries);
+						}
+						//get the zip url
+						else if (this.status == "Finished")
+						{
+							var zipNode = xmlReport.SelectSingleNode("//zip");
+							if (zipNode != null)
+							{
+								this._zipUrl = this._imvertorURL + zipNode.InnerText;
+							}
 						}
 					}
 				}

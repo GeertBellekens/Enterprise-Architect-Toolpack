@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace EAImvertor
 {
@@ -21,6 +22,22 @@ namespace EAImvertor
 	/// </summary>
 	public partial class ImvertorControl : UserControl
 	{
+		//private attributes
+		private List<EAImvertorJob> jobs = new List<EAImvertorJob>();
+		private EAImvertorJob selectedJob
+		{
+			get
+			{
+				if (this.imvertorJobGrid.SelectedItems.Count > 0)
+				{
+					return this.imvertorJobGrid.SelectedItems[0].Tag as EAImvertorJob;
+				}
+				else
+				{
+					return null;
+				}
+			}
+		}
 		public ImvertorControl()
 		{
 			//
@@ -31,7 +48,22 @@ namespace EAImvertor
 			this.resizeGridColumns();
 			
 		}
-		
+		public void addJob(EAImvertorJob job)
+		{
+			this.jobs.Insert(0,job);
+			this.refreshJobInfo();
+		}
+		public void refreshJobInfo()
+		{
+			this.imvertorJobGrid.Items.Clear();
+			foreach (var job in this.jobs) 
+			{
+				var row = new ListViewItem(job.sourcePackage.name);
+				row.SubItems.Add(job.status);
+				row.Tag = job;
+				this.imvertorJobGrid.Items.Add(row);
+			}
+		}
 		private void resizeGridColumns()
 		{
 			//set the last column to fill
@@ -56,10 +88,30 @@ namespace EAImvertor
 			{
 				resultsButtonClick(sender, e);
 			}
+			//TODO: figure out where this should happen
+			if (this.selectedJob != null)
+				this.selectedJob.downloadResults();
 		}
 		void ImvertorJobGridResize(object sender, EventArgs e)
 		{
 			this.resizeGridColumns();
+		}
+		void ImvertorJobGridSelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (this.selectedJob != null)
+			{
+				this.jobIDTextBox.Text = selectedJob.jobID;
+			}
+			else
+			{
+				//clear fields
+				this.jobIDTextBox.Text = string.Empty;
+			}
+		}
+		void ViewWarningsButtonClick(object sender, EventArgs e)
+		{
+			if (this.selectedJob != null)
+				this.selectedJob.viewReport();
 		}
 		
 	}

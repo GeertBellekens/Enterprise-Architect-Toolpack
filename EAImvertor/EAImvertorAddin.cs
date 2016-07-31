@@ -32,7 +32,6 @@ namespace EAImvertor
     	private ImvertorControl _imvertorControl;
        	private bool fullyLoaded = false;
        	private EAImvertorSettings settings;
-       	private BackgroundWorker imvertorJobBackgroundWorker;
 		//constructor
         public EAImvertorAddin():base()
 		{
@@ -138,22 +137,34 @@ namespace EAImvertor
 		}
 		private void test()
 		{
-			//do everything in a backgroundthread
-			this.imvertorJobBackgroundWorker = new BackgroundWorker();
-			this.imvertorJobBackgroundWorker.WorkerSupportsCancellation = true;
-            this.imvertorJobBackgroundWorker.DoWork += new DoWorkEventHandler(imvertorBackground_DoWork);
+			//create new backgroundWorker
+			var imvertorJobBackgroundWorker = new BackgroundWorker();
+			imvertorJobBackgroundWorker.WorkerSupportsCancellation = true;
+            imvertorJobBackgroundWorker.DoWork += new DoWorkEventHandler(imvertorBackground_DoWork);
             //backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-            this.imvertorJobBackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(imvertorBackgroundRunWorkerCompleted);
-            this.imvertorJobBackgroundWorker.RunWorkerAsync();
+            imvertorJobBackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(imvertorBackgroundRunWorkerCompleted);
+            
+            //get selected package
+            var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
+            var imvertorJob = new EAImvertorJob(selectedPackage);
+            
+            //update gui
+            this._imvertorControl.addJob(imvertorJob);
+            
+            //start job in the background
+            imvertorJobBackgroundWorker.RunWorkerAsync(imvertorJob);
 
 		}
 		private void imvertorBackground_DoWork(object sender, DoWorkEventArgs e)
 		{
-			new EAImvertorJob(null).startJob(this.settings.imvertorURL,this.settings.defaultPIN,this.settings.defaultProcessName
+			var imvertorJob = e.Argument as EAImvertorJob;
+			if (imvertorJob != null)
+			imvertorJob.startJob(this.settings.imvertorURL,this.settings.defaultPIN,this.settings.defaultProcessName
 		                                             ,this.settings.defaultProperties,this.settings.defaultPropertiesFilePath,"");
 		}
 		private void imvertorBackgroundRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
+			this._imvertorControl.refreshJobInfo();
 			Logger.log("imvertorJob finished");
 		}
 	}
