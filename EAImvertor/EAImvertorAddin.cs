@@ -116,10 +116,13 @@ namespace EAImvertor
 		public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
 		{
 			List<string> menuOptionsList = new List<string>();
-			var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
-			if (selectedPackage != null)
+			if (this.fullyLoaded)
 			{
-				menuOptionsList.Add(menuPublish);
+				var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
+				if (selectedPackage != null)
+				{
+					menuOptionsList.Add(menuPublish);
+				}
 			}
 			if ( MenuLocation == "MainMenu") 
 			{
