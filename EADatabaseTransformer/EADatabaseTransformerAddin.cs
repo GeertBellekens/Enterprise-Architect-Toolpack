@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
+using DB=DatabaseFramework;
+using DB_EA = EAAddinFramework.Databases;
+using EAAddinFramework.Utilities;
 
 namespace EADatabaseTransformer
 {
@@ -107,9 +110,43 @@ namespace EADatabaseTransformer
 			var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
 			if (selectedPackage != null)
 			{
+				//debug
+				test(selectedPackage);
 				//figure out which the database model is for this package
 				//if the database model is not defined yet then ask the user
 				//make a list of all the differences and show it to the user
+				
+			}
+		}
+
+		void test(UML.Classes.Kernel.Package selectedPackage)
+		{
+			//TODO: setup DB2 factory, from config somewhere? Could be taken from EA?
+			List<DB_EA.BaseDataType> baseDatatypes = new List<DB_EA.BaseDataType>();
+			baseDatatypes.Add(new DB_EA.BaseDataType("CHAR",true, false));
+			baseDatatypes.Add(new DB_EA.BaseDataType("TIMESTAMP",false, false));
+			baseDatatypes.Add(new DB_EA.BaseDataType("DATE",false, false));
+			baseDatatypes.Add(new DB_EA.BaseDataType("DECIMAL",true, true));
+			DB_EA.DatabaseFactory.addFactory("DB2",baseDatatypes);
+			var factory = DB_EA.DatabaseFactory.getFactory("DB2");
+			
+			DB_EA.Database database = factory.createDataBase(selectedPackage as UTF_EA.Package);
+			Logger.log ("Database: " + database.name);
+			foreach (var table in database.tables) 
+			{
+				Logger.log("Table: " + table.name);
+				foreach (var column in table.columns) 
+				{
+					Logger.log("column: " + column.name +" "+ column.type.type.name + "(" + column.type.length + "," + column.type.precision + ")" + " Not Null: " + column.isNotNullable.ToString());
+				}
+				foreach (var constraint in table.constraints) 
+				{
+					Logger.log("constraint: " + constraint.name);
+					foreach (var involvedColumn in constraint.involvedColumns) 
+					{
+						Logger.log("involvedColumn: " + involvedColumn.name);
+					}
+				}
 			}
 		}
 	}

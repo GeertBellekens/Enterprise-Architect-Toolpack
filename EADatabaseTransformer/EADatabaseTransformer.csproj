@@ -78,6 +78,10 @@
       <Project>{4161dd26-375f-4744-ba96-b70366e19a78}</Project>
       <Name>EAAddinFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\UML-Tooling-Framework\DatabaseFramework\DatabaseFramework.csproj">
+      <Project>{033c0df8-5bb0-496f-b024-4443b9fcf2dc}</Project>
+      <Name>DatabaseFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\UML-Tooling-Framework\UMLToolingFramework\UMLToolingFramework.csproj">
       <Project>{0fc55607-c9d0-442d-941c-f23ad00cb318}</Project>
       <Name>UMLToolingFramework</Name>
