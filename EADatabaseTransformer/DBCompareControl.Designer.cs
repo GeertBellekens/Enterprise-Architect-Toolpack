@@ -12,11 +12,12 @@ namespace EADatabaseTransformer
 		private System.Windows.Forms.ColumnHeader typeColumn;
 		private System.Windows.Forms.ColumnHeader propertiesColumn;
 		private System.Windows.Forms.ListView newDBListView;
-		private System.Windows.Forms.ColumnHeader columnHeader1;
-		private System.Windows.Forms.ColumnHeader columnHeader2;
-		private System.Windows.Forms.ColumnHeader columnHeader3;
+		private System.Windows.Forms.ColumnHeader newTableColumn;
+		private System.Windows.Forms.ColumnHeader newItemTypeColum;
+		private System.Windows.Forms.ColumnHeader newPropertiesColumn;
 		private System.Windows.Forms.ColumnHeader tableHeader;
 		private System.Windows.Forms.ColumnHeader nameHeader;
+		private System.Windows.Forms.ColumnHeader nameColumn;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -41,14 +42,15 @@ namespace EADatabaseTransformer
 		{
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.newDBListView = new System.Windows.Forms.ListView();
-			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
+			this.newTableColumn = new System.Windows.Forms.ColumnHeader();
+			this.newItemTypeColum = new System.Windows.Forms.ColumnHeader();
+			this.newPropertiesColumn = new System.Windows.Forms.ColumnHeader();
 			this.originalDBListView = new System.Windows.Forms.ListView();
 			this.tableHeader = new System.Windows.Forms.ColumnHeader();
 			this.typeColumn = new System.Windows.Forms.ColumnHeader();
-			this.propertiesColumn = new System.Windows.Forms.ColumnHeader();
 			this.nameHeader = new System.Windows.Forms.ColumnHeader();
+			this.propertiesColumn = new System.Windows.Forms.ColumnHeader();
+			this.nameColumn = new System.Windows.Forms.ColumnHeader();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -77,9 +79,10 @@ namespace EADatabaseTransformer
 			// newDBListView
 			// 
 			this.newDBListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeader1,
-			this.columnHeader2,
-			this.columnHeader3});
+			this.newTableColumn,
+			this.newItemTypeColum,
+			this.nameColumn,
+			this.newPropertiesColumn});
 			this.newDBListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.newDBListView.FullRowSelect = true;
 			this.newDBListView.GridLines = true;
@@ -91,19 +94,19 @@ namespace EADatabaseTransformer
 			this.newDBListView.View = System.Windows.Forms.View.Details;
 			this.newDBListView.Resize += new System.EventHandler(this.NewDBListViewResize);
 			// 
-			// columnHeader1
+			// newTableColumn
 			// 
-			this.columnHeader1.Text = "Table";
-			this.columnHeader1.Width = 80;
+			this.newTableColumn.Text = "Table";
+			this.newTableColumn.Width = 80;
 			// 
-			// columnHeader2
+			// newItemTypeColum
 			// 
-			this.columnHeader2.Text = "Item Type";
-			this.columnHeader2.Width = 80;
+			this.newItemTypeColum.Text = "Item Type";
+			this.newItemTypeColum.Width = 80;
 			// 
-			// columnHeader3
+			// newPropertiesColumn
 			// 
-			this.columnHeader3.Text = "Properties";
+			this.newPropertiesColumn.Text = "Properties";
 			// 
 			// originalDBListView
 			// 
@@ -133,14 +136,19 @@ namespace EADatabaseTransformer
 			this.typeColumn.Text = "Item Type";
 			this.typeColumn.Width = 80;
 			// 
-			// propertiesColumn
-			// 
-			this.propertiesColumn.Text = "Properties";
-			// 
 			// nameHeader
 			// 
 			this.nameHeader.Text = "Name";
 			this.nameHeader.Width = 120;
+			// 
+			// propertiesColumn
+			// 
+			this.propertiesColumn.Text = "Properties";
+			// 
+			// nameColumn
+			// 
+			this.nameColumn.Text = "Name";
+			this.nameColumn.Width = 120;
 			// 
 			// DBCompareControl
 			// 

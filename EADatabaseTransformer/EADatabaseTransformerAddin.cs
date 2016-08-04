@@ -141,11 +141,22 @@ namespace EADatabaseTransformer
 			DB_EA.DatabaseFactory.addFactory("DB2",baseDatatypes);
 			var factory = DB_EA.DatabaseFactory.getFactory("DB2");
 			
-			//DB_EA.Database database = factory.createDataBase(selectedPackage as UTF_EA.Package);
-			//this.dbCompareControl.loadOriginalDatabase(database);
+
 			
 			var newDatabase = transformLDMToDB(selectedPackage  as UTF_EA.Package, factory);
-			this.dbCompareControl.loadOriginalDatabase(newDatabase);
+			this.dbCompareControl.loadNewDatabase(newDatabase);
+			
+			var traces = selectedPackage.relationships.Where(x => x.stereotypes.Any(y => y.name.Equals("trace",StringComparison.InvariantCultureIgnoreCase))).Cast<UTF_EA.ConnectorWrapper>();
+			foreach (var trace in traces) {
+				if (trace.target.Equals(selectedPackage)
+				    && trace.source is UTF_EA.Package
+				    && trace.source.stereotypes.Any(x => x.name.Equals("Database",StringComparison.InvariantCultureIgnoreCase)))
+				{
+					DB_EA.Database originalDatabase = factory.createDataBase(trace.source as UTF_EA.Package);
+					this.dbCompareControl.loadOriginalDatabase(originalDatabase);
+					break;//show only one
+				}
+			}
 			
 		}
 //			Logger.log ("Database: " + database.name);

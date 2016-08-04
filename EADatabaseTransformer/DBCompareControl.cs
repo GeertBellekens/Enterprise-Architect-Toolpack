@@ -14,6 +14,7 @@ namespace EADatabaseTransformer
 	public partial class DBCompareControl : UserControl
 	{
 		private DB.Database _originalDatabase;
+		private DB.Database _newDatabase;
 		public DBCompareControl()
 		{
 			Application.EnableVisualStyles();	
@@ -30,6 +31,11 @@ namespace EADatabaseTransformer
 		{
 			this._originalDatabase = database;
 			loadDatabaseInGrid(_originalDatabase, this.originalDBListView);
+		}
+		public void loadNewDatabase(DB.Database database)
+		{
+			this._newDatabase = database;
+			loadDatabaseInGrid(_newDatabase, this.newDBListView);
 		}
 		private void loadDatabaseInGrid(DB.Database database, ListView grid)
 		{
