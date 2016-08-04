@@ -65,6 +65,10 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="DBCompareControl.cs" />
+    <Compile Include="DBCompareControl.Designer.cs">
+      <DependentUpon>DBCompareControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="EADatabaseTransformerAddin.cs" />
     <Compile Include="EADatabaseTransformerSettings.cs" />
     <Compile Include="EADatabaseTransformerSettingsForm.cs" />
@@ -90,6 +94,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DBCompareControl.resx">
+      <DependentUpon>DBCompareControl.Designer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EADatabaseTransformerSettingsForm.resx">
       <DependentUpon>EADatabaseTransformerSettingsForm.cs</DependentUpon>

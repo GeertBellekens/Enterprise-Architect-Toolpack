@@ -25,7 +25,7 @@ namespace EADatabaseTransformer
         private UTF_EA.Model model = null;
         private bool fullyLoaded = false;
         private EADatabaseTransformerSettings settings;
-        
+        private DBCompareControl _dbCompareControl;
         /// <summary>
         /// constructor where we set the menuheader and menuOptions
         /// </summary>
@@ -34,6 +34,17 @@ namespace EADatabaseTransformer
 			this.menuHeader = menuName;
 			this.menuOptions = new string[]{menuTransform, menuSettings, menuAbout};
 			this.settings = new EADatabaseTransformerSettings();
+		}
+		private DBCompareControl dbCompareControl
+		{
+			get
+			{
+				if (_dbCompareControl == null)
+				{
+					_dbCompareControl = this.model.addTab("Database Compare", "EADatabaseTransformer.DBCompareControl") as DBCompareControl;
+				}
+				return _dbCompareControl;
+			}
 		}
 		public override void EA_FileOpen(EA.Repository Repository)
 		{
@@ -130,24 +141,73 @@ namespace EADatabaseTransformer
 			DB_EA.DatabaseFactory.addFactory("DB2",baseDatatypes);
 			var factory = DB_EA.DatabaseFactory.getFactory("DB2");
 			
-			DB_EA.Database database = factory.createDataBase(selectedPackage as UTF_EA.Package);
-			Logger.log ("Database: " + database.name);
-			foreach (var table in database.tables) 
+			//DB_EA.Database database = factory.createDataBase(selectedPackage as UTF_EA.Package);
+			//this.dbCompareControl.loadOriginalDatabase(database);
+			
+			var newDatabase = transformLDMToDB(selectedPackage  as UTF_EA.Package, factory);
+			this.dbCompareControl.loadOriginalDatabase(newDatabase);
+			
+		}
+//			Logger.log ("Database: " + database.name);
+//			foreach (var table in database.tables) 
+//			{
+//				Logger.log("Table: " + table.name);
+//				foreach (var column in table.columns) 
+//				{
+//					Logger.log("column: " + column.name +" "+ column.type.type.name + "(" + column.type.length + "," + column.type.precision + ")" + " Not Null: " + column.isNotNullable.ToString());
+//				}
+//				foreach (var constraint in table.constraints) 
+//				{
+//					Logger.log("constraint: " + constraint.name);
+//					var foreignKey = constraint as DB.ForeignKey;
+//					if (foreignKey != null)
+//					{
+//						if (foreignKey.foreignTable  != null)
+//						{
+//							Logger.log("foreign table: " + foreignKey.foreignTable.name);
+//						}
+//						else
+//						{
+//							Logger.log("foreign table is null");
+//						}
+//					}
+//					foreach (var involvedColumn in constraint.involvedColumns) 
+//					{
+//						Logger.log("involvedColumn: " + involvedColumn.name);
+//					}
+//				}
+//			}	
+		
+		//transform the daabase to
+		private DB.Database transformLDMToDB(UTF_EA.Package ldmPackage, DB_EA.DatabaseFactory factory)
+		{
+			DB_EA.Database database = factory.createDatabase(ldmPackage.alias);
+			foreach (UTF_EA.Class classElement in ldmPackage.ownedElements.OfType<UTF_EA.Class>()) 
 			{
-				Logger.log("Table: " + table.name);
-				foreach (var column in table.columns) 
+				if (classElement.alias == string.Empty) classElement.alias = "unknown table name";
+				DB_EA.Table table = new DB_EA.Table(database, classElement.alias);
+				foreach (UTF_EA.Attribute attribute in classElement.attributes) 
 				{
-					Logger.log("column: " + column.name +" "+ column.type.type.name + "(" + column.type.length + "," + column.type.precision + ")" + " Not Null: " + column.isNotNullable.ToString());
-				}
-				foreach (var constraint in table.constraints) 
-				{
-					Logger.log("constraint: " + constraint.name);
-					foreach (var involvedColumn in constraint.involvedColumns) 
+					//TODO: translate name to alias
+					DB_EA.Column column = new DB_EA.Column(table, attribute.alias);
+					//get base type
+					var attributeType = attribute.type as UTF_EA.ElementWrapper;
+					if (attributeType == null) Logger.logError (string.Format("Attribute {0}.{1} does not have a element as datatype"
+					                                                    ,classElement.name, attribute.name));
+					else
 					{
-						Logger.log("involvedColumn: " + involvedColumn.name);
+						DB.DataType datatype = factory.createDataType(attributeType.alias);
+						if (datatype == null) Logger.logError (string.Format("Could not find translate {0} as Datatype for attribute {1}.{2}"
+						                                                    ,attributeType.alias, classElement.name, attribute.name));
+						else
+						{
+							column.type = datatype;
+						}
 					}
+
 				}
 			}
+			return database;
 		}
 	}
 
