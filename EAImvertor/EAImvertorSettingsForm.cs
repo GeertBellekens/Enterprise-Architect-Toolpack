@@ -35,6 +35,9 @@ namespace EAImvertor
 			this.defaultPropertiesTextBox.Text = this.settings.defaultProperties;
 			this.defaultPropertiesPathTextBox.Text = this.settings.defaultPropertiesFilePath;
 			this.defaultHistoryFileTextBox.Text = this.settings.defaultHistoryFilePath;
+			this.timeOutUpDown.Value = this.settings.timeOutInSeconds;
+			this.retryIntervalUpDown.Value = this.settings.retryInterval;
+			
 		}
 		/// <summary>
 		/// save the data from the form to the settings
@@ -47,6 +50,8 @@ namespace EAImvertor
 			this.settings.defaultProperties = this.defaultPropertiesTextBox.Text;
 			this.settings.defaultPropertiesFilePath = this.defaultPropertiesPathTextBox.Text;	
 			this.settings.defaultHistoryFilePath = this.defaultHistoryFileTextBox.Text;			
+			this.settings.timeOutInSeconds = int.Parse(this.timeOutUpDown.Value.ToString()) ;
+			this.settings.retryInterval = int.Parse (this.retryIntervalUpDown.Value.ToString());
 			this.settings.save();
 		}
 		void OkButtonClick(object sender, EventArgs e)

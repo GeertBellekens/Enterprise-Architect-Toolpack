@@ -24,6 +24,7 @@ namespace EAImvertor
 		private string _zipUrl;
 		private EAImvertorSettings _settings;
 		private BackgroundWorker _backgroundWorker;
+		private DateTime _startDateTime;
 		public EAImvertorSettings settings
 		{
 			get {return this._settings;}
@@ -51,6 +52,8 @@ namespace EAImvertor
 		{
 			get { return this._status; }
 		}
+		public int tries {get;set;}
+
 		private void setStatus(string jobStatus )
 		{
 			int jobStatusInt;
@@ -78,6 +81,7 @@ namespace EAImvertor
 		public void startJob(EAImvertorSettings settings, BackgroundWorker backgroundWorker)
 		{
 			this._settings = settings;
+			this._startDateTime = DateTime.Now;
 			this._backgroundWorker = backgroundWorker;
 			string xmiFileName = Path.GetTempFileName();
 			this.setStatus("Exporting Model");
@@ -88,7 +92,7 @@ namespace EAImvertor
 
 			Logger.log(this.reportUrl);
 			this.setStatus("Upload Finished");
-			getJobReport(_settings.imvertorURL, this.settings.defaultPIN,0);
+			getJobReport(_settings.imvertorURL, this.settings.defaultPIN);
 		}
 		public void downloadResults()
 		{
@@ -101,9 +105,9 @@ namespace EAImvertor
 		{
 			System.Diagnostics.Process.Start(this.reportUrl);
 		}
-		private void getJobReport(string imvertorURL, string pincode, int tries)
+		private void getJobReport(string imvertorURL, string pincode)
 		{
-			if (tries < 10) //try ten times
+			if ((DateTime.Now - this._startDateTime).Seconds < _settings.timeOutInSeconds ) //if not timed out yet
 			{
 				var xmlReport = getReport(this.reportUrl);
 				if (xmlReport != null)
@@ -117,11 +121,11 @@ namespace EAImvertor
 						this.setStatus(jobStatus);
 						if (this.status == "Queued" || this.status == "In Progress" ) //if status queued or in progress then try again
 						{
-							//wait ten seconds
-							Thread.Sleep(new TimeSpan(0,0,10));
+							//wat the interval
+							Thread.Sleep(new TimeSpan(0,0,_settings.retryInterval));
 							//then try again
-							tries++;
-							getJobReport(imvertorURL, pincode, tries);
+							this.tries++;
+							getJobReport(imvertorURL, pincode);
 						}
 						//get the zip url
 						else if (this.status == "Finished")
@@ -141,7 +145,7 @@ namespace EAImvertor
 			}
 			else
 			{
-				Logger.log("tried to get report 10 times");
+				this.setStatus(this.status + " (Timed out)");
 			}
 		}
 		private XmlDocument getReport(string reportURL)

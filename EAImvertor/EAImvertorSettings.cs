@@ -114,5 +114,27 @@ namespace EAImvertor
 				this.setValue("imvertorStereotypes",string.Join(",",value.ToArray()));
 			}
 		}
+		public int timeOutInSeconds
+		{
+			get
+			{
+				return  int.Parse(this.getValue("timeOutInSeconds"));
+			}
+			set
+			{
+				this.setValue("timeOutInSeconds",value.ToString());
+			}
+		}
+		public int retryInterval
+		{
+			get
+			{
+				return  int.Parse(this.getValue("retryInterval"));
+			}
+			set
+			{
+				this.setValue("retryInterval",value.ToString());
+			}
+		}
 	}
 }

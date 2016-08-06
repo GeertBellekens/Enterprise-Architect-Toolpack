@@ -64,7 +64,13 @@ namespace EAImvertor
 			foreach (var job in this.jobs) 
 			{
 				var row = new ListViewItem(job.sourcePackage.name);
-				row.SubItems.Add(job.status);
+				string tries = string.Empty;
+				if (!(job.status.StartsWith("Finished") || job.status.StartsWith("Error"))
+				   && job.tries > 0)
+				{
+					tries = new string('.',job.tries);
+				}
+				row.SubItems.Add(job.status + tries);
 				row.Tag = job;
 				this.imvertorJobGrid.Items.Add(row);
 				//select the job passed as parameter
