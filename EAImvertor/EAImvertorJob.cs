@@ -72,7 +72,7 @@ namespace EAImvertor
 		{
 			this._settings = settings;
 			string xmiFileName = Path.GetTempFileName();
-			this.sourcePackage.exportToXMI(xmiFileName);
+			this.sourcePackage.getRootPackage().exportToXMI(xmiFileName);
 			this._jobID = this.Upload(settings.imvertorURL+"/imvertor-executor/upload",settings.defaultPIN,settings.defaultProcessName,settings.defaultProperties
 			                           ,xmiFileName,settings.defaultHistoryFilePath,settings.defaultPropertiesFilePath);
 

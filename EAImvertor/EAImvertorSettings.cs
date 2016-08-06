@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using System.Configuration;
@@ -101,6 +102,17 @@ namespace EAImvertor
 			{
 				this.setValue("defaultHistoryFilePath",value);
 			}
-		}	
+		}
+		public List<string> imvertorStereotypes
+		{
+			get
+			{
+				return  this.getValue("imvertorStereotypes").Split(',').ToList();;
+			}
+			set
+			{
+				this.setValue("imvertorStereotypes",string.Join(",",value.ToArray()));
+			}
+		}
 	}
 }

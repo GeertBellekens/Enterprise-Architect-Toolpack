@@ -133,6 +133,24 @@ namespace EAImvertor
 			//call base operation
 			return base.EA_GetMenuItems(Repository, MenuLocation, MenuName);
 		}
+		public override void EA_GetMenuState(EA.Repository Repository, string MenuLocation, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
+		{
+			//only enable publish menu on a limited set of stereotypes
+			if (ItemName == menuPublish)
+			{
+				var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
+				if (!selectedPackage.stereotypes.Any
+				    					(x => this.settings.imvertorStereotypes.Any
+				     						(y => y.Equals(x.name,StringComparison.InvariantCultureIgnoreCase))))
+				{
+					IsEnabled = false;
+				}
+			}
+			else
+			{
+				IsEnabled = true;
+			}
+		}
 		/// <summary>
 		/// only needed for the about menu
         /// </summary>
