@@ -32,6 +32,7 @@ namespace EAImvertor
     	private ImvertorControl _imvertorControl;
        	private bool fullyLoaded = false;
        	private EAImvertorSettings settings;
+       	private bool _imvertorCalled = false;
 		//constructor
         public EAImvertorAddin():base()
 		{
@@ -44,7 +45,7 @@ namespace EAImvertor
 			get
 			{
 				//we cannot show windows in the lite edition
-				if (this.fullyLoaded && ! this.model.isLiteEdition)
+				if (this.fullyLoaded && ! this.model.isLiteEdition && _imvertorCalled)
 				{
 					if (this._imvertorControl == null)
 					{
@@ -177,6 +178,8 @@ namespace EAImvertor
 		}
 		private void publish()
 		{
+			//somebody called the imvertor, we can show the control
+			this._imvertorCalled = true;
 			//create new backgroundWorker
 			var imvertorJobBackgroundWorker = new BackgroundWorker();
 			//imvertorJobBackgroundWorker.WorkerSupportsCancellation = true; //TODO: implement cancellation
@@ -190,7 +193,7 @@ namespace EAImvertor
             var imvertorJob = new EAImvertorJob(selectedPackage, this.settings);
             
             //update gui
-            this._imvertorControl.addJob(imvertorJob);
+            this.imvertorControl.addJob(imvertorJob);
             
             //start job in the background
             imvertorJobBackgroundWorker.RunWorkerAsync(imvertorJob);
