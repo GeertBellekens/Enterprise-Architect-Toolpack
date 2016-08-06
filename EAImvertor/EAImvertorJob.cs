@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
@@ -22,6 +23,7 @@ namespace EAImvertor
 		private string _status;
 		private string _zipUrl;
 		private EAImvertorSettings _settings;
+		private BackgroundWorker _backgroundWorker;
 		public EAImvertorSettings settings
 		{
 			get {return this._settings;}
@@ -49,34 +51,43 @@ namespace EAImvertor
 		{
 			get { return this._status; }
 		}
-		private void setStatus(string jobStatus)
+		private void setStatus(string jobStatus )
 		{
-			switch (jobStatus) 
+			int jobStatusInt;
+			if (int.TryParse(jobStatus, out jobStatusInt))
 			{
-				case "1":
-					this._status = "Queued";
-					break;
-				case "2":
-					this._status = "In Progress";
-					break;
-				case "3":
-					this._status = "Finished";
-					break;
-				default:
-					this._status = "Error";
-					break;
+				switch (jobStatusInt) 
+				{
+					case 1:
+						this._status = "Queued";
+						break;
+					case 2:
+						this._status = "In Progress";
+						break;
+					case 3:
+						this._status = "Finished";
+						break;
+					default:
+						this._status = "Error";
+						break;
+				}
 			}
+			this._backgroundWorker.ReportProgress(0,this);
 		}
 		//public void startJob(string imvertorURL, string pincode,string processName ,string imvertorProperties,string imvertorPropertiesFilePath, string imvertorHistoryFilePath)
-		public void startJob(EAImvertorSettings settings)
+		public void startJob(EAImvertorSettings settings, BackgroundWorker backgroundWorker)
 		{
 			this._settings = settings;
+			this._backgroundWorker = backgroundWorker;
 			string xmiFileName = Path.GetTempFileName();
+			this.setStatus("Exporting Model");
 			this.sourcePackage.getRootPackage().exportToXMI(xmiFileName);
+			this.setStatus("Uploading Model");
 			this._jobID = this.Upload(settings.imvertorURL+"/imvertor-executor/upload",settings.defaultPIN,settings.defaultProcessName,settings.defaultProperties
 			                           ,xmiFileName,settings.defaultHistoryFilePath,settings.defaultPropertiesFilePath);
 
 			Logger.log(this.reportUrl);
+			this.setStatus("Upload Finished");
 			getJobReport(_settings.imvertorURL, this.settings.defaultPIN,0);
 		}
 		public void downloadResults()

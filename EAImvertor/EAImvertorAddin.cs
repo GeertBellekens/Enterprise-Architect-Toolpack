@@ -179,10 +179,11 @@ namespace EAImvertor
 		{
 			//create new backgroundWorker
 			var imvertorJobBackgroundWorker = new BackgroundWorker();
-			imvertorJobBackgroundWorker.WorkerSupportsCancellation = true;
-            imvertorJobBackgroundWorker.DoWork += new DoWorkEventHandler(imvertorBackground_DoWork);
-            //backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-            imvertorJobBackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(imvertorBackgroundRunWorkerCompleted);
+			//imvertorJobBackgroundWorker.WorkerSupportsCancellation = true; //TODO: implement cancellation
+			imvertorJobBackgroundWorker.WorkerReportsProgress = true;
+			imvertorJobBackgroundWorker.DoWork += imvertorBackground_DoWork;
+			imvertorJobBackgroundWorker.ProgressChanged += imvertorBackground_ProgressChanged;
+			imvertorJobBackgroundWorker.RunWorkerCompleted += imvertorBackgroundRunWorkerCompleted;
             
             //get selected package
             var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
@@ -199,10 +200,16 @@ namespace EAImvertor
 		{
 			var imvertorJob = e.Argument as EAImvertorJob;
 			if (imvertorJob != null)
-			imvertorJob.startJob(this.settings);
+			imvertorJob.startJob(this.settings,sender as BackgroundWorker );
 			//pass the job as result
 			e.Result = imvertorJob;
 		}
+
+		void imvertorBackground_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			this.imvertorControl.refreshJobInfo(e.UserState as EAImvertorJob);
+		}
+
 		private void imvertorBackgroundRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			this._imvertorControl.refreshJobInfo(e.Result as EAImvertorJob);
