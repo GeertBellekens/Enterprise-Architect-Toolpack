@@ -31,6 +31,7 @@ namespace EAImvertor
 		private System.Windows.Forms.Label processLabel;
 		private System.Windows.Forms.TextBox historyFileTextBox;
 		private System.Windows.Forms.Label historyFileLabel;
+		private System.Windows.Forms.Button refreshButton;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -53,6 +54,7 @@ namespace EAImvertor
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImvertorControl));
 			this.imvertorJobGrid = new System.Windows.Forms.ListView();
 			this.packageHeader = new System.Windows.Forms.ColumnHeader();
 			this.statusHeader = new System.Windows.Forms.ColumnHeader();
@@ -70,6 +72,7 @@ namespace EAImvertor
 			this.viewWarningsButton = new System.Windows.Forms.Button();
 			this.resultsButton = new System.Windows.Forms.Button();
 			this.jobIDLabel = new System.Windows.Forms.Label();
+			this.refreshButton = new System.Windows.Forms.Button();
 			this.jobDetailsBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -119,6 +122,7 @@ namespace EAImvertor
 			// 
 			this.jobDetailsBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
+			this.jobDetailsBox.Controls.Add(this.refreshButton);
 			this.jobDetailsBox.Controls.Add(this.historyFileTextBox);
 			this.jobDetailsBox.Controls.Add(this.historyFileLabel);
 			this.jobDetailsBox.Controls.Add(this.propertiesFileTextBox);
@@ -143,9 +147,9 @@ namespace EAImvertor
 			// 
 			this.historyFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.historyFileTextBox.Enabled = false;
 			this.historyFileTextBox.Location = new System.Drawing.Point(188, 120);
 			this.historyFileTextBox.Name = "historyFileTextBox";
+			this.historyFileTextBox.ReadOnly = true;
 			this.historyFileTextBox.Size = new System.Drawing.Size(170, 20);
 			this.historyFileTextBox.TabIndex = 11;
 			// 
@@ -161,9 +165,9 @@ namespace EAImvertor
 			// 
 			this.propertiesFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.propertiesFileTextBox.Enabled = false;
 			this.propertiesFileTextBox.Location = new System.Drawing.Point(189, 79);
 			this.propertiesFileTextBox.Name = "propertiesFileTextBox";
+			this.propertiesFileTextBox.ReadOnly = true;
 			this.propertiesFileTextBox.Size = new System.Drawing.Size(170, 20);
 			this.propertiesFileTextBox.TabIndex = 9;
 			// 
@@ -177,9 +181,9 @@ namespace EAImvertor
 			// 
 			// propertiesTextBox
 			// 
-			this.propertiesTextBox.Enabled = false;
 			this.propertiesTextBox.Location = new System.Drawing.Point(7, 79);
 			this.propertiesTextBox.Name = "propertiesTextBox";
+			this.propertiesTextBox.ReadOnly = true;
 			this.propertiesTextBox.Size = new System.Drawing.Size(170, 20);
 			this.propertiesTextBox.TabIndex = 7;
 			// 
@@ -193,9 +197,9 @@ namespace EAImvertor
 			// 
 			// processTextBox
 			// 
-			this.processTextBox.Enabled = false;
 			this.processTextBox.Location = new System.Drawing.Point(7, 120);
 			this.processTextBox.Name = "processTextBox";
+			this.processTextBox.ReadOnly = true;
 			this.processTextBox.Size = new System.Drawing.Size(170, 20);
 			this.processTextBox.TabIndex = 5;
 			// 
@@ -209,9 +213,9 @@ namespace EAImvertor
 			// 
 			// jobIDTextBox
 			// 
-			this.jobIDTextBox.Enabled = false;
 			this.jobIDTextBox.Location = new System.Drawing.Point(7, 33);
 			this.jobIDTextBox.Name = "jobIDTextBox";
+			this.jobIDTextBox.ReadOnly = true;
 			this.jobIDTextBox.Size = new System.Drawing.Size(170, 20);
 			this.jobIDTextBox.TabIndex = 3;
 			// 
@@ -222,7 +226,7 @@ namespace EAImvertor
 			this.viewWarningsButton.Name = "viewWarningsButton";
 			this.viewWarningsButton.Size = new System.Drawing.Size(75, 23);
 			this.viewWarningsButton.TabIndex = 1;
-			this.viewWarningsButton.Text = "Warnings";
+			this.viewWarningsButton.Text = "Messages";
 			this.viewWarningsButton.UseVisualStyleBackColor = true;
 			this.viewWarningsButton.Click += new System.EventHandler(this.ViewWarningsButtonClick);
 			// 
@@ -244,6 +248,16 @@ namespace EAImvertor
 			this.jobIDLabel.Size = new System.Drawing.Size(100, 23);
 			this.jobIDLabel.TabIndex = 0;
 			this.jobIDLabel.Text = "Job ID";
+			// 
+			// refreshButton
+			// 
+			this.refreshButton.Image = ((System.Drawing.Image)(resources.GetObject("refreshButton.Image")));
+			this.refreshButton.Location = new System.Drawing.Point(6, 163);
+			this.refreshButton.Name = "refreshButton";
+			this.refreshButton.Size = new System.Drawing.Size(25, 23);
+			this.refreshButton.TabIndex = 12;
+			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.Click += new System.EventHandler(this.RefreshButtonClick);
 			// 
 			// ImvertorControl
 			// 

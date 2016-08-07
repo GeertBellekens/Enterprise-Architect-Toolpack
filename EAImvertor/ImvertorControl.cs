@@ -150,6 +150,16 @@ namespace EAImvertor
 			}
 			this.enableDisable();
 		}
+		
+		void RefreshButtonClick(object sender, EventArgs e)
+		{
+			if (this.selectedJob != null)
+			{
+				this.selectedJob.refreshStatus();
+				this.refreshJobInfo(this.selectedJob);
+			}
+		}
+
 
 		
 	}

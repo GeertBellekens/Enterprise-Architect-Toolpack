@@ -75,7 +75,10 @@ namespace EAImvertor
 						break;
 				}
 			}
-			this._backgroundWorker.ReportProgress(0,this);
+			if (this._backgroundWorker != null && this._backgroundWorker.IsBusy)
+			{
+				this._backgroundWorker.ReportProgress(0,this);
+			}
 		}
 		//public void startJob(string imvertorURL, string pincode,string processName ,string imvertorProperties,string imvertorPropertiesFilePath, string imvertorHistoryFilePath)
 		public void startJob(EAImvertorSettings settings, BackgroundWorker backgroundWorker)
@@ -92,7 +95,13 @@ namespace EAImvertor
 
 			Logger.log(this.reportUrl);
 			this.setStatus("Upload Finished");
-			getJobReport(_settings.imvertorURL, this.settings.defaultPIN);
+			getJobReport();
+		}
+		public void refreshStatus()
+		{
+			//set timeout to 1 second to only try once
+			this._settings.timeOutInSeconds = 1;
+			this.getJobReport();
 		}
 		public void downloadResults()
 		{
@@ -105,7 +114,7 @@ namespace EAImvertor
 		{
 			System.Diagnostics.Process.Start(this.reportUrl);
 		}
-		private void getJobReport(string imvertorURL, string pincode)
+		private void getJobReport()
 		{
 			if ((DateTime.Now - this._startDateTime).Seconds < _settings.timeOutInSeconds ) //if not timed out yet
 			{
@@ -125,7 +134,7 @@ namespace EAImvertor
 							Thread.Sleep(new TimeSpan(0,0,_settings.retryInterval));
 							//then try again
 							this.tries++;
-							getJobReport(imvertorURL, pincode);
+							getJobReport();
 						}
 						//get the zip url
 						else if (this.status == "Finished")
