@@ -44,6 +44,7 @@ namespace EAImvertor
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			this.refreshToolTip.SetToolTip(this.refreshButton, "Refresh Status");
 			this.resizeGridColumns();
 		}
 		public void addJob(EAImvertorJob job)

@@ -86,6 +86,8 @@ namespace EAImvertor
 			this._settings = settings;
 			this._startDateTime = DateTime.Now;
 			this._backgroundWorker = backgroundWorker;
+			//create the specific properties for this job
+			this.settings.defaultPropertiesFilePath = createSpecificPropertiesFile();
 			string xmiFileName = Path.GetTempFileName();
 			this.setStatus("Exporting Model");
 			this.sourcePackage.getRootPackage().exportToXMI(xmiFileName);
@@ -96,6 +98,49 @@ namespace EAImvertor
 			Logger.log(this.reportUrl);
 			this.setStatus("Upload Finished");
 			getJobReport();
+		}
+		private string createSpecificPropertiesFile()
+		{
+			UML.Classes.Kernel.Package projectPackage = getProjectPackage(this.sourcePackage);
+			string propertiesContent = this.getDefaultPropertiesFileContent();
+			//add application name
+			propertiesContent += Environment.NewLine + "application = " + this.sourcePackage.name;
+			if (projectPackage != null)
+			{
+				var nameparts = projectPackage.name.Split(':');
+				if (nameparts.Count() >= 2)
+				{
+					string ownerName = nameparts[0].Trim();
+					string projectName = nameparts[1].Trim();
+					//add owner name
+					if (ownerName.Length > 0 ) propertiesContent += Environment.NewLine + "owner = " + ownerName;
+					if (projectName.Length > 0 ) propertiesContent += Environment.NewLine + "project = " + projectName;											
+				}
+			}
+			//create file
+			string tempFilePath = Path.GetTempFileName();
+			File.WriteAllText(tempFilePath,propertiesContent);
+			return tempFilePath;
+		}
+		private string getDefaultPropertiesFileContent()
+		{
+			if (File.Exists(this.settings.defaultPropertiesFilePath))
+			{
+				return File.ReadAllText(this.settings.defaultPropertiesFilePath);
+			}
+			return string.Empty;
+		}
+		private UML.Classes.Kernel.Package getProjectPackage(UML.Classes.Kernel.Package startingPackage)
+		{
+			if (startingPackage.owningPackage == null) return null;
+			if (startingPackage.owningPackage.stereotypes.Any(x => x.name.Equals("project", StringComparison.InvariantCultureIgnoreCase)))
+			{
+				return startingPackage.owningPackage;
+			}
+			else
+			{
+				return getProjectPackage(startingPackage.owningPackage);
+			}
 		}
 		public void refreshStatus()
 		{

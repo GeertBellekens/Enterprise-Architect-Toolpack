@@ -32,6 +32,7 @@ namespace EAImvertor
 		private System.Windows.Forms.TextBox historyFileTextBox;
 		private System.Windows.Forms.Label historyFileLabel;
 		private System.Windows.Forms.Button refreshButton;
+		private System.Windows.Forms.ToolTip refreshToolTip;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -54,12 +55,14 @@ namespace EAImvertor
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImvertorControl));
 			this.imvertorJobGrid = new System.Windows.Forms.ListView();
 			this.packageHeader = new System.Windows.Forms.ColumnHeader();
 			this.statusHeader = new System.Windows.Forms.ColumnHeader();
 			this.retryButton = new System.Windows.Forms.Button();
 			this.jobDetailsBox = new System.Windows.Forms.GroupBox();
+			this.refreshButton = new System.Windows.Forms.Button();
 			this.historyFileTextBox = new System.Windows.Forms.TextBox();
 			this.historyFileLabel = new System.Windows.Forms.Label();
 			this.propertiesFileTextBox = new System.Windows.Forms.TextBox();
@@ -72,7 +75,7 @@ namespace EAImvertor
 			this.viewWarningsButton = new System.Windows.Forms.Button();
 			this.resultsButton = new System.Windows.Forms.Button();
 			this.jobIDLabel = new System.Windows.Forms.Label();
-			this.refreshButton = new System.Windows.Forms.Button();
+			this.refreshToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.jobDetailsBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -142,6 +145,16 @@ namespace EAImvertor
 			this.jobDetailsBox.TabIndex = 3;
 			this.jobDetailsBox.TabStop = false;
 			this.jobDetailsBox.Text = "Job details";
+			// 
+			// refreshButton
+			// 
+			this.refreshButton.Image = ((System.Drawing.Image)(resources.GetObject("refreshButton.Image")));
+			this.refreshButton.Location = new System.Drawing.Point(6, 163);
+			this.refreshButton.Name = "refreshButton";
+			this.refreshButton.Size = new System.Drawing.Size(25, 23);
+			this.refreshButton.TabIndex = 12;
+			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.Click += new System.EventHandler(this.RefreshButtonClick);
 			// 
 			// historyFileTextBox
 			// 
@@ -248,16 +261,6 @@ namespace EAImvertor
 			this.jobIDLabel.Size = new System.Drawing.Size(100, 23);
 			this.jobIDLabel.TabIndex = 0;
 			this.jobIDLabel.Text = "Job ID";
-			// 
-			// refreshButton
-			// 
-			this.refreshButton.Image = ((System.Drawing.Image)(resources.GetObject("refreshButton.Image")));
-			this.refreshButton.Location = new System.Drawing.Point(6, 163);
-			this.refreshButton.Name = "refreshButton";
-			this.refreshButton.Size = new System.Drawing.Size(25, 23);
-			this.refreshButton.TabIndex = 12;
-			this.refreshButton.UseVisualStyleBackColor = true;
-			this.refreshButton.Click += new System.EventHandler(this.RefreshButtonClick);
 			// 
 			// ImvertorControl
 			// 
