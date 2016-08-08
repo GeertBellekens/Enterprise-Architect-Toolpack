@@ -83,12 +83,19 @@ namespace EAImvertor
 					if (imvertorJob == null || currentJob.Equals(imvertorJob) )
 					{
 						string tries = string.Empty;
-						if (!(currentJob.status.StartsWith("Finished") || currentJob.status.StartsWith("Error"))
-						   && currentJob.tries > 0)
+						string timedOut = string.Empty;
+						if (!(currentJob.status.StartsWith("Finished") || currentJob.status.StartsWith("Error")))
 						{
-							tries = new string('.',currentJob.tries);
-						}
-						row.SubItems[1].Text =currentJob.status + tries;
+						   	if (currentJob.timedOut)
+						   	{
+						   		timedOut = " (Timed Out)";
+						   	}
+						    else if (currentJob.tries > 0)
+							{
+								tries = new string('.',currentJob.tries);
+							}
+						 }
+						row.SubItems[1].Text =currentJob.status + tries + timedOut;
 					}
 
 				}
@@ -117,7 +124,7 @@ namespace EAImvertor
 			{
 				this.resultsButton.Enabled = false;
 				this.viewWarningsButton.Enabled = false;
-				this.refreshButton.Enabled = (this.selectedJob != null);
+				this.refreshButton.Enabled = (this.selectedJob != null && this.selectedJob.timedOut);
 			}
 		}
 		public event EventHandler retryButtonClick;

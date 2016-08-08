@@ -25,6 +25,11 @@ namespace EAImvertor
 		private EAImvertorSettings _settings;
 		private BackgroundWorker _backgroundWorker;
 		private DateTime _startDateTime;
+		private bool _timedOut = false;
+		public bool timedOut
+		{
+			get {return _timedOut;}
+		}
 		public EAImvertorSettings settings
 		{
 			get {return this._settings;}
@@ -192,7 +197,8 @@ namespace EAImvertor
 						}
 						else
 						{
-							this.setStatus(this.status + " (Timed out)");
+							this._timedOut = true;
+							this.setStatus(this.status);
 						}
 					}
 					//get the zip url
