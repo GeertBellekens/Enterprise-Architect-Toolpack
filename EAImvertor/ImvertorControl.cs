@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EAImvertor
 {
@@ -28,14 +29,23 @@ namespace EAImvertor
 		{
 			get
 			{
-				if (this.imvertorJobGrid.SelectedItems.Count > 0)
+				try
 				{
-					return this.imvertorJobGrid.SelectedItems[0].Tag as EAImvertorJob;
+					var selectedItems = imvertorJobGrid.SelectedItems;
+					if (selectedItems.Count > 0)
+					{
+						return selectedItems[0].Tag as EAImvertorJob;
+					}
+					else
+					{
+						return null;
+					}
 				}
-				else
+				catch(Exception)
 				{
 					return null;
 				}
+				
 			}
 		}
 		public ImvertorControl()
@@ -61,26 +71,33 @@ namespace EAImvertor
 
 		public void refreshJobInfo(EAImvertorJob imvertorJob)
 		{
-			this.imvertorJobGrid.Items.Clear();
-			foreach (var job in this.jobs) 
+			try
 			{
-				var row = new ListViewItem(job.sourcePackage.name);
-				string tries = string.Empty;
-				if (!(job.status.StartsWith("Finished") || job.status.StartsWith("Error"))
-				   && job.tries > 0)
+				this.imvertorJobGrid.Items.Clear();
+				foreach (var job in this.jobs) 
 				{
-					tries = new string('.',job.tries);
+					var row = new ListViewItem(job.sourcePackage.name);
+					string tries = string.Empty;
+					if (!(job.status.StartsWith("Finished") || job.status.StartsWith("Error"))
+					   && job.tries > 0)
+					{
+						tries = new string('.',job.tries);
+					}
+					row.SubItems.Add(job.status + tries);
+					row.Tag = job;
+					this.imvertorJobGrid.Items.Add(row);
+					//select the job passed as parameter
+					if (job == imvertorJob)
+					{
+						row.Selected = true;
+					}
 				}
-				row.SubItems.Add(job.status + tries);
-				row.Tag = job;
-				this.imvertorJobGrid.Items.Add(row);
-				//select the job passed as parameter
-				if (job == imvertorJob)
-				{
-					row.Selected = true;
-				}
+				this.enableDisable();
 			}
-			this.enableDisable();
+			catch(Exception)
+			{
+				//do nothing. TODO: figure out a thread safe way to refresh control
+			}
 		}
 		private void resizeGridColumns()
 		{
@@ -94,11 +111,13 @@ namespace EAImvertor
 			{
 				this.resultsButton.Enabled = true;
 				this.viewWarningsButton.Enabled = true;
+				this.refreshButton.Enabled = false;
 			}
 			else
 			{
 				this.resultsButton.Enabled = false;
 				this.viewWarningsButton.Enabled = false;
+				this.refreshButton.Enabled = (this.selectedJob != null);
 			}
 		}
 		public event EventHandler retryButtonClick;

@@ -75,6 +75,10 @@ namespace EAImvertor
 						break;
 				}
 			}
+			else
+			{
+				this._status = jobStatus;
+			}
 			if (this._backgroundWorker != null && this._backgroundWorker.IsBusy)
 			{
 				this._backgroundWorker.ReportProgress(0,this);
@@ -161,45 +165,45 @@ namespace EAImvertor
 		}
 		private void getJobReport()
 		{
-			if ((DateTime.Now - this._startDateTime).Seconds < _settings.timeOutInSeconds ) //if not timed out yet
+			var xmlReport = getReport(this.reportUrl);
+			if (xmlReport != null)
 			{
-				var xmlReport = getReport(this.reportUrl);
-				if (xmlReport != null)
+				Logger.log ("report at try "  + tries.ToString() + " " + xmlReport.InnerXml);
+				var statusNode = xmlReport.SelectSingleNode("//status");
+				if (statusNode != null)
 				{
-					Logger.log ("report at try "  + tries.ToString() + " " + xmlReport.InnerXml);
-					var statusNode = xmlReport.SelectSingleNode("//status");
-					if (statusNode != null)
+					string jobStatus = statusNode.InnerText;
+					//set the status
+					this.setStatus(jobStatus);
+					if (this.status == "Queued" || this.status == "In Progress" )//if status queued or in progress then try again
 					{
-						string jobStatus = statusNode.InnerText;
-						//set the status
-						this.setStatus(jobStatus);
-						if (this.status == "Queued" || this.status == "In Progress" ) //if status queued or in progress then try again
+						if((DateTime.Now - this._startDateTime).Seconds < _settings.timeOutInSeconds ) //if not timed out yet)
 						{
-							//wat the interval
+							//wait the interval
 							Thread.Sleep(new TimeSpan(0,0,_settings.retryInterval));
 							//then try again
 							this.tries++;
 							getJobReport();
 						}
-						//get the zip url
-						else if (this.status == "Finished")
+						else
 						{
-							var zipNode = xmlReport.SelectSingleNode("//zip");
-							if (zipNode != null)
-							{
-								this._zipUrl = this.settings.imvertorURL + zipNode.InnerText;
-							}
+							this.setStatus(this.status + " (Timed out)");
 						}
 					}
-				}
-				else
-				{
-					Logger.log("xmlReport is null");
+					//get the zip url
+					else if (this.status == "Finished")
+					{
+						var zipNode = xmlReport.SelectSingleNode("//zip");
+						if (zipNode != null)
+						{
+							this._zipUrl = this.settings.imvertorURL + zipNode.InnerText;
+						}
+					}
 				}
 			}
 			else
 			{
-				this.setStatus(this.status + " (Timed out)");
+				Logger.log("xmlReport is null");
 			}
 		}
 		private XmlDocument getReport(string reportURL)
