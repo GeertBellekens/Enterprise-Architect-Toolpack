@@ -60,7 +60,11 @@ namespace EAImvertor
 		public void addJob(EAImvertorJob job)
 		{
 			this.jobs.Insert(0,job);
-			this.refreshJobInfo(job);
+			var row = new ListViewItem(job.sourcePackage.name);
+			row.SubItems.Add(job.status);
+			row.Tag = job;
+			this.imvertorJobGrid.Items.Insert(0,row);
+			row.Selected = true;
 		}
 
 		public void clear()
@@ -73,24 +77,20 @@ namespace EAImvertor
 		{
 			try
 			{
-				this.imvertorJobGrid.Items.Clear();
-				foreach (var job in this.jobs) 
+				foreach (ListViewItem row in imvertorJobGrid.Items) 
 				{
-					var row = new ListViewItem(job.sourcePackage.name);
-					string tries = string.Empty;
-					if (!(job.status.StartsWith("Finished") || job.status.StartsWith("Error"))
-					   && job.tries > 0)
+					var currentJob = (EAImvertorJob) row.Tag;
+					if (imvertorJob == null || currentJob.Equals(imvertorJob) )
 					{
-						tries = new string('.',job.tries);
+						string tries = string.Empty;
+						if (!(currentJob.status.StartsWith("Finished") || currentJob.status.StartsWith("Error"))
+						   && currentJob.tries > 0)
+						{
+							tries = new string('.',currentJob.tries);
+						}
+						row.SubItems[1].Text =currentJob.status + tries;
 					}
-					row.SubItems.Add(job.status + tries);
-					row.Tag = job;
-					this.imvertorJobGrid.Items.Add(row);
-					//select the job passed as parameter
-					if (job == imvertorJob)
-					{
-						row.Selected = true;
-					}
+
 				}
 				this.enableDisable();
 			}

@@ -62,26 +62,31 @@ namespace EAImvertor
 				switch (jobStatusInt) 
 				{
 					case 1:
-						this._status = "Queued";
+						setStatus("Queued");
 						break;
 					case 2:
-						this._status = "In Progress";
+						setStatus( "In Progress");
 						break;
 					case 3:
-						this._status = "Finished";
+						setStatus( "Finished");
 						break;
 					default:
-						this._status = "Error";
+						setStatus("Error");
 						break;
 				}
 			}
 			else
 			{
+				if (this._status != jobStatus)
+				{
+					//reset tries
+					this.tries = 0;
+				}
 				this._status = jobStatus;
-			}
-			if (this._backgroundWorker != null && this._backgroundWorker.IsBusy)
-			{
-				this._backgroundWorker.ReportProgress(0,this);
+				if (this._backgroundWorker != null && this._backgroundWorker.IsBusy)
+				{
+					this._backgroundWorker.ReportProgress(0,this);
+				}
 			}
 		}
 		//public void startJob(string imvertorURL, string pincode,string processName ,string imvertorProperties,string imvertorPropertiesFilePath, string imvertorHistoryFilePath)
