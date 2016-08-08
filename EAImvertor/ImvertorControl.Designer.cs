@@ -206,7 +206,7 @@ namespace EAImvertor
 			this.propertiesLabel.Name = "propertiesLabel";
 			this.propertiesLabel.Size = new System.Drawing.Size(100, 23);
 			this.propertiesLabel.TabIndex = 6;
-			this.propertiesLabel.Text = "Properties";
+			this.propertiesLabel.Text = "Processing Mode";
 			// 
 			// processTextBox
 			// 
@@ -220,7 +220,7 @@ namespace EAImvertor
 			// 
 			this.processLabel.Location = new System.Drawing.Point(6, 103);
 			this.processLabel.Name = "processLabel";
-			this.processLabel.Size = new System.Drawing.Size(100, 23);
+			this.processLabel.Size = new System.Drawing.Size(146, 23);
 			this.processLabel.TabIndex = 4;
 			this.processLabel.Text = "Process";
 			// 

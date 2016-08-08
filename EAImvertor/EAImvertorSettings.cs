@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using System.Configuration;
 using System.Linq;
+using System.Net.Http;
+using EAAddinFramework.Utilities;
 
 
 namespace EAImvertor
@@ -13,6 +17,31 @@ namespace EAImvertor
 	/// </summary>
 	public class EAImvertorSettings : EAAddinFramework.Utilities.AddinSettings
 	{
+		private List<string> _availableProcesses;
+		public List<string> availableProcesses
+		{
+			get
+			{
+				if (_availableProcesses == null)
+				{
+					this.setAvailableConfigs();
+				}
+				return _availableProcesses;
+			}
+		}
+		private List<string> _availableProperties;
+		public List<string> availableProperties
+		{
+			get
+			{
+				if (_availableProperties == null)
+				{
+					this.setAvailableConfigs();
+				}
+				return _availableProperties;
+			}
+		}
+		
 		#region implemented abstract members of AddinSettings
 
 		protected override string configSubPath
@@ -30,6 +59,51 @@ namespace EAImvertor
 			}
 		}
 		#endregion
+		private void setAvailableConfigs()
+		{
+			this._availableProcesses = new List<string>();
+			this._availableProperties = new List<string>();
+			var xmlConfigs = this.getConfigXml();
+			if (xmlConfigs != null)
+			{
+				XmlNodeList releaseNodes = xmlConfigs.SelectNodes("//release/name");
+				foreach (XmlNode releaseNode in releaseNodes) 
+				{
+					_availableProcesses.Add(releaseNode.InnerText);
+				}
+				XmlNodeList runtypeNodes = xmlConfigs.SelectNodes("//runtype/name");
+				foreach (XmlNode runtypeNode in runtypeNodes) 
+				{
+					_availableProperties.Add(runtypeNode.InnerText);
+				}
+			}
+		}
+		private XmlDocument getConfigXml()
+		{
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					string configURL = this.imvertorURL + "/imvertor-executor/config?pin=" + this.defaultPIN;
+					var response = client.GetAsync(configURL).Result;
+					if (!response.IsSuccessStatusCode)
+			        {
+			            return null;
+			        }
+			        StreamReader reader = new StreamReader(response.Content.ReadAsStreamAsync().Result);
+					string responseText = reader.ReadToEnd();
+					XmlDocument xmlResponse = new XmlDocument();
+					xmlResponse.LoadXml(responseText);
+					return xmlResponse;
+				}
+			}
+			catch(Exception e)
+			{
+				Logger.logError(string.Format("Could not get configs because of error: {0} Stacktrace: {1}", e.Message, e.StackTrace));
+				return null;
+			}
+		}
+		
 		
 		/// <summary>
 		/// the URL for the Imvertor Service

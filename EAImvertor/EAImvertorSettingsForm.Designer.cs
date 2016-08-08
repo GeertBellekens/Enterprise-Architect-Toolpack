@@ -23,10 +23,10 @@ namespace EAImvertor
 		private System.Windows.Forms.Button okButton;
 		private System.Windows.Forms.TextBox defaultPropertiesPathTextBox;
 		private System.Windows.Forms.Label DefaultPropertiesPathLabel;
-		private System.Windows.Forms.TextBox defaultPropertiesTextBox;
+		private System.Windows.Forms.ComboBox defaultPropertiesTextBox;
 		private System.Windows.Forms.Label defaultPropertiesLabel;
 		private System.Windows.Forms.Button browseDefaultPropertiesFileButton;
-		private System.Windows.Forms.TextBox defaultProcessTextBox;
+		private System.Windows.Forms.ComboBox defaultProcessTextBox;
 		private System.Windows.Forms.Label defaultProcessLabel;
 		private System.Windows.Forms.Button browseDefaultHistoryFileButton;
 		private System.Windows.Forms.TextBox defaultHistoryFileTextBox;
@@ -67,10 +67,10 @@ namespace EAImvertor
 			this.okButton = new System.Windows.Forms.Button();
 			this.defaultPropertiesPathTextBox = new System.Windows.Forms.TextBox();
 			this.DefaultPropertiesPathLabel = new System.Windows.Forms.Label();
-			this.defaultPropertiesTextBox = new System.Windows.Forms.TextBox();
+			this.defaultPropertiesTextBox = new System.Windows.Forms.ComboBox();
 			this.defaultPropertiesLabel = new System.Windows.Forms.Label();
 			this.browseDefaultPropertiesFileButton = new System.Windows.Forms.Button();
-			this.defaultProcessTextBox = new System.Windows.Forms.TextBox();
+			this.defaultProcessTextBox = new System.Windows.Forms.ComboBox();
 			this.defaultProcessLabel = new System.Windows.Forms.Label();
 			this.browseDefaultHistoryFileButton = new System.Windows.Forms.Button();
 			this.defaultHistoryFileTextBox = new System.Windows.Forms.TextBox();

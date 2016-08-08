@@ -32,12 +32,13 @@ namespace EAImvertor
 			this.ImvertorURLTextbox.Text = this.settings.imvertorURL;
 			this.defaultPinTextBox.Text = this.settings.defaultPIN;
 			this.defaultProcessTextBox.Text = this.settings.defaultProcessName;
+			this.defaultProcessTextBox.Items.AddRange(this.settings.availableProcesses.ToArray());
 			this.defaultPropertiesTextBox.Text = this.settings.defaultProperties;
+			this.defaultPropertiesTextBox.Items.AddRange(this.settings.availableProperties.ToArray());
 			this.defaultPropertiesPathTextBox.Text = this.settings.defaultPropertiesFilePath;
 			this.defaultHistoryFileTextBox.Text = this.settings.defaultHistoryFilePath;
 			this.timeOutUpDown.Value = this.settings.timeOutInSeconds;
 			this.retryIntervalUpDown.Value = this.settings.retryInterval;
-			
 		}
 		/// <summary>
 		/// save the data from the form to the settings
