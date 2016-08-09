@@ -65,7 +65,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// save the configuration
 			currentConfig.Save();
 		}
-		public bool isOptionEnabled(UML.UMLItem parentElement,string option)
+		public bool isOptionEnabled(UML.Extended.UMLItem parentElement,string option)
 		{
 			//default
 			return true;
