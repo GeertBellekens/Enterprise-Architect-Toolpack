@@ -103,7 +103,10 @@ namespace EAImvertor
 				return null;
 			}
 		}
-		
+		public EAImvertorSettings Clone()
+		{
+			return this.MemberwiseClone() as EAImvertorSettings;
+		}
 		
 		/// <summary>
 		/// the URL for the Imvertor Service

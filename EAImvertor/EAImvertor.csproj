@@ -78,6 +78,10 @@
     <Compile Include="ImvertorControl.Designer.cs">
       <DependentUpon>ImvertorControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImvertorStartJobForm.cs" />
+    <Compile Include="ImvertorStartJobForm.Designer.cs">
+      <DependentUpon>ImvertorStartJobForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +103,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImvertorControl.resx">
       <DependentUpon>ImvertorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImvertorStartJobForm.resx">
+      <DependentUpon>ImvertorStartJobForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
