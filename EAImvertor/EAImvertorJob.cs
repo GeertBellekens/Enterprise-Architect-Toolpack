@@ -22,7 +22,7 @@ namespace EAImvertor
 		private string _jobID;
 		private string _status;
 		private string _zipUrl;
-		private EAImvertorSettings _settings;
+		private EAImvertorJobSettings _settings;
 		private BackgroundWorker _backgroundWorker;
 		private DateTime _startDateTime;
 		private bool _timedOut = false;
@@ -30,15 +30,15 @@ namespace EAImvertor
 		{
 			get {return _timedOut;}
 		}
-		public EAImvertorSettings settings
+		public EAImvertorJobSettings settings
 		{
 			get {return this._settings;}
 		}
 		private string reportUrl
 		{
-			get{return _settings.imvertorURL+ "imvertor-executor/report?pin=" + settings.defaultPIN + "&job=" + _jobID;}
+			get{return _settings.imvertorURL+ "imvertor-executor/report?pin=" + settings.PIN + "&job=" + _jobID;}
 		}
-		public EAImvertorJob(UML.Classes.Kernel.Package package, EAImvertorSettings settings)
+		public EAImvertorJob(UML.Classes.Kernel.Package package, EAImvertorJobSettings settings)
 		{
 			this._sourcePackage = package;
 			this._settings = settings;
@@ -95,19 +95,18 @@ namespace EAImvertor
 			}
 		}
 		//public void startJob(string imvertorURL, string pincode,string processName ,string imvertorProperties,string imvertorPropertiesFilePath, string imvertorHistoryFilePath)
-		public void startJob(EAImvertorSettings settings, BackgroundWorker backgroundWorker)
+		public void startJob( BackgroundWorker backgroundWorker)
 		{
-			this._settings = settings;
 			this._startDateTime = DateTime.Now;
 			this._backgroundWorker = backgroundWorker;
 			//create the specific properties for this job
-			this.settings.defaultPropertiesFilePath = createSpecificPropertiesFile();
+			this.settings.PropertiesFilePath = createSpecificPropertiesFile();
 			string xmiFileName = Path.GetTempFileName();
 			this.setStatus("Exporting Model");
 			this.sourcePackage.getRootPackage().exportToXMI(xmiFileName);
 			this.setStatus("Uploading Model");
-			this._jobID = this.Upload(settings.imvertorURL+"/imvertor-executor/upload",settings.defaultPIN,settings.defaultProcessName,settings.defaultProperties
-			                           ,xmiFileName,settings.defaultHistoryFilePath,settings.defaultPropertiesFilePath);
+			this._jobID = this.Upload(settings.imvertorURL+"/imvertor-executor/upload",settings.PIN,settings.ProcessName,settings.Properties
+			                           ,xmiFileName,settings.HistoryFilePath,settings.PropertiesFilePath);
 
 			Logger.log(this.reportUrl);
 			this.setStatus("Upload Finished");
@@ -138,9 +137,9 @@ namespace EAImvertor
 		}
 		private string getDefaultPropertiesFileContent()
 		{
-			if (File.Exists(this.settings.defaultPropertiesFilePath))
+			if (File.Exists(this.settings.PropertiesFilePath))
 			{
-				return File.ReadAllText(this.settings.defaultPropertiesFilePath);
+				return File.ReadAllText(this.settings.PropertiesFilePath);
 			}
 			return string.Empty;
 		}

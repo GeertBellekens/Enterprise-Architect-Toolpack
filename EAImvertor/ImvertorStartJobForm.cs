@@ -2,6 +2,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EAImvertor
 {
@@ -10,8 +12,8 @@ namespace EAImvertor
 	/// </summary>
 	public partial class ImvertorStartJobForm : Form
 	{
-		private EAImvertorSettings settings;
-		public ImvertorStartJobForm(EAImvertorSettings settings)
+		private EAImvertorJobSettings settings;
+		public ImvertorStartJobForm(EAImvertorJobSettings settings)
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
@@ -26,22 +28,23 @@ namespace EAImvertor
 		/// </summary>
 		private void loadData()
 		{
-			this.defaultPropertiesTextBox.Text = this.settings.defaultProperties;
+			this.defaultPropertiesTextBox.Text = this.settings.Properties;
 			this.defaultPropertiesTextBox.Items.AddRange(this.settings.availableProperties.ToArray());
-			this.defaultPropertiesPathTextBox.Text = this.settings.defaultPropertiesFilePath;
-			this.defaultHistoryFileTextBox.Text = this.settings.defaultHistoryFilePath;
+			this.defaultPropertiesPathTextBox.Text = this.settings.PropertiesFilePath;
+			this.defaultHistoryFileTextBox.Text = this.settings.HistoryFilePath;
 		}
 		/// <summary>
 		/// save the data from the form to the settings
 		/// </summary>
 		private void saveChanges()
 		{
-			this.settings.defaultProperties = this.defaultPropertiesTextBox.Text;
-			this.settings.defaultPropertiesFilePath = this.defaultPropertiesPathTextBox.Text;	
-			this.settings.defaultHistoryFilePath = this.defaultHistoryFileTextBox.Text;			
+			this.settings.Properties = this.defaultPropertiesTextBox.Text;
+			this.settings.PropertiesFilePath = this.defaultPropertiesPathTextBox.Text;	
+			this.settings.HistoryFilePath = this.defaultHistoryFileTextBox.Text;			
 		}
 		void OkButtonClick(object sender, EventArgs e)
 		{
+			this.saveChanges();
 			this.DialogResult = DialogResult.OK;
 			this.Close();
 		}

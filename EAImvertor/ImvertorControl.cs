@@ -161,10 +161,10 @@ namespace EAImvertor
 			if (this.selectedJob != null)
 			{
 				this.jobIDTextBox.Text = selectedJob.jobID;
-				this.propertiesTextBox.Text = selectedJob.settings.defaultProperties;
-				this.processTextBox.Text = selectedJob.settings.defaultProcessName;
-				this.historyFileTextBox.Text = selectedJob.settings.defaultHistoryFilePath;
-				this.propertiesFileTextBox.Text = selectedJob.settings.defaultPropertiesFilePath;
+				this.propertiesTextBox.Text = selectedJob.settings.Properties;
+				this.processTextBox.Text = selectedJob.settings.ProcessName;
+				this.historyFileTextBox.Text = selectedJob.settings.HistoryFilePath;
+				this.propertiesFileTextBox.Text = selectedJob.settings.PropertiesFilePath;
 			}
 			else
 			{

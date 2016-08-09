@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="EAImvertorAddin.cs" />
     <Compile Include="EAImvertorJob.cs" />
+    <Compile Include="EAImvertorJobSettings.cs" />
     <Compile Include="EAImvertorSettings.cs" />
     <Compile Include="EAImvertorSettingsForm.cs" />
     <Compile Include="EAImvertorSettingsForm.Designer.cs">

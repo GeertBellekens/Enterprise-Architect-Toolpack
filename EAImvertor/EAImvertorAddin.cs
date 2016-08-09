@@ -179,7 +179,7 @@ namespace EAImvertor
 		}
 		private void publish()
 		{
-			EAImvertorSettings jobSettings = this.settings.Clone();
+			EAImvertorJobSettings jobSettings = new EAImvertorJobSettings(this.settings); 
 			if (new ImvertorStartJobForm(jobSettings).ShowDialog() == DialogResult.OK)
 			{
 				//somebody called the imvertor, we can show the control
@@ -208,7 +208,7 @@ namespace EAImvertor
 		{
 			var imvertorJob = e.Argument as EAImvertorJob;
 			if (imvertorJob != null)
-			imvertorJob.startJob(this.settings,sender as BackgroundWorker );
+				imvertorJob.startJob(sender as BackgroundWorker );
 			//pass the job as result
 			e.Result = imvertorJob;
 		}
