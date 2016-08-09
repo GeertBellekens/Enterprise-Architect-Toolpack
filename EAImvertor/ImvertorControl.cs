@@ -99,6 +99,7 @@ namespace EAImvertor
 					}
 
 				}
+				setSelectedJobDetails();
 				this.enableDisable();
 			}
 			catch(Exception)
@@ -156,7 +157,7 @@ namespace EAImvertor
 		{
 			this.resizeGridColumns();
 		}
-		void ImvertorJobGridSelectedIndexChanged(object sender, EventArgs e)
+		private void setSelectedJobDetails()
 		{
 			if (this.selectedJob != null)
 			{
@@ -175,6 +176,10 @@ namespace EAImvertor
 				this.historyFileTextBox.Text = string.Empty;
 				this.propertiesFileTextBox.Text = string.Empty;
 			}
+		}
+		void ImvertorJobGridSelectedIndexChanged(object sender, EventArgs e)
+		{
+			setSelectedJobDetails();
 			this.enableDisable();
 		}
 		
