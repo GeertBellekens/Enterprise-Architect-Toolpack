@@ -36,7 +36,7 @@ namespace EAImvertor
 		}
 		private string reportUrl
 		{
-			get{return _settings.imvertorURL+ "imvertor-executor/report?pin=" + settings.PIN + "&job=" + _jobID;}
+			get{return _settings.imvertorURL+ this.settings.urlPostFix + "report?pin=" + settings.PIN + "&job=" + _jobID;}
 		}
 		public EAImvertorJob(UML.Classes.Kernel.Package package, EAImvertorJobSettings settings)
 		{
@@ -105,7 +105,7 @@ namespace EAImvertor
 			this.setStatus("Exporting Model");
 			this.sourcePackage.getRootPackage().exportToXMI(xmiFileName);
 			this.setStatus("Uploading Model");
-			this._jobID = this.Upload(settings.imvertorURL+"/imvertor-executor/upload",settings.PIN,settings.ProcessName,settings.Properties
+			this._jobID = this.Upload(settings.imvertorURL+settings.urlPostFix +"upload",settings.PIN,settings.ProcessName,settings.Properties
 			                           ,xmiFileName,settings.HistoryFilePath,settings.PropertiesFilePath);
 
 			Logger.log(this.reportUrl);

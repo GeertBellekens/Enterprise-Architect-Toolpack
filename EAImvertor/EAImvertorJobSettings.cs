@@ -24,6 +24,7 @@ namespace EAImvertor
 			this.imvertorStereotypes = settings.imvertorStereotypes;
 			this.timeOutInSeconds = settings.timeOutInSeconds;
 			this.retryInterval = settings.retryInterval;
+			this.urlPostFix = settings.urlPostFix;
 		}
 		public List<string> availableProcesses {get;set;}
 
@@ -52,6 +53,7 @@ namespace EAImvertor
 		public int timeOutInSeconds {get;set;}
 
 		public int retryInterval {get;set;}
+		public string urlPostFix {get;set;} 
 
 	}
 }

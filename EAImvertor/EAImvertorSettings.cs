@@ -84,7 +84,7 @@ namespace EAImvertor
 			{
 				using (var client = new HttpClient())
 				{
-					string configURL = this.imvertorURL + "/imvertor-executor/config?pin=" + this.defaultPIN;
+					string configURL = this.imvertorURL + this.urlPostFix +"config?pin=" + this.defaultPIN;
 					var response = client.GetAsync(configURL).Result;
 					if (!response.IsSuccessStatusCode)
 			        {
@@ -213,5 +213,17 @@ namespace EAImvertor
 				this.setValue("retryInterval",value.ToString());
 			}
 		}
+		public string urlPostFix
+		{
+			get
+			{
+				return  this.getValue("urlPostFix");
+			}
+			set
+			{
+				this.setValue("urlPostFix",value);
+			}
+		}
+		
 	}
 }
