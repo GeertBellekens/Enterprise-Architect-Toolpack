@@ -29,7 +29,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 		//the background worker and workqueue to be able to handle a ContextItemChanged event multithreaded
 		private BackgroundWorker treeBackgroundWorker;
-		private List<UML.UMLItem> workQueue = new List<UML.UMLItem>();
+		private List<UML.Extended.UMLItem> workQueue = new List<UML.Extended.UMLItem>();
 		private DateTime lastStartTime;
 		
 		//the backgroundworker for the quicksearch box
@@ -110,7 +110,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 		private void treeBackground_DoWork(object sender, DoWorkEventArgs e)
         {
-			UML.UMLItem element = e.Argument as UML.UMLItem;
+			UML.Extended.UMLItem element = e.Argument as UML.Extended.UMLItem;
 			BackgroundWorker worker = sender as BackgroundWorker;
 			if (element != null)
 			{
@@ -157,7 +157,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             	TreeNode elementNode = (TreeNode)e.Result;
             	
             	//remove duplicate
-            	if (this.removeRootNode((UML.UMLItem)elementNode.Tag))
+            	if (this.removeRootNode((UML.Extended.UMLItem)elementNode.Tag))
 				{
             		try
             		{
@@ -190,7 +190,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             	if (this.workQueue.Count > 0)
             	{
             		//get the last element in the queue
-            		UML.UMLItem nextElement = this.workQueue[this.workQueue.Count -1];
+            		UML.Extended.UMLItem nextElement = this.workQueue[this.workQueue.Count -1];
             		//remove it
             		this.workQueue.RemoveAt(this.workQueue.Count -1);
             		//process it
@@ -216,7 +216,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// set the main element to navigate
 		/// </summary>
 		/// <param name="newElement">the element to navigate</param>
-		public void setElement(UML.UMLItem newElement)
+		public void setElement(UML.Extended.UMLItem newElement)
 		{
 			if (! treeBackgroundWorker.IsBusy)
 			{
@@ -252,7 +252,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 		}
 		
-		private void startThread(UML.UMLItem newElement)
+		private void startThread(UML.Extended.UMLItem newElement)
 		{
 			if (! this.treeBackgroundWorker.IsBusy)
 			{
@@ -268,7 +268,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		/// <param name="element">the element</param>
 		/// <returns>the tooltip text</returns>
-		private string getToolTipText(UML.UMLItem element)
+		private string getToolTipText(UML.Extended.UMLItem element)
 		{
 			//Getting some strange RPC_E_WRONG_THREAD error while getting the owner ElementWrapper.
 			//Disablign the tooltiptext for now to avoid the error
@@ -283,7 +283,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <param name="element">the source element</param>
 		/// <param name="parentNode">the parentNode. If null is passed then the node will be added as root node</param>
 		/// <param name="nodeToReplace">the node to replace with new data</param>
-		private void addElementToTree(UML.UMLItem element,TreeNode parentNode,TreeNode nodeToReplace = null)
+		private void addElementToTree(UML.Extended.UMLItem element,TreeNode parentNode,TreeNode nodeToReplace = null)
 		{
 			TreeNode elementNode = this.makeElementNode(element,parentNode,nodeToReplace);
 			// select the node
@@ -294,7 +294,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		/// <param name="element">the source element</param>
 		/// <param name="parentNode">the parentNode. If null is passed then the node will be added as root node</param>
-		private TreeNode makeElementNode(UML.UMLItem element,TreeNode parentNode,TreeNode nodeToReplace = null)
+		private TreeNode makeElementNode(UML.Extended.UMLItem element,TreeNode parentNode,TreeNode nodeToReplace = null)
 		{
 			//create new node
 			TreeNode elementNode;
@@ -375,7 +375,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// In that case it simply returns false
 		/// </summary>
 		/// <param name="sourceElement">the element</param>
-		private bool removeRootNode(UML.UMLItem sourceElement)
+		private bool removeRootNode(UML.Extended.UMLItem sourceElement)
 		{
 			for (int i = this.NavigatorTree.Nodes.Count -1;i >= 0;i--) 
 			{
@@ -406,7 +406,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			{
 				if (this.isOwnerNode(subNode))
 				{
-					UML.UMLItem owner = ((UML.UMLItem)e.Node.Tag).owner;
+					UML.Extended.UMLItem owner = ((UML.Extended.UMLItem)e.Node.Tag).owner;
 					if (owner != null)
 					{
 						this.addElementToTree(owner,e.Node,subNode);		
@@ -427,15 +427,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 		}
 		private bool isOwnerNode(TreeNode node)
 		{
-			return (!(node.Tag is UML.UMLItem)
-			   && node.Parent.Tag is UML.UMLItem
+			return (!(node.Tag is UML.Extended.UMLItem)
+			   && node.Parent.Tag is UML.Extended.UMLItem
 			   && node.Text.StartsWith(EAAddin.ownerMenuPrefix.Replace("&",string.Empty)));
 
 		}
 		private bool isTypeNode(TreeNode node)
 		{
-			return (!(node.Tag is UML.UMLItem)
-			   && node.Parent.Tag is UML.UMLItem
+			return (!(node.Tag is UML.Extended.UMLItem)
+			   && node.Parent.Tag is UML.Extended.UMLItem
 			   && node.Text.StartsWith(EAAddin.typeMenuPrefix.Replace("&",string.Empty)));
 		}
 		/// <summary>
@@ -471,14 +471,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 			}
 		}
 		public event TreeViewCancelEventHandler BeforeExpand;
-		public void setSubNodes(TreeNode node, List<UML.UMLItem> elements)
+		public void setSubNodes(TreeNode node, List<UML.Extended.UMLItem> elements)
 		{
 			if (elements.Count > 0)
 			{
 				//remove dummy node
 				node.Nodes.Clear();
 				//add nodes for each named element
-				foreach (UML.UMLItem element in elements) 
+				foreach (UML.Extended.UMLItem element in elements) 
 				{
 					this.addElementToTree(element,node);
 				}
@@ -488,7 +488,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 		void NavigatorTreeNodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
-			UML.UMLItem selectedElement = e.Node.Tag as UML.UMLItem;
+			UML.Extended.UMLItem selectedElement = e.Node.Tag as UML.Extended.UMLItem;
 			if (selectedElement != null)
 			{
 				if (this.settings.projectBrowserDefaultAction)
@@ -519,7 +519,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 				this.NavigatorTree.SelectedNode = e.Node;
 			}
 			//show context menu
-			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			UML.Extended.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.Extended.UMLItem;
 			if (e.Button == MouseButtons.Right
 			    && selectedElement != null)
 			{
@@ -533,7 +533,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// enables or disabled the context menu items based on the type of the selected element
 		/// </summary>
 		/// <param name="selectedElement">the selected element</param>
-		private void enableDisableContexMenu(UML.UMLItem selectedElement)
+		private void enableDisableContexMenu(UML.Extended.UMLItem selectedElement)
 		{
 			//both options should be disabled for connectors, 
 			if (selectedElement is UML.Classes.Kernel.Relationship)
@@ -575,13 +575,13 @@ namespace TSF.UmlToolingFramework.EANavigator
 		}
 		private void openProperties()
 		{
-			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			UML.Extended.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.Extended.UMLItem;
 			if (selectedElement != null)
 			{
 				selectedElement.openProperties();
 			}
 		}
-		private void addToDiagram(UML.UMLItem selectedElement)
+		private void addToDiagram(UML.Extended.UMLItem selectedElement)
 		{
 			if (selectedElement != null)
 			{
@@ -591,7 +591,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		}
 		private void addToDiagram()
 		{
-			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			UML.Extended.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.Extended.UMLItem;
 			this.addToDiagram(selectedElement);
 		}
 		/// <summary>
@@ -599,7 +599,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		void copyGUID()
 		{
-			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			UML.Extended.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.Extended.UMLItem;
 			if (selectedElement.uniqueID != null)
 			{
 				Clipboard.SetText(selectedElement.uniqueID);
@@ -608,11 +608,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 		private void selectInProjectBrowser()
 		{
-			UML.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.UMLItem;
+			UML.Extended.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.Extended.UMLItem;
 			if (selectedElement != null)
 			{
 				//select the context before opening the element (and changing the selected node)
-				UML.UMLItem context = null;
+				UML.Extended.UMLItem context = null;
 				if (selectedElement is UML.Diagrams.Diagram)
 				{
 					context = this.findContext(this.NavigatorTree.SelectedNode);
@@ -636,14 +636,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		/// <param name="node">the node to start searching from</param>
 		/// <returns>first parent node that is a UMLItem</returns>
-		private UML.UMLItem findContext(TreeNode node)
+		private UML.Extended.UMLItem findContext(TreeNode node)
 		{
 			if (node.Parent != null)
 			{
-				if (node.Parent.Tag is UML.UMLItem)
+				if (node.Parent.Tag is UML.Extended.UMLItem)
 				{
 					//found it
-					return node.Parent.Tag as UML.UMLItem;
+					return node.Parent.Tag as UML.Extended.UMLItem;
 				}
 				else
 				{
@@ -810,7 +810,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			this.quickSearchBox.ForeColor = Color.Gray;
 		}
 		
-		public void setQuickSearchResults(List<UML.UMLItem> results,string searchedString)
+		public void setQuickSearchResults(List<UML.Extended.UMLItem> results,string searchedString)
 		{
 			
 			//check if he searched string is not yet updated, else don't bother showing the results
@@ -827,7 +827,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <param name="nodeObject"></param>
 		private void threadSafeSetQuickSearchItems(object resultsObject) 
 		{
-			List<UML.UMLItem> results = (List<UML.UMLItem>)resultsObject;
+			List<UML.Extended.UMLItem> results = (List<UML.Extended.UMLItem>)resultsObject;
 			this.quickSearchBox.Items.Clear();
 			this.quickSearchBox.SelectedItem = null;
 			
@@ -850,7 +850,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			if( this.quickSearchBox.SelectedIndex >= 0)
 			{
-				UML.UMLItem quickSearchSelectedItem = this.quickSearchBox.SelectedItem as UML.UMLItem;
+				UML.Extended.UMLItem quickSearchSelectedItem = this.quickSearchBox.SelectedItem as UML.Extended.UMLItem;
 				{
 					if (quickSearchSelectedItem != null)
 				    {

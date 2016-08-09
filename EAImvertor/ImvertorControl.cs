@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EAImvertor
 {
@@ -28,14 +29,23 @@ namespace EAImvertor
 		{
 			get
 			{
-				if (this.imvertorJobGrid.SelectedItems.Count > 0)
+				try
 				{
-					return this.imvertorJobGrid.SelectedItems[0].Tag as EAImvertorJob;
+					var selectedItems = imvertorJobGrid.SelectedItems;
+					if (selectedItems.Count > 0)
+					{
+						return selectedItems[0].Tag as EAImvertorJob;
+					}
+					else
+					{
+						return null;
+					}
 				}
-				else
+				catch(Exception)
 				{
 					return null;
 				}
+				
 			}
 		}
 		public ImvertorControl()
@@ -44,12 +54,17 @@ namespace EAImvertor
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			this.refreshToolTip.SetToolTip(this.refreshButton, "Refresh Status");
 			this.resizeGridColumns();
 		}
 		public void addJob(EAImvertorJob job)
 		{
 			this.jobs.Insert(0,job);
-			this.refreshJobInfo(job);
+			var row = new ListViewItem(job.sourcePackage.name);
+			row.SubItems.Add(job.status);
+			row.Tag = job;
+			this.imvertorJobGrid.Items.Insert(0,row);
+			row.Selected = true;
 		}
 
 		public void clear()
@@ -60,20 +75,37 @@ namespace EAImvertor
 
 		public void refreshJobInfo(EAImvertorJob imvertorJob)
 		{
-			this.imvertorJobGrid.Items.Clear();
-			foreach (var job in this.jobs) 
+			try
 			{
-				var row = new ListViewItem(job.sourcePackage.name);
-				row.SubItems.Add(job.status);
-				row.Tag = job;
-				this.imvertorJobGrid.Items.Add(row);
-				//select the job passed as parameter
-				if (job == imvertorJob)
+				foreach (ListViewItem row in imvertorJobGrid.Items) 
 				{
-					row.Selected = true;
+					var currentJob = (EAImvertorJob) row.Tag;
+					if (imvertorJob == null || currentJob.Equals(imvertorJob) )
+					{
+						string tries = string.Empty;
+						string timedOut = string.Empty;
+						if (!(currentJob.status.StartsWith("Finished") || currentJob.status.StartsWith("Error")))
+						{
+						   	if (currentJob.timedOut)
+						   	{
+						   		timedOut = " (Timed Out)";
+						   	}
+						    else if (currentJob.tries > 0)
+							{
+								tries = new string('.',currentJob.tries);
+							}
+						 }
+						row.SubItems[1].Text =currentJob.status + tries + timedOut;
+					}
+
 				}
+				setSelectedJobDetails();
+				this.enableDisable();
 			}
-			this.enableDisable();
+			catch(Exception)
+			{
+				//do nothing. TODO: figure out a thread safe way to refresh control
+			}
 		}
 		private void resizeGridColumns()
 		{
@@ -87,11 +119,13 @@ namespace EAImvertor
 			{
 				this.resultsButton.Enabled = true;
 				this.viewWarningsButton.Enabled = true;
+				this.refreshButton.Enabled = false;
 			}
 			else
 			{
 				this.resultsButton.Enabled = false;
 				this.viewWarningsButton.Enabled = false;
+				this.refreshButton.Enabled = (this.selectedJob != null && this.selectedJob.timedOut);
 			}
 		}
 		public event EventHandler retryButtonClick;
@@ -123,15 +157,15 @@ namespace EAImvertor
 		{
 			this.resizeGridColumns();
 		}
-		void ImvertorJobGridSelectedIndexChanged(object sender, EventArgs e)
+		private void setSelectedJobDetails()
 		{
 			if (this.selectedJob != null)
 			{
 				this.jobIDTextBox.Text = selectedJob.jobID;
-				this.propertiesTextBox.Text = selectedJob.settings.defaultProperties;
-				this.processTextBox.Text = selectedJob.settings.defaultProcessName;
-				this.historyFileTextBox.Text = selectedJob.settings.defaultHistoryFilePath;
-				this.propertiesFileTextBox.Text = selectedJob.settings.defaultPropertiesFilePath;
+				this.propertiesTextBox.Text = selectedJob.settings.Properties;
+				this.processTextBox.Text = selectedJob.settings.ProcessName;
+				this.historyFileTextBox.Text = selectedJob.settings.HistoryFilePath;
+				this.propertiesFileTextBox.Text = selectedJob.settings.PropertiesFilePath;
 			}
 			else
 			{
@@ -142,8 +176,22 @@ namespace EAImvertor
 				this.historyFileTextBox.Text = string.Empty;
 				this.propertiesFileTextBox.Text = string.Empty;
 			}
+		}
+		void ImvertorJobGridSelectedIndexChanged(object sender, EventArgs e)
+		{
+			setSelectedJobDetails();
 			this.enableDisable();
 		}
+		
+		void RefreshButtonClick(object sender, EventArgs e)
+		{
+			if (this.selectedJob != null)
+			{
+				this.selectedJob.refreshStatus();
+				this.refreshJobInfo(this.selectedJob);
+			}
+		}
+
 
 		
 	}

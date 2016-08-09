@@ -13,12 +13,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 {
     public partial class NavigatorList : Form
     {
-    	private UML.UMLItem context;
+    	private UML.Extended.UMLItem context;
     	/// <summary>
     	/// createas a new navigatorList based on the given list of UML Items
     	/// </summary>
     	/// <param name="items">the items to show</param>
-    	public NavigatorList(List<UML.UMLItem> items, UML.UMLItem context):base()
+    	public NavigatorList(List<UML.Extended.UMLItem> items, UML.Extended.UMLItem context):base()
         {
     		if (items.Count > 0)
     		{
@@ -66,14 +66,14 @@ namespace TSF.UmlToolingFramework.EANavigator
         /// initialise based on named elements
         /// </summary>
         /// <param name="namedElements"></param>
-        private void InitNamedElements(List<UML.UMLItem> namedElements)
+        private void InitNamedElements(List<UML.Extended.UMLItem> namedElements)
         {
         	InitializeComponent();
         	this.Text = "Select Elements";
         	this.ItemHeader.Text = "Element";
         	this.openButton.Text = "Select";
     		//fill the diagramList
-			foreach (UML.UMLItem element in namedElements)
+			foreach (UML.Extended.UMLItem element in namedElements)
             {
                 //add the element
                 ListViewItem item = new ListViewItem(element.name);
@@ -81,7 +81,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 
                 string ownerName = string.Empty;
 
-                UML.UMLItem owner = element.owner as UML.UMLItem;
+                UML.Extended.UMLItem owner = element.owner as UML.Extended.UMLItem;
                 if (null != owner)
                 {
                     ownerName = owner.name;
@@ -123,7 +123,7 @@ namespace TSF.UmlToolingFramework.EANavigator
         {
         	foreach (ListViewItem item in this.navigateListView.SelectedItems)
             {
-        		UML.UMLItem element = item.Tag as UML.UMLItem;
+        		UML.Extended.UMLItem element = item.Tag as UML.Extended.UMLItem;
         		if (null != element)
         		{
                 	element.open();

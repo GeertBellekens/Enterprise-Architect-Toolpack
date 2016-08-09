@@ -24,7 +24,7 @@ namespace ECDMMessageComposer
         const string menuSettings = "&Settings";
 
         
-		private UML.UMLModel model;
+		private UML.Extended.UMLModel model;
 		private UTF_EA.Model EAModel {get{return this.model as UTF_EA.Model;}}
 		private SchemaBuilderFactory schemaFactory;
 		private ECDMMessageComposerSettings settings = new ECDMMessageComposerSettings();

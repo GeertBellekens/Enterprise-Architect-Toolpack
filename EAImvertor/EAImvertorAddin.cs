@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace EAImvertor
     	private ImvertorControl _imvertorControl;
        	private bool fullyLoaded = false;
        	private EAImvertorSettings settings;
+       	private bool _imvertorCalled = false;
 		//constructor
         public EAImvertorAddin():base()
 		{
@@ -44,7 +46,7 @@ namespace EAImvertor
 			get
 			{
 				//we cannot show windows in the lite edition
-				if (this.fullyLoaded && ! this.model.isLiteEdition)
+				if (this.fullyLoaded && ! this.model.isLiteEdition && _imvertorCalled)
 				{
 					if (this._imvertorControl == null)
 					{
@@ -133,6 +135,24 @@ namespace EAImvertor
 			//call base operation
 			return base.EA_GetMenuItems(Repository, MenuLocation, MenuName);
 		}
+		public override void EA_GetMenuState(EA.Repository Repository, string MenuLocation, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
+		{
+			//only enable publish menu on a limited set of stereotypes
+			if (ItemName == menuPublish)
+			{
+				var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
+				if (!selectedPackage.stereotypes.Any
+				    					(x => this.settings.imvertorStereotypes.Any
+				     						(y => y.Equals(x.name,StringComparison.InvariantCultureIgnoreCase))))
+				{
+					IsEnabled = false;
+				}
+			}
+			else
+			{
+				IsEnabled = true;
+			}
+		}
 		/// <summary>
 		/// only needed for the about menu
         /// </summary>
@@ -159,32 +179,45 @@ namespace EAImvertor
 		}
 		private void publish()
 		{
-			//create new backgroundWorker
-			var imvertorJobBackgroundWorker = new BackgroundWorker();
-			imvertorJobBackgroundWorker.WorkerSupportsCancellation = true;
-            imvertorJobBackgroundWorker.DoWork += new DoWorkEventHandler(imvertorBackground_DoWork);
-            //backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-            imvertorJobBackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(imvertorBackgroundRunWorkerCompleted);
-            
-            //get selected package
-            var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
-            var imvertorJob = new EAImvertorJob(selectedPackage, this.settings);
-            
-            //update gui
-            this._imvertorControl.addJob(imvertorJob);
-            
-            //start job in the background
-            imvertorJobBackgroundWorker.RunWorkerAsync(imvertorJob);
+			EAImvertorJobSettings jobSettings = new EAImvertorJobSettings(this.settings); 
+			if (new ImvertorStartJobForm(jobSettings).ShowDialog() == DialogResult.OK)
+			{
+				//somebody called the imvertor, we can show the control
+				this._imvertorCalled = true;
+				//create new backgroundWorker
+				var imvertorJobBackgroundWorker = new BackgroundWorker();
+				//imvertorJobBackgroundWorker.WorkerSupportsCancellation = true; //TODO: implement cancellation
+				imvertorJobBackgroundWorker.WorkerReportsProgress = true;
+				imvertorJobBackgroundWorker.DoWork += imvertorBackground_DoWork;
+				imvertorJobBackgroundWorker.ProgressChanged += imvertorBackground_ProgressChanged;
+				imvertorJobBackgroundWorker.RunWorkerCompleted += imvertorBackgroundRunWorkerCompleted;
+	            
+	            //get selected package
+	            var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
+	            var imvertorJob = new EAImvertorJob(selectedPackage, jobSettings);
+	            
+	            //update gui
+	            this.imvertorControl.addJob(imvertorJob);
+	            
+	            //start job in the background
+	            imvertorJobBackgroundWorker.RunWorkerAsync(imvertorJob);
+			}
 
 		}
 		private void imvertorBackground_DoWork(object sender, DoWorkEventArgs e)
 		{
 			var imvertorJob = e.Argument as EAImvertorJob;
 			if (imvertorJob != null)
-			imvertorJob.startJob(this.settings);
+				imvertorJob.startJob(sender as BackgroundWorker );
 			//pass the job as result
 			e.Result = imvertorJob;
 		}
+
+		void imvertorBackground_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			this.imvertorControl.refreshJobInfo(e.UserState as EAImvertorJob);
+		}
+
 		private void imvertorBackgroundRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			this._imvertorControl.refreshJobInfo(e.Result as EAImvertorJob);

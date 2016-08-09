@@ -105,7 +105,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			//get the selected element and its associated image
 			if (0 <= e.Index && e.Index  < this.Items.Count)
 			{
-				UML.UMLItem selectedElement = this.Items[e.Index] as UML.UMLItem;
+				UML.Extended.UMLItem selectedElement = this.Items[e.Index] as UML.Extended.UMLItem;
 				if (selectedElement != null)
 				{
 					Image elementImage = this.navigatorVisuals.getImage(selectedElement);

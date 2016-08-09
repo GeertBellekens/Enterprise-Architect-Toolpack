@@ -157,12 +157,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
 		}
-		public Image getImage(UML.UMLItem element)
+		public Image getImage(UML.Extended.UMLItem element)
 		{
 			return this.imageList.Images[this.getImageIndex(element)];
 		}
 		
-		public int getImageIndex(UML.UMLItem element)
+		public int getImageIndex(UML.Extended.UMLItem element)
 		{
 			int imageIndex;
 			if (element is UML.Classes.Kernel.Property)
@@ -588,7 +588,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		/// <param name="element">the element containing the stereotype</param>
 		/// <returns>a string containing the stereotype «stereo1,ste..»</returns>
-		private string getStereotypeString(UML.UMLItem element)
+		private string getStereotypeString(UML.Extended.UMLItem element)
 		{
 			string stereotypeString = string.Empty;
 			int maxLength = 20;
@@ -615,7 +615,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// returns the name to show as node name for this element
 		/// </summary>
 		/// <param name="element"></param>
-		public string getNodeName(UML.UMLItem element)
+		public string getNodeName(UML.Extended.UMLItem element)
 		{
 			
 			string name = string.Empty;

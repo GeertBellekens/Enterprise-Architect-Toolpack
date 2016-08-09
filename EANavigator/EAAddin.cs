@@ -144,7 +144,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	    		{
 
 		    		// get the selected element from the model
-		    		UML.UMLItem selectedElement = this.model.selectedItem;
+		    		UML.Extended.UMLItem selectedElement = this.model.selectedItem;
 		    		menuOptionsList.AddRange(getMenuOptions(selectedElement));
 
 	    		}
@@ -174,7 +174,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		
         
     }
-    internal static string getOwnerMenuName(UML.UMLItem element)
+    internal static string getOwnerMenuName(UML.Extended.UMLItem element)
     {
     	string ownerMenuname = ownerMenuPrefix;
     	if (element.owner != null)
@@ -183,7 +183,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     	}
     	return ownerMenuname;
     }
-    internal static string getTypeMenuName(UML.UMLItem element)
+    internal static string getTypeMenuName(UML.Extended.UMLItem element)
     {
     	string typeMenuname = typeMenuPrefix;
     	UML.Classes.Kernel.Property attribute = element as UML.Classes.Kernel.Property;
@@ -199,10 +199,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     /// </summary>
     /// <param name="element">element</param>
     /// <returns>a list of navigator menu options depending on the type of element</returns>
-    internal static List<string> getMenuOptions (UML.UMLItem element)
+    internal static List<string> getMenuOptions (UML.Extended.UMLItem element)
     {
     		List<string> menuOptionsList = new List<string>();
-    		if (element is UML.UMLItem
+    		if (element is UML.Extended.UMLItem
     		   && element.owner != null)
     		{
     			menuOptionsList.Add(getOwnerMenuName(element));
@@ -339,7 +339,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     	List<string> menuItems = new List<string>();
     	foreach (UML.Profiles.TaggedValue taggedValue in ownerElement.taggedValues) 
     	{
-    		if (taggedValue.tagValue is UML.UMLItem)
+    		if (taggedValue.tagValue is UML.Extended.UMLItem)
     		{
     			string menuName = taggedValueMenuName(taggedValue.name);
     			//we don't want the "system" tagged values ea_guid and operation_guid to show up in the navigator
@@ -397,10 +397,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 				this.navigate();
 				break;
            default:
-	            UML.UMLItem selectedItem = this.model.selectedItem;
+	            UML.Extended.UMLItem selectedItem = this.model.selectedItem;
 	            if (selectedItem != null)
 	            {
-		            List<UML.UMLItem> elementsToNavigate = this.getElementsToNavigate(ItemName,selectedItem);
+		            List<UML.Extended.UMLItem> elementsToNavigate = this.getElementsToNavigate(ItemName,selectedItem);
 		            if (elementsToNavigate.Count == 1)
 		            {
 		            	elementsToNavigate[0].open();
@@ -426,10 +426,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// <param name="menuChoice">the chosen option</param>
 	/// <param name="parentElement">the elememnt</param>
 	/// <returns>list of items to navigate</returns>
-	public List<UML.UMLItem> getElementsToNavigate(string menuChoice,UML.UMLItem parentElement )
+	public List<UML.Extended.UMLItem> getElementsToNavigate(string menuChoice,UML.Extended.UMLItem parentElement )
 	{
 		
-		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
 		 switch(menuChoice) 
 		 {
 	        case menuOperation   : 
@@ -545,7 +545,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
         }
 	}
 	
-	private void navigate(UML.UMLItem item)
+	private void navigate(UML.Extended.UMLItem item)
 	{
 		if (fullyLoaded)
         {
@@ -607,7 +607,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     /// <param name="guidString">string containing a guid</param>
     private void selectGUID(string guidString)
     {
-    	UML.UMLItem item = null;
+    	UML.Extended.UMLItem item = null;
 		item = this.model.getItemFromGUID(guidString);
 		
 		if (item != null)
@@ -659,7 +659,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	}
 	private void selectFQN(string fqn)
 	{
-		UML.UMLItem item = null;
+		UML.Extended.UMLItem item = null;
 		item = this.model.getItemFromFQN(fqn);
 		
 		if (item != null)
@@ -728,10 +728,10 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// </summary>
 	/// <param name="parentElement">the selected element</param>
 	/// <returns>the owner of the element</returns>
-	private List<UML.UMLItem> getOwner(UML.UMLItem parentElement)
+	private List<UML.Extended.UMLItem> getOwner(UML.Extended.UMLItem parentElement)
 	{
-		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
-		UML.UMLItem owner = parentElement.owner;
+		List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
+		UML.Extended.UMLItem owner = parentElement.owner;
 		if (owner != null)
 		{
 			elementsToNavigate.Add(owner);
@@ -744,9 +744,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// </summary>
 	/// <param name="parentItem"></param>
 	/// <returns></returns>
-	private List<UML.UMLItem>getDependentTaggedValues(UML.UMLItem parentItem)
+	private List<UML.Extended.UMLItem>getDependentTaggedValues(UML.Extended.UMLItem parentItem)
 	{
-		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
 		UML.Classes.Kernel.Element parentElement = parentItem as UML.Classes.Kernel.Element;
 		if (parentElement != null)
 		{
@@ -768,9 +768,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// </summary>
 	/// <param name="parentElement"></param>
 	/// <returns></returns>
-	private	List<UML.UMLItem> getDepentDiagrams(UML.UMLItem parentElement)
+	private	List<UML.Extended.UMLItem> getDepentDiagrams(UML.Extended.UMLItem parentElement)
 	{
-		var elementsToNavigate = new List<UML.UMLItem>();
+		var elementsToNavigate = new List<UML.Extended.UMLItem>();
 		elementsToNavigate.AddRange(parentElement.getDependentDiagrams());
 		return elementsToNavigate;
 	}
@@ -779,9 +779,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// </summary>
 	/// <param name="parentElement">the selected classifier</param>
 	/// <returns>the conveying connectors</returns>
-	List<UML.UMLItem> getConveyingConnectors(UML.UMLItem parentElement)
+	List<UML.Extended.UMLItem> getConveyingConnectors(UML.Extended.UMLItem parentElement)
 	{
-		var elementsToNavigate = new List<UML.UMLItem>();
+		var elementsToNavigate = new List<UML.Extended.UMLItem>();
 		var classifier = parentElement as UML.Classes.Kernel.Classifier;
 		if (classifier != null)
 		{
@@ -806,9 +806,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// </summary>
 	/// <param name="parentElement">the selected connector</param>
 	/// <returns>the elements conveyed by the given connector</returns>
-	List<UML.UMLItem> getConveyedElements(UML.UMLItem parentElement)
+	List<UML.Extended.UMLItem> getConveyedElements(UML.Extended.UMLItem parentElement)
 	{
-		var elementsToNavigate = new List<UML.UMLItem>();
+		var elementsToNavigate = new List<UML.Extended.UMLItem>();
 		var connector = parentElement as UML.Classes.Kernel.Relationship;
 		if (connector != null)
 		{
@@ -824,9 +824,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// </summary>
 	/// <param name="parentElement">the selected association</param>
 	/// <returns>the AssociationClass for the given association.</returns>
-	List<UML.UMLItem> getAssociationClass(UML.UMLItem parentElement)
+	List<UML.Extended.UMLItem> getAssociationClass(UML.Extended.UMLItem parentElement)
 	{
-		var elementsToNavigate = new List<UML.UMLItem>();
+		var elementsToNavigate = new List<UML.Extended.UMLItem>();
 		var association = parentElement as UTF_EA.Association;
 		if (association != null
 		    && association.associationClass != null)
@@ -840,9 +840,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// </summary>
 	/// <param name="parentElement">the selected AssociationClass</param>
 	/// <returns>the related association</returns>
-	List<UML.UMLItem> getRelatedAssociation(UML.UMLItem parentElement)
+	List<UML.Extended.UMLItem> getRelatedAssociation(UML.Extended.UMLItem parentElement)
 	{
-		var elementsToNavigate = new List<UML.UMLItem>();
+		var elementsToNavigate = new List<UML.Extended.UMLItem>();
 		var associationClass = parentElement as UTF_EA.AssociationClass;
 		if (associationClass != null
 		    && associationClass.relatedAssociation != null)
@@ -857,9 +857,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// </summary>
 	/// <param name="parentItem">the connected element</param>
 	/// <returns>attribute, operations and classes that are linked usign the "link to element feature" functionality</returns>
-	private List<UML.UMLItem>getLinkedToElementFeatures(UML.UMLItem parentItem)
+	private List<UML.Extended.UMLItem>getLinkedToElementFeatures(UML.Extended.UMLItem parentItem)
 	{
-		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
 		//either the parent is a property, or it is a element
 		if (parentItem is UML.Classes.Kernel.Feature)
 		{
@@ -867,7 +867,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			
 			foreach (UML.Classes.Kernel.Relationship relation in parentFeature.relationships)
 			{
-				foreach (UML.UMLItem item in relation.relatedElements) 
+				foreach (UML.Extended.UMLItem item in relation.relatedElements) 
 				{
 					if (!item.Equals(parentItem))
 					{
@@ -881,7 +881,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			UML.Classes.Kernel.Element parentElement = (UML.Classes.Kernel.Element)parentItem;
 			foreach (UML.Classes.Kernel.Relationship relation in parentElement.relationships)
 			{
-				foreach (UML.UMLItem item in relation.relatedElements) 
+				foreach (UML.Extended.UMLItem item in relation.relatedElements) 
 				{
 					if (item is UML.Classes.Kernel.Feature)
 					{
@@ -899,9 +899,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// </summary>
 	/// <param name="parentElement">either a behavior, or a diagram owned by a behavior</param>
 	/// <returns>the implmented operation (specification)</returns>
-	private List<UML.UMLItem> getImplementedOperation(UML.UMLItem parentElement)
+	private List<UML.Extended.UMLItem> getImplementedOperation(UML.Extended.UMLItem parentElement)
 	{
-		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
 		UML.CommonBehaviors.BasicBehaviors.Behavior behavior = parentElement as UML.CommonBehaviors.BasicBehaviors.Behavior;
 		//if the parent element is not a behavior it might be a diagram owned by a behavior
 		if (behavior == null
@@ -920,9 +920,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// </summary>
 	/// <param name="parentElement">any UML.Classes.Kernel.Element</param>
 	/// <returns>all elements referenced by the tagged values of the parent element</returns>
-	private List<UML.UMLItem> getElementsViaTaggedValues(UML.UMLItem parentElement, string menuOption)
+	private List<UML.Extended.UMLItem> getElementsViaTaggedValues(UML.Extended.UMLItem parentElement, string menuOption)
 	{
-		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
 		UML.Classes.Kernel.Element taggedValueOwner = parentElement as UML.Classes.Kernel.Element;
 		if (taggedValueOwner != null)
 		{
@@ -931,7 +931,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 			{
 				if ( menuOption.Equals(taggedValueMenuName(taggedValue.name)))
 				{
-					UML.UMLItem elementToNavigate = taggedValue.tagValue as UML.UMLItem;
+					UML.Extended.UMLItem elementToNavigate = taggedValue.tagValue as UML.Extended.UMLItem;
 					if (elementToNavigate != null)
 					{
 						elementsToNavigate.Add(elementToNavigate);
@@ -947,9 +947,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// </summary>
 	/// <param name="parentElement">the sequence diagram</param>
 	/// <returns>all operations called on the given diagram</returns>
-	private List<UML.UMLItem> getDiagramOperations(UML.UMLItem parentElement)
+	private List<UML.Extended.UMLItem> getDiagramOperations(UML.Extended.UMLItem parentElement)
 	{
-		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
 		
 		if (parentElement is UML.Diagrams.SequenceDiagram)
 		{
@@ -969,9 +969,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     /// </summary>
     /// <param name="parentElement">the element</param>
     /// <returns>the diagrams using the given element</returns>
-    private List<UML.UMLItem> getDiagrams(UML.UMLItem parentElement)
+    private List<UML.Extended.UMLItem> getDiagrams(UML.Extended.UMLItem parentElement)
     {
-        List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+        List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
     	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation(parentElement);
         
         if (selectedOperation != null)
@@ -990,9 +990,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    /// </summary>
    /// <param name="parentElement">the element to get the operation from</param>
    /// <returns>the operation for this parent element</returns>
-   private List<UML.UMLItem> getOperation(UML.UMLItem parentElement)
+   private List<UML.Extended.UMLItem> getOperation(UML.Extended.UMLItem parentElement)
    {
-   	   List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+   	   List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
    	   UML.Classes.Kernel.Operation calledOperation = null;
    	   if (parentElement is UML.Classes.Kernel.Parameter)
    	   {
@@ -1015,9 +1015,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    /// <summary>
    /// Opens the types of the parameters of the selected operation
    /// </summary>
-   private List<UML.UMLItem> getParameterTypes(UML.UMLItem parentElement)
+   private List<UML.Extended.UMLItem> getParameterTypes(UML.Extended.UMLItem parentElement)
    {
-   		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+   		List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
 	   	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation(parentElement);
         if (selectedOperation != null)
         {
@@ -1032,9 +1032,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    /// <summary>
    /// Opens the attributes of that use the selected element as type
    /// </summary>
-   private List<UML.UMLItem> getAttributes(UML.UMLItem parentElement)
+   private List<UML.Extended.UMLItem> getAttributes(UML.Extended.UMLItem parentElement)
    {
-	   	List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+	   	List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
 	   	UML.Classes.Kernel.Type selectedType = parentElement as UML.Classes.Kernel.Type;
 	   	// get the attributes that use the selected Type as type
 	   	elementsToNavigate.AddRange( selectedType.getDependentTypedElements<UML.Classes.Kernel.Property>());
@@ -1043,9 +1043,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    /// <summary>
    /// Opens the parameters that use the selected element as type
    /// </summary>
-   private List<UML.UMLItem> getParameters(UML.UMLItem parentElement)
+   private List<UML.Extended.UMLItem> getParameters(UML.Extended.UMLItem parentElement)
    {
-	   	List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+	   	List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
 	   	UML.Classes.Kernel.Type selectedType = parentElement as UML.Classes.Kernel.Type;
 	   	// get the parameters that use the selected classifier as type
 	   	elementsToNavigate.AddRange(selectedType.getDependentTypedElements<UML.Classes.Kernel.Parameter>());
@@ -1054,9 +1054,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    /// <summary>
    /// opens the CallOperationActions that call te selected operation
    /// </summary>
-   private List<UML.UMLItem> getActions(UML.UMLItem parentElement)
+   private List<UML.Extended.UMLItem> getActions(UML.Extended.UMLItem parentElement)
    {
-   	List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+   	List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
    	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation( parentElement);
    	if( selectedOperation != null)
    	{
@@ -1067,9 +1067,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    /// <summary>
    /// selects the implementation of the operation in the project browser, and opens all owned diagrams of the implementation.
    /// </summary>
-   private List<UML.UMLItem> getImplementation(UML.UMLItem parentElement)
+   private List<UML.Extended.UMLItem> getImplementation(UML.Extended.UMLItem parentElement)
    {
-   	List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+   	List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
    	UML.Classes.Kernel.Operation selectedOperation = this.getSelectedOperation(parentElement);
    	if (selectedOperation != null )
    	{
@@ -1085,9 +1085,9 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    /// <summary>
    /// Opens the type of the attribute
    /// </summary>
-   private List<UML.UMLItem> getClassifier(UML.UMLItem parentElement)
+   private List<UML.Extended.UMLItem> getClassifier(UML.Extended.UMLItem parentElement)
    {
-   		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+   		List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
    		UML.Classes.Kernel.Property selectedAttribute = parentElement as UML.Classes.Kernel.Property;
    		if (null != selectedAttribute)
    		{
@@ -1099,7 +1099,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    /// Gets the selected operation from the model, either directly or through the selected message
    /// </summary>
    /// <returns>the selected operation, or the operation called by the selected message</returns>
-   private UML.Classes.Kernel.Operation getSelectedOperation(UML.UMLItem parentElement)
+   private UML.Classes.Kernel.Operation getSelectedOperation(UML.Extended.UMLItem parentElement)
    {
    	   // try if the the users selected an operation
    	   UML.Classes.Kernel.Operation selectedOperation = parentElement as UML.Classes.Kernel.Operation;
@@ -1121,20 +1121,20 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	   }
        return selectedOperation;
    }
-   	private List<UML.UMLItem> getCompositeElements(UML.UMLItem parentElement)
+   	private List<UML.Extended.UMLItem> getCompositeElements(UML.Extended.UMLItem parentElement)
 	{
-		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
 		UML.Diagrams.Diagram compositeDiagram = parentElement as UML.Diagrams.Diagram;
 		if (compositeDiagram != null)
 		{
-			elementsToNavigate = compositeDiagram.compositeElements.Cast<UML.UMLItem>().ToList();
+			elementsToNavigate = compositeDiagram.compositeElements.Cast<UML.Extended.UMLItem>().ToList();
 		}
 		return elementsToNavigate;
 	}
 	
-	private List<UML.UMLItem> getCompositeDiagram(UML.UMLItem parentElement)
+	private List<UML.Extended.UMLItem> getCompositeDiagram(UML.Extended.UMLItem parentElement)
 	{
-		List<UML.UMLItem> elementsToNavigate = new List<UML.UMLItem>();
+		List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
    		UML.Classes.Kernel.Element selectedElement = parentElement as UML.Classes.Kernel.Element;
    		if (selectedElement != null)
    		{
@@ -1154,7 +1154,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    /// <param name="e">parameters</param>
    void NavigatorTreeNodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
    {
-   		UML.UMLItem selectedElement = e.Node.Tag as UML.UMLItem;
+   		UML.Extended.UMLItem selectedElement = e.Node.Tag as UML.Extended.UMLItem;
    		if( selectedElement is UML.Diagrams.Diagram)
    		{
    			this.navigatorControl.setElement(selectedElement);
@@ -1188,7 +1188,7 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    	}
    	public void quickSearch(string searchText)
    	{
-   		List<UML.UMLItem> matchingElements = this.model.getQuickSearchResults(searchText,this.maxQuickSearchResults,
+   		List<UML.Extended.UMLItem> matchingElements = this.model.getQuickSearchResults(searchText,this.maxQuickSearchResults,
    		                                                                      this.settings.quickSearchElements,this.settings.quickSearchOperations,
    		                                                                      this.settings.quickSearchAttributes,this.settings.quickSearchDiagrams);
    		this.navigatorControl.setQuickSearchResults(matchingElements,searchText);
@@ -1202,11 +1202,11 @@ public class EAAddin:EAAddinFramework.EAAddinBase
    {
    	if (e.Node.Tag == null)
    	{
-   		UML.UMLItem parentElement = e.Node.Parent.Tag as UML.UMLItem;
+   		UML.Extended.UMLItem parentElement = e.Node.Parent.Tag as UML.Extended.UMLItem;
    		if (parentElement != null)
    		{
 	   		string option = "&" + e.Node.Text;
-	   		List<UML.UMLItem> subElements = this.getElementsToNavigate(option,parentElement);
+	   		List<UML.Extended.UMLItem> subElements = this.getElementsToNavigate(option,parentElement);
 	   		this.navigatorControl.setSubNodes(e.Node,subElements);
    		}
    	}

@@ -1,68 +1,52 @@
-﻿/*
- * Created by SharpDevelop.
- * User: LaptopGeert
- * Date: 9/07/2016
- * Time: 6:53
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
+﻿
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EAImvertor
 {
 	/// <summary>
-	/// Description of EAImvertorSettingsForm.
+	/// Description of ImvertorStartJobForm.
 	/// </summary>
-	public partial class EAImvertorSettingsForm : Form
+	public partial class ImvertorStartJobForm : Form
 	{
-		private EAImvertorSettings settings;
-		public EAImvertorSettingsForm(EAImvertorSettings settings)
+		private EAImvertorJobSettings settings;
+		public ImvertorStartJobForm(EAImvertorJobSettings settings)
 		{
+			//
+			// The InitializeComponent() call is required for Windows Forms designer support.
+			//
 			InitializeComponent();
 			this.settings = settings;
 			this.loadData();
+
 		}
-		/// <summary>
+				/// <summary>
 		/// load the data from the settings to the form
 		/// </summary>
 		private void loadData()
 		{
-			this.ImvertorURLTextbox.Text = this.settings.imvertorURL;
-			this.defaultPinTextBox.Text = this.settings.defaultPIN;
-			this.defaultProcessTextBox.Text = this.settings.defaultProcessName;
-			this.defaultProcessTextBox.Items.AddRange(this.settings.availableProcesses.ToArray());
-			this.defaultPropertiesTextBox.Text = this.settings.defaultProperties;
+			this.defaultPropertiesTextBox.Text = this.settings.Properties;
 			this.defaultPropertiesTextBox.Items.AddRange(this.settings.availableProperties.ToArray());
-			this.defaultPropertiesPathTextBox.Text = this.settings.defaultPropertiesFilePath;
-			this.defaultHistoryFileTextBox.Text = this.settings.defaultHistoryFilePath;
-			this.timeOutUpDown.Value = this.settings.timeOutInSeconds;
-			this.retryIntervalUpDown.Value = this.settings.retryInterval;
+			this.defaultPropertiesPathTextBox.Text = this.settings.PropertiesFilePath;
+			this.defaultHistoryFileTextBox.Text = this.settings.HistoryFilePath;
 		}
 		/// <summary>
 		/// save the data from the form to the settings
 		/// </summary>
 		private void saveChanges()
 		{
-			this.settings.imvertorURL = this.ImvertorURLTextbox.Text;
-			this.settings.defaultPIN = this.defaultPinTextBox.Text;
-			this.settings.defaultProcessName = this.defaultProcessTextBox.Text;
-			this.settings.defaultProperties = this.defaultPropertiesTextBox.Text;
-			this.settings.defaultPropertiesFilePath = this.defaultPropertiesPathTextBox.Text;	
-			this.settings.defaultHistoryFilePath = this.defaultHistoryFileTextBox.Text;			
-			this.settings.timeOutInSeconds = int.Parse(this.timeOutUpDown.Value.ToString()) ;
-			this.settings.retryInterval = int.Parse (this.retryIntervalUpDown.Value.ToString());
-			this.settings.save();
+			this.settings.Properties = this.defaultPropertiesTextBox.Text;
+			this.settings.PropertiesFilePath = this.defaultPropertiesPathTextBox.Text;	
+			this.settings.HistoryFilePath = this.defaultHistoryFileTextBox.Text;			
 		}
 		void OkButtonClick(object sender, EventArgs e)
 		{
 			this.saveChanges();
+			this.DialogResult = DialogResult.OK;
 			this.Close();
-		}
-		void ApplyButtonClick(object sender, EventArgs e)
-		{
-			this.saveChanges();
 		}
 		void BrowseDefaultPropertiesFileButtonClick(object sender, EventArgs e)
 		{
@@ -90,7 +74,7 @@ namespace EAImvertor
             {
             	//if the user selected the file then put the filename in the abbreviationsfileTextBox
                 this.defaultHistoryFileTextBox.Text = browseHistoryFileDialog.FileName;
-            }
+            }			
 		}
 	}
 }

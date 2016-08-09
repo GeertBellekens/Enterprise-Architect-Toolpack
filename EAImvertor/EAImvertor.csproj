@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="EAImvertorAddin.cs" />
     <Compile Include="EAImvertorJob.cs" />
+    <Compile Include="EAImvertorJobSettings.cs" />
     <Compile Include="EAImvertorSettings.cs" />
     <Compile Include="EAImvertorSettingsForm.cs" />
     <Compile Include="EAImvertorSettingsForm.Designer.cs">
@@ -77,6 +78,10 @@
     <Compile Include="ImvertorControl.cs" />
     <Compile Include="ImvertorControl.Designer.cs">
       <DependentUpon>ImvertorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImvertorStartJobForm.cs" />
+    <Compile Include="ImvertorStartJobForm.Designer.cs">
+      <DependentUpon>ImvertorStartJobForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -99,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImvertorControl.resx">
       <DependentUpon>ImvertorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImvertorStartJobForm.resx">
+      <DependentUpon>ImvertorStartJobForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
