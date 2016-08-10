@@ -337,6 +337,73 @@
 						</RegistryKey>
 						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
 					</Component>
+					<Component Id="EAImvertor_AddinFiles" Guid="88f5bcd8-dd0a-4200-823e-2f9ebc5bbcbd" DiskId="1" UninstallWhenSuperseded="yes">
+						<File Id="EAImvertor_LicenseFile" Name="EA Imvertor license.txt" Source="..\EAImvertor\Files\EA Imvertor license.txt" />
+		                <Class Id="{16F72602-8F86-4E26-AFBD-4A0FB873CA09}" Context="InprocServer32" Description="EAImvertor.ImvertorControl" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAImvertor.ImvertorControl" Description="EAImvertor.ImvertorControl" />
+		                </Class>
+		                <Class Id="{511812A1-CD67-321C-B953-323234EDC4E0}" Context="InprocServer32" Description="EAImvertor.EAImvertorAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAImvertor.EAImvertorAddin" Description="EAImvertor.EAImvertorAddin" />
+		                </Class>
+		                <Class Id="{66DB62BF-1F21-37C1-B5FC-6D4BE6804761}" Context="InprocServer32" Description="EAImvertor.EAImvertorSettings" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAImvertor.EAImvertorSettings" Description="EAImvertor.EAImvertorSettings" />
+		                </Class>
+		                <Class Id="{D47788C9-E0D3-3195-81A4-4AD0CDA20C68}" Context="InprocServer32" Description="EAImvertor.AboutWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAImvertor.AboutWindow" Description="EAImvertor.AboutWindow" />
+		                </Class>
+		                <File Id="filE0274ABB3E2940FD932AB4842BF7F45F" KeyPath="yes" Source="..\EAImvertor\bin\Debug\EAImvertor.dll" />
+						<File Id="EAImvertor.pdb" Name="EAImvertor.pdb" Source="..\EAImvertor\bin\Debug\EAImvertor.pdb" />
+						<File Id="EAImvertor.tlb" Name="EAImvertor.tlb" Source="..\EAImvertor\bin\Debug\EAImvertor.tlb" />
+						<File Id="EAImvertor.dll.config" Name="EAImvertor.dll.config" Source="..\EAImvertor\bin\Debug\EAImvertor.dll.config" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{16F72602-8F86-4E26-AFBD-4A0FB873CA09}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{16F72602-8F86-4E26-AFBD-4A0FB873CA09}\InprocServer32\1.0.6056.36104" Name="Class" Value="EAImvertor.ImvertorControl" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{16F72602-8F86-4E26-AFBD-4A0FB873CA09}\InprocServer32\1.0.6056.36104" Name="Assembly" Value="EAImvertor, Version=1.0.6056.36104, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{16F72602-8F86-4E26-AFBD-4A0FB873CA09}\InprocServer32\1.0.6056.36104" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{16F72602-8F86-4E26-AFBD-4A0FB873CA09}\InprocServer32\1.0.6056.36104" Name="CodeBase" Value="file:///[#filE0274ABB3E2940FD932AB4842BF7F45F]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{16F72602-8F86-4E26-AFBD-4A0FB873CA09}\InprocServer32" Name="Class" Value="EAImvertor.ImvertorControl" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{16F72602-8F86-4E26-AFBD-4A0FB873CA09}\InprocServer32" Name="Assembly" Value="EAImvertor, Version=1.0.6056.36104, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{16F72602-8F86-4E26-AFBD-4A0FB873CA09}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{16F72602-8F86-4E26-AFBD-4A0FB873CA09}\InprocServer32" Name="CodeBase" Value="file:///[#filE0274ABB3E2940FD932AB4842BF7F45F]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{511812A1-CD67-321C-B953-323234EDC4E0}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{511812A1-CD67-321C-B953-323234EDC4E0}\InprocServer32\1.0.6056.36104" Name="Class" Value="EAImvertor.EAImvertorAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{511812A1-CD67-321C-B953-323234EDC4E0}\InprocServer32\1.0.6056.36104" Name="Assembly" Value="EAImvertor, Version=1.0.6056.36104, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{511812A1-CD67-321C-B953-323234EDC4E0}\InprocServer32\1.0.6056.36104" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{511812A1-CD67-321C-B953-323234EDC4E0}\InprocServer32\1.0.6056.36104" Name="CodeBase" Value="file:///[#filE0274ABB3E2940FD932AB4842BF7F45F]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{511812A1-CD67-321C-B953-323234EDC4E0}\InprocServer32" Name="Class" Value="EAImvertor.EAImvertorAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{511812A1-CD67-321C-B953-323234EDC4E0}\InprocServer32" Name="Assembly" Value="EAImvertor, Version=1.0.6056.36104, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{511812A1-CD67-321C-B953-323234EDC4E0}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{511812A1-CD67-321C-B953-323234EDC4E0}\InprocServer32" Name="CodeBase" Value="file:///[#filE0274ABB3E2940FD932AB4842BF7F45F]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{66DB62BF-1F21-37C1-B5FC-6D4BE6804761}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{66DB62BF-1F21-37C1-B5FC-6D4BE6804761}\InprocServer32\1.0.6056.36104" Name="Class" Value="EAImvertor.EAImvertorSettings" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{66DB62BF-1F21-37C1-B5FC-6D4BE6804761}\InprocServer32\1.0.6056.36104" Name="Assembly" Value="EAImvertor, Version=1.0.6056.36104, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{66DB62BF-1F21-37C1-B5FC-6D4BE6804761}\InprocServer32\1.0.6056.36104" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{66DB62BF-1F21-37C1-B5FC-6D4BE6804761}\InprocServer32\1.0.6056.36104" Name="CodeBase" Value="file:///[#filE0274ABB3E2940FD932AB4842BF7F45F]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{66DB62BF-1F21-37C1-B5FC-6D4BE6804761}\InprocServer32" Name="Class" Value="EAImvertor.EAImvertorSettings" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{66DB62BF-1F21-37C1-B5FC-6D4BE6804761}\InprocServer32" Name="Assembly" Value="EAImvertor, Version=1.0.6056.36104, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{66DB62BF-1F21-37C1-B5FC-6D4BE6804761}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{66DB62BF-1F21-37C1-B5FC-6D4BE6804761}\InprocServer32" Name="CodeBase" Value="file:///[#filE0274ABB3E2940FD932AB4842BF7F45F]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D47788C9-E0D3-3195-81A4-4AD0CDA20C68}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D47788C9-E0D3-3195-81A4-4AD0CDA20C68}\InprocServer32\1.0.6056.36104" Name="Class" Value="EAImvertor.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D47788C9-E0D3-3195-81A4-4AD0CDA20C68}\InprocServer32\1.0.6056.36104" Name="Assembly" Value="EAImvertor, Version=1.0.6056.36104, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D47788C9-E0D3-3195-81A4-4AD0CDA20C68}\InprocServer32\1.0.6056.36104" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D47788C9-E0D3-3195-81A4-4AD0CDA20C68}\InprocServer32\1.0.6056.36104" Name="CodeBase" Value="file:///[#filE0274ABB3E2940FD932AB4842BF7F45F]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D47788C9-E0D3-3195-81A4-4AD0CDA20C68}\InprocServer32" Name="Class" Value="EAImvertor.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D47788C9-E0D3-3195-81A4-4AD0CDA20C68}\InprocServer32" Name="Assembly" Value="EAImvertor, Version=1.0.6056.36104, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D47788C9-E0D3-3195-81A4-4AD0CDA20C68}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D47788C9-E0D3-3195-81A4-4AD0CDA20C68}\InprocServer32" Name="CodeBase" Value="file:///[#filE0274ABB3E2940FD932AB4842BF7F45F]" Type="string" Action="write" />
+            		</Component>
+					<Component Id="EAImvertor_RegistryEntry" Guid="e6ed600c-d86f-4081-adee-c286c8aa03a5" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\EA Imvertor">
+							<RegistryValue Type="string" Value="EAImvertor.EAImvertorAddin" />
+						</RegistryKey>
+					<Condition> %PROCESSOR_ARCHITECTURE="AMD64" OR %PROCESSOR_ARCHITECTURE="IE64"</Condition>
+					</Component>
+					<Component Id="EAImvertor_RegistryEntry_x86" Guid="2719e794-82fd-4ef2-8af2-2f68eaf95361" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA Imvertor">
+							<RegistryValue Type="string" Value="EAImvertor.EAImvertorAddin" />
+						</RegistryKey>
+						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
+					</Component>
 				</Directory>
 			</Directory>
 		</DirectoryRef>

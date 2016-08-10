@@ -692,16 +692,19 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 	/// <returns>true if the given string is a valid GUID format</returns>
 	private bool isGUIDString(string guidString)
 	{
-		
-		try
+		//xmlGUID strings start with EAID_ and cannot be parsed by Guid
+		if (! guidString.StartsWith("EAID_", StringComparison.InvariantCultureIgnoreCase))
 		{
-			//try to make a new GUID with given string.
-			Guid guid = new Guid(guidString);
-		}
-		catch (FormatException)
-		{
-			//it didn't work, so no valid GUIDString
-			return false;
+			try
+			{
+				//try to make a new GUID with given string.
+				Guid guid = new Guid(guidString);
+			}
+			catch (FormatException)
+			{
+				//it didn't work, so no valid GUIDString
+				return false;
+			}
 		}
 		//it worked, so the string was a correct guid format
 		return true;

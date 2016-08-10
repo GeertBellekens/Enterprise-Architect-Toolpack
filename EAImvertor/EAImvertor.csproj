@@ -68,6 +68,7 @@
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="EAImvertorAddin.cs" />
+    <Compile Include="EAImvertorException.cs" />
     <Compile Include="EAImvertorJob.cs" />
     <Compile Include="EAImvertorJobSettings.cs" />
     <Compile Include="EAImvertorSettings.cs" />

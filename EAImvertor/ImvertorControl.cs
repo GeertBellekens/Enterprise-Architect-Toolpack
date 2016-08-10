@@ -82,20 +82,24 @@ namespace EAImvertor
 					var currentJob = (EAImvertorJob) row.Tag;
 					if (imvertorJob == null || currentJob.Equals(imvertorJob) )
 					{
-						string tries = string.Empty;
-						string timedOut = string.Empty;
+						string statusString = currentJob.status;
+						
 						if (!(currentJob.status.StartsWith("Finished") || currentJob.status.StartsWith("Error")))
 						{
 						   	if (currentJob.timedOut)
 						   	{
-						   		timedOut = " (Timed Out)";
+						   		statusString += " (Timed Out)";
 						   	}
 						    else if (currentJob.tries > 0)
 							{
-								tries = new string('.',currentJob.tries);
+								statusString += new string('.',currentJob.tries);
 							}
 						 }
-						row.SubItems[1].Text =currentJob.status + tries + timedOut;
+						else if (currentJob.status.StartsWith("Finished"))
+						{
+							if (currentJob.message.Length > 0) statusString += string.Format(" ({0})",currentJob.message);
+						}
+						row.SubItems[1].Text =statusString;
 					}
 
 				}

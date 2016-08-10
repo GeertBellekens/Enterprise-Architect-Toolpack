@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Xml;
@@ -26,6 +27,22 @@ namespace EAImvertor
 		private BackgroundWorker _backgroundWorker;
 		private DateTime _startDateTime;
 		private bool _timedOut = false;
+		private string _message;
+		private List<EAImvertorException> _warnings = new List<EAImvertorException>();
+		private List<EAImvertorException> _errors = new List<EAImvertorException>();
+
+		public string message 
+		{
+			get {return _message;}
+		}
+		public List<EAImvertorException> warnings 
+		{
+			get {return _warnings;}
+		}
+		public List<EAImvertorException> errors 
+		{
+			get {return _errors;}
+		}
 		public bool timedOut
 		{
 			get {return _timedOut;}
@@ -170,7 +187,21 @@ namespace EAImvertor
 		}
 		public void viewReport()
 		{
-			System.Diagnostics.Process.Start(this.reportUrl);
+			 var outputItems = new List<UML.Extended.UMLModelOutPutItem>();
+			foreach (var warning in this.warnings) 
+			{
+				var outputItem = ((UTF_EA.Package)this._sourcePackage).model.getItemFromGUID(warning.guid);
+				outputItems.Add( new UML.Extended.UMLModelOutPutItem(outputItem, 
+				                                                     new List<string>(new []{warning.exceptionType,warning.construct,warning.message})));
+			}
+			//create the search output
+			var searchOutPut = new EASearchOutput("Imvertor Messages"
+			                                      ,new List<string>(new string[] {"ExceptionType","Item","Message"})
+			                                      ,outputItems
+			                                      ,((UTF_EA.Package)this._sourcePackage).model);
+			//show the output
+			searchOutPut.show();
+			
 		}
 		private void getJobReport()
 		{
@@ -209,6 +240,24 @@ namespace EAImvertor
 							this._zipUrl = this.settings.imvertorURL + zipNode.InnerText;
 						}
 					}
+					//get the message, the warnings and errors
+					if (this.status == "Finished" || this.status == "Error")
+					{
+						//message
+						var messageNode = xmlReport.SelectSingleNode("//message");
+						if (messageNode != null) this._message = messageNode.InnerText;
+						//warnings
+						foreach (XmlNode warningNode in xmlReport.SelectNodes("//warning")) 
+						{	
+							this._warnings.Add(createImvertorException(warningNode));						
+						}
+						//warnings
+						foreach (XmlNode errorNode in xmlReport.SelectNodes("//error")) 
+						{	
+							this._errors.Add(createImvertorException(errorNode));						
+						}
+						
+					}
 				}
 			}
 			else
@@ -216,6 +265,30 @@ namespace EAImvertor
 				Logger.log("xmlReport is null");
 			}
 		}
+		private EAImvertorException createImvertorException(XmlNode exceptionNode)
+		{
+			//get guid
+			string guid = string.Empty;
+			var idAttribue = exceptionNode.Attributes.GetNamedItem("id") as XmlAttribute;
+			if (idAttribue != null) guid = idAttribue.Value;
+			
+			//get step
+			string step = string.Empty;
+			var stepNode = exceptionNode.SelectSingleNode("//step");
+			if (stepNode != null) step = stepNode.InnerText;
+			
+			//get construct
+			string construct = string.Empty;
+			var constructNode = exceptionNode.SelectSingleNode("//construct");
+			if (constructNode != null) construct = constructNode.InnerText;
+			
+			//get text
+			string text = string.Empty;
+			var textNode = exceptionNode.SelectSingleNode("//text");
+			if (textNode != null) text = textNode.InnerText;
+			return new EAImvertorException(((UTF_EA.Package)this._sourcePackage).model,exceptionNode.Name,guid,step,construct,text);
+		}
+		
 		private XmlDocument getReport(string reportURL)
 		{
 			using (var client = new HttpClient())
