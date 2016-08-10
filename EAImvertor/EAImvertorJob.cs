@@ -122,12 +122,20 @@ namespace EAImvertor
 			this.setStatus("Exporting Model");
 			this.sourcePackage.getRootPackage().exportToXMI(xmiFileName);
 			this.setStatus("Uploading Model");
-			this._jobID = this.Upload(settings.imvertorURL+settings.urlPostFix +"upload",settings.PIN,settings.ProcessName,settings.Properties
+			try {
+				this._jobID = this.Upload(settings.imvertorURL+settings.urlPostFix +"upload",settings.PIN,settings.ProcessName,settings.Properties
 			                           ,xmiFileName,settings.HistoryFilePath,settings.PropertiesFilePath);
 
 			Logger.log(this.reportUrl);
 			this.setStatus("Upload Finished");
 			getJobReport();
+				
+			} catch (Exception e) 
+			{
+				this.setStatus("Error");
+				Logger.logError("Error in StartJob: " + e.Message + " stacktrace: "+ e.StackTrace);
+			}
+			
 		}
 		private string createSpecificPropertiesFile()
 		{
@@ -191,12 +199,14 @@ namespace EAImvertor
 			foreach (var warning in this.warnings) 
 			{
 				var outputItem = ((UTF_EA.Package)this._sourcePackage).model.getItemFromGUID(warning.guid);
+				string outputItemName = "-";
+				if (outputItem != null) outputItemName = outputItem.name;
 				outputItems.Add( new UML.Extended.UMLModelOutPutItem(outputItem, 
-				                                                     new List<string>(new []{warning.exceptionType,warning.construct,warning.message})));
+				                                                     new List<string>(new []{outputItemName,warning.exceptionType,warning.message,warning.construct})));
 			}
 			//create the search output
 			var searchOutPut = new EASearchOutput("Imvertor Messages"
-			                                      ,new List<string>(new string[] {"ExceptionType","Item","Message"})
+			                                      ,new List<string>(new string[] {"Name","Message Type","Message","Path"})
 			                                      ,outputItems
 			                                      ,((UTF_EA.Package)this._sourcePackage).model);
 			//show the output
@@ -274,17 +284,17 @@ namespace EAImvertor
 			
 			//get step
 			string step = string.Empty;
-			var stepNode = exceptionNode.SelectSingleNode("//step");
+			var stepNode = exceptionNode.SelectSingleNode("./step");
 			if (stepNode != null) step = stepNode.InnerText;
 			
 			//get construct
 			string construct = string.Empty;
-			var constructNode = exceptionNode.SelectSingleNode("//construct");
+			var constructNode = exceptionNode.SelectSingleNode("./construct");
 			if (constructNode != null) construct = constructNode.InnerText;
 			
 			//get text
 			string text = string.Empty;
-			var textNode = exceptionNode.SelectSingleNode("//text");
+			var textNode = exceptionNode.SelectSingleNode("./text");
 			if (textNode != null) text = textNode.InnerText;
 			return new EAImvertorException(((UTF_EA.Package)this._sourcePackage).model,exceptionNode.Name,guid,step,construct,text);
 		}
