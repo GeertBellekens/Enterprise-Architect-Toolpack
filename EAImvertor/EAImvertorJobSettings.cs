@@ -25,6 +25,7 @@ namespace EAImvertor
 			this.timeOutInSeconds = settings.timeOutInSeconds;
 			this.retryInterval = settings.retryInterval;
 			this.urlPostFix = settings.urlPostFix;
+			this.resultsPath = settings.resultsPath;
 		}
 		public List<string> availableProcesses {get;set;}
 
@@ -53,7 +54,9 @@ namespace EAImvertor
 		public int timeOutInSeconds {get;set;}
 
 		public int retryInterval {get;set;}
-		public string urlPostFix {get;set;} 
+		public string urlPostFix {get;set;}
+		public string resultsPath {get;set;} 		
+		
 
 	}
 }

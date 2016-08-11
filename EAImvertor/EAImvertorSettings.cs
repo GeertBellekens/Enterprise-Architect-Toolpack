@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Xml;
 using UML=TSF.UmlToolingFramework.UML;
@@ -224,6 +225,27 @@ namespace EAImvertor
 				this.setValue("urlPostFix",value);
 			}
 		}
-		
+		public string resultsPath
+		{
+			get
+			{
+				string newValue = this.getValue("resultsPath");
+				if (newValue.ToLower().Contains("%appdata%"))
+				{
+					newValue = newValue.ToLower().Replace("%appdata%", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+				}
+				return newValue;
+			}
+			set
+			{
+				string newValue = value;
+				if (value.ToLower().Contains("%appdata%"))
+				{
+					newValue = value.ToLower().Replace("%appdata%", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+				}
+				 this.setValue("resultsPath",newValue);
+			}
+		}
+	    
 	}
 }

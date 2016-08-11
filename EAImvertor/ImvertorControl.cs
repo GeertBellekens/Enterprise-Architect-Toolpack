@@ -121,8 +121,8 @@ namespace EAImvertor
 			if (this.selectedJob != null
 			    && this.selectedJob.status == "Finished")
 			{
-				this.resultsButton.Enabled = true;
-				this.viewWarningsButton.Enabled = true;
+				this.resultsButton.Enabled = (!string.IsNullOrEmpty(this.selectedJob.downloadPath));
+				this.viewWarningsButton.Enabled = (this.selectedJob.errors.Count > 0 || this.selectedJob.warnings.Count > 0);
 				this.refreshButton.Enabled = false;
 			}
 			else

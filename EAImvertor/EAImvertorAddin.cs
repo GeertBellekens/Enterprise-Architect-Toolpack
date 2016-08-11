@@ -27,6 +27,7 @@ namespace EAImvertor
         const string menuAbout = "&About";
         const string menuSettings = "&Settings";
         const string menuPublish = "&Publish to Imvertor";
+        const string windowName = "Imvertor";
         
         //attributes
         private UTF_EA.Model model = null;
@@ -50,7 +51,7 @@ namespace EAImvertor
 				{
 					if (this._imvertorControl == null)
 					{
-						this._imvertorControl = this.model.addWindow("Imvertor", "EAImvertor.ImvertorControl") as ImvertorControl;
+						this._imvertorControl = this.model.addWindow(windowName, "EAImvertor.ImvertorControl") as ImvertorControl;
 						this._imvertorControl.resultsButtonClick += this.resultsButtonClick;
 						this._imvertorControl.retryButtonClick += this.retryButtonClick;
 						this.imvertorControl.viewWarningsButtonClick += this.viewWarningsButtonClick;
@@ -93,7 +94,7 @@ namespace EAImvertor
 		void resultsButtonClick(object sender, EventArgs e)
 		{
 			if (this.imvertorControl.selectedJob != null)
-				this.imvertorControl.selectedJob.downloadResults();
+				this.imvertorControl.selectedJob.openResults();
 		}
 		/// <summary>
 		/// reacts to the event that the viewWarningsButton is clicked in the ImvertorControl
@@ -167,10 +168,10 @@ namespace EAImvertor
 			switch(ItemName) 
 			{
 		       case menuAbout :
-		            new AboutWindow().ShowDialog();
+		            new AboutWindow().ShowDialog(this.model.mainEAWindow);
 		            break;
 		       case menuSettings:
-		            new EAImvertorSettingsForm(this.settings).ShowDialog();
+		            new EAImvertorSettingsForm(this.settings).ShowDialog(this.model.mainEAWindow);
 		            break;
 		       case menuPublish:
 		            publish();
@@ -180,7 +181,7 @@ namespace EAImvertor
 		private void publish()
 		{
 			EAImvertorJobSettings jobSettings = new EAImvertorJobSettings(this.settings); 
-			if (new ImvertorStartJobForm(jobSettings).ShowDialog() == DialogResult.OK)
+			if (new ImvertorStartJobForm(jobSettings).ShowDialog(this.model.mainEAWindow) == DialogResult.OK)
 			{
 				//somebody called the imvertor, we can show the control
 				this._imvertorCalled = true;
@@ -198,6 +199,8 @@ namespace EAImvertor
 	            
 	            //update gui
 	            this.imvertorControl.addJob(imvertorJob);
+	            //show the control
+	            this.model.showWindow(windowName);
 	            
 	            //start job in the background
 	            imvertorJobBackgroundWorker.RunWorkerAsync(imvertorJob);

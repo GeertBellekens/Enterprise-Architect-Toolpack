@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
@@ -30,7 +31,13 @@ namespace EAImvertor
 		private string _message;
 		private List<EAImvertorException> _warnings = new List<EAImvertorException>();
 		private List<EAImvertorException> _errors = new List<EAImvertorException>();
+		private string _downloadPath = string.Empty;
 
+		public string downloadPath {
+			get {
+				return _downloadPath;
+			}
+		}
 		public string message 
 		{
 			get {return _message;}
@@ -90,7 +97,7 @@ namespace EAImvertor
 						setStatus( "In Progress");
 						break;
 					case 3:
-						setStatus( "Finished");
+						setStatus( "Compiled");
 						break;
 					default:
 						setStatus("Error");
@@ -186,11 +193,11 @@ namespace EAImvertor
 			this._settings.timeOutInSeconds = 1;
 			this.getJobReport();
 		}
-		public void downloadResults()
+		public void openResults()
 		{
-			if (! string.IsNullOrEmpty(this._zipUrl))
+			if (! string.IsNullOrEmpty(this._downloadPath))
 			{
-				System.Diagnostics.Process.Start(this._zipUrl);
+				System.Diagnostics.Process.Start(this._downloadPath);
 			}
 		}
 		public void viewReport()
@@ -242,13 +249,16 @@ namespace EAImvertor
 						}
 					}
 					//get the zip url
-					else if (this.status == "Finished")
+					else if (this.status == "Compiled")
 					{
 						var zipNode = xmlReport.SelectSingleNode("//zip");
 						if (zipNode != null)
 						{
 							this._zipUrl = this.settings.imvertorURL + zipNode.InnerText;
+							this.setStatus("Getting Results");
+							this.downloadZip();
 						}
+						this.setStatus("Finished");
 					}
 					//get the message, the warnings and errors
 					if (this.status == "Finished" || this.status == "Error")
@@ -275,6 +285,24 @@ namespace EAImvertor
 				Logger.log("xmlReport is null");
 			}
 		}
+
+		void downloadZip()
+		{
+			    
+			HttpClient httpclient = new HttpClient();
+			
+			byte[] bytArray = httpclient.GetByteArrayAsync(_zipUrl).Result;
+			//get the file name from the zipurl
+			string filename = _zipUrl.Split('/').Last();
+			string downloadFile = this.settings.resultsPath + filename;
+			//creat the directory if needed
+			Directory.CreateDirectory(this.settings.resultsPath);
+			//save the file
+			File.WriteAllBytes(downloadFile,bytArray);
+			this._downloadPath = downloadFile;
+			}
+		
+
 		private EAImvertorException createImvertorException(XmlNode exceptionNode)
 		{
 			//get guid
