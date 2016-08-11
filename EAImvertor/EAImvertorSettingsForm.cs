@@ -39,6 +39,7 @@ namespace EAImvertor
 			this.defaultHistoryFileTextBox.Text = this.settings.defaultHistoryFilePath;
 			this.timeOutUpDown.Value = this.settings.timeOutInSeconds;
 			this.retryIntervalUpDown.Value = this.settings.retryInterval;
+			this.resultsFolderTextBox.Text = this.settings.resultsPath;
 		}
 		/// <summary>
 		/// save the data from the form to the settings
@@ -53,6 +54,7 @@ namespace EAImvertor
 			this.settings.defaultHistoryFilePath = this.defaultHistoryFileTextBox.Text;			
 			this.settings.timeOutInSeconds = int.Parse(this.timeOutUpDown.Value.ToString()) ;
 			this.settings.retryInterval = int.Parse (this.retryIntervalUpDown.Value.ToString());
+			this.settings.resultsPath = this.resultsFolderTextBox.Text;
 			this.settings.save();
 		}
 		void OkButtonClick(object sender, EventArgs e)
@@ -92,5 +94,16 @@ namespace EAImvertor
                 this.defaultHistoryFileTextBox.Text = browseHistoryFileDialog.FileName;
             }
 		}
+		void ResultsButtonBrowseFolderClick(object sender, EventArgs e)
+		{
+			FolderBrowserDialog browseResultFolderDialog = new FolderBrowserDialog();
+			browseResultFolderDialog.SelectedPath = this.resultsFolderTextBox.Text;
+			var dialogResult = browseResultFolderDialog.ShowDialog();
+			if (dialogResult == DialogResult.OK)
+			{
+				this.resultsFolderTextBox.Text = browseResultFolderDialog.SelectedPath;
+			}
+		}
+		
 	}
 }

@@ -35,6 +35,9 @@ namespace EAImvertor
 		private System.Windows.Forms.Label timeoutLabel;
 		private System.Windows.Forms.Label retryLabel;
 		private System.Windows.Forms.NumericUpDown retryIntervalUpDown;
+		private System.Windows.Forms.Button resultsButtonBrowseFolder;
+		private System.Windows.Forms.TextBox resultsFolderTextBox;
+		private System.Windows.Forms.Label resultsFolderLabel;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -79,6 +82,9 @@ namespace EAImvertor
 			this.timeoutLabel = new System.Windows.Forms.Label();
 			this.retryLabel = new System.Windows.Forms.Label();
 			this.retryIntervalUpDown = new System.Windows.Forms.NumericUpDown();
+			this.resultsButtonBrowseFolder = new System.Windows.Forms.Button();
+			this.resultsFolderTextBox = new System.Windows.Forms.TextBox();
+			this.resultsFolderLabel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.timeOutUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.retryIntervalUpDown)).BeginInit();
 			this.SuspendLayout();
@@ -121,7 +127,7 @@ namespace EAImvertor
 			// applyButton
 			// 
 			this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.applyButton.Location = new System.Drawing.Point(309, 231);
+			this.applyButton.Location = new System.Drawing.Point(309, 258);
 			this.applyButton.Name = "applyButton";
 			this.applyButton.Size = new System.Drawing.Size(75, 23);
 			this.applyButton.TabIndex = 9;
@@ -133,7 +139,7 @@ namespace EAImvertor
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(228, 231);
+			this.cancelButton.Location = new System.Drawing.Point(228, 258);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 8;
@@ -143,7 +149,7 @@ namespace EAImvertor
 			// okButton
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(147, 231);
+			this.okButton.Location = new System.Drawing.Point(147, 258);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 7;
@@ -175,7 +181,7 @@ namespace EAImvertor
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this.defaultPropertiesTextBox.Location = new System.Drawing.Point(159, 88);
 			this.defaultPropertiesTextBox.Name = "defaultPropertiesTextBox";
-			this.defaultPropertiesTextBox.Size = new System.Drawing.Size(225, 20);
+			this.defaultPropertiesTextBox.Size = new System.Drawing.Size(225, 21);
 			this.defaultPropertiesTextBox.TabIndex = 4;
 			// 
 			// defaultPropertiesLabel
@@ -202,9 +208,9 @@ namespace EAImvertor
 			this.defaultProcessTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this.defaultProcessTextBox.Location = new System.Drawing.Point(159, 62);
-			this.defaultProcessTextBox.MinimumSize = new System.Drawing.Size(153, 20);
+			this.defaultProcessTextBox.MinimumSize = new System.Drawing.Size(153, 0);
 			this.defaultProcessTextBox.Name = "defaultProcessTextBox";
-			this.defaultProcessTextBox.Size = new System.Drawing.Size(225, 20);
+			this.defaultProcessTextBox.Size = new System.Drawing.Size(225, 21);
 			this.defaultProcessTextBox.TabIndex = 3;
 			// 
 			// defaultProcessLabel
@@ -294,13 +300,45 @@ namespace EAImvertor
 			this.retryIntervalUpDown.Size = new System.Drawing.Size(63, 20);
 			this.retryIntervalUpDown.TabIndex = 21;
 			// 
+			// resultsButtonBrowseFolder
+			// 
+			this.resultsButtonBrowseFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.resultsButtonBrowseFolder.Location = new System.Drawing.Point(360, 218);
+			this.resultsButtonBrowseFolder.Name = "resultsButtonBrowseFolder";
+			this.resultsButtonBrowseFolder.Size = new System.Drawing.Size(24, 20);
+			this.resultsButtonBrowseFolder.TabIndex = 24;
+			this.resultsButtonBrowseFolder.Text = "...";
+			this.resultsButtonBrowseFolder.UseVisualStyleBackColor = true;
+			this.resultsButtonBrowseFolder.Click += new System.EventHandler(this.ResultsButtonBrowseFolderClick);
+			// 
+			// resultsFolderTextBox
+			// 
+			this.resultsFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.resultsFolderTextBox.Location = new System.Drawing.Point(159, 219);
+			this.resultsFolderTextBox.MinimumSize = new System.Drawing.Size(153, 20);
+			this.resultsFolderTextBox.Name = "resultsFolderTextBox";
+			this.resultsFolderTextBox.Size = new System.Drawing.Size(195, 20);
+			this.resultsFolderTextBox.TabIndex = 23;
+			// 
+			// resultsFolderLabel
+			// 
+			this.resultsFolderLabel.Location = new System.Drawing.Point(12, 222);
+			this.resultsFolderLabel.Name = "resultsFolderLabel";
+			this.resultsFolderLabel.Size = new System.Drawing.Size(141, 23);
+			this.resultsFolderLabel.TabIndex = 25;
+			this.resultsFolderLabel.Text = "Results Folder";
+			// 
 			// EAImvertorSettingsForm
 			// 
 			this.AcceptButton = this.okButton;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(393, 266);
+			this.ClientSize = new System.Drawing.Size(393, 293);
+			this.Controls.Add(this.resultsButtonBrowseFolder);
+			this.Controls.Add(this.resultsFolderTextBox);
+			this.Controls.Add(this.resultsFolderLabel);
 			this.Controls.Add(this.retryLabel);
 			this.Controls.Add(this.retryIntervalUpDown);
 			this.Controls.Add(this.timeoutLabel);

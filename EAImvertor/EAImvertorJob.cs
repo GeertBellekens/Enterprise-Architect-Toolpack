@@ -203,13 +203,15 @@ namespace EAImvertor
 		public void viewReport()
 		{
 			 var outputItems = new List<UML.Extended.UMLModelOutPutItem>();
-			foreach (var warning in this.warnings) 
+			 List<EAImvertorException> exceptions = new List<EAImvertorException>(this.warnings);
+			 exceptions.AddRange(this.errors);
+			foreach (var exception in exceptions) 
 			{
-				var outputItem = ((UTF_EA.Package)this._sourcePackage).model.getItemFromGUID(warning.guid);
+				var outputItem = ((UTF_EA.Package)this._sourcePackage).model.getItemFromGUID(exception.guid);
 				string outputItemName = "-";
 				if (outputItem != null) outputItemName = outputItem.name;
 				outputItems.Add( new UML.Extended.UMLModelOutPutItem(outputItem, 
-				                                                     new List<string>(new []{outputItemName,warning.exceptionType,warning.message,warning.construct})));
+				                                                     new List<string>(new []{outputItemName,exception.exceptionType,exception.message,exception.construct})));
 			}
 			//create the search output
 			var searchOutPut = new EASearchOutput("Imvertor Messages"
@@ -294,7 +296,7 @@ namespace EAImvertor
 			byte[] bytArray = httpclient.GetByteArrayAsync(_zipUrl).Result;
 			//get the file name from the zipurl
 			string filename = _zipUrl.Split('/').Last();
-			string downloadFile = this.settings.resultsPath + filename;
+			string downloadFile = this.settings.resultsPath +@"\"+ filename;
 			//creat the directory if needed
 			Directory.CreateDirectory(this.settings.resultsPath);
 			//save the file
