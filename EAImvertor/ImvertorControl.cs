@@ -99,6 +99,10 @@ namespace EAImvertor
 						{
 							if (currentJob.message.Length > 0) statusString += string.Format(" ({0})",currentJob.message);
 						}
+						else if (currentJob.status.StartsWith("Error"))
+						{
+							statusString += @" (See %temp%\EAAddinFramework.log for more info)";
+						}
 						row.SubItems[1].Text =statusString;
 					}
 

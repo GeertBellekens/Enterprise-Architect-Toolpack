@@ -133,7 +133,6 @@ namespace EAImvertor
 				this._jobID = this.Upload(settings.imvertorURL+settings.urlPostFix +"upload",settings.PIN,settings.ProcessName,settings.Properties
 			                           ,xmiFileName,settings.HistoryFilePath,settings.PropertiesFilePath);
 
-			Logger.log(this.reportUrl);
 			this.setStatus("Upload Finished");
 			getJobReport();
 				
@@ -227,7 +226,6 @@ namespace EAImvertor
 			var xmlReport = getReport(this.reportUrl);
 			if (xmlReport != null)
 			{
-				Logger.log ("report at try "  + tries.ToString() + " " + xmlReport.InnerXml);
 				var statusNode = xmlReport.SelectSingleNode("//status");
 				if (statusNode != null)
 				{
@@ -284,7 +282,8 @@ namespace EAImvertor
 			}
 			else
 			{
-				Logger.log("xmlReport is null");
+				this.setStatus("Error");
+				Logger.logError(string.Format("Cannot get report from {0}",this.reportUrl));
 			}
 		}
 
