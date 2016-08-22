@@ -67,12 +67,7 @@ namespace EAImvertor
 			row.Selected = true;
 		}
 
-		public void clear()
-		{
-			this.jobs.Clear();
-			refreshJobInfo(null);
-		}
-
+		
 		public void refreshJobInfo(EAImvertorJob imvertorJob)
 		{
 			try
@@ -135,6 +130,8 @@ namespace EAImvertor
 				this.viewWarningsButton.Enabled = false;
 				this.refreshButton.Enabled = (this.selectedJob != null && this.selectedJob.timedOut);
 			}
+			//we can always retry as long as there's a job selected
+			this.retryButton.Enabled = (this.selectedJob != null);
 		}
 		public event EventHandler retryButtonClick;
 		void RetryButtonClick(object sender, EventArgs e)

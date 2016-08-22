@@ -9,6 +9,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace EAImvertor
 {
@@ -32,8 +33,10 @@ namespace EAImvertor
 			this.ImvertorURLTextbox.Text = this.settings.imvertorURL;
 			this.defaultPinTextBox.Text = this.settings.defaultPIN;
 			this.defaultProcessTextBox.Text = this.settings.defaultProcessName;
+			this.defaultProcessTextBox.Items.Clear();
 			this.defaultProcessTextBox.Items.AddRange(this.settings.availableProcesses.ToArray());
 			this.defaultPropertiesTextBox.Text = this.settings.defaultProperties;
+			this.defaultPropertiesTextBox.Items.Clear();
 			this.defaultPropertiesTextBox.Items.AddRange(this.settings.availableProperties.ToArray());
 			this.defaultPropertiesPathTextBox.Text = this.settings.defaultPropertiesFilePath;
 			this.defaultHistoryFileTextBox.Text = this.settings.defaultHistoryFilePath;
@@ -41,13 +44,9 @@ namespace EAImvertor
 			this.retryIntervalUpDown.Value = this.settings.retryInterval;
 			this.resultsFolderTextBox.Text = this.settings.resultsPath;
 		}
-		/// <summary>
-		/// save the data from the form to the settings
-		/// </summary>
-		private void saveChanges()
+		private void unloadData()
 		{
 			this.settings.imvertorURL = this.ImvertorURLTextbox.Text;
-			this.settings.defaultPIN = this.defaultPinTextBox.Text;
 			this.settings.defaultProcessName = this.defaultProcessTextBox.Text;
 			this.settings.defaultProperties = this.defaultPropertiesTextBox.Text;
 			this.settings.defaultPropertiesFilePath = this.defaultPropertiesPathTextBox.Text;	
@@ -55,6 +54,14 @@ namespace EAImvertor
 			this.settings.timeOutInSeconds = int.Parse(this.timeOutUpDown.Value.ToString()) ;
 			this.settings.retryInterval = int.Parse (this.retryIntervalUpDown.Value.ToString());
 			this.settings.resultsPath = this.resultsFolderTextBox.Text;
+			this.settings.defaultPIN = this.defaultPinTextBox.Text;
+		}
+		/// <summary>
+		/// save the data from the form to the settings
+		/// </summary>
+		private void saveChanges()
+		{
+			unloadData();
 			this.settings.save();
 		}
 		void OkButtonClick(object sender, EventArgs e)
@@ -102,6 +109,15 @@ namespace EAImvertor
 			if (dialogResult == DialogResult.OK)
 			{
 				this.resultsFolderTextBox.Text = browseResultFolderDialog.SelectedPath;
+			}
+		}
+		void DefaultPinTextBoxTextChanged(object sender, EventArgs e)
+		{
+			//if the default pin changes then we have to get the configurations again
+			if (defaultPinTextBox.Text != settings.defaultPIN)
+			{
+				this.unloadData();
+				this.loadData();
 			}
 		}
 		

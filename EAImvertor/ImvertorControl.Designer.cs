@@ -118,7 +118,6 @@ namespace EAImvertor
 			this.retryButton.TabIndex = 1;
 			this.retryButton.Text = "Retry";
 			this.retryButton.UseVisualStyleBackColor = true;
-			this.retryButton.Visible = false;
 			this.retryButton.Click += new System.EventHandler(this.RetryButtonClick);
 			// 
 			// jobDetailsBox

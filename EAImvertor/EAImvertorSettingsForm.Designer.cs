@@ -115,6 +115,7 @@ namespace EAImvertor
 			this.defaultPinTextBox.Name = "defaultPinTextBox";
 			this.defaultPinTextBox.Size = new System.Drawing.Size(225, 20);
 			this.defaultPinTextBox.TabIndex = 2;
+			this.defaultPinTextBox.TextChanged += new System.EventHandler(this.DefaultPinTextBoxTextChanged);
 			// 
 			// defaultPinLabel
 			// 

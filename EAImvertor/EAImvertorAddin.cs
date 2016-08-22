@@ -81,10 +81,6 @@ namespace EAImvertor
 			this.model = new UTF_EA.Model(Repository);
 			// indicate that we are now fully loaded
 	        this.fullyLoaded = true;
-	        if (this.imvertorControl != null)
-	        {
-	        	this.imvertorControl.clear();
-	        }
 		}
 		/// <summary>
 		/// reacts to the event that the resultsButton is clicked in the ImvertorControl
@@ -113,7 +109,19 @@ namespace EAImvertor
 		/// <param name="e">arguments</param>
 		void retryButtonClick(object sender, EventArgs e)
 		{
-			//TODO
+			
+			if (this.imvertorControl.selectedJob != null)
+			{
+				var sourcePackage = this.imvertorControl.selectedJob.sourcePackage;
+				if (sourcePackage != null)
+				{
+					var modelPackage = this.model.getElementByGUID(sourcePackage.uniqueID);
+					if (modelPackage != null)
+					{
+						publish();
+					}
+				}
+			}
 		}
 
 		public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
@@ -180,6 +188,12 @@ namespace EAImvertor
 		}
 		private void publish()
 		{
+            //get selected package
+            var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
+            if (selectedPackage != null) publish(selectedPackage);
+		}
+		private void publish(UML.Classes.Kernel.Package selectedPackage)
+		{
 			EAImvertorJobSettings jobSettings = new EAImvertorJobSettings(this.settings); 
 			if (new ImvertorStartJobForm(jobSettings).ShowDialog(this.model.mainEAWindow) == DialogResult.OK)
 			{
@@ -193,8 +207,6 @@ namespace EAImvertor
 				imvertorJobBackgroundWorker.ProgressChanged += imvertorBackground_ProgressChanged;
 				imvertorJobBackgroundWorker.RunWorkerCompleted += imvertorBackgroundRunWorkerCompleted;
 	            
-	            //get selected package
-	            var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
 	            var imvertorJob = new EAImvertorJob(selectedPackage, jobSettings);
 	            
 	            //update gui

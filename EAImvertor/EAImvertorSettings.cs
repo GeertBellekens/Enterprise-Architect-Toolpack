@@ -79,6 +79,13 @@ namespace EAImvertor
 				}
 			}
 		}
+		internal void resetConfigs()
+		{
+			this.setAvailableConfigs();
+			this.defaultProcessName = this.availableProcesses.FirstOrDefault();
+			this.defaultProperties = this.availableProperties.FirstOrDefault();
+			
+		}
 		private XmlDocument getConfigXml()
 		{
 			try
@@ -119,8 +126,9 @@ namespace EAImvertor
 				return this.getValue("imvertorURL");
 			}
 			set
-			{
-				this.setValue("imvertorURL",value);
+			{	string url = value;
+				if (!url.EndsWith("/")) url += "/";
+				this.setValue("imvertorURL",url);
 			}
 		}
 		/// <summary>
@@ -134,7 +142,14 @@ namespace EAImvertor
 			}
 			set
 			{
-				this.setValue("defaultPIN",value);
+				if (value != defaultPIN)
+				{
+					this.setValue("defaultPIN",value);
+					resetConfigs();
+				}else
+				{
+					this.setValue("defaultPIN",value);
+				}
 			}
 		}
 		public string defaultProcessName
