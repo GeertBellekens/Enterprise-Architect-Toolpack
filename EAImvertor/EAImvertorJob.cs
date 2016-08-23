@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net.Http;
 using System.IO;
 using EAAddinFramework.Utilities;
+using System.IO.Compression;
 
 namespace EAImvertor
 {
@@ -126,6 +127,14 @@ namespace EAImvertor
 				}
 			}
 		}
+		private static string CompressFile(string sourceFileName)
+	    {
+	        using (ZipArchive archive = ZipFile.Open(Path.ChangeExtension(sourceFileName, ".zip"), ZipArchiveMode.Create))
+	        {
+	            archive.CreateEntryFromFile(sourceFileName, Path.GetFileName(sourceFileName));
+	        }
+	        return Path.ChangeExtension(sourceFileName, ".zip");
+	    }
 		//public void startJob(string imvertorURL, string pincode,string processName ,string imvertorProperties,string imvertorPropertiesFilePath, string imvertorHistoryFilePath)
 		public void startJob( BackgroundWorker backgroundWorker)
 		{
@@ -136,6 +145,7 @@ namespace EAImvertor
 			string xmiFileName = Path.GetTempFileName();
 			this.setStatus("Exporting Model");
 			this.sourcePackage.getRootPackage().exportToXMI(xmiFileName);
+			xmiFileName = CompressFile(xmiFileName);
 			this.setStatus("Uploading Model");
 			try {
 				this._jobID = this.Upload(settings.imvertorURL+settings.urlPostFix +"upload",settings.PIN,settings.ProcessName,settings.Properties
@@ -377,7 +387,7 @@ namespace EAImvertor
 		    {
 		        formData.Add(processNameContent, "procname");
 		        formData.Add(propertiesContent, "properties");
-		        if (modelFileContent != null) formData.Add(modelFileContent, "umlfile", "umlfile.xmi");
+		        if (modelFileContent != null) formData.Add(modelFileContent, "umlfile", "umlfile.zip");
 		        if (historyFileContent != null) formData.Add(historyFileContent, "hisfile", "hisfile");
 		        if (propertiesFileContent != null) formData.Add(propertiesFileContent, "propfile", "propfile.properties");
 		        formData.Add(pincodeContent, "pin");
