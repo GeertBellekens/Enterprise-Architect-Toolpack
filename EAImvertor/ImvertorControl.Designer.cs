@@ -23,8 +23,6 @@ namespace EAImvertor
 		private System.Windows.Forms.TextBox jobIDTextBox;
 		private System.Windows.Forms.Button viewWarningsButton;
 		private System.Windows.Forms.Label jobIDLabel;
-		private System.Windows.Forms.TextBox propertiesFileTextBox;
-		private System.Windows.Forms.Label propertiesFileLabel;
 		private System.Windows.Forms.TextBox propertiesTextBox;
 		private System.Windows.Forms.Label propertiesLabel;
 		private System.Windows.Forms.TextBox processTextBox;
@@ -33,6 +31,7 @@ namespace EAImvertor
 		private System.Windows.Forms.Label historyFileLabel;
 		private System.Windows.Forms.Button refreshButton;
 		private System.Windows.Forms.ToolTip refreshToolTip;
+		private System.Windows.Forms.Button reportButton;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -62,11 +61,10 @@ namespace EAImvertor
 			this.statusHeader = new System.Windows.Forms.ColumnHeader();
 			this.retryButton = new System.Windows.Forms.Button();
 			this.jobDetailsBox = new System.Windows.Forms.GroupBox();
+			this.reportButton = new System.Windows.Forms.Button();
 			this.refreshButton = new System.Windows.Forms.Button();
 			this.historyFileTextBox = new System.Windows.Forms.TextBox();
 			this.historyFileLabel = new System.Windows.Forms.Label();
-			this.propertiesFileTextBox = new System.Windows.Forms.TextBox();
-			this.propertiesFileLabel = new System.Windows.Forms.Label();
 			this.propertiesTextBox = new System.Windows.Forms.TextBox();
 			this.propertiesLabel = new System.Windows.Forms.Label();
 			this.processTextBox = new System.Windows.Forms.TextBox();
@@ -112,7 +110,7 @@ namespace EAImvertor
 			// 
 			this.retryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.retryButton.Enabled = false;
-			this.retryButton.Location = new System.Drawing.Point(122, 163);
+			this.retryButton.Location = new System.Drawing.Point(41, 163);
 			this.retryButton.Name = "retryButton";
 			this.retryButton.Size = new System.Drawing.Size(75, 23);
 			this.retryButton.TabIndex = 1;
@@ -124,11 +122,10 @@ namespace EAImvertor
 			// 
 			this.jobDetailsBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
+			this.jobDetailsBox.Controls.Add(this.reportButton);
 			this.jobDetailsBox.Controls.Add(this.refreshButton);
 			this.jobDetailsBox.Controls.Add(this.historyFileTextBox);
 			this.jobDetailsBox.Controls.Add(this.historyFileLabel);
-			this.jobDetailsBox.Controls.Add(this.propertiesFileTextBox);
-			this.jobDetailsBox.Controls.Add(this.propertiesFileLabel);
 			this.jobDetailsBox.Controls.Add(this.propertiesTextBox);
 			this.jobDetailsBox.Controls.Add(this.propertiesLabel);
 			this.jobDetailsBox.Controls.Add(this.processTextBox);
@@ -145,6 +142,17 @@ namespace EAImvertor
 			this.jobDetailsBox.TabStop = false;
 			this.jobDetailsBox.Text = "Job details";
 			// 
+			// reportButton
+			// 
+			this.reportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.reportButton.Location = new System.Drawing.Point(203, 163);
+			this.reportButton.Name = "reportButton";
+			this.reportButton.Size = new System.Drawing.Size(75, 23);
+			this.reportButton.TabIndex = 13;
+			this.reportButton.Text = "Report";
+			this.reportButton.UseVisualStyleBackColor = true;
+			this.reportButton.Click += new System.EventHandler(this.ReportButtonClick);
+			// 
 			// refreshButton
 			// 
 			this.refreshButton.Image = ((System.Drawing.Image)(resources.GetObject("refreshButton.Image")));
@@ -159,37 +167,19 @@ namespace EAImvertor
 			// 
 			this.historyFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.historyFileTextBox.Location = new System.Drawing.Point(188, 120);
+			this.historyFileTextBox.Location = new System.Drawing.Point(7, 120);
 			this.historyFileTextBox.Name = "historyFileTextBox";
 			this.historyFileTextBox.ReadOnly = true;
-			this.historyFileTextBox.Size = new System.Drawing.Size(170, 20);
+			this.historyFileTextBox.Size = new System.Drawing.Size(351, 20);
 			this.historyFileTextBox.TabIndex = 11;
 			// 
 			// historyFileLabel
 			// 
-			this.historyFileLabel.Location = new System.Drawing.Point(187, 103);
+			this.historyFileLabel.Location = new System.Drawing.Point(7, 102);
 			this.historyFileLabel.Name = "historyFileLabel";
 			this.historyFileLabel.Size = new System.Drawing.Size(100, 23);
 			this.historyFileLabel.TabIndex = 10;
 			this.historyFileLabel.Text = "History File";
-			// 
-			// propertiesFileTextBox
-			// 
-			this.propertiesFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.propertiesFileTextBox.Location = new System.Drawing.Point(189, 79);
-			this.propertiesFileTextBox.Name = "propertiesFileTextBox";
-			this.propertiesFileTextBox.ReadOnly = true;
-			this.propertiesFileTextBox.Size = new System.Drawing.Size(170, 20);
-			this.propertiesFileTextBox.TabIndex = 9;
-			// 
-			// propertiesFileLabel
-			// 
-			this.propertiesFileLabel.Location = new System.Drawing.Point(188, 62);
-			this.propertiesFileLabel.Name = "propertiesFileLabel";
-			this.propertiesFileLabel.Size = new System.Drawing.Size(100, 23);
-			this.propertiesFileLabel.TabIndex = 8;
-			this.propertiesFileLabel.Text = "Properties File";
 			// 
 			// propertiesTextBox
 			// 
@@ -209,7 +199,7 @@ namespace EAImvertor
 			// 
 			// processTextBox
 			// 
-			this.processTextBox.Location = new System.Drawing.Point(7, 120);
+			this.processTextBox.Location = new System.Drawing.Point(189, 79);
 			this.processTextBox.Name = "processTextBox";
 			this.processTextBox.ReadOnly = true;
 			this.processTextBox.Size = new System.Drawing.Size(170, 20);
@@ -217,7 +207,7 @@ namespace EAImvertor
 			// 
 			// processLabel
 			// 
-			this.processLabel.Location = new System.Drawing.Point(6, 103);
+			this.processLabel.Location = new System.Drawing.Point(188, 62);
 			this.processLabel.Name = "processLabel";
 			this.processLabel.Size = new System.Drawing.Size(146, 23);
 			this.processLabel.TabIndex = 4;
@@ -234,7 +224,7 @@ namespace EAImvertor
 			// viewWarningsButton
 			// 
 			this.viewWarningsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.viewWarningsButton.Location = new System.Drawing.Point(203, 163);
+			this.viewWarningsButton.Location = new System.Drawing.Point(122, 163);
 			this.viewWarningsButton.Name = "viewWarningsButton";
 			this.viewWarningsButton.Size = new System.Drawing.Size(75, 23);
 			this.viewWarningsButton.TabIndex = 1;
@@ -249,7 +239,7 @@ namespace EAImvertor
 			this.resultsButton.Name = "resultsButton";
 			this.resultsButton.Size = new System.Drawing.Size(75, 23);
 			this.resultsButton.TabIndex = 2;
-			this.resultsButton.Text = "Results";
+			this.resultsButton.Text = "Zipfile";
 			this.resultsButton.UseVisualStyleBackColor = true;
 			this.resultsButton.Click += new System.EventHandler(this.ResultsButtonClick);
 			// 

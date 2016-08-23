@@ -123,12 +123,14 @@ namespace EAImvertor
 				this.resultsButton.Enabled = (!string.IsNullOrEmpty(this.selectedJob.downloadPath));
 				this.viewWarningsButton.Enabled = (this.selectedJob.errors.Count > 0 || this.selectedJob.warnings.Count > 0);
 				this.refreshButton.Enabled = false;
+				this.reportButton.Enabled = true;
 			}
 			else
 			{
 				this.resultsButton.Enabled = false;
 				this.viewWarningsButton.Enabled = false;
 				this.refreshButton.Enabled = (this.selectedJob != null && this.selectedJob.timedOut);
+				this.reportButton.Enabled = false;
 			}
 			//we can always retry as long as there's a job selected
 			this.retryButton.Enabled = (this.selectedJob != null);
@@ -158,6 +160,14 @@ namespace EAImvertor
 				viewWarningsButtonClick(sender, e);
 			}
 		}
+		public event EventHandler reportButtonClick;
+		void ReportButtonClick(object sender, EventArgs e)
+		{
+			if (this.reportButtonClick != null)
+			{
+				reportButtonClick(sender, e);
+			}
+		}
 		void ImvertorJobGridResize(object sender, EventArgs e)
 		{
 			this.resizeGridColumns();
@@ -170,7 +180,6 @@ namespace EAImvertor
 				this.propertiesTextBox.Text = selectedJob.settings.Properties;
 				this.processTextBox.Text = selectedJob.settings.ProcessName;
 				this.historyFileTextBox.Text = selectedJob.settings.HistoryFilePath;
-				this.propertiesFileTextBox.Text = selectedJob.settings.PropertiesFilePath;
 			}
 			else
 			{
@@ -179,7 +188,6 @@ namespace EAImvertor
 				this.propertiesTextBox.Text = string.Empty;
 				this.processTextBox.Text = string.Empty;
 				this.historyFileTextBox.Text = string.Empty;
-				this.propertiesFileTextBox.Text = string.Empty;
 			}
 		}
 		void ImvertorJobGridSelectedIndexChanged(object sender, EventArgs e)
@@ -196,6 +204,7 @@ namespace EAImvertor
 				this.refreshJobInfo(this.selectedJob);
 			}
 		}
+
 
 
 		

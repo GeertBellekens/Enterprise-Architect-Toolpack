@@ -55,6 +55,7 @@ namespace EAImvertor
 						this._imvertorControl.resultsButtonClick += this.resultsButtonClick;
 						this._imvertorControl.retryButtonClick += this.retryButtonClick;
 						this.imvertorControl.viewWarningsButtonClick += this.viewWarningsButtonClick;
+						this.imvertorControl.reportButtonClick += this.reportButtonClick;
 					}
 				}
 				return this._imvertorControl;
@@ -93,6 +94,17 @@ namespace EAImvertor
 				this.imvertorControl.selectedJob.openResults();
 		}
 		/// <summary>
+		/// reacts tot he even that the report button is clicked in the ImvertorControl
+		/// </summary>
+		/// <param name="sender">sender</param>
+		/// <param name="e">arguments</param>
+		void reportButtonClick(object sender, EventArgs e)
+		{
+			if (this.imvertorControl.selectedJob != null)
+				this.imvertorControl.selectedJob.showReport();
+		}
+
+		/// <summary>
 		/// reacts to the event that the viewWarningsButton is clicked in the ImvertorControl
 		/// </summary>
 		/// <param name="sender">sender</param>
@@ -100,7 +112,7 @@ namespace EAImvertor
 		void viewWarningsButtonClick(object sender, EventArgs e)
 		{
 			if (this.imvertorControl.selectedJob != null)
-				this.imvertorControl.selectedJob.viewReport();
+				this.imvertorControl.selectedJob.viewWarnings();
 		}
 		/// <summary>
 		/// reacts to the event that the retryButton is clicked in the ImvertorControl

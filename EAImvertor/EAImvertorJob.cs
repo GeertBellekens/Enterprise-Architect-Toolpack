@@ -24,6 +24,7 @@ namespace EAImvertor
 		private string _jobID;
 		private string _status;
 		private string _zipUrl;
+		private string _docUrl;
 		private EAImvertorJobSettings _settings;
 		private BackgroundWorker _backgroundWorker;
 		private DateTime _startDateTime;
@@ -57,6 +58,13 @@ namespace EAImvertor
 		public EAImvertorJobSettings settings
 		{
 			get {return this._settings;}
+		}
+		public void showReport()
+		{
+			if (! string.IsNullOrEmpty(this._docUrl))
+			{
+				System.Diagnostics.Process.Start(this._docUrl);
+			}
 		}
 		private string reportUrl
 		{
@@ -199,7 +207,7 @@ namespace EAImvertor
 				System.Diagnostics.Process.Start(this._downloadPath);
 			}
 		}
-		public void viewReport()
+		public void viewWarnings()
 		{
 			 var outputItems = new List<UML.Extended.UMLModelOutPutItem>();
 			 List<EAImvertorException> exceptions = new List<EAImvertorException>(this.warnings);
@@ -248,15 +256,22 @@ namespace EAImvertor
 							this.setStatus(this.status);
 						}
 					}
-					//get the zip url
+					
 					else if (this.status == "Compiled")
 					{
+						//get the zip url
 						var zipNode = xmlReport.SelectSingleNode("//zip");
 						if (zipNode != null)
 						{
 							this._zipUrl = this.settings.imvertorURL + zipNode.InnerText;
 							this.setStatus("Getting Results");
 							this.downloadZip();
+						}
+						//get the report doc url
+						var docNode = xmlReport.SelectSingleNode("//doc");
+						if (docNode != null)
+						{
+							this._docUrl = this.settings.imvertorURL + docNode.InnerText;
 						}
 						this.setStatus("Finished");
 					}
