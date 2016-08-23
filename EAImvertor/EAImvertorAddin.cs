@@ -130,7 +130,7 @@ namespace EAImvertor
 					var modelPackage = this.model.getElementByGUID(sourcePackage.uniqueID);
 					if (modelPackage != null)
 					{
-						publish();
+						publish(sourcePackage,this.imvertorControl.selectedJob.settings);
 					}
 				}
 			}
@@ -209,28 +209,32 @@ namespace EAImvertor
 			EAImvertorJobSettings jobSettings = new EAImvertorJobSettings(this.settings); 
 			if (new ImvertorStartJobForm(jobSettings).ShowDialog(this.model.mainEAWindow) == DialogResult.OK)
 			{
-				//somebody called the imvertor, we can show the control
-				this._imvertorCalled = true;
-				//create new backgroundWorker
-				var imvertorJobBackgroundWorker = new BackgroundWorker();
-				//imvertorJobBackgroundWorker.WorkerSupportsCancellation = true; //TODO: implement cancellation
-				imvertorJobBackgroundWorker.WorkerReportsProgress = true;
-				imvertorJobBackgroundWorker.DoWork += imvertorBackground_DoWork;
-				imvertorJobBackgroundWorker.ProgressChanged += imvertorBackground_ProgressChanged;
-				imvertorJobBackgroundWorker.RunWorkerCompleted += imvertorBackgroundRunWorkerCompleted;
-	            
-	            var imvertorJob = new EAImvertorJob(selectedPackage, jobSettings);
-	            
-	            //update gui
-	            this.imvertorControl.addJob(imvertorJob);
-	            //show the control
-	            this.model.showWindow(windowName);
-	            
-	            //start job in the background
-	            imvertorJobBackgroundWorker.RunWorkerAsync(imvertorJob);
+				publish(selectedPackage, jobSettings);
 			}
-
 		}
+		private void publish(UML.Classes.Kernel.Package selectedPackage, EAImvertorJobSettings jobSettings)
+		{
+			//somebody called the imvertor, we can show the control
+			this._imvertorCalled = true;
+			//create new backgroundWorker
+			var imvertorJobBackgroundWorker = new BackgroundWorker();
+			//imvertorJobBackgroundWorker.WorkerSupportsCancellation = true; //TODO: implement cancellation
+			imvertorJobBackgroundWorker.WorkerReportsProgress = true;
+			imvertorJobBackgroundWorker.DoWork += imvertorBackground_DoWork;
+			imvertorJobBackgroundWorker.ProgressChanged += imvertorBackground_ProgressChanged;
+			imvertorJobBackgroundWorker.RunWorkerCompleted += imvertorBackgroundRunWorkerCompleted;
+            
+            var imvertorJob = new EAImvertorJob(selectedPackage, jobSettings);
+            
+            //update gui
+            this.imvertorControl.addJob(imvertorJob);
+            //show the control
+            this.model.showWindow(windowName);
+            
+            //start job in the background
+            imvertorJobBackgroundWorker.RunWorkerAsync(imvertorJob);
+		}
+
 		private void imvertorBackground_DoWork(object sender, DoWorkEventArgs e)
 		{
 			var imvertorJob = e.Argument as EAImvertorJob;
