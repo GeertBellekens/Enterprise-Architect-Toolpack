@@ -142,9 +142,10 @@ namespace EAImvertor
 			this._backgroundWorker = backgroundWorker;
 			//create the specific properties for this job
 			this.settings.PropertiesFilePath = createSpecificPropertiesFile();
-			string xmiFileName = Path.GetTempFileName();
+			string xmiFileName = Path.ChangeExtension(Path.GetTempFileName(),".xmi");
 			this.setStatus("Exporting Model");
 			this.sourcePackage.getRootPackage().exportToXMI(xmiFileName);
+			this.setStatus("Compressing File");
 			xmiFileName = CompressFile(xmiFileName);
 			this.setStatus("Uploading Model");
 			try {
