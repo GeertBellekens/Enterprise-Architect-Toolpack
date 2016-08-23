@@ -122,7 +122,7 @@ namespace EADatabaseTransformer
 			if (selectedPackage != null)
 			{
 				//debug
-				test(selectedPackage);
+				transform(selectedPackage);
 				//figure out which the database model is for this package
 				//if the database model is not defined yet then ask the user
 				//make a list of all the differences and show it to the user
@@ -130,66 +130,28 @@ namespace EADatabaseTransformer
 			}
 		}
 
-		void test(UML.Classes.Kernel.Package selectedPackage)
-		{
-			//TODO: setup DB2 factory, from config somewhere? Could be taken from EA?
-			List<DB_EA.BaseDataType> baseDatatypes = new List<DB_EA.BaseDataType>();
-			baseDatatypes.Add(new DB_EA.BaseDataType("CHAR",true, false));
-			baseDatatypes.Add(new DB_EA.BaseDataType("TIMESTAMP",false, false));
-			baseDatatypes.Add(new DB_EA.BaseDataType("DATE",false, false));
-			baseDatatypes.Add(new DB_EA.BaseDataType("DECIMAL",true, true));
-			DB_EA.DatabaseFactory.addFactory("DB2",baseDatatypes);
-			var factory = DB_EA.DatabaseFactory.getFactory("DB2");
-			
-
-			
-			var newDatabase = transformLDMToDB(selectedPackage  as UTF_EA.Package, factory);
+		void transform(UML.Classes.Kernel.Package selectedPackage)
+		{	
+			var db2Transformer = new DB_EA.Transformation.DB2.DB2DatabaseTransformer(this.model);
+			var newDatabase = db2Transformer.transformLogicalPackage(selectedPackage);
 			this.dbCompareControl.loadNewDatabase(newDatabase);
 			
 			var traces = selectedPackage.relationships.Where(x => x.stereotypes.Any(y => y.name.Equals("trace",StringComparison.InvariantCultureIgnoreCase))).Cast<UTF_EA.ConnectorWrapper>();
-			foreach (var trace in traces) {
+			foreach (var trace in traces) 
+			{
 				if (trace.target.Equals(selectedPackage)
 				    && trace.source is UTF_EA.Package
 				    && trace.source.stereotypes.Any(x => x.name.Equals("Database",StringComparison.InvariantCultureIgnoreCase)))
 				{
-					DB_EA.Database originalDatabase = factory.createDataBase(trace.source as UTF_EA.Package);
+					DB_EA.Database originalDatabase = db2Transformer.factory.createDataBase(trace.source as UTF_EA.Package);
 					this.dbCompareControl.loadOriginalDatabase(originalDatabase);
 					break;//show only one
 				}
 			}
-			
 		}
-//			Logger.log ("Database: " + database.name);
-//			foreach (var table in database.tables) 
-//			{
-//				Logger.log("Table: " + table.name);
-//				foreach (var column in table.columns) 
-//				{
-//					Logger.log("column: " + column.name +" "+ column.type.type.name + "(" + column.type.length + "," + column.type.precision + ")" + " Not Null: " + column.isNotNullable.ToString());
-//				}
-//				foreach (var constraint in table.constraints) 
-//				{
-//					Logger.log("constraint: " + constraint.name);
-//					var foreignKey = constraint as DB.ForeignKey;
-//					if (foreignKey != null)
-//					{
-//						if (foreignKey.foreignTable  != null)
-//						{
-//							Logger.log("foreign table: " + foreignKey.foreignTable.name);
-//						}
-//						else
-//						{
-//							Logger.log("foreign table is null");
-//						}
-//					}
-//					foreach (var involvedColumn in constraint.involvedColumns) 
-//					{
-//						Logger.log("involvedColumn: " + involvedColumn.name);
-//					}
-//				}
-//			}	
+
 		
-		//transform the daabase to
+		//transform the daabase to (not needed anymore)
 		private DB.Database transformLDMToDB(UTF_EA.Package ldmPackage, DB_EA.DatabaseFactory factory)
 		{
 			DB_EA.Database database = factory.createDatabase(ldmPackage.alias);
