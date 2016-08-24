@@ -151,37 +151,7 @@ namespace EADatabaseTransformer
 		}
 
 		
-		//transform the daabase to (not needed anymore)
-		private DB.Database transformLDMToDB(UTF_EA.Package ldmPackage, DB_EA.DatabaseFactory factory)
-		{
-			DB_EA.Database database = factory.createDatabase(ldmPackage.alias);
-			foreach (UTF_EA.Class classElement in ldmPackage.ownedElements.OfType<UTF_EA.Class>()) 
-			{
-				if (classElement.alias == string.Empty) classElement.alias = "unknown table name";
-				DB_EA.Table table = new DB_EA.Table(database, classElement.alias);
-				foreach (UTF_EA.Attribute attribute in classElement.attributes) 
-				{
-					//TODO: translate name to alias
-					DB_EA.Column column = new DB_EA.Column(table, attribute.alias);
-					//get base type
-					var attributeType = attribute.type as UTF_EA.ElementWrapper;
-					if (attributeType == null) Logger.logError (string.Format("Attribute {0}.{1} does not have a element as datatype"
-					                                                    ,classElement.name, attribute.name));
-					else
-					{
-						DB.DataType datatype = factory.createDataType(attributeType.alias);
-						if (datatype == null) Logger.logError (string.Format("Could not find translate {0} as Datatype for attribute {1}.{2}"
-						                                                    ,attributeType.alias, classElement.name, attribute.name));
-						else
-						{
-							column.type = datatype;
-						}
-					}
 
-				}
-			}
-			return database;
-		}
 	}
 
 }

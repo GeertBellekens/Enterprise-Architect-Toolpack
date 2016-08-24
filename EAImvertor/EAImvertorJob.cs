@@ -34,6 +34,7 @@ namespace EAImvertor
 		private List<EAImvertorException> _warnings = new List<EAImvertorException>();
 		private List<EAImvertorException> _errors = new List<EAImvertorException>();
 		private string _downloadPath = string.Empty;
+		private bool _startRequested = false;
 
 		public string downloadPath {
 			get {
@@ -70,6 +71,10 @@ namespace EAImvertor
 		private string reportUrl
 		{
 			get{return _settings.imvertorURL+ this.settings.urlPostFix + "report?pin=" + settings.PIN + "&job=" + _jobID;}
+		}
+		private string startUrl
+		{
+			get{return _settings.imvertorURL+ this.settings.urlPostFix + "execute?pin=" + settings.PIN + "&job=" + _jobID;}
 		}
 		public EAImvertorJob(UML.Classes.Kernel.Package package, EAImvertorJobSettings settings)
 		{
@@ -253,6 +258,12 @@ namespace EAImvertor
 					this.setStatus(jobStatus);
 					if (this.status == "Queued" || this.status == "In Progress" )//if status queued or in progress then try again
 					{
+						if (this.status == "Queued" 
+						    && ! string.IsNullOrEmpty(this._jobID)
+						    && ! this._startRequested)
+						{
+							requestStart();
+						}
 						if((DateTime.Now - this._startDateTime).Seconds < _settings.timeOutInSeconds ) //if not timed out yet)
 						{
 							//wait the interval
@@ -313,6 +324,12 @@ namespace EAImvertor
 			}
 		}
 
+		void requestStart()
+		{
+			var client = new HttpClient();
+			client.GetAsync(this.startUrl);
+			this._startRequested = true;
+		}
 		void downloadZip()
 		{
 			    

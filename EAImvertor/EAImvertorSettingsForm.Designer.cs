@@ -286,20 +286,25 @@ namespace EAImvertor
 			// 
 			// retryIntervalUpDown
 			// 
-			this.retryIntervalUpDown.Increment = new decimal(new int[] {
-			3,
-			0,
-			0,
-			0});
 			this.retryIntervalUpDown.Location = new System.Drawing.Point(159, 193);
 			this.retryIntervalUpDown.Maximum = new decimal(new int[] {
 			999,
 			0,
 			0,
 			0});
+			this.retryIntervalUpDown.Minimum = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
 			this.retryIntervalUpDown.Name = "retryIntervalUpDown";
 			this.retryIntervalUpDown.Size = new System.Drawing.Size(63, 20);
 			this.retryIntervalUpDown.TabIndex = 21;
+			this.retryIntervalUpDown.Value = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
 			// 
 			// resultsButtonBrowseFolder
 			// 
