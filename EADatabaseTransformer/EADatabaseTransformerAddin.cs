@@ -134,7 +134,7 @@ namespace EADatabaseTransformer
 		{	
 			var db2Transformer = new DB_EA.Transformation.DB2.DB2DatabaseTransformer(this.model);
 			var newDatabase = db2Transformer.transformLogicalPackage(selectedPackage);
-			this.dbCompareControl.loadNewDatabase(newDatabase);
+			DB_EA.Database originalDatabase = null;
 			
 			var traces = selectedPackage.relationships.Where(x => x.stereotypes.Any(y => y.name.Equals("trace",StringComparison.InvariantCultureIgnoreCase))).Cast<UTF_EA.ConnectorWrapper>();
 			foreach (var trace in traces) 
@@ -143,11 +143,14 @@ namespace EADatabaseTransformer
 				    && trace.source is UTF_EA.Package
 				    && trace.source.stereotypes.Any(x => x.name.Equals("Database",StringComparison.InvariantCultureIgnoreCase)))
 				{
-					DB_EA.Database originalDatabase = db2Transformer.factory.createDataBase(trace.source as UTF_EA.Package);
-					this.dbCompareControl.loadOriginalDatabase(originalDatabase);
-					break;//show only one
+					originalDatabase = db2Transformer.factory.createDataBase(trace.source as UTF_EA.Package);
+					break;//we need only one (for now)
 				}
 			}
+			DB.Compare.DatabaseComparer comparer = new DB_EA.Compare.EADatabaseComparer((DB_EA.Database)newDatabase,originalDatabase);
+			comparer.compare();
+			this.dbCompareControl.loadComparison(comparer);
+				
 		}
 
 		

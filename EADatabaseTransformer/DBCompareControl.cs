@@ -27,6 +27,52 @@ namespace EADatabaseTransformer
 			resizeOriginalDBGridColumns();
 			resizeNewDBGridColumns();
 		}
+
+		public void loadComparison(DB.Compare.DatabaseComparer comparer)
+		{
+			string tableName = string.Empty;
+			foreach (var comparedItem in comparer.comparedItems) 
+			{
+				if (comparedItem.newDatabaseItem != null 
+				    && comparedItem.newDatabaseItem is DB.Table) 
+				{
+					tableName = comparedItem.newDatabaseItem.name;
+				} else if (comparedItem.existingDatabaseItem != null 
+				           && comparedItem.existingDatabaseItem is DB.Table)
+				{
+					tableName = comparedItem.existingDatabaseItem.name;
+				}
+				
+				var newItem = new ListViewItem(comparedItem.comparisonStatusName);
+				newItem = addListViewItem(comparedItem.newDatabaseItem, tableName, newItem);
+				this.newDBListView.Items.Add(newItem);
+				this.originalDBListView.Items.Add(addListViewItem(comparedItem.existingDatabaseItem,tableName,null));
+			}
+		}
+		private ListViewItem addListViewItem(DB.DatabaseItem item,string tableName,ListViewItem listViewItem)
+		{
+			if (listViewItem == null) 
+			{
+				listViewItem = new ListViewItem(tableName);
+			}
+			else
+			{
+				listViewItem.SubItems.Add(tableName);
+			}
+			if (item != null)
+			{
+				listViewItem.SubItems.Add(item.itemType);
+				listViewItem.SubItems.Add(item.name);
+				listViewItem.SubItems.Add(item.properties);
+			}
+			else
+			{
+				listViewItem.SubItems.Add(string.Empty);
+				listViewItem.SubItems.Add(string.Empty);
+				listViewItem.SubItems.Add(string.Empty);
+			}
+			return listViewItem;
+		}
 		public void loadOriginalDatabase(DB.Database database)
 		{
 			this._originalDatabase = database;

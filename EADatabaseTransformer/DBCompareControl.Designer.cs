@@ -18,6 +18,7 @@ namespace EADatabaseTransformer
 		private System.Windows.Forms.ColumnHeader tableHeader;
 		private System.Windows.Forms.ColumnHeader nameHeader;
 		private System.Windows.Forms.ColumnHeader nameColumn;
+		private System.Windows.Forms.ColumnHeader compareStatusColumn;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -44,13 +45,14 @@ namespace EADatabaseTransformer
 			this.newDBListView = new System.Windows.Forms.ListView();
 			this.newTableColumn = new System.Windows.Forms.ColumnHeader();
 			this.newItemTypeColum = new System.Windows.Forms.ColumnHeader();
+			this.nameColumn = new System.Windows.Forms.ColumnHeader();
 			this.newPropertiesColumn = new System.Windows.Forms.ColumnHeader();
 			this.originalDBListView = new System.Windows.Forms.ListView();
 			this.tableHeader = new System.Windows.Forms.ColumnHeader();
 			this.typeColumn = new System.Windows.Forms.ColumnHeader();
 			this.nameHeader = new System.Windows.Forms.ColumnHeader();
 			this.propertiesColumn = new System.Windows.Forms.ColumnHeader();
-			this.nameColumn = new System.Windows.Forms.ColumnHeader();
+			this.compareStatusColumn = new System.Windows.Forms.ColumnHeader();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -73,12 +75,13 @@ namespace EADatabaseTransformer
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.originalDBListView);
 			this.splitContainer1.Size = new System.Drawing.Size(902, 354);
-			this.splitContainer1.SplitterDistance = 431;
+			this.splitContainer1.SplitterDistance = 475;
 			this.splitContainer1.TabIndex = 0;
 			// 
 			// newDBListView
 			// 
 			this.newDBListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.compareStatusColumn,
 			this.newTableColumn,
 			this.newItemTypeColum,
 			this.nameColumn,
@@ -88,7 +91,7 @@ namespace EADatabaseTransformer
 			this.newDBListView.GridLines = true;
 			this.newDBListView.Location = new System.Drawing.Point(0, 0);
 			this.newDBListView.Name = "newDBListView";
-			this.newDBListView.Size = new System.Drawing.Size(431, 354);
+			this.newDBListView.Size = new System.Drawing.Size(475, 354);
 			this.newDBListView.TabIndex = 1;
 			this.newDBListView.UseCompatibleStateImageBehavior = false;
 			this.newDBListView.View = System.Windows.Forms.View.Details;
@@ -96,17 +99,27 @@ namespace EADatabaseTransformer
 			// 
 			// newTableColumn
 			// 
+			this.newTableColumn.DisplayIndex = 1;
 			this.newTableColumn.Text = "Table";
 			this.newTableColumn.Width = 80;
 			// 
 			// newItemTypeColum
 			// 
+			this.newItemTypeColum.DisplayIndex = 2;
 			this.newItemTypeColum.Text = "Item Type";
 			this.newItemTypeColum.Width = 80;
 			// 
+			// nameColumn
+			// 
+			this.nameColumn.DisplayIndex = 3;
+			this.nameColumn.Text = "Name";
+			this.nameColumn.Width = 120;
+			// 
 			// newPropertiesColumn
 			// 
+			this.newPropertiesColumn.DisplayIndex = 4;
 			this.newPropertiesColumn.Text = "Properties";
+			this.newPropertiesColumn.Width = 115;
 			// 
 			// originalDBListView
 			// 
@@ -120,7 +133,7 @@ namespace EADatabaseTransformer
 			this.originalDBListView.GridLines = true;
 			this.originalDBListView.Location = new System.Drawing.Point(0, 0);
 			this.originalDBListView.Name = "originalDBListView";
-			this.originalDBListView.Size = new System.Drawing.Size(467, 354);
+			this.originalDBListView.Size = new System.Drawing.Size(423, 354);
 			this.originalDBListView.TabIndex = 0;
 			this.originalDBListView.UseCompatibleStateImageBehavior = false;
 			this.originalDBListView.View = System.Windows.Forms.View.Details;
@@ -145,10 +158,10 @@ namespace EADatabaseTransformer
 			// 
 			this.propertiesColumn.Text = "Properties";
 			// 
-			// nameColumn
+			// compareStatusColumn
 			// 
-			this.nameColumn.Text = "Name";
-			this.nameColumn.Width = 120;
+			this.compareStatusColumn.DisplayIndex = 0;
+			this.compareStatusColumn.Text = "Status";
 			// 
 			// DBCompareControl
 			// 
