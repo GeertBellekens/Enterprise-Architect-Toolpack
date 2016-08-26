@@ -20,6 +20,7 @@ namespace EADatabaseTransformer
         const string menuTransform = "&Transform to database";
         const string menuSettings = "&Settings";
         const string menuAbout = "&About";
+        const string compareControlName = "Database Compare";
         
         //private attributes
         private UTF_EA.Model model = null;
@@ -41,7 +42,7 @@ namespace EADatabaseTransformer
 			{
 				if (_dbCompareControl == null)
 				{
-					_dbCompareControl = this.model.addTab("Database Compare", "EADatabaseTransformer.DBCompareControl") as DBCompareControl;
+					_dbCompareControl = this.model.addTab(compareControlName, "EADatabaseTransformer.DBCompareControl") as DBCompareControl;
 					_dbCompareControl.HandleDestroyed += dbControl_HandleDestroyed;
 				}
 				return _dbCompareControl;
@@ -109,6 +110,7 @@ namespace EADatabaseTransformer
             {
                 case menuTransform:
                 	this.startTransformation();
+                	Repository.ActivateTab(compareControlName);
                     break;
 		        case menuAbout :
 		            new AboutWindow().ShowDialog();
