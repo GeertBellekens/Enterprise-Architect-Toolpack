@@ -42,9 +42,14 @@ namespace EADatabaseTransformer
 				if (_dbCompareControl == null)
 				{
 					_dbCompareControl = this.model.addTab("Database Compare", "EADatabaseTransformer.DBCompareControl") as DBCompareControl;
+					_dbCompareControl.HandleDestroyed += dbControl_HandleDestroyed;
 				}
 				return _dbCompareControl;
 			}
+		}
+		void dbControl_HandleDestroyed(object sender, EventArgs e)
+		{
+			_dbCompareControl = null;
 		}
 		public override void EA_FileOpen(EA.Repository Repository)
 		{

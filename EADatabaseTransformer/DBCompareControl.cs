@@ -27,9 +27,14 @@ namespace EADatabaseTransformer
 			resizeOriginalDBGridColumns();
 			resizeNewDBGridColumns();
 		}
-
+		public void clear()
+		{
+			this.newDBListView.Items.Clear();
+			this.originalDBListView.Items.Clear();
+		}
 		public void loadComparison(DB.Compare.DatabaseComparer comparer)
 		{
+			this.clear();
 			string tableName = string.Empty;
 			foreach (var comparedItem in comparer.comparedItems) 
 			{
