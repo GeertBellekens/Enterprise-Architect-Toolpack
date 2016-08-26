@@ -45,8 +45,29 @@ namespace EADatabaseTransformer
 				
 				var newItem = new ListViewItem(comparedItem.comparisonStatusName);
 				newItem = addListViewItem(comparedItem.newDatabaseItem, tableName, newItem);
+				this.setStatusColor(newItem,comparedItem);
 				this.newDBListView.Items.Add(newItem);
-				this.originalDBListView.Items.Add(addListViewItem(comparedItem.existingDatabaseItem,tableName,null));
+				var existingItem =addListViewItem(comparedItem.existingDatabaseItem,tableName,null);
+				this.setStatusColor(existingItem,comparedItem);
+				this.originalDBListView.Items.Add(existingItem);
+			}
+		}
+		private void setStatusColor(ListViewItem item, DB.Compare.DatabaseItemComparison comparedItem)
+		{
+			switch (comparedItem.comparisonStatus) 
+			{
+				case DB.Compare.DatabaseComparisonStatusEnum.changed:
+					item.BackColor = Color.Orange;
+					item.Font = new Font(item.Font,FontStyle.Bold);
+					break;
+				case DB.Compare.DatabaseComparisonStatusEnum.newItem:
+					item.BackColor = Color.LightGreen;
+					item.Font = new Font(item.Font,FontStyle.Bold);
+					break;
+				case DB.Compare.DatabaseComparisonStatusEnum.deletedItem:
+					item.BackColor = Color.PaleVioletRed;
+					item.Font = new Font(item.Font,FontStyle.Bold);
+					break;										
 			}
 		}
 		private ListViewItem addListViewItem(DB.DatabaseItem item,string tableName,ListViewItem listViewItem)
@@ -71,6 +92,7 @@ namespace EADatabaseTransformer
 				listViewItem.SubItems.Add(string.Empty);
 				listViewItem.SubItems.Add(string.Empty);
 			}
+			listViewItem.Tag = item;
 			return listViewItem;
 		}
 		public void loadOriginalDatabase(DB.Database database)
