@@ -65,7 +65,10 @@ namespace EADatabaseTransformer
 					break;
 				case DB.Compare.DatabaseComparisonStatusEnum.deletedItem:
 					item.BackColor = Color.FromArgb(255,216,216);//pale red
-					break;										
+					break;		
+				case DB.Compare.DatabaseComparisonStatusEnum.dboverride:
+					item.Font = new Font(item.Font, FontStyle.Italic);
+					break;								
 			}
 		}
 		private ListViewItem addListViewItem(DB.Compare.DatabaseItemComparison comparison,string tableName)
