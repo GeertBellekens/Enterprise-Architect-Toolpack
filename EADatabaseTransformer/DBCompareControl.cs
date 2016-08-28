@@ -13,8 +13,7 @@ namespace EADatabaseTransformer
 	/// </summary>
 	public partial class DBCompareControl : UserControl
 	{
-		private DB.Database _originalDatabase;
-		private DB.Database _newDatabase;
+		DB.Compare.DatabaseComparer _comparer = null;
 		public DBCompareControl()
 		{
 			Application.EnableVisualStyles();	
@@ -24,16 +23,15 @@ namespace EADatabaseTransformer
 			InitializeComponent();
 			
 			//resize columns
-			resizeOriginalDBGridColumns();
-			resizeNewDBGridColumns();
+			resizeCompareGridColumns();
 		}
 		public void clear()
 		{
-			this.newDBListView.Items.Clear();
-			this.originalDBListView.Items.Clear();
+			this.compareDBListView.Items.Clear();
 		}
 		public void loadComparison(DB.Compare.DatabaseComparer comparer)
 		{
+			this._comparer = comparer;
 			this.clear();
 			string tableName = string.Empty;
 			foreach (var comparedItem in comparer.comparedItems) 
@@ -48,68 +46,56 @@ namespace EADatabaseTransformer
 					tableName = comparedItem.existingDatabaseItem.name;
 				}
 				
-				var newItem = new ListViewItem(comparedItem.comparisonStatusName);
-				newItem = addListViewItem(comparedItem.newDatabaseItem, tableName, newItem);
-				this.setStatusColor(newItem,comparedItem);
-				this.newDBListView.Items.Add(newItem);
-				var existingItem =addListViewItem(comparedItem.existingDatabaseItem,tableName,null);
-				this.setStatusColor(existingItem,comparedItem);
-				this.originalDBListView.Items.Add(existingItem);
+				var newItem = addListViewItem(comparedItem,tableName);
+				this.setStatusColor(newItem);
+				this.compareDBListView.Items.Add(newItem);
+
 			}
 		}
-		private void setStatusColor(ListViewItem item, DB.Compare.DatabaseItemComparison comparedItem)
+		private void setStatusColor(ListViewItem item)
 		{
+			var comparedItem = (DB.Compare.DatabaseItemComparison)item.Tag;
 			switch (comparedItem.comparisonStatus) 
 			{
 				case DB.Compare.DatabaseComparisonStatusEnum.changed:
-					item.BackColor = Color.Orange;
-					item.Font = new Font(item.Font,FontStyle.Bold);
+					item.BackColor = Color.FromArgb(204,204,255);//purple-bleu
 					break;
 				case DB.Compare.DatabaseComparisonStatusEnum.newItem:
-					item.BackColor = Color.LightGreen;
-					item.Font = new Font(item.Font,FontStyle.Bold);
+					item.BackColor = Color.FromArgb(204,255,204);//pale green
 					break;
 				case DB.Compare.DatabaseComparisonStatusEnum.deletedItem:
-					item.BackColor = Color.PaleVioletRed;
-					item.Font = new Font(item.Font,FontStyle.Bold);
+					item.BackColor = Color.FromArgb(255,216,216);//pale red
 					break;										
 			}
 		}
-		private ListViewItem addListViewItem(DB.DatabaseItem item,string tableName,ListViewItem listViewItem)
+		private ListViewItem addListViewItem(DB.Compare.DatabaseItemComparison comparison,string tableName)
 		{
-			if (listViewItem == null) 
-			{
-				listViewItem = new ListViewItem(tableName);
-			}
-			else
-			{
-				listViewItem.SubItems.Add(tableName);
-			}
-			if (item != null)
-			{
-				listViewItem.SubItems.Add(item.itemType);
-				listViewItem.SubItems.Add(item.name);
-				listViewItem.SubItems.Add(item.properties);
-			}
-			else
-			{
-				listViewItem.SubItems.Add(string.Empty);
-				listViewItem.SubItems.Add(string.Empty);
-				listViewItem.SubItems.Add(string.Empty);
-			}
-			listViewItem.Tag = item;
+
+			var listViewItem = new ListViewItem(comparison.comparisonStatusName);
+			listViewItem.SubItems.Add(comparison.itemType);
+			listViewItem.SubItems.Add(tableName);
+			
+			addDatabaseItemSpecifics(listViewItem,comparison.newDatabaseItem );
+			addDatabaseItemSpecifics(listViewItem,comparison.existingDatabaseItem);
+			
+			listViewItem.Tag = comparison;
 			return listViewItem;
 		}
-		public void loadOriginalDatabase(DB.Database database)
+		
+		private void addDatabaseItemSpecifics(ListViewItem listViewItem,DB.DatabaseItem databaseItem )
 		{
-			this._originalDatabase = database;
-			loadDatabaseInGrid(_originalDatabase, this.originalDBListView);
+			if (databaseItem != null)
+			{
+				listViewItem.SubItems.Add(databaseItem.name);
+				listViewItem.SubItems.Add(databaseItem.properties);
+			}
+			else
+			{
+				listViewItem.SubItems.Add(string.Empty);
+				listViewItem.SubItems.Add(string.Empty);
+			}
 		}
-		public void loadNewDatabase(DB.Database database)
-		{
-			this._newDatabase = database;
-			loadDatabaseInGrid(_newDatabase, this.newDBListView);
-		}
+		
 		private void loadDatabaseInGrid(DB.Database database, ListView grid)
 		{
 			foreach (var table  in database.tables) 
@@ -139,23 +125,16 @@ namespace EADatabaseTransformer
 			listViewItem.SubItems.Add(item.properties);
 			grid.Items.Add(listViewItem);
 		}
-		private void resizeOriginalDBGridColumns()
+
+		private void resizeCompareGridColumns()
 		{
 			//set the last column to fill
-			this.originalDBListView.Columns[originalDBListView.Columns.Count - 1].Width = -2;
+			this.compareDBListView.Columns[compareDBListView.Columns.Count - 1].Width = -2;
 		}
-		private void resizeNewDBGridColumns()
+		void CompareListViewResize(object sender, EventArgs e)
 		{
-			//set the last column to fill
-			this.newDBListView.Columns[newDBListView.Columns.Count - 1].Width = -2;
+			resizeCompareGridColumns();
 		}
-		void NewDBListViewResize(object sender, EventArgs e)
-		{
-			resizeNewDBGridColumns();
-		}
-		void OriginalDBListViewResize(object sender, EventArgs e)
-		{
-			resizeOriginalDBGridColumns();
-		}
+
 	}
 }
