@@ -96,7 +96,7 @@ namespace EAImvertor
 						}
 						else if (currentJob.status.StartsWith("Error"))
 						{
-							statusString += @" (See %temp%\EAAddinFramework.log for more info)";
+							statusString += @" (See "+EAAddinFramework.Utilities.Logger.logFileName+" for more info)";
 						}
 						row.SubItems[1].Text =statusString;
 					}

@@ -89,7 +89,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 									this.optionsMenuItem,
 									this.copyGUIDMenuItem});
 			this.navigatorContextMenu.Name = "navigatorContextMenu";
-			this.navigatorContextMenu.Size = new System.Drawing.Size(204, 136);
+			this.navigatorContextMenu.Size = new System.Drawing.Size(204, 114);
 			// 
 			// openPropertiesMenuItem
 			// 

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace EAImvertor
 {
@@ -55,7 +56,12 @@ namespace EAImvertor
 
 		public int retryInterval {get;set;}
 		public string urlPostFix {get;set;}
-		public string resultsPath {get;set;} 		
+		public string resultsPath {get;set;} 	
+		public string proxy {get;set;}
+		public HttpClient getHttpClient()
+		{
+			return _settings.getHttpClient();
+		}
 		
 
 	}

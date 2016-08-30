@@ -326,14 +326,14 @@ namespace EAImvertor
 
 		void requestStart()
 		{
-			var client = new HttpClient();
+			var client = settings.getHttpClient();
 			client.GetAsync(this.startUrl);
 			this._startRequested = true;
 		}
 		void downloadZip()
 		{
 			    
-			HttpClient httpclient = new HttpClient();
+			HttpClient httpclient = settings.getHttpClient();
 			
 			byte[] bytArray = httpclient.GetByteArrayAsync(_zipUrl).Result;
 			//get the file name from the zipurl
@@ -373,7 +373,7 @@ namespace EAImvertor
 		
 		private XmlDocument getReport(string reportURL)
 		{
-			using (var client = new HttpClient())
+			using (var client = settings.getHttpClient())
 			{
 				var response = client.GetAsync(reportURL).Result;
 				if (!response.IsSuccessStatusCode)
@@ -400,7 +400,7 @@ namespace EAImvertor
 		    if (File.Exists(historyFilePath)) historyFileContent = new StreamContent(File.OpenRead(historyFilePath));
 		    HttpContent propertiesFileContent = null;
 		    if (File.Exists(propertiesFilePath)) propertiesFileContent = new StreamContent(File.OpenRead(propertiesFilePath));
-		    using (var client = new HttpClient())
+		    using (var client = settings.getHttpClient())
 		    using (var formData = new MultipartFormDataContent())
 		    {
 		        formData.Add(processNameContent, "procname");

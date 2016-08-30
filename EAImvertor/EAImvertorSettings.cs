@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Xml;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
@@ -90,7 +91,7 @@ namespace EAImvertor
 		{
 			try
 			{
-				using (var client = new HttpClient())
+				using (var client = this.getHttpClient())
 				{
 					string configURL = this.imvertorURL + this.urlPostFix +"config?pin=" + this.defaultPIN;
 					var response = client.GetAsync(configURL).Result;
@@ -240,6 +241,24 @@ namespace EAImvertor
 				this.setValue("urlPostFix",value);
 			}
 		}
+		public string proxy
+		{
+			get
+			{
+				return  this.getValue("proxy");
+			}
+			set
+			{
+				if (value != proxy)
+				{
+					this.setValue("proxy",value);
+					resetConfigs();
+				}else
+				{
+					this.setValue("proxy",value);
+				}
+			}
+		}
 		public string resultsPath
 		{
 			get
@@ -260,6 +279,22 @@ namespace EAImvertor
 				}
 				 this.setValue("resultsPath",newValue);
 			}
+		}
+		public HttpClient getHttpClient()
+		{
+			if (! string.IsNullOrEmpty(this.proxy))
+		    {
+				//in case of a proxy we need to add the proxy to the httpclient
+				var httpClientHandler = new HttpClientHandler() ;
+				httpClientHandler. Proxy = new WebProxy(this.proxy, false);
+				httpClientHandler.UseProxy = true;
+				return new HttpClient(httpClientHandler);
+		    }
+			else
+			{
+				return new HttpClient();
+			}
+			
 		}
 	    
 	}

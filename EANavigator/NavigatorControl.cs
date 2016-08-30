@@ -68,6 +68,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 			initQuickSearchBackgroundWorker();
 			//set quicksearch empty
 			this.setQuickSearchEmpty();
+			//enable and disable
+			enableDisableContexMenu(null);
 
 		}
 		private void initQuickSearchBackgroundWorker()
@@ -286,6 +288,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private void addElementToTree(UML.Extended.UMLItem element,TreeNode parentNode,TreeNode nodeToReplace = null)
 		{
 			TreeNode elementNode = this.makeElementNode(element,parentNode,nodeToReplace);
+			this.enableDisableContexMenu(element);
 			// select the node
 			//NavigatorTree.SelectedNode = elementNode;
 		}
@@ -539,19 +542,34 @@ namespace TSF.UmlToolingFramework.EANavigator
 			if (selectedElement is UML.Classes.Kernel.Relationship)
 			{
 				this.selectBrowserMenuItem.Enabled = false;
+				this.projectBrowserButton.Enabled = false;
 				this.openPropertiesMenuItem.Enabled = false;
+				this.propertiesButton.Enabled = false;
 			}
 			//or for tagged values on connectors because we can't open their properties dialog anyway.
 			else if (selectedElement is UML.Profiles.TaggedValue
 			         && ((UML.Profiles.TaggedValue)selectedElement).owner is UML.Classes.Kernel.Relationship)
 			{	
 				this.selectBrowserMenuItem.Enabled = false;
+				this.projectBrowserButton.Enabled = false;
 				this.openPropertiesMenuItem.Enabled = false;
+				this.propertiesButton.Enabled = false;
+			}
+			else if (selectedElement ==null)
+			{
+				this.selectBrowserMenuItem.Enabled = false;
+				this.openPropertiesMenuItem.Enabled = false;
+				this.addToDiagramButton.Enabled = false;
+				this.propertiesButton.Enabled = false;
+				this.projectBrowserButton.Enabled = false;
 			}
 			//standard should be enabled.
 			else
 			{
 				this.setContextMenuItemsEnabled(true);
+				this.propertiesButton.Enabled = true;
+				this.projectBrowserButton.Enabled = true;
+				this.addToDiagramButton.Enabled = true;
 			}
 			    
 		}
@@ -896,6 +914,5 @@ namespace TSF.UmlToolingFramework.EANavigator
 		
 
 		
-
 	}
 }

@@ -38,6 +38,8 @@ namespace EAImvertor
 		private System.Windows.Forms.Button resultsButtonBrowseFolder;
 		private System.Windows.Forms.TextBox resultsFolderTextBox;
 		private System.Windows.Forms.Label resultsFolderLabel;
+		private System.Windows.Forms.TextBox proxyTextBox;
+		private System.Windows.Forms.Label proxyLable;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -85,6 +87,8 @@ namespace EAImvertor
 			this.resultsButtonBrowseFolder = new System.Windows.Forms.Button();
 			this.resultsFolderTextBox = new System.Windows.Forms.TextBox();
 			this.resultsFolderLabel = new System.Windows.Forms.Label();
+			this.proxyTextBox = new System.Windows.Forms.TextBox();
+			this.proxyLable = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.timeOutUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.retryIntervalUpDown)).BeginInit();
 			this.SuspendLayout();
@@ -110,7 +114,7 @@ namespace EAImvertor
 			// 
 			this.defaultPinTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.defaultPinTextBox.Location = new System.Drawing.Point(159, 36);
+			this.defaultPinTextBox.Location = new System.Drawing.Point(159, 61);
 			this.defaultPinTextBox.MinimumSize = new System.Drawing.Size(153, 20);
 			this.defaultPinTextBox.Name = "defaultPinTextBox";
 			this.defaultPinTextBox.Size = new System.Drawing.Size(225, 20);
@@ -119,16 +123,16 @@ namespace EAImvertor
 			// 
 			// defaultPinLabel
 			// 
-			this.defaultPinLabel.Location = new System.Drawing.Point(12, 39);
+			this.defaultPinLabel.Location = new System.Drawing.Point(12, 64);
 			this.defaultPinLabel.Name = "defaultPinLabel";
 			this.defaultPinLabel.Size = new System.Drawing.Size(141, 23);
 			this.defaultPinLabel.TabIndex = 2;
-			this.defaultPinLabel.Text = "Default PIN";
+			this.defaultPinLabel.Text = "PIN";
 			// 
 			// applyButton
 			// 
 			this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.applyButton.Location = new System.Drawing.Point(309, 258);
+			this.applyButton.Location = new System.Drawing.Point(309, 279);
 			this.applyButton.Name = "applyButton";
 			this.applyButton.Size = new System.Drawing.Size(75, 23);
 			this.applyButton.TabIndex = 9;
@@ -140,7 +144,7 @@ namespace EAImvertor
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(228, 258);
+			this.cancelButton.Location = new System.Drawing.Point(228, 279);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 8;
@@ -150,7 +154,7 @@ namespace EAImvertor
 			// okButton
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(147, 258);
+			this.okButton.Location = new System.Drawing.Point(147, 279);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 7;
@@ -162,7 +166,7 @@ namespace EAImvertor
 			// 
 			this.defaultPropertiesPathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.defaultPropertiesPathTextBox.Location = new System.Drawing.Point(159, 114);
+			this.defaultPropertiesPathTextBox.Location = new System.Drawing.Point(159, 139);
 			this.defaultPropertiesPathTextBox.MinimumSize = new System.Drawing.Size(153, 20);
 			this.defaultPropertiesPathTextBox.Name = "defaultPropertiesPathTextBox";
 			this.defaultPropertiesPathTextBox.Size = new System.Drawing.Size(195, 20);
@@ -170,7 +174,7 @@ namespace EAImvertor
 			// 
 			// DefaultPropertiesPathLabel
 			// 
-			this.DefaultPropertiesPathLabel.Location = new System.Drawing.Point(12, 117);
+			this.DefaultPropertiesPathLabel.Location = new System.Drawing.Point(12, 142);
 			this.DefaultPropertiesPathLabel.Name = "DefaultPropertiesPathLabel";
 			this.DefaultPropertiesPathLabel.Size = new System.Drawing.Size(141, 23);
 			this.DefaultPropertiesPathLabel.TabIndex = 10;
@@ -180,14 +184,14 @@ namespace EAImvertor
 			// 
 			this.defaultPropertiesTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.defaultPropertiesTextBox.Location = new System.Drawing.Point(159, 88);
+			this.defaultPropertiesTextBox.Location = new System.Drawing.Point(159, 113);
 			this.defaultPropertiesTextBox.Name = "defaultPropertiesTextBox";
 			this.defaultPropertiesTextBox.Size = new System.Drawing.Size(225, 21);
 			this.defaultPropertiesTextBox.TabIndex = 4;
 			// 
 			// defaultPropertiesLabel
 			// 
-			this.defaultPropertiesLabel.Location = new System.Drawing.Point(12, 91);
+			this.defaultPropertiesLabel.Location = new System.Drawing.Point(12, 116);
 			this.defaultPropertiesLabel.Name = "defaultPropertiesLabel";
 			this.defaultPropertiesLabel.Size = new System.Drawing.Size(141, 23);
 			this.defaultPropertiesLabel.TabIndex = 8;
@@ -196,7 +200,7 @@ namespace EAImvertor
 			// browseDefaultPropertiesFileButton
 			// 
 			this.browseDefaultPropertiesFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.browseDefaultPropertiesFileButton.Location = new System.Drawing.Point(360, 113);
+			this.browseDefaultPropertiesFileButton.Location = new System.Drawing.Point(360, 138);
 			this.browseDefaultPropertiesFileButton.Name = "browseDefaultPropertiesFileButton";
 			this.browseDefaultPropertiesFileButton.Size = new System.Drawing.Size(24, 20);
 			this.browseDefaultPropertiesFileButton.TabIndex = 6;
@@ -208,7 +212,7 @@ namespace EAImvertor
 			// 
 			this.defaultProcessTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.defaultProcessTextBox.Location = new System.Drawing.Point(159, 62);
+			this.defaultProcessTextBox.Location = new System.Drawing.Point(159, 87);
 			this.defaultProcessTextBox.MinimumSize = new System.Drawing.Size(153, 0);
 			this.defaultProcessTextBox.Name = "defaultProcessTextBox";
 			this.defaultProcessTextBox.Size = new System.Drawing.Size(225, 21);
@@ -216,16 +220,16 @@ namespace EAImvertor
 			// 
 			// defaultProcessLabel
 			// 
-			this.defaultProcessLabel.Location = new System.Drawing.Point(12, 65);
+			this.defaultProcessLabel.Location = new System.Drawing.Point(12, 90);
 			this.defaultProcessLabel.Name = "defaultProcessLabel";
 			this.defaultProcessLabel.Size = new System.Drawing.Size(141, 23);
 			this.defaultProcessLabel.TabIndex = 15;
-			this.defaultProcessLabel.Text = "Default Process";
+			this.defaultProcessLabel.Text = "Process";
 			// 
 			// browseDefaultHistoryFileButton
 			// 
 			this.browseDefaultHistoryFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.browseDefaultHistoryFileButton.Location = new System.Drawing.Point(360, 142);
+			this.browseDefaultHistoryFileButton.Location = new System.Drawing.Point(360, 167);
 			this.browseDefaultHistoryFileButton.Name = "browseDefaultHistoryFileButton";
 			this.browseDefaultHistoryFileButton.Size = new System.Drawing.Size(24, 20);
 			this.browseDefaultHistoryFileButton.TabIndex = 17;
@@ -237,7 +241,7 @@ namespace EAImvertor
 			// 
 			this.defaultHistoryFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.defaultHistoryFileTextBox.Location = new System.Drawing.Point(159, 143);
+			this.defaultHistoryFileTextBox.Location = new System.Drawing.Point(159, 168);
 			this.defaultHistoryFileTextBox.MinimumSize = new System.Drawing.Size(153, 20);
 			this.defaultHistoryFileTextBox.Name = "defaultHistoryFileTextBox";
 			this.defaultHistoryFileTextBox.Size = new System.Drawing.Size(195, 20);
@@ -245,7 +249,7 @@ namespace EAImvertor
 			// 
 			// defaultHistoryFileLabel
 			// 
-			this.defaultHistoryFileLabel.Location = new System.Drawing.Point(12, 146);
+			this.defaultHistoryFileLabel.Location = new System.Drawing.Point(12, 171);
 			this.defaultHistoryFileLabel.Name = "defaultHistoryFileLabel";
 			this.defaultHistoryFileLabel.Size = new System.Drawing.Size(141, 23);
 			this.defaultHistoryFileLabel.TabIndex = 18;
@@ -258,7 +262,7 @@ namespace EAImvertor
 			0,
 			0,
 			0});
-			this.timeOutUpDown.Location = new System.Drawing.Point(159, 170);
+			this.timeOutUpDown.Location = new System.Drawing.Point(159, 195);
 			this.timeOutUpDown.Maximum = new decimal(new int[] {
 			3600,
 			0,
@@ -270,7 +274,7 @@ namespace EAImvertor
 			// 
 			// timeoutLabel
 			// 
-			this.timeoutLabel.Location = new System.Drawing.Point(12, 172);
+			this.timeoutLabel.Location = new System.Drawing.Point(12, 197);
 			this.timeoutLabel.Name = "timeoutLabel";
 			this.timeoutLabel.Size = new System.Drawing.Size(129, 23);
 			this.timeoutLabel.TabIndex = 20;
@@ -278,7 +282,7 @@ namespace EAImvertor
 			// 
 			// retryLabel
 			// 
-			this.retryLabel.Location = new System.Drawing.Point(12, 195);
+			this.retryLabel.Location = new System.Drawing.Point(12, 220);
 			this.retryLabel.Name = "retryLabel";
 			this.retryLabel.Size = new System.Drawing.Size(141, 23);
 			this.retryLabel.TabIndex = 22;
@@ -286,7 +290,7 @@ namespace EAImvertor
 			// 
 			// retryIntervalUpDown
 			// 
-			this.retryIntervalUpDown.Location = new System.Drawing.Point(159, 193);
+			this.retryIntervalUpDown.Location = new System.Drawing.Point(159, 218);
 			this.retryIntervalUpDown.Maximum = new decimal(new int[] {
 			999,
 			0,
@@ -309,7 +313,7 @@ namespace EAImvertor
 			// resultsButtonBrowseFolder
 			// 
 			this.resultsButtonBrowseFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.resultsButtonBrowseFolder.Location = new System.Drawing.Point(360, 218);
+			this.resultsButtonBrowseFolder.Location = new System.Drawing.Point(360, 243);
 			this.resultsButtonBrowseFolder.Name = "resultsButtonBrowseFolder";
 			this.resultsButtonBrowseFolder.Size = new System.Drawing.Size(24, 20);
 			this.resultsButtonBrowseFolder.TabIndex = 24;
@@ -321,7 +325,7 @@ namespace EAImvertor
 			// 
 			this.resultsFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.resultsFolderTextBox.Location = new System.Drawing.Point(159, 219);
+			this.resultsFolderTextBox.Location = new System.Drawing.Point(159, 244);
 			this.resultsFolderTextBox.MinimumSize = new System.Drawing.Size(153, 20);
 			this.resultsFolderTextBox.Name = "resultsFolderTextBox";
 			this.resultsFolderTextBox.Size = new System.Drawing.Size(195, 20);
@@ -329,11 +333,30 @@ namespace EAImvertor
 			// 
 			// resultsFolderLabel
 			// 
-			this.resultsFolderLabel.Location = new System.Drawing.Point(12, 222);
+			this.resultsFolderLabel.Location = new System.Drawing.Point(12, 247);
 			this.resultsFolderLabel.Name = "resultsFolderLabel";
 			this.resultsFolderLabel.Size = new System.Drawing.Size(141, 23);
 			this.resultsFolderLabel.TabIndex = 25;
 			this.resultsFolderLabel.Text = "Results Folder";
+			// 
+			// proxyTextBox
+			// 
+			this.proxyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.proxyTextBox.Location = new System.Drawing.Point(159, 35);
+			this.proxyTextBox.MinimumSize = new System.Drawing.Size(153, 20);
+			this.proxyTextBox.Name = "proxyTextBox";
+			this.proxyTextBox.Size = new System.Drawing.Size(225, 20);
+			this.proxyTextBox.TabIndex = 26;
+			this.proxyTextBox.TextChanged += new System.EventHandler(this.ProxyTextBoxTextChanged);
+			// 
+			// proxyLable
+			// 
+			this.proxyLable.Location = new System.Drawing.Point(12, 38);
+			this.proxyLable.Name = "proxyLable";
+			this.proxyLable.Size = new System.Drawing.Size(141, 23);
+			this.proxyLable.TabIndex = 27;
+			this.proxyLable.Text = "Proxy";
 			// 
 			// EAImvertorSettingsForm
 			// 
@@ -341,7 +364,9 @@ namespace EAImvertor
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(393, 293);
+			this.ClientSize = new System.Drawing.Size(393, 314);
+			this.Controls.Add(this.proxyTextBox);
+			this.Controls.Add(this.proxyLable);
 			this.Controls.Add(this.resultsButtonBrowseFolder);
 			this.Controls.Add(this.resultsFolderTextBox);
 			this.Controls.Add(this.resultsFolderLabel);

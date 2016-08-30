@@ -31,6 +31,7 @@ namespace EAImvertor
 		private void loadData()
 		{
 			this.ImvertorURLTextbox.Text = this.settings.imvertorURL;
+			this.proxyTextBox.Text = this.settings.proxy;
 			this.defaultPinTextBox.Text = this.settings.defaultPIN;
 			this.defaultProcessTextBox.Text = this.settings.defaultProcessName;
 			this.defaultProcessTextBox.Items.Clear();
@@ -47,6 +48,7 @@ namespace EAImvertor
 		private void unloadData()
 		{
 			this.settings.imvertorURL = this.ImvertorURLTextbox.Text;
+			this.settings.proxy = this.proxyTextBox.Text;
 			this.settings.defaultProcessName = this.defaultProcessTextBox.Text;
 			this.settings.defaultProperties = this.defaultPropertiesTextBox.Text;
 			this.settings.defaultPropertiesFilePath = this.defaultPropertiesPathTextBox.Text;	
@@ -115,6 +117,14 @@ namespace EAImvertor
 		{
 			//if the default pin changes then we have to get the configurations again
 			if (defaultPinTextBox.Text != settings.defaultPIN)
+			{
+				this.unloadData();
+				this.loadData();
+			}
+		}
+		void ProxyTextBoxTextChanged(object sender, EventArgs e)
+		{
+			if (proxyTextBox.Text != settings.proxy)
 			{
 				this.unloadData();
 				this.loadData();
