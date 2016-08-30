@@ -67,7 +67,7 @@ namespace EADatabaseTransformer
 					item.BackColor = Color.FromArgb(255,216,216);//pale red
 					break;		
 				case DB.Compare.DatabaseComparisonStatusEnum.dboverride:
-					item.Font = new Font(item.Font, FontStyle.Italic);
+					item.Font = new Font(item.Font, FontStyle.Italic); //overridden items get italic font
 					break;								
 			}
 		}
@@ -137,6 +137,22 @@ namespace EADatabaseTransformer
 		void CompareListViewResize(object sender, EventArgs e)
 		{
 			resizeCompareGridColumns();
+		}
+		public event EventHandler saveDatabaseButtonClick;
+		void SaveDatabaseButtonClick(object sender, EventArgs e)
+		{
+			if (this.saveDatabaseButtonClick != null)
+			{
+				saveDatabaseButtonClick(sender, e);
+			}
+		}
+		public event EventHandler refreshButtonClicked;
+		void RefreshButtonClick(object sender, EventArgs e)
+		{
+			if (this.refreshButtonClicked != null)
+			{
+				refreshButtonClicked(sender, e);
+			}
 		}
 
 	}
