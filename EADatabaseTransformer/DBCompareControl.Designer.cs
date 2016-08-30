@@ -15,6 +15,8 @@ namespace EADatabaseTransformer
 		private System.Windows.Forms.ColumnHeader compareStatusColumn;
 		private System.Windows.Forms.ColumnHeader existingNameColumn;
 		private System.Windows.Forms.ColumnHeader existingPropertiesColumn;
+		private System.Windows.Forms.Button saveDatabaseButton;
+		private System.Windows.Forms.Button refreshButton;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -37,6 +39,7 @@ namespace EADatabaseTransformer
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DBCompareControl));
 			this.compareDBListView = new System.Windows.Forms.ListView();
 			this.compareStatusColumn = new System.Windows.Forms.ColumnHeader();
 			this.itemTypeColum = new System.Windows.Forms.ColumnHeader();
@@ -45,6 +48,8 @@ namespace EADatabaseTransformer
 			this.newPropertiesColumn = new System.Windows.Forms.ColumnHeader();
 			this.existingNameColumn = new System.Windows.Forms.ColumnHeader();
 			this.existingPropertiesColumn = new System.Windows.Forms.ColumnHeader();
+			this.saveDatabaseButton = new System.Windows.Forms.Button();
+			this.refreshButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// compareDBListView
@@ -64,7 +69,7 @@ namespace EADatabaseTransformer
 			this.compareDBListView.GridLines = true;
 			this.compareDBListView.Location = new System.Drawing.Point(0, 0);
 			this.compareDBListView.Name = "compareDBListView";
-			this.compareDBListView.Size = new System.Drawing.Size(902, 354);
+			this.compareDBListView.Size = new System.Drawing.Size(902, 377);
 			this.compareDBListView.TabIndex = 1;
 			this.compareDBListView.UseCompatibleStateImageBehavior = false;
 			this.compareDBListView.View = System.Windows.Forms.View.Details;
@@ -104,10 +109,34 @@ namespace EADatabaseTransformer
 			this.existingPropertiesColumn.Text = "Existing Properties";
 			this.existingPropertiesColumn.Width = 193;
 			// 
+			// saveDatabaseButton
+			// 
+			this.saveDatabaseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.saveDatabaseButton.Location = new System.Drawing.Point(792, 383);
+			this.saveDatabaseButton.Name = "saveDatabaseButton";
+			this.saveDatabaseButton.Size = new System.Drawing.Size(107, 23);
+			this.saveDatabaseButton.TabIndex = 2;
+			this.saveDatabaseButton.Text = "Save to Database";
+			this.saveDatabaseButton.UseVisualStyleBackColor = true;
+			this.saveDatabaseButton.Click += new System.EventHandler(this.SaveDatabaseButtonClick);
+			// 
+			// refreshButton
+			// 
+			this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.refreshButton.Image = ((System.Drawing.Image)(resources.GetObject("refreshButton.Image")));
+			this.refreshButton.Location = new System.Drawing.Point(3, 383);
+			this.refreshButton.Name = "refreshButton";
+			this.refreshButton.Size = new System.Drawing.Size(25, 23);
+			this.refreshButton.TabIndex = 13;
+			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.Click += new System.EventHandler(this.RefreshButtonClick);
+			// 
 			// DBCompareControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.refreshButton);
+			this.Controls.Add(this.saveDatabaseButton);
 			this.Controls.Add(this.compareDBListView);
 			this.Name = "DBCompareControl";
 			this.Size = new System.Drawing.Size(902, 420);

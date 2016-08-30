@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EAAddinFramework.Databases.Transformation.DB2;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using DB=DatabaseFramework;
@@ -27,6 +28,8 @@ namespace EADatabaseTransformer
         private bool fullyLoaded = false;
         private EADatabaseTransformerSettings settings;
         private DBCompareControl _dbCompareControl;
+        private DB2DatabaseTransformer _databaseTransformer;
+        private DB.Compare.DatabaseComparer _comparer;
         /// <summary>
         /// constructor where we set the menuheader and menuOptions
         /// </summary>
@@ -44,6 +47,8 @@ namespace EADatabaseTransformer
 				{
 					_dbCompareControl = this.model.addTab(compareControlName, "EADatabaseTransformer.DBCompareControl") as DBCompareControl;
 					_dbCompareControl.HandleDestroyed += dbControl_HandleDestroyed;
+					_dbCompareControl.saveDatabaseButtonClick += saveDatabaseButtonClicked;
+					_dbCompareControl.refreshButtonClicked += refreshButtonClicked;
 				}
 				return _dbCompareControl;
 			}
@@ -51,6 +56,16 @@ namespace EADatabaseTransformer
 		void dbControl_HandleDestroyed(object sender, EventArgs e)
 		{
 			_dbCompareControl = null;
+		}
+
+		void saveDatabaseButtonClicked(object sender, EventArgs e)
+		{
+			_databaseTransformer.saveDatabase();
+		}
+
+		void refreshButtonClicked(object sender, EventArgs e)
+		{
+			this.refreshCompare();
 		}
 		public override void EA_FileOpen(EA.Repository Repository)
 		{
@@ -139,25 +154,33 @@ namespace EADatabaseTransformer
 
 		void transform(UML.Classes.Kernel.Package selectedPackage)
 		{	
-			var db2Transformer = new DB_EA.Transformation.DB2.DB2DatabaseTransformer(this.model);
-			var newDatabase = db2Transformer.transformLogicalPackage(selectedPackage);
-			DB_EA.Database originalDatabase = null;
+			_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage);
 			
-			var traces = selectedPackage.relationships.Where(x => x.stereotypes.Any(y => y.name.Equals("trace",StringComparison.InvariantCultureIgnoreCase))).Cast<UTF_EA.ConnectorWrapper>();
-			foreach (var trace in traces) 
-			{
-				if (trace.target.Equals(selectedPackage)
-				    && trace.source is UTF_EA.Package
-				    && trace.source.stereotypes.Any(x => x.name.Equals("Database",StringComparison.InvariantCultureIgnoreCase)))
-				{
-					originalDatabase = db2Transformer.factory.createDataBase(trace.source as UTF_EA.Package);
-					break;//we need only one (for now)
-				}
-			}
-			DB.Compare.DatabaseComparer comparer = new DB_EA.Compare.EADatabaseComparer((DB_EA.Database)newDatabase,originalDatabase);
-			comparer.compare();
-			this.dbCompareControl.loadComparison(comparer);
+//			var newDatabase = _databaseTransformer.transformLogicalPackage(selectedPackage);
+//			DB_EA.Database originalDatabase = null;
+//			
+//			var traces = selectedPackage.relationships.Where(x => x.stereotypes.Any(y => y.name.Equals("trace",StringComparison.InvariantCultureIgnoreCase))).Cast<UTF_EA.ConnectorWrapper>();
+//			foreach (var trace in traces) 
+//			{
+//				if (trace.target.Equals(selectedPackage)
+//				    && trace.source is UTF_EA.Package
+//				    && trace.source.stereotypes.Any(x => x.name.Equals("Database",StringComparison.InvariantCultureIgnoreCase)))
+//				{
+//					originalDatabase = _databaseTransformer.factory.createDataBase(trace.source as UTF_EA.Package);
+//					break;//we need only one (for now)
+//				}
+//			}
+//			_comparer = new DB_EA.Compare.EADatabaseComparer((DB_EA.Database)newDatabase,originalDatabase);
+			refreshCompare();
 				
+		}
+		private void refreshCompare()
+		{
+			//refresh transformation and load of new and original database
+			_databaseTransformer.refresh();
+			_comparer = new DB_EA.Compare.EADatabaseComparer((DB_EA.Database) _databaseTransformer.newDatabase, (DB_EA.Database) _databaseTransformer.existingDatabase);
+			_comparer.compare();
+			this.dbCompareControl.loadComparison(_comparer);
 		}
 
 		
