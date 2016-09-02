@@ -154,23 +154,8 @@ namespace EADatabaseTransformer
 
 		void transform(UML.Classes.Kernel.Package selectedPackage)
 		{	
-			_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage);
-			
-//			var newDatabase = _databaseTransformer.transformLogicalPackage(selectedPackage);
-//			DB_EA.Database originalDatabase = null;
-//			
-//			var traces = selectedPackage.relationships.Where(x => x.stereotypes.Any(y => y.name.Equals("trace",StringComparison.InvariantCultureIgnoreCase))).Cast<UTF_EA.ConnectorWrapper>();
-//			foreach (var trace in traces) 
-//			{
-//				if (trace.target.Equals(selectedPackage)
-//				    && trace.source is UTF_EA.Package
-//				    && trace.source.stereotypes.Any(x => x.name.Equals("Database",StringComparison.InvariantCultureIgnoreCase)))
-//				{
-//					originalDatabase = _databaseTransformer.factory.createDataBase(trace.source as UTF_EA.Package);
-//					break;//we need only one (for now)
-//				}
-//			}
-//			_comparer = new DB_EA.Compare.EADatabaseComparer((DB_EA.Database)newDatabase,originalDatabase);
+			var nameTranslator = new DB_EA.Transformation.NameTranslator(this.settings.abbreviationsPath,"_");
+			_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage,nameTranslator);
 			refreshCompare();
 				
 		}
