@@ -70,6 +70,8 @@ namespace EADatabaseTransformer
 					item.Font = new Font(item.Font, FontStyle.Italic); //overridden items get italic font
 					break;								
 			}
+			//table should be bold
+			if (comparedItem.itemType == "Table") item.Font = new Font(item.Font,FontStyle.Bold);
 		}
 		private ListViewItem addListViewItem(DB.Compare.DatabaseItemComparison comparison,string tableName)
 		{
