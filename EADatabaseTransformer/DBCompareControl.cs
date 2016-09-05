@@ -24,10 +24,22 @@ namespace EADatabaseTransformer
 			
 			//resize columns
 			resizeCompareGridColumns();
+			//enable and Disable buttons
+			enableDisable();
+		}
+		private void enableDisable()
+		{
+			//if there's a comparer we can refresh
+			this.refreshButton.Enabled = (_comparer != null);
+			//we can save if both new and existing database exist
+			this.saveDatabaseButton.Enabled = (_comparer != null 
+			                                   && _comparer.existingDatabase != null
+			                                   && _comparer.newDatabase != null );
 		}
 		public void clear()
 		{
 			this.compareDBListView.Items.Clear();
+			enableDisable();
 		}
 		public void loadComparison(DB.Compare.DatabaseComparer comparer)
 		{
@@ -49,8 +61,8 @@ namespace EADatabaseTransformer
 				var newItem = addListViewItem(comparedItem,tableName);
 				this.setStatusColor(newItem);
 				this.compareDBListView.Items.Add(newItem);
-
 			}
+			enableDisable();
 		}
 		private void setStatusColor(ListViewItem item)
 		{
@@ -99,36 +111,6 @@ namespace EADatabaseTransformer
 				listViewItem.SubItems.Add(string.Empty);
 				listViewItem.SubItems.Add(string.Empty);
 			}
-		}
-		
-		private void loadDatabaseInGrid(DB.Database database, ListView grid)
-		{
-			foreach (var table  in database.tables) 
-			{
-				//columns
-				foreach (var column in table.columns) 
-				{
-					addDatabaseItem(column,table.name,grid);
-				}
-				//primary key
-				if (table.primaryKey != null)
-				{
-					addDatabaseItem(table.primaryKey,table.name,grid);
-				}
-				//foreignkeys
-				foreach (var foreignkey in table.foreignKeys) 
-				{
-					addDatabaseItem(foreignkey,table.name,grid);
-				}
-			}
-		}
-		private void addDatabaseItem(DB.DatabaseItem item,string tableName, ListView grid)
-		{
-			var listViewItem = new ListViewItem(tableName);
-			listViewItem.SubItems.Add(item.itemType);
-			listViewItem.SubItems.Add(item.name);
-			listViewItem.SubItems.Add(item.properties);
-			grid.Items.Add(listViewItem);
 		}
 
 		private void resizeCompareGridColumns()
