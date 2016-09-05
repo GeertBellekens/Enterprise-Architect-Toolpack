@@ -401,29 +401,33 @@ namespace EAImvertor
 		    HttpContent propertiesFileContent = null;
 		    if (File.Exists(propertiesFilePath)) propertiesFileContent = new StreamContent(File.OpenRead(propertiesFilePath));
 		    using (var client = settings.getHttpClient())
-		    using (var formData = new MultipartFormDataContent())
 		    {
-		        formData.Add(processNameContent, "procname");
-		        formData.Add(propertiesContent, "properties");
-		        if (modelFileContent != null) formData.Add(modelFileContent, "umlfile", "umlfile.zip");
-		        if (historyFileContent != null) formData.Add(historyFileContent, "hisfile", "hisfile");
-		        if (propertiesFileContent != null) formData.Add(propertiesFileContent, "propfile", "propfile.properties");
-		        formData.Add(pincodeContent, "pin");
-		        var response = client.PostAsync(actionUrl, formData).Result;
-		        if (!response.IsSuccessStatusCode)
-		        {
-		            return string.Empty;
-		        }
-		        StreamReader reader = new StreamReader(response.Content.ReadAsStreamAsync().Result);
-				string responseText = reader.ReadToEnd();
-				XmlDocument xmlResponse = new XmlDocument();
-				xmlResponse.LoadXml(responseText);
-				var jobIDNode = xmlResponse.SelectSingleNode("//jobid");
-				if (jobIDNode != null)
-				{
-					return jobIDNode.InnerText;
-				}
-				else return string.Empty;
+		    	//this might solve an issue with the proxy then uploading content
+		    	client.DefaultRequestHeaders.ExpectContinue = false;
+			    using (var formData = new MultipartFormDataContent())
+			    {
+			        formData.Add(processNameContent, "procname");
+			        formData.Add(propertiesContent, "properties");
+			        if (modelFileContent != null) formData.Add(modelFileContent, "umlfile", "umlfile.zip");
+			        if (historyFileContent != null) formData.Add(historyFileContent, "hisfile", "hisfile");
+			        if (propertiesFileContent != null) formData.Add(propertiesFileContent, "propfile", "propfile.properties");
+			        formData.Add(pincodeContent, "pin");
+			        var response = client.PostAsync(actionUrl, formData).Result;
+			        if (!response.IsSuccessStatusCode)
+			        {
+			            return string.Empty;
+			        }
+			        StreamReader reader = new StreamReader(response.Content.ReadAsStreamAsync().Result);
+					string responseText = reader.ReadToEnd();
+					XmlDocument xmlResponse = new XmlDocument();
+					xmlResponse.LoadXml(responseText);
+					var jobIDNode = xmlResponse.SelectSingleNode("//jobid");
+					if (jobIDNode != null)
+					{
+						return jobIDNode.InnerText;
+					}
+					else return string.Empty;
+			    }
 		    }
 		}
 	}
