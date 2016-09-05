@@ -60,7 +60,7 @@ namespace EADatabaseTransformer
 
 		void saveDatabaseButtonClicked(object sender, EventArgs e)
 		{
-			_databaseTransformer.saveDatabase();
+			_databaseTransformer.save();
 		}
 
 		void refreshButtonClicked(object sender, EventArgs e)
