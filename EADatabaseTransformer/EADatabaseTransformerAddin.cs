@@ -61,6 +61,7 @@ namespace EADatabaseTransformer
 		void saveDatabaseButtonClicked(object sender, EventArgs e)
 		{
 			_comparer.save();
+			this.refreshCompare();
 		}
 
 		void refreshButtonClicked(object sender, EventArgs e)
