@@ -151,21 +151,26 @@ namespace EAImvertor
 			this.setStatus("Exporting Model");
 			this.sourcePackage.getRootPackage().exportToXMI(xmiFileName);
 			this.setStatus("Compressing File");
-			xmiFileName = CompressFile(xmiFileName);
-			this.setStatus("Uploading Model");
-			try {
-				this._jobID = this.Upload(settings.imvertorURL+settings.urlPostFix +"upload",settings.PIN,settings.ProcessName,settings.Properties
-			                           ,xmiFileName,settings.HistoryFilePath,settings.PropertiesFilePath);
-
-			this.setStatus("Upload Finished");
-			getJobReport();
-				
-			} catch (Exception e) 
+			if (File.Exists(xmiFileName))
 			{
-				this.setStatus("Error");
-				Logger.logError("Error in StartJob: " + e.Message + " stacktrace: "+ e.StackTrace);
+				xmiFileName = CompressFile(xmiFileName);
+				this.setStatus("Uploading Model");
+				try {
+					this._jobID = this.Upload(settings.imvertorURL+settings.urlPostFix +"upload",settings.PIN,settings.ProcessName,settings.Properties
+				                           ,xmiFileName,settings.HistoryFilePath,settings.PropertiesFilePath);
+	
+				this.setStatus("Upload Finished");
+				getJobReport();
+					
+				} catch (Exception e) 
+				{
+					this.setStatus("Error");
+					Logger.logError("Error in StartJob: " + e.Message + " stacktrace: "+ e.StackTrace);
+				}
+			}else
+			{
+				this.setStatus("Cancelled");
 			}
-			
 		}
 		private string createSpecificPropertiesFile()
 		{
