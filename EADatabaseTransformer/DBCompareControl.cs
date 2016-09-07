@@ -21,7 +21,6 @@ namespace EADatabaseTransformer
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-			
 			//resize columns
 			resizeCompareGridColumns();
 			//enable and Disable buttons
@@ -31,10 +30,12 @@ namespace EADatabaseTransformer
 		{
 			//if there's a comparer we can refresh
 			this.refreshButton.Enabled = (_comparer != null);
-			//we can save if both new and existing database exist
+			//we can save if both new and existing database exist and are valid
 			this.saveDatabaseButton.Enabled = (_comparer != null 
 			                                   && _comparer.existingDatabase != null
-			                                   && _comparer.newDatabase != null );
+			                                   && _comparer.newDatabase != null 
+			                                   && _comparer.newDatabase.isValid
+			                                   && _comparer.existingDatabase.isValid);
 		}
 		public void clear()
 		{
@@ -48,12 +49,10 @@ namespace EADatabaseTransformer
 			string tableName = string.Empty;
 			foreach (var comparedItem in comparer.comparedItems) 
 			{
-				if (comparedItem.newDatabaseItem != null 
-				    && comparedItem.newDatabaseItem is DB.Table) 
+				if (comparedItem.newDatabaseItem is DB.Table) 
 				{
 					tableName = comparedItem.newDatabaseItem.name;
-				} else if (comparedItem.existingDatabaseItem != null 
-				           && comparedItem.existingDatabaseItem is DB.Table)
+				} else if (comparedItem.existingDatabaseItem is DB.Table)
 				{
 					tableName = comparedItem.existingDatabaseItem.name;
 				}
@@ -64,26 +63,61 @@ namespace EADatabaseTransformer
 			}
 			enableDisable();
 		}
+		private void setItemBackColor(ListViewItem item, Color color)
+		{
+			foreach (ListViewItem.ListViewSubItem subItem in item.SubItems) 
+			{
+				subItem.BackColor = color;
+			}
+		}
+		private void setItemFont(ListViewItem item, Font font)
+		{
+			foreach (ListViewItem.ListViewSubItem subItem in item.SubItems) 
+			{
+				subItem.Font = font;
+			}
+		}
 		private void setStatusColor(ListViewItem item)
 		{
+			item.UseItemStyleForSubItems = false;
 			var comparedItem = (DB.Compare.DatabaseItemComparison)item.Tag;
 			switch (comparedItem.comparisonStatus) 
 			{
 				case DB.Compare.DatabaseComparisonStatusEnum.changed:
-					item.BackColor = Color.FromArgb(204,204,255);//purple-bleu
+					setItemBackColor(item,Color.FromArgb(204,204,255));//purple-bleu
 					break;
 				case DB.Compare.DatabaseComparisonStatusEnum.newItem:
-					item.BackColor = Color.FromArgb(204,255,204);//pale green
+					setItemBackColor(item,Color.FromArgb(204,255,204));//pale green
 					break;
 				case DB.Compare.DatabaseComparisonStatusEnum.deletedItem:
-					item.BackColor = Color.FromArgb(255,216,216);//pale red
+					setItemBackColor(item,Color.FromArgb(255,216,216));//pale red
 					break;		
 				case DB.Compare.DatabaseComparisonStatusEnum.dboverride:
-					item.Font = new Font(item.Font, FontStyle.Italic); //overridden items get italic font
+					setItemFont(item,new Font(item.Font, FontStyle.Italic)); //overridden items get italic font
 					break;								
 			}
 			//table should be bold
-			if (comparedItem.itemType == "Table") item.Font = new Font(item.Font,FontStyle.Bold);
+			if (comparedItem.itemType == "Table") setItemFont(item,new Font(item.Font,FontStyle.Bold));
+			//if an item is not valid then it should be in Red
+			if (comparedItem.newDatabaseItem != null
+				&& ! comparedItem.newDatabaseItem.isValid)
+			{
+				//add "!" before the name
+				item.SubItems[3].Text = "(!) " + item.SubItems[3].Text;
+				//name and properties should be red
+				item.SubItems[3].ForeColor = Color.Red;
+				item.SubItems[4].ForeColor = Color.Red;
+			}
+			if (comparedItem.existingDatabaseItem != null 
+			    && ! comparedItem.existingDatabaseItem.isValid)
+			{
+				//add "!" before the name
+				item.SubItems[5].Text = "(!) " + item.SubItems[5].Text;
+				//name and properties should be red
+				item.SubItems[5].ForeColor = Color.Red;
+				item.SubItems[6].ForeColor = Color.Red;
+			}
+			
 		}
 		private ListViewItem addListViewItem(DB.Compare.DatabaseItemComparison comparison,string tableName)
 		{
