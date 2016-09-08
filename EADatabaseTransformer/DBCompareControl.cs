@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using DB=DatabaseFramework;
 using DB_EA = EAAddinFramework.Databases;
+using UML = TSF.UmlToolingFramework.UML;
 
 namespace EADatabaseTransformer
 {
@@ -198,7 +199,45 @@ namespace EADatabaseTransformer
 			}
 			
 		}
-		
+		public DB.Compare.DatabaseItemComparison selectedComparison
+		{
+			get
+			{
+				if (this.compareDBListView.SelectedItems.Count > 0)
+				{
+					return this.compareDBListView.SelectedItems[0].Tag as DB.Compare.DatabaseItemComparison;
+				}
+				return null;
+			}
+		}
+		public DB.DatabaseItem selectedDatabaseItemWithLogical
+		{
+			get
+			{
+				if (this.selectedComparison != null)
+				{
+				  if (this.selectedComparison.existingDatabaseItem != null)
+				  {
+				  	if (this.selectedComparison.existingDatabaseItem.logicalElement != null) 
+				  		return this.selectedComparison.existingDatabaseItem;
+				  }
+				  return this.selectedComparison.newDatabaseItem;
+				}
+				return null;
+			}
+		}
+
+		void ToLogicalButtonClick(object sender, EventArgs e)
+		{
+			selectLogicalItem(selectedDatabaseItemWithLogical, null);
+		}
+		void ToDatabaseButtonClick(object sender, EventArgs e)
+		{
+			if (selectedComparison != null)
+			{
+				selectDatabaseItem(selectedComparison.existingDatabaseItem, null);
+			}
+		}	
 
 	}
 }

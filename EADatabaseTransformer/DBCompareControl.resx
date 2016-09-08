@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="buttonsTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="refreshButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -131,6 +134,24 @@
         jzv6JFCH0O2HQiF4xXtdr9dCVv2r1Qput5ufnt1ux8+nJ8lPSIYCNUAmk+FjsFqtsFgs3J7UtjabjXV6
         RtTKl7nEJ0FhNpvx+SaTSW5L2mo8HmebdDr/yxwFXVHh7f0dD98fMBwOMRgM+A/14/FRuPTjFXTFa9EV
         rwOG3wb5T5upDK4ZAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="toLogicalButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAlUlEQVQ4T7WQ
+        yw2AIBBE7YkTV+4kXmjBnuzJUuxhZdYMn4ML0Wjy4iabeQMsIvKJMmy7SMd2dLgGZkAnmPn+FVjHbmEG
+        VEFeYNVx3uBwZCjI1ZV1VfR2zs0JnpqJKeAdRzADyoCF1bznHBgKUkpKjFEJIWjQey/ImgKrGbkpAVsB
+        Wl1+fQ3yPxI8NRNTMAszoAzvkOUCTiL8pSrDHbcAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="toDatabaseButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC45bDN+TgAAAHRJREFUOE9j+P//
+        P0UYqyApGM6Ij2/4TwrGagAIMEzBgT3r4Fhe3h6sFIRRDMCqEYSRNCsw4DGAEAZphGGsBuADy059gGO8
+        BjQ0NODFBA3ABpBtp68L0G2GYdq7AN1GdIzTAGyKsWGcBoAkiMUYBpCH/zMAAANNy3Z8UK79AAAAAElF
+        TkSuQmCC
 </value>
   </data>
 </root>
