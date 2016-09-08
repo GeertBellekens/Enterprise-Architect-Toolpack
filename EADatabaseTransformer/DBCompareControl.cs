@@ -172,6 +172,33 @@ namespace EADatabaseTransformer
 				refreshButtonClicked(sender, e);
 			}
 		}
+		public event EventHandler selectLogicalItem = delegate { }; 
+		public event EventHandler selectDatabaseItem = delegate { }; 
+		void CompareDBListViewMouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			ListViewHitTestInfo info = ((ListView)sender).HitTest(e.X, e.Y);
+			if (info.Item != null)
+			{
+				var comparedItem = (DB.Compare.DatabaseItemComparison) info.Item.Tag;
+				if (info.SubItem != null)
+				{
+					int columnIndex = info.Item.SubItems.IndexOf(info.SubItem);
+					DB.DatabaseItem clickedItem = null;
+					if (columnIndex <= 4 )
+					{
+						clickedItem = comparedItem.newDatabaseItem;
+						selectLogicalItem(clickedItem, null);
+					}
+					else
+					{
+						clickedItem = comparedItem.existingDatabaseItem;
+						selectDatabaseItem(clickedItem, null);
+					}
+				}
+			}
+			
+		}
+		
 
 	}
 }

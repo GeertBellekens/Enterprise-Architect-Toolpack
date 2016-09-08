@@ -49,6 +49,8 @@ namespace EADatabaseTransformer
 					_dbCompareControl.HandleDestroyed += dbControl_HandleDestroyed;
 					_dbCompareControl.saveDatabaseButtonClick += saveDatabaseButtonClicked;
 					_dbCompareControl.refreshButtonClicked += refreshButtonClicked;
+					_dbCompareControl.selectDatabaseItem += selectDatabaseItem;
+					_dbCompareControl.selectLogicalItem += selectLogicalItem;
 				}
 				return _dbCompareControl;
 			}
@@ -67,6 +69,22 @@ namespace EADatabaseTransformer
 		void refreshButtonClicked(object sender, EventArgs e)
 		{
 			this.refreshCompare();
+		}
+
+		void selectLogicalItem(object sender, EventArgs e)
+		{
+			var databaseItem = sender as DB.DatabaseItem;
+			if (databaseItem != null
+			    && databaseItem.logicalElement != null)
+			{
+				databaseItem.logicalElement.select();
+			}
+		}
+
+		void selectDatabaseItem(object sender, EventArgs e)
+		{
+			var databaseItem = sender as DB.DatabaseItem;
+			if (databaseItem != null) databaseItem.Select();
 		}
 		public override void EA_FileOpen(EA.Repository Repository)
 		{

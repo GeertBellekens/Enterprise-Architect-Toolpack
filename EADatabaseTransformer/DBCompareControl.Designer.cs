@@ -73,6 +73,7 @@ namespace EADatabaseTransformer
 			this.compareDBListView.TabIndex = 1;
 			this.compareDBListView.UseCompatibleStateImageBehavior = false;
 			this.compareDBListView.View = System.Windows.Forms.View.Details;
+			this.compareDBListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.CompareDBListViewMouseDoubleClick);
 			this.compareDBListView.Resize += new System.EventHandler(this.CompareListViewResize);
 			// 
 			// compareStatusColumn
