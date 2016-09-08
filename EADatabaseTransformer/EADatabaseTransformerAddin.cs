@@ -18,7 +18,7 @@ namespace EADatabaseTransformer
     {
         // define menu constants
         const string menuName = "-&Database Transformer";
-        const string menuTransform = "&Transform to database";
+        const string menuComparetoDatabase = "&Compare Database";
         const string menuSettings = "&Settings";
         const string menuAbout = "&About";
         const string compareControlName = "Database Compare";
@@ -36,7 +36,7 @@ namespace EADatabaseTransformer
 		public EADatabaseTransformerAddin():base()
 		{
 			this.menuHeader = menuName;
-			this.menuOptions = new string[]{menuTransform, menuSettings, menuAbout};
+			this.menuOptions = new string[]{menuComparetoDatabase, menuSettings, menuAbout};
 			this.settings = new EADatabaseTransformerSettings();
 		}
 		private DBCompareControl dbCompareControl
@@ -105,29 +105,29 @@ namespace EADatabaseTransformer
         public override void EA_GetMenuState(EA.Repository Repository, string Location, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
         {
         	switch (ItemName)
-                {
-                	case menuTransform:
-                		if (this.fullyLoaded
-                		    && this.model.selectedElement is UML.Classes.Kernel.Package)
-                		{
-                			IsEnabled = true;
-                		}
-                		else
-                		{
-                			IsEnabled = false;
-                		}
-                		break;
-                	case menuAbout:
-                		IsEnabled = true;
-                		break;
-                	case menuSettings:
-                		IsEnabled = true;
-                		break;
-                    // there shouldn't be any other, but just in case disable it.
-                    default:
-                        IsEnabled = false;
-                        break;
-                }
+            {
+            	case menuComparetoDatabase:
+            		if (this.fullyLoaded
+            		    && this.model.selectedElement is UML.Classes.Kernel.Package)
+            		{
+            			IsEnabled = true;
+            		}
+            		else
+            		{
+            			IsEnabled = false;
+            		}
+            		break;
+            	case menuAbout:
+            		IsEnabled = true;
+            		break;
+            	case menuSettings:
+            		IsEnabled = true;
+            		break;
+                // there shouldn't be any other, but just in case disable it.
+                default:
+                    IsEnabled = false;
+                    break;
+            }
         }
 
         /// <summary>
@@ -142,8 +142,8 @@ namespace EADatabaseTransformer
         {
             switch (ItemName)
             {
-                case menuTransform:
-                	this.startTransformation();
+                case menuComparetoDatabase:
+                	this.compareDatabase();
                 	Repository.ActivateTab(compareControlName);
                     break;
 		        case menuAbout :
@@ -157,27 +157,28 @@ namespace EADatabaseTransformer
   		/// <summary>
   		/// start the transformation from the logical model to the database model
   		/// </summary>
-		void startTransformation()
+		void compareDatabase()
 		{
-			var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
+			var selectedPackage = this.model.selectedElement as UTF_EA.Package;
+			//TODO: allow the user to select either database or logical package if not already linked, or if multiple are linked
 			if (selectedPackage != null)
 			{
-				//debug
-				transform(selectedPackage);
-				//figure out which the database model is for this package
-				//if the database model is not defined yet then ask the user
-				//make a list of all the differences and show it to the user
-				
+				var nameTranslator = new DB_EA.Transformation.NameTranslator(this.settings.abbreviationsPath,"_");
+				if (selectedPackage.stereotypes.Any( x => x.name.Equals("database",StringComparison.InvariantCultureIgnoreCase)))
+			    {
+				    
+				    var existingDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage);
+					_databaseTransformer = new DB2DatabaseTransformer(this.model,nameTranslator);
+				    _databaseTransformer.existingDatabase = existingDatabase;
+				}
+				else
+				{
+					_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage,nameTranslator);
+				}
+				refreshCompare();	
 			}
 		}
 
-		void transform(UML.Classes.Kernel.Package selectedPackage)
-		{	
-			var nameTranslator = new DB_EA.Transformation.NameTranslator(this.settings.abbreviationsPath,"_");
-			_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage,nameTranslator);
-			refreshCompare();
-				
-		}
 		private void refreshCompare()
 		{
 			//refresh transformation and load of new and original database

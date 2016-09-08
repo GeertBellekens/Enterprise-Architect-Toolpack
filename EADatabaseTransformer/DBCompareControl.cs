@@ -35,8 +35,7 @@ namespace EADatabaseTransformer
 			this.saveDatabaseButton.Enabled = (_comparer != null 
 			                                   && _comparer.existingDatabase != null
 			                                   && _comparer.newDatabase != null 
-			                                   && _comparer.newDatabase.isValid
-			                                   && _comparer.existingDatabase.isValid);
+			                                   && _comparer.newDatabase.isValid);
 		}
 		public void clear()
 		{
