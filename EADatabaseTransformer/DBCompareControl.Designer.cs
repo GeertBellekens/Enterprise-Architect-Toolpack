@@ -20,6 +20,9 @@ namespace EADatabaseTransformer
 		private System.Windows.Forms.Button toLogicalButton;
 		private System.Windows.Forms.Button toDatabaseButton;
 		private System.Windows.Forms.ToolTip buttonsTooltip;
+		private System.Windows.Forms.Button renameButton;
+		private System.Windows.Forms.Button overrideButton;
+
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -57,6 +60,8 @@ namespace EADatabaseTransformer
 			this.toLogicalButton = new System.Windows.Forms.Button();
 			this.toDatabaseButton = new System.Windows.Forms.Button();
 			this.buttonsTooltip = new System.Windows.Forms.ToolTip(this.components);
+			this.renameButton = new System.Windows.Forms.Button();
+			this.overrideButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// compareDBListView
@@ -80,6 +85,7 @@ namespace EADatabaseTransformer
 			this.compareDBListView.TabIndex = 1;
 			this.compareDBListView.UseCompatibleStateImageBehavior = false;
 			this.compareDBListView.View = System.Windows.Forms.View.Details;
+			this.compareDBListView.SelectedIndexChanged += new System.EventHandler(this.CompareDBListViewSelectedIndexChanged);
 			this.compareDBListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.CompareDBListViewMouseDoubleClick);
 			this.compareDBListView.Resize += new System.EventHandler(this.CompareListViewResize);
 			// 
@@ -168,10 +174,34 @@ namespace EADatabaseTransformer
 			this.toDatabaseButton.UseVisualStyleBackColor = true;
 			this.toDatabaseButton.Click += new System.EventHandler(this.ToDatabaseButtonClick);
 			// 
+			// renameButton
+			// 
+			this.renameButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.renameButton.Location = new System.Drawing.Point(135, 384);
+			this.renameButton.Name = "renameButton";
+			this.renameButton.Size = new System.Drawing.Size(75, 23);
+			this.renameButton.TabIndex = 16;
+			this.renameButton.Text = "Rename";
+			this.renameButton.UseVisualStyleBackColor = true;
+			this.renameButton.Click += new System.EventHandler(this.RenameButtonClick);
+			// 
+			// overrideButton
+			// 
+			this.overrideButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.overrideButton.Location = new System.Drawing.Point(217, 384);
+			this.overrideButton.Name = "overrideButton";
+			this.overrideButton.Size = new System.Drawing.Size(75, 23);
+			this.overrideButton.TabIndex = 17;
+			this.overrideButton.Text = "Override";
+			this.overrideButton.UseVisualStyleBackColor = true;
+			this.overrideButton.Click += new System.EventHandler(this.OverrideButtonClick);
+			// 
 			// DBCompareControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.overrideButton);
+			this.Controls.Add(this.renameButton);
 			this.Controls.Add(this.toDatabaseButton);
 			this.Controls.Add(this.toLogicalButton);
 			this.Controls.Add(this.refreshButton);

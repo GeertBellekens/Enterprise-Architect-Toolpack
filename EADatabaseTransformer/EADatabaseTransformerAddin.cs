@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using EAAddinFramework.Databases.Transformation.DB2;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
@@ -51,6 +52,8 @@ namespace EADatabaseTransformer
 					_dbCompareControl.refreshButtonClicked += refreshButtonClicked;
 					_dbCompareControl.selectDatabaseItem += selectDatabaseItem;
 					_dbCompareControl.selectLogicalItem += selectLogicalItem;
+					_dbCompareControl.renameButtonClick += renameButtonClick;
+					_dbCompareControl.overrideButtonClick += overrideButtonClick;
 				}
 				return _dbCompareControl;
 			}
@@ -60,15 +63,44 @@ namespace EADatabaseTransformer
 			_dbCompareControl = null;
 		}
 
+		void renameButtonClick(object sender, EventArgs e)
+		{
+			var comparedItem = sender as DB.Compare.DatabaseItemComparison;
+			if (comparedItem != null
+			    && comparedItem.newDatabaseItem != null)
+			{
+				var renamePopup = new RenameWindow();
+				if (renamePopup.ShowDialog(this._dbCompareControl) == DialogResult.OK)
+				{
+					_databaseTransformer.renameItem(comparedItem.newDatabaseItem, renamePopup.newName);
+				}
+			}
+			this.refreshCompare(false);
+		}
+
+		void overrideButtonClick(object sender, EventArgs e)
+		{
+			var comparedItem = sender as DB.Compare.DatabaseItemComparison;
+			if (comparedItem != null
+			    && comparedItem.newDatabaseItem != null
+			    && comparedItem.existingDatabaseItem != null)
+			{
+				comparedItem.newDatabaseItem.update(comparedItem.existingDatabaseItem,false);
+				comparedItem.newDatabaseItem.isOverridden = true;
+				comparedItem.existingDatabaseItem.isOverridden = true;
+			}
+			this.refreshCompare(false);
+		}
+
 		void saveDatabaseButtonClicked(object sender, EventArgs e)
 		{
 			_comparer.save();
-			this.refreshCompare();
+			this.refreshCompare(true);
 		}
 
 		void refreshButtonClicked(object sender, EventArgs e)
 		{
-			this.refreshCompare();
+			this.refreshCompare(true);
 		}
 
 		void selectLogicalItem(object sender, EventArgs e)
@@ -175,14 +207,15 @@ namespace EADatabaseTransformer
 				{
 					_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage,nameTranslator);
 				}
-				refreshCompare();	
+				
+				refreshCompare(true);	
 			}
 		}
 
-		private void refreshCompare()
+		private void refreshCompare(bool refreshTransform)
 		{
+			if (refreshTransform)_databaseTransformer.refresh();
 			//refresh transformation and load of new and original database
-			_databaseTransformer.refresh();
 			_comparer = new DB_EA.Compare.EADatabaseComparer((DB_EA.Database) _databaseTransformer.newDatabase, (DB_EA.Database) _databaseTransformer.existingDatabase);
 			_comparer.compare();
 			this.dbCompareControl.loadComparison(_comparer);

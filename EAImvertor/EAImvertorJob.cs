@@ -145,36 +145,45 @@ namespace EAImvertor
 		{
 			this._startDateTime = DateTime.Now;
 			this._backgroundWorker = backgroundWorker;
-			//create the specific properties for this job
-			this.settings.PropertiesFilePath = createSpecificPropertiesFile();
-			string xmiFileName = Path.ChangeExtension(Path.GetTempFileName(),".xmi");
-			this.setStatus("Exporting Model");
-			this.sourcePackage.getRootPackage().exportToXMI(xmiFileName);
-			this.setStatus("Compressing File");
-			if (File.Exists(xmiFileName))
+			UML.Classes.Kernel.Package projectPackage = getProjectPackage(this.sourcePackage);
+			if (projectPackage != null)
 			{
-				xmiFileName = CompressFile(xmiFileName);
-				this.setStatus("Uploading Model");
-				try {
-					this._jobID = this.Upload(settings.imvertorURL+settings.urlPostFix +"upload",settings.PIN,settings.ProcessName,settings.Properties
-				                           ,xmiFileName,settings.HistoryFilePath,settings.PropertiesFilePath);
-	
-				this.setStatus("Upload Finished");
-				getJobReport();
-					
-				} catch (Exception e) 
+				//create the specific properties for this job
+				this.settings.PropertiesFilePath = createSpecificPropertiesFile(projectPackage);
+				string xmiFileName = Path.ChangeExtension(Path.GetTempFileName(),".xmi");
+				this.setStatus("Exporting Model");
+				projectPackage.exportToXMI(xmiFileName);
+				this.setStatus("Compressing File");
+				if (File.Exists(xmiFileName))
 				{
-					this.setStatus("Error");
-					Logger.logError("Error in StartJob: " + e.Message + " stacktrace: "+ e.StackTrace);
+					xmiFileName = CompressFile(xmiFileName);
+					this.setStatus("Uploading Model");
+					try {
+						this._jobID = this.Upload(settings.imvertorURL+settings.urlPostFix +"upload",settings.PIN,settings.ProcessName,settings.Properties
+					                           ,xmiFileName,settings.HistoryFilePath,settings.PropertiesFilePath);
+		
+					this.setStatus("Upload Finished");
+					getJobReport();
+						
+					} catch (Exception e) 
+					{
+						this.setStatus("Error");
+						Logger.logError("Error in StartJob: " + e.Message + " stacktrace: "+ e.StackTrace);
+					}
+				}else
+				{
+					this.setStatus("Cancelled");
 				}
-			}else
+			}
+			else
 			{
-				this.setStatus("Cancelled");
+				this.setStatus("Error");
+				Logger.logError("no «project» package found");
 			}
 		}
-		private string createSpecificPropertiesFile()
+		private string createSpecificPropertiesFile(UML.Classes.Kernel.Package projectPackage)
 		{
-			UML.Classes.Kernel.Package projectPackage = getProjectPackage(this.sourcePackage);
+			
 			string propertiesContent = this.getDefaultPropertiesFileContent();
 			//add application name
 			propertiesContent += Environment.NewLine + "application = " + this.sourcePackage.name;

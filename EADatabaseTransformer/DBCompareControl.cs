@@ -36,6 +36,12 @@ namespace EADatabaseTransformer
 			                                   && _comparer.existingDatabase != null
 			                                   && _comparer.newDatabase != null 
 			                                   && _comparer.newDatabase.isValid);
+			this.renameButton.Enabled = (this.selectedComparison != null
+			                             && this.selectedComparison.newDatabaseItem != null);
+			this.overrideButton.Enabled = (this.selectedComparison != null
+											&& this.selectedComparison.newDatabaseItem !=null
+											&& this.selectedComparison.existingDatabaseItem != null
+											&& this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.changed);
 		}
 		public void clear()
 		{
@@ -236,6 +242,20 @@ namespace EADatabaseTransformer
 			{
 				selectDatabaseItem(selectedComparison.existingDatabaseItem, null);
 			}
+		}
+		public event EventHandler renameButtonClick = delegate { };
+		void RenameButtonClick(object sender, EventArgs e)
+		{
+			renameButtonClick(this.selectedComparison,e);
+		}
+		public event EventHandler overrideButtonClick = delegate { };		
+		void OverrideButtonClick(object sender, EventArgs e)
+		{
+			overrideButtonClick(this.selectedComparison,e);
+		}
+		void CompareDBListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			this.enableDisable();
 		}	
 
 	}

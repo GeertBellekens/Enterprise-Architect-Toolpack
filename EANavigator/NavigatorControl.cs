@@ -617,10 +617,13 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// </summary>
 		void copyGUID()
 		{
-			UML.Extended.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.Extended.UMLItem;
-			if (selectedElement.uniqueID != null)
+			if (this.NavigatorTree.SelectedNode != null)
 			{
-				Clipboard.SetText(selectedElement.uniqueID);
+				UML.Extended.UMLItem selectedElement = this.NavigatorTree.SelectedNode.Tag as UML.Extended.UMLItem;
+				if (selectedElement.uniqueID != null)
+				{
+					Clipboard.SetText(selectedElement.uniqueID);
+				}
 			}
 		}
 		
