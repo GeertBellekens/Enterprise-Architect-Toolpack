@@ -96,6 +96,7 @@ namespace EADatabaseTransformer
 		{
 			_comparer.save();
 			this.refreshCompare(true);
+			this.model.showTab(compareControlName);
 		}
 
 		void refreshButtonClicked(object sender, EventArgs e)
