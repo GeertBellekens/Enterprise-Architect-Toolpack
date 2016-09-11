@@ -113,6 +113,13 @@
     <None Include="EADatabaseTransformer.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Files\Class.png" />
+    <None Include="Files\EA Database Transformer license.txt" />
+    <None Include="Files\save.png" />
+    <None Include="Files\Table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Files" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
