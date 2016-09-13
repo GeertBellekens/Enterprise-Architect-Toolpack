@@ -69,7 +69,7 @@ namespace EADatabaseTransformer
 			if (comparedItem != null
 			    && comparedItem.newDatabaseItem != null)
 			{
-				var renamePopup = new RenameWindow();
+				var renamePopup = new RenameWindow(comparedItem.newDatabaseItem.name);
 				if (renamePopup.ShowDialog(this._dbCompareControl) == DialogResult.OK)
 				{
 					_databaseTransformer.renameItem(comparedItem.newDatabaseItem, renamePopup.newName);
