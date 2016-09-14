@@ -56,6 +56,7 @@ namespace EAImvertor
 			InitializeComponent();
 			this.refreshToolTip.SetToolTip(this.refreshButton, "Refresh Status");
 			this.resizeGridColumns();
+			this.enableDisable();
 		}
 		public void addJob(EAImvertorJob job)
 		{

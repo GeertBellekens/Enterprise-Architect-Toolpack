@@ -409,11 +409,11 @@ namespace EAImvertor
 		    HttpContent propertiesContent = new StringContent(imvertorProperties);
 		    HttpContent pincodeContent = new StringContent(pincode);
 		    HttpContent modelFileContent = null;
-			if (File.Exists(modelFilePath)) modelFileContent = new StreamContent(File.OpenRead(modelFilePath));
+			if (File.Exists(modelFilePath)) modelFileContent = new StreamContent(new FileStream(modelFilePath,FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 		    HttpContent historyFileContent = null;
-		    if (File.Exists(historyFilePath)) historyFileContent = new StreamContent(File.OpenRead(historyFilePath));
+		    if (File.Exists(historyFilePath)) historyFileContent = new StreamContent(new FileStream(historyFilePath,FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 		    HttpContent propertiesFileContent = null;
-		    if (File.Exists(propertiesFilePath)) propertiesFileContent = new StreamContent(File.OpenRead(propertiesFilePath));
+		    if (File.Exists(propertiesFilePath)) propertiesFileContent = new StreamContent(new FileStream(propertiesFilePath,FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 		    using (var client = settings.getHttpClient())
 		    {
 		    	//this might solve an issue with the proxy then uploading content
