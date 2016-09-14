@@ -204,7 +204,26 @@ namespace EAImvertor
 				this.refreshJobInfo(this.selectedJob);
 			}
 		}
-
+		public event EventHandler publishButtonClick = delegate{};
+		void PublishButtonClick(object sender, EventArgs e)
+		{
+			publishButtonClick(sender, e);
+		}
+		public void setPublishEnabled(bool enabled)
+		{
+			this.publishButton.Enabled = enabled;
+		}
+		public void setSelectedPackageName(string name)
+		{
+			if (string.IsNullOrEmpty(name))
+			{
+			    this.selectedPackageLabel.Text = string.Empty;
+			}
+			else
+			{
+				this.selectedPackageLabel.Text = "Package: " +name;
+			}
+		}
 
 
 		

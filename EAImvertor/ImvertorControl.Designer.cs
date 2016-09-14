@@ -32,6 +32,8 @@ namespace EAImvertor
 		private System.Windows.Forms.Button refreshButton;
 		private System.Windows.Forms.ToolTip refreshToolTip;
 		private System.Windows.Forms.Button reportButton;
+		private System.Windows.Forms.Button publishButton;
+		private System.Windows.Forms.Label selectedPackageLabel;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -74,6 +76,8 @@ namespace EAImvertor
 			this.resultsButton = new System.Windows.Forms.Button();
 			this.jobIDLabel = new System.Windows.Forms.Label();
 			this.refreshToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.publishButton = new System.Windows.Forms.Button();
+			this.selectedPackageLabel = new System.Windows.Forms.Label();
 			this.jobDetailsBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -89,7 +93,7 @@ namespace EAImvertor
 			this.imvertorJobGrid.GridLines = true;
 			this.imvertorJobGrid.Location = new System.Drawing.Point(3, 3);
 			this.imvertorJobGrid.Name = "imvertorJobGrid";
-			this.imvertorJobGrid.Size = new System.Drawing.Size(366, 74);
+			this.imvertorJobGrid.Size = new System.Drawing.Size(366, 75);
 			this.imvertorJobGrid.TabIndex = 0;
 			this.imvertorJobGrid.UseCompatibleStateImageBehavior = false;
 			this.imvertorJobGrid.View = System.Windows.Forms.View.Details;
@@ -135,7 +139,7 @@ namespace EAImvertor
 			this.jobDetailsBox.Controls.Add(this.retryButton);
 			this.jobDetailsBox.Controls.Add(this.resultsButton);
 			this.jobDetailsBox.Controls.Add(this.jobIDLabel);
-			this.jobDetailsBox.Location = new System.Drawing.Point(7, 83);
+			this.jobDetailsBox.Location = new System.Drawing.Point(7, 115);
 			this.jobDetailsBox.Name = "jobDetailsBox";
 			this.jobDetailsBox.Size = new System.Drawing.Size(365, 192);
 			this.jobDetailsBox.TabIndex = 3;
@@ -251,14 +255,36 @@ namespace EAImvertor
 			this.jobIDLabel.TabIndex = 0;
 			this.jobIDLabel.Text = "Job ID";
 			// 
+			// publishButton
+			// 
+			this.publishButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.publishButton.Location = new System.Drawing.Point(7, 85);
+			this.publishButton.Name = "publishButton";
+			this.publishButton.Size = new System.Drawing.Size(75, 23);
+			this.publishButton.TabIndex = 4;
+			this.publishButton.Text = "Publish";
+			this.publishButton.UseVisualStyleBackColor = true;
+			this.publishButton.Click += new System.EventHandler(this.PublishButtonClick);
+			// 
+			// selectedPackageLabel
+			// 
+			this.selectedPackageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.selectedPackageLabel.Location = new System.Drawing.Point(88, 90);
+			this.selectedPackageLabel.Name = "selectedPackageLabel";
+			this.selectedPackageLabel.Size = new System.Drawing.Size(276, 23);
+			this.selectedPackageLabel.TabIndex = 5;
+			// 
 			// ImvertorControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.selectedPackageLabel);
+			this.Controls.Add(this.publishButton);
 			this.Controls.Add(this.jobDetailsBox);
 			this.Controls.Add(this.imvertorJobGrid);
 			this.Name = "ImvertorControl";
-			this.Size = new System.Drawing.Size(372, 278);
+			this.Size = new System.Drawing.Size(372, 310);
 			this.jobDetailsBox.ResumeLayout(false);
 			this.jobDetailsBox.PerformLayout();
 			this.ResumeLayout(false);

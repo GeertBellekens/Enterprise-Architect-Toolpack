@@ -54,8 +54,9 @@ namespace EAImvertor
 						this._imvertorControl = this.model.addWindow(windowName, "EAImvertor.ImvertorControl") as ImvertorControl;
 						this._imvertorControl.resultsButtonClick += this.resultsButtonClick;
 						this._imvertorControl.retryButtonClick += this.retryButtonClick;
-						this.imvertorControl.viewWarningsButtonClick += this.viewWarningsButtonClick;
-						this.imvertorControl.reportButtonClick += this.reportButtonClick;
+						this._imvertorControl.viewWarningsButtonClick += this.viewWarningsButtonClick;
+						this._imvertorControl.reportButtonClick += this.reportButtonClick;
+						this._imvertorControl.publishButtonClick += this.publishButtonClick;
 					}
 				}
 				return this._imvertorControl;
@@ -162,17 +163,24 @@ namespace EAImvertor
 			if (ItemName == menuPublish)
 			{
 				var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
-				if (!selectedPackage.stereotypes.Any
-				    					(x => this.settings.imvertorStereotypes.Any
-				     						(y => y.Equals(x.name,StringComparison.InvariantCultureIgnoreCase))))
-				{
-					IsEnabled = false;
-				}
+				IsEnabled = canBePublished(selectedPackage);
 			}
 			else
 			{
 				IsEnabled = true;
 			}
+		}
+		/// <summary>
+		/// a package can be published if it's stereotype is present in the list of allowed stereotypes in the settings
+		/// </summary>
+		/// <param name="package">the package to publish</param>
+		/// <returns>whether or not a package can be published</returns>
+		private bool canBePublished(UML.Classes.Kernel.Package package)
+		{
+			return ( package != null
+				&& package.stereotypes.Any
+				    					(x => this.settings.imvertorStereotypes.Any
+				 (y => y.Equals(x.name,StringComparison.InvariantCultureIgnoreCase))));
 		}
 		/// <summary>
 		/// only needed for the about menu
@@ -198,11 +206,43 @@ namespace EAImvertor
 		            break;
 			}
 		}
+		public override void EA_OnContextItemChanged(EA.Repository Repository, string GUID, EA.ObjectType ot)
+		{
+			if (this.model != null)
+			{
+				var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
+				//in case a package is selected that can be publised we show the control;
+				if (selectedPackage != null 
+				    && canBePublished(selectedPackage))
+				{
+					_imvertorCalled = true;		
+				}
+				if (this.imvertorControl != null)
+				{
+					if (selectedPackage != null)
+					{
+						this.imvertorControl.setSelectedPackageName(selectedPackage.name);
+						this.imvertorControl.setPublishEnabled(canBePublished(selectedPackage));
+					}
+					else
+					{
+						this.imvertorControl.setSelectedPackageName(string.Empty);
+						this.imvertorControl.setPublishEnabled(false);
+					}
+				}
+			}
+
+		}
+		void publishButtonClick(object sender, EventArgs e)
+		{
+			publish();
+		}
+
 		private void publish()
 		{
             //get selected package
             var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
-            if (selectedPackage != null) publish(selectedPackage);
+            if (canBePublished(selectedPackage)) publish(selectedPackage);
 		}
 		private void publish(UML.Classes.Kernel.Package selectedPackage)
 		{
