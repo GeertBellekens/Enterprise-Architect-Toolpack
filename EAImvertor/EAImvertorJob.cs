@@ -44,6 +44,11 @@ namespace EAImvertor
 		public string message 
 		{
 			get {return _message;}
+			set 
+			{
+				this.messageChanged = (_message != value);
+				_message = value;
+			}
 		}
 		public List<EAImvertorException> warnings 
 		{
@@ -97,6 +102,10 @@ namespace EAImvertor
 		}
 		public int tries {get;set;}
 
+		bool messageChanged {
+			get;
+			set;
+		}
 		private void setStatus(string jobStatus )
 		{
 			int jobStatusInt;
@@ -120,7 +129,8 @@ namespace EAImvertor
 			}
 			else
 			{
-				if (this._status != jobStatus)
+				if (this._status != jobStatus
+				    || this.messageChanged)
 				{
 					//reset tries
 					this.tries = 0;
@@ -259,6 +269,9 @@ namespace EAImvertor
 			searchOutPut.show();
 			
 		}
+
+		
+
 		private void getJobReport()
 		{
 			var xmlReport = getReport(this.reportUrl);
@@ -277,6 +290,16 @@ namespace EAImvertor
 						    && ! this._startRequested)
 						{
 							requestStart();
+						}
+						//check tracking status if "In Pogress"
+						if (this.status == "In Progress")
+						{
+							var tracknode = xmlReport.SelectSingleNode("//track");
+							if (tracknode != null)
+							{
+								this.setMessages(xmlReport);
+								this.setStatus(this.status);
+							}
 						}
 						if((DateTime.Now - this._startDateTime).Seconds < _settings.timeOutInSeconds ) //if not timed out yet)
 						{
@@ -309,25 +332,16 @@ namespace EAImvertor
 						{
 							this._docUrl = this.settings.imvertorURL + docNode.InnerText;
 						}
+						//set the mesages
+						setMessages(xmlReport);
+						//set the status
 						this.setStatus("Finished");
 					}
 					//get the message, the warnings and errors
-					if (this.status == "Finished" || this.status == "Error")
+					if ( this.status == "Error")
 					{
-						//message
-						var messageNode = xmlReport.SelectSingleNode("//message");
-						if (messageNode != null) this._message = messageNode.InnerText;
-						//warnings
-						foreach (XmlNode warningNode in xmlReport.SelectNodes("//warning")) 
-						{	
-							this._warnings.Add(createImvertorException(warningNode));						
-						}
-						//warnings
-						foreach (XmlNode errorNode in xmlReport.SelectNodes("//error")) 
-						{	
-							this._errors.Add(createImvertorException(errorNode));						
-						}
-						
+						//messages
+						setMessages(xmlReport);
 					}
 				}
 			}
@@ -335,6 +349,32 @@ namespace EAImvertor
 			{
 				this.setStatus("Error");
 				Logger.logError(string.Format("Cannot get report from {0}",this.reportUrl));
+			}
+		}
+		void setMessages(XmlDocument xmlReport)
+		{
+			var messageNode = xmlReport.SelectSingleNode("//message");
+			var trackNode =  xmlReport.SelectSingleNode("//track");
+			if (messageNode != null) 
+			{
+				this.message = messageNode.InnerText;
+				//warnings
+				foreach (XmlNode warningNode in xmlReport.SelectNodes("//warning")) {
+					this._warnings.Add(createImvertorException(warningNode));
+				}
+				//errors
+				foreach (XmlNode errorNode in xmlReport.SelectNodes("//error")) {
+					this._errors.Add(createImvertorException(errorNode));
+				}
+			}
+			else if (trackNode != null)
+			{
+				this.message = trackNode.InnerText;
+			}
+			else 
+			{
+				//make sure to clear any messages that may still linger from a previous status
+				this.message = string.Empty;
 			}
 		}
 

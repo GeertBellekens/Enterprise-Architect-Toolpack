@@ -86,6 +86,10 @@ namespace EAImvertor
 						   	{
 						   		statusString += " (Timed Out)";
 						   	}
+						   	else if (currentJob.status.StartsWith("In Progress"))
+						   	{
+						   		if (currentJob.message.Length > 0) statusString += string.Format(" ({0})",currentJob.message);
+						   	}
 						    else if (currentJob.tries > 0)
 							{
 								statusString += new string('.',currentJob.tries);
