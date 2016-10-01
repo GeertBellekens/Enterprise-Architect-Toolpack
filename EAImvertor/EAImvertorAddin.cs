@@ -35,6 +35,13 @@ namespace EAImvertor
        	private bool fullyLoaded = false;
        	private EAImvertorSettings settings;
        	private bool _imvertorCalled = false;
+       	//indicates if a job can be started or has to be put in the waiting queue
+       	private bool canJobStart = true;
+       	//the list of jobs waiting to be started
+       	private List<EAImvertorJob> waitingjobs = new List<EAImvertorJob>();
+       	//the job that is currently blocking the others from starting.
+       	//we need this because while a job is exporting to xmi no other jobs should be allowed to start
+       	private EAImvertorJob blockingJob;
 		//constructor
         public EAImvertorAddin():base()
 		{

@@ -35,6 +35,7 @@ namespace EAImvertor
 		private List<EAImvertorException> _errors = new List<EAImvertorException>();
 		private string _downloadPath = string.Empty;
 		private bool _startRequested = false;
+		private  DateTime emptyDate = DateTime.MinValue;
 
 		public string downloadPath {
 			get {
@@ -425,21 +426,36 @@ namespace EAImvertor
 			return new EAImvertorException(((UTF_EA.Package)this._sourcePackage).model,exceptionNode.Name,guid,step,construct,text);
 		}
 		
-		private XmlDocument getReport(string reportURL)
+		private XmlDocument getReport(string reportURL, DateTime startTimeStamp = default(DateTime))
 		{
-			using (var client = settings.getHttpClient())
+			//initialize startDateTime it was not passed as parameter
+			if (startTimeStamp == default(DateTime)) startTimeStamp = DateTime.Now;
+			var client = settings.getHttpClient();
+			//we try for 5 seconds
+			if ((DateTime.Now - startTimeStamp).Seconds < 5)
 			{
 				var response = client.GetAsync(reportURL).Result;
-				if (!response.IsSuccessStatusCode)
+				if (response.IsSuccessStatusCode)
 		        {
-		            return null;
+		           	StreamReader reader = new StreamReader(response.Content.ReadAsStreamAsync().Result);
+					string responseText = reader.ReadToEnd();
+					XmlDocument xmlResponse = new XmlDocument();
+					xmlResponse.LoadXml(responseText);
+					return xmlResponse;
 		        }
-		        StreamReader reader = new StreamReader(response.Content.ReadAsStreamAsync().Result);
-				string responseText = reader.ReadToEnd();
-				XmlDocument xmlResponse = new XmlDocument();
-				xmlResponse.LoadXml(responseText);
-				return xmlResponse;
+				else
+				{
+					//not successful, wait for half a second to try again
+					Thread.Sleep(500);
+					return getReport(reportURL,startTimeStamp);
+				}
 			}
+			else
+			{
+				//timedout
+				return null;
+			}
+
 		}
 		
 		private string Upload(string actionUrl,string pincode, string processName, string imvertorProperties
