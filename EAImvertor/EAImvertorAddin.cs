@@ -263,23 +263,38 @@ namespace EAImvertor
 		{
 			//somebody called the imvertor, we can show the control
 			this._imvertorCalled = true;
-			//create new backgroundWorker
-			var imvertorJobBackgroundWorker = new BackgroundWorker();
-			//imvertorJobBackgroundWorker.WorkerSupportsCancellation = true; //TODO: implement cancellation
-			imvertorJobBackgroundWorker.WorkerReportsProgress = true;
-			imvertorJobBackgroundWorker.DoWork += imvertorBackground_DoWork;
-			imvertorJobBackgroundWorker.ProgressChanged += imvertorBackground_ProgressChanged;
-			imvertorJobBackgroundWorker.RunWorkerCompleted += imvertorBackgroundRunWorkerCompleted;
-            
-            var imvertorJob = new EAImvertorJob(selectedPackage, jobSettings);
-            
-            //update gui
-            this.imvertorControl.addJob(imvertorJob);
-            //show the control
-            this.model.showWindow(windowName);
-            
-            //start job in the background
-            imvertorJobBackgroundWorker.RunWorkerAsync(imvertorJob);
+			var imvertorJob = new EAImvertorJob(selectedPackage, jobSettings);
+			this.startJob(imvertorJob);
+
+		}
+		/// <summary>
+		/// start an ImvertorJob if possible. Else the job will be added to the waiting list
+		/// </summary>
+		/// <param name="imvertorJob">the job to start</param>
+		private void startJob(EAImvertorJob imvertorJob)
+		{
+			if (this.canJobStart)
+			{
+				//create new backgroundWorker
+				var imvertorJobBackgroundWorker = new BackgroundWorker();
+				//imvertorJobBackgroundWorker.WorkerSupportsCancellation = true; //TODO: implement cancellation
+				imvertorJobBackgroundWorker.WorkerReportsProgress = true;
+				imvertorJobBackgroundWorker.DoWork += imvertorBackground_DoWork;
+				imvertorJobBackgroundWorker.ProgressChanged += imvertorBackground_ProgressChanged;
+				imvertorJobBackgroundWorker.RunWorkerCompleted += imvertorBackgroundRunWorkerCompleted;
+	            //update gui
+	            this.imvertorControl.addJob(imvertorJob);
+	            //show the control
+	            this.model.showWindow(windowName);
+	            
+	            //start job in the background
+	            imvertorJobBackgroundWorker.RunWorkerAsync(imvertorJob);
+			}
+			else
+			{
+				//job cannot be started, we add it to the waiting jobs
+				this.waitingjobs.Add(imvertorJob);
+			}
 		}
 
 		private void imvertorBackground_DoWork(object sender, DoWorkEventArgs e)
@@ -293,7 +308,34 @@ namespace EAImvertor
 
 		void imvertorBackground_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			this.imvertorControl.refreshJobInfo(e.UserState as EAImvertorJob);
+			//if the current job is exporting we have to stop the other jobs from starting
+			var currentJob = (EAImvertorJob)e.UserState;
+			if (currentJob.status.StartsWith("Exporting"))
+			{
+				this.blockingJob = currentJob;
+				this.canJobStart = false;
+			}
+			else
+			{
+				if (this.blockingJob == currentJob)
+				{
+					this.canJobStart = true;
+					this.startNextJob();
+				}
+			}
+			this.imvertorControl.refreshJobInfo(currentJob);
+		}
+		/// <summary>
+		/// start the next job in the waiting line (if any)
+		/// </summary>
+		private void startNextJob()
+		{
+			var nextJob = this.waitingjobs.FirstOrDefault();
+			if (nextJob != null)
+			{
+				waitingjobs.Remove(nextJob);
+				this.startJob(nextJob);
+			}
 		}
 
 		private void imvertorBackgroundRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
