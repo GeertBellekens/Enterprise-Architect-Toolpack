@@ -187,7 +187,8 @@ namespace EAImvertor
 			return ( package != null
 				&& package.stereotypes.Any
 				    					(x => this.settings.imvertorStereotypes.Any
-				 (y => y.Equals(x.name,StringComparison.InvariantCultureIgnoreCase))));
+				 (y => y.Equals(x.name,StringComparison.InvariantCultureIgnoreCase)))
+				&& EAImvertorJob.getProjectPackage(package) != null);
 		}
 		/// <summary>
 		/// only needed for the about menu

@@ -223,7 +223,7 @@ namespace EAImvertor
 			}
 			return string.Empty;
 		}
-		private UML.Classes.Kernel.Package getProjectPackage(UML.Classes.Kernel.Package startingPackage)
+		public static UML.Classes.Kernel.Package getProjectPackage(UML.Classes.Kernel.Package startingPackage)
 		{
 			if (startingPackage.owningPackage == null) return null;
 			if (startingPackage.owningPackage.stereotypes.Any(x => x.name.Equals("project", StringComparison.InvariantCultureIgnoreCase)))
