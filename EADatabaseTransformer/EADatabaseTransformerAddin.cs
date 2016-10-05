@@ -82,11 +82,13 @@ namespace EADatabaseTransformer
 		{
 			var comparedItem = sender as DB.Compare.DatabaseItemComparison;
 			if (comparedItem != null
-			    && comparedItem.newDatabaseItem != null
 			    && comparedItem.existingDatabaseItem != null)
 			{
-				comparedItem.newDatabaseItem.update(comparedItem.existingDatabaseItem,false);
-				comparedItem.newDatabaseItem.isOverridden = true;
+				if (comparedItem.newDatabaseItem != null)
+				{
+					comparedItem.newDatabaseItem.update(comparedItem.existingDatabaseItem,false);
+					comparedItem.newDatabaseItem.isOverridden = true;
+				}
 				comparedItem.existingDatabaseItem.isOverridden = true;
 			}
 			this.refreshCompare(false);

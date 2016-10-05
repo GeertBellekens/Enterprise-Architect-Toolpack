@@ -39,9 +39,9 @@ namespace EADatabaseTransformer
 			this.renameButton.Enabled = (this.selectedComparison != null
 			                             && this.selectedComparison.newDatabaseItem != null);
 			this.overrideButton.Enabled = (this.selectedComparison != null
-											&& this.selectedComparison.newDatabaseItem !=null
 											&& this.selectedComparison.existingDatabaseItem != null
-											&& this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.changed);
+											&& (this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.changed
+											    || this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.deletedItem));
 		}
 		public void clear()
 		{
