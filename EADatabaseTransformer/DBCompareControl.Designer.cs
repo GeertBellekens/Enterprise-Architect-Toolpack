@@ -22,6 +22,8 @@ namespace EADatabaseTransformer
 		private System.Windows.Forms.ToolTip buttonsTooltip;
 		private System.Windows.Forms.Button renameButton;
 		private System.Windows.Forms.Button overrideButton;
+		private System.Windows.Forms.Button upButton;
+		private System.Windows.Forms.Button downButton;
 
 		
 		/// <summary>
@@ -60,6 +62,8 @@ namespace EADatabaseTransformer
 			this.toLogicalButton = new System.Windows.Forms.Button();
 			this.toDatabaseButton = new System.Windows.Forms.Button();
 			this.buttonsTooltip = new System.Windows.Forms.ToolTip(this.components);
+			this.upButton = new System.Windows.Forms.Button();
+			this.downButton = new System.Windows.Forms.Button();
 			this.renameButton = new System.Windows.Forms.Button();
 			this.overrideButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
@@ -80,6 +84,7 @@ namespace EADatabaseTransformer
 			this.compareDBListView.FullRowSelect = true;
 			this.compareDBListView.GridLines = true;
 			this.compareDBListView.Location = new System.Drawing.Point(0, 0);
+			this.compareDBListView.MultiSelect = false;
 			this.compareDBListView.Name = "compareDBListView";
 			this.compareDBListView.Size = new System.Drawing.Size(902, 379);
 			this.compareDBListView.TabIndex = 1;
@@ -174,10 +179,38 @@ namespace EADatabaseTransformer
 			this.toDatabaseButton.UseVisualStyleBackColor = true;
 			this.toDatabaseButton.Click += new System.EventHandler(this.ToDatabaseButtonClick);
 			// 
+			// upButton
+			// 
+			this.upButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.upButton.Image = ((System.Drawing.Image)(resources.GetObject("upButton.Image")));
+			this.upButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.upButton.Location = new System.Drawing.Point(111, 385);
+			this.upButton.Name = "upButton";
+			this.upButton.Size = new System.Drawing.Size(25, 23);
+			this.upButton.TabIndex = 18;
+			this.upButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.buttonsTooltip.SetToolTip(this.upButton, "Select Database Item");
+			this.upButton.UseVisualStyleBackColor = true;
+			this.upButton.Click += new System.EventHandler(this.UpButtonClick);
+			// 
+			// downButton
+			// 
+			this.downButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.downButton.Image = ((System.Drawing.Image)(resources.GetObject("downButton.Image")));
+			this.downButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.downButton.Location = new System.Drawing.Point(142, 385);
+			this.downButton.Name = "downButton";
+			this.downButton.Size = new System.Drawing.Size(25, 23);
+			this.downButton.TabIndex = 19;
+			this.downButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.buttonsTooltip.SetToolTip(this.downButton, "Select Database Item");
+			this.downButton.UseVisualStyleBackColor = true;
+			this.downButton.Click += new System.EventHandler(this.DownButtonClick);
+			// 
 			// renameButton
 			// 
 			this.renameButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.renameButton.Location = new System.Drawing.Point(135, 384);
+			this.renameButton.Location = new System.Drawing.Point(198, 385);
 			this.renameButton.Name = "renameButton";
 			this.renameButton.Size = new System.Drawing.Size(75, 23);
 			this.renameButton.TabIndex = 16;
@@ -188,7 +221,7 @@ namespace EADatabaseTransformer
 			// overrideButton
 			// 
 			this.overrideButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.overrideButton.Location = new System.Drawing.Point(217, 384);
+			this.overrideButton.Location = new System.Drawing.Point(280, 385);
 			this.overrideButton.Name = "overrideButton";
 			this.overrideButton.Size = new System.Drawing.Size(75, 23);
 			this.overrideButton.TabIndex = 17;
@@ -200,6 +233,8 @@ namespace EADatabaseTransformer
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.downButton);
+			this.Controls.Add(this.upButton);
 			this.Controls.Add(this.overrideButton);
 			this.Controls.Add(this.renameButton);
 			this.Controls.Add(this.toDatabaseButton);

@@ -42,6 +42,16 @@ namespace EADatabaseTransformer
 											&& this.selectedComparison.existingDatabaseItem != null
 											&& (this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.changed
 											    || this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.deletedItem));
+			//downbutton should not be enabled is this is the last item, of if the next item is a table
+			this.downButton.Enabled = this.selectedComparison != null
+				&& this.selectedComparison.itemType.Equals("Column",StringComparison.InvariantCultureIgnoreCase)
+				&& this.compareDBListView.SelectedIndices[0]< this.compareDBListView.Items.Count -1 //not last item
+				&& ! this.compareDBListView.Items[compareDBListView.SelectedIndices[0] +1 ].SubItems[1].Text.Equals("Table", StringComparison.InvariantCultureIgnoreCase); //next item not table
+			//up button should not be enbled if this is the first item, and if the previous item is a table
+			this.upButton.Enabled = this.selectedComparison != null
+				&& this.selectedComparison.itemType.Equals("Column",StringComparison.InvariantCultureIgnoreCase)
+				&& this.compareDBListView.SelectedIndices[0] > 0 //not last item
+				&& ! this.compareDBListView.Items[compareDBListView.SelectedIndices[0] -1 ].SubItems[1].Text.Equals("Table", StringComparison.InvariantCultureIgnoreCase); //previous item not table
 		}
 		public void clear()
 		{
@@ -256,6 +266,60 @@ namespace EADatabaseTransformer
 		void CompareDBListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
 			this.enableDisable();
+		}
+		void UpButtonClick(object sender, EventArgs e)
+		{
+			var currentComparison = this.selectedComparison;
+			
+			if (currentComparison != null)
+			{
+				var currentIndex = this._comparer.comparedItems.IndexOf(currentComparison);
+				if (currentIndex > 0 )
+				{
+					if (currentComparison.itemType.Equals("Table",StringComparison.InvariantCultureIgnoreCase))
+				    {
+				    	//this is a table. we have to move all the underlying items as well.
+				    	//TODO: currently not implemented until further notice
+				    }
+					else //not a table, move single item
+					{					
+						//move up by removing it from the current index and adding it to index -1
+						this._comparer.comparedItems.RemoveAt(currentIndex);
+						this._comparer.comparedItems.Insert(currentIndex -1,currentComparison);
+						//reload
+						loadComparison(this._comparer);
+						this.compareDBListView.Items[currentIndex -1].Focused = true;
+						this.compareDBListView.Items[currentIndex -1].Selected = true;
+					}
+				}
+			}
+		}
+		void DownButtonClick(object sender, EventArgs e)
+		{
+			var currentComparison = this.selectedComparison;
+			
+			if (currentComparison != null)
+			{
+				var currentIndex = this._comparer.comparedItems.IndexOf(currentComparison);
+				if (currentIndex <  this.compareDBListView.Items.Count -1)
+				{
+					if (currentComparison.itemType.Equals("Table",StringComparison.InvariantCultureIgnoreCase))
+				    {
+				    	//this is a table. we have to move all the underlying items as well.
+				    	//TODO: currently not implemented until further notice
+				    }
+					else //not a table, move single item
+					{					
+						//move up by removing it from the current index and adding it to index -1
+						this._comparer.comparedItems.RemoveAt(currentIndex);
+						this._comparer.comparedItems.Insert(currentIndex +1,currentComparison);
+						//reload
+						loadComparison(this._comparer);
+						this.compareDBListView.Items[currentIndex +1].Focused = true;
+						this.compareDBListView.Items[currentIndex +1].Selected = true;
+					}
+				}
+			}
 		}	
 
 	}
