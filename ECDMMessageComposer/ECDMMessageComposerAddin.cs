@@ -171,15 +171,25 @@ namespace ECDMMessageComposer
 					//check if package is writable
 					if (this.settings.checkSecurity)
 					{
-						//lock the elements immediately
-						writable = makeCompletelyWritable(targetPackage);
+						writable = checkCompletelyWritable(targetPackage);
+						if (! writable)
+						{
+							DialogResult lockPackageResponse =  MessageBox.Show("Package is read-only" + Environment.NewLine + "Would you like to lock the package?"
+							                ,"Lock target Package?",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+							//lock the elements immediately
+							if (lockPackageResponse == DialogResult.Yes)
+							{
+								writable = makeCompletelyWritable(targetPackage);
+								if (! writable)
+								{
+									//if not writable then inform user and stop further processing;
+									MessageBox.Show("Target package could not be locked","Target Read-Only",MessageBoxButtons.OK,MessageBoxIcon.Error);
+								}
+							}
+						}	
 					}
-					if (! writable)
-					{
-						//if not writable then inform user and stop further processing;
-						MessageBox.Show("Target package could not be locked","Target Read-Only",MessageBoxButtons.OK,MessageBoxIcon.Error);
-					}
-					else
+					//only proceed if target package is writable
+					if (writable)
 					{
 						//check if the already contains classes
 						var classElement = targetPackage.ownedElements.FirstOrDefault(x => (x is UML.Classes.Kernel.Class || x is UML.Classes.Kernel.Enumeration) ) as UML.Classes.Kernel.Classifier;
@@ -187,7 +197,7 @@ namespace ECDMMessageComposer
 						if (classElement != null)
 						{
 							response = MessageBox.Show("Package already contains one or more classes" + Environment.NewLine + "Would you like to update an existing subset model?"
-							                ,"Update existing subset model?",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question,MessageBoxDefaultButton.Button1);
+							                           ,"Update existing subset model?",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question);
 							
 						}
 						if (response == DialogResult.No)
@@ -284,6 +294,28 @@ namespace ECDMMessageComposer
 				diagram.reFresh();
 				diagram.open();
 			}
+		}
+		/// <summary>
+		/// try to make this element is completely writable, including all its owned elements recursively
+		/// </summary>
+		/// <param name="element">the element to make writable</param>
+		/// <returns>true if this element is now completely writable</returns>
+		private bool checkCompletelyWritable(UML.Classes.Kernel.Element element)
+		{
+			if (element.isReadOnly) return false;
+			foreach (var subElement in element.ownedElements) 
+			{
+				if (! checkCompletelyWritable(subElement)) return false;
+			}
+			var diagramOwner = element as UML.Classes.Kernel.Namespace;
+			if (diagramOwner != null)
+			{
+				foreach (var diagram in diagramOwner.ownedDiagrams) 
+				{
+					if (diagram.isReadOnly) return false;
+				}
+			}
+			return true;
 		}
 		/// <summary>
 		/// try to make this element is completely writable, including all its owned elements recursively
