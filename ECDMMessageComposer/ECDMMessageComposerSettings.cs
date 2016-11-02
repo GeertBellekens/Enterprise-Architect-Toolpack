@@ -11,78 +11,26 @@ namespace ECDMMessageComposer
 	/// <summary>
 	/// Description of ECDMMessageComposerSettings.
 	/// </summary>
-	public class ECDMMessageComposerSettings:SBF.SchemaSettings
+	public class ECDMMessageComposerSettings:EAAddinFramework.Utilities.AddinSettings,SBF.SchemaSettings
 	{
+		#region implemented abstract members of AddinSettings
 
-		protected Configuration defaultConfig {get;set;}
-		protected Configuration currentConfig {get;set;}
-		public ECDMMessageComposerSettings()
+		protected override string configSubPath
 		{
-		  Configuration roamingConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoaming);
-		  
-		  //the roamingConfig now get a path such as C:\Users\<user>\AppData\Roaming\Sparx_Systems_Pty_Ltd\DefaultDomain_Path_2epjiwj3etsq5yyljkyqqi2yc4elkrkf\9,_2,_0,_921\user.config
-		  // which I don't like. So we move up three directories and then add a directory for the ECDM MessageComposer so that we get
-		  // C:\Users\<user>\AppData\Roaming\Bellekens\ECDMMessageComposer\user.config
-		  string configFileName =  System.IO.Path.GetFileName(roamingConfig.FilePath);
-		  string configDirectory = System.IO.Directory.GetParent(roamingConfig.FilePath).Parent.Parent.Parent.FullName;
-		  
-		  string newConfigFilePath = configDirectory + @"\Bellekens\ECDMMessageComposer\" + configFileName;
-		  // Map the roaming configuration file. This
-		  // enables the application to access 
-		  // the configuration file using the
-		  // System.Configuration.Configuration class
-		  ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
-		  configFileMap.ExeConfigFilename = newConfigFilePath;		
-		  // Get the mapped configuration file.
-		   currentConfig = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
-		  //merge the default settings
-		  this.mergeDefaultSettings();
-		}
-		
-		/// <summary>
-		/// gets the default settings config.
-		/// </summary>
-		protected void getDefaultSettings()
-		{
-			string defaultConfigFilePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-			defaultConfig = ConfigurationManager.OpenExeConfiguration(defaultConfigFilePath);
-		}
-		/// <summary>
-		/// merge the default settings with the current config.
-		/// </summary>
-		protected void mergeDefaultSettings()
-		{
-			if (this.defaultConfig == null)
+			get 
 			{
-				this.getDefaultSettings();
+				return @"\Bellekens\ECDMMessageComposer\";
 			}
-			//defaultConfig.AppSettings.Settings["menuOwnerEnabled"].Value
-			foreach ( KeyValueConfigurationElement configEntry in defaultConfig.AppSettings.Settings) 
+		}
+		protected override string defaultConfigFilePath 
+		{
+			get 
 			{
-				if (!currentConfig.AppSettings.Settings.AllKeys.Contains(configEntry.Key))
-				{
-					currentConfig.AppSettings.Settings.Add(configEntry.Key,configEntry.Value);
-				}
+				return System.Reflection.Assembly.GetExecutingAssembly().Location;
 			}
-			// save the configuration
-			currentConfig.Save();
 		}
-				
-		/// <summary>
-		/// saves the settings to the config file
-		/// </summary>
-		public void save()
-		{
-			this.currentConfig.Save();
-		}
+		#endregion
 		
-		public void refresh()
-		{
-		  ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
-		  configFileMap.ExeConfigFilename = currentConfig.FilePath;		
-		  // Get the mapped configuration file.
-		   currentConfig = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
-		}
 
 		/// <summary>
 		/// list of tagged value names to ignore when updating tagged values
@@ -91,11 +39,11 @@ namespace ECDMMessageComposer
 		{
 			get
 			{
-				return this.currentConfig.AppSettings.Settings["ignoredTaggedValues"].Value.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();
+				return this.getValue("ignoredTaggedValues").Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();;
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["ignoredTaggedValues"].Value = string.Join(",",value);
+				this.setValue("ignoredTaggedValues",string.Join(",",value));
 			}
 		}
 		/// <summary>
@@ -105,11 +53,11 @@ namespace ECDMMessageComposer
 		{
 			get
 			{
-				return this.currentConfig.AppSettings.Settings["ignoredStereotypes"].Value.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();
+				return this.getValue("ignoredStereotypes").Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();;
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["ignoredStereotypes"].Value = string.Join(",",value);
+				this.setValue("ignoredStereotypes",string.Join(",",value));
 			}
 		}
 		/// <summary>
@@ -120,11 +68,11 @@ namespace ECDMMessageComposer
 			get
 			{
 				bool result;
-				return bool.TryParse(this.currentConfig.AppSettings.Settings["addDataTypes"].Value, out result) ? result : true;
+				return bool.TryParse(this.getValue("addDataTypes"), out result) ? result : true;
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["addDataTypes"].Value = value.ToString();
+				this.setValue("addDataTypes",value.ToString());
 			}
 		}
 		/// <summary>
@@ -135,11 +83,11 @@ namespace ECDMMessageComposer
 			get
 			{
 				bool result;
-				return bool.TryParse(this.currentConfig.AppSettings.Settings["copyDataTypeGeneralizations"].Value, out result) ? result : true;
+				return bool.TryParse(this.getValue("copyDataTypeGeneralizations"), out result) ? result : true;
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["copyDataTypeGeneralizations"].Value = value.ToString();
+				this.setValue("copyDataTypeGeneralizations",value.ToString());
 			}
 		}
 		/// <summary>
@@ -150,11 +98,11 @@ namespace ECDMMessageComposer
 			get
 			{
 				bool result;
-				return bool.TryParse(this.currentConfig.AppSettings.Settings["limitDataTypes"].Value, out result) ? result : true;
+				return bool.TryParse(this.getValue("limitDataTypes"), out result) ? result : true;
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["limitDataTypes"].Value = value.ToString();
+				this.setValue("limitDataTypes",value.ToString());
 			}
 		}
 		/// <summary>
@@ -164,11 +112,11 @@ namespace ECDMMessageComposer
 		{
 			get
 			{
-				return this.currentConfig.AppSettings.Settings["dataTypesToCopy"].Value.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();
+				return this.getValue("dataTypesToCopy").Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();;
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["dataTypesToCopy"].Value = string.Join(",",value);
+				this.setValue("dataTypesToCopy",string.Join(",",value));
 			}
 		}
         /// <summary>
@@ -176,12 +124,15 @@ namespace ECDMMessageComposer
         /// </summary>
         public bool copyDataTypes
 	    {
-	        get
-            {
-                bool result;
-                return bool.TryParse(this.currentConfig.AppSettings.Settings["copyDataTypes"].Value, out result) ? result : true;
-            }
-            set { this.currentConfig.AppSettings.Settings["copyDataTypes"].Value = value.ToString(); }
+        	get
+			{
+				bool result;
+				return bool.TryParse(this.getValue("copyDataTypes"), out result) ? result : true;
+			}
+			set
+			{
+				this.setValue("copyDataTypes",value.ToString());
+			}
 	    }
 		/// <summary>
 		/// indicates if the data types should be added to the diagram
@@ -191,33 +142,33 @@ namespace ECDMMessageComposer
 			get
 			{
 				bool result;
-				return bool.TryParse(this.currentConfig.AppSettings.Settings["addSourceElements"].Value, out result) ? result : true;
+				return bool.TryParse(this.getValue("addSourceElements"), out result) ? result : true;
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["addSourceElements"].Value = value.ToString();
+				this.setValue("addSourceElements",value.ToString());
 			}
 		}
 		public string sourceAttributeTagName
 		{
 			get
 			{
-				return this.currentConfig.AppSettings.Settings["sourceAttributeTagName"].Value;
+				return this.getValue("sourceAttributeTagName");
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["sourceAttributeTagName"].Value = value;
+				this.setValue("sourceAttributeTagName",value);
 			}
 		}
         public string sourceAssociationTagName
         {
-			get
+        	get
 			{
-				return this.currentConfig.AppSettings.Settings["sourceAssociationTagName"].Value;
+				return this.getValue("sourceAssociationTagName");
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["sourceAssociationTagName"].Value = value;
+				this.setValue("sourceAssociationTagName",value);
 			}
 		}
 		/// <summary>
@@ -228,12 +179,12 @@ namespace ECDMMessageComposer
 			get
 			{
 				bool result;
-				return bool.TryParse(this.currentConfig.AppSettings.Settings["redirectGeneralizationsToSubset"].Value, out result) ? result : false;
+				return bool.TryParse(this.getValue("redirectGeneralizationsToSubset"), out result) ? result : true;
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["redirectGeneralizationsToSubset"].Value = value.ToString();
-			}
+				this.setValue("redirectGeneralizationsToSubset",value.ToString());
+			}			
 		}
 		/// <summary>
 		/// indicates whether the notes in the subset elements should be prefixed
@@ -243,26 +194,41 @@ namespace ECDMMessageComposer
 			get
 			{
 				bool result;
-				return bool.TryParse(this.currentConfig.AppSettings.Settings["prefixNotes"].Value, out result) ? result : false;
+				return bool.TryParse(this.getValue("prefixNotes"), out result) ? result : true;
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["prefixNotes"].Value = value.ToString();
-			}
+				this.setValue("prefixNotes",value.ToString());
+			}				
 		}
 		/// <summary>
 		/// the prefix to use when prefixing the notes
 		/// </summary>
 		public string prefixNotesText
         {
-			get
+        	get
 			{
-				return this.currentConfig.AppSettings.Settings["prefixNotesText"].Value;
+				return this.getValue("prefixNotesText");
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["prefixNotesText"].Value = value;
+				this.setValue("prefixNotesText",value);
 			}
+		}
+		/// <summary>
+		/// indicates whether the notes in the subset elements should be prefixed
+		/// </summary>
+		public bool checkSecurity 
+		{
+			get
+			{
+				bool result;
+				return bool.TryParse(this.getValue("checkSecurity"), out result) ? result : true;
+			}
+			set
+			{
+				this.setValue("checkSecurity",value.ToString());
+			}				
 		}
     }
 }

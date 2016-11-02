@@ -19,7 +19,7 @@ namespace ECDMMessageComposer
 	public class ECDMMessageComposerAddin : EAAddinFramework.EAAddinBase
 	{
 		 // define menu constants
-        const string menuName = "-&ECDM Message Composer";
+        const string menuName = "-&EA Message Composer";
         const string menuAbout = "&About";
         const string menuSettings = "&Settings";
 
@@ -167,30 +167,39 @@ namespace ECDMMessageComposer
 				if (targetPackage != null )
 				{
 					Cursor.Current = Cursors.WaitCursor;
-					//check if the already contains classes
-					var classElement = targetPackage.ownedElements.FirstOrDefault(x => (x is UML.Classes.Kernel.Class || x is UML.Classes.Kernel.Enumeration) ) as UML.Classes.Kernel.Classifier;
-					DialogResult response = DialogResult.No;
-					if (classElement != null)
+					bool writable = true;
+					//check if package is writable
+					if (this.settings.checkSecurity)
 					{
-						response = MessageBox.Show("Package already contains one or more classes" + Environment.NewLine + "Would you like to update an existing subset model?"
-						                ,"Update existing subset model?",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question,MessageBoxDefaultButton.Button1);
-						
+						//lock the elements immediately
+						writable = makeCompletelyWritable(targetPackage);
 					}
-					if (response == DialogResult.No)
+					if (! writable)
 					{
-						this.createNewMessageSubset(schema, targetPackage);
+						//if not writable then inform user and stop further processing;
+						MessageBox.Show("Target package could not be locked","Target Read-Only",MessageBoxButtons.OK,MessageBoxIcon.Error);
 					}
-					else if (response == DialogResult.Yes)
+					else
 					{
-						this.updateMessageSubset(schema, classElement);
+						//check if the already contains classes
+						var classElement = targetPackage.ownedElements.FirstOrDefault(x => (x is UML.Classes.Kernel.Class || x is UML.Classes.Kernel.Enumeration) ) as UML.Classes.Kernel.Classifier;
+						DialogResult response = DialogResult.No;
+						if (classElement != null)
+						{
+							response = MessageBox.Show("Package already contains one or more classes" + Environment.NewLine + "Would you like to update an existing subset model?"
+							                ,"Update existing subset model?",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question,MessageBoxDefaultButton.Button1);
+							
+						}
+						if (response == DialogResult.No)
+						{
+							this.createNewMessageSubset(schema, targetPackage);
+						}
+						else if (response == DialogResult.Yes)
+						{
+							this.updateMessageSubset(schema, classElement);
+						}
+						//if the user chose cancel we don't do anything
 					}
-					//if the user chose cancel we don't do anything
-				}
-				else
-				{
-					this.updateMessageSubset(schema, selectedElement as UML.Classes.Kernel.Class);
-					//refresh all open diagram to show the changes
-					this.model.reloadDiagrams();
 				}
 				Cursor.Current = Cursors.Default;
 			}
@@ -275,6 +284,28 @@ namespace ECDMMessageComposer
 				diagram.reFresh();
 				diagram.open();
 			}
+		}
+		/// <summary>
+		/// try to make this element is completely writable, including all its owned elements recursively
+		/// </summary>
+		/// <param name="element">the element to make writable</param>
+		/// <returns>true if this element is now completely writable</returns>
+		private bool makeCompletelyWritable(UML.Classes.Kernel.Element element)
+		{
+			if (!element.makeWritable(false)) return false;
+			foreach (var subElement in element.ownedElements) 
+			{
+				if (! makeCompletelyWritable(subElement)) return false;
+			}
+			var diagramOwner = element as UML.Classes.Kernel.Namespace;
+			if (diagramOwner != null)
+			{
+				foreach (var diagram in diagramOwner.ownedDiagrams) 
+				{
+					if (! diagram.makeWritable(false)) return false;
+				}
+			}
+			return true;
 		}
 		/// <summary>
 		/// create a new subsetdiagram that will visualize the whole schema
