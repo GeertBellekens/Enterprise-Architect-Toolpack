@@ -46,6 +46,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EADatabaseTransformer", "EA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseFramework", "..\UML-Tooling-Framework\DatabaseFramework\DatabaseFramework.csproj", "{033C0DF8-5BB0-496F-B024-4443B9FCF2DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAMapping", "EAMapping\EAMapping.csproj", "{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MappingFramework", "..\UML-Tooling-Framework\MappingFramework\MappingFramework.csproj", "{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -222,5 +226,21 @@ Global
 		{033C0DF8-5BB0-496F-B024-4443B9FCF2DC}.Release|x86.Build.0 = Release|x86
 		{033C0DF8-5BB0-496F-B024-4443B9FCF2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{033C0DF8-5BB0-496F-B024-4443B9FCF2DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}.Debug|x86.ActiveCfg = Debug|x86
+		{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}.Debug|x86.Build.0 = Debug|x86
+		{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}.Release|x86.ActiveCfg = Release|x86
+		{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}.Release|x86.Build.0 = Release|x86
+		{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}.Debug|x86.ActiveCfg = Debug|x86
+		{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}.Debug|x86.Build.0 = Debug|x86
+		{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}.Release|x86.ActiveCfg = Release|x86
+		{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}.Release|x86.Build.0 = Release|x86
+		{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
