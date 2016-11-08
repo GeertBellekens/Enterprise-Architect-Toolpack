@@ -17,6 +17,13 @@ namespace EAMapping
         const string menuMap = "&Show Mapping";
         const string menuSettings = "&Settings";
         const string menuAbout = "&About";
+        
+        const string mappingControlName = "Mapping";
+        //private attributes
+        private TSF_EA.Model model = null;
+        private bool fullyLoaded = false;
+        private MappingControl _mappingControl;
+        private MappingFramework.MappingSet _currentMappingSet = null;
         /// <summary>
         /// constructor, set menu names
         /// </summary>
@@ -25,7 +32,32 @@ namespace EAMapping
         	this.menuHeader = menuName;
 			this.menuOptions = new string[]{menuMap, menuSettings, menuAbout};
         }
-                /// <summary>
+        
+        private MappingControl mappingControl
+		{
+			get
+			{
+				if (_mappingControl == null
+				   && this.model != null)
+				{
+					_mappingControl = this.model.addTab(mappingControlName, "EAMapping.MappingControl") as MappingControl;
+					_mappingControl.HandleDestroyed += dbControl_HandleDestroyed;
+				}
+				return _mappingControl;
+			}
+		}
+		void dbControl_HandleDestroyed(object sender, EventArgs e)
+		{
+			_mappingControl = null;
+		}
+		public override void EA_FileOpen(EA.Repository Repository)
+		{
+			// initialize the model
+	        this.model = new TSF_EA.Model(Repository);
+			// indicate that we are now fully loaded
+	        this.fullyLoaded = true;
+		}
+        /// <summary>
         /// Called when user makes a selection in the menu.
         /// This is your main exit point to the rest of your Add-in
         /// </summary>
@@ -38,7 +70,8 @@ namespace EAMapping
             switch (ItemName)
             {
                 case menuMap:
-                	//TODO
+            		this.mappingControl.loadMappingSet(this.currentMappingSet);
+                	Repository.ActivateTab(mappingControlName);
                     break;
 		        case menuAbout :
 		            new AboutWindow().ShowDialog();
@@ -47,6 +80,15 @@ namespace EAMapping
 	                //TODO
 	                break;
             }
+        }
+        private MappingFramework.MappingSet currentMappingSet
+        {
+        	get
+        	{
+        		//TODO: select the currently selected mapping set from the model
+        		return _currentMappingSet;
+        	}
+        	
         }
 	}
 }
