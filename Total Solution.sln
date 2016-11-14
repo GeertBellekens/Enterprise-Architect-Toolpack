@@ -50,6 +50,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAMapping", "EAMapping\EAMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MappingFramework", "..\UML-Tooling-Framework\MappingFramework\MappingFramework.csproj", "{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EATFSConnector", "EATFSConnector\EATFSConnector.csproj", "{A96EF4DF-01DE-450C-8777-35986829FF78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTrackingFramework", "..\UML-Tooling-Framework\WorkTrackingFramework\WorkTrackingFramework.csproj", "{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -242,5 +246,21 @@ Global
 		{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}.Release|x86.Build.0 = Release|x86
 		{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B56ABB9C-5AC0-4621-97B4-92D59C976F2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A96EF4DF-01DE-450C-8777-35986829FF78}.Debug|x86.ActiveCfg = Debug|x86
+		{A96EF4DF-01DE-450C-8777-35986829FF78}.Debug|x86.Build.0 = Debug|x86
+		{A96EF4DF-01DE-450C-8777-35986829FF78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A96EF4DF-01DE-450C-8777-35986829FF78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A96EF4DF-01DE-450C-8777-35986829FF78}.Release|x86.ActiveCfg = Release|x86
+		{A96EF4DF-01DE-450C-8777-35986829FF78}.Release|x86.Build.0 = Release|x86
+		{A96EF4DF-01DE-450C-8777-35986829FF78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A96EF4DF-01DE-450C-8777-35986829FF78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}.Debug|x86.ActiveCfg = Debug|x86
+		{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}.Debug|x86.Build.0 = Debug|x86
+		{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}.Release|x86.ActiveCfg = Release|x86
+		{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}.Release|x86.Build.0 = Release|x86
+		{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

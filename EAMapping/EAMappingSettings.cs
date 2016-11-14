@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace ECDMMessageComposer
+namespace EAMapping
 {
 	/// <summary>
 	/// Description of ECDMMessageComposerSettings.
