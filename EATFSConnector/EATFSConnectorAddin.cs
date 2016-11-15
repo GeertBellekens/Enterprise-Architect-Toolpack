@@ -6,8 +6,8 @@ using UML=TSF.UmlToolingFramework.UML;
 using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using EAAddinFramework;
 using System.Net.Http;
-using Newtonsoft.Json;
 using System.Text;
+using Newtonsoft.Json;
 
 
 namespace EATFSConnector
@@ -89,6 +89,7 @@ namespace EATFSConnector
                 query = "Select [State], [Title] " +
                         "From WorkItems " +
                         "Where [Work Item Type] = 'Feature' " +
+                		"AND [System.TeamProject] = '172 N ProjectFactory PocDotNet' "	+
                         "Order By [State] Asc, [Changed Date] Desc"
             };
 
@@ -97,6 +98,7 @@ namespace EATFSConnector
                 client.BaseAddress = new Uri(TFSUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(settings.defaultUserName + ":" + settings.defaultPassword)));
 
                 // serialize the wiql object into a json string   
                 var postValue = new StringContent(JsonConvert.SerializeObject(wiql), Encoding.UTF8, "application/json"); // mediaType needs to be application/json for a post call
@@ -121,8 +123,9 @@ namespace EATFSConnector
 
                     // clean up string of id's
                     string ids = builder.ToString().TrimEnd(new char[] { ',' });
-
-                    HttpResponseMessage getWorkItemsHttpResponse = client.GetAsync("_apis/wit/workitems?ids=" + ids + "&fields=System.Id,System.Title,System.State&asOf=" + workItemQueryResult.asOf + "&api-version=2.2").Result;
+                    //TODO: remove project from url
+                    string getWorkitemsUrl = TFSUrl + "_apis/wit/workitems?ids=" + ids + "&fields=System.Id,System.Title&api-version=2.2";
+                    HttpResponseMessage getWorkItemsHttpResponse = client.GetAsync(getWorkitemsUrl).Result;
 
                     if (getWorkItemsHttpResponse.IsSuccessStatusCode)
                     {

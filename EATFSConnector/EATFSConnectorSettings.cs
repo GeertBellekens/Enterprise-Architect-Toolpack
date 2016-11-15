@@ -29,6 +29,7 @@ namespace EATFSConnector
 			}
 		}
 		#endregion
+		//TODO: add project as separate entry
 		
         public Dictionary<string,string> projectConnections
 		{
@@ -78,6 +79,28 @@ namespace EATFSConnector
 					connections.Add(string.Join(";",keyValuePair.Key,keyValuePair.Value));
 				}
 				this.setValue("workitemMappings",string.Join(",",connections));
+			}
+		}
+        public string defaultUserName
+		{
+			get
+			{
+				return this.getValue("defaultUserName");
+			}
+			set
+			{
+				this.setValue("defaultUserName",value);
+			}
+		}
+        public string defaultPassword
+		{
+			get
+			{
+				return this.getValue("defaultPassword");
+			}
+			set
+			{
+				this.setValue("defaultPassword",value);
 			}
 		}
     }
