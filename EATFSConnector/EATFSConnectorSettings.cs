@@ -81,6 +81,17 @@ namespace EATFSConnector
 				this.setValue("workitemMappings",string.Join(",",connections));
 			}
 		}
+        public string defaultProject
+		{
+			get
+			{
+				return this.getValue("defaultProject");
+			}
+			set
+			{
+				this.setValue("defaultProject",value);
+			}
+		}
         public string defaultUserName
 		{
 			get
@@ -103,6 +114,7 @@ namespace EATFSConnector
 				this.setValue("defaultPassword",value);
 			}
 		}
+        
     }
 }
 

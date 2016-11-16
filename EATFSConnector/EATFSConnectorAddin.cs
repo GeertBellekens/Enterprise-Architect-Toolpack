@@ -81,6 +81,13 @@ namespace EATFSConnector
         		GetWorkItemsByWiql(TFSUrl);
         	}
         }
+        private string getCurrentProject()
+        {
+        	var currentRoot = this.model.getCurrentRootPackage();
+        	//check the notes of the current root. If it doesn't contain a project then we return the default project
+        	//TODO: check notes of currentRoot and get project if present.
+        	return settings.defaultProject;
+        }
         public string GetWorkItemsByWiql(string TFSUrl)
         {
             // create wiql object
