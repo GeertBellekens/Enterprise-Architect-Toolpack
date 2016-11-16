@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using DB=DatabaseFramework;
 using DB_EA = EAAddinFramework.Databases;
 using UML = TSF.UmlToolingFramework.UML;
+using System.Linq;
 
 namespace EADatabaseTransformer
 {
@@ -35,7 +36,7 @@ namespace EADatabaseTransformer
 			this.saveDatabaseButton.Enabled = (_comparer != null 
 			                                   && _comparer.existingDatabase != null
 			                                   && _comparer.newDatabase != null 
-			                                   && _comparer.newDatabase.isValid);
+			                                   && _comparer.newDatabase.tables.Any(x => x.isValid));
 			this.renameButton.Enabled = (this.selectedComparison != null
 			                             && this.selectedComparison.newDatabaseItem != null);
 			this.overrideButton.Enabled = (this.selectedComparison != null
