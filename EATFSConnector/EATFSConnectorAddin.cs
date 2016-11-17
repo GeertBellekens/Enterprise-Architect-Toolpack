@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Windows.Forms;
 using UML=TSF.UmlToolingFramework.UML;
 using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using EAAddinFramework;
@@ -44,7 +45,7 @@ namespace EATFSConnector
         public EATFSConnectorAddin():base()
         {
         	this.menuHeader = menuName;
-			this.menuOptions = new string[]{menuSynchTFStoEA,menuSynchEAtoTFS, menuSettings, menuAbout};
+			this.menuOptions = new string[]{menuSynchTFStoEA,menuSynchEAtoTFS,menuSetProject, menuSettings, menuAbout};
         }
        	public override void EA_FileOpen(EA.Repository Repository)
 		{
@@ -73,6 +74,9 @@ namespace EATFSConnector
 				case menuSetProject:
 					IsEnabled = (MenuLocation == "TreeView" && this.model.selectedElement is TSF_EA.RootPackage);
 					break;
+				case menuSynchTFStoEA:
+					IsEnabled = (this.model.selectedElement is TSF_EA.Package);
+					break;
 				default:
 					base.EA_GetMenuState(Repository, MenuLocation, MenuName, ItemName, ref IsEnabled, ref IsChecked);
 					break;
@@ -96,6 +100,9 @@ namespace EATFSConnector
                 case menuSynchEAtoTFS:
 					//TODO
                     break;
+                case menuSetProject:
+            		setProject();
+            		break;
 		        case menuAbout :
 		            new AboutWindow().ShowDialog();
 		            break;
@@ -117,15 +124,39 @@ namespace EATFSConnector
         		//get the workitems is project was found
         		if (! string.IsNullOrEmpty(currentProjectName)) 
         		{
-        			WT.Project project = new TFS.Project(currentProjectName,TFSUrl,this.settings);
-        			foreach (var workitem in project.workitems) 
+        			//get the selected package
+        			var selectedPackage = this.model.selectedItem as UML.Classes.Kernel.Package;
+        			if (selectedPackage != null)
         			{
-        				Logger.log ("workitem ID: " + workitem.ID + " Title: " + workitem.title);
+	        			var selectImportTypes = new SelectImportTypesForm(this.settings);
+	        			if (selectImportTypes.ShowDialog(this.EAModel.mainEAWindow) == DialogResult.OK)
+	        			{
+		        			WT.Project project = new TFS.Project(currentProjectName,TFSUrl,this.settings);
+		        			foreach (var workitem in project.workitems
+		        			         .Where(x => x.type.Equals(selectImportTypes.TFSWorkitemType,StringComparison.InvariantCultureIgnoreCase)))
+		        			{
+		        				Logger.log ("workitem ID: " + workitem.ID + " Title: " + workitem.title);
+		        			}
+	        			}
         			}
         		}
         	}
         }
-        
+
+		void setProject()
+		{
+			var selectedRoot = this.model.selectedItem as TSF_EA.RootPackage;
+			if (selectedRoot != null)
+			{
+				var projectForm = new SetProjectForm();
+				if (projectForm.ShowDialog() == DialogResult.OK
+				   && projectForm.projectName.Length > 0)
+				{
+					selectedRoot.notes = "project=" + projectForm.projectName;
+					selectedRoot.save();
+				}
+			}
+		}
         private string getCurrentProject()
         {
         	var currentRoot = this.model.getCurrentRootPackage() as TSF_EA.RootPackage;

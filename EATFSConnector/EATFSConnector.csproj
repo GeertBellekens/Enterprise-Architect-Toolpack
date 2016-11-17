@@ -84,6 +84,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectImportTypesForm.cs" />
+    <Compile Include="SelectImportTypesForm.Designer.cs">
+      <DependentUpon>SelectImportTypesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetProjectForm.cs" />
+    <Compile Include="SetProjectForm.Designer.cs">
+      <DependentUpon>SetProjectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TFSConnectorSettingsForm.cs" />
     <Compile Include="TFSConnectorSettingsForm.Designer.cs">
       <DependentUpon>TFSConnectorSettingsForm.cs</DependentUpon>
@@ -112,6 +120,12 @@
   <ItemGroup>
     <EmbeddedResource Include="AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectImportTypesForm.resx">
+      <DependentUpon>SelectImportTypesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetProjectForm.resx">
+      <DependentUpon>SetProjectForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
