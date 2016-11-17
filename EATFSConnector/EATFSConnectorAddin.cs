@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http.Headers;
 using UML=TSF.UmlToolingFramework.UML;
 using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
@@ -8,6 +9,11 @@ using EAAddinFramework;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using System.Linq;
+using Newtonsoft.Json.Linq;
+using WT=WorkTrackingFramework;
+using TFS=EAAddinFramework.WorkTracking.TFS;
+using EAAddinFramework.Utilities;
 
 
 namespace EATFSConnector
@@ -19,10 +25,13 @@ namespace EATFSConnector
 	{
 		// define menu constants
         const string menuName = "-&TFS Connector";
-        const string menuSynchTFStoEA = "&Sync TFS to EA";
-        const string menuSynchEAtoTFS = "&Sync EA to TFS";
+        const string menuSynchTFStoEA = "&TFS => EA";
+        const string menuSynchEAtoTFS = "&EA => TFS";
         const string menuSettings = "&Settings";
+        const string menuSetProject = "Set &Project";
         const string menuAbout = "&About";
+        
+
         
         //private attributes
         private EATFSConnectorSettings settings = new EATFSConnectorSettings();
@@ -43,6 +52,31 @@ namespace EATFSConnector
 	        this.model = new TSF_EA.Model(Repository);
 			// indicate that we are now fully loaded
 	        this.fullyLoaded = true;
+		}
+       	/// <summary>
+        /// The EA_GetMenuState event enables the Add-In to set a particular menu option to either enabled or disabled. This is useful when dealing with locked packages and other situations where it is convenient to show a menu option, but not enable it for use.
+        /// This event is raised just before Enterprise Architect has to show particular menu options to the user. Its use is described in the Define Menu Items topic.
+        /// Also look at EA_GetMenuItems.
+        /// </summary>
+        /// <param name="Repository">An EA.Repository object representing the currently open Enterprise Architect model.
+        /// Poll its members to retrieve model data and user interface status information.</param>
+        /// <param name="MenuLocation">String representing the part of the user interface that brought up the menu. 
+        /// Can be TreeView, MainMenu or Diagram.</param>
+        /// <param name="MenuName">The name of the parent menu for which sub-items must be defined. In the case of the top-level menu it is an empty string.</param>
+        /// <param name="ItemName">The name of the option actually clicked, for example, Create a New Invoice.</param>
+        /// <param name="IsEnabled">Boolean. Set to False to disable this particular menu option.</param>
+        /// <param name="IsChecked">Boolean. Set to True to check this particular menu option.</param>
+		public override void EA_GetMenuState(EA.Repository Repository, string MenuLocation, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
+		{
+			switch (ItemName)
+            {
+				case menuSetProject:
+					IsEnabled = (MenuLocation == "TreeView" && this.model.selectedElement is TSF_EA.RootPackage);
+					break;
+				default:
+					base.EA_GetMenuState(Repository, MenuLocation, MenuName, ItemName, ref IsEnabled, ref IsChecked);
+					break;
+			}
 		}
        	/// <summary>
         /// Called when user makes a selection in the menu.
@@ -70,6 +104,7 @@ namespace EATFSConnector
 	                break;
             }
         }
+
         private void synchTFSToEA()
         {
         	string TFSUrl;
@@ -78,123 +113,41 @@ namespace EATFSConnector
         	{
         		//ok we have an URL for the TFS
         		//get a list of all workitems of a certain type
-        		GetWorkItemsByWiql(TFSUrl);
+        		string currentProjectName = getCurrentProject();
+        		//get the workitems is project was found
+        		if (! string.IsNullOrEmpty(currentProjectName)) 
+        		{
+        			WT.Project project = new TFS.Project(currentProjectName,TFSUrl,this.settings);
+        			foreach (var workitem in project.workitems) 
+        			{
+        				Logger.log ("workitem ID: " + workitem.ID + " Title: " + workitem.title);
+        			}
+        		}
         	}
         }
+        
         private string getCurrentProject()
         {
-        	var currentRoot = this.model.getCurrentRootPackage();
-        	//check the notes of the current root. If it doesn't contain a project then we return the default project
-        	//TODO: check notes of currentRoot and get project if present.
+        	var currentRoot = this.model.getCurrentRootPackage() as TSF_EA.RootPackage;
+        	if (currentRoot != null)
+        	{
+        		//check if the current root contains a project value
+        		var keyValues = currentRoot.notes.Split('=');
+        		if (keyValues.Count() == 2
+        		    && keyValues[0] == "project"
+        		    && keyValues[1].Length > 0)
+        		{
+        			return keyValues[1];
+        		}
+        	}
+        	//if not found return default project
         	return settings.defaultProject;
         }
-        public string GetWorkItemsByWiql(string TFSUrl)
-        {
-            // create wiql object
-            var wiql = new
-            {
-                query = "Select [State], [Title] " +
-                        "From WorkItems " +
-                        "Where [Work Item Type] = 'Feature' " +
-                		"AND [System.TeamProject] = '172 N ProjectFactory PocDotNet' "	+
-                        "Order By [State] Asc, [Changed Date] Desc"
-            };
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(TFSUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(settings.defaultUserName + ":" + settings.defaultPassword)));
 
-                // serialize the wiql object into a json string   
-                var postValue = new StringContent(JsonConvert.SerializeObject(wiql), Encoding.UTF8, "application/json"); // mediaType needs to be application/json for a post call
-
-                // set the httpmethod to PPOST
-                var method = new HttpMethod("POST");
-
-                // send the request               
-                var httpRequestMessage = new HttpRequestMessage(method, TFSUrl + "_apis/wit/wiql?api-version=2.2") { Content = postValue };
-                var httpResponseMessage = client.SendAsync(httpRequestMessage).Result;
-
-                if (httpResponseMessage.IsSuccessStatusCode)
-                {
-                    WorkItemQueryResult workItemQueryResult = httpResponseMessage.Content.ReadAsAsync<WorkItemQueryResult>().Result;
-                                     
-                    // now that we have a bunch of work items, build a list of id's so we can get details
-                    var builder = new System.Text.StringBuilder();
-                    foreach (var item in workItemQueryResult.workItems)
-                    {
-                        builder.Append(item.id.ToString()).Append(",");
-                    }
-
-                    // clean up string of id's
-                    string ids = builder.ToString().TrimEnd(new char[] { ',' });
-                    //TODO: remove project from url
-                    string getWorkitemsUrl = TFSUrl + "_apis/wit/workitems?ids=" + ids + "&fields=System.Id,System.Title&api-version=2.2";
-                    HttpResponseMessage getWorkItemsHttpResponse = client.GetAsync(getWorkitemsUrl).Result;
-
-                    if (getWorkItemsHttpResponse.IsSuccessStatusCode)
-                    {
-                        var result = getWorkItemsHttpResponse.Content.ReadAsStringAsync().Result;
-                        return "success";
-                    }
-
-                    return "failed";               
-                }
-
-                return "failed";                               
-            }
-        }
 	}
-	public class QueryResult
-    {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string path { get; set; }           
-        public string url { get; set; }
-    }
-
-    public class WorkItemQueryResult 
-    {
-        public string queryType { get; set; }
-        public string queryResultType { get; set; }
-        public DateTime asOf { get; set; }
-        public Column[] columns { get; set; }
-        public Workitem[] workItems { get; set; }
-    }   
-
-    public class Workitem
-    {
-        public int id { get; set; }
-        public string url { get; set; }
-    }
-
-    public class Column
-    {
-        public string referenceName { get; set; }
-        public string name { get; set; }
-        public string url { get; set; }
-    }
-
-    public class AttachmentReference
-    {
-        public string id { get; set; }
-        public string url { get; set; }
-    }
-
-    public class WorkItemFields 
-    {
-        public int count { get; set; }
-        public WorkItemField[] value { get; set; }
-    }
-
-    public class WorkItemField
-    {
-        public string name { get; set; }
-        public string referenceName { get; set; }
-        public string type { get; set; }
-        public bool readOnly { get; set; }        
-        public string url { get; set; }
-    }
+	
+	
+	
+	
 }

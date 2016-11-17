@@ -4,13 +4,14 @@ using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using System.Configuration;
 using System.Linq;
 using System.Collections.Generic;
+using EAAddinFramework.WorkTracking.TFS;
 
 namespace EATFSConnector
 {
 	/// <summary>
 	/// Description of ECDMMessageComposerSettings.
 	/// </summary>
-	public class EATFSConnectorSettings:EAAddinFramework.Utilities.AddinSettings
+	public class EATFSConnectorSettings:EAAddinFramework.Utilities.AddinSettings,TFSSettings
 	{
 		#region implemented abstract members of AddinSettings
 
@@ -29,7 +30,6 @@ namespace EATFSConnector
 			}
 		}
 		#endregion
-		//TODO: add project as separate entry
 		
         public Dictionary<string,string> projectConnections
 		{

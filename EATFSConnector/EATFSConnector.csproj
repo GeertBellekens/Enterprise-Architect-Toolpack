@@ -98,6 +98,10 @@
       <Project>{0fc55607-c9d0-442d-941c-f23ad00cb318}</Project>
       <Name>UMLToolingFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\UML-Tooling-Framework\WorkTrackingFramework\WorkTrackingFramework.csproj">
+      <Project>{5e06f0d2-b40a-45a9-be8f-07dcda11ef9c}</Project>
+      <Name>WorkTrackingFramework</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="EATFSConnector.dll.config">

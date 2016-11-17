@@ -7,8 +7,9 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>LicensekeyGenerator</RootNamespace>
     <AssemblyName>LicensekeyGenerator</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <AppDesignerFolder>Properties</AppDesignerFolder>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
@@ -68,6 +69,9 @@
       <Project>{4161DD26-375F-4744-BA96-B70366E19A78}</Project>
       <Name>EAAddinFramework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

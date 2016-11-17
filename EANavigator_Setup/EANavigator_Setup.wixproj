@@ -11,6 +11,8 @@
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <SupressIces>ICE45</SupressIces>
     <WixVariables>WixUILicenseRtf=license.rtf</WixVariables>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -38,6 +40,7 @@
     <Compile Include="Setup.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="license.rtf" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
