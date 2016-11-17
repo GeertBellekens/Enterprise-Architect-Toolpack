@@ -81,16 +81,21 @@ namespace EADatabaseTransformer
 		void overrideButtonClick(object sender, EventArgs e)
 		{
 			var comparedItem = sender as DB.Compare.DatabaseItemComparison;
-			if (comparedItem != null
-			    && comparedItem.existingDatabaseItem != null)
-			{
-				if (comparedItem.newDatabaseItem != null)
+			if (comparedItem != null)
+			   	//database item exists and is different from the new database item
+				if (comparedItem.existingDatabaseItem != null)
 				{
-					comparedItem.newDatabaseItem.update(comparedItem.existingDatabaseItem,false);
+					if (comparedItem.newDatabaseItem != null)
+					{
+						comparedItem.newDatabaseItem.update(comparedItem.existingDatabaseItem,false);
+						comparedItem.newDatabaseItem.isOverridden = true;
+					}
+					comparedItem.existingDatabaseItem.isOverridden = true;
+				}
+				else if (comparedItem.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.newItem )
+				{
 					comparedItem.newDatabaseItem.isOverridden = true;
 				}
-				comparedItem.existingDatabaseItem.isOverridden = true;
-			}
 			this.refreshCompare(false);
 		}
 
@@ -194,7 +199,6 @@ namespace EADatabaseTransformer
   		/// </summary>
 		void compareDatabase()
 		{
-			Logger.log("starting compare databaes");
 			var selectedPackage = this.model.selectedElement as UTF_EA.Package;
 			//TODO: allow the user to select either database or logical package if not already linked, or if multiple are linked
 			if (selectedPackage != null)
@@ -218,16 +222,12 @@ namespace EADatabaseTransformer
 
 		private void refreshCompare(bool refreshTransform)
 		{
-			Logger.log("starting refreshCompare");
+
 			if (refreshTransform)_databaseTransformer.refresh();
-			Logger.log("finshed refresh");
 			//refresh transformation and load of new and original database
 			_comparer = new DB_EA.Compare.EADatabaseComparer((DB_EA.Database) _databaseTransformer.newDatabase, (DB_EA.Database) _databaseTransformer.existingDatabase);
-			Logger.log("starting compare");
 			_comparer.compare();
-			Logger.log("finished compare");
 			this.dbCompareControl.loadComparison(_comparer);
-			Logger.log("finshed loadComparison");
 		}
 
 		

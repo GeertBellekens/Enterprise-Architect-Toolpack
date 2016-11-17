@@ -40,9 +40,10 @@ namespace EADatabaseTransformer
 			this.renameButton.Enabled = (this.selectedComparison != null
 			                             && this.selectedComparison.newDatabaseItem != null);
 			this.overrideButton.Enabled = (this.selectedComparison != null
-											&& this.selectedComparison.existingDatabaseItem != null
-											&& (this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.changed
-											    || this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.deletedItem));
+											&& ((this.selectedComparison.existingDatabaseItem != null
+												&& (this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.changed
+			                                       || this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.deletedItem))
+			                                   ||this.selectedComparison.comparisonStatus ==  DB.Compare.DatabaseComparisonStatusEnum.newItem ));
 			//downbutton should not be enabled is this is the last item, of if the next item is a table
 			this.downButton.Enabled = this.selectedComparison != null
 				&& this.selectedComparison.itemType.Equals("Column",StringComparison.InvariantCultureIgnoreCase)

@@ -342,7 +342,6 @@ namespace EAImvertor
 		private void imvertorBackgroundRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			this._imvertorControl.refreshJobInfo(e.Result as EAImvertorJob);
-			Logger.log("imvertorJob finished");
 		}
 	}
 }
