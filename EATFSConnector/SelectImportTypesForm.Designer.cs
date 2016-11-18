@@ -35,7 +35,7 @@ namespace EATFSConnector
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetProjectForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectImportTypesForm));
 			this.TFSTypeComboBox = new System.Windows.Forms.ComboBox();
 			this.TFSTypeLabel = new System.Windows.Forms.Label();
 			this.SparxTypesComboBox = new System.Windows.Forms.ComboBox();
@@ -120,7 +120,11 @@ namespace EATFSConnector
 			this.Controls.Add(this.TFSTypeLabel);
 			this.Controls.Add(this.TFSTypeComboBox);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(256, 192);
 			this.Name = "SelectImportTypesForm";
+			this.ShowInTaskbar = false;
 			this.Text = "Select Import Types";
 			this.ResumeLayout(false);
 

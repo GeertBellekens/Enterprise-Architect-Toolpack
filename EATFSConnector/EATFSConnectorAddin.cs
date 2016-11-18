@@ -14,6 +14,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using WT=WorkTrackingFramework;
 using TFS=EAAddinFramework.WorkTracking.TFS;
+using EA_WT=EAAddinFramework.WorkTracking;
 using EAAddinFramework.Utilities;
 
 
@@ -125,17 +126,17 @@ namespace EATFSConnector
         		if (! string.IsNullOrEmpty(currentProjectName)) 
         		{
         			//get the selected package
-        			var selectedPackage = this.model.selectedItem as UML.Classes.Kernel.Package;
+        			var selectedPackage = this.model.selectedItem as TSF_EA.Package;
         			if (selectedPackage != null)
         			{
 	        			var selectImportTypes = new SelectImportTypesForm(this.settings);
 	        			if (selectImportTypes.ShowDialog(this.EAModel.mainEAWindow) == DialogResult.OK)
 	        			{
-		        			WT.Project project = new TFS.Project(currentProjectName,TFSUrl,this.settings);
-		        			foreach (var workitem in project.workitems
+		        			WT.Project project = new TFS.TFSProject(currentProjectName,TFSUrl,this.settings);
+		        			foreach (EA_WT.WorkItem workitem in project.workitems
 		        			         .Where(x => x.type.Equals(selectImportTypes.TFSWorkitemType,StringComparison.InvariantCultureIgnoreCase)))
 		        			{
-		        				Logger.log ("workitem ID: " + workitem.ID + " Title: " + workitem.title);
+		        				workitem.synchronizeToEA(selectedPackage,selectImportTypes.SparxType);
 		        			}
 	        			}
         			}
