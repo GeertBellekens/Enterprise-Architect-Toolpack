@@ -1,6 +1,6 @@
 ﻿using System;
 using UML=TSF.UmlToolingFramework.UML;
-using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
+using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using System.Configuration;
 using System.Linq;
 using System.Collections.Generic;
@@ -30,6 +30,13 @@ namespace EATFSConnector
 			}
 		}
 		#endregion
+		public string getTFSUrl(TSF_EA.Model model)
+		{
+			string TFSUrl;
+        	//get the TFS location
+        	projectConnections.TryGetValue(model.projectGUID,out TFSUrl);
+        	return TFSUrl;
+		}
 		
         public Dictionary<string,string> projectConnections
 		{

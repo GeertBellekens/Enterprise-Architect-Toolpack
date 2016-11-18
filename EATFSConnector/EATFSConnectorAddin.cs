@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Windows.Forms;
@@ -31,6 +32,7 @@ namespace EATFSConnector
         const string menuSynchEAtoTFS = "&EA => TFS";
         const string menuSettings = "&Settings";
         const string menuSetProject = "Set &Project";
+        const string menuGoToTFSWeb = "&Open TFS website";
         const string menuAbout = "&About";
         
 
@@ -46,7 +48,7 @@ namespace EATFSConnector
         public EATFSConnectorAddin():base()
         {
         	this.menuHeader = menuName;
-			this.menuOptions = new string[]{menuSynchTFStoEA,menuSynchEAtoTFS,menuSetProject, menuSettings, menuAbout};
+			this.menuOptions = new string[]{menuSynchTFStoEA,menuSynchEAtoTFS,menuSetProject,menuGoToTFSWeb, menuSettings, menuAbout};
         }
        	public override void EA_FileOpen(EA.Repository Repository)
 		{
@@ -78,6 +80,9 @@ namespace EATFSConnector
 				case menuSynchTFStoEA:
 					IsEnabled = (this.model.selectedElement is TSF_EA.Package);
 					break;
+				case menuGoToTFSWeb:
+					IsEnabled = ( this.getCurrentProject() != null);
+					break;
 				default:
 					base.EA_GetMenuState(Repository, MenuLocation, MenuName, ItemName, ref IsEnabled, ref IsChecked);
 					break;
@@ -104,6 +109,9 @@ namespace EATFSConnector
                 case menuSetProject:
             		setProject();
             		break;
+            	case menuGoToTFSWeb:
+            		goToTFSWeb();
+            		break;
 		        case menuAbout :
 		            new AboutWindow().ShowDialog();
 		            break;
@@ -113,35 +121,67 @@ namespace EATFSConnector
             }
         }
 
+		void goToTFSWeb()
+		{
+			string TFSUrl;
+			var currentProject = this.getCurrentProject();
+			if (currentProject != null)
+			{
+				var selectedWorkitem = this.getCurrentWorkitem();
+				if (selectedWorkitem != null)
+				{
+					TFSUrl = selectedWorkitem.url;
+				}
+				else
+				{
+					TFSUrl = currentProject.url;
+				}
+				//open url
+				Process.Start(TFSUrl);
+			}
+			else
+			{
+				MessageBox.Show("No TFS project found","No TFS Project",MessageBoxButtons.OK,MessageBoxIcon.Error);
+			}
+				
+		}
+		private TFS.TFSWorkItem getCurrentWorkitem()
+		{
+			var currentProject = this.getCurrentProject();
+			if (currentProject != null)
+			{
+				 var selectedItem = this.model.selectedElement as TSF_EA.ElementWrapper;
+				//check if it has a TFS_ID tagged value
+				if (selectedItem != null && selectedItem.taggedValues.Any(x => x.name == "TFS_ID" && x.tagValue.ToString().Length > 0))
+				{
+					return new TFS.TFSWorkItem(currentProject,selectedItem);
+				}
+			}
+			//no project or no appropriate selected element
+			return null;
+		}
         private void synchTFSToEA()
         {
-        	string TFSUrl;
-        	//get the TFS location
-        	if (this.settings.projectConnections.TryGetValue(this.EAModel.projectGUID,out TFSUrl))
-        	{
-        		//ok we have an URL for the TFS
-        		//get a list of all workitems of a certain type
-        		string currentProjectName = getCurrentProject();
-        		//get the workitems is project was found
-        		if (! string.IsNullOrEmpty(currentProjectName)) 
-        		{
-        			//get the selected package
-        			var selectedPackage = this.model.selectedItem as TSF_EA.Package;
-        			if (selectedPackage != null)
+    		//get a list of all workitems of a certain type
+    		var currentProject = getCurrentProject();
+    		//get the workitems is project was found
+    		if (currentProject != null) 
+    		{
+    			//get the selected package
+    			var selectedPackage = this.model.selectedItem as TSF_EA.Package;
+    			if (selectedPackage != null)
+    			{
+        			var selectImportTypes = new SelectImportTypesForm(this.settings);
+        			if (selectImportTypes.ShowDialog(this.EAModel.mainEAWindow) == DialogResult.OK)
         			{
-	        			var selectImportTypes = new SelectImportTypesForm(this.settings);
-	        			if (selectImportTypes.ShowDialog(this.EAModel.mainEAWindow) == DialogResult.OK)
+	        			foreach (EA_WT.WorkItem workitem in currentProject.workitems
+	        			         .Where(x => x.type.Equals(selectImportTypes.TFSWorkitemType,StringComparison.InvariantCultureIgnoreCase)))
 	        			{
-		        			WT.Project project = new TFS.TFSProject(currentProjectName,TFSUrl,this.settings);
-		        			foreach (EA_WT.WorkItem workitem in project.workitems
-		        			         .Where(x => x.type.Equals(selectImportTypes.TFSWorkitemType,StringComparison.InvariantCultureIgnoreCase)))
-		        			{
-		        				workitem.synchronizeToEA(selectedPackage,selectImportTypes.SparxType);
-		        			}
+	        				workitem.synchronizeToEA(selectedPackage,selectImportTypes.SparxType);
 	        			}
         			}
-        		}
-        	}
+    			}
+    		}
         }
 
 		void setProject()
@@ -158,7 +198,13 @@ namespace EATFSConnector
 				}
 			}
 		}
-        private string getCurrentProject()
+		/// <summary>
+		/// returns the project based on the currently selected element.
+		/// Currently looks for the root project and checks the notes of that root element.
+		/// TODO: allow for definition of projects on intermediate package levels (using tagged values)
+		/// </summary>
+		/// <returns>the TFSProject based on the currently selected item</returns>
+        private TFS.TFSProject getCurrentProject()
         {
         	var currentRoot = this.model.getCurrentRootPackage() as TSF_EA.RootPackage;
         	if (currentRoot != null)
@@ -169,11 +215,11 @@ namespace EATFSConnector
         		    && keyValues[0] == "project"
         		    && keyValues[1].Length > 0)
         		{
-        			return keyValues[1];
+        			return new TFS.TFSProject(keyValues[1],this.settings.getTFSUrl(this.EAModel),this.settings);
         		}
         	}
         	//if not found return default project
-        	return settings.defaultProject;
+        	return new TFS.TFSProject(settings.defaultProject,this.settings.getTFSUrl(this.EAModel),this.settings);
         }
 
 
