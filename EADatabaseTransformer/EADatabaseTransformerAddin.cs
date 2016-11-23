@@ -85,10 +85,13 @@ namespace EADatabaseTransformer
 			   	//database item exists and is different from the new database item
 				if (comparedItem.existingDatabaseItem != null)
 				{
-					if (comparedItem.newDatabaseItem != null)
+					if (comparedItem.newDatabaseItem != null
+				    && ! this._comparer.comparedItems.Any(x => x.newDatabaseItem == comparedItem.newDatabaseItem 
+				                                          && x.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.equal))
 					{
+						//only update if there is no other comparison where the new item is equal
+						
 						comparedItem.newDatabaseItem.update(comparedItem.existingDatabaseItem,false);
-						comparedItem.newDatabaseItem.isOverridden = true;
 					}
 					comparedItem.existingDatabaseItem.isOverridden = true;
 				}

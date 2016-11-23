@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UML=TSF.UmlToolingFramework.UML;
 using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using EAAddinFramework;
+using EA_MP = EAAddinFramework.Mapping;
 
 namespace EAMapping
 {
@@ -14,7 +15,8 @@ namespace EAMapping
 	{
 		// define menu constants
         const string menuName = "-&EA Mapping";
-        const string menuMap = "&Show Mapping";
+        const string menuMapAsSource = "&Map as Source";
+        const string menuMapAsTarget = "&Map as Target";
         const string menuSettings = "&Settings";
         const string menuAbout = "&About";
         
@@ -30,7 +32,7 @@ namespace EAMapping
         public EAMappingAddin():base()
         {
         	this.menuHeader = menuName;
-			this.menuOptions = new string[]{menuMap, menuSettings, menuAbout};
+			this.menuOptions = new string[]{menuMapAsSource,menuMapAsTarget, menuSettings, menuAbout};
         }
         
         private MappingControl mappingControl
@@ -69,8 +71,12 @@ namespace EAMapping
         {
             switch (ItemName)
             {
-                case menuMap:
-            		this.mappingControl.loadMappingSet(this.currentMappingSet);
+                case menuMapAsSource:
+            		this.mappingControl.loadMappingSet(this.getCurrentMappingSet(true));
+                	Repository.ActivateTab(mappingControlName);
+                    break;
+                case menuMapAsTarget:
+            		this.mappingControl.loadMappingSet(this.getCurrentMappingSet(false));
                 	Repository.ActivateTab(mappingControlName);
                     break;
 		        case menuAbout :
@@ -81,14 +87,22 @@ namespace EAMapping
 	                break;
             }
         }
-        private MappingFramework.MappingSet currentMappingSet
+        private MappingFramework.MappingSet getCurrentMappingSet(bool source)
         {
-        	get
-        	{
-        		//TODO: select the currently selected mapping set from the model
-        		return _currentMappingSet;
-        	}
+    		var selectedItem = model.selectedItem;
+    		var selectedPackage = selectedItem as UML.Classes.Kernel.Package;
+    		//check if package is selected
+    		if (selectedPackage != null)
+    		{
+    			_currentMappingSet = getCurrentMappingSet(selectedPackage, source);
+    		}
+    		//TODO: other selected things (diagram, element?)
+    		return _currentMappingSet;	
         	
+        }
+        private MappingFramework.MappingSet getCurrentMappingSet(UML.Classes.Kernel.Package package, bool source)
+        {
+        	return new EA_MP.PackageMappingSet((TSF_EA.Package)package,source);
         }
 	}
 }
