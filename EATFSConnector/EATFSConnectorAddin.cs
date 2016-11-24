@@ -200,26 +200,17 @@ namespace EATFSConnector
 		}
 		/// <summary>
 		/// returns the project based on the currently selected element.
-		/// Currently looks for the root project and checks the notes of that root element.
-		/// TODO: allow for definition of projects on intermediate package levels (using tagged values)
 		/// </summary>
 		/// <returns>the TFSProject based on the currently selected item</returns>
         private TFS.TFSProject getCurrentProject()
         {
-        	var currentRoot = this.model.getCurrentRootPackage() as TSF_EA.RootPackage;
-        	if (currentRoot != null)
-        	{
-        		//check if the current root contains a project value
-        		var keyValues = currentRoot.notes.Split('=');
-        		if (keyValues.Count() == 2
-        		    && keyValues[0] == "project"
-        		    && keyValues[1].Length > 0)
-        		{
-        			return new TFS.TFSProject(keyValues[1],this.settings.getTFSUrl(this.EAModel),this.settings);
-        		}
-        	}
-        	//if not found return default project
-        	return new TFS.TFSProject(settings.defaultProject,this.settings.getTFSUrl(this.EAModel),this.settings);
+			var currentProject = TFS.TFSProject.getCurrentProject(this.model.selectedElement as TSF_EA.Element,this.settings.getTFSUrl(this.EAModel),this.settings);
+			if (currentProject == null)
+			{
+        		//if not found return default project
+        		currentProject = new TFS.TFSProject(settings.defaultProject,this.settings.getTFSUrl(this.EAModel),this.settings);
+			}
+			return currentProject;
         }
 
 
