@@ -40,10 +40,11 @@ namespace EADatabaseTransformer
 			this.renameButton.Enabled = (this.selectedComparison != null
 			                             && this.selectedComparison.newDatabaseItem != null);
 			this.overrideButton.Enabled = (this.selectedComparison != null
-											&& ((this.selectedComparison.existingDatabaseItem != null
+											&& (((this.selectedComparison.existingDatabaseItem != null
 												&& (this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.changed
 			                                       || this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.deletedItem))
-			                                   ||this.selectedComparison.comparisonStatus ==  DB.Compare.DatabaseComparisonStatusEnum.newItem ));
+			                                   ||this.selectedComparison.comparisonStatus ==  DB.Compare.DatabaseComparisonStatusEnum.newItem )
+			                                   || this.selectedComparison.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.dboverride));
 			//downbutton should not be enabled is this is the last item, of if the next item is a table
 			this.downButton.Enabled = this.selectedComparison != null
 				&& this.selectedComparison.itemType.Equals("Column",StringComparison.InvariantCultureIgnoreCase)
@@ -115,7 +116,17 @@ namespace EADatabaseTransformer
 					break;								
 			}
 			//table should be bold
-			if (comparedItem.itemType == "Table") setItemFont(item,new Font(item.Font,FontStyle.Bold));
+			if (comparedItem.itemType == "Table") 
+			{
+				if (comparedItem.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.dboverride)
+				{
+					setItemFont(item,new Font(item.Font,FontStyle.Bold|FontStyle.Italic));
+				}
+				else
+				{
+					setItemFont(item,new Font(item.Font,FontStyle.Bold));
+				}		
+			}
 			//if an item is not valid then it should be in Red
 			if (comparedItem.newDatabaseItem != null
 				&& ! comparedItem.newDatabaseItem.isValid)

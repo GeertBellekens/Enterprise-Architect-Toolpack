@@ -110,17 +110,7 @@ namespace EATFSConnector
 				this.setValue("defaultUserName",value);
 			}
 		}
-        public string defaultPassword
-		{
-			get
-			{
-				return this.getValue("defaultPassword");
-			}
-			set
-			{
-				this.setValue("defaultPassword",value);
-			}
-		}
+        public string defaultPassword {get;set;} //do not persist default password
         
     }
 }

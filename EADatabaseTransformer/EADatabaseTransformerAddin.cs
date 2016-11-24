@@ -82,24 +82,13 @@ namespace EADatabaseTransformer
 		{
 			var comparedItem = sender as DB.Compare.DatabaseItemComparison;
 			if (comparedItem != null)
-			   	//database item exists and is different from the new database item
-				if (comparedItem.existingDatabaseItem != null)
-				{
-					if (comparedItem.newDatabaseItem != null
-				    && ! this._comparer.comparedItems.Any(x => x.newDatabaseItem == comparedItem.newDatabaseItem 
-				                                          && x.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.equal))
-					{
-						//only update if there is no other comparison where the new item is equal
-						
-						comparedItem.newDatabaseItem.update(comparedItem.existingDatabaseItem,false);
-					}
-					comparedItem.existingDatabaseItem.isOverridden = true;
-				}
-				else if (comparedItem.comparisonStatus == DB.Compare.DatabaseComparisonStatusEnum.newItem )
-				{
-					comparedItem.newDatabaseItem.isOverridden = true;
-				}
-			this.refreshCompare(false);
+			{
+				bool overrideValue = (comparedItem.comparisonStatus != DB.Compare.DatabaseComparisonStatusEnum.dboverride);
+				//set the override
+				this._comparer.setOverride(comparedItem,overrideValue);
+				//refresh
+				this.refreshCompare(false);
+			}
 		}
 
 		void saveDatabaseButtonClicked(object sender, EventArgs e)
