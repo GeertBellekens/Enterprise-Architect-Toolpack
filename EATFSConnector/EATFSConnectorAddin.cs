@@ -80,6 +80,10 @@ namespace EATFSConnector
 				case menuSynchTFStoEA:
 					IsEnabled = (this.model.selectedElement is TSF_EA.Package);
 					break;
+				case menuSynchEAtoTFS:
+					IsEnabled = (this.model.selectedElement is TSF_EA.Package
+					            || this.model.selectedElement is TSF_EA.ElementWrapper);
+					break;
 				case menuGoToTFSWeb:
 					IsEnabled = ( this.getCurrentProject() != null);
 					break;
@@ -104,7 +108,7 @@ namespace EATFSConnector
             		synchTFSToEA();
             		break;
                 case menuSynchEAtoTFS:
-					//TODO
+            		sychEAToTFS();
                     break;
                 case menuSetProject:
             		setProject();
@@ -152,7 +156,7 @@ namespace EATFSConnector
 			{
 				 var selectedItem = this.model.selectedElement as TSF_EA.ElementWrapper;
 				//check if it has a TFS_ID tagged value
-				if (selectedItem != null && selectedItem.taggedValues.Any(x => x.name == "TFS_ID" && x.tagValue.ToString().Length > 0))
+				if (selectedItem != null && selectedItem.taggedValues.Any(x => x.name == "TFS_ID"))
 				{
 					return new TFS.TFSWorkItem(currentProject,selectedItem);
 				}
@@ -160,6 +164,16 @@ namespace EATFSConnector
 			//no project or no appropriate selected element
 			return null;
 		}
+
+		void sychEAToTFS()
+		{
+			var currentWorkitem = getCurrentWorkitem();
+			if (currentWorkitem != null)
+			{
+				currentWorkitem.CreateNewOnTFS();
+			}
+		}
+
         private void synchTFSToEA()
         {
     		//get a list of all workitems of a certain type
