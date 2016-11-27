@@ -105,7 +105,7 @@ namespace EADatabaseTransformer
 
 		void selectLogicalItem(object sender, EventArgs e)
 		{
-			var databaseItem = sender as DB.DatabaseItem;
+			var databaseItem = sender as DB_EA.DatabaseItem;
 			if (databaseItem != null
 			    && databaseItem.logicalElement != null)
 			{

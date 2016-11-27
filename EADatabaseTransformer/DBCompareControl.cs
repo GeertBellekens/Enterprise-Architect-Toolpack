@@ -246,7 +246,7 @@ namespace EADatabaseTransformer
 				{
 				  if (this.selectedComparison.existingDatabaseItem != null)
 				  {
-				  	if (this.selectedComparison.existingDatabaseItem.logicalElement != null) 
+				  	if (this.selectedComparison.existingDatabaseItem.logicalElements != null) 
 				  		return this.selectedComparison.existingDatabaseItem;
 				  }
 				  return this.selectedComparison.newDatabaseItem;
