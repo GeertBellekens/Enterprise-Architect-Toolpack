@@ -380,19 +380,25 @@ namespace TSF.UmlToolingFramework.EANavigator
 		/// <param name="sourceElement">the element</param>
 		private bool removeRootNode(UML.Extended.UMLItem sourceElement)
 		{
-			for (int i = this.NavigatorTree.Nodes.Count -1;i >= 0;i--) 
+			if (sourceElement != null)
 			{
-				TreeNode node = this.NavigatorTree.Nodes[i];
-				if (node.Tag.Equals(sourceElement))
+				for (int i = this.NavigatorTree.Nodes.Count -1;i >= 0;i--) 
 				{
-					if( i > 0)
+					TreeNode node = this.NavigatorTree.Nodes[i];
+					if (node != null)
 					{
-						node.Remove();
-						return true;
-					}else
-					{
-						//if the node is the first root node then don't remove it but return false
-						return false;
+						if (sourceElement.Equals(node.Tag))
+						{
+							if( i > 0)
+							{
+								node.Remove();
+								return true;
+							}else
+							{
+								//if the node is the first root node then don't remove it but return false
+								return false;
+							}
+						}
 					}
 				}
 			}
