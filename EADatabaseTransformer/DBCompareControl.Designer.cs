@@ -24,6 +24,7 @@ namespace EADatabaseTransformer
 		private System.Windows.Forms.Button overrideButton;
 		private System.Windows.Forms.Button upButton;
 		private System.Windows.Forms.Button downButton;
+		private System.Windows.Forms.ColumnHeader logicalColumn;
 
 		
 		/// <summary>
@@ -66,6 +67,7 @@ namespace EADatabaseTransformer
 			this.downButton = new System.Windows.Forms.Button();
 			this.renameButton = new System.Windows.Forms.Button();
 			this.overrideButton = new System.Windows.Forms.Button();
+			this.logicalColumn = new System.Windows.Forms.ColumnHeader();
 			this.SuspendLayout();
 			// 
 			// compareDBListView
@@ -77,6 +79,7 @@ namespace EADatabaseTransformer
 			this.compareStatusColumn,
 			this.itemTypeColum,
 			this.tableColumn,
+			this.logicalColumn,
 			this.newNameColumn,
 			this.newPropertiesColumn,
 			this.existingNameColumn,
@@ -228,6 +231,11 @@ namespace EADatabaseTransformer
 			this.overrideButton.Text = "Override";
 			this.overrideButton.UseVisualStyleBackColor = true;
 			this.overrideButton.Click += new System.EventHandler(this.OverrideButtonClick);
+			// 
+			// logicalColumn
+			// 
+			this.logicalColumn.Text = "Logical Name";
+			this.logicalColumn.Width = 200;
 			// 
 			// DBCompareControl
 			// 

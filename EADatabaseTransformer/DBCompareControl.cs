@@ -154,12 +154,39 @@ namespace EADatabaseTransformer
 			var listViewItem = new ListViewItem(comparison.comparisonStatusName);
 			listViewItem.SubItems.Add(comparison.itemType);
 			listViewItem.SubItems.Add(tableName);
+			listViewItem.SubItems.Add(getLogicalName(comparison));
 			
 			addDatabaseItemSpecifics(listViewItem,comparison.newDatabaseItem );
 			addDatabaseItemSpecifics(listViewItem,comparison.existingDatabaseItem);
 			
 			listViewItem.Tag = comparison;
 			return listViewItem;
+		}
+		private string getLogicalName(DB.Compare.DatabaseItemComparison comparison)
+		{
+			string logicalname = string.Empty;
+			if (comparison.newDatabaseItem != null)
+			{
+				logicalname = getLogicalName(comparison.newDatabaseItem);
+			}
+			if (logicalname == string.Empty && comparison.existingDatabaseItem != null)
+			{
+				logicalname = getLogicalName(comparison.existingDatabaseItem);
+			}
+			return logicalname;
+		}
+		private string getLogicalName(DB.DatabaseItem databaseItem)
+		{
+			string logicalName = string.Empty;
+			if (databaseItem.logicalElements != null)
+			{
+				var logicalElement = databaseItem.logicalElements.FirstOrDefault();
+				if (logicalElement != null)
+				{
+					logicalName = logicalElement.name;
+				}
+			}
+			return logicalName;
 		}
 		
 		private void addDatabaseItemSpecifics(ListViewItem listViewItem,DB.DatabaseItem databaseItem )
