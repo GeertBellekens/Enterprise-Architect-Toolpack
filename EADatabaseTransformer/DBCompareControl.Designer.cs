@@ -54,6 +54,7 @@ namespace EADatabaseTransformer
 			this.compareStatusColumn = new System.Windows.Forms.ColumnHeader();
 			this.itemTypeColum = new System.Windows.Forms.ColumnHeader();
 			this.tableColumn = new System.Windows.Forms.ColumnHeader();
+			this.logicalColumn = new System.Windows.Forms.ColumnHeader();
 			this.newNameColumn = new System.Windows.Forms.ColumnHeader();
 			this.newPropertiesColumn = new System.Windows.Forms.ColumnHeader();
 			this.existingNameColumn = new System.Windows.Forms.ColumnHeader();
@@ -67,7 +68,6 @@ namespace EADatabaseTransformer
 			this.downButton = new System.Windows.Forms.Button();
 			this.renameButton = new System.Windows.Forms.Button();
 			this.overrideButton = new System.Windows.Forms.Button();
-			this.logicalColumn = new System.Windows.Forms.ColumnHeader();
 			this.SuspendLayout();
 			// 
 			// compareDBListView
@@ -111,10 +111,15 @@ namespace EADatabaseTransformer
 			this.tableColumn.Text = "Table";
 			this.tableColumn.Width = 80;
 			// 
+			// logicalColumn
+			// 
+			this.logicalColumn.Text = "Logical Name";
+			this.logicalColumn.Width = 150;
+			// 
 			// newNameColumn
 			// 
 			this.newNameColumn.Text = "New Name";
-			this.newNameColumn.Width = 120;
+			this.newNameColumn.Width = 160;
 			// 
 			// newPropertiesColumn
 			// 
@@ -124,7 +129,7 @@ namespace EADatabaseTransformer
 			// existingNameColumn
 			// 
 			this.existingNameColumn.Text = "Existing Name";
-			this.existingNameColumn.Width = 123;
+			this.existingNameColumn.Width = 160;
 			// 
 			// existingPropertiesColumn
 			// 
@@ -231,11 +236,6 @@ namespace EADatabaseTransformer
 			this.overrideButton.Text = "Override";
 			this.overrideButton.UseVisualStyleBackColor = true;
 			this.overrideButton.Click += new System.EventHandler(this.OverrideButtonClick);
-			// 
-			// logicalColumn
-			// 
-			this.logicalColumn.Text = "Logical Name";
-			this.logicalColumn.Width = 200;
 			// 
 			// DBCompareControl
 			// 

@@ -240,7 +240,7 @@ namespace EADatabaseTransformer
 				{
 					int columnIndex = info.Item.SubItems.IndexOf(info.SubItem);
 					DB.DatabaseItem clickedItem = null;
-					if (columnIndex <= 4 )
+					if (columnIndex <= 5 )
 					{
 						clickedItem = comparedItem.newDatabaseItem;
 						selectLogicalItem(clickedItem, null);
