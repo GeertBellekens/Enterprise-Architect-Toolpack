@@ -112,6 +112,26 @@ namespace EATFSConnector
 		}
         public string defaultPassword {get;set;} //do not persist default password
         
+		public List<string> mappedElementTypes 
+		{
+			get 
+			{
+				return this.workitemMappings.Values.Where( x => !x.Contains("::")).ToList();
+			}
+		}
+		public List<string> mappedStereotypes 
+		{
+			get 
+			{
+				var stereotypes = new List<string>();
+				foreach (var fullStereotype in this.workitemMappings.Values.Where(x => x.Contains("::")))
+				{
+					string simpleStereotype = fullStereotype.Split(new string[]{"::"},StringSplitOptions.None)[1];
+					if (simpleStereotype.Length > 0) stereotypes.Add(simpleStereotype);
+				} 
+				return stereotypes;
+			}
+		}
     }
 }
 

@@ -155,8 +155,11 @@ namespace EATFSConnector
 			if (currentProject != null)
 			{
 				 var selectedItem = this.model.selectedElement as TSF_EA.ElementWrapper;
-				//check if it has a TFS_ID tagged value
-				if (selectedItem != null && selectedItem.taggedValues.Any(x => x.name == "TFS_ID"))
+				//check if the type or the stereotype corresponds to one of the mapped elementtypes or stereotypes
+				if (selectedItem != null && 
+				    ( this.settings.mappedElementTypes.Contains(selectedItem.EAElementType)
+				     || this.settings.mappedStereotypes.Any(selectedItem.stereotypeNames.Contains)
+				    ))
 				{
 					return new TFS.TFSWorkItem(currentProject,selectedItem);
 				}
@@ -164,13 +167,27 @@ namespace EATFSConnector
 			//no project or no appropriate selected element
 			return null;
 		}
-
+		
 		void sychEAToTFS()
 		{
+			//if a package is selected then synchronize all owned workitems
+			var selectedPackage = this.model.selectedItem as UML.Classes.Kernel.Package;
+			if (selectedPackage != null)
+			{
+				var currentProject = this.getCurrentProject();
+				if (currentProject != null)
+				{
+					foreach (TFS.TFSWorkItem ownedWorkItem in currentProject.getOwnedWorkitems(selectedPackage, true)) 
+					{
+						ownedWorkItem.synchronizeToTFS();
+					} 
+				}
+			}
+			//if a workitem was selected then synchronize this single workitem
 			var currentWorkitem = getCurrentWorkitem();
 			if (currentWorkitem != null)
 			{
-				currentWorkitem.CreateNewOnTFS();
+				currentWorkitem.synchronizeToTFS();
 			}
 		}
 
