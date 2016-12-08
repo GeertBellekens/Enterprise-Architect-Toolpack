@@ -16,6 +16,12 @@
 						<File Id="SchemaBuilderFramework.pdb" Name="SchemaBuilderFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\SchemaBuilderFramework.pdb" />
 						<File Id="DatabaseFramework.dll" Name="DatabaseFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\DatabaseFramework.dll" />
 						<File Id="DatabaseFramework.pdb" Name="DatabaseFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\DatabaseFramework.pdb" />
+						<File Id="WorkTrackingFramework.dll" Name="WorkTrackingFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\WorkTrackingFramework.dll" />
+						<File Id="WorkTrackingFramework.pdb" Name="WorkTrackingFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\WorkTrackingFramework.pdb" />
+						<File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\Newtonsoft.Json.dll" />
+						<File Id="System.Net.Http.Formatting.dll" Name="System.Net.Http.Formatting.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\System.Net.Http.Formatting.dll" />
+						<File Id="System.Web.Http.dll" Name="System.Web.Http.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\System.Web.Http.dll" />
+						<File Id="System.Web.Http.WebHost.dll" Name="System.Web.Http.WebHost.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\System.Web.Http.WebHost.dll" />
 						<Class Id="{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.Model" ThreadingModel="both" ForeignServer="mscoree.dll">
 		                    <ProgId Id="TSF.UmlToolingFramework.Wrappers.EA.Model" Description="TSF.UmlToolingFramework.Wrappers.EA.Model" />
 		                </Class>
@@ -486,6 +492,73 @@
 					<Component Id="EABDTransformer_RegistryEntry_x86" Guid="f8ff967b-a9c0-49e4-afa5-9d3c0ebe4bad" UninstallWhenSuperseded="yes">
 						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA Database Transformer">
 							<RegistryValue Type="string" Value="EADatabaseTransformer.EADatabaseTransformerAddin" />
+						</RegistryKey>
+						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
+					</Component>
+					<Component Id="EATFSConnector_AddinFiles" Guid="4d6351c8-feb5-4ec6-857b-a1feb710191e" DiskId="1" UninstallWhenSuperseded="yes">
+		                <Class Id="{151EEFAA-3FCF-315E-BF78-451C5E66E255}" Context="InprocServer32" Description="EATFSConnector.EATFSConnectorAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EATFSConnector.EATFSConnectorAddin" Description="EATFSConnector.EATFSConnectorAddin" />
+		                </Class>
+		                <Class Id="{3637E4B1-74AC-30EB-8729-64963FE644A0}" Context="InprocServer32" Description="EATFSConnector.SetProjectForm" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EATFSConnector.SetProjectForm" Description="EATFSConnector.SetProjectForm" />
+		                </Class>
+		                <Class Id="{3E7A735E-1586-37C0-BFB9-41AA4E5727AB}" Context="InprocServer32" Description="EATFSConnector.EATFSConnectorSettings" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EATFSConnector.EATFSConnectorSettings" Description="EATFSConnector.EATFSConnectorSettings" />
+		                </Class>
+		                <Class Id="{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}" Context="InprocServer32" Description="EATFSConnector.AboutWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EATFSConnector.AboutWindow" Description="EATFSConnector.AboutWindow" />
+		                </Class>
+		                <File Id="filA716B9DB25AC874575EC3FCB7476BCD8" KeyPath="yes" Source="..\EATFSConnector\bin\Debug\EATFSConnector.dll" />
+						<File Id="EATFSConnector.pdb" Name="EATFSConnector.dll.pdb" Source="..\EATFSConnector\bin\Debug\EATFSConnector.pdb" />
+						<File Id="EATFSConnector.tlb" Name="EATFSConnector.dll.tlb" Source="..\EATFSConnector\bin\Debug\EATFSConnector.tlb" />
+						<File Id="EATFSConnector.dll.config" Name="EATFSConnector.dll.config" Source="..\EATFSConnector\bin\Debug\EATFSConnector.dll.config" />
+						<File Id="EATFSConnector_LicenseFile" Name="EA TFS Connector license.txt" Source="..\EATFSConnector\Files\EA TFS Connector license.txt" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{151EEFAA-3FCF-315E-BF78-451C5E66E255}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{151EEFAA-3FCF-315E-BF78-451C5E66E255}\InprocServer32\1.0.6186.18356" Name="Class" Value="EATFSConnector.EATFSConnectorAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{151EEFAA-3FCF-315E-BF78-451C5E66E255}\InprocServer32\1.0.6186.18356" Name="Assembly" Value="EATFSConnector, Version=1.0.6186.18356, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{151EEFAA-3FCF-315E-BF78-451C5E66E255}\InprocServer32\1.0.6186.18356" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{151EEFAA-3FCF-315E-BF78-451C5E66E255}\InprocServer32\1.0.6186.18356" Name="CodeBase" Value="file:///[#filA716B9DB25AC874575EC3FCB7476BCD8]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{151EEFAA-3FCF-315E-BF78-451C5E66E255}\InprocServer32" Name="Class" Value="EATFSConnector.EATFSConnectorAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{151EEFAA-3FCF-315E-BF78-451C5E66E255}\InprocServer32" Name="Assembly" Value="EATFSConnector, Version=1.0.6186.18356, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{151EEFAA-3FCF-315E-BF78-451C5E66E255}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{151EEFAA-3FCF-315E-BF78-451C5E66E255}\InprocServer32" Name="CodeBase" Value="file:///[#filA716B9DB25AC874575EC3FCB7476BCD8]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3637E4B1-74AC-30EB-8729-64963FE644A0}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3637E4B1-74AC-30EB-8729-64963FE644A0}\InprocServer32\1.0.6186.18356" Name="Class" Value="EATFSConnector.SetProjectForm" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3637E4B1-74AC-30EB-8729-64963FE644A0}\InprocServer32\1.0.6186.18356" Name="Assembly" Value="EATFSConnector, Version=1.0.6186.18356, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3637E4B1-74AC-30EB-8729-64963FE644A0}\InprocServer32\1.0.6186.18356" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3637E4B1-74AC-30EB-8729-64963FE644A0}\InprocServer32\1.0.6186.18356" Name="CodeBase" Value="file:///[#filA716B9DB25AC874575EC3FCB7476BCD8]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3637E4B1-74AC-30EB-8729-64963FE644A0}\InprocServer32" Name="Class" Value="EATFSConnector.SetProjectForm" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3637E4B1-74AC-30EB-8729-64963FE644A0}\InprocServer32" Name="Assembly" Value="EATFSConnector, Version=1.0.6186.18356, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3637E4B1-74AC-30EB-8729-64963FE644A0}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3637E4B1-74AC-30EB-8729-64963FE644A0}\InprocServer32" Name="CodeBase" Value="file:///[#filA716B9DB25AC874575EC3FCB7476BCD8]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3E7A735E-1586-37C0-BFB9-41AA4E5727AB}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3E7A735E-1586-37C0-BFB9-41AA4E5727AB}\InprocServer32\1.0.6186.18356" Name="Class" Value="EATFSConnector.EATFSConnectorSettings" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3E7A735E-1586-37C0-BFB9-41AA4E5727AB}\InprocServer32\1.0.6186.18356" Name="Assembly" Value="EATFSConnector, Version=1.0.6186.18356, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3E7A735E-1586-37C0-BFB9-41AA4E5727AB}\InprocServer32\1.0.6186.18356" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3E7A735E-1586-37C0-BFB9-41AA4E5727AB}\InprocServer32\1.0.6186.18356" Name="CodeBase" Value="file:///[#filA716B9DB25AC874575EC3FCB7476BCD8]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3E7A735E-1586-37C0-BFB9-41AA4E5727AB}\InprocServer32" Name="Class" Value="EATFSConnector.EATFSConnectorSettings" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3E7A735E-1586-37C0-BFB9-41AA4E5727AB}\InprocServer32" Name="Assembly" Value="EATFSConnector, Version=1.0.6186.18356, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3E7A735E-1586-37C0-BFB9-41AA4E5727AB}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3E7A735E-1586-37C0-BFB9-41AA4E5727AB}\InprocServer32" Name="CodeBase" Value="file:///[#filA716B9DB25AC874575EC3FCB7476BCD8]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}\InprocServer32\1.0.6186.18356" Name="Class" Value="EATFSConnector.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}\InprocServer32\1.0.6186.18356" Name="Assembly" Value="EATFSConnector, Version=1.0.6186.18356, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}\InprocServer32\1.0.6186.18356" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}\InprocServer32\1.0.6186.18356" Name="CodeBase" Value="file:///[#filA716B9DB25AC874575EC3FCB7476BCD8]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}\InprocServer32" Name="Class" Value="EATFSConnector.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}\InprocServer32" Name="Assembly" Value="EATFSConnector, Version=1.0.6186.18356, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}\InprocServer32" Name="CodeBase" Value="file:///[#filA716B9DB25AC874575EC3FCB7476BCD8]" Type="string" Action="write" />
+	            	</Component>
+					<Component Id="EATFSConnector_RegistryEntry" Guid="28184672-25fa-49e7-9eb3-3e612ff092f6" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\EA TFS Connector">
+							<RegistryValue Type="string" Value="EATFSConnector.EATFSConnectorAddin" />
+						</RegistryKey>
+					<Condition> %PROCESSOR_ARCHITECTURE="AMD64" OR %PROCESSOR_ARCHITECTURE="IE64"</Condition>
+					</Component>
+					<Component Id="EATFSConnector_RegistryEntry_x86" Guid="5b0a9736-d4ec-44ae-b40e-b6d216d8c9d8" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA TFS Connector">
+							<RegistryValue Type="string" Value="EATFSConnector.EATFSConnectorAddin" />
 						</RegistryKey>
 						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
 					</Component>

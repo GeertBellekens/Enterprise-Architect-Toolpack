@@ -75,7 +75,7 @@ namespace EATFSConnector
 			switch (ItemName)
             {
 				case menuSetProject:
-					IsEnabled = (MenuLocation == "TreeView" && this.model.selectedElement is TSF_EA.RootPackage);
+					IsEnabled = (MenuLocation == "TreeView" && this.model.selectedElement is TSF_EA.Package);
 					break;
 				case menuSynchTFStoEA:
 					IsEnabled = (this.model.selectedElement is TSF_EA.Package);
@@ -127,26 +127,33 @@ namespace EATFSConnector
 
 		void goToTFSWeb()
 		{
-			string TFSUrl;
-			var currentProject = this.getCurrentProject();
-			if (currentProject != null)
+			try
 			{
-				var selectedWorkitem = this.getCurrentWorkitem();
-				if (selectedWorkitem != null)
+				string TFSUrl;
+				var currentProject = this.getCurrentProject();
+				if (currentProject != null)
 				{
-					TFSUrl = selectedWorkitem.url;
+					var selectedWorkitem = this.getCurrentWorkitem();
+					if (selectedWorkitem != null)
+					{
+						TFSUrl = selectedWorkitem.url;
+					}
+					else
+					{
+						TFSUrl = currentProject.url;
+					}
+					//open url
+					Process.Start(TFSUrl);
 				}
 				else
 				{
-					TFSUrl = currentProject.url;
+					MessageBox.Show("No TFS project found","No TFS Project",MessageBoxButtons.OK,MessageBoxIcon.Error);
 				}
-				//open url
-				Process.Start(TFSUrl);
 			}
-			else
-			{
-				MessageBox.Show("No TFS project found","No TFS Project",MessageBoxButtons.OK,MessageBoxIcon.Error);
-			}
+			catch(Exception e)
+        	{
+        		Logger.logError("Error Message: " + e.Message + Environment.NewLine + "Stacktrace: " + e.StackTrace);
+        	}
 				
 		}
 		private TFS.TFSWorkItem getCurrentWorkitem()
@@ -170,61 +177,76 @@ namespace EATFSConnector
 		
 		void sychEAToTFS()
 		{
-			var results = new Dictionary<WT.Workitem, bool>();
-			//if a package is selected then synchronize all owned workitems
-			var selectedPackage = this.model.selectedItem as UML.Classes.Kernel.Package;
-			if (selectedPackage != null)
+			try
 			{
-				var currentProject = this.getCurrentProject();
-				if (currentProject != null)
+				var results = new Dictionary<WT.Workitem, bool>();
+				//if a package is selected then synchronize all owned workitems
+				var selectedPackage = this.model.selectedItem as UML.Classes.Kernel.Package;
+				if (selectedPackage != null)
 				{
-					foreach (TFS.TFSWorkItem ownedWorkItem in currentProject.getOwnedWorkitems(selectedPackage, true)) 
+					var currentProject = this.getCurrentProject();
+					if (currentProject != null)
 					{
-						results.Add(ownedWorkItem, ownedWorkItem.synchronizeToTFS());
-					} 
+						foreach (TFS.TFSWorkItem ownedWorkItem in currentProject.getOwnedWorkitems(selectedPackage, true)) 
+						{
+							results.Add(ownedWorkItem, ownedWorkItem.synchronizeToTFS());
+						} 
+					}
 				}
-			}
-			//if a workitem was selected then synchronize this single workitem
-			var currentWorkitem = getCurrentWorkitem();
-			if (currentWorkitem != null)
-			{
-				results.Add(currentWorkitem,currentWorkitem.synchronizeToTFS());
-			}
-			//tell the user what happened
-			MessageBox.Show(string.Format("{0} workitems were succesfully synchronized/n {1} workitems could not be synchronized"
-			                              , results.Count(x => x.Value), results.Count(x => !x.Value)),"Synchronize to TFS result",MessageBoxButtons.OK,MessageBoxIcon.Information);
+				//if a workitem was selected then synchronize this single workitem
+				var currentWorkitem = getCurrentWorkitem();
+				if (currentWorkitem != null)
+				{
+					results.Add(currentWorkitem,currentWorkitem.synchronizeToTFS());
+				}
+				//tell the user what happened
+				MessageBox.Show(string.Format("{0} workitems were succesfully synchronized\n {1} workitems could not be synchronized"
+				                              , results.Count(x => x.Value), results.Count(x => !x.Value)),"Synchronize to EA => TFS result",MessageBoxButtons.OK,MessageBoxIcon.Information);
+			}        	
+			catch(Exception e)
+        	{
+        		Logger.logError("Error Message: " + e.Message + Environment.NewLine + "Stacktrace: " + e.StackTrace);
+        	}
 		}
 
         private void synchTFSToEA()
         {
-        	var results = new Dictionary<WT.Workitem, bool>();
-    		//get a list of all workitems of a certain type
-    		var currentProject = getCurrentProject();
-    		//get the workitems is project was found
-    		if (currentProject != null) 
-    		{
-    			//get the selected package
-    			var selectedPackage = this.model.selectedItem as TSF_EA.Package;
-    			if (selectedPackage != null)
-    			{
-        			var selectImportTypes = new SelectImportTypesForm(this.settings);
-        			if (selectImportTypes.ShowDialog(this.EAModel.mainEAWindow) == DialogResult.OK)
-        			{
-	        			foreach (EA_WT.WorkItem workitem in currentProject.workitems
-	        			         .Where(x => x.type.Equals(selectImportTypes.TFSWorkitemType,StringComparison.InvariantCultureIgnoreCase)))
+        	try
+	        {
+	        	var results = new Dictionary<WT.Workitem, bool>();
+	    		//get a list of all workitems of a certain type
+	    		var currentProject = getCurrentProject();
+	    		//get the workitems is project was found
+	    		if (currentProject != null) 
+	    		{
+	    			//get the selected package
+	    			var selectedPackage = this.model.selectedItem as TSF_EA.Package;
+	    			if (selectedPackage != null)
+	    			{
+	        			var selectImportTypes = new SelectImportTypesForm(this.settings);
+	        			if (selectImportTypes.ShowDialog(this.EAModel.mainEAWindow) == DialogResult.OK)
 	        			{
-        					results.Add(workitem, workitem.synchronizeToEA(selectedPackage,selectImportTypes.SparxType));
+		        			foreach (EA_WT.WorkItem workitem in currentProject.workitems
+		        			         .Where(x => x.type.Equals(selectImportTypes.TFSWorkitemType,StringComparison.InvariantCultureIgnoreCase)))
+		        			{
+	        					results.Add(workitem, workitem.synchronizeToEA(selectedPackage,selectImportTypes.SparxType));
+		        			}
 	        			}
-        			}
-    			}
-    		}
-    		//tell the user what happened
-			MessageBox.Show(string.Format("{0} workitems were succesfully synchronized/n {1} workitems could not be synchronized"
-			                              , results.Count(x => x.Value), results.Count(x => !x.Value)),"Synchronize to TFS result",MessageBoxButtons.OK,MessageBoxIcon.Information);
+	    			}
+	    		}
+	    		//tell the user what happened
+				MessageBox.Show(string.Format("{0} workitems were succesfully synchronized \n {1} workitems could not be synchronized"
+			                              , results.Count(x => x.Value), results.Count(x => !x.Value)),"Synchronize TFS => EA result",MessageBoxButtons.OK,MessageBoxIcon.Information);
+        	}
+        	catch(Exception e)
+        	{
+        		Logger.logError("Error Message: " + e.Message + Environment.NewLine + "Stacktrace: " + e.StackTrace);
+        	}
         }
 
 		void setProject()
 		{
+			//set on root node
 			var selectedRoot = this.model.selectedItem as TSF_EA.RootPackage;
 			if (selectedRoot != null)
 			{
@@ -234,6 +256,20 @@ namespace EATFSConnector
 				{
 					selectedRoot.notes = "project=" + projectForm.projectName;
 					selectedRoot.save();
+				}
+			}
+			else
+			{
+				//set on package
+				var selectedPackage = this.model.selectedItem as TSF_EA.Package;
+				if (selectedPackage != null)
+				{
+					var projectForm = new SetProjectForm();
+					if (projectForm.ShowDialog() == DialogResult.OK
+					   && projectForm.projectName.Length > 0)
+					{
+						selectedPackage.addTaggedValue("project",projectForm.projectName);
+					}
 				}
 			}
 		}
