@@ -170,6 +170,7 @@ namespace EATFSConnector
 		
 		void sychEAToTFS()
 		{
+			var results = new Dictionary<WT.Workitem, bool>();
 			//if a package is selected then synchronize all owned workitems
 			var selectedPackage = this.model.selectedItem as UML.Classes.Kernel.Package;
 			if (selectedPackage != null)
@@ -179,7 +180,7 @@ namespace EATFSConnector
 				{
 					foreach (TFS.TFSWorkItem ownedWorkItem in currentProject.getOwnedWorkitems(selectedPackage, true)) 
 					{
-						ownedWorkItem.synchronizeToTFS();
+						results.Add(ownedWorkItem, ownedWorkItem.synchronizeToTFS());
 					} 
 				}
 			}
@@ -187,12 +188,16 @@ namespace EATFSConnector
 			var currentWorkitem = getCurrentWorkitem();
 			if (currentWorkitem != null)
 			{
-				currentWorkitem.synchronizeToTFS();
+				results.Add(currentWorkitem,currentWorkitem.synchronizeToTFS());
 			}
+			//tell the user what happened
+			MessageBox.Show(string.Format("{0} workitems were succesfully synchronized/n {1} workitems could not be synchronized"
+			                              , results.Count(x => x.Value), results.Count(x => !x.Value)),"Synchronize to TFS result",MessageBoxButtons.OK,MessageBoxIcon.Information);
 		}
 
         private void synchTFSToEA()
         {
+        	var results = new Dictionary<WT.Workitem, bool>();
     		//get a list of all workitems of a certain type
     		var currentProject = getCurrentProject();
     		//get the workitems is project was found
@@ -208,11 +213,14 @@ namespace EATFSConnector
 	        			foreach (EA_WT.WorkItem workitem in currentProject.workitems
 	        			         .Where(x => x.type.Equals(selectImportTypes.TFSWorkitemType,StringComparison.InvariantCultureIgnoreCase)))
 	        			{
-	        				workitem.synchronizeToEA(selectedPackage,selectImportTypes.SparxType);
+        					results.Add(workitem, workitem.synchronizeToEA(selectedPackage,selectImportTypes.SparxType));
 	        			}
         			}
     			}
     		}
+    		//tell the user what happened
+			MessageBox.Show(string.Format("{0} workitems were succesfully synchronized/n {1} workitems could not be synchronized"
+			                              , results.Count(x => x.Value), results.Count(x => !x.Value)),"Synchronize to TFS result",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
 		void setProject()

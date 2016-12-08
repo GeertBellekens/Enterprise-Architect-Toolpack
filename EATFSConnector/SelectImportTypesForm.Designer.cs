@@ -77,7 +77,7 @@ namespace EATFSConnector
 			// importButton
 			// 
 			this.importButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.importButton.Location = new System.Drawing.Point(149, 118);
+			this.importButton.Location = new System.Drawing.Point(72, 118);
 			this.importButton.Name = "importButton";
 			this.importButton.Size = new System.Drawing.Size(75, 23);
 			this.importButton.TabIndex = 4;
@@ -89,7 +89,7 @@ namespace EATFSConnector
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(68, 118);
+			this.cancelButton.Location = new System.Drawing.Point(153, 118);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 5;

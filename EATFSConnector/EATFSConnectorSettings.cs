@@ -111,12 +111,34 @@ namespace EATFSConnector
 			}
 		}
         public string defaultPassword {get;set;} //do not persist default password
+        public string defaultWorkitemType
+		{
+			get
+			{
+				return this.getValue("defaultWorkitemType");
+			}
+			set
+			{
+				this.setValue("defaultWorkitemType",value);
+			}
+		}
+        public string defaultStatus
+		{
+			get
+			{
+				return this.getValue("defaultStatus");
+			}
+			set
+			{
+				this.setValue("defaultStatus",value);
+			}
+		}
         
 		public List<string> mappedElementTypes 
 		{
 			get 
 			{
-				return this.workitemMappings.Values.Where( x => !x.Contains("::")).ToList();
+				return this.workitemMappings.Keys.Where( x => !x.Contains("::")).ToList();
 			}
 		}
 		public List<string> mappedStereotypes 
@@ -124,7 +146,7 @@ namespace EATFSConnector
 			get 
 			{
 				var stereotypes = new List<string>();
-				foreach (var fullStereotype in this.workitemMappings.Values.Where(x => x.Contains("::")))
+				foreach (var fullStereotype in this.workitemMappings.Keys.Where(x => x.Contains("::")))
 				{
 					string simpleStereotype = fullStereotype.Split(new string[]{"::"},StringSplitOptions.None)[1];
 					if (simpleStereotype.Length > 0) stereotypes.Add(simpleStereotype);
