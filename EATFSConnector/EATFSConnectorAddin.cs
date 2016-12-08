@@ -120,7 +120,7 @@ namespace EATFSConnector
 		            new AboutWindow().ShowDialog();
 		            break;
 	            case menuSettings:
-		            new TFSConnectorSettingsForm(this.settings).ShowDialog();
+		            new TFSConnectorSettingsForm(this.settings,(TSF_EA.Model)model).ShowDialog();
 	                break;
             }
         }

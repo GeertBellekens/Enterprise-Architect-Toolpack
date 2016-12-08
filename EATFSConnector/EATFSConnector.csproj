@@ -127,6 +127,9 @@
     <EmbeddedResource Include="SetProjectForm.resx">
       <DependentUpon>SetProjectForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TFSConnectorSettingsForm.resx">
+      <DependentUpon>TFSConnectorSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
