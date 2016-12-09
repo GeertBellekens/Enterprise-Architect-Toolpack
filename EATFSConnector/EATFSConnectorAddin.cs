@@ -264,11 +264,15 @@ namespace EATFSConnector
 
 		void setProject()
 		{
+				
+			var currentProject = getCurrentProject();
+			var projectForm = new SetProjectForm();
+			if (currentProject != null) projectForm.projectName = currentProject.name;
+			
 			//set on root node
 			var selectedRoot = this.model.selectedItem as TSF_EA.RootPackage;
 			if (selectedRoot != null)
 			{
-				var projectForm = new SetProjectForm();
 				if (projectForm.ShowDialog(EAModel.mainEAWindow) == DialogResult.OK
 				   && projectForm.projectName.Length > 0)
 				{
@@ -282,7 +286,6 @@ namespace EATFSConnector
 				var selectedPackage = this.model.selectedItem as TSF_EA.Package;
 				if (selectedPackage != null)
 				{
-					var projectForm = new SetProjectForm();
 					if (projectForm.ShowDialog(EAModel.mainEAWindow) == DialogResult.OK
 					   && projectForm.projectName.Length > 0)
 					{

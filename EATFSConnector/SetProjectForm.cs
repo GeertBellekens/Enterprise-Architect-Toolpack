@@ -38,6 +38,10 @@ namespace EATFSConnector
 			{
 				return this.projectNameTextBox.Text;
 			}
+			set
+			{
+				this.projectNameTextBox.Text = value;
+			}
 		}
 		
 	}

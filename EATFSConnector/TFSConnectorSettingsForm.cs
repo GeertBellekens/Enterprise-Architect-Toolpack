@@ -63,16 +63,16 @@ namespace EATFSConnector
 		}
 		private void saveTFSUrl()
 		{
-			if (this.settings.projectConnections.ContainsKey(this.model.projectGUID))
+			var projectConnections = this.settings.projectConnections;
+			if (projectConnections.ContainsKey(this.model.projectGUID))
 		    {
-				this.settings.projectConnections[this.model.projectGUID] = this.tfsUrlTextBox.Text;
+				projectConnections[this.model.projectGUID] = this.tfsUrlTextBox.Text;
 		    }
 			else
 			{
-				var projectConnections = this.settings.projectConnections;
 				projectConnections.Add(this.model.projectGUID,this.tfsUrlTextBox.Text);
-				this.settings.projectConnections = projectConnections;
 			}
+			this.settings.projectConnections = projectConnections;
 		}
 		private void unloadMappings()
 		{
