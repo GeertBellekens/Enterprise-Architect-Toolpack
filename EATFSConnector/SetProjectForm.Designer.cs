@@ -42,7 +42,7 @@ namespace EATFSConnector
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(121, 63);
+			this.cancelButton.Location = new System.Drawing.Point(202, 63);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 7;
@@ -53,7 +53,7 @@ namespace EATFSConnector
 			// okButton
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(202, 63);
+			this.okButton.Location = new System.Drawing.Point(121, 63);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 6;
@@ -79,7 +79,12 @@ namespace EATFSConnector
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.okButton);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(305, 137);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(305, 137);
 			this.Name = "SetProjectForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Set Project Name";
 			this.ResumeLayout(false);
 			this.PerformLayout();

@@ -158,6 +158,7 @@ namespace EATFSConnector
 			this.MinimizeBox = false;
 			this.Name = "AboutWindow";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "About EA TFS Connector";
 			((System.ComponentModel.ISupportInitialize)(this.Logo)).EndInit();
 			this.ResumeLayout(false);

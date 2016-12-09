@@ -125,6 +125,7 @@ namespace EATFSConnector
 			this.MinimumSize = new System.Drawing.Size(256, 192);
 			this.Name = "SelectImportTypesForm";
 			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Select Import Types";
 			this.ResumeLayout(false);
 

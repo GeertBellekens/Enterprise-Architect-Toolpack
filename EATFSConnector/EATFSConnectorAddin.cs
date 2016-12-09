@@ -118,10 +118,10 @@ namespace EATFSConnector
             		goToTFSWeb();
             		break;
 		        case menuAbout :
-		            new AboutWindow().ShowDialog();
+            		new AboutWindow().ShowDialog(EAModel.mainEAWindow);
 		            break;
 	            case menuSettings:
-		            new TFSConnectorSettingsForm(this.settings,(TSF_EA.Model)model).ShowDialog();
+		            new TFSConnectorSettingsForm(this.settings,EAModel).ShowDialog(EAModel.mainEAWindow);
 	                break;
             }
         }
@@ -204,7 +204,7 @@ namespace EATFSConnector
 					results.Add(currentWorkitem,currentWorkitem.synchronizeToTFS());
 				}
 				//tell the user what happened
-				MessageBox.Show(string.Format("{0} workitems were succesfully synchronized\n {1} workitems could not be synchronized"
+				MessageBox.Show(string.Format("{0} workitems were succesfully synchronized\n{1} workitems could not be synchronized"
 				                              , results.Count(x => x.Value), results.Count(x => !x.Value)),"Synchronize to EA => TFS result",MessageBoxButtons.OK,MessageBoxIcon.Information);
 			}        	
 			catch(Exception e)
@@ -250,7 +250,7 @@ namespace EATFSConnector
 	    			}
 	    		}
 	    		//tell the user what happened
-				MessageBox.Show(string.Format("{0} workitems were succesfully synchronized \n {1} workitems could not be synchronized"
+				MessageBox.Show(string.Format("{0} workitems were succesfully synchronized \n{1} workitems could not be synchronized"
 			                              , results.Count(x => x.Value), results.Count(x => !x.Value)),"Synchronize TFS => EA result",MessageBoxButtons.OK,MessageBoxIcon.Information);
         	}
         	catch(Exception e)
@@ -269,7 +269,7 @@ namespace EATFSConnector
 			if (selectedRoot != null)
 			{
 				var projectForm = new SetProjectForm();
-				if (projectForm.ShowDialog() == DialogResult.OK
+				if (projectForm.ShowDialog(EAModel.mainEAWindow) == DialogResult.OK
 				   && projectForm.projectName.Length > 0)
 				{
 					selectedRoot.notes = "project=" + projectForm.projectName;
@@ -283,7 +283,7 @@ namespace EATFSConnector
 				if (selectedPackage != null)
 				{
 					var projectForm = new SetProjectForm();
-					if (projectForm.ShowDialog() == DialogResult.OK
+					if (projectForm.ShowDialog(EAModel.mainEAWindow) == DialogResult.OK
 					   && projectForm.projectName.Length > 0)
 					{
 						selectedPackage.addTaggedValue("project",projectForm.projectName);
