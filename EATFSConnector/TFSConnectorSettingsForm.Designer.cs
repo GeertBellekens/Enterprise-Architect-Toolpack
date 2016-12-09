@@ -265,7 +265,7 @@ namespace EATFSConnector
 			this.MinimumSize = new System.Drawing.Size(593, 319);
 			this.Name = "TFSConnectorSettingsForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "TFSConnectorSettingsForm";
+			this.Text = "TFS Connector Settings";
 			this.workitemMappingBox.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.workitemMappingsgrid)).EndInit();
 			this.ResumeLayout(false);
