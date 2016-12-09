@@ -24,6 +24,8 @@ namespace EATFSConnector
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.TextBox defaultProjectTextBox;
 		private System.Windows.Forms.Label defaultProjectLabel;
+		private System.Windows.Forms.TextBox tfsFilterTagTextBox;
+		private System.Windows.Forms.Label tfsFilterTagLabel;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -64,6 +66,8 @@ namespace EATFSConnector
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.defaultProjectTextBox = new System.Windows.Forms.TextBox();
 			this.defaultProjectLabel = new System.Windows.Forms.Label();
+			this.tfsFilterTagTextBox = new System.Windows.Forms.TextBox();
+			this.tfsFilterTagLabel = new System.Windows.Forms.Label();
 			this.workitemMappingBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.workitemMappingsgrid)).BeginInit();
 			this.SuspendLayout();
@@ -218,6 +222,21 @@ namespace EATFSConnector
 			this.defaultProjectLabel.TabIndex = 11;
 			this.defaultProjectLabel.Text = "Default Project";
 			// 
+			// tfsFilterTagTextBox
+			// 
+			this.tfsFilterTagTextBox.Location = new System.Drawing.Point(12, 245);
+			this.tfsFilterTagTextBox.Name = "tfsFilterTagTextBox";
+			this.tfsFilterTagTextBox.Size = new System.Drawing.Size(185, 20);
+			this.tfsFilterTagTextBox.TabIndex = 14;
+			// 
+			// tfsFilterTagLabel
+			// 
+			this.tfsFilterTagLabel.Location = new System.Drawing.Point(12, 230);
+			this.tfsFilterTagLabel.Name = "tfsFilterTagLabel";
+			this.tfsFilterTagLabel.Size = new System.Drawing.Size(100, 23);
+			this.tfsFilterTagLabel.TabIndex = 13;
+			this.tfsFilterTagLabel.Text = "TFS Filter Tag";
+			// 
 			// TFSConnectorSettingsForm
 			// 
 			this.AcceptButton = this.okButton;
@@ -225,6 +244,8 @@ namespace EATFSConnector
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(577, 280);
+			this.Controls.Add(this.tfsFilterTagTextBox);
+			this.Controls.Add(this.tfsFilterTagLabel);
 			this.Controls.Add(this.defaultProjectTextBox);
 			this.Controls.Add(this.defaultProjectLabel);
 			this.Controls.Add(this.cancelButton);

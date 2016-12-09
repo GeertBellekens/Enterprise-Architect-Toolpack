@@ -154,6 +154,18 @@ namespace EATFSConnector
 				return stereotypes;
 			}
 		}
+
+		public string TFSFilterTag
+		{
+			get
+			{
+				return this.getValue("TFSFilterTag");
+			}
+			set
+			{
+				this.setValue("TFSFilterTag",value);
+			}
+		}
     }
 }
 
