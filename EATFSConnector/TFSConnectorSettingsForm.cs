@@ -67,7 +67,9 @@ namespace EATFSConnector
 		    }
 			else
 			{
-				this.settings.projectConnections.Add(this.model.projectGUID,this.tfsUrlTextBox.Text);
+				var projectConnections = this.settings.projectConnections;
+				projectConnections.Add(this.model.projectGUID,this.tfsUrlTextBox.Text);
+				this.settings.projectConnections = projectConnections;
 			}
 		}
 		private void unloadMappings()
