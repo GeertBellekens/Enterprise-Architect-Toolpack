@@ -90,25 +90,12 @@
 				 <ComponentRef Id="EATFSConnector_RegistryEntry"/>
 				 <ComponentRef Id="EATFSConnector_RegistryEntry_x86"/>
 		</Feature>
-		<!-- Check for .Net framework 4.0 Client-->
-		<Property Id="NETFRAMEWORK40CL">
-		    <RegistrySearch Id="NetFramework40Cl"
-		                    Root="HKLM"
-		                    Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client"
-             				Name="Install"
-                    		Type="raw" />
-		</Property>
-		<!-- Check for .Net framework 4.0 Full-->
-		<Property Id="NETFRAMEWORK40FULL">
-		    <RegistrySearch Id="NetFramework40FULL"
-		                    Root="HKLM"
-		                    Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client"
-             				Name="Install"
-                    		Type="raw" />
-		</Property>
+		<!-- Check for .Net framework 4.5 Client-->
+		<PropertyRef Id="NETFRAMEWORK45"/>
 		
-		<Condition Message="This application requires .NET Framework v4. Please install the .NET Framework then run this installer again.">
-   		 <![CDATA[Installed OR NETFRAMEWORK40CL OR NETFRAMEWORK40FULL]]>
+		
+		<Condition Message="This application requires .NET Framework v4.5 Please install the .NET Framework then run this installer again.">
+   		 <![CDATA[Installed OR NETFRAMEWORK45]]>
 		</Condition>
 		
 		<CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
