@@ -25,8 +25,16 @@ namespace EAMapping
 		private MappingFramework.MappingSet _mappingSet;
 		public void loadMappingSet(MappingFramework.MappingSet mappingSet)
 		{
+			//temporary code to show mapping in a simple textbox.
 			_mappingSet = mappingSet;
-			//TODO: show the mapping
+			this.tempTextBox.Clear();
+			string mappingString = string.Empty;
+			foreach (var mapping in mappingSet.mappings) 
+			{
+				mappingString += "From: " + mapping.source.mappingPath 
+				+ " To: " + mapping.target.mappingPath  + Environment.NewLine;
+			}
+			this.tempTextBox.Text = mappingString;
 		}
 	}
 }

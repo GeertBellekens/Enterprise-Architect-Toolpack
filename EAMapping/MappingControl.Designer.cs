@@ -7,6 +7,7 @@ namespace EAMapping
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
+		private System.Windows.Forms.TextBox tempTextBox;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -29,15 +30,29 @@ namespace EAMapping
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.tempTextBox = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
+			// 
+			// tempTextBox
+			// 
+			this.tempTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tempTextBox.Location = new System.Drawing.Point(3, 3);
+			this.tempTextBox.Multiline = true;
+			this.tempTextBox.Name = "tempTextBox";
+			this.tempTextBox.Size = new System.Drawing.Size(496, 479);
+			this.tempTextBox.TabIndex = 0;
 			// 
 			// MappingControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.tempTextBox);
 			this.Name = "MappingControl";
 			this.Size = new System.Drawing.Size(502, 485);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 	}

@@ -96,13 +96,25 @@ namespace EAMapping
     		{
     			_currentMappingSet = getCurrentMappingSet(selectedPackage, source);
     		}
-    		//TODO: other selected things (diagram, element?)
+    		else 
+    		{
+	    		//check if element is selected
+	    		var selectedElement = selectedItem as TSF_EA.ElementWrapper;
+	    		if (selectedElement != null)
+	    		{
+	    			_currentMappingSet = getCurrentMappingSet(selectedElement, source);
+	    		}
+    		}
     		return _currentMappingSet;	
         	
         }
         private MappingFramework.MappingSet getCurrentMappingSet(UML.Classes.Kernel.Package package, bool source)
         {
         	return new EA_MP.PackageMappingSet((TSF_EA.Package)package,source);
+        }
+        private MappingFramework.MappingSet getCurrentMappingSet(TSF_EA.ElementWrapper rootElement, bool source)
+        {
+        	return new EA_MP.ElementMappingSet(rootElement,source);
         }
 	}
 }
