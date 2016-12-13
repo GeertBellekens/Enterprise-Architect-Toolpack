@@ -219,7 +219,6 @@ namespace EADatabaseTransformer
             var dialogResult = browseDDLFileDialog.ShowDialog();
             if (dialogResult == DialogResult.OK)
             {
-            	//if the user selected the file then put the filename in the abbreviationsfileTextBox
                 var ddlFileName = browseDDLFileDialog.FileName;
                 //read the file contents
                 //workaround to make sure it also works when the file is open
