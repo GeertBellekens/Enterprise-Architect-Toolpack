@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using EAAddinFramework.Databases.Transformation.DB2;
@@ -22,7 +23,9 @@ namespace EADatabaseTransformer
         const string menuComparetoDatabase = "&Compare Database";
         const string menuSettings = "&Settings";
         const string menuAbout = "&About";
+        const string menuCompleteDBwithDLL = "&Complete database with DLL";
         const string compareControlName = "Database Compare";
+        
         
         //private attributes
         private UTF_EA.Model model = null;
@@ -37,7 +40,7 @@ namespace EADatabaseTransformer
 		public EADatabaseTransformerAddin():base()
 		{
 			this.menuHeader = menuName;
-			this.menuOptions = new string[]{menuComparetoDatabase, menuSettings, menuAbout};
+			this.menuOptions = new string[]{menuComparetoDatabase,menuCompleteDBwithDLL, menuSettings, menuAbout};
 			this.settings = new EADatabaseTransformerSettings();
 		}
 		private DBCompareControl dbCompareControl
@@ -149,6 +152,17 @@ namespace EADatabaseTransformer
             			IsEnabled = false;
             		}
             		break;
+            	case menuCompleteDBwithDLL:
+            		if (this.fullyLoaded)
+	            	{
+            			var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
+            			IsEnabled = (selectedPackage != null && selectedPackage.stereotypes.Any(x => x.name.Equals("database",StringComparison.InvariantCultureIgnoreCase)));
+	            	}
+            		else
+            		{
+            			IsEnabled = false;
+            		}
+            		break;
             	case menuAbout:
             		IsEnabled = true;
             		break;
@@ -178,6 +192,9 @@ namespace EADatabaseTransformer
                 	this.compareDatabase();
                 	Repository.ActivateTab(compareControlName);
                     break;
+                   case menuCompleteDBwithDLL:
+                    this.completeDBwithDLL();
+                    break;
 		        case menuAbout :
 		            new AboutWindow().ShowDialog();
 		            break;
@@ -186,6 +203,33 @@ namespace EADatabaseTransformer
 	                break;
             }
         }
+		/// <summary>
+		/// gets the current database and completes it with the user selected ddl file
+		/// </summary>
+		void completeDBwithDLL()
+		{
+			//initialize database
+			var selectedPackage = this.model.selectedElement as UTF_EA.Package;
+			var selectedDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage);
+			//get user selected DDL file
+            OpenFileDialog browseDDLFileDialog = new OpenFileDialog();
+            browseDDLFileDialog.Filter = "DDL File |*.sql;*.txt";
+            browseDDLFileDialog.FilterIndex = 1;
+            browseDDLFileDialog.Multiselect = false;
+            var dialogResult = browseDDLFileDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+            	//if the user selected the file then put the filename in the abbreviationsfileTextBox
+                var ddlFileName = browseDDLFileDialog.FileName;
+                //read the file contents
+                //workaround to make sure it also works when the file is open
+				var fileStream = new FileStream(ddlFileName,FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+				var reader = new StreamReader(fileStream);
+				string ddl = reader.ReadToEnd();
+				selectedDatabase.complete(ddl);
+            }
+		}
+
   		/// <summary>
   		/// start the transformation from the logical model to the database model
   		/// </summary>
