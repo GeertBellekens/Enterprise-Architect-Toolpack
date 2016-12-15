@@ -216,6 +216,20 @@ namespace ECDMMessageComposer
 			}
 		}
 		/// <summary>
+		/// the output name to use
+		/// </summary>
+		public string outputName
+        {
+        	get
+			{
+				return this.getValue("outputName");
+			}
+			set
+			{
+				this.setValue("outputName",value);
+			}
+		}
+		/// <summary>
 		/// indicates whether the notes in the subset elements should be prefixed
 		/// </summary>
 		public bool checkSecurity 

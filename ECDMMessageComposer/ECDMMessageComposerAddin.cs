@@ -123,7 +123,11 @@ namespace ECDMMessageComposer
             	profile.AddExportFormat("ECDM Message");
 			}
 		}
-		
+		public override void EA_OnOutputItemDoubleClicked(EA.Repository Repository, string TabName, string LineText, long ID)
+		{
+			var outputElement = this.EAModel.getElementWrapperByID((int)ID);
+			if (outputElement != null) outputElement.select();
+		}
 				
 		/// <summary>
 		/// in order for the relations to work we need tagged value types "sourceAttribute and "sourceAssociation".
