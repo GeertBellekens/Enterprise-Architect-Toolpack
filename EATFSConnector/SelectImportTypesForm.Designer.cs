@@ -13,6 +13,7 @@ namespace EATFSConnector
 		private System.Windows.Forms.Button importButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Label SparxTypeLabel;
+		private System.Windows.Forms.CheckBox allTypesCheckBox;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -42,6 +43,7 @@ namespace EATFSConnector
 			this.importButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.SparxTypeLabel = new System.Windows.Forms.Label();
+			this.allTypesCheckBox = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// TFSTypeComboBox
@@ -51,7 +53,7 @@ namespace EATFSConnector
 			this.TFSTypeComboBox.FormattingEnabled = true;
 			this.TFSTypeComboBox.Location = new System.Drawing.Point(12, 35);
 			this.TFSTypeComboBox.Name = "TFSTypeComboBox";
-			this.TFSTypeComboBox.Size = new System.Drawing.Size(212, 21);
+			this.TFSTypeComboBox.Size = new System.Drawing.Size(188, 21);
 			this.TFSTypeComboBox.TabIndex = 0;
 			this.TFSTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.TFSTypeComboBoxSelectedIndexChanged);
 			// 
@@ -71,13 +73,13 @@ namespace EATFSConnector
 			this.SparxTypesComboBox.FormattingEnabled = true;
 			this.SparxTypesComboBox.Location = new System.Drawing.Point(12, 89);
 			this.SparxTypesComboBox.Name = "SparxTypesComboBox";
-			this.SparxTypesComboBox.Size = new System.Drawing.Size(212, 21);
+			this.SparxTypesComboBox.Size = new System.Drawing.Size(188, 21);
 			this.SparxTypesComboBox.TabIndex = 2;
 			// 
 			// importButton
 			// 
 			this.importButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.importButton.Location = new System.Drawing.Point(72, 118);
+			this.importButton.Location = new System.Drawing.Point(89, 118);
 			this.importButton.Name = "importButton";
 			this.importButton.Size = new System.Drawing.Size(75, 23);
 			this.importButton.TabIndex = 4;
@@ -89,7 +91,7 @@ namespace EATFSConnector
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(153, 118);
+			this.cancelButton.Location = new System.Drawing.Point(170, 118);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 5;
@@ -106,13 +108,24 @@ namespace EATFSConnector
 			this.SparxTypeLabel.Text = "Sparx Element Type";
 			this.SparxTypeLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
+			// allTypesCheckBox
+			// 
+			this.allTypesCheckBox.Location = new System.Drawing.Point(206, 32);
+			this.allTypesCheckBox.Name = "allTypesCheckBox";
+			this.allTypesCheckBox.Size = new System.Drawing.Size(39, 24);
+			this.allTypesCheckBox.TabIndex = 7;
+			this.allTypesCheckBox.Text = "All";
+			this.allTypesCheckBox.UseVisualStyleBackColor = true;
+			this.allTypesCheckBox.CheckedChanged += new System.EventHandler(this.AllTypesCheckBoxCheckedChanged);
+			// 
 			// SelectImportTypesForm
 			// 
 			this.AcceptButton = this.importButton;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(240, 153);
+			this.ClientSize = new System.Drawing.Size(257, 153);
+			this.Controls.Add(this.allTypesCheckBox);
 			this.Controls.Add(this.SparxTypeLabel);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.importButton);

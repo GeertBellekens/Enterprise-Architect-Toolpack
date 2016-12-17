@@ -35,7 +35,10 @@ namespace EATFSConnector
 		}
 		void enableDisable()
 		{
-			this.importButton.Enabled = (this.TFSTypeComboBox.Text.Length > 0 
+			TFSTypeComboBox.Enabled = ! allTypesCheckBox.Checked;
+			SparxTypesComboBox.Enabled = ! allTypesCheckBox.Checked;
+			this.importButton.Enabled = allTypesCheckBox.Checked 
+										|| (this.TFSTypeComboBox.Text.Length > 0
 			                             && this.SparxTypesComboBox.Text.Length > 0);
 		}
 		void CancelButtonClick(object sender, EventArgs e)
@@ -61,6 +64,17 @@ namespace EATFSConnector
 			{
 				return SparxTypesComboBox.Text;
 			}
+		}
+		public bool allTypes
+		{
+			get
+			{
+				return allTypesCheckBox.Checked;
+			}
+		}
+		void AllTypesCheckBoxCheckedChanged(object sender, EventArgs e)
+		{
+			this.enableDisable();
 		}
 	}
 }

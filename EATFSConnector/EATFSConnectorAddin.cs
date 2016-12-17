@@ -78,7 +78,8 @@ namespace EATFSConnector
 					IsEnabled = (MenuLocation == "TreeView" && this.model.selectedElement is TSF_EA.Package);
 					break;
 				case menuSynchTFStoEA:
-					IsEnabled = (this.model.selectedElement is TSF_EA.Package
+					IsEnabled = (this.model.selectedElement is TSF_EA.Package 
+					             && ! (this.model.selectedElement is TSF_EA.RootPackage)
 					             || (this.getCurrentWorkitem() != null && this.getCurrentWorkitem().ID.Length > 0));
 					break;
 				case menuSynchEAtoTFS:
@@ -206,13 +207,16 @@ namespace EATFSConnector
 				//tell the user what happened
 				MessageBox.Show(string.Format("{0} workitems were succesfully synchronized\n{1} workitems could not be synchronized"
 				                              , results.Count(x => x.Value), results.Count(x => !x.Value)),"Synchronize to EA => TFS result",MessageBoxButtons.OK,MessageBoxIcon.Information);
-			}        	
+			}
 			catch(Exception e)
         	{
-        		Logger.logError("Error Message: " + e.Message + Environment.NewLine + "Stacktrace: " + e.StackTrace);
-        		MessageBox.Show("An error occured: " + e.Message + Environment.NewLine + 
-        		                "Please check the logfile at: " + Logger.logFileName,"TFS Connector Error"
-        		                ,MessageBoxButtons.OK,MessageBoxIcon.Error);
+				if (!(e is OperationCanceledException))
+				{
+	        		Logger.logError("Error Message: " + e.Message + Environment.NewLine + "Stacktrace: " + e.StackTrace);
+	        		MessageBox.Show("An error occured: " + e.Message + Environment.NewLine + 
+	        		                "Please check the logfile at: " + Logger.logFileName,"TFS Connector Error"
+	        		                ,MessageBoxButtons.OK,MessageBoxIcon.Error);
+				}
         	}
 		}
 
@@ -233,11 +237,27 @@ namespace EATFSConnector
 	        			var selectImportTypes = new SelectImportTypesForm(this.settings);
 	        			if (selectImportTypes.ShowDialog(this.EAModel.mainEAWindow) == DialogResult.OK)
 	        			{
-		        			foreach (EA_WT.WorkItem workitem in currentProject.workitems
-		        			         .Where(x => x.type.Equals(selectImportTypes.TFSWorkitemType,StringComparison.InvariantCultureIgnoreCase)))
-		        			{
-	        					results.Add(workitem, workitem.synchronizeToEA(selectedPackage,selectImportTypes.SparxType));
-		        			}
+	        				if (selectImportTypes.allTypes)
+	        				{
+	        					//import all types
+	        					foreach (EA_WT.WorkItem workitem in currentProject.workitems)
+	        					{
+	        						if (settings.workitemMappings.Any(x => x.Value.Equals(workitem.type, StringComparison.InvariantCultureIgnoreCase)))
+	        						{
+		        						var mapping = settings.workitemMappings.First(x => x.Value.Equals(workitem.type, StringComparison.InvariantCultureIgnoreCase));
+		        						results.Add(workitem, workitem.synchronizeToEA(selectedPackage,mapping.Key));
+	        						}
+	        					}
+	        				}
+	        				else
+	        				{
+	        					//import only the selected type
+			        			foreach (EA_WT.WorkItem workitem in currentProject.workitems
+			        			         .Where(x => x.type.Equals(selectImportTypes.TFSWorkitemType,StringComparison.InvariantCultureIgnoreCase)))
+			        			{
+		        					results.Add(workitem, workitem.synchronizeToEA(selectedPackage,selectImportTypes.SparxType));
+			        			}
+	        				}
 	        			}
 	    			}
 	    			else
@@ -255,10 +275,13 @@ namespace EATFSConnector
         	}
         	catch(Exception e)
         	{
-        		Logger.logError("Error Message: " + e.Message + Environment.NewLine + "Stacktrace: " + e.StackTrace);
-        		MessageBox.Show("An error occured: " + e.Message + Environment.NewLine + 
-        		                "Please check the logfile at: " + Logger.logFileName,"TFS Connector Error"
-        		                ,MessageBoxButtons.OK,MessageBoxIcon.Error);
+        		if (!(e is OperationCanceledException))
+				{
+	        		Logger.logError("Error Message: " + e.Message + Environment.NewLine + "Stacktrace: " + e.StackTrace);
+	        		MessageBox.Show("An error occured: " + e.Message + Environment.NewLine + 
+	        		                "Please check the logfile at: " + Logger.logFileName,"TFS Connector Error"
+	        		                ,MessageBoxButtons.OK,MessageBoxIcon.Error);
+        		}
         	}
         }
 
