@@ -31,8 +31,8 @@ namespace EAMapping
 			string mappingString = string.Empty;
 			foreach (var mapping in mappingSet.mappings) 
 			{
-				mappingString += "From: " + mapping.source.mappingPath 
-				+ " To: " + mapping.target.mappingPath  + Environment.NewLine;
+				mappingString += "From: " + mapping.source.fullMappingPath
+				+ " To: " + mapping.target.fullMappingPath  + Environment.NewLine;
 			}
 			this.tempTextBox.Text = mappingString;
 		}
