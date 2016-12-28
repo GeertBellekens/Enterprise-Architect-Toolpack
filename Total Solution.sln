@@ -18,8 +18,6 @@ Project("{CFEE4113-1246-4D54-95CB-156813CB8593}") = "MyAddin_Setup", "..\Enterpr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAWorksetSharing", "EAWorksetSharing\EAWorksetSharing.csproj", "{52A75EE4-43A3-4B91-BA88-C567C4ECEA0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalsamiqConnector", "BalsamiqConnector\BalsamiqConnector.csproj", "{31C912A3-A16F-4D18-AB74-B985309B545C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAScriptAddin", "EAScriptAddin\EAScriptAddin.csproj", "{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicensekeyGenerator", "LicensekeyGenerator\LicensekeyGenerator.csproj", "{E08CA016-61CF-42E7-B043-7A73CD9B8280}"
@@ -110,14 +108,6 @@ Global
 		{52A75EE4-43A3-4B91-BA88-C567C4ECEA0A}.Release|x86.Build.0 = Release|x86
 		{52A75EE4-43A3-4B91-BA88-C567C4ECEA0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52A75EE4-43A3-4B91-BA88-C567C4ECEA0A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{31C912A3-A16F-4D18-AB74-B985309B545C}.Debug|x86.ActiveCfg = Debug|x86
-		{31C912A3-A16F-4D18-AB74-B985309B545C}.Debug|x86.Build.0 = Debug|x86
-		{31C912A3-A16F-4D18-AB74-B985309B545C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{31C912A3-A16F-4D18-AB74-B985309B545C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{31C912A3-A16F-4D18-AB74-B985309B545C}.Release|x86.ActiveCfg = Release|x86
-		{31C912A3-A16F-4D18-AB74-B985309B545C}.Release|x86.Build.0 = Release|x86
-		{31C912A3-A16F-4D18-AB74-B985309B545C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{31C912A3-A16F-4D18-AB74-B985309B545C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Debug|x86.ActiveCfg = Debug|x86
 		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Debug|x86.Build.0 = Debug|x86
 		{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
