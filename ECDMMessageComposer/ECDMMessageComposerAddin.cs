@@ -226,6 +226,14 @@ namespace ECDMMessageComposer
 		/// <param name="messageElement">the root element of the subset</param>
 		private void updateMessageSubset(Schema schema, UML.Classes.Kernel.Classifier messageElement)
 		{
+			//log progress
+			EAOutputLogger.clearLog(this.EAModel,this.settings.outputName);
+			EAOutputLogger.log(this.EAModel,this.settings.outputName
+			                   ,string.Format("Starting update of existing subset for schema '{0}' in package '{1}'"
+			                                  ,schema.name
+			                                  ,messageElement.owningPackage.name)
+			                   ,((UTF_EA.ElementWrapper)messageElement.owningPackage).id
+			                  ,LogTypeEnum.log);
 			if (messageElement != null)
 			{
                 bool copyDataType = this.settings.copyDataTypes;
@@ -247,6 +255,13 @@ namespace ECDMMessageComposer
 				//if not we create a new diagram
 				createNewSubsetDiagram(schema, messageElement.owningPackage);
 			}
+			//log progress
+			EAOutputLogger.log(this.EAModel,this.settings.outputName
+			                   ,string.Format("Finished update of existing subset for schema '{0}' in package '{1}'"
+			                                  ,schema.name
+			                                  ,messageElement.owningPackage.name)
+			                   ,((UTF_EA.ElementWrapper)messageElement.owningPackage).id
+			                  ,LogTypeEnum.log);
 		}
 		/// <summary>
 		/// Creates a new message subset from the given schema in the given targetPackage
@@ -255,6 +270,14 @@ namespace ECDMMessageComposer
 		/// <param name="targetPackage">the Package to create the new Message subset in</param>
 		private void createNewMessageSubset(Schema schema, UML.Classes.Kernel.Package targetPackage)
 		{
+			//log progress
+			EAOutputLogger.clearLog(this.EAModel,this.settings.outputName);
+			EAOutputLogger.log(this.EAModel,this.settings.outputName
+			                   ,string.Format("Starting creation of new subset for schema '{0}' in package '{1}'"
+			                                  ,schema.name
+			                                  ,targetPackage.name)
+			                   ,((UTF_EA.ElementWrapper)targetPackage).id
+			                  ,LogTypeEnum.log);
 			if (targetPackage != null)
 			{
                 //Logger.log("before ECDMMessageComposerAddin::schema.createSubsetModel");
@@ -268,6 +291,13 @@ namespace ECDMMessageComposer
                 schema.createSubsetModel(targetPackage);
 				createNewSubsetDiagram(schema, targetPackage);
 			}
+			//log progress
+			EAOutputLogger.log(this.EAModel,this.settings.outputName
+			                   ,string.Format("Finished creation of new subset for schema '{0}' in package '{1}'"
+			                                  ,schema.name
+			                                  ,targetPackage.name)
+			                   ,((UTF_EA.ElementWrapper)targetPackage).id
+			                  ,LogTypeEnum.log);
 		}
 		/// <summary>
 		/// update the given diagrams with the schema elements that don't appear ont he diagram yet.
