@@ -78,7 +78,6 @@ namespace EADatabaseTransformer
 					comparedItem.rename(renamePopup.newName);
 				}
 				this.refreshCompare(false);
-				this._dbCompareControl.selectedComparison = comparedItem;
 			}
 			
 		}
@@ -93,7 +92,6 @@ namespace EADatabaseTransformer
 				this._comparer.setOverride(comparedItem,overrideValue);
 				//refresh
 				this.refreshCompare(false);
-				this._dbCompareControl.selectedComparison = comparedItem;
 			}
 		}
 
@@ -103,14 +101,14 @@ namespace EADatabaseTransformer
 			_comparer.save();
 			this.refreshCompare(true);
 			this.model.showTab(compareControlName);
-			this._dbCompareControl.selectedComparison = selectedComparison;
+			//this._dbCompareControl.selectedComparison = selectedComparison;
 		}
 
 		void refreshButtonClicked(object sender, EventArgs e)
 		{
 			var selectedComparison = _dbCompareControl.selectedComparison;
 			this.refreshCompare(true);
-			this._dbCompareControl.selectedComparison = selectedComparison;
+			//this._dbCompareControl.selectedComparison = selectedComparison;
 		}
 
 		void selectLogicalItem(object sender, EventArgs e)

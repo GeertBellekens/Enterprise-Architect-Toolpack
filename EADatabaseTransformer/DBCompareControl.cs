@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -16,6 +17,7 @@ namespace EADatabaseTransformer
 	public partial class DBCompareControl : UserControl
 	{
 		DB.Compare.DatabaseComparer _comparer = null;
+		List<int> selectedIndices = new List<int>();
 		public DBCompareControl()
 		{
 			Application.EnableVisualStyles();	
@@ -309,15 +311,53 @@ namespace EADatabaseTransformer
 				selectDatabaseItem(selectedComparison.existingDatabaseItem, null);
 			}
 		}
+		
+		
+		/// <summary>
+		/// store the list of selected indices
+		/// </summary>
+		void saveSelectedIndices()
+		{
+			var selectedItems = this.compareDBListView.SelectedItems;
+			foreach (ListViewItem selectedItem in selectedItems) 
+			{
+				selectedIndices.Add(selectedItem.Index);
+			}
+
+		}
+		/// <summary>
+		/// select the indices that were stored before
+		/// </summary>
+		void reselectIndices()
+		{
+			foreach (var index in selectedIndices) 
+			{
+				if (index < this.compareDBListView.Items.Count) {
+					this.compareDBListView.Items[index].Focused = true;
+					this.compareDBListView.Items[index].Selected = true;
+					this.compareDBListView.Items[index].EnsureVisible();
+				}
+			}
+		}
 		public event EventHandler renameButtonClick = delegate { };
 		void RenameButtonClick(object sender, EventArgs e)
 		{
+			//get the selected indices
+			saveSelectedIndices();
+			//thrown the rename event
 			renameButtonClick(this.selectedComparison,e);
+			//reselect all selected elements
+			reselectIndices();
 		}
 		public event EventHandler overrideButtonClick = delegate { };		
 		void OverrideButtonClick(object sender, EventArgs e)
 		{
-			overrideButtonClick(this.selectedComparison,e);		
+			//get the selected indices
+			saveSelectedIndices();
+			//throw the override event
+			overrideButtonClick(this.selectedComparison,e);	
+			//reselect all selected elements
+			reselectIndices();			
 		}	
 		void CompareDBListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
