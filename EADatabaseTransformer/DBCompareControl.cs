@@ -264,6 +264,22 @@ namespace EADatabaseTransformer
 				}
 				return null;
 			}
+			set
+			{
+				if (value != null)
+				{
+					foreach (ListViewItem listviewItem in this.compareDBListView.Items) 
+					{
+						var currentComparison = listviewItem.Tag as DB.Compare.DatabaseItemComparison;
+						if (value.Equals(currentComparison))
+						{
+							listviewItem.Focused = true;
+							listviewItem.Selected = true;
+						}
+					}
+					
+				}
+			}
 		}
 		public DB.DatabaseItem selectedDatabaseItemWithLogical
 		{
@@ -301,8 +317,8 @@ namespace EADatabaseTransformer
 		public event EventHandler overrideButtonClick = delegate { };		
 		void OverrideButtonClick(object sender, EventArgs e)
 		{
-			overrideButtonClick(this.selectedComparison,e);
-		}
+			overrideButtonClick(this.selectedComparison,e);		
+		}	
 		void CompareDBListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
 			this.enableDisable();
