@@ -41,6 +41,7 @@ namespace EAMapping
 			this.tempTextBox.Location = new System.Drawing.Point(3, 3);
 			this.tempTextBox.Multiline = true;
 			this.tempTextBox.Name = "tempTextBox";
+			this.tempTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.tempTextBox.Size = new System.Drawing.Size(496, 479);
 			this.tempTextBox.TabIndex = 0;
 			// 
