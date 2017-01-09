@@ -157,8 +157,17 @@ namespace EADatabaseTransformer
 			listViewItem.SubItems.Add(comparison.itemType);
 			listViewItem.SubItems.Add(tableName);
 			listViewItem.SubItems.Add(getLogicalName(comparison));
-			
-			addDatabaseItemSpecifics(listViewItem,comparison.newDatabaseItem );
+			//if the existing item is renamed then we use its name for the new item
+			if (comparison.existingDatabaseItem != null 
+			    && comparison.existingDatabaseItem.isRenamed)
+			{
+				addDatabaseItemSpecifics(listViewItem,comparison.newDatabaseItem,comparison.existingDatabaseItem.name );
+			}
+			else
+			{
+				addDatabaseItemSpecifics(listViewItem,comparison.newDatabaseItem );
+			}
+			//add existing item
 			addDatabaseItemSpecifics(listViewItem,comparison.existingDatabaseItem);
 			
 			listViewItem.Tag = comparison;
@@ -201,6 +210,18 @@ namespace EADatabaseTransformer
 			else
 			{
 				listViewItem.SubItems.Add(string.Empty);
+				listViewItem.SubItems.Add(string.Empty);
+			}
+		}
+		private void addDatabaseItemSpecifics(ListViewItem listViewItem,DB.DatabaseItem databaseItem,string newName )
+		{
+			listViewItem.SubItems.Add(newName);
+			if (databaseItem != null)
+			{
+				listViewItem.SubItems.Add(databaseItem.properties);
+			}
+			else
+			{
 				listViewItem.SubItems.Add(string.Empty);
 			}
 		}

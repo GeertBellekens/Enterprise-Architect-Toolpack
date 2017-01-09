@@ -32,7 +32,9 @@ namespace EAMapping
 			foreach (var mapping in mappingSet.mappings) 
 			{
 				mappingString += "From: " + mapping.source.fullMappingPath
-				+ " To: " + mapping.target.fullMappingPath  + Environment.NewLine;
+					+ " To: " + mapping.target.fullMappingPath;
+				if (mapping.mappingLogic != null) mappingString +=  " Mapping Logic: " + mapping.mappingLogic.description;
+				mappingString += Environment.NewLine;
 			}
 			this.tempTextBox.Text = mappingString;
 		}

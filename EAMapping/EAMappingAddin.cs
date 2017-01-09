@@ -16,7 +16,6 @@ namespace EAMapping
 		// define menu constants
         const string menuName = "-&EA Mapping";
         const string menuMapAsSource = "&Map as Source";
-        const string menuMapAsTarget = "&Map as Target";
         const string menuSettings = "&Settings";
         const string menuAbout = "&About";
         
@@ -32,7 +31,7 @@ namespace EAMapping
         public EAMappingAddin():base()
         {
         	this.menuHeader = menuName;
-			this.menuOptions = new string[]{menuMapAsSource,menuMapAsTarget, menuSettings, menuAbout};
+			this.menuOptions = new string[]{menuMapAsSource, menuSettings, menuAbout};
         }
         
         private MappingControl mappingControl
@@ -73,10 +72,6 @@ namespace EAMapping
             {
                 case menuMapAsSource:
             		this.mappingControl.loadMappingSet(this.getCurrentMappingSet(true));
-                	Repository.ActivateTab(mappingControlName);
-                    break;
-                case menuMapAsTarget:
-            		this.mappingControl.loadMappingSet(this.getCurrentMappingSet(false));
                 	Repository.ActivateTab(mappingControlName);
                     break;
 		        case menuAbout :
