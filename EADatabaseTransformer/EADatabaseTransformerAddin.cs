@@ -262,10 +262,13 @@ namespace EADatabaseTransformer
 
 		private void refreshCompare(bool refreshTransform)
 		{
-
-			if (refreshTransform)_databaseTransformer.refresh();
 			//refresh transformation and load of new and original database
+			if (refreshTransform)
+			{
+				_databaseTransformer.refresh();
+			}
 			_comparer = new DB_EA.Compare.EADatabaseComparer((DB_EA.Database) _databaseTransformer.newDatabase, (DB_EA.Database) _databaseTransformer.existingDatabase);
+			//compare again
 			_comparer.compare();
 			this.dbCompareControl.loadComparison(_comparer);
 		}
