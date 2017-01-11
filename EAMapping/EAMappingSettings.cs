@@ -37,34 +37,33 @@ namespace EAMapping
 	    {
         	get
 			{
-				bool result;
-				return bool.TryParse(this.getValue("useTaggedValues"), out result) ? result : true;
+        		return this.getBooleanValue("useTaggedValues");
 			}
 			set
 			{
-				this.setValue("useTaggedValues",value.ToString());
+				this.setBooleanValue("useTaggedValues",value);
 			}
 	    }
-		public string sourceAttributeTagName
+		public string linkedAttributeTagName
 		{
 			get
 			{
-				return this.getValue("sourceAttributeTagName");
+				return this.getValue("linkedAttributeTagName");
 			}
 			set
 			{
-				this.setValue("sourceAttributeTagName",value);
+				this.setValue("linkedAttributeTagName",value);
 			}
 		}
-        public string sourceAssociationTagName
+        public string linkedAssociationTagName
         {
         	get
 			{
-				return this.getValue("sourceAssociationTagName");
+				return this.getValue("linkedAssociationTagName");
 			}
 			set
 			{
-				this.setValue("sourceAssociationTagName",value);
+				this.setValue("linkedAssociationTagName",value);
 			}
 		}
     }

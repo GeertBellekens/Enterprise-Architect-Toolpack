@@ -201,33 +201,33 @@ namespace EAImvertor
 		{
 			get
 			{
-				return  this.getValue("imvertorStereotypes").Split(',').ToList();;
+				return this.getListValue("imvertorStereotypes");
 			}
 			set
 			{
-				this.setValue("imvertorStereotypes",string.Join(",",value.ToArray()));
+				this.setListValue("imvertorStereotypes",value);
 			}
 		}
 		public int timeOutInSeconds
 		{
 			get
 			{
-				return  int.Parse(this.getValue("timeOutInSeconds"));
+				return this.getIntValue("timeOutInSeconds");
 			}
 			set
 			{
-				this.setValue("timeOutInSeconds",value.ToString());
+				this.setIntValue("timeOutInSeconds",value);
 			}
 		}
 		public int retryInterval
 		{
 			get
 			{
-				return  int.Parse(this.getValue("retryInterval"));
+				return this.getIntValue("retryInterval");
 			}
 			set
 			{
-				this.setValue("retryInterval",value.ToString());
+				this.setIntValue("retryInterval",value);
 			}
 		}
 		public string urlPostFix

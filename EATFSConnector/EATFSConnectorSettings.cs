@@ -42,50 +42,22 @@ namespace EATFSConnector
 		{
 			get
 			{	
-				var returnedConnections = new Dictionary<string,string>();
-				foreach (var projectConnection in this.getValue("projectConnections").Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries)) 
-				{
-					var connectionParameters = projectConnection.Split(new char[]{';'},StringSplitOptions.RemoveEmptyEntries);
-					if (connectionParameters.Count() == 2)
-					{
-						returnedConnections.Add(connectionParameters[0],connectionParameters[1]);
-					}
-				}
-				return returnedConnections;
+				return getDictionaryValue("projectConnections");
 			}
 			set
 			{
-				var connections = new List<string>();
-				foreach (var keyValuePair in value) 
-				{
-					connections.Add(string.Join(";",keyValuePair.Key,keyValuePair.Value));
-				}
-				this.setValue("projectConnections",string.Join(",",connections));
+				this.setDictionaryValue("projectConnections",value);
 			}
 		}
         public Dictionary<string,string> workitemMappings
 		{
 			get
 			{	
-				var returnedWorkItemMappings = new Dictionary<string,string>();
-				foreach (var mappings in this.getValue("workitemMappings").Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries)) 
-				{
-					var mapping = mappings.Split(new char[]{';'},StringSplitOptions.RemoveEmptyEntries);
-					if (mapping.Count() == 2)
-					{
-						returnedWorkItemMappings.Add(mapping[0],mapping[1]);
-					}
-				}
-				return returnedWorkItemMappings;
+				return getDictionaryValue("workitemMappings");
 			}
 			set
 			{
-				var connections = new List<string>();
-				foreach (var keyValuePair in value) 
-				{
-					connections.Add(string.Join(";",keyValuePair.Key,keyValuePair.Value));
-				}
-				this.setValue("workitemMappings",string.Join(",",connections));
+				this.setDictionaryValue("workitemMappings",value);
 			}
 		}
         public string defaultProject
