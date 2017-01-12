@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EATFSConnector", "EATFSConn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTrackingFramework", "..\UML-Tooling-Framework\WorkTrackingFramework\WorkTrackingFramework.csproj", "{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDL-Parser", "..\DDL-Parser\DDL-Parser.csproj", "{52156B88-F7A1-4007-B0E6-7E0ECC8B0B88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -212,5 +214,13 @@ Global
 		{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}.Release|x86.Build.0 = Release|x86
 		{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E06F0D2-B40A-45A9-BE8F-07DCDA11EF9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52156B88-F7A1-4007-B0E6-7E0ECC8B0B88}.Debug|x86.ActiveCfg = Debug|x86
+		{52156B88-F7A1-4007-B0E6-7E0ECC8B0B88}.Debug|x86.Build.0 = Debug|x86
+		{52156B88-F7A1-4007-B0E6-7E0ECC8B0B88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52156B88-F7A1-4007-B0E6-7E0ECC8B0B88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52156B88-F7A1-4007-B0E6-7E0ECC8B0B88}.Release|x86.ActiveCfg = Release|x86
+		{52156B88-F7A1-4007-B0E6-7E0ECC8B0B88}.Release|x86.Build.0 = Release|x86
+		{52156B88-F7A1-4007-B0E6-7E0ECC8B0B88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52156B88-F7A1-4007-B0E6-7E0ECC8B0B88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
