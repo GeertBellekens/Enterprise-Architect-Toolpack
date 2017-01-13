@@ -25,6 +25,7 @@ namespace EAMapping
         private bool fullyLoaded = false;
         private MappingControl _mappingControl;
         private MappingFramework.MappingSet _currentMappingSet = null;
+        private EAMappingSettings settings = new EAMappingSettings();
         /// <summary>
         /// constructor, set menu names
         /// </summary>
@@ -75,10 +76,10 @@ namespace EAMapping
                 	Repository.ActivateTab(mappingControlName);
                     break;
 		        case menuAbout :
-		            new AboutWindow().ShowDialog();
+		            new AboutWindow().ShowDialog(this.model.mainEAWindow);
 		            break;
 	            case menuSettings:
-	                //TODO
+		            new MappingSettingsForm(this.settings).ShowDialog(this.model.mainEAWindow);
 	                break;
             }
         }

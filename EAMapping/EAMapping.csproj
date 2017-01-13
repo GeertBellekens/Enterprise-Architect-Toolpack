@@ -71,6 +71,10 @@
     <Compile Include="MappingControl.Designer.cs">
       <DependentUpon>MappingControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="MappingSettingsForm.cs" />
+    <Compile Include="MappingSettingsForm.Designer.cs">
+      <DependentUpon>MappingSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MappingControl.resx">
       <DependentUpon>MappingControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MappingSettingsForm.resx">
+      <DependentUpon>MappingSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
