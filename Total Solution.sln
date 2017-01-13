@@ -46,8 +46,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTrackingFramework", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDL-Parser", "..\DDL-Parser\DDL-Parser.csproj", "{52156B88-F7A1-4007-B0E6-7E0ECC8B0B88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalsamiqConnector", "BalsamiqConnector\BalsamiqConnector.csproj", "{31C912A3-A16F-4D18-AB74-B985309B545C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
