@@ -236,7 +236,8 @@ namespace EADatabaseTransformer
         var ddl = new DDL();
         ddl.Parse(source);
         
-        MessageBox.Show(string.Format("parsed {0} statements with {1} errors", ddl.statements.Count, ddl.errors.Count));
+        new DB2DatabaseTransformer(this.model, null)
+          .complete(selectedDatabase, ddl);
       }
     }
 
