@@ -10,6 +10,7 @@ using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using DB=DatabaseFramework;
 using DB_EA = EAAddinFramework.Databases;
 using EAAddinFramework.Utilities;
+using DDL_Parser;
 
 namespace EADatabaseTransformer
 {
@@ -211,28 +212,33 @@ namespace EADatabaseTransformer
 		/// <summary>
 		/// gets the current database and completes it with the user selected ddl file
 		/// </summary>
-		void completeDBwithDLL()
-		{
-			//initialize database
-			var selectedPackage = this.model.selectedElement as UTF_EA.Package;
-			var selectedDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage);
-			//get user selected DDL file
-            OpenFileDialog browseDDLFileDialog = new OpenFileDialog();
-            browseDDLFileDialog.Filter = "DDL File |*.sql;*.txt";
-            browseDDLFileDialog.FilterIndex = 1;
-            browseDDLFileDialog.Multiselect = false;
-            var dialogResult = browseDDLFileDialog.ShowDialog();
-            if (dialogResult == DialogResult.OK)
-            {
-                var ddlFileName = browseDDLFileDialog.FileName;
-                //read the file contents
-                //workaround to make sure it also works when the file is open
-				var fileStream = new FileStream(ddlFileName,FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-				var reader = new StreamReader(fileStream);
-				string ddl = reader.ReadToEnd();
-				selectedDatabase.complete(ddl);
-            }
-		}
+    void completeDBwithDLL()
+    {
+      // initialize database
+      var selectedPackage = this.model.selectedElement as UTF_EA.Package;
+      var selectedDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage);
+
+      // get user selected DDL file
+      var browseDDLFileDialog = new OpenFileDialog();
+      browseDDLFileDialog.Filter = "DDL File |*.sql;*.txt";
+      browseDDLFileDialog.FilterIndex = 1;
+      browseDDLFileDialog.Multiselect = false;
+      var dialogResult = browseDDLFileDialog.ShowDialog();
+      if (dialogResult == DialogResult.OK)
+      {
+        var ddlFileName = browseDDLFileDialog.FileName;
+        //read the file contents
+        //workaround to make sure it also works when the file is open
+        var fileStream = new FileStream(ddlFileName,FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        var reader = new StreamReader(fileStream);
+        string source = reader.ReadToEnd();
+        
+        var ddl = new DDL();
+        ddl.Parse(source);
+        
+        MessageBox.Show(string.Format("parsed {0} statements with {1} errors", ddl.statements.Count, ddl.errors.Count));
+      }
+    }
 
   		/// <summary>
   		/// start the transformation from the logical model to the database model
