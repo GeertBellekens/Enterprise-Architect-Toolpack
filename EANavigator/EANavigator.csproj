@@ -68,7 +68,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Interop.EA">
-      <HintPath>..\..\..\..\..\..\..\Program Files %28x86%29\Sparx Systems\EA\Interop.EA.dll</HintPath>
+      <HintPath Condition="Exists('..\..\..\..\..\..\..\Program Files %28x86%29\Sparx Systems\EA\')">..\..\..\..\..\..\..\Program Files %28x86%29\Sparx Systems\EA\Interop.EA.dll</HintPath>
+      <HintPath Condition="Exists('C:\Program Files\Sparx Systems\EA\')">C:\Program Files\Sparx Systems\EA\Interop.EA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
