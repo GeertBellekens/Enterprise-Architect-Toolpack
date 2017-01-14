@@ -68,6 +68,10 @@
     </Compile>
     <Compile Include="EAMappingAddin.cs" />
     <Compile Include="EAMappingSettings.cs" />
+    <Compile Include="ImportMappingForm.cs" />
+    <Compile Include="ImportMappingForm.Designer.cs">
+      <DependentUpon>ImportMappingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MappingControl.cs" />
     <Compile Include="MappingControl.Designer.cs">
       <DependentUpon>MappingControl.cs</DependentUpon>
@@ -95,6 +99,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportMappingForm.resx">
+      <DependentUpon>ImportMappingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MappingControl.resx">
       <DependentUpon>MappingControl.cs</DependentUpon>

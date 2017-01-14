@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using EAAddinFramework.Utilities;
 using UML=TSF.UmlToolingFramework.UML;
 using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using EAAddinFramework;
@@ -16,6 +17,7 @@ namespace EAMapping
 		// define menu constants
         const string menuName = "-&EA Mapping";
         const string menuMapAsSource = "&Map as Source";
+        const string menuImportMapping = "&Import Mapping";
         const string menuSettings = "&Settings";
         const string menuAbout = "&About";
         
@@ -78,11 +80,44 @@ namespace EAMapping
 		        case menuAbout :
 		            new AboutWindow().ShowDialog(this.model.mainEAWindow);
 		            break;
+		        case menuImportMapping:
+		            this.startImportMapping();
+		            break;
 	            case menuSettings:
 		            new MappingSettingsForm(this.settings).ShowDialog(this.model.mainEAWindow);
 	                break;
             }
         }
+
+		void startImportMapping()
+		{
+			var importDialog = new ImportMappingForm();
+			importDialog.ImportButtonClicked += importMapping;
+			importDialog.SourcePathBrowseButtonClicked += browseSourcePath;
+			importDialog.TargetPathBrowseButtonClicked += browseTargetPath;
+			importDialog.ShowDialog(this.model.mainEAWindow);
+		}
+
+		void importMapping(object sender, EventArgs e)
+		{
+			Logger.log(sender.GetType().Name + " " +sender.ToString());
+		}
+
+		void browseSourcePath(object sender, EventArgs e)
+		{
+			var importDialog = (ImportMappingForm)sender;
+			importDialog.sourcePathElement = getuserSelectedClassOrPackage();
+		}
+
+		void browseTargetPath(object sender, EventArgs e)
+		{
+			var importDialog = (ImportMappingForm)sender;
+			importDialog.targetPathElement = getuserSelectedClassOrPackage();
+		}
+		private UML.Classes.Kernel.Element getuserSelectedClassOrPackage()
+		{
+			return this.model.getUserSelectedElement(new List<string>{"Class","Package"});
+		}
         private MappingFramework.MappingSet getCurrentMappingSet(bool source)
         {
     		var selectedItem = model.selectedItem;
