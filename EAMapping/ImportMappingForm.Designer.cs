@@ -149,6 +149,7 @@ namespace EAMapping
 			this.sourcePathTextBox.Location = new System.Drawing.Point(12, 68);
 			this.sourcePathTextBox.MinimumSize = new System.Drawing.Size(153, 20);
 			this.sourcePathTextBox.Name = "sourcePathTextBox";
+			this.sourcePathTextBox.ReadOnly = true;
 			this.sourcePathTextBox.Size = new System.Drawing.Size(321, 20);
 			this.sourcePathTextBox.TabIndex = 18;
 			// 
@@ -178,6 +179,7 @@ namespace EAMapping
 			this.targetPathTextBox.Location = new System.Drawing.Point(12, 110);
 			this.targetPathTextBox.MinimumSize = new System.Drawing.Size(153, 20);
 			this.targetPathTextBox.Name = "targetPathTextBox";
+			this.targetPathTextBox.ReadOnly = true;
 			this.targetPathTextBox.Size = new System.Drawing.Size(321, 20);
 			this.targetPathTextBox.TabIndex = 21;
 			// 

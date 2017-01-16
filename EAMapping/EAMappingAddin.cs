@@ -34,7 +34,7 @@ namespace EAMapping
         public EAMappingAddin():base()
         {
         	this.menuHeader = menuName;
-			this.menuOptions = new string[]{menuMapAsSource, menuSettings, menuAbout};
+			this.menuOptions = new string[]{menuMapAsSource, menuSettings, menuImportMapping, menuAbout};
         }
         
         private MappingControl mappingControl
@@ -100,7 +100,7 @@ namespace EAMapping
 
 		void importMapping(object sender, EventArgs e)
 		{
-			Logger.log(sender.GetType().Name + " " +sender.ToString());
+			
 		}
 
 		void browseSourcePath(object sender, EventArgs e)

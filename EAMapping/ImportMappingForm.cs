@@ -43,6 +43,7 @@ namespace EAMapping
 		void ImportButtonClick(object sender, EventArgs e)
 		{
 			ImportButtonClicked(this, e);
+			this.Close();
 		}
 		void CancelButtonClick(object sender, EventArgs e)
 		{
