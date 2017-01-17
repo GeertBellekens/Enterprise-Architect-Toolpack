@@ -914,7 +914,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		}
 		if (behavior != null)
 		{
-			elementsToNavigate.Add(behavior.specification as UML.Classes.Kernel.Operation);	
+			var specification = behavior.specification as UML.Classes.Kernel.Operation;
+			if (specification != null) elementsToNavigate.Add(specification);
 		}
 		return elementsToNavigate;
 	}
