@@ -18,6 +18,8 @@
 						<File Id="DatabaseFramework.pdb" Name="DatabaseFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\DatabaseFramework.pdb" />
 						<File Id="WorkTrackingFramework.dll" Name="WorkTrackingFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\WorkTrackingFramework.dll" />
 						<File Id="WorkTrackingFramework.pdb" Name="WorkTrackingFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\WorkTrackingFramework.pdb" />
+						<File Id="DDL_Parser.dll" Name="DDL-Parser.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\DDL-Parser.dll" />
+						<File Id="DDL_Parser.pdb" Name="DDL-Parser.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\DDL-Parser.pdb" />
 						<File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\Newtonsoft.Json.dll" />
 						<File Id="System.Net.Http.Formatting.dll" Name="System.Net.Http.Formatting.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\System.Net.Http.Formatting.dll" />
 						<File Id="System.Web.Http.dll" Name="System.Web.Http.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\System.Web.Http.dll" />
