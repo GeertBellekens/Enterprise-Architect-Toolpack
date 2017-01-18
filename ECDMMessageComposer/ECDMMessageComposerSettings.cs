@@ -74,6 +74,19 @@ namespace ECDMMessageComposer
 				this.setBooleanValue("addDataTypes",value);
 			}
 		}
+
+		public bool copyGeneralizations 
+		{
+        	get
+			{
+        		return this.getBooleanValue("copyGeneralizations");
+			}
+			set
+			{
+				this.setBooleanValue("copyGeneralizations",value);
+			}
+		}
+
 		/// <summary>
 		/// indicates if datatype generalizations should be copied tot he subset datatypes
 		/// </summary>
