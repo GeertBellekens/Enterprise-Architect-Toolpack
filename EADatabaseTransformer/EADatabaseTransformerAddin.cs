@@ -254,13 +254,13 @@ namespace EADatabaseTransformer
 				if (selectedPackage.stereotypes.Any( x => x.name.Equals("database",StringComparison.InvariantCultureIgnoreCase)))
 			    {
 				    
-				    var existingDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage);
-					_databaseTransformer = new DB2DatabaseTransformer(this.model,nameTranslator);
+				    var existingDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage,true);
+					_databaseTransformer = new DB2DatabaseTransformer(this.model,nameTranslator,true);
 				    _databaseTransformer.existingDatabase = existingDatabase;
 				}
 				else
 				{
-					_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage,nameTranslator);
+					_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage,nameTranslator,true);
 				}
 				
 				refreshCompare(true);	
