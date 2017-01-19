@@ -391,7 +391,17 @@ namespace TSF.UmlToolingFramework.EANavigator
 						{
 							if( i > 0)
 							{
-								node.Remove();
+								try
+								{
+									node.Remove();
+								}
+								catch(NullReferenceException)
+								{
+									//sometimes we get a nullpointer exception here for unknown reasons.
+									//just ignore it and return true
+									return true;
+								}
+								
 								return true;
 							}else
 							{
