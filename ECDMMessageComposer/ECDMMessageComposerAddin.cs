@@ -260,14 +260,14 @@ namespace ECDMMessageComposer
 			else
 			{
 				//if not we create a new diagram
-				createNewSubsetDiagram(schema, messageElement.owningPackage);
+				createNewSubsetDiagram(schema, targetPackage);
 			}
 			//log progress
 			EAOutputLogger.log(this.EAModel,this.settings.outputName
 			                   ,string.Format("Finished update of existing subset for schema '{0}' in package '{1}'"
 			                                  ,schema.name
-			                                  ,messageElement.owningPackage.name)
-			                   ,((UTF_EA.ElementWrapper)messageElement.owningPackage).id
+			                                  ,targetPackage.name)
+			                   ,((UTF_EA.Package)targetPackage).id
 			                  ,LogTypeEnum.log);
 		}
 		/// <summary>
