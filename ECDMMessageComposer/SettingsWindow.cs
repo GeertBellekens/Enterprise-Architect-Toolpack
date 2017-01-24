@@ -68,6 +68,7 @@ namespace ECDMMessageComposer
             this.prefixNotesCheckBox.Checked =  this.settings.prefixNotes;
 		    this.notesPrefixTextBox.Text = this.settings.prefixNotesText;
 		    this.checkSecurityCheckBox.Checked = this.settings.checkSecurity;
+		    this.deleteUnusedElementsCheckBox.Checked = this.settings.deleteUnusedSchemaElements;
 		}
 		private void enableDisable()
 		{
@@ -86,12 +87,12 @@ namespace ECDMMessageComposer
 			//get the datatypes from the grid
 			this.extractDataTypes();
 			//general options
-			//copy generalizations
-			settings.copyGeneralizations = this.generalCopyGeneralizationsCheckbox.Checked;
+			this.settings.copyGeneralizations = this.generalCopyGeneralizationsCheckbox.Checked;
 		    this.settings.redirectGeneralizationsToSubset = this.RedirectGeneralizationsCheckBox.Checked;
 		    this.settings.prefixNotes = this.prefixNotesCheckBox.Checked;
 		    this.settings.prefixNotesText = this.notesPrefixTextBox.Text;
 		    this.settings.checkSecurity = this.checkSecurityCheckBox.Checked;
+		    this.settings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
 			//diagram options
 			this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
 			this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;
