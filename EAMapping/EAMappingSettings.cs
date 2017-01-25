@@ -10,7 +10,7 @@ namespace EAMapping
 	/// <summary>
 	/// Description of ECDMMessageComposerSettings.
 	/// </summary>
-	public class EAMappingSettings:EAAddinFramework.Utilities.AddinSettings
+	public class EAMappingSettings:EAAddinFramework.Utilities.AddinSettings,EAAddinFramework.Mapping.MappingSettings
 	{
 		#region implemented abstract members of AddinSettings
 
@@ -102,6 +102,21 @@ namespace EAMapping
 				this.setValue("mappingLogicType",value);
 			}
 		}
+        /// <summary>
+		/// the (EA) type of element to use for the mapping logic (only for newly created items)
+		/// </summary>
+        public string outputName
+        {
+        	get
+			{
+				return this.getValue("outputName");
+			}
+			set
+			{
+				this.setValue("outputName",value);
+			}
+		}
+        
     }
 }
 
