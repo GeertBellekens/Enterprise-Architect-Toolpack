@@ -63,8 +63,8 @@ namespace EAMapping
 		{
 			enableDisable();
 		}
-		UML.Classes.Kernel.Element _sourcePathElement;
-		internal UML.Classes.Kernel.Element sourcePathElement 
+		TSF_EA.Element _sourcePathElement;
+		internal TSF_EA.Element sourcePathElement 
 		{
 			get
 			{
@@ -76,8 +76,8 @@ namespace EAMapping
 				this.sourcePathTextBox.Text = _sourcePathElement != null ? _sourcePathElement.fqn : string.Empty;
 			}
 		}
-		UML.Classes.Kernel.Element _targetPathElement;
-		public UML.Classes.Kernel.Element targetPathElement {
+		TSF_EA.Element _targetPathElement;
+		public TSF_EA.Element targetPathElement {
 			get 
 			{
 				return _targetPathElement;

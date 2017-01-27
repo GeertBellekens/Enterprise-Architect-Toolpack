@@ -74,8 +74,7 @@ namespace EAMapping
             switch (ItemName)
             {
                 case menuMapAsSource:
-            		this.mappingControl.loadMappingSet(this.getCurrentMappingSet(true));
-                	Repository.ActivateTab(mappingControlName);
+            		loadMapping(this.getCurrentMappingSet(true));
                     break;
 		        case menuAbout :
 		            new AboutWindow().ShowDialog(this.model.mainEAWindow);
@@ -88,7 +87,11 @@ namespace EAMapping
 	                break;
             }
         }
-
+        void loadMapping(MappingFramework.MappingSet mappingSet)
+        {        		
+      		this.mappingControl.loadMappingSet(this.getCurrentMappingSet(true));
+            model.activateTab(mappingControlName);
+        }
 		void startImportMapping()
 		{
 			var importDialog = new ImportMappingForm();
@@ -100,7 +103,16 @@ namespace EAMapping
 
 		void importMapping(object sender, EventArgs e)
 		{
-			
+			var importDialog = sender as ImportMappingForm;
+			if (importDialog != null)
+			{
+				var mappingSet = EA_MP.MappingFactory.createMappingSet(this.model,importDialog.importFilePath,this.settings
+				                                      ,importDialog.sourcePathElement,importDialog.targetPathElement);
+				if (mappingSet != null)
+				{
+					loadMapping(mappingSet);
+				}
+			}
 		}
 
 		void browseSourcePath(object sender, EventArgs e)
@@ -114,9 +126,9 @@ namespace EAMapping
 			var importDialog = (ImportMappingForm)sender;
 			importDialog.targetPathElement = getuserSelectedClassOrPackage();
 		}
-		private UML.Classes.Kernel.Element getuserSelectedClassOrPackage()
+		private TSF_EA.Element getuserSelectedClassOrPackage()
 		{
-			return this.model.getUserSelectedElement(new List<string>{"Class","Package"});
+			return this.model.getUserSelectedElement(new List<string>{"Class","Package"}) as TSF_EA.Element;
 		}
         private MappingFramework.MappingSet getCurrentMappingSet(bool source)
         {
