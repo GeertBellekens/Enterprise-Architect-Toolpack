@@ -7,7 +7,6 @@
 					<Component Id="Framework_AddinFiles" Guid="5F223BA8-CAB6-44D8-961F-59F749C93DEF" DiskId="1">
 						<File Id="EAAddinFramework.dll" Name="EAAddinFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\EAAddinFramework.dll" />
 						<File Id="EAAddinFramework.pdb" Name="EAAddinFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\EAAddinFramework.pdb" />
-						<File Id="EAAddinFramework.xml" Name="EAAddinFramework.xml" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\EAAddinFramework.xml" />
 						<File Id="Interop.EA.dll" Name="Interop.EA.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\Interop.EA.dll" />
 						<File Id="Interop.MSScriptControl.dll" Name="Interop.MSScriptControl.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\Interop.MSScriptControl.dll" />
 						<File Id="UMLToolingFramework.dll" Name="UMLToolingFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\UMLToolingFramework.dll" />
