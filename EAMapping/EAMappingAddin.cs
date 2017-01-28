@@ -6,6 +6,7 @@ using UML=TSF.UmlToolingFramework.UML;
 using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using EAAddinFramework;
 using EA_MP = EAAddinFramework.Mapping;
+using System.Linq;
 
 namespace EAMapping
 {
@@ -95,10 +96,25 @@ namespace EAMapping
 		void startImportMapping()
 		{
 			var importDialog = new ImportMappingForm();
+			var selectedElement = model.selectedElement as TSF_EA.Element;
+			if (selectedElement is UML.Classes.Kernel.Class
+			    || selectedElement is UML.Classes.Kernel.Package)
+			{
+				importDialog.sourcePathElement = selectedElement;
+				importDialog.targetPathElement = findTarget(selectedElement);
+			}
 			importDialog.ImportButtonClicked += importMapping;
 			importDialog.SourcePathBrowseButtonClicked += browseSourcePath;
 			importDialog.TargetPathBrowseButtonClicked += browseTargetPath;
 			importDialog.ShowDialog(this.model.mainEAWindow);
+		}
+		TSF_EA.Element findTarget(TSF_EA.Element sourceElement)
+		{
+			 var trace = sourceElement.getRelationships<UML.Classes.Dependencies.Abstraction>().FirstOrDefault(x => x.stereotypes.Any(y => y.name.Equals("trace",StringComparison.InvariantCultureIgnoreCase))
+			                                                                             && (x.target is UML.Classes.Kernel.Package || x.target is UML.Classes.Kernel.Class) );
+			if (trace != null) return trace.target as TSF_EA.Element;
+			//if nothing found then return null
+			return null;
 		}
 
 		void importMapping(object sender, EventArgs e)
