@@ -119,6 +119,7 @@ namespace EAMapping
 
 		void importMapping(object sender, EventArgs e)
 		{
+			clearOutput();
 			var importDialog = sender as ImportMappingForm;
 			if (importDialog != null)
 			{
@@ -130,7 +131,10 @@ namespace EAMapping
 				}
 			}
 		}
-
+		private void clearOutput()
+		{
+			EAOutputLogger.clearLog(this.model, this.settings.outputName);
+		}
 		void browseSourcePath(object sender, EventArgs e)
 		{
 			var importDialog = (ImportMappingForm)sender;
