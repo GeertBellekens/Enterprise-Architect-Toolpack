@@ -196,11 +196,10 @@ namespace ECDMMessageComposer
 					if (writable)
 					{
 						//check if the already contains classes
-						bool packageEmpty = ! targetPackage.getAllOwnedElements().Any();
 						DialogResult response = DialogResult.No;
-						if (! packageEmpty)
+						if (! targetPackage.isEmpty)
 						{
-							response = MessageBox.Show("Package already contains one or more classes" + Environment.NewLine + "Would you like to update an existing subset model?"
+							response = MessageBox.Show("The target package is not empty." + Environment.NewLine + "Would you like to update an existing subset model?"
 							                           ,"Update existing subset model?",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question);
 							
 						}
@@ -229,7 +228,8 @@ namespace ECDMMessageComposer
 			//log progress
 			EAOutputLogger.clearLog(this.EAModel,this.settings.outputName);
 			EAOutputLogger.log(this.EAModel,this.settings.outputName
-			                   ,string.Format("Starting update of existing subset for schema '{0}' in package '{1}'"
+			                   ,string.Format("{0} Starting update of existing subset for schema '{1}' in package '{2}'"
+			                                  ,DateTime.Now.ToLongTimeString()
 			                                  ,schema.name
 			                                  ,targetPackage.name)
 			                   ,((UTF_EA.ElementWrapper)targetPackage).id
@@ -264,7 +264,8 @@ namespace ECDMMessageComposer
 			}
 			//log progress
 			EAOutputLogger.log(this.EAModel,this.settings.outputName
-			                   ,string.Format("Finished update of existing subset for schema '{0}' in package '{1}'"
+			                   ,string.Format("{0} Finished update of existing subset for schema '{1}' in package '{2}'"
+			                                  ,DateTime.Now.ToLongTimeString()
 			                                  ,schema.name
 			                                  ,targetPackage.name)
 			                   ,((UTF_EA.Package)targetPackage).id
@@ -280,7 +281,8 @@ namespace ECDMMessageComposer
 			//log progress
 			EAOutputLogger.clearLog(this.EAModel,this.settings.outputName);
 			EAOutputLogger.log(this.EAModel,this.settings.outputName
-			                   ,string.Format("Starting creation of new subset for schema '{0}' in package '{1}'"
+			                   ,string.Format("{0} Starting creation of new subset for schema '{1}' in package '{2}'"
+			                                  ,DateTime.Now.ToLongTimeString()
 			                                  ,schema.name
 			                                  ,targetPackage.name)
 			                   ,((UTF_EA.ElementWrapper)targetPackage).id
@@ -300,7 +302,8 @@ namespace ECDMMessageComposer
 			}
 			//log progress
 			EAOutputLogger.log(this.EAModel,this.settings.outputName
-			                   ,string.Format("Finished creation of new subset for schema '{0}' in package '{1}'"
+			                   ,string.Format("{0} Finished creation of new subset for schema '{1}' in package '{2}'"
+			                                  ,DateTime.Now.ToLongTimeString()
 			                                  ,schema.name
 			                                  ,targetPackage.name)
 			                   ,((UTF_EA.ElementWrapper)targetPackage).id
