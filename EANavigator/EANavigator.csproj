@@ -82,20 +82,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutWindow.cs" />
+    <Compile Include="AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="EAAddin.cs" />
-    <Compile Include="FQNInputForm.cs" />
+    <Compile Include="FQNInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FQNInputForm.Designer.cs">
       <DependentUpon>FQNInputForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NavigatorControl.cs" />
+    <Compile Include="NavigatorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="NavigatorControl.Designer.cs">
       <DependentUpon>NavigatorControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="NavigatorVisuals.cs" />
+    <Compile Include="NavigatorVisuals.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="NavigatorVisuals.Designer.cs">
       <DependentUpon>NavigatorVisuals.cs</DependentUpon>
     </Compile>
@@ -106,16 +114,22 @@
       <DependentUpon>NavigatorList.cs</DependentUpon>
     </Compile>
     <Compile Include="NavigatorSettings.cs" />
-    <Compile Include="NavigatorSettingsForm.cs" />
+    <Compile Include="NavigatorSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="NavigatorSettingsForm.Designer.cs">
       <DependentUpon>NavigatorSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuickSearchBox.cs" />
+    <Compile Include="QuickSearchBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="QuickSearchBox.Designer.cs">
       <DependentUpon>QuickSearchBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="QuickSearchComboBox.cs" />
+    <Compile Include="QuickSearchComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="QuickSearchComboBox.Designer.cs">
       <DependentUpon>QuickSearchComboBox.cs</DependentUpon>
     </Compile>
@@ -153,9 +167,7 @@
       <Name>UMLToolingFramework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Files" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Files\Navigator_icon.png">
       <LogicalName>Navigator_icon</LogicalName>

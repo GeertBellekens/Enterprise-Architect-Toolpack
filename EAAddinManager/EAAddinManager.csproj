@@ -69,7 +69,9 @@
     <Compile Include="AddinConfig.cs" />
     <Compile Include="EAAddinManagerAddinClass.cs" />
     <Compile Include="EAAddinManagerConfig.cs" />
-    <Compile Include="EAAddinManagerSettingsForm.cs" />
+    <Compile Include="EAAddinManagerSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="EAAddinManagerSettingsForm.Designer.cs">
       <DependentUpon>EAAddinManagerSettingsForm.cs</DependentUpon>
     </Compile>

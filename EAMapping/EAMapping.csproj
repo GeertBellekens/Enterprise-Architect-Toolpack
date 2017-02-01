@@ -61,13 +61,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutWindow.cs" />
+    <Compile Include="AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Custom User Controls\ModelSetContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custom User Controls\ModelSetContainer.designer.cs">
+      <DependentUpon>ModelSetContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom User Controls\PTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Custom User Controls\TreeItem.cs" />
     <Compile Include="EAMappingAddin.cs" />
     <Compile Include="EAMappingSettings.cs" />
-    <Compile Include="MappingControl.cs" />
+    <Compile Include="MappingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="MappingControl.Designer.cs">
       <DependentUpon>MappingControl.cs</DependentUpon>
     </Compile>

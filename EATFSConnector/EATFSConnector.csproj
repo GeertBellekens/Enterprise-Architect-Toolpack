@@ -75,7 +75,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutWindow.cs" />
+    <Compile Include="AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
@@ -84,15 +86,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelectImportTypesForm.cs" />
+    <Compile Include="SelectImportTypesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SelectImportTypesForm.Designer.cs">
       <DependentUpon>SelectImportTypesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SetProjectForm.cs" />
+    <Compile Include="SetProjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SetProjectForm.Designer.cs">
       <DependentUpon>SetProjectForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TFSConnectorSettingsForm.cs" />
+    <Compile Include="TFSConnectorSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TFSConnectorSettingsForm.Designer.cs">
       <DependentUpon>TFSConnectorSettingsForm.cs</DependentUpon>
     </Compile>

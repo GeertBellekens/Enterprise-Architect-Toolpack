@@ -52,7 +52,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GeneratorForm.cs" />
+    <Compile Include="GeneratorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GeneratorForm.Designer.cs">
       <DependentUpon>GeneratorForm.cs</DependentUpon>
     </Compile>

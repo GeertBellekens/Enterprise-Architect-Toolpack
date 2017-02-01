@@ -1,4 +1,6 @@
 ﻿
+using System.Windows.Forms;
+
 namespace EAMapping
 {
 	partial class MappingControl
@@ -30,30 +32,46 @@ namespace EAMapping
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tempTextBox = new System.Windows.Forms.TextBox();
+			//this.tempTextBox = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// tempTextBox
 			// 
-			this.tempTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			/*this.tempTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 			| System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this.tempTextBox.Location = new System.Drawing.Point(3, 3);
 			this.tempTextBox.Multiline = true;
 			this.tempTextBox.Name = "tempTextBox";
 			this.tempTextBox.Size = new System.Drawing.Size(496, 479);
-			this.tempTextBox.TabIndex = 0;
+			this.tempTextBox.TabIndex = 0;*/
 			// 
 			// MappingControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.tempTextBox);
+			//this.Controls.Add(this.tempTextBox);
 			this.Name = "MappingControl";
 			this.Size = new System.Drawing.Size(502, 485);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
 		}
-	}
+        /*
+        private void modelSetSource_AfterSelect(System.Object sender, System.Windows.Forms.TreeViewEventArgs e)
+        {
+
+            // Vary the response depending on which TreeViewAction
+            // triggered the event. 
+            switch ((e.Action))
+            {
+                case TreeViewAction.ByKeyboard:
+                    MessageBox.Show("You like the keyboard!");
+                    break;
+                case TreeViewAction.ByMouse:
+                    MessageBox.Show("You like the mouse!");
+                    break;
+            }
+        }*/
+    }
 }

@@ -65,12 +65,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutWindow.cs" />
+    <Compile Include="AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="EAScriptAddinAddinClass.cs" />
-    <Compile Include="EAScriptAddinSettingForm.cs" />
+    <Compile Include="EAScriptAddinSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="EAScriptAddinSettingForm.Designer.cs">
       <DependentUpon>EAScriptAddinSettingForm.cs</DependentUpon>
     </Compile>
@@ -94,9 +98,7 @@
       <DependentUpon>EAScriptAddinSettingForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Files" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Files\license.rtf" />
     <None Include="Files\ScriptAddinIcon.ico" />

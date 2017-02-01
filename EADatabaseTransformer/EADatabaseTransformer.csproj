@@ -62,22 +62,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutWindow.cs" />
+    <Compile Include="AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="DBCompareControl.cs" />
+    <Compile Include="DBCompareControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="DBCompareControl.Designer.cs">
       <DependentUpon>DBCompareControl.cs</DependentUpon>
     </Compile>
     <Compile Include="EADatabaseTransformerAddin.cs" />
     <Compile Include="EADatabaseTransformerSettings.cs" />
-    <Compile Include="EADatabaseTransformerSettingsForm.cs" />
+    <Compile Include="EADatabaseTransformerSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="EADatabaseTransformerSettingsForm.Designer.cs">
       <DependentUpon>EADatabaseTransformerSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RenameWindow.cs" />
+    <Compile Include="RenameWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RenameWindow.Designer.cs">
       <DependentUpon>RenameWindow.cs</DependentUpon>
     </Compile>
@@ -119,8 +127,6 @@
     <None Include="Files\save.png" />
     <None Include="Files\Table.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Files" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

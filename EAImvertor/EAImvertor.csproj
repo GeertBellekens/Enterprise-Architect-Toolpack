@@ -65,7 +65,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutWindow.cs" />
+    <Compile Include="AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
@@ -74,15 +76,21 @@
     <Compile Include="EAImvertorJob.cs" />
     <Compile Include="EAImvertorJobSettings.cs" />
     <Compile Include="EAImvertorSettings.cs" />
-    <Compile Include="EAImvertorSettingsForm.cs" />
+    <Compile Include="EAImvertorSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="EAImvertorSettingsForm.Designer.cs">
       <DependentUpon>EAImvertorSettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImvertorControl.cs" />
+    <Compile Include="ImvertorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ImvertorControl.Designer.cs">
       <DependentUpon>ImvertorControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImvertorStartJobForm.cs" />
+    <Compile Include="ImvertorStartJobForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ImvertorStartJobForm.Designer.cs">
       <DependentUpon>ImvertorStartJobForm.cs</DependentUpon>
     </Compile>
@@ -118,8 +126,6 @@
     </None>
     <None Include="Files\license.rtf" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Files" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
