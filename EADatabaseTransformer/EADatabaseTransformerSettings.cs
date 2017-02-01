@@ -37,11 +37,11 @@ namespace EADatabaseTransformer
 		{
 			get
 			{
-				return this.currentConfig.AppSettings.Settings["abbreviationsPath"].Value;
+				return this.getValue("abbreviationsPath");
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["abbreviationsPath"].Value = value;
+				this.setValue("abbreviationsPath",value);
 			}
 		}
 

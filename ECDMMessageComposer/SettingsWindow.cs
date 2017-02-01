@@ -46,7 +46,9 @@ namespace ECDMMessageComposer
 			foreach (string  datatype in this.settings.dataTypesToCopy) 
 			{
 				this.dataTypesGridView.Rows.Add(datatype);
-			}			
+			}
+			//copy generalizations
+			this.generalCopyGeneralizationsCheckbox.Checked = settings.copyGeneralizations;
 			//addDataTypes checkbox
 			this.addDataTypesCheckBox.Checked = this.settings.addDataTypes;
 			//addSourceElements checkbox
@@ -56,7 +58,7 @@ namespace ECDMMessageComposer
             //limit datatypes checkbox
             this.limitDatatypesCheckBox.Checked = settings.limitDataTypes;
             //copy Generalizations checkbox
-            this.copyGeneralizationsCheckBox.Checked = settings.copyDataTypeGeneralizations;
+            this.copyDataTypeGeneralizationsCheckBox.Checked = settings.copyDataTypeGeneralizations;
             //sourceAttributeTag
             this.attributeTagTextBox.Text = settings.sourceAttributeTagName;
             //sourceAssociationTag
@@ -66,13 +68,14 @@ namespace ECDMMessageComposer
             this.prefixNotesCheckBox.Checked =  this.settings.prefixNotes;
 		    this.notesPrefixTextBox.Text = this.settings.prefixNotesText;
 		    this.checkSecurityCheckBox.Checked = this.settings.checkSecurity;
+		    this.deleteUnusedElementsCheckBox.Checked = this.settings.deleteUnusedSchemaElements;
 		}
 		private void enableDisable()
 		{
 			this.limitDatatypesCheckBox.Enabled = copyDatatypesCheckbox.Checked;
 			this.dataTypesGridView.Enabled = this.limitDatatypesCheckBox.Checked;
 			this.deleteDataTypeButton.Enabled = this.dataTypesGridView.Enabled;
-			this.copyGeneralizationsCheckBox.Enabled = this.copyDatatypesCheckbox.Checked;
+			this.copyDataTypeGeneralizationsCheckBox.Enabled = this.copyDatatypesCheckbox.Checked;
 			this.notesPrefixTextBox.Enabled = this.prefixNotesCheckBox.Checked;
 		}
 		private void saveChanges()
@@ -84,17 +87,19 @@ namespace ECDMMessageComposer
 			//get the datatypes from the grid
 			this.extractDataTypes();
 			//general options
+			this.settings.copyGeneralizations = this.generalCopyGeneralizationsCheckbox.Checked;
 		    this.settings.redirectGeneralizationsToSubset = this.RedirectGeneralizationsCheckBox.Checked;
 		    this.settings.prefixNotes = this.prefixNotesCheckBox.Checked;
 		    this.settings.prefixNotesText = this.notesPrefixTextBox.Text;
 		    this.settings.checkSecurity = this.checkSecurityCheckBox.Checked;
+		    this.settings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
 			//diagram options
 			this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
 			this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;
 			//datatype options
 		    this.settings.copyDataTypes = this.copyDatatypesCheckbox.Checked;
 		    this.settings.limitDataTypes = this.limitDatatypesCheckBox.Checked;
-		    this.settings.copyDataTypeGeneralizations = this.copyGeneralizationsCheckBox.Checked;
+		    this.settings.copyDataTypeGeneralizations = this.copyDataTypeGeneralizationsCheckBox.Checked;
 		    //tracebility tag names
 		    this.settings.sourceAttributeTagName = this.attributeTagTextBox.Text;
 		    this.settings.sourceAssociationTagName = this.associationTagTextBox.Text;

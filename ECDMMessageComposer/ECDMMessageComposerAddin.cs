@@ -196,9 +196,9 @@ namespace ECDMMessageComposer
 					if (writable)
 					{
 						//check if the already contains classes
-						var classElement = targetPackage.ownedElements.FirstOrDefault(x => (x is UML.Classes.Kernel.Class || x is UML.Classes.Kernel.Enumeration) ) as UML.Classes.Kernel.Classifier;
+						bool packageEmpty = ! targetPackage.getAllOwnedElements().Any();
 						DialogResult response = DialogResult.No;
-						if (classElement != null)
+						if (! packageEmpty)
 						{
 							response = MessageBox.Show("Package already contains one or more classes" + Environment.NewLine + "Would you like to update an existing subset model?"
 							                           ,"Update existing subset model?",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question);
@@ -210,7 +210,7 @@ namespace ECDMMessageComposer
 						}
 						else if (response == DialogResult.Yes)
 						{
-							this.updateMessageSubset(schema, classElement);
+							this.updateMessageSubset(schema, targetPackage);
 						}
 						//if the user chose cancel we don't do anything
 					}
@@ -224,27 +224,34 @@ namespace ECDMMessageComposer
 		/// </summary>
 		/// <param name="schema">the schema to use as basis</param>
 		/// <param name="messageElement">the root element of the subset</param>
-		private void updateMessageSubset(Schema schema, UML.Classes.Kernel.Classifier messageElement)
+		private void updateMessageSubset(Schema schema, UML.Classes.Kernel.Package targetPackage)
 		{
 			//log progress
 			EAOutputLogger.clearLog(this.EAModel,this.settings.outputName);
 			EAOutputLogger.log(this.EAModel,this.settings.outputName
 			                   ,string.Format("Starting update of existing subset for schema '{0}' in package '{1}'"
 			                                  ,schema.name
-			                                  ,messageElement.owningPackage.name)
-			                   ,((UTF_EA.ElementWrapper)messageElement.owningPackage).id
+			                                  ,targetPackage.name)
+			                   ,((UTF_EA.ElementWrapper)targetPackage).id
 			                  ,LogTypeEnum.log);
+			
+			bool copyDataType = this.settings.copyDataTypes;
+            List<String>datatypesToCopy = null;
+            if (copyDataType && this.settings.limitDataTypes)
+            {
+            	datatypesToCopy = this.settings.dataTypesToCopy;
+            }
+            //check if we have a message element to folow
+			var messageElement = targetPackage.ownedElements.OfType<UML.Classes.Kernel.Classifier>().FirstOrDefault();
 			if (messageElement != null)
 			{
-                bool copyDataType = this.settings.copyDataTypes;
-                List<String>datatypesToCopy = null;
-                if (copyDataType && this.settings.limitDataTypes)
-                {
-                	datatypesToCopy = this.settings.dataTypesToCopy;
-                }
                 schema.updateSubsetModel(messageElement);
 			}
-			var subsetDiagrams = messageElement.owningPackage.ownedDiagrams;
+			else
+			{
+				schema.updateSubsetModel(targetPackage);
+			}
+			var subsetDiagrams = targetPackage.ownedDiagrams;
 			if (subsetDiagrams.Count > 0)
 			{
 				//if there are existing diagram then we update the existing diagrams
@@ -253,14 +260,14 @@ namespace ECDMMessageComposer
 			else
 			{
 				//if not we create a new diagram
-				createNewSubsetDiagram(schema, messageElement.owningPackage);
+				createNewSubsetDiagram(schema, targetPackage);
 			}
 			//log progress
 			EAOutputLogger.log(this.EAModel,this.settings.outputName
 			                   ,string.Format("Finished update of existing subset for schema '{0}' in package '{1}'"
 			                                  ,schema.name
-			                                  ,messageElement.owningPackage.name)
-			                   ,((UTF_EA.ElementWrapper)messageElement.owningPackage).id
+			                                  ,targetPackage.name)
+			                   ,((UTF_EA.Package)targetPackage).id
 			                  ,LogTypeEnum.log);
 		}
 		/// <summary>

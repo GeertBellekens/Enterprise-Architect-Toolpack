@@ -305,7 +305,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     		if (element is TSF.UmlToolingFramework.Wrappers.EA.ElementWrapper 
     		    || element is UML.Classes.Kernel.Property
     		    || element is UML.Classes.Kernel.Operation
-    		    || element is UML.Classes.Kernel.Relationship)
+    		    || element is UML.Classes.Kernel.Relationship
+    		    || element is UML.Classes.Kernel.EnumerationLiteral)
     		{
     			//the root package can't have links
     			if (element.owner != null 
@@ -914,7 +915,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
 		}
 		if (behavior != null)
 		{
-			elementsToNavigate.Add(behavior.specification as UML.Classes.Kernel.Operation);	
+			var specification = behavior.specification as UML.Classes.Kernel.Operation;
+			if (specification != null) elementsToNavigate.Add(specification);
 		}
 		return elementsToNavigate;
 	}

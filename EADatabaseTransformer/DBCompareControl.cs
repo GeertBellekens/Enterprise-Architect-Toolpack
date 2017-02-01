@@ -158,10 +158,9 @@ namespace EADatabaseTransformer
 			listViewItem.SubItems.Add(tableName);
 			listViewItem.SubItems.Add(getLogicalName(comparison));
 			//if the existing item is renamed then we use its name for the new item
-			if (comparison.existingDatabaseItem != null 
-			    && comparison.existingDatabaseItem.isRenamed)
+			if (comparison.isRenamed)
 			{
-				addDatabaseItemSpecifics(listViewItem,comparison.newDatabaseItem,comparison.existingDatabaseItem.name );
+				addDatabaseItemSpecifics(listViewItem,comparison.newDatabaseItem,comparison.renamedName );
 			}
 			else
 			{

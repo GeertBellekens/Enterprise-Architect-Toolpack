@@ -44,7 +44,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Interop.EA">
-      <HintPath>..\..\..\..\..\..\Program Files %28x86%29\Sparx Systems\EA\Interop.EA.dll</HintPath>
+      <HintPath Condition="Exists('..\..\..\..\..\..\..\Program Files %28x86%29\Sparx Systems\EA\')">..\..\..\..\..\..\..\Program Files %28x86%29\Sparx Systems\EA\Interop.EA.dll</HintPath>
+      <HintPath Condition="Exists('C:\Program Files\Sparx Systems\EA\')">C:\Program Files\Sparx Systems\EA\Interop.EA.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -82,8 +83,16 @@
     <Compile Include="MappingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="ImportMappingForm.cs" />
+    <Compile Include="ImportMappingForm.Designer.cs">
+      <DependentUpon>ImportMappingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MappingControl.Designer.cs">
       <DependentUpon>MappingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MappingSettingsForm.cs" />
+    <Compile Include="MappingSettingsForm.Designer.cs">
+      <DependentUpon>MappingSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -105,8 +114,14 @@
     <EmbeddedResource Include="AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ImportMappingForm.resx">
+      <DependentUpon>ImportMappingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MappingControl.resx">
       <DependentUpon>MappingControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MappingSettingsForm.resx">
+      <DependentUpon>MappingSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,12 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using EAAddinFramework.Utilities;
 using UML=TSF.UmlToolingFramework.UML;
 using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using EAAddinFramework;
 using EA_MP = EAAddinFramework.Mapping;
+using System.Linq;
 
 namespace EAMapping
 {
@@ -16,6 +18,7 @@ namespace EAMapping
 		// define menu constants
         const string menuName = "-&EA Mapping";
         const string menuMapAsSource = "&Map as Source";
+        const string menuImportMapping = "&Import Mapping";
         const string menuSettings = "&Settings";
         const string menuAbout = "&About";
         
@@ -25,13 +28,14 @@ namespace EAMapping
         private bool fullyLoaded = false;
         private MappingControl _mappingControl;
         private MappingFramework.MappingSet _currentMappingSet = null;
+        private EAMappingSettings settings = new EAMappingSettings();
         /// <summary>
         /// constructor, set menu names
         /// </summary>
         public EAMappingAddin():base()
         {
         	this.menuHeader = menuName;
-			this.menuOptions = new string[]{menuMapAsSource, menuSettings, menuAbout};
+			this.menuOptions = new string[]{menuMapAsSource, menuSettings, menuImportMapping, menuAbout};
         }
         
         private MappingControl mappingControl
@@ -71,17 +75,81 @@ namespace EAMapping
             switch (ItemName)
             {
                 case menuMapAsSource:
-            		this.mappingControl.loadMappingSet(this.getCurrentMappingSet(true));
-                	Repository.ActivateTab(mappingControlName);
+            		loadMapping(this.getCurrentMappingSet(true));
                     break;
 		        case menuAbout :
-		            new AboutWindow().ShowDialog();
+		            new AboutWindow().ShowDialog(this.model.mainEAWindow);
+		            break;
+		        case menuImportMapping:
+		            this.startImportMapping();
 		            break;
 	            case menuSettings:
-	                //TODO
+		            new MappingSettingsForm(this.settings).ShowDialog(this.model.mainEAWindow);
 	                break;
             }
         }
+        void loadMapping(MappingFramework.MappingSet mappingSet)
+        {        		
+      		this.mappingControl.loadMappingSet(this.getCurrentMappingSet(true));
+            model.activateTab(mappingControlName);
+        }
+		void startImportMapping()
+		{
+			var importDialog = new ImportMappingForm();
+			var selectedElement = model.selectedElement as TSF_EA.Element;
+			if (selectedElement is UML.Classes.Kernel.Class
+			    || selectedElement is UML.Classes.Kernel.Package)
+			{
+				importDialog.sourcePathElement = selectedElement;
+				importDialog.targetPathElement = findTarget(selectedElement);
+			}
+			importDialog.ImportButtonClicked += importMapping;
+			importDialog.SourcePathBrowseButtonClicked += browseSourcePath;
+			importDialog.TargetPathBrowseButtonClicked += browseTargetPath;
+			importDialog.ShowDialog(this.model.mainEAWindow);
+		}
+		TSF_EA.Element findTarget(TSF_EA.Element sourceElement)
+		{
+			 var trace = sourceElement.getRelationships<UML.Classes.Dependencies.Abstraction>().FirstOrDefault(x => x.stereotypes.Any(y => y.name.Equals("trace",StringComparison.InvariantCultureIgnoreCase))
+			                                                                             && (x.target is UML.Classes.Kernel.Package || x.target is UML.Classes.Kernel.Class) );
+			if (trace != null) return trace.target as TSF_EA.Element;
+			//if nothing found then return null
+			return null;
+		}
+
+		void importMapping(object sender, EventArgs e)
+		{
+			clearOutput();
+			var importDialog = sender as ImportMappingForm;
+			if (importDialog != null)
+			{
+				var mappingSet = EA_MP.MappingFactory.createMappingSet(this.model,importDialog.importFilePath,this.settings
+				                                      ,importDialog.sourcePathElement,importDialog.targetPathElement);
+				if (mappingSet != null)
+				{
+					loadMapping(mappingSet);
+				}
+			}
+		}
+		private void clearOutput()
+		{
+			EAOutputLogger.clearLog(this.model, this.settings.outputName);
+		}
+		void browseSourcePath(object sender, EventArgs e)
+		{
+			var importDialog = (ImportMappingForm)sender;
+			importDialog.sourcePathElement = getuserSelectedClassOrPackage();
+		}
+
+		void browseTargetPath(object sender, EventArgs e)
+		{
+			var importDialog = (ImportMappingForm)sender;
+			importDialog.targetPathElement = getuserSelectedClassOrPackage();
+		}
+		private TSF_EA.Element getuserSelectedClassOrPackage()
+		{
+			return this.model.getUserSelectedElement(new List<string>{"Class","Package"}) as TSF_EA.Element;
+		}
         private MappingFramework.MappingSet getCurrentMappingSet(bool source)
         {
     		var selectedItem = model.selectedItem;

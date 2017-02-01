@@ -10,7 +10,7 @@ namespace EAMapping
 	/// <summary>
 	/// Description of ECDMMessageComposerSettings.
 	/// </summary>
-	public class EAMappingSettings:EAAddinFramework.Utilities.AddinSettings
+	public class EAMappingSettings:EAAddinFramework.Utilities.AddinSettings,EAAddinFramework.Mapping.MappingSettings
 	{
 		#region implemented abstract members of AddinSettings
 
@@ -30,43 +30,93 @@ namespace EAMapping
 		}
 		#endregion
 		
-        /// <summary>
-        /// Copy Datatypes to subset
-        /// </summary>
+		/// <summary>
+		/// use tagged values as a way to map elements.
+		/// If false we use relations with "link to element feature"
+		/// </summary>
         public bool useTaggedValues
 	    {
         	get
 			{
-				bool result;
-				return bool.TryParse(this.getValue("useTaggedValues"), out result) ? result : true;
+        		return this.getBooleanValue("useTaggedValues");
 			}
 			set
 			{
-				this.setValue("useTaggedValues",value.ToString());
+				this.setBooleanValue("useTaggedValues",value);
 			}
 	    }
-		public string sourceAttributeTagName
+        /// <summary>
+        /// the tagged value to use for attributes when using tagged values for the links (only for newly created items)
+        /// </summary>
+		public string linkedAttributeTagName
 		{
 			get
 			{
-				return this.getValue("sourceAttributeTagName");
+				return this.getValue("linkedAttributeTagName");
 			}
 			set
 			{
-				this.setValue("sourceAttributeTagName",value);
+				this.setValue("linkedAttributeTagName",value);
 			}
 		}
-        public string sourceAssociationTagName
+		/// <summary>
+		/// the tagge value to use for associations when using tagged values for the links (only for newly created items)
+		/// </summary>
+        public string linkedAssociationTagName
         {
         	get
 			{
-				return this.getValue("sourceAssociationTagName");
+				return this.getValue("linkedAssociationTagName");
 			}
 			set
 			{
-				this.setValue("sourceAssociationTagName",value);
+				this.setValue("linkedAssociationTagName",value);
 			}
 		}
+        /// <summary>
+		/// indicates that we use inline mapping logic (only description) in the comments of the tagged value when adding mapping logic.
+		/// this only applies when using tagged values for mapping. (only for newly created items)
+		/// </summary>
+        public bool useInlineMappingLogic
+	    {
+        	get
+			{
+        		return this.getBooleanValue("useInlineMappingLogic");
+			}
+			set
+			{
+				this.setBooleanValue("useInlineMappingLogic",value);
+			}
+	    }
+       	/// <summary>
+		/// the (EA) type of element to use for the mapping logic (only for newly created items)
+		/// </summary>
+        public string mappingLogicType
+        {
+        	get
+			{
+				return this.getValue("mappingLogicType");
+			}
+			set
+			{
+				this.setValue("mappingLogicType",value);
+			}
+		}
+        /// <summary>
+		/// the (EA) type of element to use for the mapping logic (only for newly created items)
+		/// </summary>
+        public string outputName
+        {
+        	get
+			{
+				return this.getValue("outputName");
+			}
+			set
+			{
+				this.setValue("outputName",value);
+			}
+		}
+        
     }
 }
 

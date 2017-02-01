@@ -7,7 +7,6 @@
 					<Component Id="Framework_AddinFiles" Guid="5F223BA8-CAB6-44D8-961F-59F749C93DEF" DiskId="1">
 						<File Id="EAAddinFramework.dll" Name="EAAddinFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\EAAddinFramework.dll" />
 						<File Id="EAAddinFramework.pdb" Name="EAAddinFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\EAAddinFramework.pdb" />
-						<File Id="EAAddinFramework.xml" Name="EAAddinFramework.xml" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\EAAddinFramework.xml" />
 						<File Id="Interop.EA.dll" Name="Interop.EA.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\Interop.EA.dll" />
 						<File Id="Interop.MSScriptControl.dll" Name="Interop.MSScriptControl.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\Interop.MSScriptControl.dll" />
 						<File Id="UMLToolingFramework.dll" Name="UMLToolingFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\UMLToolingFramework.dll" />
@@ -18,6 +17,8 @@
 						<File Id="DatabaseFramework.pdb" Name="DatabaseFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\DatabaseFramework.pdb" />
 						<File Id="WorkTrackingFramework.dll" Name="WorkTrackingFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\WorkTrackingFramework.dll" />
 						<File Id="WorkTrackingFramework.pdb" Name="WorkTrackingFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\WorkTrackingFramework.pdb" />
+						<File Id="DDL_Parser.dll" Name="DDL-Parser.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\DDL-Parser.dll" />
+						<File Id="DDL_Parser.pdb" Name="DDL-Parser.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\DDL-Parser.pdb" />
 						<File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\Newtonsoft.Json.dll" />
 						<File Id="System.Net.Http.Formatting.dll" Name="System.Net.Http.Formatting.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\System.Net.Http.Formatting.dll" />
 						<File Id="System.Web.Http.dll" Name="System.Web.Http.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\System.Web.Http.dll" />

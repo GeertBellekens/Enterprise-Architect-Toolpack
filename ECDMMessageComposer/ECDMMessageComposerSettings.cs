@@ -39,11 +39,11 @@ namespace ECDMMessageComposer
 		{
 			get
 			{
-				return this.getValue("ignoredTaggedValues").Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();;
+				return this.getListValue("ignoredTaggedValues");
 			}
 			set
 			{
-				this.setValue("ignoredTaggedValues",string.Join(",",value));
+				this.setListValue("ignoredTaggedValues",value);
 			}
 		}
 		/// <summary>
@@ -53,11 +53,11 @@ namespace ECDMMessageComposer
 		{
 			get
 			{
-				return this.getValue("ignoredStereotypes").Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();;
+				return this.getListValue("ignoredStereotypes");
 			}
 			set
 			{
-				this.setValue("ignoredStereotypes",string.Join(",",value));
+				this.setListValue("ignoredStereotypes",value);
 			}
 		}
 		/// <summary>
@@ -65,29 +65,40 @@ namespace ECDMMessageComposer
 		/// </summary>
 		public bool addDataTypes
 		{
-			get
+        	get
 			{
-				bool result;
-				return bool.TryParse(this.getValue("addDataTypes"), out result) ? result : true;
+        		return this.getBooleanValue("addDataTypes");
 			}
 			set
 			{
-				this.setValue("addDataTypes",value.ToString());
+				this.setBooleanValue("addDataTypes",value);
 			}
 		}
+
+		public bool copyGeneralizations 
+		{
+        	get
+			{
+        		return this.getBooleanValue("copyGeneralizations");
+			}
+			set
+			{
+				this.setBooleanValue("copyGeneralizations",value);
+			}
+		}
+
 		/// <summary>
 		/// indicates if datatype generalizations should be copied tot he subset datatypes
 		/// </summary>
 		public bool copyDataTypeGeneralizations
 		{
-			get
+        	get
 			{
-				bool result;
-				return bool.TryParse(this.getValue("copyDataTypeGeneralizations"), out result) ? result : true;
+        		return this.getBooleanValue("copyDataTypeGeneralizations");
 			}
 			set
 			{
-				this.setValue("copyDataTypeGeneralizations",value.ToString());
+				this.setBooleanValue("copyDataTypeGeneralizations",value);
 			}
 		}
 		/// <summary>
@@ -95,14 +106,13 @@ namespace ECDMMessageComposer
 		/// </summary>
 		public bool limitDataTypes
 		{
-			get
+        	get
 			{
-				bool result;
-				return bool.TryParse(this.getValue("limitDataTypes"), out result) ? result : true;
+        		return this.getBooleanValue("limitDataTypes");
 			}
 			set
 			{
-				this.setValue("limitDataTypes",value.ToString());
+				this.setBooleanValue("limitDataTypes",value);
 			}
 		}
 		/// <summary>
@@ -112,11 +122,11 @@ namespace ECDMMessageComposer
 		{
 			get
 			{
-				return this.getValue("dataTypesToCopy").Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries).ToList<string>();;
+				return this.getListValue("dataTypesToCopy");
 			}
 			set
 			{
-				this.setValue("dataTypesToCopy",string.Join(",",value));
+				this.setListValue("dataTypesToCopy",value);
 			}
 		}
         /// <summary>
@@ -126,12 +136,11 @@ namespace ECDMMessageComposer
 	    {
         	get
 			{
-				bool result;
-				return bool.TryParse(this.getValue("copyDataTypes"), out result) ? result : true;
+        		return this.getBooleanValue("copyDataTypes");
 			}
 			set
 			{
-				this.setValue("copyDataTypes",value.ToString());
+				this.setBooleanValue("copyDataTypes",value);
 			}
 	    }
 		/// <summary>
@@ -139,14 +148,13 @@ namespace ECDMMessageComposer
 		/// </summary>
 		public bool addSourceElements
 		{
-			get
+        	get
 			{
-				bool result;
-				return bool.TryParse(this.getValue("addSourceElements"), out result) ? result : true;
+        		return this.getBooleanValue("addSourceElements");
 			}
 			set
 			{
-				this.setValue("addSourceElements",value.ToString());
+				this.setBooleanValue("addSourceElements",value);
 			}
 		}
 		public string sourceAttributeTagName
@@ -176,30 +184,28 @@ namespace ECDMMessageComposer
 		/// </summary>
 		public bool redirectGeneralizationsToSubset 
 		{
-			get
+        	get
 			{
-				bool result;
-				return bool.TryParse(this.getValue("redirectGeneralizationsToSubset"), out result) ? result : true;
+        		return this.getBooleanValue("redirectGeneralizationsToSubset");
 			}
 			set
 			{
-				this.setValue("redirectGeneralizationsToSubset",value.ToString());
-			}			
+				this.setBooleanValue("redirectGeneralizationsToSubset",value);
+			}		
 		}
 		/// <summary>
 		/// indicates whether the notes in the subset elements should be prefixed
 		/// </summary>
 		public bool prefixNotes 
 		{
-			get
+        	get
 			{
-				bool result;
-				return bool.TryParse(this.getValue("prefixNotes"), out result) ? result : true;
+        		return this.getBooleanValue("prefixNotes");
 			}
 			set
 			{
-				this.setValue("prefixNotes",value.ToString());
-			}				
+				this.setBooleanValue("prefixNotes",value);
+			}					
 		}
 		/// <summary>
 		/// the prefix to use when prefixing the notes
@@ -234,14 +240,27 @@ namespace ECDMMessageComposer
 		/// </summary>
 		public bool checkSecurity 
 		{
-			get
+        	get
 			{
-				bool result;
-				return bool.TryParse(this.getValue("checkSecurity"), out result) ? result : true;
+        		return this.getBooleanValue("checkSecurity");
 			}
 			set
 			{
-				this.setValue("checkSecurity",value.ToString());
+				this.setBooleanValue("checkSecurity",value);
+			}				
+		}
+		/// <summary>
+		/// delete subset elements that are not used?
+		/// </summary>
+		public bool deleteUnusedSchemaElements 
+		{
+        	get
+			{
+        		return this.getBooleanValue("deleteUnusedSchemaElements");
+			}
+			set
+			{
+				this.setBooleanValue("deleteUnusedSchemaElements",value);
 			}				
 		}
     }

@@ -10,6 +10,7 @@ using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using DB=DatabaseFramework;
 using DB_EA = EAAddinFramework.Databases;
 using EAAddinFramework.Utilities;
+using DDL_Parser;
 
 namespace EADatabaseTransformer
 {
@@ -211,28 +212,34 @@ namespace EADatabaseTransformer
 		/// <summary>
 		/// gets the current database and completes it with the user selected ddl file
 		/// </summary>
-		void completeDBwithDLL()
-		{
-			//initialize database
-			var selectedPackage = this.model.selectedElement as UTF_EA.Package;
-			var selectedDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage);
-			//get user selected DDL file
-            OpenFileDialog browseDDLFileDialog = new OpenFileDialog();
-            browseDDLFileDialog.Filter = "DDL File |*.sql;*.txt";
-            browseDDLFileDialog.FilterIndex = 1;
-            browseDDLFileDialog.Multiselect = false;
-            var dialogResult = browseDDLFileDialog.ShowDialog();
-            if (dialogResult == DialogResult.OK)
-            {
-                var ddlFileName = browseDDLFileDialog.FileName;
-                //read the file contents
-                //workaround to make sure it also works when the file is open
-				var fileStream = new FileStream(ddlFileName,FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-				var reader = new StreamReader(fileStream);
-				string ddl = reader.ReadToEnd();
-				selectedDatabase.complete(ddl);
-            }
-		}
+    void completeDBwithDLL()
+    {
+      // initialize database
+      var selectedPackage = this.model.selectedElement as UTF_EA.Package;
+      var selectedDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage);
+
+      // get user selected DDL file
+      var browseDDLFileDialog = new OpenFileDialog();
+      browseDDLFileDialog.Filter = "DDL File |*.sql;*.txt";
+      browseDDLFileDialog.FilterIndex = 1;
+      browseDDLFileDialog.Multiselect = false;
+      var dialogResult = browseDDLFileDialog.ShowDialog();
+      if (dialogResult == DialogResult.OK)
+      {
+        var ddlFileName = browseDDLFileDialog.FileName;
+        //read the file contents
+        //workaround to make sure it also works when the file is open
+        var fileStream = new FileStream(ddlFileName,FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        var reader = new StreamReader(fileStream);
+        string source = reader.ReadToEnd();
+        
+        var ddl = new DDL();
+        ddl.Parse(source);
+        
+        new DB2DatabaseTransformer(this.model, null)
+          .complete(selectedDatabase, ddl);
+      }
+    }
 
   		/// <summary>
   		/// start the transformation from the logical model to the database model
@@ -247,13 +254,13 @@ namespace EADatabaseTransformer
 				if (selectedPackage.stereotypes.Any( x => x.name.Equals("database",StringComparison.InvariantCultureIgnoreCase)))
 			    {
 				    
-				    var existingDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage);
-					_databaseTransformer = new DB2DatabaseTransformer(this.model,nameTranslator);
+				    var existingDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage,true);
+					_databaseTransformer = new DB2DatabaseTransformer(this.model,nameTranslator,true);
 				    _databaseTransformer.existingDatabase = existingDatabase;
 				}
 				else
 				{
-					_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage,nameTranslator);
+					_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage,nameTranslator,true);
 				}
 				
 				refreshCompare(true);	
@@ -262,10 +269,13 @@ namespace EADatabaseTransformer
 
 		private void refreshCompare(bool refreshTransform)
 		{
-
-			if (refreshTransform)_databaseTransformer.refresh();
 			//refresh transformation and load of new and original database
+			if (refreshTransform)
+			{
+				_databaseTransformer.refresh();
+			}
 			_comparer = new DB_EA.Compare.EADatabaseComparer((DB_EA.Database) _databaseTransformer.newDatabase, (DB_EA.Database) _databaseTransformer.existingDatabase);
+			//compare again
 			_comparer.compare();
 			this.dbCompareControl.loadComparison(_comparer);
 		}
