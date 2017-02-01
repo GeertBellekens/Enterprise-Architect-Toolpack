@@ -83,14 +83,18 @@
     <Compile Include="MappingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ImportMappingForm.cs" />
+    <Compile Include="ImportMappingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ImportMappingForm.Designer.cs">
       <DependentUpon>ImportMappingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MappingControl.Designer.cs">
       <DependentUpon>MappingControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="MappingSettingsForm.cs" />
+    <Compile Include="MappingSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MappingSettingsForm.Designer.cs">
       <DependentUpon>MappingSettingsForm.cs</DependentUpon>
     </Compile>
