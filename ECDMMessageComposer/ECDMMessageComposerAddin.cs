@@ -320,7 +320,8 @@ namespace ECDMMessageComposer
 			foreach (UML.Diagrams.Diagram diagram in subsetDiagrams) {
 				int xPos = 10;
 				int yPos = 10;
-				foreach (SchemaElement schemaElement in schema.elements) {
+				foreach (SchemaElement schemaElement in schema.elements) 
+				{
 					if (!diagram.contains(schemaElement.subsetElement)) {
 						UML.Diagrams.DiagramElement diagramElement = diagram.addToDiagram(schemaElement.subsetElement);
 						if (diagramElement != null) {
