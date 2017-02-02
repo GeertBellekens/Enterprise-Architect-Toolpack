@@ -241,13 +241,18 @@ namespace ECDMMessageComposer
             {
             	datatypesToCopy = this.settings.dataTypesToCopy;
             }
-            //check if we have a message element to folow
-			var messageElement = targetPackage.ownedElements.OfType<UML.Classes.Kernel.Classifier>().FirstOrDefault();
-			if (messageElement != null)
-			{
-                schema.updateSubsetModel(messageElement);
-			}
-			else
+            bool useMessage = false;
+            if (!settings.usePackageSchemasOnly)
+            {
+	            //check if we have a message element to folow
+				var messageElement = targetPackage.ownedElements.OfType<UML.Classes.Kernel.Classifier>().FirstOrDefault();
+				if (messageElement != null)
+				{
+					useMessage = true;
+	                schema.updateSubsetModel(messageElement);
+				}
+            }
+            if (settings.usePackageSchemasOnly || ! useMessage)
 			{
 				schema.updateSubsetModel(targetPackage);
 			}
