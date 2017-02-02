@@ -69,6 +69,7 @@ namespace ECDMMessageComposer
 		    this.notesPrefixTextBox.Text = this.settings.prefixNotesText;
 		    this.checkSecurityCheckBox.Checked = this.settings.checkSecurity;
 		    this.deleteUnusedElementsCheckBox.Checked = this.settings.deleteUnusedSchemaElements;
+		    this.usePackageSubsetsOnlyCheckBox.Checked = this.settings.usePackageSchemasOnly;
 		}
 		private void enableDisable()
 		{
@@ -93,6 +94,7 @@ namespace ECDMMessageComposer
 		    this.settings.prefixNotesText = this.notesPrefixTextBox.Text;
 		    this.settings.checkSecurity = this.checkSecurityCheckBox.Checked;
 		    this.settings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
+		    this.settings.usePackageSchemasOnly = this.usePackageSubsetsOnlyCheckBox.Checked;
 			//diagram options
 			this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
 			this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;

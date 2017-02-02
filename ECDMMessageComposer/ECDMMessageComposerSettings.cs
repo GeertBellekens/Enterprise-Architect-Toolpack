@@ -263,6 +263,20 @@ namespace ECDMMessageComposer
 				this.setBooleanValue("deleteUnusedSchemaElements",value);
 			}				
 		}
+		/// <summary>
+		/// delete subset elements that are not used?
+		/// </summary>
+		public bool usePackageSchemasOnly 
+		{
+        	get
+			{
+        		return this.getBooleanValue("usePackageSchemasOnly");
+			}
+			set
+			{
+				this.setBooleanValue("usePackageSchemasOnly",value);
+			}				
+		}
     }
 }
 
