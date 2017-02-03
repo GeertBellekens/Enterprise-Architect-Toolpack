@@ -33,20 +33,13 @@ namespace ECDMMessageComposer
 		private void loadData()
 		{
 			// get the ignored stereotypes
-			foreach (string  stereotype in this.settings.ignoredStereotypes) 
-			{
-				this.ignoredStereoTypesGrid.Rows.Add(stereotype);
-			}
+			loadGridData(ignoredStereoTypesGrid, settings.ignoredStereotypes);
 			//get the ignored tagged values
-			foreach (string  stereotype in this.settings.ignoredTaggedValues) 
-			{
-				this.ignoredTaggedValuesGrid.Rows.Add(stereotype);
-			}
+			loadGridData(ignoredTaggedValuesGrid, settings.ignoredTaggedValues);
 			//get the datatypes to copy
-			foreach (string  datatype in this.settings.dataTypesToCopy) 
-			{
-				this.dataTypesGridView.Rows.Add(datatype);
-			}
+			loadGridData(dataTypesGridView, settings.dataTypesToCopy);
+			//get the hidden element types
+			loadGridData(hiddenElementGrid, settings.hiddenElementTypes);
 			//copy generalizations
 			this.generalCopyGeneralizationsCheckbox.Checked = settings.copyGeneralizations;
 			//addDataTypes checkbox
@@ -87,6 +80,8 @@ namespace ECDMMessageComposer
 			this.extractTaggedValues();
 			//get the datatypes from the grid
 			this.extractDataTypes();
+			//get the hidden 
+			this.extractHiddenElementTypes();
 			//general options
 			this.settings.copyGeneralizations = this.generalCopyGeneralizationsCheckbox.Checked;
 		    this.settings.redirectGeneralizationsToSubset = this.RedirectGeneralizationsCheckBox.Checked;
@@ -108,50 +103,43 @@ namespace ECDMMessageComposer
 			//save changes
 			this.settings.save();
 		}
+		private void loadGridData(DataGridView datagrid, List<string> data)
+		{
+			foreach (var rowvalue in data) 
+			{
+				datagrid.Rows.Add(rowvalue);
+			}
+		}
 		private void extractDataTypes()
 		{
-			//make new datatypes list
-			var datatypes = new List<string>();
-			//get datatypes from grid
-			foreach (DataGridViewRow row in this.dataTypesGridView.Rows)
-			{
-				string datatype = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : string.Empty;
-				if (datatype != string.Empty)
-				{
-					datatypes.Add(datatype);
-				}
-			}
-			this.settings.dataTypesToCopy = datatypes;
+			this.settings.dataTypesToCopy = getListFromDataGrid(dataTypesGridView);
 		}
 		private void extractStereotypes()
 		{
-			//make new stereotypes list
-			var stereotypes = new List<string>();
-			//get ignored steretoypes from grid
-			foreach (DataGridViewRow row in this.ignoredStereoTypesGrid.Rows)
-			{
-				string stereotype = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : string.Empty;
-				if (stereotype != string.Empty)
-				{
-					stereotypes.Add(stereotype);
-				}
-			}
-			this.settings.ignoredStereotypes = stereotypes;
+			this.settings.ignoredStereotypes = getListFromDataGrid(ignoredStereoTypesGrid);
 		}
 		private void extractTaggedValues()
 		{
+			this.settings.ignoredTaggedValues = getListFromDataGrid(ignoredTaggedValuesGrid);
+		}
+		private void extractHiddenElementTypes()
+		{
+			this.settings.hiddenElementTypes = getListFromDataGrid(hiddenElementGrid);
+		}
+		private List<string> getListFromDataGrid(DataGridView datagrid)
+		{
 			//make new tagged values list
-			var tagedValues = new List<string>();
+			var returnedList = new List<string>();
 			//get ignored tagged values from grid
-			foreach (DataGridViewRow row in this.ignoredTaggedValuesGrid.Rows)
+			foreach (DataGridViewRow row in datagrid.Rows)
 			{
-				string taggedValue = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : string.Empty;
-				if (taggedValue != string.Empty)
+				string rowValue = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : string.Empty;
+				if (rowValue != string.Empty)
 				{
-					tagedValues.Add(taggedValue);
+					returnedList.Add(rowValue);
 				}
 			}
-			this.settings.ignoredTaggedValues = tagedValues;
+			return returnedList;
 		}
 
 		void DeleteStereotypeButtonClick(object sender, EventArgs e)

@@ -319,7 +319,7 @@ namespace ECDMMessageComposer
 		/// </summary>
 		/// <param name="schema">the schema that should be visualised</param>
 		/// <param name="subsetDiagrams">list of diagrams to update</param>
-		static void updateExistingDiagrams(Schema schema, HashSet<UML.Diagrams.Diagram> subsetDiagrams)
+		void updateExistingDiagrams(Schema schema, HashSet<UML.Diagrams.Diagram> subsetDiagrams)
 		{
 			//add all elements to all diagrams in the same package as the messageElement
 			foreach (UML.Diagrams.Diagram diagram in subsetDiagrams) {
@@ -327,7 +327,9 @@ namespace ECDMMessageComposer
 				int yPos = 10;
 				foreach (SchemaElement schemaElement in schema.elements) 
 				{
-					if (!diagram.contains(schemaElement.subsetElement)) {
+					if (shouldElementBeOnDiagram(schemaElement.subsetElement)
+						&& !diagram.contains(schemaElement.subsetElement)) 
+					{
 						UML.Diagrams.DiagramElement diagramElement = diagram.addToDiagram(schemaElement.subsetElement);
 						if (diagramElement != null) {
 							//save before changing the element position
@@ -344,6 +346,12 @@ namespace ECDMMessageComposer
 				diagram.reFresh();
 				diagram.open();
 			}
+		}
+		private bool shouldElementBeOnDiagram ( UML.Classes.Kernel.Classifier element)
+		{
+			return	element != null
+					&& ! settings.hiddenElementTypes.Any(x => x.Equals(element.GetType().Name,StringComparison.InvariantCulture))
+					&& ! settings.hiddenElementTypes.Intersect(element.stereotypes.Select(x => x.name)).Any();
 		}
 		/// <summary>
 		/// try to make this element is completely writable, including all its owned elements recursively
@@ -407,7 +415,7 @@ namespace ECDMMessageComposer
               
                 foreach (SchemaElement schemaElement in schema.elements) 
 				{
-					if (schemaElement.subsetElement != null) 
+                	if (shouldElementBeOnDiagram(schemaElement.subsetElement))
 					{
                         subsetDiagram.addToDiagram(schemaElement.subsetElement);
                     } 
@@ -431,7 +439,8 @@ namespace ECDMMessageComposer
 						}
 					}
 					//add source element to the diagram if needed
-					if (addSourceElement)
+					if (addSourceElement
+					    && shouldElementBeOnDiagram(schemaElement.sourceElement))
 					{
 						//we add the source element if the subset element doesn't exist.
 						subsetDiagram.addToDiagram(schemaElement.sourceElement);

@@ -277,6 +277,17 @@ namespace ECDMMessageComposer
 				this.setBooleanValue("usePackageSchemasOnly",value);
 			}				
 		}
+
+		public List<string> hiddenElementTypes {
+			get
+			{
+				return this.getListValue("hiddenElementTypes");
+			}
+			set
+			{
+				this.setListValue("hiddenElementTypes",value);
+			}
+		}
     }
 }
 
