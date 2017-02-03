@@ -1,6 +1,5 @@
-﻿
-using System.Windows.Forms;
-
+﻿using System.Collections.Generic;
+using System.Linq;
 namespace EAMapping
 {
 	partial class MappingControl
@@ -9,7 +8,14 @@ namespace EAMapping
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
-		private System.Windows.Forms.TextBox tempTextBox;
+		private System.Windows.Forms.ListView mappingListView;
+		private System.Windows.Forms.ColumnHeader sourceHeader;
+		private System.Windows.Forms.ColumnHeader sourceTypeHeader;
+		private System.Windows.Forms.ColumnHeader sourcePathHeader;
+		private System.Windows.Forms.ColumnHeader logicHeader;
+		private System.Windows.Forms.ColumnHeader targetHeader;
+		private System.Windows.Forms.ColumnHeader targetTypeHeader;
+		private System.Windows.Forms.ColumnHeader targetPathHeader;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -32,47 +38,84 @@ namespace EAMapping
 		/// </summary>
 		private void InitializeComponent()
 		{
-			//this.tempTextBox = new System.Windows.Forms.TextBox();
+			this.mappingListView = new System.Windows.Forms.ListView();
+			this.sourceHeader = new System.Windows.Forms.ColumnHeader();
+			this.sourceTypeHeader = new System.Windows.Forms.ColumnHeader();
+			this.sourcePathHeader = new System.Windows.Forms.ColumnHeader();
+			this.logicHeader = new System.Windows.Forms.ColumnHeader();
+			this.targetHeader = new System.Windows.Forms.ColumnHeader();
+			this.targetTypeHeader = new System.Windows.Forms.ColumnHeader();
+			this.targetPathHeader = new System.Windows.Forms.ColumnHeader();
 			this.SuspendLayout();
 			// 
-			// tempTextBox
+			// mappingListView
 			// 
-			/*this.tempTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.mappingListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 			| System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.tempTextBox.Location = new System.Drawing.Point(3, 3);
-			this.tempTextBox.Multiline = true;
-			this.tempTextBox.Name = "tempTextBox";
-			this.tempTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.tempTextBox.Size = new System.Drawing.Size(496, 479);
-			this.tempTextBox.TabIndex = 0;*/
+			this.mappingListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.sourceHeader,
+			this.sourceTypeHeader,
+			this.sourcePathHeader,
+			this.logicHeader,
+			this.targetHeader,
+			this.targetTypeHeader,
+			this.targetPathHeader});
+			this.mappingListView.FullRowSelect = true;
+			this.mappingListView.GridLines = true;
+			this.mappingListView.Location = new System.Drawing.Point(0, 0);
+			this.mappingListView.MultiSelect = false;
+			this.mappingListView.Name = "mappingListView";
+			this.mappingListView.Size = new System.Drawing.Size(955, 483);
+			this.mappingListView.TabIndex = 2;
+			this.mappingListView.UseCompatibleStateImageBehavior = false;
+			this.mappingListView.View = System.Windows.Forms.View.Details;
+			this.mappingListView.Resize += new System.EventHandler(this.MappingListViewResize);
+			// 
+			// sourceHeader
+			// 
+			this.sourceHeader.Text = "Source";
+			this.sourceHeader.Width = 200;
+			// 
+			// sourceTypeHeader
+			// 
+			this.sourceTypeHeader.Text = "Source Type";
+			this.sourceTypeHeader.Width = 80;
+			// 
+			// sourcePathHeader
+			// 
+			this.sourcePathHeader.Text = "Source Path";
+			this.sourcePathHeader.Width = 80;
+			// 
+			// logicHeader
+			// 
+			this.logicHeader.Text = "Mapping Logic";
+			this.logicHeader.Width = 200;
+			// 
+			// targetHeader
+			// 
+			this.targetHeader.Text = "Target";
+			this.targetHeader.Width = 200;
+			// 
+			// targetTypeHeader
+			// 
+			this.targetTypeHeader.Text = "Target Type";
+			this.targetTypeHeader.Width = 80;
+			// 
+			// targetPathHeader
+			// 
+			this.targetPathHeader.Text = "Target Path";
+			this.targetPathHeader.Width = 80;
 			// 
 			// MappingControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			//this.Controls.Add(this.tempTextBox);
+			this.Controls.Add(this.mappingListView);
 			this.Name = "MappingControl";
-			this.Size = new System.Drawing.Size(502, 485);
+			this.Size = new System.Drawing.Size(955, 486);
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
-        /*
-        private void modelSetSource_AfterSelect(System.Object sender, System.Windows.Forms.TreeViewEventArgs e)
-        {
-
-            // Vary the response depending on which TreeViewAction
-            // triggered the event. 
-            switch ((e.Action))
-            {
-                case TreeViewAction.ByKeyboard:
-                    MessageBox.Show("You like the keyboard!");
-                    break;
-                case TreeViewAction.ByMouse:
-                    MessageBox.Show("You like the mouse!");
-                    break;
-            }
-        }*/
-    }
+	}
 }
