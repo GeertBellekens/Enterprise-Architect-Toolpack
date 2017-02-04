@@ -22,7 +22,25 @@ namespace EAMapping
 			InitializeComponent();
 			//set the grid columns to the right size
 			resizeCompareGridColumns();
+			//enableDisable
+			enableDisable();
 			
+		}
+		public Mapping selectedMapping
+		{
+			get
+			{
+				if (this.mappingListView.SelectedItems.Count > 0)
+				{
+					return this.mappingListView.SelectedItems[0].Tag as Mapping;
+				}
+				return null;
+			}
+		}
+		void enableDisable()
+		{
+			this.goToSourceButton.Enabled = this.selectedMapping != null;
+			this.goToTargetButton.Enabled = this.selectedMapping != null;
 		}
 		public void loadMappingSet(MappingSet mappingSet)
 		{
@@ -33,12 +51,12 @@ namespace EAMapping
 			//add the mappings
 			foreach (var mapping in mappingSet.mappings) 
 			{
-				//source
-				ListViewItem listViewItem = new ListViewItem(mapping.source.mappedEnd.name);
+				//sourcePath
+				ListViewItem listViewItem = new ListViewItem(mapping.source.mappingPath);
 				//source type
 				listViewItem.SubItems.Add(mapping.source.mappedEnd.GetType().Name);
-				//source path
-				listViewItem.SubItems.Add(mapping.source.mappingPath);
+				//source
+				listViewItem.SubItems.Add(mapping.source.mappedEnd.name);
 				//mapping logic
 				listViewItem.SubItems.Add(mapping.mappingLogic != null ? mapping.mappingLogic.description : string.Empty);
 				//target
@@ -66,6 +84,47 @@ namespace EAMapping
 		{
 			//clear the listview
 			this.mappingListView.Items.Clear();
+		}
+		
+		public event EventHandler selectTarget = delegate { }; 
+		void GoToSourceButtonClick(object sender, EventArgs e)
+		{
+			selectSource(this.selectedMapping,e);
+		}
+		public event EventHandler selectSource = delegate { }; 
+		void GoToTargetButtonClick(object sender, EventArgs e)
+		{
+			selectTarget(this.selectedMapping,e);
+		}
+		public event EventHandler exportMappingSet = delegate { }; 
+		void ExportButtonClick(object sender, EventArgs e)
+		{
+			exportMappingSet(this.mappingSet,e);
+		}
+		void MappingListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			this.enableDisable();
+		}
+		void MappingListViewMouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			ListViewHitTestInfo info = ((ListView)sender).HitTest(e.X, e.Y);
+			if (info.Item != null)
+			{
+				var mapping = (Mapping) info.Item.Tag;
+				if (info.SubItem != null)
+				{
+					int columnIndex = info.Item.SubItems.IndexOf(info.SubItem);
+					if (columnIndex <= 3 )
+					{
+						selectSource(mapping,e);
+					}
+					else
+					{
+						selectTarget(mapping,e);
+					}
+				}
+			}
+	
 		}
 	}
 }

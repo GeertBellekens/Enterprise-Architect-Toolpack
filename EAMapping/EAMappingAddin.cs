@@ -1,12 +1,14 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using EAAddinFramework.Utilities;
 using UML=TSF.UmlToolingFramework.UML;
 using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using EAAddinFramework;
 using EA_MP = EAAddinFramework.Mapping;
 using System.Linq;
+using MappingFramework;
 
 namespace EAMapping
 {
@@ -27,7 +29,7 @@ namespace EAMapping
         private TSF_EA.Model model = null;
         private bool fullyLoaded = false;
         private MappingControl _mappingControl;
-        private MappingFramework.MappingSet _currentMappingSet = null;
+        private MappingSet _currentMappingSet = null;
         private EAMappingSettings settings = new EAMappingSettings();
         /// <summary>
         /// constructor, set menu names
@@ -37,7 +39,8 @@ namespace EAMapping
         	this.menuHeader = menuName;
 			this.menuOptions = new string[]{menuMapAsSource, menuSettings, menuImportMapping, menuAbout};
         }
-        
+
+
         private MappingControl mappingControl
 		{
 			get
@@ -46,12 +49,55 @@ namespace EAMapping
 				   && this.model != null)
 				{
 					_mappingControl = this.model.addTab(mappingControlName, "EAMapping.MappingControl") as MappingControl;
-					_mappingControl.HandleDestroyed += dbControl_HandleDestroyed;
+					_mappingControl.HandleDestroyed += mappingControl_HandleDestroyed;
+					_mappingControl.selectSource += mappingControl_SelectSource;
+					_mappingControl.selectTarget += mappingControl_SelectTarget;
+					_mappingControl.exportMappingSet += mappingControl_ExportMappingSet;
 				}
 				return _mappingControl;
 			}
 		}
-		void dbControl_HandleDestroyed(object sender, EventArgs e)
+
+		void mappingControl_ExportMappingSet(object sender, EventArgs e)
+		{
+			MappingSet mappingSet = sender as MappingSet;
+			//let the user select a file
+            var browseExportFileDialog = new SaveFileDialog();
+            browseExportFileDialog.Title = "Save export file";
+            browseExportFileDialog.Filter = "Mapping Files|*.csv";
+            browseExportFileDialog.FilterIndex = 1;
+            var dialogResult = browseExportFileDialog.ShowDialog(this.model.mainEAWindow);
+            if (dialogResult == DialogResult.OK)
+            {
+            	//if the user selected the file then put the filename in the abbreviationsfileTextBox
+            	EA_MP.MappingFactory.exportMappingSet((EA_MP.MappingSet)mappingSet,browseExportFileDialog.FileName);
+            }
+			
+		}
+
+        void mappingControl_SelectSource(object sender, EventArgs e)
+		{
+			var selectedMapping = sender as Mapping;
+			if (selectedMapping != null
+			    && selectedMapping.source != null
+			    && selectedMapping.source.mappedEnd != null)
+			{
+				selectedMapping.source.mappedEnd.select();
+			}
+		}
+
+		void mappingControl_SelectTarget(object sender, EventArgs e)
+		{
+			var selectedMapping = sender as Mapping;
+			if (selectedMapping != null
+			    && selectedMapping.target != null
+			    && selectedMapping.target.mappedEnd != null)
+			{
+				selectedMapping.target.mappedEnd.select();
+			}
+		}
+
+		void mappingControl_HandleDestroyed(object sender, EventArgs e)
 		{
 			_mappingControl = null;
 		}
