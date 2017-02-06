@@ -37,7 +37,7 @@ namespace EAMapping
         public EAMappingAddin():base()
         {
         	this.menuHeader = menuName;
-			this.menuOptions = new string[]{menuMapAsSource, menuSettings, menuImportMapping, menuAbout};
+			this.menuOptions = new string[]{menuMapAsSource, menuImportMapping, menuSettings, menuAbout};
         }
 
 
