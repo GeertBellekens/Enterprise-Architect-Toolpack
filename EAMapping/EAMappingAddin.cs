@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using EAAddinFramework.Utilities;
@@ -21,6 +22,7 @@ namespace EAMapping
         const string menuName = "-&EA Mapping";
         const string menuMapAsSource = "&Map as Source";
         const string menuImportMapping = "&Import Mapping";
+        const string menuImportCopybook = "&Import Copybook";
         const string menuSettings = "&Settings";
         const string menuAbout = "&About";
         
@@ -37,7 +39,13 @@ namespace EAMapping
         public EAMappingAddin():base()
         {
         	this.menuHeader = menuName;
-			this.menuOptions = new string[]{menuMapAsSource, menuImportMapping, menuSettings, menuAbout};
+          this.menuOptions = new string[] {
+            menuMapAsSource,
+            menuImportMapping,
+            menuImportCopybook,
+            menuSettings,
+            menuAbout
+          };
         }
 
 
@@ -108,6 +116,21 @@ namespace EAMapping
 			// indicate that we are now fully loaded
 	        this.fullyLoaded = true;
 		}
+
+    public override void EA_GetMenuState(EA.Repository Repository, string Location, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
+    {
+    	switch( ItemName ) {
+        case menuImportCopybook:
+    			IsEnabled = this.fullyLoaded &&
+                      (this.model.selectedElement != null);
+      		break;
+        default:
+          IsEnabled = true;
+          break;
+      }
+    }
+
+
         /// <summary>
         /// Called when user makes a selection in the menu.
         /// This is your main exit point to the rest of your Add-in
@@ -120,18 +143,21 @@ namespace EAMapping
         {
             switch (ItemName)
             {
-                case menuMapAsSource:
-            		loadMapping(this.getCurrentMappingSet(true));
-                    break;
-		        case menuAbout :
-		            new AboutWindow().ShowDialog(this.model.mainEAWindow);
-		            break;
-		        case menuImportMapping:
-		            this.startImportMapping();
-		            break;
+              case menuMapAsSource:
+          		loadMapping(this.getCurrentMappingSet(true));
+                  break;
+  		        case menuAbout :
+  		            new AboutWindow().ShowDialog(this.model.mainEAWindow);
+  		            break;
+  		        case menuImportMapping:
+  		            this.startImportMapping();
+  		            break;
+              case menuImportCopybook:
+                this.importCopybook();
+                break;
 	            case menuSettings:
 		            new MappingSettingsForm(this.settings).ShowDialog(this.model.mainEAWindow);
-	                break;
+                break;
             }
         }
         void loadMapping(MappingFramework.MappingSet mappingSet)
@@ -225,5 +251,28 @@ namespace EAMapping
         {
         	return new EA_MP.ElementMappingSet(rootElement,source);
         }
+
+    // Cobol Copybook support
+    void importCopybook() {
+      // initialize database
+      var selectedPackage = this.model.selectedElement as TSF_EA.Package;
+
+      // get user selected DDL file
+      var selection = new OpenFileDialog() {
+        Filter      = "Copybook File |*.cob;*.cobol;*.txt",
+        FilterIndex = 1,
+        Multiselect = false
+      };
+      if( selection.ShowDialog() == DialogResult.OK ) {
+        string source = new StreamReader(
+          new FileStream( selection.FileName,
+             FileMode.Open, FileAccess.Read, FileShare.ReadWrite
+          )).ReadToEnd();
+
+        // TODO call Cobol Copybook Parser
+        // TODO analyse AST and create corresponding class model in EA
+      }
+    }
+
 	}
 }
