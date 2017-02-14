@@ -255,9 +255,6 @@ namespace EAMapping
 
     // Cobol Copybook support
     void importCopybook() {
-      // initialize database
-      var selectedPackage = this.model.selectedElement as TSF_EA.Package;
-
       // get user selected DDL file
       var selection = new OpenFileDialog() {
         Filter      = "Copybook File |*.cob;*.cobol;*.txt",
@@ -270,13 +267,137 @@ namespace EAMapping
              FileMode.Open, FileAccess.Read, FileShare.ReadWrite
           )).ReadToEnd();
 
-        var mapper = new Mapper();
-        mapper.Parse(source);
-        foreach(var line in mapper.Model.ToString().Split('\n')) {
-          EAOutputLogger.log( this.model, this.settings.outputName, line );
-        }
-        // TODO analyse AST and create corresponding class model in EA
+        this.importCopybook(source, (TSF_EA.Package)this.model.selectedElement);
       }
+    }
+
+    // cached mapping of external UIDs to EA classes
+    private Dictionary<string,UML.Classes.Kernel.Class> classes;
+
+    private void importCopybook(string source, TSF_EA.Package package) {
+      // parse copybook into OO data-representation
+      var mapped = new Mapper().Parse(source);
+      
+      // import mapped OO data-representation
+
+      // prepare cache
+      this.classes = new Dictionary<string,UML.Classes.Kernel.Class>();
+
+      // step 1: create diagram
+      this.log("*** creating diagram");
+      var diagram = this.createDiagram(package, "import");
+
+      // step 2: classes with properties
+      this.log("*** importing classes+properties");
+      foreach(var clazz in mapped.Model.Classes) {
+        var eaClass = this.createClass(clazz.Name, package, clazz.Id);
+        this.classes.Add(clazz.Id, eaClass);
+        foreach(var property in clazz.Properties) {
+          this.addProperty(
+            eaClass, property.Name, property.Type, property.Stereotype
+          );
+        }
+        diagram.addToDiagram(eaClass);
+      }
+      // step 3: generalisations and associations
+      this.log("*** importing generalisations and associations");
+      foreach(var clazz in mapped.Model.Classes) {
+        foreach(var association in clazz.Associations) {
+          this.addAssociation(
+            this.classes[association.Source.Id],
+            this.classes[association.Target.Id],
+            association.Multiplicity,
+            association.DependsOn
+          );
+        }
+        if(clazz.Super != null) {
+          this.addGeneralization(
+            this.classes[clazz.Super.Id],
+            this.classes[clazz.Id]
+          );
+        }
+      }
+    }
+
+    private UML.Diagrams.ClassDiagram createDiagram(TSF_EA.Package package,
+                                                    string name)
+    {
+      var diagram = this.model.factory.createNewDiagram<UML.Diagrams.ClassDiagram>(
+        package, name
+      );
+      diagram.save();        
+      return diagram;
+    }
+
+    private UML.Classes.Kernel.Class createClass(string name,
+                                                 TSF_EA.Package package,
+                                                 string uid)
+    {
+      var clazz = this.model.factory.createNewElement<UML.Classes.Kernel.Class>(
+          package, name
+      );
+      clazz.save();
+      return clazz;
+    }
+      
+    private UML.Classes.Kernel.Property addProperty(UML.Classes.Kernel.Class clazz,
+                                                    string name,
+                                                    string type=null,
+                                                    string stereotype=null)
+    {
+      var property =
+        this.model.factory.createNewElement<UML.Classes.Kernel.Property>(
+          clazz, name
+        );
+      if( type != null ) {
+        property.type = this.model.factory.createPrimitiveType( type );
+      }
+      if( stereotype != null ) {
+        var stereotypes = new HashSet<UML.Profiles.Stereotype>();
+        stereotypes.Add(new TSF_EA.Stereotype(
+          this.model, property as TSF_EA.Element, stereotype)
+            );
+        property.stereotypes = stereotypes;
+      }
+      property.save();
+      return property;
+    }
+
+    private UML.Classes.Kernel.Association addAssociation(UML.Classes.Kernel.Class source,
+                                                          UML.Classes.Kernel.Class target,
+                                                          string targetMultiplicity=null,
+                                                          string dependsOn=null)
+    {
+      var association =
+        this.model.factory.createNewElement<UML.Classes.Kernel.Association>(
+          source, dependsOn
+        );
+      association.addRelatedElement(target);
+      if(targetMultiplicity != null) {
+        ((TSF_EA.Association)association).targetEnd.EAMultiplicity =
+          new TSF_EA.Multiplicity(targetMultiplicity);
+      }
+
+      // TODO? directed association Source -> Target
+
+      association.save();
+      return association;
+    }
+
+    private TSF_EA.Generalization addGeneralization(UML.Classes.Kernel.Class parent,
+                                                    UML.Classes.Kernel.Class child)
+    {
+		  var generalization =
+        this.model.factory.createNewElement<TSF_EA.Generalization>(
+          child, string.Empty
+        );
+		  generalization.addRelatedElement(parent);
+		  generalization.save();
+      return generalization;
+    }
+
+    private void log(string msg) {
+      EAOutputLogger.log( this.model, this.settings.outputName, msg );
     }
 
 	}
