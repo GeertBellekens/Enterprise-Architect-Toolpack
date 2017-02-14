@@ -10,6 +10,7 @@ using EAAddinFramework;
 using EA_MP = EAAddinFramework.Mapping;
 using System.Linq;
 using MappingFramework;
+using Cobol_Object_Mapper;
 
 namespace EAMapping
 {
@@ -269,7 +270,11 @@ namespace EAMapping
              FileMode.Open, FileAccess.Read, FileShare.ReadWrite
           )).ReadToEnd();
 
-        // TODO call Cobol Copybook Parser
+        var mapper = new Mapper();
+        mapper.Parse(source);
+        foreach(var line in mapper.Model.ToString().Split('\n')) {
+          EAOutputLogger.log( this.model, this.settings.outputName, line );
+        }
         // TODO analyse AST and create corresponding class model in EA
       }
     }

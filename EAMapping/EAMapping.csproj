@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <ProjectGuid>{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}</ProjectGuid>
@@ -46,6 +46,7 @@
     <Reference Include="Interop.EA">
       <HintPath Condition="Exists('..\..\..\..\..\..\..\Program Files %28x86%29\Sparx Systems\EA\')">..\..\..\..\..\..\..\Program Files %28x86%29\Sparx Systems\EA\Interop.EA.dll</HintPath>
       <HintPath Condition="Exists('C:\Program Files\Sparx Systems\EA\')">C:\Program Files\Sparx Systems\EA\Interop.EA.dll</HintPath>
+      <HintPath>../../Enterprise-Architect-Add-in-Framework/packages/Interop.EA.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -105,6 +106,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\cobol-object-mapper\cobol-object-mapper.csproj">
+      <Project>{ef2c4cc2-1d37-43dd-913b-2cc58ff9f111}</Project>
+      <Name>cobol-object-mapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj">
       <Project>{4161dd26-375f-4744-ba96-b70366e19a78}</Project>
       <Name>EAAddinFramework</Name>
