@@ -18,7 +18,7 @@ namespace EAMapping.Custom_User_Controls
             InitializeComponent();
         }
 
-        public ModelSetContainer(String name, List<TreeItem> set)
+        public ModelSetContainer(string name, List<TreeItem> set)
         {
             InitializeComponent();
             this.Size = new Size(250, 540);
