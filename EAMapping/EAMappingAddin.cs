@@ -298,7 +298,7 @@ namespace EAMapping
 
       // step 1: create diagram
       this.log("*** creating diagram");
-      var diagram = this.createDiagram(package, "import");
+      var diagram = this.createDiagram(package, package.name);
 
       // step 2: classes with properties
       this.log("*** importing classes+properties");
@@ -330,6 +330,8 @@ namespace EAMapping
           );
         }
       }
+      //layout diagram
+      diagram.autoLayout();
     }
 
     private UML.Diagrams.ClassDiagram createDiagram(TSF_EA.Package package,
@@ -386,12 +388,16 @@ namespace EAMapping
           source, dependsOn
         );
       association.addRelatedElement(target);
-      if(targetMultiplicity != null) {
+      //set source multiplicity and aggregationkind
+      ((TSF_EA.Association)association).sourceEnd.aggregation = UML.Classes.Kernel.AggregationKind.composite;
+      if (targetMultiplicity == null) targetMultiplicity = "1"; //default target multiplicity
+      if(targetMultiplicity != null) 
+      {
         ((TSF_EA.Association)association).targetEnd.EAMultiplicity =
           new TSF_EA.Multiplicity(targetMultiplicity);
       }
-
-      // TODO? directed association Source -> Target
+      //set target navibable
+      ((TSF_EA.Association)association).targetEnd.isNavigable = true;
 
       association.save();
       return association;
