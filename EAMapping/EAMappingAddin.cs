@@ -276,8 +276,21 @@ namespace EAMapping
 
     private void importCopybook(string source, TSF_EA.Package package) {
       // parse copybook into OO data-representation
-      var mapped = new Mapper().Parse(source);
-      
+      var mapped = new Mapper();
+      try {
+        mapped.Parse(source);
+      } catch( ParseException e ) {
+        // recurse down the Exception tree, to reach the most specific one
+        this.log("!!! IMPORT FAILED");
+        do {
+          foreach(var line in e.Message.Split('\n') ) {
+            this.log(line);
+          }
+          e = e.InnerException as ParseException;
+        } while(e != null);
+        return;
+      }
+
       // import mapped OO data-representation
 
       // prepare cache
