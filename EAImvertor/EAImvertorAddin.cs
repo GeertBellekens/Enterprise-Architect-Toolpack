@@ -185,9 +185,11 @@ namespace EAImvertor
 		private bool canBePublished(UML.Classes.Kernel.Package package)
 		{
 			return ( package != null
-				&& package.stereotypes.Any
+					&& (package.stereotypes.Any
 				    					(x => this.settings.imvertorStereotypes.Any
-				 (y => y.Equals(x.name,StringComparison.InvariantCultureIgnoreCase)))
+				 							(y => y.Equals(x.name,StringComparison.InvariantCultureIgnoreCase)))
+			         || package.taggedValues.Any(x => "imvertor".Equals(x.name, StringComparison.InvariantCultureIgnoreCase) 
+			                                        && "model".Equals(x.tagValue.ToString(), StringComparison.InvariantCultureIgnoreCase)))
 				&& EAImvertorJob.getProjectPackage(package) != null);
 		}
 		/// <summary>
