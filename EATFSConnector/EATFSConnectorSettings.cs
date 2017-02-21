@@ -138,6 +138,18 @@ namespace EATFSConnector
 				this.setValue("TFSFilterTag",value);
 			}
 		}
+
+		public string defaultCollection 
+		{
+			get
+			{
+				return this.getValue("defaultCollection");
+			}
+			set
+			{
+				this.setValue("defaultCollection",value);
+			}
+		}
     }
 }
 

@@ -1,6 +1,5 @@
-﻿
-using System.Windows.Forms;
-
+﻿using System.Collections.Generic;
+using System.Linq;
 namespace EAMapping
 {
 	partial class MappingControl
@@ -9,7 +8,17 @@ namespace EAMapping
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
-		private System.Windows.Forms.TextBox tempTextBox;
+		private System.Windows.Forms.ListView mappingListView;
+		private System.Windows.Forms.Button goToSourceButton;
+		private System.Windows.Forms.Button goToTargetButton;
+		private System.Windows.Forms.Button exportButton;
+		private System.Windows.Forms.ColumnHeader sourcePathHeader;
+		private System.Windows.Forms.ColumnHeader sourceTypeHeader;
+		private System.Windows.Forms.ColumnHeader souceHeader;
+		private System.Windows.Forms.ColumnHeader logicHeader;
+		private System.Windows.Forms.ColumnHeader targetHeader;
+		private System.Windows.Forms.ColumnHeader targetTypeHeader;
+		private System.Windows.Forms.ColumnHeader targetPathHeader;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -32,47 +41,127 @@ namespace EAMapping
 		/// </summary>
 		private void InitializeComponent()
 		{
-			//this.tempTextBox = new System.Windows.Forms.TextBox();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MappingControl));
+			this.mappingListView = new System.Windows.Forms.ListView();
+			this.sourcePathHeader = new System.Windows.Forms.ColumnHeader();
+			this.sourceTypeHeader = new System.Windows.Forms.ColumnHeader();
+			this.souceHeader = new System.Windows.Forms.ColumnHeader();
+			this.logicHeader = new System.Windows.Forms.ColumnHeader();
+			this.targetHeader = new System.Windows.Forms.ColumnHeader();
+			this.targetTypeHeader = new System.Windows.Forms.ColumnHeader();
+			this.targetPathHeader = new System.Windows.Forms.ColumnHeader();
+			this.goToSourceButton = new System.Windows.Forms.Button();
+			this.goToTargetButton = new System.Windows.Forms.Button();
+			this.exportButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
-			// tempTextBox
+			// mappingListView
 			// 
-			/*this.tempTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.mappingListView.AllowDrop = true;
+			this.mappingListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 			| System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.tempTextBox.Location = new System.Drawing.Point(3, 3);
-			this.tempTextBox.Multiline = true;
-			this.tempTextBox.Name = "tempTextBox";
-			this.tempTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.tempTextBox.Size = new System.Drawing.Size(496, 479);
-			this.tempTextBox.TabIndex = 0;*/
+			this.mappingListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.sourcePathHeader,
+			this.sourceTypeHeader,
+			this.souceHeader,
+			this.logicHeader,
+			this.targetHeader,
+			this.targetTypeHeader,
+			this.targetPathHeader});
+			this.mappingListView.FullRowSelect = true;
+			this.mappingListView.GridLines = true;
+			this.mappingListView.Location = new System.Drawing.Point(0, 0);
+			this.mappingListView.MultiSelect = false;
+			this.mappingListView.Name = "mappingListView";
+			this.mappingListView.Size = new System.Drawing.Size(955, 450);
+			this.mappingListView.TabIndex = 2;
+			this.mappingListView.UseCompatibleStateImageBehavior = false;
+			this.mappingListView.View = System.Windows.Forms.View.Details;
+			this.mappingListView.SelectedIndexChanged += new System.EventHandler(this.MappingListViewSelectedIndexChanged);
+			this.mappingListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.MappingListViewMouseDoubleClick);
+			this.mappingListView.Resize += new System.EventHandler(this.MappingListViewResize);
+			// 
+			// sourcePathHeader
+			// 
+			this.sourcePathHeader.Text = "Source Path";
+			this.sourcePathHeader.Width = 120;
+			// 
+			// sourceTypeHeader
+			// 
+			this.sourceTypeHeader.Text = "Source Type";
+			this.sourceTypeHeader.Width = 80;
+			// 
+			// souceHeader
+			// 
+			this.souceHeader.Text = "Source";
+			this.souceHeader.Width = 200;
+			// 
+			// logicHeader
+			// 
+			this.logicHeader.Text = "Mapping Logic";
+			this.logicHeader.Width = 200;
+			// 
+			// targetHeader
+			// 
+			this.targetHeader.Text = "Target";
+			this.targetHeader.Width = 200;
+			// 
+			// targetTypeHeader
+			// 
+			this.targetTypeHeader.Text = "Target Type";
+			this.targetTypeHeader.Width = 80;
+			// 
+			// targetPathHeader
+			// 
+			this.targetPathHeader.Text = "Target path";
+			this.targetPathHeader.Width = 120;
+			// 
+			// goToSourceButton
+			// 
+			this.goToSourceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.goToSourceButton.Image = ((System.Drawing.Image)(resources.GetObject("goToSourceButton.Image")));
+			this.goToSourceButton.Location = new System.Drawing.Point(4, 457);
+			this.goToSourceButton.Name = "goToSourceButton";
+			this.goToSourceButton.Size = new System.Drawing.Size(24, 23);
+			this.goToSourceButton.TabIndex = 3;
+			this.goToSourceButton.UseVisualStyleBackColor = true;
+			this.goToSourceButton.Click += new System.EventHandler(this.GoToSourceButtonClick);
+			// 
+			// goToTargetButton
+			// 
+			this.goToTargetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.goToTargetButton.Image = ((System.Drawing.Image)(resources.GetObject("goToTargetButton.Image")));
+			this.goToTargetButton.Location = new System.Drawing.Point(34, 457);
+			this.goToTargetButton.Name = "goToTargetButton";
+			this.goToTargetButton.Size = new System.Drawing.Size(24, 23);
+			this.goToTargetButton.TabIndex = 4;
+			this.goToTargetButton.UseVisualStyleBackColor = true;
+			this.goToTargetButton.Click += new System.EventHandler(this.GoToTargetButtonClick);
+			// 
+			// exportButton
+			// 
+			this.exportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.exportButton.Location = new System.Drawing.Point(877, 457);
+			this.exportButton.Name = "exportButton";
+			this.exportButton.Size = new System.Drawing.Size(75, 23);
+			this.exportButton.TabIndex = 5;
+			this.exportButton.Text = "Export";
+			this.exportButton.UseVisualStyleBackColor = true;
+			this.exportButton.Click += new System.EventHandler(this.ExportButtonClick);
 			// 
 			// MappingControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			//this.Controls.Add(this.tempTextBox);
+			this.Controls.Add(this.exportButton);
+			this.Controls.Add(this.goToTargetButton);
+			this.Controls.Add(this.goToSourceButton);
+			this.Controls.Add(this.mappingListView);
 			this.Name = "MappingControl";
-			this.Size = new System.Drawing.Size(502, 485);
+			this.Size = new System.Drawing.Size(955, 486);
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
-        /*
-        private void modelSetSource_AfterSelect(System.Object sender, System.Windows.Forms.TreeViewEventArgs e)
-        {
-
-            // Vary the response depending on which TreeViewAction
-            // triggered the event. 
-            switch ((e.Action))
-            {
-                case TreeViewAction.ByKeyboard:
-                    MessageBox.Show("You like the keyboard!");
-                    break;
-                case TreeViewAction.ByMouse:
-                    MessageBox.Show("You like the mouse!");
-                    break;
-            }
-        }*/
-    }
+	}
 }

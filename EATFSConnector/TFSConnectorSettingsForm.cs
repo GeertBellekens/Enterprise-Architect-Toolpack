@@ -36,6 +36,7 @@ namespace EATFSConnector
 			this.defaultStatusTextBox.Text = this.settings.defaultStatus;
 			this.defaultProjectTextBox.Text = this.settings.defaultProject;
 			this.tfsFilterTagTextBox.Text = this.settings.TFSFilterTag;
+			this.defaultCollectionTextBox.Text = this.settings.defaultCollection;
 			this.loadMappings();
 
 		}
@@ -58,6 +59,7 @@ namespace EATFSConnector
 			this.settings.defaultStatus = this.defaultStatusTextBox.Text;
 			this.settings.defaultProject = this.defaultProjectTextBox.Text ;
 			this.settings.TFSFilterTag = this.tfsFilterTagTextBox.Text;
+			this.settings.defaultCollection = this.defaultCollectionTextBox.Text;
 			this.unloadMappings();
 			this.settings.save();
 		}

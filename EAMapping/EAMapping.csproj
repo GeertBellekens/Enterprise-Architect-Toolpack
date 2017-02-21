@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <ProjectGuid>{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}</ProjectGuid>
@@ -68,6 +68,12 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Custom User Controls\MappingControl_Kevin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custom User Controls\MappingControl_Kevin.Designer.cs">
+      <DependentUpon>MappingControl_Kevin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Custom User Controls\ModelSetContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -80,17 +86,15 @@
     <Compile Include="Custom User Controls\TreeItem.cs" />
     <Compile Include="EAMappingAddin.cs" />
     <Compile Include="EAMappingSettings.cs" />
-    <Compile Include="MappingControl.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="MappingControl.cs" />
+    <Compile Include="MappingControl.Designer.cs">
+      <DependentUpon>MappingControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ImportMappingForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ImportMappingForm.Designer.cs">
       <DependentUpon>ImportMappingForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MappingControl.Designer.cs">
-      <DependentUpon>MappingControl.cs</DependentUpon>
     </Compile>
     <Compile Include="MappingSettingsForm.cs">
       <SubType>Form</SubType>
@@ -101,6 +105,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\cobol-object-mapper\cobol-object-mapper.csproj">
+      <Project>{ef2c4cc2-1d37-43dd-913b-2cc58ff9f111}</Project>
+      <Name>cobol-object-mapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj">
       <Project>{4161dd26-375f-4744-ba96-b70366e19a78}</Project>
       <Name>EAAddinFramework</Name>
@@ -117,6 +125,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custom User Controls\MappingControl_Kevin.resx">
+      <DependentUpon>MappingControl_Kevin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportMappingForm.resx">
       <DependentUpon>ImportMappingForm.cs</DependentUpon>

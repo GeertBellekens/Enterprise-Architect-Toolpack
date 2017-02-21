@@ -26,6 +26,8 @@ namespace EATFSConnector
 		private System.Windows.Forms.Label defaultProjectLabel;
 		private System.Windows.Forms.TextBox tfsFilterTagTextBox;
 		private System.Windows.Forms.Label tfsFilterTagLabel;
+		private System.Windows.Forms.TextBox defaultCollectionTextBox;
+		private System.Windows.Forms.Label defaultCollectionLabel;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -68,6 +70,8 @@ namespace EATFSConnector
 			this.defaultProjectLabel = new System.Windows.Forms.Label();
 			this.tfsFilterTagTextBox = new System.Windows.Forms.TextBox();
 			this.tfsFilterTagLabel = new System.Windows.Forms.Label();
+			this.defaultCollectionTextBox = new System.Windows.Forms.TextBox();
+			this.defaultCollectionLabel = new System.Windows.Forms.Label();
 			this.workitemMappingBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.workitemMappingsgrid)).BeginInit();
 			this.SuspendLayout();
@@ -96,7 +100,7 @@ namespace EATFSConnector
 			this.workitemMappingBox.Controls.Add(this.workitemMappingsgrid);
 			this.workitemMappingBox.Location = new System.Drawing.Point(239, 12);
 			this.workitemMappingBox.Name = "workitemMappingBox";
-			this.workitemMappingBox.Size = new System.Drawing.Size(325, 215);
+			this.workitemMappingBox.Size = new System.Drawing.Size(325, 247);
 			this.workitemMappingBox.TabIndex = 2;
 			this.workitemMappingBox.TabStop = false;
 			this.workitemMappingBox.Text = "Workitem Mappings";
@@ -104,7 +108,7 @@ namespace EATFSConnector
 			// deleteMappingButton
 			// 
 			this.deleteMappingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.deleteMappingButton.Location = new System.Drawing.Point(244, 186);
+			this.deleteMappingButton.Location = new System.Drawing.Point(244, 218);
 			this.deleteMappingButton.Name = "deleteMappingButton";
 			this.deleteMappingButton.Size = new System.Drawing.Size(75, 23);
 			this.deleteMappingButton.TabIndex = 1;
@@ -124,7 +128,7 @@ namespace EATFSConnector
 			this.workitemMappingsgrid.Location = new System.Drawing.Point(6, 19);
 			this.workitemMappingsgrid.MultiSelect = false;
 			this.workitemMappingsgrid.Name = "workitemMappingsgrid";
-			this.workitemMappingsgrid.Size = new System.Drawing.Size(313, 158);
+			this.workitemMappingsgrid.Size = new System.Drawing.Size(313, 190);
 			this.workitemMappingsgrid.TabIndex = 0;
 			// 
 			// EAType
@@ -141,14 +145,14 @@ namespace EATFSConnector
 			// 
 			// defaultUserTextBox
 			// 
-			this.defaultUserTextBox.Location = new System.Drawing.Point(12, 67);
+			this.defaultUserTextBox.Location = new System.Drawing.Point(12, 105);
 			this.defaultUserTextBox.Name = "defaultUserTextBox";
 			this.defaultUserTextBox.Size = new System.Drawing.Size(185, 20);
 			this.defaultUserTextBox.TabIndex = 4;
 			// 
 			// defaultUserLabel
 			// 
-			this.defaultUserLabel.Location = new System.Drawing.Point(12, 52);
+			this.defaultUserLabel.Location = new System.Drawing.Point(12, 90);
 			this.defaultUserLabel.Name = "defaultUserLabel";
 			this.defaultUserLabel.Size = new System.Drawing.Size(100, 23);
 			this.defaultUserLabel.TabIndex = 3;
@@ -156,14 +160,14 @@ namespace EATFSConnector
 			// 
 			// defaultWorkitemTypeTextBox
 			// 
-			this.defaultWorkitemTypeTextBox.Location = new System.Drawing.Point(12, 110);
+			this.defaultWorkitemTypeTextBox.Location = new System.Drawing.Point(12, 148);
 			this.defaultWorkitemTypeTextBox.Name = "defaultWorkitemTypeTextBox";
 			this.defaultWorkitemTypeTextBox.Size = new System.Drawing.Size(185, 20);
 			this.defaultWorkitemTypeTextBox.TabIndex = 6;
 			// 
 			// defaultWorkitemLabel
 			// 
-			this.defaultWorkitemLabel.Location = new System.Drawing.Point(12, 95);
+			this.defaultWorkitemLabel.Location = new System.Drawing.Point(12, 133);
 			this.defaultWorkitemLabel.Name = "defaultWorkitemLabel";
 			this.defaultWorkitemLabel.Size = new System.Drawing.Size(100, 23);
 			this.defaultWorkitemLabel.TabIndex = 5;
@@ -171,14 +175,14 @@ namespace EATFSConnector
 			// 
 			// defaultStatusTextBox
 			// 
-			this.defaultStatusTextBox.Location = new System.Drawing.Point(12, 153);
+			this.defaultStatusTextBox.Location = new System.Drawing.Point(12, 191);
 			this.defaultStatusTextBox.Name = "defaultStatusTextBox";
 			this.defaultStatusTextBox.Size = new System.Drawing.Size(185, 20);
 			this.defaultStatusTextBox.TabIndex = 8;
 			// 
 			// defaultStatusLabel
 			// 
-			this.defaultStatusLabel.Location = new System.Drawing.Point(12, 138);
+			this.defaultStatusLabel.Location = new System.Drawing.Point(12, 176);
 			this.defaultStatusLabel.Name = "defaultStatusLabel";
 			this.defaultStatusLabel.Size = new System.Drawing.Size(100, 23);
 			this.defaultStatusLabel.TabIndex = 7;
@@ -187,7 +191,7 @@ namespace EATFSConnector
 			// okButton
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(409, 245);
+			this.okButton.Location = new System.Drawing.Point(409, 277);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 9;
@@ -199,7 +203,7 @@ namespace EATFSConnector
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(490, 245);
+			this.cancelButton.Location = new System.Drawing.Point(490, 277);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 10;
@@ -209,14 +213,14 @@ namespace EATFSConnector
 			// 
 			// defaultProjectTextBox
 			// 
-			this.defaultProjectTextBox.Location = new System.Drawing.Point(12, 198);
+			this.defaultProjectTextBox.Location = new System.Drawing.Point(12, 236);
 			this.defaultProjectTextBox.Name = "defaultProjectTextBox";
 			this.defaultProjectTextBox.Size = new System.Drawing.Size(185, 20);
 			this.defaultProjectTextBox.TabIndex = 12;
 			// 
 			// defaultProjectLabel
 			// 
-			this.defaultProjectLabel.Location = new System.Drawing.Point(12, 183);
+			this.defaultProjectLabel.Location = new System.Drawing.Point(12, 221);
 			this.defaultProjectLabel.Name = "defaultProjectLabel";
 			this.defaultProjectLabel.Size = new System.Drawing.Size(100, 23);
 			this.defaultProjectLabel.TabIndex = 11;
@@ -224,18 +228,33 @@ namespace EATFSConnector
 			// 
 			// tfsFilterTagTextBox
 			// 
-			this.tfsFilterTagTextBox.Location = new System.Drawing.Point(12, 245);
+			this.tfsFilterTagTextBox.Location = new System.Drawing.Point(12, 279);
 			this.tfsFilterTagTextBox.Name = "tfsFilterTagTextBox";
 			this.tfsFilterTagTextBox.Size = new System.Drawing.Size(185, 20);
 			this.tfsFilterTagTextBox.TabIndex = 14;
 			// 
 			// tfsFilterTagLabel
 			// 
-			this.tfsFilterTagLabel.Location = new System.Drawing.Point(12, 230);
+			this.tfsFilterTagLabel.Location = new System.Drawing.Point(12, 264);
 			this.tfsFilterTagLabel.Name = "tfsFilterTagLabel";
 			this.tfsFilterTagLabel.Size = new System.Drawing.Size(100, 23);
 			this.tfsFilterTagLabel.TabIndex = 13;
 			this.tfsFilterTagLabel.Text = "TFS Filter Tag";
+			// 
+			// defaultCollectionTextBox
+			// 
+			this.defaultCollectionTextBox.Location = new System.Drawing.Point(12, 62);
+			this.defaultCollectionTextBox.Name = "defaultCollectionTextBox";
+			this.defaultCollectionTextBox.Size = new System.Drawing.Size(185, 20);
+			this.defaultCollectionTextBox.TabIndex = 16;
+			// 
+			// defaultCollectionLabel
+			// 
+			this.defaultCollectionLabel.Location = new System.Drawing.Point(12, 47);
+			this.defaultCollectionLabel.Name = "defaultCollectionLabel";
+			this.defaultCollectionLabel.Size = new System.Drawing.Size(100, 23);
+			this.defaultCollectionLabel.TabIndex = 15;
+			this.defaultCollectionLabel.Text = "Default Collection";
 			// 
 			// TFSConnectorSettingsForm
 			// 
@@ -243,7 +262,9 @@ namespace EATFSConnector
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(577, 280);
+			this.ClientSize = new System.Drawing.Size(577, 312);
+			this.Controls.Add(this.defaultCollectionTextBox);
+			this.Controls.Add(this.defaultCollectionLabel);
 			this.Controls.Add(this.tfsFilterTagTextBox);
 			this.Controls.Add(this.tfsFilterTagLabel);
 			this.Controls.Add(this.defaultProjectTextBox);

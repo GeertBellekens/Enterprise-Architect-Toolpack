@@ -117,25 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="goToSourceButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4xMzQDW3oAAADKSURBVDhPY/j/
-        /z9FGKsgKRirIAwrHACSWMSRMVZBEAZpVngAZGGRQ8ZYBWGayTIA6mzyDIBp3vsNYQDYNTgwECAMgAr8
-        733//7/vM6ACmAFQrAXExkBse+3//4D7aAaAOL1AwcLrQM1HgZLbMLEqEGsBsT4QW+4CimG4YBJQsOEV
-        TqzY+Oq/UuP7/8pN7/+rNn8Bi6EYADakGMmQbCAOA2IH3BjDABBWiAIaEg5U4AvB6PLoGKsgui34MFZB
-        EKbYABCm2ADC+D8DAI3c6+y/d85aAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="goToTargetButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4xMzQDW3oAAADZSURBVDhPpY49
-        CsJAEIVzlFVJY2NhZSF4gYCVglewEi9gtLbxMBaCYOMVtNTKIk0asX2+MX+bzSQoDnxh8+28l3gA/kKV
-        v6BKG3PiU/EZqrQxd6CpRJU2n4KGkopwyQpktJJkiRe1pAXHFzc54jjVgvENGF6APpe7acgmeADbWLLl
-        krxgcAB6e4aJT4xCcAYWVxbxY1lJUrCK4G+e6KxjtMMYrTCCuFp2SbgoGFHWMSFzkoWXRVjID3WYgCFh
-        SmY0zn3pRcP+G/dOqAiXprCgSpumsKDK74H3BsvB6+y7wZnBAAAAAElFTkSuQmCC
-</value>
-  </data>
 </root>

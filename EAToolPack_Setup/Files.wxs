@@ -15,6 +15,8 @@
 						<File Id="SchemaBuilderFramework.pdb" Name="SchemaBuilderFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\SchemaBuilderFramework.pdb" />
 						<File Id="DatabaseFramework.dll" Name="DatabaseFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\DatabaseFramework.dll" />
 						<File Id="DatabaseFramework.pdb" Name="DatabaseFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\DatabaseFramework.pdb" />
+						<File Id="MappingFramework.dll" Name="MappingFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\MappingFramework.dll" />
+						<File Id="MappingFramework.pdb" Name="MappingFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\MappingFramework.pdb" />						
 						<File Id="WorkTrackingFramework.dll" Name="WorkTrackingFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\WorkTrackingFramework.dll" />
 						<File Id="WorkTrackingFramework.pdb" Name="WorkTrackingFramework.pdb" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\WorkTrackingFramework.pdb" />
 						<File Id="DDL_Parser.dll" Name="DDL-Parser.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\DDL-Parser.dll" />
@@ -84,7 +86,7 @@
 		                <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
 		                <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32\1.0.5877.37850" Name="Class" Value="EAAddinFramework.Utilities.AbortableBackgroundWorker" Type="string" Action="write" />
 		                <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-		                <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-}\InprocServer32\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
 		                <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
 		                <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32" Name="Class" Value="EAAddinFramework.Utilities.AbortableBackgroundWorker" Type="string" Action="write" />
 		                <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
@@ -560,6 +562,123 @@
 					<Component Id="EATFSConnector_RegistryEntry_x86" Guid="5b0a9736-d4ec-44ae-b40e-b6d216d8c9d8" UninstallWhenSuperseded="yes">
 						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA TFS Connector">
 							<RegistryValue Type="string" Value="EATFSConnector.EATFSConnectorAddin" />
+						</RegistryKey>
+						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
+					</Component>
+					<Component Id="EAMapping_AddinFiles" Guid="49a007a8-8704-4829-8f06-5f684fd33b79">
+		                <Class Id="{25696241-E5EA-3E9D-9B87-E6B72E84EBF8}" Context="InprocServer32" Description="EAMapping.Custom_User_Controls.PTreeView" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAMapping.Custom_User_Controls.PTreeView" Description="EAMapping.Custom_User_Controls.PTreeView" />
+		                </Class>
+		                <Class Id="{38ECABB2-16D0-331C-AA8C-7C8CA9438A4F}" Context="InprocServer32" Description="EAMapping.ImportMappingForm" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAMapping.ImportMappingForm" Description="EAMapping.ImportMappingForm" />
+		                </Class>
+		                <Class Id="{44DBA7E9-901C-3A46-AA26-DB592FA644C5}" Context="InprocServer32" Description="EAMapping.Custom_User_Controls.ModelSetContainer" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAMapping.Custom_User_Controls.ModelSetContainer" Description="EAMapping.Custom_User_Controls.ModelSetContainer" />
+		                </Class>
+		                <Class Id="{80EB17BE-3EFB-3704-90C3-F2C267A26107}" Context="InprocServer32" Description="EAMapping.EAMappingAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAMapping.EAMappingAddin" Description="EAMapping.EAMappingAddin" />
+		                </Class>
+		                <Class Id="{8B8E2A9F-1080-380B-9AF4-F0354BEB55B2}" Context="InprocServer32" Description="EAMapping.AboutWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAMapping.AboutWindow" Description="EAMapping.AboutWindow" />
+		                </Class>
+		                <Class Id="{A34AB251-88E7-36D6-86AA-64595CBB42C1}" Context="InprocServer32" Description="EAMapping.MappingControl" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAMapping.MappingControl" Description="EAMapping.MappingControl" />
+		                </Class>
+		                <Class Id="{A51403C9-BCB5-31A3-9F4E-6A91B79BFC27}" Context="InprocServer32" Description="EAMapping.EAMappingSettings" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAMapping.EAMappingSettings" Description="EAMapping.EAMappingSettings" />
+		                </Class>
+		                <Class Id="{F8D92E63-0BD4-3261-B9D0-F39C126B0DED}" Context="InprocServer32" Description="EAMapping.MappingControl_Kevin" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="EAMapping.MappingControl_Kevin" Description="EAMapping.MappingControl_Kevin" />
+		                </Class>
+						<File Id="EAMapping.pdb" Name="EAMapping.dll.pdb" Source="..\EAMapping\bin\Debug\EAMapping.pdb" />
+						<File Id="EAMapping.tlb" Name="EAMapping.dll.tlb" Source="..\EAMapping\bin\Debug\EAMapping.tlb" />
+						<File Id="cobol_object_mapper.pdb" Name="cobol-object-mapper.dll.pdb" Source="..\EAMapping\bin\Debug\cobol-object-mapper.pdb" />
+						<File Id="cobol_object_mapper.dll" Name="cobol-object-mapper.dll" Source="..\EAMapping\bin\Debug\cobol-object-mapper.dll" />						
+						<File Id="EAMapping.dll.config" Name="EAMapping.dll.config" Source="..\EAMapping\bin\Debug\EAMapping.dll.config" />
+						<File Id="EAMapping_LicenseFile" Name="EA Mapping license.txt" Source="..\EAMapping\Files\EA Mapping license.txt" />
+		                <File Id="fil3EE4582EB99445EBAE70DC1751CE006C" KeyPath="yes" Source="..\EAMapping\bin\Debug\EAMapping.dll" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25696241-E5EA-3E9D-9B87-E6B72E84EBF8}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25696241-E5EA-3E9D-9B87-E6B72E84EBF8}\InprocServer32\1.3.15.17537" Name="Class" Value="EAMapping.Custom_User_Controls.PTreeView" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25696241-E5EA-3E9D-9B87-E6B72E84EBF8}\InprocServer32\1.3.15.17537" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25696241-E5EA-3E9D-9B87-E6B72E84EBF8}\InprocServer32\1.3.15.17537" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25696241-E5EA-3E9D-9B87-E6B72E84EBF8}\InprocServer32\1.3.15.17537" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25696241-E5EA-3E9D-9B87-E6B72E84EBF8}\InprocServer32" Name="Class" Value="EAMapping.Custom_User_Controls.PTreeView" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25696241-E5EA-3E9D-9B87-E6B72E84EBF8}\InprocServer32" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25696241-E5EA-3E9D-9B87-E6B72E84EBF8}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{25696241-E5EA-3E9D-9B87-E6B72E84EBF8}\InprocServer32" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{38ECABB2-16D0-331C-AA8C-7C8CA9438A4F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{38ECABB2-16D0-331C-AA8C-7C8CA9438A4F}\InprocServer32\1.3.15.17537" Name="Class" Value="EAMapping.ImportMappingForm" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{38ECABB2-16D0-331C-AA8C-7C8CA9438A4F}\InprocServer32\1.3.15.17537" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{38ECABB2-16D0-331C-AA8C-7C8CA9438A4F}\InprocServer32\1.3.15.17537" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{38ECABB2-16D0-331C-AA8C-7C8CA9438A4F}\InprocServer32\1.3.15.17537" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{38ECABB2-16D0-331C-AA8C-7C8CA9438A4F}\InprocServer32" Name="Class" Value="EAMapping.ImportMappingForm" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{38ECABB2-16D0-331C-AA8C-7C8CA9438A4F}\InprocServer32" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{38ECABB2-16D0-331C-AA8C-7C8CA9438A4F}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{38ECABB2-16D0-331C-AA8C-7C8CA9438A4F}\InprocServer32" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{44DBA7E9-901C-3A46-AA26-DB592FA644C5}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{44DBA7E9-901C-3A46-AA26-DB592FA644C5}\InprocServer32\1.3.15.17537" Name="Class" Value="EAMapping.Custom_User_Controls.ModelSetContainer" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{44DBA7E9-901C-3A46-AA26-DB592FA644C5}\InprocServer32\1.3.15.17537" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{44DBA7E9-901C-3A46-AA26-DB592FA644C5}\InprocServer32\1.3.15.17537" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{44DBA7E9-901C-3A46-AA26-DB592FA644C5}\InprocServer32\1.3.15.17537" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{44DBA7E9-901C-3A46-AA26-DB592FA644C5}\InprocServer32" Name="Class" Value="EAMapping.Custom_User_Controls.ModelSetContainer" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{44DBA7E9-901C-3A46-AA26-DB592FA644C5}\InprocServer32" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{44DBA7E9-901C-3A46-AA26-DB592FA644C5}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{44DBA7E9-901C-3A46-AA26-DB592FA644C5}\InprocServer32" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{80EB17BE-3EFB-3704-90C3-F2C267A26107}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{80EB17BE-3EFB-3704-90C3-F2C267A26107}\InprocServer32\1.3.15.17537" Name="Class" Value="EAMapping.EAMappingAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{80EB17BE-3EFB-3704-90C3-F2C267A26107}\InprocServer32\1.3.15.17537" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{80EB17BE-3EFB-3704-90C3-F2C267A26107}\InprocServer32\1.3.15.17537" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{80EB17BE-3EFB-3704-90C3-F2C267A26107}\InprocServer32\1.3.15.17537" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{80EB17BE-3EFB-3704-90C3-F2C267A26107}\InprocServer32" Name="Class" Value="EAMapping.EAMappingAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{80EB17BE-3EFB-3704-90C3-F2C267A26107}\InprocServer32" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{80EB17BE-3EFB-3704-90C3-F2C267A26107}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{80EB17BE-3EFB-3704-90C3-F2C267A26107}\InprocServer32" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8B8E2A9F-1080-380B-9AF4-F0354BEB55B2}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8B8E2A9F-1080-380B-9AF4-F0354BEB55B2}\InprocServer32\1.3.15.17537" Name="Class" Value="EAMapping.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8B8E2A9F-1080-380B-9AF4-F0354BEB55B2}\InprocServer32\1.3.15.17537" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8B8E2A9F-1080-380B-9AF4-F0354BEB55B2}\InprocServer32\1.3.15.17537" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8B8E2A9F-1080-380B-9AF4-F0354BEB55B2}\InprocServer32\1.3.15.17537" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8B8E2A9F-1080-380B-9AF4-F0354BEB55B2}\InprocServer32" Name="Class" Value="EAMapping.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8B8E2A9F-1080-380B-9AF4-F0354BEB55B2}\InprocServer32" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8B8E2A9F-1080-380B-9AF4-F0354BEB55B2}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8B8E2A9F-1080-380B-9AF4-F0354BEB55B2}\InprocServer32" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A34AB251-88E7-36D6-86AA-64595CBB42C1}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A34AB251-88E7-36D6-86AA-64595CBB42C1}\InprocServer32\1.3.15.17537" Name="Class" Value="EAMapping.MappingControl" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A34AB251-88E7-36D6-86AA-64595CBB42C1}\InprocServer32\1.3.15.17537" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A34AB251-88E7-36D6-86AA-64595CBB42C1}\InprocServer32\1.3.15.17537" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A34AB251-88E7-36D6-86AA-64595CBB42C1}\InprocServer32\1.3.15.17537" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A34AB251-88E7-36D6-86AA-64595CBB42C1}\InprocServer32" Name="Class" Value="EAMapping.MappingControl" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A34AB251-88E7-36D6-86AA-64595CBB42C1}\InprocServer32" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A34AB251-88E7-36D6-86AA-64595CBB42C1}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A34AB251-88E7-36D6-86AA-64595CBB42C1}\InprocServer32" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A51403C9-BCB5-31A3-9F4E-6A91B79BFC27}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A51403C9-BCB5-31A3-9F4E-6A91B79BFC27}\InprocServer32\1.3.15.17537" Name="Class" Value="EAMapping.EAMappingSettings" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A51403C9-BCB5-31A3-9F4E-6A91B79BFC27}\InprocServer32\1.3.15.17537" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A51403C9-BCB5-31A3-9F4E-6A91B79BFC27}\InprocServer32\1.3.15.17537" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A51403C9-BCB5-31A3-9F4E-6A91B79BFC27}\InprocServer32\1.3.15.17537" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A51403C9-BCB5-31A3-9F4E-6A91B79BFC27}\InprocServer32" Name="Class" Value="EAMapping.EAMappingSettings" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A51403C9-BCB5-31A3-9F4E-6A91B79BFC27}\InprocServer32" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A51403C9-BCB5-31A3-9F4E-6A91B79BFC27}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A51403C9-BCB5-31A3-9F4E-6A91B79BFC27}\InprocServer32" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F8D92E63-0BD4-3261-B9D0-F39C126B0DED}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F8D92E63-0BD4-3261-B9D0-F39C126B0DED}\InprocServer32\1.3.15.17537" Name="Class" Value="EAMapping.MappingControl_Kevin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F8D92E63-0BD4-3261-B9D0-F39C126B0DED}\InprocServer32\1.3.15.17537" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F8D92E63-0BD4-3261-B9D0-F39C126B0DED}\InprocServer32\1.3.15.17537" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F8D92E63-0BD4-3261-B9D0-F39C126B0DED}\InprocServer32\1.3.15.17537" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F8D92E63-0BD4-3261-B9D0-F39C126B0DED}\InprocServer32" Name="Class" Value="EAMapping.MappingControl_Kevin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F8D92E63-0BD4-3261-B9D0-F39C126B0DED}\InprocServer32" Name="Assembly" Value="EAMapping, Version=1.3.15.17537, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F8D92E63-0BD4-3261-B9D0-F39C126B0DED}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{F8D92E63-0BD4-3261-B9D0-F39C126B0DED}\InprocServer32" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
+		            </Component>
+					<Component Id="EAMapping_RegistryEntry" Guid="0736910a-6765-4b97-bd78-f130052bc002" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\EA Mapping">
+							<RegistryValue Type="string" Value="EAMapping.EAMappingAddin" />
+						</RegistryKey>
+					<Condition> %PROCESSOR_ARCHITECTURE="AMD64" OR %PROCESSOR_ARCHITECTURE="IE64"</Condition>
+					</Component>
+					<Component Id="EAMapping_RegistryEntry_x86" Guid="5ba63afa-ec15-43fa-9b0f-0c076c1bf591" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA Mapping">
+							<RegistryValue Type="string" Value="EAMapping.EAMappingAddin" />
 						</RegistryKey>
 						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
 					</Component>

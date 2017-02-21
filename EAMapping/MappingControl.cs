@@ -1,11 +1,10 @@
-﻿
-using MappingFramework;
-using EAMapping.Custom_User_Controls;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using MappingFramework;
 
 namespace EAMapping
 {
@@ -14,104 +13,118 @@ namespace EAMapping
 	/// </summary>
 	public partial class MappingControl : UserControl
 	{
-        
-        ModelSetContainer modelSetSource;
-        ModelSetContainer modelSetTarget;
-        Point p1 = Point.Empty;
-        Point p2 = Point.Empty;
-        System.Drawing.Graphics graphics;
-        public MappingControl()
+		MappingSet mappingSet {get;set;}
+		public MappingControl()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
-
-            
-            
+			//set the grid columns to the right size
+			resizeCompareGridColumns();
+			//enableDisable
+			enableDisable();
+			
 		}
-		private MappingFramework.MappingSet _mappingSet;
-
-		public void loadMappingSet(MappingFramework.MappingSet mappingSet)
+		public Mapping selectedMapping
 		{
-            List<Mapping> mappingList = mappingSet.mappings;
-            List<TreeItem> sourceItems = new List<TreeItem>();
-            List<TreeItem> targetItems = new List<TreeItem>();
-            graphics = this.CreateGraphics();
-            foreach(Mapping map in mappingList)
-            {
-                sourceItems.Add(new TreeItem(map.source.fullMappingPath));
-                targetItems.Add(new TreeItem(map.target.fullMappingPath));
-            }
-
-            modelSetSource = new ModelSetContainer("Source", sourceItems);
-            modelSetTarget = new ModelSetContainer("Target", targetItems);
-            modelSetSource.Location = new Point(0, 0);
-            modelSetTarget.Location = new Point(800, 0);
-            this.Controls.Add(modelSetSource);
-            this.Controls.Add(modelSetTarget);
-            modelSetSource.tv.IsLeft = true;
-            modelSetTarget.tv.IsLeft = false;
-            modelSetSource.tv.NodeMouseClick += new TreeNodeMouseClickEventHandler(modelSetSource_NodeMouseClick);
-            this.Paint += new PaintEventHandler(panel1_Paint);
-            this.Show();
-            
-        }
-
-
-        private void modelSetSource_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            TreeNode n1 = e.Node;
-            //TreeNode[] col =  modelSetTarget.tv.Nodes.Find("Test",true);
-            TreeNode n2 = modelSetTarget.tv.Nodes[0];
-            modelSetTarget.tv.SelectedNode = n2;
-
-            p1 = new Point(
-                  modelSetSource.tv.Left + n2.Bounds.Left + n1.Bounds.Width + modelSetSource.tv.BorderWidth,
-                  modelSetSource.tv.Top + n1.Bounds.Top + n1.Bounds.Height / 2 + modelSetSource.tv.BorderWidth);
-            p2 = new Point(
-                  modelSetTarget.tv.Left + n2.Bounds.Left + modelSetTarget.tv.BorderWidth,
-                  modelSetTarget.tv.Top + n2.Bounds.Top + n2.Bounds.Height / 2 + modelSetTarget.tv.BorderWidth);
-
-            float slope = -1f * (p2.Y - p1.Y) / (p2.X - p1.X);
-            modelSetSource.tv.markNode(n1, slope);
-            modelSetTarget.tv.markNode(n2, slope);
-
-            this.Invalidate();
-            modelSetSource.tv.Invalidate();
-            modelSetTarget.tv.Invalidate();
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            e.Graphics.DrawLine(Pens.Coral, p1, p2);
-            graphics.DrawLine(Pens.Coral, p1, p2);
-            graphics.DrawRectangle(Pens.Coral, 5, 5, 200, 200);
-
-            //DrawLine(Pens.Coral, p1, p2);
-
-
-
-
-        }
-        internal const int WM_PAINT = 0xF;
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-
-            if (m.Msg == WM_PAINT)
-            {
-                Graphics G = this.CreateGraphics();
-                G.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                
-
-                G.DrawLine(Pens.Coral, p1, p2);
-            }
-        }
-    }
+			get
+			{
+				if (this.mappingListView.SelectedItems.Count > 0)
+				{
+					return this.mappingListView.SelectedItems[0].Tag as Mapping;
+				}
+				return null;
+			}
+		}
+		void enableDisable()
+		{
+			this.goToSourceButton.Enabled = this.selectedMapping != null;
+			this.goToTargetButton.Enabled = this.selectedMapping != null;
+		}
+		public void loadMappingSet(MappingSet mappingSet)
+		{
+			//set current mapping Set
+			this.mappingSet = mappingSet;
+			//clear the list
+			clear();
+			//add the mappings
+			foreach (var mapping in mappingSet.mappings) 
+			{
+				//sourcePath
+				ListViewItem listViewItem = new ListViewItem(mapping.source.mappingPath);
+				//source type
+				listViewItem.SubItems.Add(mapping.source.mappedEnd.GetType().Name);
+				//source
+				listViewItem.SubItems.Add(mapping.source.mappedEnd.name);
+				//mapping logic
+				listViewItem.SubItems.Add(mapping.mappingLogic != null ? mapping.mappingLogic.description : string.Empty);
+				//target
+				listViewItem.SubItems.Add(mapping.target.mappedEnd.name);
+				//target type
+				listViewItem.SubItems.Add(mapping.target.mappedEnd.GetType().Name);
+				//target path
+				listViewItem.SubItems.Add(mapping.target.mappingPath);
+				//set tag
+				listViewItem.Tag = mapping;
+				//add the item to the grid
+				this.mappingListView.Items.Add(listViewItem);
+			}
+		}
+		private void resizeCompareGridColumns()
+		{
+			//set the last column to fill
+			this.mappingListView.Columns[mappingListView.Columns.Count - 1].Width = -2;
+		}
+		void MappingListViewResize(object sender, EventArgs e)
+		{
+			resizeCompareGridColumns();
+		}
+		public void clear()
+		{
+			//clear the listview
+			this.mappingListView.Items.Clear();
+		}
+		
+		public event EventHandler selectTarget = delegate { }; 
+		void GoToSourceButtonClick(object sender, EventArgs e)
+		{
+			selectSource(this.selectedMapping,e);
+		}
+		public event EventHandler selectSource = delegate { }; 
+		void GoToTargetButtonClick(object sender, EventArgs e)
+		{
+			selectTarget(this.selectedMapping,e);
+		}
+		public event EventHandler exportMappingSet = delegate { }; 
+		void ExportButtonClick(object sender, EventArgs e)
+		{
+			exportMappingSet(this.mappingSet,e);
+		}
+		void MappingListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			this.enableDisable();
+		}
+		void MappingListViewMouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			ListViewHitTestInfo info = ((ListView)sender).HitTest(e.X, e.Y);
+			if (info.Item != null)
+			{
+				var mapping = (Mapping) info.Item.Tag;
+				if (info.SubItem != null)
+				{
+					int columnIndex = info.Item.SubItems.IndexOf(info.SubItem);
+					if (columnIndex <= 3 )
+					{
+						selectSource(mapping,e);
+					}
+					else
+					{
+						selectTarget(mapping,e);
+					}
+				}
+			}
+	
+		}
+	}
 }

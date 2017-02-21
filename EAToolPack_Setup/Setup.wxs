@@ -3,11 +3,11 @@
 	<Product Id="*"
 		Name="Bellekens EA Toolpack"
 		Language="1033"
-		Version="1.3.13.0"
+		Version="1.4.1.0"
 		UpgradeCode="38FA9DDF-F162-4EB2-A836-0A66A78F5EC6"
 		Manufacturer="Bellekens">
-		<Package Description="Installs the Bellekens EA Toolpack v1.3.13.0 on this computer"
-			Comments="Contains EA Navigator, EA-Matic, EA Message Composer EA Database Transformer, EA Imvertor and EA TFS connector"
+		<Package Description="Installs the Bellekens EA Toolpack v1.4.1.0 on this computer"
+			Comments="Contains EA Navigator, EA-Matic, EA Message Composer EA Database Transformer, EA Imvertor, EA TFS connector and EA Mapping"
 			InstallerVersion="200"
 			Compressed="yes"
 			InstallScope="perMachine"/>
@@ -19,14 +19,14 @@
 		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
 		
 		<Upgrade Id="38FA9DDF-F162-4EB2-A836-0A66A78F5EC6">
-      	<UpgradeVersion Minimum="1.3.13.0"
+      	<UpgradeVersion Minimum="1.4.1.0"
                       IncludeMinimum="no"
                       OnlyDetect="yes"
                       Language="1033"
                       Property="NEWPRODUCTFOUND" />
      	<UpgradeVersion Minimum="0.1.0.0"
                       IncludeMinimum="yes"
-                      Maximum="1.3.13.0"
+                      Maximum="1.4.1.0"
                       IncludeMaximum="no"
                       Language="1033"
                       Property="UPGRADEFOUND" />
@@ -90,6 +90,14 @@
 				 <ComponentRef Id="EATFSConnector_RegistryEntry"/>
 				 <ComponentRef Id="EATFSConnector_RegistryEntry_x86"/>
 		</Feature>
+		<Feature Id="EAMapping"
+		         Title="EA Mapping"
+		         Description="Map data models in EA"
+		         Level="1">
+		         <ComponentRef Id="EAMapping_AddinFiles"/>
+				 <ComponentRef Id="EAMapping_RegistryEntry"/>
+				 <ComponentRef Id="EAMapping_RegistryEntry_x86"/>
+		</Feature>		
 		<!-- Check for .Net framework 4.5 Client-->
 		<PropertyRef Id="NETFRAMEWORK45"/>
 		
