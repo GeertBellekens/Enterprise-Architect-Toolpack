@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <ProjectGuid>{DAD41B55-3F07-425F-8ECF-D8D6770EBC4E}</ProjectGuid>
@@ -68,11 +68,11 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Custom User Controls\MappingControl_Kevin.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Custom User Controls\MappingControl_GUI.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Custom User Controls\MappingControl_Kevin.Designer.cs">
-      <DependentUpon>MappingControl_Kevin.cs</DependentUpon>
+    <Compile Include="Custom User Controls\MappingControl_GUI.Designer.cs">
+      <DependentUpon>MappingControl_GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Custom User Controls\ModelSetContainer.cs">
       <SubType>UserControl</SubType>
@@ -86,7 +86,9 @@
     <Compile Include="Custom User Controls\TreeItem.cs" />
     <Compile Include="EAMappingAddin.cs" />
     <Compile Include="EAMappingSettings.cs" />
-    <Compile Include="MappingControl.cs" />
+    <Compile Include="MappingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="MappingControl.Designer.cs">
       <DependentUpon>MappingControl.cs</DependentUpon>
     </Compile>
@@ -126,8 +128,8 @@
     <EmbeddedResource Include="AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Custom User Controls\MappingControl_Kevin.resx">
-      <DependentUpon>MappingControl_Kevin.cs</DependentUpon>
+    <EmbeddedResource Include="Custom User Controls\MappingControl_GUI.resx">
+      <DependentUpon>MappingControl_GUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportMappingForm.resx">
       <DependentUpon>ImportMappingForm.cs</DependentUpon>

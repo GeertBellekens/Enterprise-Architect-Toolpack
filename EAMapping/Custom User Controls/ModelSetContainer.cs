@@ -66,12 +66,12 @@ namespace EAMapping.Custom_User_Controls
 
         public static void PopulateTree(TreeView treeView, ICollection<TreeItem> items, char pathSeparator)
         {
-            TreeNode lastNode = null;
+           /* TreeNode lastNode = null;
             string subPathAgg;
             foreach (TreeItem path in items)
             {
                 subPathAgg = string.Empty;
-                foreach (string subPath in path.Path.Split(pathSeparator))
+                foreach (string subPath in path.Split(pathSeparator))
                 {
                     subPathAgg += subPath + pathSeparator;
                     TreeNode[] nodes = treeView.Nodes.Find(subPathAgg, true);
@@ -84,8 +84,8 @@ namespace EAMapping.Custom_User_Controls
                         lastNode = nodes[0];
                 }
                 lastNode = null; // This is the place code was changed
-
-            }
+                
+            }*/
 /*            tree.Nodes.Clear();
             List<TreeNode> roots = new List<TreeNode>();
             roots.Add(tree.Nodes.Add("Items"));

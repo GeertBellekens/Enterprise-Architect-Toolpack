@@ -145,8 +145,9 @@ namespace EAMapping
             switch (ItemName)
             {
               case menuMapAsSource:
-          		loadMapping(this.getCurrentMappingSet(true));
-                  break;
+                    //loadMapping(this.getCurrentMappingSet(true));
+                    new MappingControlGUI(this.getCurrentMappingSet(true)).ShowDialog();
+                    break;
   		        case menuAbout :
   		            new AboutWindow().ShowDialog(this.model.mainEAWindow);
   		            break;
