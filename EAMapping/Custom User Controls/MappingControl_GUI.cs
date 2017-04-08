@@ -21,8 +21,9 @@ namespace EAMapping
         
         public MappingControlGUI(MappingSet mappingSet)
         {
-            this.MinimumSize = new Size(600, 200);
-            this.Width = 600;
+            this.MinimumSize = new Size(1200, 400);
+            this.Dock = DockStyle.None;
+            //this.Width = 600;
 
             var trees = new LinkedTreeViews();
             this.Controls.Add(trees);
@@ -731,8 +732,25 @@ namespace EAMapping
             // we're a Panel, stretch us to our parents size
 
             this.Dock = DockStyle.Fill;
+            this.AutoSize = true;
+            /*
+            SuspendLayout();
 
+            Width = 700;
+            Height = 500;
 
+            this.Size = new Size(Width, Height);
+
+            this.Location = new Point(ClientSize.Width / 2 - this.Width / 2, ClientSize.Height / 2 - this.Height / 2);
+            this.Anchor = AnchorStyles.None;
+            this.Dock = DockStyle.None;
+
+            ResumeLayout();*/
+
+            //size of Panel big enough
+            //int newWidth = 300;
+            //this.MaximumSize = new Size(newWidth, this.Height);
+            //this.Size = new Size(newWidth, this.Height);
 
             // resizing might cause scroll bars to appear and make nodes invisible
 
@@ -848,7 +866,7 @@ namespace EAMapping
 
             tree.BorderStyle = BorderStyle.None;
 
-            tree.Width = 250;
+            tree.Width = 450;
 
             tree.NodeMouseClick += new TreeNodeMouseClickEventHandler(this.UpdateTrees);
              this.Controls.Add(tree);
