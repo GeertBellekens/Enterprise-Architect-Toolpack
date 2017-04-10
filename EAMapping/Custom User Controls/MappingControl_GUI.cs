@@ -21,7 +21,9 @@ namespace EAMapping
         
         public MappingControlGUI(MappingSet mappingSet)
         {
-            this.MinimumSize = new Size(1200, 400);
+            int w = Screen.PrimaryScreen.Bounds.Width;
+            int h = Screen.PrimaryScreen.Bounds.Height;
+            this.MinimumSize = new Size(w/3, h/2);
             this.Dock = DockStyle.None;
             //this.Width = 600;
 
@@ -638,7 +640,7 @@ namespace EAMapping
 
                 Point location = this.PointToClient(Cursor.Position);
 
-                LinkedTreeNode target = this.HitTest(location).Node as LinkedTreeNode;
+                var target = this.HitTest(location).Node as LinkedTreeNode;
 
                 if (target == null)
                 {
@@ -719,41 +721,17 @@ namespace EAMapping
         
         public LinkedTreeViews()
         {
-
             // create and link the two TreeViews
-
+            this.BackColor = Color.LightGray;
             this.LeftTree = this.createLeftTree();
-            //this.LeftTree.IsLeft = true;
 
             this.RightTree = this.createRightTree().LinkTo(this.LeftTree);
-           // this.RightTree.IsLeft = false;
 
 
             // we're a Panel, stretch us to our parents size
 
             this.Dock = DockStyle.Fill;
-            this.AutoSize = true;
-            /*
-            SuspendLayout();
-
-            Width = 700;
-            Height = 500;
-
-            this.Size = new Size(Width, Height);
-
-            this.Location = new Point(ClientSize.Width / 2 - this.Width / 2, ClientSize.Height / 2 - this.Height / 2);
-            this.Anchor = AnchorStyles.None;
-            this.Dock = DockStyle.None;
-
-            ResumeLayout();*/
-
-            //size of Panel big enough
-            //int newWidth = 300;
-            //this.MaximumSize = new Size(newWidth, this.Height);
-            //this.Size = new Size(newWidth, this.Height);
-
-            // resizing might cause scroll bars to appear and make nodes invisible
-
+           
             this.Resize += new EventHandler(this.UpdateTrees);
 
 
@@ -834,7 +812,7 @@ namespace EAMapping
             tree.Scrollable = false;
 
             tree.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-
+            tree.BackColor = Color.White;
             return tree;
 
         }
@@ -853,6 +831,7 @@ namespace EAMapping
 
             tree.Dock = DockStyle.Right;
 
+            tree.BackColor = Color.White;
             return tree;
 
         }
@@ -863,10 +842,11 @@ namespace EAMapping
         {
 
             var tree = new LinkedTreeView();
-
             tree.BorderStyle = BorderStyle.None;
 
-            tree.Width = 450;
+            int w = Screen.PrimaryScreen.Bounds.Width;
+ //           Screen.PrimaryScreen.Bounds.Height;
+            tree.Width = w/7;
 
             tree.NodeMouseClick += new TreeNodeMouseClickEventHandler(this.UpdateTrees);
              this.Controls.Add(tree);
