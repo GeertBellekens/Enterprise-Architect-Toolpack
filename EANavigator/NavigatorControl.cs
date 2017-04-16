@@ -481,9 +481,9 @@ namespace TSF.UmlToolingFramework.EANavigator
 				try
 				{
 					this.NavigatorTree.Nodes.RemoveAt(i);
-				}catch (NullReferenceException)
+				}catch (Exception)
 				{
-					// swallow nullpointer exception.
+					// swallow any exception
 					// if a node does not exist we don't need to remove it anymore
 					// this sometimes happens with rare multithreaded race conditions
 				}
