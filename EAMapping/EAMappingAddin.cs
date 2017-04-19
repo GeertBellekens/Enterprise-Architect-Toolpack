@@ -31,7 +31,7 @@ namespace EAMapping
         //private attributes
         private TSF_EA.Model model = null;
         private bool fullyLoaded = false;
-        private MappingControl _mappingControl;
+        private MappingControlGUI _mappingControl;
         private MappingSet _currentMappingSet = null;
         private EAMappingSettings settings = new EAMappingSettings();
         /// <summary>
@@ -50,14 +50,14 @@ namespace EAMapping
         }
 
 
-        private MappingControl mappingControl
+        private MappingControlGUI mappingControl
 		{
 			get
 			{
 				if (_mappingControl == null
 				   && this.model != null)
 				{
-					_mappingControl = this.model.addTab(mappingControlName, "EAMapping.MappingControl") as MappingControl;
+					_mappingControl = this.model.addTab(mappingControlName, "EAMapping.MappingControlGUI") as MappingControlGUI;
 					_mappingControl.HandleDestroyed += mappingControl_HandleDestroyed;
 					_mappingControl.selectSource += mappingControl_SelectSource;
 					_mappingControl.selectTarget += mappingControl_SelectTarget;
@@ -145,8 +145,8 @@ namespace EAMapping
             switch (ItemName)
             {
               case menuMapAsSource:
-                    //loadMapping(this.getCurrentMappingSet(true));
-                    new MappingControlGUI(this.getCurrentMappingSet(true)).ShowDialog();
+                    loadMapping(this.getCurrentMappingSet(true));
+                    //new MappingControlGUI(this.getCurrentMappingSet(true)).ShowDialog();
                     break;
   		        case menuAbout :
   		            new AboutWindow().ShowDialog(this.model.mainEAWindow);

@@ -68,11 +68,11 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Custom User Controls\MappingControl_GUI.cs">
+    <Compile Include="Custom User Controls\MappingControlGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Custom User Controls\MappingControl_GUI.Designer.cs">
-      <DependentUpon>MappingControl_GUI.cs</DependentUpon>
+    <Compile Include="Custom User Controls\MappingControlGUI.Designer.cs">
+      <DependentUpon>MappingControlGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Custom User Controls\ModelSetContainer.cs">
       <SubType>UserControl</SubType>
@@ -128,8 +128,8 @@
     <EmbeddedResource Include="AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Custom User Controls\MappingControl_GUI.resx">
-      <DependentUpon>MappingControl_GUI.cs</DependentUpon>
+    <EmbeddedResource Include="Custom User Controls\MappingControlGUI.resx">
+      <DependentUpon>MappingControlGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportMappingForm.resx">
       <DependentUpon>ImportMappingForm.cs</DependentUpon>

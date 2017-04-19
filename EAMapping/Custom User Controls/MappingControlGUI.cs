@@ -13,61 +13,87 @@ namespace EAMapping
     /// <summary>
     /// Description of MappingControl.
     /// </summary>
-    public partial class MappingControlGUI : Form
+    public partial class MappingControlGUI : UserControl
     {
         MappingSet mappingSet { get; set; }
         public List<LinkedTreeNode> leftNodes { get; set; }
         public List<LinkedTreeNode> rightNodes { get; set; }
-        
-        public MappingControlGUI(MappingSet mappingSet)
+        private LinkedTreeViews trees;
+        public MappingControlGUI()
         {
-            int w = Screen.PrimaryScreen.Bounds.Width;
-            int h = Screen.PrimaryScreen.Bounds.Height;
-            this.MinimumSize = new Size(w/3, h/2);
-            this.Dock = DockStyle.None;
-            //this.Width = 600;
-
-            var trees = new LinkedTreeViews();
+//        	int w = Screen.PrimaryScreen.Bounds.Width;
+//            int h = Screen.PrimaryScreen.Bounds.Height;
+//            this.MinimumSize = new Size(w/3, h/2);
+//            this.Dock = DockStyle.None;
+//            //this.Width = 600;
+			InitializeComponent();
+            trees = new LinkedTreeViews();
             this.Controls.Add(trees);
-
-            this.mappingSet = mappingSet;
-            // populate left tree with some nodes
-            List<Mapping> mappingList = mappingSet.mappings;
-            List<LinkedTreeNode> sourceItems = new List<LinkedTreeNode>();
-            List<LinkedTreeNode> targetItems = new List<LinkedTreeNode>();
-
-
-            foreach (Mapping map in mappingList)
-            {
-                //TODO When target getMapping is fixed delete the if
-                if (map.source.fullMappingPath.Contains("Target"))
-                {
-                    MessageBox.Show("target spotted");
-                }
-                else
-                {
-                    sourceItems.Add(new LinkedTreeNode(map.source.mappedEnd.name, map.source.fullMappingPath));
-                    targetItems.Add(new LinkedTreeNode(map.target.mappedEnd.name, map.target.fullMappingPath));
-                }
-            }
-
-            this.leftNodes = new List<LinkedTreeNode>();
-            this.rightNodes = new List<LinkedTreeNode>();
-
-            //Create the left tree nodes
-            PopulateTree(trees.LeftTree, sourceItems, '.');
-
-            //Create the right tree nodes
-            PopulateTree(trees.RightTree, targetItems, '.');
-
-            //Get all the already excisting mappings and paint them.
-            paintAllExistingMappings(sourceItems,targetItems, mappingSet, trees);
-
-            //expand both trees. 
-            trees.RightTree.ExpandAll();
-            trees.LeftTree.ExpandAll();
         }
+        public MappingControlGUI(MappingSet mappingSet):this()
+        {
+			loadMappingSet(mappingSet);
+        }
+		public void loadMappingSet(MappingSet mappingSet )
+		{
+			this.mappingSet = mappingSet;
+			// populate left tree with some nodes
+			List<Mapping> mappingList = mappingSet.mappings;
+			List<LinkedTreeNode> sourceItems = new List<LinkedTreeNode>();
+			List<LinkedTreeNode> targetItems = new List<LinkedTreeNode>();
+			foreach (Mapping map in mappingList) {
+				//TODO When target getMapping is fixed delete the if
+				if (map.source.fullMappingPath.Contains("Target")) {
+					MessageBox.Show("target spotted");
+				} else {
+					sourceItems.Add(new LinkedTreeNode(map.source.mappedEnd.name, map.source.fullMappingPath,map));
+					targetItems.Add(new LinkedTreeNode(map.target.mappedEnd.name, map.target.fullMappingPath,map));
+				}
+			}
+			this.leftNodes = new List<LinkedTreeNode>();
+			this.rightNodes = new List<LinkedTreeNode>();
+			//Create the left tree nodes
+			PopulateTree(trees.LeftTree, sourceItems, '.');
+			//Create the right tree nodes
+			PopulateTree(trees.RightTree, targetItems, '.');
+			//Get all the already excisting mappings and paint them.
+			paintAllExistingMappings(sourceItems, targetItems, mappingSet, trees);
+			//expand both trees. 
+			trees.RightTree.ExpandAll();
+			trees.LeftTree.ExpandAll();
+		}
 
+        
+
+		public event EventHandler selectTarget = delegate { }; 
+		void GoToSourceButtonClick(object sender, EventArgs e)
+		{
+			selectSource(this.selectedMapping,e);
+		}
+		public event EventHandler selectSource = delegate { }; 
+		void GoToTargetButtonClick(object sender, EventArgs e)
+		{
+			selectTarget(this.selectedMapping,e);
+		}
+		public event EventHandler exportMappingSet = delegate { }; 
+		void ExportButtonClick(object sender, EventArgs e)
+		{
+			exportMappingSet(this.mappingSet,e);
+		}
+		public Mapping selectedMapping
+		{
+			get
+			{
+				//check if the left node is selected
+				var leftnode = trees.LeftTree.SelectedNode as LinkedTreeNode;
+				if (leftnode != null) return leftnode.mapping;
+				//check if right node is selected
+				var rightnode = trees.RightTree.SelectedNode as LinkedTreeNode;
+				if (leftnode != null) return rightnode.mapping;
+				//if none is selected return null
+				return null;
+			}
+		}		
         /*public void PopulateTree(LinkedTreeView treeView, ICollection<LinkedTreeNode> items, char pathSeparator)
         {
             TreeNode lastNode = null;
@@ -363,7 +389,16 @@ namespace EAMapping
     {
         public string Path { get; set;  }
         public string Label { get; set; }
-        public LinkedTreeNode(string label, string path) : base(label) { Path = path; Label = label; }
+        public Mapping mapping {get;set;}
+        public LinkedTreeNode(string label, string path) : base(label) 
+        { 	
+        	Path = path;
+        	Label = label;
+        }
+        public LinkedTreeNode(string label, string path, Mapping mapping) : this(label, path)
+        { 	
+        	this.mapping = mapping;
+        }
 
         public LinkedTreeNode OtherNode { get; private set; }
 
