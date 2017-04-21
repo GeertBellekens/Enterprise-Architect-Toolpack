@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace EAMapping
 {
-    partial class MappingControlGUI
+    partial class MappingControlGUI2
     {
         /// <summary>
         /// Designer variable used to keep track of non-visual components.
