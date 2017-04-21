@@ -63,6 +63,8 @@ namespace ECDMMessageComposer
 		    this.checkSecurityCheckBox.Checked = this.settings.checkSecurity;
 		    this.deleteUnusedElementsCheckBox.Checked = this.settings.deleteUnusedSchemaElements;
 		    this.usePackageSubsetsOnlyCheckBox.Checked = this.settings.usePackageSchemasOnly;
+		    this.noAttributeDependenciesCheckbox.Checked = this.settings.dontCreateAttributeDependencies;
+		    this.orderAssociationsCheckbox.Checked = this.settings.orderAssociationsAlphabetically;
 		}
 		private void enableDisable()
 		{
@@ -100,6 +102,9 @@ namespace ECDMMessageComposer
 		    //tracebility tag names
 		    this.settings.sourceAttributeTagName = this.attributeTagTextBox.Text;
 		    this.settings.sourceAssociationTagName = this.associationTagTextBox.Text;
+		    //xml schema settings
+		    this.settings.dontCreateAttributeDependencies = this.noAttributeDependenciesCheckbox.Checked;
+		    this.settings.orderAssociationsAlphabetically = this.orderAssociationsCheckbox.Checked;
 			//save changes
 			this.settings.save();
 		}
@@ -198,6 +203,8 @@ namespace ECDMMessageComposer
 		{
 			this.enableDisable();
 		}
+
+
 	
 	}
 }

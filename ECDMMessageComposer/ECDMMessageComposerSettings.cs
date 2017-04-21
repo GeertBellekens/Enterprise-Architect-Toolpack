@@ -288,6 +288,30 @@ namespace ECDMMessageComposer
 				this.setListValue("hiddenElementTypes",value);
 			}
 		}
+
+		public bool dontCreateAttributeDependencies 
+		{
+			get
+			{
+        		return this.getBooleanValue("dontCreateAttributeDependencies");
+			}
+			set
+			{
+				this.setBooleanValue("dontCreateAttributeDependencies",value);
+			}	
+		}
+
+		public bool orderAssociationsAlphabetically 
+		{
+			get
+			{
+        		return this.getBooleanValue("orderAssociationsAlphabetically");
+			}
+			set
+			{
+				this.setBooleanValue("orderAssociationsAlphabetically",value);
+			}
+		}
     }
 }
 
