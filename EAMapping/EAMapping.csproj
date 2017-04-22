@@ -99,12 +99,6 @@
     <Compile Include="MappingControlGUI.Designer.cs">
       <DependentUpon>MappingControlGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="MappingControlGUI2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MappingControlGUI2.Designer.cs">
-      <DependentUpon>MappingControlGUI2.cs</DependentUpon>
-    </Compile>
     <Compile Include="MappingSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,9 +137,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MappingControlGUI.resx">
       <DependentUpon>MappingControlGUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MappingControlGUI2.resx">
-      <DependentUpon>MappingControlGUI2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MappingSettingsForm.resx">
       <DependentUpon>MappingSettingsForm.cs</DependentUpon>

@@ -30,6 +30,9 @@ namespace EAMapping
 		}
 		public void loadMappingSet(MappingSet mappingSet )
 		{
+			//clear trees
+			this.trees.LeftTree.Nodes.Clear();
+			this.trees.RightTree.Nodes.Clear();
 			this.mappingSet = mappingSet;
 			// populate left tree with some nodes
 			List<Mapping> mappingList = mappingSet.mappings;
