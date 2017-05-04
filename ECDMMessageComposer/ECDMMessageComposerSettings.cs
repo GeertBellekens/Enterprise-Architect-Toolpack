@@ -312,6 +312,17 @@ namespace ECDMMessageComposer
 				this.setBooleanValue("orderAssociationsAlphabetically",value);
 			}
 		}
+		public bool orderAssociationsAmongstAttributes 
+		{
+			get
+			{
+        		return this.getBooleanValue("orderAssociationsAmongstAttributes");
+			}
+			set
+			{
+				this.setBooleanValue("orderAssociationsAmongstAttributes",value);
+			}
+		}
     }
 }
 

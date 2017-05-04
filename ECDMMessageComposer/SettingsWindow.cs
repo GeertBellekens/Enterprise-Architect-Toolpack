@@ -63,8 +63,10 @@ namespace ECDMMessageComposer
 		    this.checkSecurityCheckBox.Checked = this.settings.checkSecurity;
 		    this.deleteUnusedElementsCheckBox.Checked = this.settings.deleteUnusedSchemaElements;
 		    this.usePackageSubsetsOnlyCheckBox.Checked = this.settings.usePackageSchemasOnly;
+		    //xml schema options
 		    this.noAttributeDependenciesCheckbox.Checked = this.settings.dontCreateAttributeDependencies;
 		    this.orderAssociationsCheckbox.Checked = this.settings.orderAssociationsAlphabetically;
+		    this.orderAssociationsAmongstAttributesCheckbox.Checked = this.settings.orderAssociationsAmongstAttributes;
 		}
 		private void enableDisable()
 		{
@@ -73,6 +75,7 @@ namespace ECDMMessageComposer
 			this.deleteDataTypeButton.Enabled = this.dataTypesGridView.Enabled;
 			this.copyDataTypeGeneralizationsCheckBox.Enabled = this.copyDatatypesCheckbox.Checked;
 			this.notesPrefixTextBox.Enabled = this.prefixNotesCheckBox.Checked;
+			this.orderAssociationsAmongstAttributesCheckbox.Enabled = this.orderAssociationsCheckbox.Checked;
 		}
 		private void saveChanges()
 		{
@@ -105,6 +108,7 @@ namespace ECDMMessageComposer
 		    //xml schema settings
 		    this.settings.dontCreateAttributeDependencies = this.noAttributeDependenciesCheckbox.Checked;
 		    this.settings.orderAssociationsAlphabetically = this.orderAssociationsCheckbox.Checked;
+		    this.settings.orderAssociationsAmongstAttributes = this.orderAssociationsAmongstAttributesCheckbox.Checked;
 			//save changes
 			this.settings.save();
 		}
@@ -200,6 +204,10 @@ namespace ECDMMessageComposer
 			this.enableDisable();
 		}
 		void PrefixNotesCheckBoxCheckedChanged(object sender, EventArgs e)
+		{
+			this.enableDisable();
+		}
+		void OrderAssociationsCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			this.enableDisable();
 		}
