@@ -81,6 +81,8 @@ namespace ECDMMessageComposer
 		            break;
 		       case menuSettings:
 		            new SettingsWindow(this.settings).ShowDialog();
+		            //in case the tagged values have changed names
+		            this.checkTaggedValueTypes();
 		            break;
 			}
 		}
@@ -139,18 +141,25 @@ namespace ECDMMessageComposer
 			{
 				if (!this.EAModel.taggedValueTypeExists(this.settings.sourceAttributeTagName))
 				{
-					string sourceAttributeTagDetail = 
-	@"Type=RefGUID;
-	Values=Attribute;
-	AppliesTo=Attribute;";
+					const string sourceAttributeTagDetail = @"Type=RefGUID;
+Values=Attribute;
+AppliesTo=Attribute;";
 						this.EAModel.addTaggedValueType(this.settings.sourceAttributeTagName,"is derived from this Attribute",sourceAttributeTagDetail);
 				}
 				if (!this.EAModel.taggedValueTypeExists(this.settings.sourceAssociationTagName))
 				{
-					string sourceAssociationTagDetail = 
-	@"Type=String;
-	AppliesTo=Association,Aggregation;";
+					const string sourceAssociationTagDetail = @"Type=String;
+AppliesTo=Association,Aggregation;";
 						this.EAModel.addTaggedValueType(this.settings.sourceAssociationTagName,"is derived from this Association",sourceAssociationTagDetail);
+				}
+				if (this.settings.tvInsteadOfTrace 
+				    && this.settings.elementTagName.Length > 0 
+					&& !this.EAModel.taggedValueTypeExists(this.settings.elementTagName))
+				{
+					const string elementTagDetail = @"Type=RefGUID;
+Values=Class;DataType;Enumeration;PrimitiveType;
+AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
+						this.EAModel.addTaggedValueType(this.settings.elementTagName,"is derived from this Element",elementTagDetail);
 				}
  			}
 		}

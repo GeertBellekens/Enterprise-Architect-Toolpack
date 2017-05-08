@@ -323,6 +323,30 @@ namespace ECDMMessageComposer
 				this.setBooleanValue("orderAssociationsAmongstAttributes",value);
 			}
 		}
+
+		public bool tvInsteadOfTrace 
+		{
+			get
+			{
+        		return this.getBooleanValue("tvInsteadOfTrace");
+			}
+			set
+			{
+				this.setBooleanValue("tvInsteadOfTrace",value);
+			}
+		}
+
+		public string elementTagName 
+        {
+        	get
+			{
+				return this.getValue("elementTagName");
+			}
+			set
+			{
+				this.setValue("elementTagName",value);
+			}
+		}
     }
 }
 

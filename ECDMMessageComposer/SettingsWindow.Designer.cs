@@ -54,6 +54,9 @@ namespace ECDMMessageComposer
         private System.Windows.Forms.CheckBox orderAssociationsCheckbox;
         private System.Windows.Forms.CheckBox noAttributeDependenciesCheckbox;
         private System.Windows.Forms.CheckBox orderAssociationsAmongstAttributesCheckbox;
+        private System.Windows.Forms.Label elementTagLabel;
+        private System.Windows.Forms.TextBox elementTagTextBox;
+        private System.Windows.Forms.CheckBox tvInsteadOfTraceCheckBox;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -113,6 +116,9 @@ namespace ECDMMessageComposer
 			this.prefixNotesCheckBox = new System.Windows.Forms.CheckBox();
 			this.RedirectGeneralizationsCheckBox = new System.Windows.Forms.CheckBox();
 			this.xmlSchemaGroup = new System.Windows.Forms.GroupBox();
+			this.elementTagLabel = new System.Windows.Forms.Label();
+			this.elementTagTextBox = new System.Windows.Forms.TextBox();
+			this.tvInsteadOfTraceCheckBox = new System.Windows.Forms.CheckBox();
 			this.orderAssociationsAmongstAttributesCheckbox = new System.Windows.Forms.CheckBox();
 			this.orderAssociationsCheckbox = new System.Windows.Forms.CheckBox();
 			this.noAttributeDependenciesCheckbox = new System.Windows.Forms.CheckBox();
@@ -165,7 +171,7 @@ namespace ECDMMessageComposer
 			// okButton
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(496, 483);
+			this.okButton.Location = new System.Drawing.Point(496, 542);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 2;
@@ -177,7 +183,7 @@ namespace ECDMMessageComposer
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(577, 483);
+			this.cancelButton.Location = new System.Drawing.Point(577, 542);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 3;
@@ -188,7 +194,7 @@ namespace ECDMMessageComposer
 			// applyButton
 			// 
 			this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.applyButton.Location = new System.Drawing.Point(658, 483);
+			this.applyButton.Location = new System.Drawing.Point(658, 542);
 			this.applyButton.Name = "applyButton";
 			this.applyButton.Size = new System.Drawing.Size(75, 23);
 			this.applyButton.TabIndex = 4;
@@ -255,10 +261,10 @@ namespace ECDMMessageComposer
 			this.diagramOptionsGroupBox.Controls.Add(this.hiddenElementGrid);
 			this.diagramOptionsGroupBox.Controls.Add(this.addSourceElementCheckBox);
 			this.diagramOptionsGroupBox.Controls.Add(this.addDataTypesCheckBox);
-			this.diagramOptionsGroupBox.Location = new System.Drawing.Point(376, 303);
+			this.diagramOptionsGroupBox.Location = new System.Drawing.Point(14, 389);
 			this.diagramOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 75);
 			this.diagramOptionsGroupBox.Name = "diagramOptionsGroupBox";
-			this.diagramOptionsGroupBox.Size = new System.Drawing.Size(357, 174);
+			this.diagramOptionsGroupBox.Size = new System.Drawing.Size(357, 158);
 			this.diagramOptionsGroupBox.TabIndex = 8;
 			this.diagramOptionsGroupBox.TabStop = false;
 			this.diagramOptionsGroupBox.Text = "Diagram Options";
@@ -266,7 +272,7 @@ namespace ECDMMessageComposer
 			// deleteHiddenElementButton
 			// 
 			this.deleteHiddenElementButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.deleteHiddenElementButton.Location = new System.Drawing.Point(276, 146);
+			this.deleteHiddenElementButton.Location = new System.Drawing.Point(276, 130);
 			this.deleteHiddenElementButton.Name = "deleteHiddenElementButton";
 			this.deleteHiddenElementButton.Size = new System.Drawing.Size(75, 23);
 			this.deleteHiddenElementButton.TabIndex = 9;
@@ -275,7 +281,8 @@ namespace ECDMMessageComposer
 			// 
 			// hiddenElementGrid
 			// 
-			this.hiddenElementGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.hiddenElementGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.hiddenElementGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.hiddenElementGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
 			this.dataGridViewTextBoxColumn3});
@@ -283,7 +290,7 @@ namespace ECDMMessageComposer
 			this.hiddenElementGrid.Name = "hiddenElementGrid";
 			this.hiddenElementGrid.RowHeadersVisible = false;
 			this.hiddenElementGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.hiddenElementGrid.Size = new System.Drawing.Size(176, 121);
+			this.hiddenElementGrid.Size = new System.Drawing.Size(176, 105);
 			this.hiddenElementGrid.TabIndex = 8;
 			// 
 			// dataGridViewTextBoxColumn3
@@ -295,7 +302,6 @@ namespace ECDMMessageComposer
 			// 
 			// addSourceElementCheckBox
 			// 
-			this.addSourceElementCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.addSourceElementCheckBox.Location = new System.Drawing.Point(7, 49);
 			this.addSourceElementCheckBox.Name = "addSourceElementCheckBox";
 			this.addSourceElementCheckBox.Size = new System.Drawing.Size(143, 24);
@@ -305,7 +311,6 @@ namespace ECDMMessageComposer
 			// 
 			// addDataTypesCheckBox
 			// 
-			this.addDataTypesCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.addDataTypesCheckBox.Location = new System.Drawing.Point(7, 19);
 			this.addDataTypesCheckBox.Name = "addDataTypesCheckBox";
 			this.addDataTypesCheckBox.Size = new System.Drawing.Size(104, 24);
@@ -401,7 +406,7 @@ namespace ECDMMessageComposer
 			this.traceabilityGroupBox.Controls.Add(this.associationTagTextBox);
 			this.traceabilityGroupBox.Controls.Add(this.attributeTagLabel);
 			this.traceabilityGroupBox.Controls.Add(this.attributeTagTextBox);
-			this.traceabilityGroupBox.Location = new System.Drawing.Point(378, 221);
+			this.traceabilityGroupBox.Location = new System.Drawing.Point(383, 201);
 			this.traceabilityGroupBox.Name = "traceabilityGroupBox";
 			this.traceabilityGroupBox.Size = new System.Drawing.Size(357, 76);
 			this.traceabilityGroupBox.TabIndex = 10;
@@ -520,15 +525,43 @@ namespace ECDMMessageComposer
 			// 
 			// xmlSchemaGroup
 			// 
+			this.xmlSchemaGroup.Controls.Add(this.elementTagLabel);
+			this.xmlSchemaGroup.Controls.Add(this.elementTagTextBox);
+			this.xmlSchemaGroup.Controls.Add(this.tvInsteadOfTraceCheckBox);
 			this.xmlSchemaGroup.Controls.Add(this.orderAssociationsAmongstAttributesCheckbox);
 			this.xmlSchemaGroup.Controls.Add(this.orderAssociationsCheckbox);
 			this.xmlSchemaGroup.Controls.Add(this.noAttributeDependenciesCheckbox);
-			this.xmlSchemaGroup.Location = new System.Drawing.Point(20, 390);
+			this.xmlSchemaGroup.Location = new System.Drawing.Point(388, 283);
 			this.xmlSchemaGroup.Name = "xmlSchemaGroup";
-			this.xmlSchemaGroup.Size = new System.Drawing.Size(345, 112);
+			this.xmlSchemaGroup.Size = new System.Drawing.Size(345, 193);
 			this.xmlSchemaGroup.TabIndex = 12;
 			this.xmlSchemaGroup.TabStop = false;
 			this.xmlSchemaGroup.Text = "XML Schema Options";
+			// 
+			// elementTagLabel
+			// 
+			this.elementTagLabel.Location = new System.Drawing.Point(6, 139);
+			this.elementTagLabel.Name = "elementTagLabel";
+			this.elementTagLabel.Size = new System.Drawing.Size(100, 17);
+			this.elementTagLabel.TabIndex = 13;
+			this.elementTagLabel.Text = "Element Tag";
+			// 
+			// elementTagTextBox
+			// 
+			this.elementTagTextBox.Location = new System.Drawing.Point(6, 159);
+			this.elementTagTextBox.Name = "elementTagTextBox";
+			this.elementTagTextBox.Size = new System.Drawing.Size(164, 20);
+			this.elementTagTextBox.TabIndex = 12;
+			// 
+			// tvInsteadOfTraceCheckBox
+			// 
+			this.tvInsteadOfTraceCheckBox.Location = new System.Drawing.Point(6, 112);
+			this.tvInsteadOfTraceCheckBox.Name = "tvInsteadOfTraceCheckBox";
+			this.tvInsteadOfTraceCheckBox.Size = new System.Drawing.Size(276, 24);
+			this.tvInsteadOfTraceCheckBox.TabIndex = 11;
+			this.tvInsteadOfTraceCheckBox.Text = "Use Tagged Values instead of Trace";
+			this.tvInsteadOfTraceCheckBox.UseVisualStyleBackColor = true;
+			this.tvInsteadOfTraceCheckBox.CheckedChanged += new System.EventHandler(this.TtvInsteadOfTraceCheckBoxCheckedChanged);
 			// 
 			// orderAssociationsAmongstAttributesCheckbox
 			// 
@@ -564,7 +597,7 @@ namespace ECDMMessageComposer
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(745, 514);
+			this.ClientSize = new System.Drawing.Size(745, 573);
 			this.Controls.Add(this.xmlSchemaGroup);
 			this.Controls.Add(this.deleteTaggedValueButton);
 			this.Controls.Add(this.deleteStereotypeButton);
@@ -598,6 +631,7 @@ namespace ECDMMessageComposer
 			this.GeneralGroupBox.ResumeLayout(false);
 			this.GeneralGroupBox.PerformLayout();
 			this.xmlSchemaGroup.ResumeLayout(false);
+			this.xmlSchemaGroup.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
