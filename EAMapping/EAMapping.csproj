@@ -99,6 +99,7 @@
     <Compile Include="MappingControlGUI.Designer.cs">
       <DependentUpon>MappingControlGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="MappingLine.cs" />
     <Compile Include="MappingSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImportMappingForm.resx">
       <DependentUpon>ImportMappingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LinkedTreeViews.resx">
+      <DependentUpon>LinkedTreeViews.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MappingControl.resx">
       <DependentUpon>MappingControl.cs</DependentUpon>

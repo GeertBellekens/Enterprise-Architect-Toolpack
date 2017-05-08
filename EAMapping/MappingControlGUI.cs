@@ -24,9 +24,6 @@ namespace EAMapping
 			//
 			InitializeComponent();
 			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
 		}
 		public void loadMappingSet(MappingSet mappingSet )
 		{
@@ -65,12 +62,12 @@ namespace EAMapping
 		public event EventHandler selectTarget = delegate { }; 
 		void GoToSourceButtonClick(object sender, EventArgs e)
 		{
-			selectSource(this.selectedMapping,e);
+			if (this.selectedMapping != null) selectSource(this.selectedMapping,e);
 		}
 		public event EventHandler selectSource = delegate { }; 
 		void GoToTargetButtonClick(object sender, EventArgs e)
 		{
-			selectTarget(this.selectedMapping,e);
+			if (this.selectedMapping != null) selectTarget(this.selectedMapping,e);
 		}
 		public event EventHandler exportMappingSet = delegate { }; 
 		void ExportButtonClick(object sender, EventArgs e)
@@ -81,15 +78,7 @@ namespace EAMapping
 		{
 			get
 			{
-				//TODO: fix code to get the selected mapping
-				//check if the left node is selected
-				var leftnode = trees.LeftTree.SelectedNode as LinkedTreeNode;
-				if (leftnode != null) return leftnode.mapping;
-				//check if right node is selected
-				var rightnode = trees.RightTree.SelectedNode as LinkedTreeNode;
-				if (leftnode != null) return rightnode.mapping;
-				//if none is selected return null
-				return null;
+				return this.trees.selectedMapping;
 			}
 		}		
         public void PopulateTree(LinkedTreeView treeView, ICollection<LinkedTreeNode> items, char pathSeparator)
@@ -253,9 +242,11 @@ namespace EAMapping
                     LinkedTreeNode l = LTN[0];
                     LinkedTreeNode r = RTN[0];
                     l.LinkTo(r);
+                    //add mapping to both LinkedtreeNodes
+                    l.mapping = m;
+                    r.mapping = m;
                 }
-        }
-
+    		}
             
         }
 	}
