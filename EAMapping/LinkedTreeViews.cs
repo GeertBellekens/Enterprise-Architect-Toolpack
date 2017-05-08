@@ -18,6 +18,9 @@ namespace EAMapping
         List<MappingLine> mappingLines {get;set;}
         public Mapping selectedMapping {get;private set;}
         
+        private Color defaultLineColor = Color.FromArgb(255, 128, 128, 128);
+        private Color selectedLineColor = Color.DarkBlue;
+        
         public LinkedTreeViews()
         {
         	//use the resources for images
@@ -89,7 +92,7 @@ namespace EAMapping
         {
         	Graphics g = this.CreateGraphics();
         	g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-        	MappingLine line = new MappingLine(Color.FromArgb(255, 128, 128, 128),3,node.ExternalEndPoint, node.OtherNode.ExternalEndPoint,node.mapping);
+        	MappingLine line = new MappingLine(defaultLineColor,3,node.ExternalEndPoint, node.OtherNode.ExternalEndPoint,node.mapping);
         	this.mappingLines.Add(line);
         	line.Draw(g);
             //draw mapping logic
@@ -103,18 +106,23 @@ namespace EAMapping
 
 		void mappingLineClicked(object sender, MouseEventArgs e)
 		{
+			Graphics g = this.CreateGraphics();
+        	g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			foreach(var mappingLine in this.mappingLines)
 			{
 				if (mappingLine.HitTest(e.Location))
 				{
-					mappingLine.LineColor = Color.DarkBlue;
-					Graphics g = this.CreateGraphics();
-        			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-					mappingLine.Draw(g);
+					mappingLine.LineColor = selectedLineColor;
 					this.selectedMapping = mappingLine.mapping;
 				}
-			}
+				else
+				{
+					mappingLine.LineColor = defaultLineColor;
+				}
+				mappingLine.Draw(g);
+			}	
 		}
+		
 		void drawMappingLogicIcon(Point start, Point end, MappingFramework.Mapping mapping)
 		{
 			var logicIcon = ((System.Drawing.Image)(resources.GetObject("Mapping Logic icon")));
