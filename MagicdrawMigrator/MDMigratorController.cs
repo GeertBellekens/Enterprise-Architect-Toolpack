@@ -36,6 +36,7 @@ namespace MagicdrawMigrator
 			if (mdPackage !=null)
 			{
 				correctors.Add(new SetStructureCorrector(magicDrawReader,model,mdPackage));
+				correctors.Add(new OCLConstraintsCorrector(magicDrawReader,model,mdPackage));
 			}
 		}
 		public TSF_EA.Package getMagicDrawPackage()
