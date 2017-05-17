@@ -13,6 +13,7 @@ namespace MagicdrawMigrator
 	/// </summary>
 	public partial class MDMigratorForm : Form
 	{
+		
 		MDMigratorController controller {get;set;}
 		public MDMigratorForm(MDMigratorController controller)
 		{

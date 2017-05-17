@@ -45,9 +45,10 @@ namespace MagicdrawMigrator
 			// startCorrectionButton
 			// 
 			this.startCorrectionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.startCorrectionButton.Location = new System.Drawing.Point(142, 101);
+			this.startCorrectionButton.Location = new System.Drawing.Point(189, 124);
+			this.startCorrectionButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.startCorrectionButton.Name = "startCorrectionButton";
-			this.startCorrectionButton.Size = new System.Drawing.Size(137, 31);
+			this.startCorrectionButton.Size = new System.Drawing.Size(183, 38);
 			this.startCorrectionButton.TabIndex = 0;
 			this.startCorrectionButton.Text = "Start Corrections";
 			this.startCorrectionButton.UseVisualStyleBackColor = true;
@@ -56,9 +57,10 @@ namespace MagicdrawMigrator
 			// browseDefaultPropertiesFileButton
 			// 
 			this.browseDefaultPropertiesFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.browseDefaultPropertiesFileButton.Location = new System.Drawing.Point(311, 117);
+			this.browseDefaultPropertiesFileButton.Location = new System.Drawing.Point(415, 144);
+			this.browseDefaultPropertiesFileButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.browseDefaultPropertiesFileButton.Name = "browseDefaultPropertiesFileButton";
-			this.browseDefaultPropertiesFileButton.Size = new System.Drawing.Size(24, 20);
+			this.browseDefaultPropertiesFileButton.Size = new System.Drawing.Size(32, 25);
 			this.browseDefaultPropertiesFileButton.TabIndex = 12;
 			this.browseDefaultPropertiesFileButton.Text = "...";
 			this.browseDefaultPropertiesFileButton.UseVisualStyleBackColor = true;
@@ -67,26 +69,29 @@ namespace MagicdrawMigrator
 			// 
 			this.mdzipPathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.mdzipPathTextBox.Location = new System.Drawing.Point(12, 35);
-			this.mdzipPathTextBox.MinimumSize = new System.Drawing.Size(153, 20);
+			this.mdzipPathTextBox.Location = new System.Drawing.Point(16, 43);
+			this.mdzipPathTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.mdzipPathTextBox.MinimumSize = new System.Drawing.Size(203, 20);
 			this.mdzipPathTextBox.Name = "mdzipPathTextBox";
-			this.mdzipPathTextBox.Size = new System.Drawing.Size(237, 20);
+			this.mdzipPathTextBox.Size = new System.Drawing.Size(315, 22);
 			this.mdzipPathTextBox.TabIndex = 11;
 			// 
 			// mdZipPathlabel
 			// 
-			this.mdZipPathlabel.Location = new System.Drawing.Point(12, 9);
+			this.mdZipPathlabel.Location = new System.Drawing.Point(16, 11);
+			this.mdZipPathlabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.mdZipPathlabel.Name = "mdZipPathlabel";
-			this.mdZipPathlabel.Size = new System.Drawing.Size(141, 23);
+			this.mdZipPathlabel.Size = new System.Drawing.Size(188, 28);
 			this.mdZipPathlabel.TabIndex = 13;
 			this.mdZipPathlabel.Text = "MagicDraw MDzip Folder";
 			// 
 			// browseMDZipFolder
 			// 
 			this.browseMDZipFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.browseMDZipFolder.Location = new System.Drawing.Point(255, 34);
+			this.browseMDZipFolder.Location = new System.Drawing.Point(340, 42);
+			this.browseMDZipFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.browseMDZipFolder.Name = "browseMDZipFolder";
-			this.browseMDZipFolder.Size = new System.Drawing.Size(24, 20);
+			this.browseMDZipFolder.Size = new System.Drawing.Size(32, 25);
 			this.browseMDZipFolder.TabIndex = 14;
 			this.browseMDZipFolder.Text = "...";
 			this.browseMDZipFolder.UseVisualStyleBackColor = true;
@@ -94,14 +99,15 @@ namespace MagicdrawMigrator
 			// 
 			// MDMigratorForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(291, 144);
+			this.ClientSize = new System.Drawing.Size(388, 177);
 			this.Controls.Add(this.browseMDZipFolder);
 			this.Controls.Add(this.browseDefaultPropertiesFileButton);
 			this.Controls.Add(this.mdzipPathTextBox);
 			this.Controls.Add(this.mdZipPathlabel);
 			this.Controls.Add(this.startCorrectionButton);
+			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.Name = "MDMigratorForm";
 			this.Text = "Magicdraw Migrator";
 			this.ResumeLayout(false);

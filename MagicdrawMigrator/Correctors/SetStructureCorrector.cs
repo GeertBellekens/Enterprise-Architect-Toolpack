@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using TSF_EA =TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
+using System.Diagnostics;
 
 
 namespace MagicdrawMigrator
@@ -20,7 +21,10 @@ namespace MagicdrawMigrator
 
 		public override void correct()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
+			Debug.WriteLine(mdZipPath + " - " + model.ToString() + " - " + mdPackage.ToString() );
+				
+			
 		}
 
 		#endregion
