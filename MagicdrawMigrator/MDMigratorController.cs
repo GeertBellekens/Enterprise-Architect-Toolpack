@@ -32,9 +32,10 @@ namespace MagicdrawMigrator
 		public void createCorrectors(string mdzipPath)
 		{
 			var mdPackage = getMagicDrawPackage();
+			var magicDrawReader = new MagicDrawReader(mdzipPath);
 			if (mdPackage !=null)
 			{
-				correctors.Add(new SetStructureCorrector(mdzipPath,model,mdPackage));
+				correctors.Add(new SetStructureCorrector(magicDrawReader,model,mdPackage));
 			}
 		}
 		public TSF_EA.Package getMagicDrawPackage()

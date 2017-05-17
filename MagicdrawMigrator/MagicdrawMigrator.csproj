@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Correctors\MagicDrawCorrector.cs" />
     <Compile Include="Correctors\SetStructureCorrector.cs" />
+    <Compile Include="MagicDrawReader.cs" />
     <Compile Include="MDMigratorForm.cs" />
     <Compile Include="MDMigratorForm.Designer.cs">
       <DependentUpon>MDMigratorForm.cs</DependentUpon>

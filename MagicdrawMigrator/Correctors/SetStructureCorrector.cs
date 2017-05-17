@@ -12,7 +12,7 @@ namespace MagicdrawMigrator
 	/// </summary>
 	public class SetStructureCorrector:MagicDrawCorrector
 	{
-		public SetStructureCorrector(string mdZipPath, TSF_EA.Model model, TSF_EA.Package mdPackage ):base(mdZipPath,model,mdPackage)
+		public SetStructureCorrector(MagicDrawReader magicDrawReader, TSF_EA.Model model, TSF_EA.Package mdPackage ):base(magicDrawReader,model,mdPackage)
 		{
 		}
 

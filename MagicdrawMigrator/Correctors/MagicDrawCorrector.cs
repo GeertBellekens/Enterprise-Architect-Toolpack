@@ -12,11 +12,11 @@ namespace MagicdrawMigrator
 	public abstract class MagicDrawCorrector
 	{
 		protected TSF_EA.Model model {get;set;}
-		protected string mdZipPath {get;set;}
+		protected MagicDrawReader magicDrawReader {get;set;}
 		protected TSF_EA.Package mdPackage{get;set;}
-		protected MagicDrawCorrector(string mdZipPath, TSF_EA.Model model, TSF_EA.Package mdPackage)
+		protected MagicDrawCorrector(MagicDrawReader magicDrawReader, TSF_EA.Model model, TSF_EA.Package mdPackage)
 		{
-			this.mdZipPath = mdZipPath;
+			this.magicDrawReader = magicDrawReader;
 			this.model = model;
 			this.mdPackage = mdPackage;
 		}
