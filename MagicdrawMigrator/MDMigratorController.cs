@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System;
+using EAAddinFramework.Utilities;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
 using System.Windows.Forms;
@@ -24,6 +25,9 @@ namespace MagicdrawMigrator
 		{
 			//create correctors
 			createCorrectors(mdzipPath);
+			//clear the log
+			EAOutputLogger.clearLog(this.model, correctors[0].outputName);
+			//start correcting
 			foreach (var corrector in this.correctors) 
 			{
 				corrector.correct();

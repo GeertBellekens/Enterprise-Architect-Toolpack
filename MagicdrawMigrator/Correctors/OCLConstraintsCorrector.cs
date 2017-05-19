@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System;
+using EAAddinFramework.Utilities;
 using TSF_EA =TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
 
@@ -28,7 +29,14 @@ namespace MagicdrawMigrator
 			var messageAssemblies = this.model.getElementWrappersByQuery(getMessageAssembliesSQL);
 			foreach (var messageAssembly in messageAssemblies) 
 			{
-				var mdIDTag = messageAssembly.taggedValues.FirstOrDefault( x => x.name == "m_guid");
+				EAOutputLogger.log(this.model,this.outputName
+				                   ,string.Format("{0} Correcting OCL Constraints for '{1}' in package '{2}'"
+				                                  ,DateTime.Now.ToLongTimeString()
+				                                  ,messageAssembly.name
+				                                  ,messageAssembly.owningPackage.name)
+				                   ,messageAssembly.id
+				                  ,LogTypeEnum.log);
+				var mdIDTag = messageAssembly.taggedValues.FirstOrDefault( x => x.name == "md_guid");
 				if (mdIDTag != null)
 				{
 					string mdID = mdIDTag.tagValue.ToString();

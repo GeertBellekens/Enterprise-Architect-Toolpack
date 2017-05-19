@@ -14,11 +14,14 @@ namespace MagicdrawMigrator
 		protected TSF_EA.Model model {get;set;}
 		protected MagicDrawReader magicDrawReader {get;set;}
 		protected TSF_EA.Package mdPackage{get;set;}
+		public string outputName {get;private set;}
+
 		protected MagicDrawCorrector(MagicDrawReader magicDrawReader, TSF_EA.Model model, TSF_EA.Package mdPackage)
 		{
 			this.magicDrawReader = magicDrawReader;
 			this.model = model;
 			this.mdPackage = mdPackage;
+			this.outputName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
 		}
 		public abstract void correct();
 	}
