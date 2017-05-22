@@ -22,8 +22,32 @@ namespace MagicdrawMigrator
 		public override void correct()
 		{
 			//throw new NotImplementedException();
-			Debug.WriteLine(mdZipPath + " - " + model.ToString() + " - " + mdPackage.ToString() );
+			//Debug.WriteLine(model.ToString() + " - " + mdPackage.ToString() );
+			
+			
+			var package = (TSF_EA.Package)mdPackage.nestedPackages.FirstOrDefault();
+			if (package != null)
+			{
+				foreach (TSF_EA.Package dataPackage in mdPackage.nestedPackages)
+				{
+					foreach (TSF_EA.Package workPackage in dataPackage.nestedPackages)
+					{
+						//checken of er al een package met die naam bestaat
+						
+						//als er zo een package bestaat -> inhoud van deze package naar die package verplaatsen
+						
+						//als die package nog niet bestaat, gehele package kopiëren
+						workPackage.owningPackage = package;
+						
+					}
+				}
+			}
+			
+		
+			
 				
+				
+			
 			
 		}
 
