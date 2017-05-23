@@ -16,6 +16,8 @@ namespace MagicdrawMigrator
 	public class MagicDrawReader
 	{
 		string mdzipPath {get;set;}
+		Dictionary<string,string> _allLinkedAssociationTables;
+		
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		Dictionary<string,XmlDocument> sourceFiles
@@ -71,6 +73,17 @@ namespace MagicdrawMigrator
 					//add the xml documents to the dictionary of source files
 					this._sourceFiles.Add(subDirectory.Name + "_SharedModel",xmlModel);
 				}
+			}
+		}
+		public Dictionary<string,string> allLinkedAssociationTables
+		{
+			get
+			{
+				if (_allLinkedAssociationTables == null)
+				{
+					this.getAllAssociationTables();
+				}
+				return _allLinkedAssociationTables;
 			}
 		}
 		public List<MDConstraint> getContraints(string MDElementID)
@@ -164,6 +177,55 @@ namespace MagicdrawMigrator
 				} 
 			}
 			return foundConstraints;
+		}
+		private void getAllAssociationTables()
+		{
+			var foundTables = new Dictionary<string,string>();
+			//find the comment nodes containing the association tables.
+			//these are on the diagrams in MagicDraw.
+			foreach (var sourceFile in this.sourceFiles.Values) 
+			{
+				foreach (XmlNode constraintNode in sourceFile.SelectNodes("//ownedDiagram/ownedComment"))
+				{
+					
+					//get the body attribute and check if it starts with "'&lt;" (html content)
+					try
+					{
+						XmlAttribute bodyAttribute = constraintNode.Attributes["body"];
+						if (bodyAttribute.Value.StartsWith("<html>"))
+					    {
+					    	//we have html comments
+					    	//get the parentPackage node
+					    	XmlNode packageNode = constraintNode.ParentNode.ParentNode.ParentNode.ParentNode;
+					    	if (packageNode.Name == "packagedElement" && packageNode.Attributes["xmi:type"].Value == "uml:Package" )
+					    	{
+					    		//OK we have the package node. Now check if it contains a class with the same name as the diagram
+						    	//check if there is a class in the owning package with the same name
+						    	foreach (XmlNode ownedElementNode in packageNode.ChildNodes) 
+						    	{
+						    		if (ownedElementNode.Name == "packagedElement" 
+						    		    && ownedElementNode.Attributes["xmi:type"].Value == "uml:Class" //is of type class
+						    		    && ownedElementNode.Attributes["name"].Value.Equals(constraintNode.ParentNode.Attributes["name"].Value,StringComparison.InvariantCultureIgnoreCase)) //name corresponds to the diagram
+						    		{
+						    			string tableID = ownedElementNode.Attributes["xmi:id"].Value;
+						    			if (! foundTables.ContainsKey(tableID))
+						    			{
+						    				//actually add the association table to the list
+						    				foundTables.Add(tableID,bodyAttribute.Value);
+						    			}
+						    		}
+						    	}
+					    	}
+					    }
+					}
+					catch(NullReferenceException)
+					{
+						//do nothing, constraints without name cannor be created
+					}				
+				}
+			}
+			//save the association tables
+			_allLinkedAssociationTables = foundTables; 
 			
 		}
 	}

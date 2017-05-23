@@ -21,11 +21,16 @@ namespace MagicdrawMigrator
 
 		public override void correct()
 		{
+			EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Starting Corrections for OCL Constraints'"
+	                                  ,DateTime.Now.ToLongTimeString())
+	                   ,0
+	                  ,LogTypeEnum.log);
 			//loop all classes that have MA as stereotype
 			string getMessageAssembliesSQL = "select o.Object_ID from t_object o"
 											+ " where o.Stereotype = 'MA'"
 											+ " and o.Object_Type = 'Class'"
-				+ " and o.Package_ID in (" + mdPackage.getPackageIDString(mdPackage.getNestedPackageTree(true)) + ")";
+				+ " and o.Package_ID in (" + mdPackage.getPackageTreeIDString() + ")";
 			var messageAssemblies = this.model.getElementWrappersByQuery(getMessageAssembliesSQL);
 			foreach (var messageAssembly in messageAssemblies) 
 			{
@@ -60,6 +65,11 @@ namespace MagicdrawMigrator
 					
 				}
 			}
+			EAOutputLogger.log(this.model,this.outputName
+           ,string.Format("{0} Finished Corrections for OCL Constraints'"
+                          ,DateTime.Now.ToLongTimeString())
+           ,0
+          ,LogTypeEnum.log);
 		}
 
 		#endregion
