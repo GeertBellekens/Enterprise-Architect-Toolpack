@@ -39,8 +39,8 @@ namespace MagicdrawMigrator
 			var magicDrawReader = new MagicDrawReader(mdzipPath);
 			if (mdPackage !=null)
 			{
-				correctors.Add(new SetStructureCorrector(magicDrawReader,model,mdPackage));
-				correctors.Add(new OCLConstraintsCorrector(magicDrawReader,model,mdPackage));
+//				correctors.Add(new SetStructureCorrector(magicDrawReader,model,mdPackage));
+//				correctors.Add(new OCLConstraintsCorrector(magicDrawReader,model,mdPackage));
 				correctors.Add(new AssociationTableCorrector(magicDrawReader,model,mdPackage));
 			}
 		}

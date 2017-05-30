@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System;
 using System.Windows.Forms;
 using EAAddinFramework.Utilities;
 using TSF_EA =TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace MagicdrawMigrator
 {
@@ -33,21 +35,25 @@ namespace MagicdrawMigrator
 				string sqlGetElements = @"select tv.Object_ID from t_objectproperties tv
 										where tv.Property = 'md_guid'
 										and tv.Value = '"+mdID +"'";
-				var associatedElement = this.model.getElementWrappersByQuery(sqlGetElements).FirstOrDefault();
-				if (associatedElement != null)
+				var associatedElements = this.model.getElementWrappersByQuery(sqlGetElements);
+				foreach (var associatedElement in associatedElements) 
 				{
-					EAOutputLogger.log(this.model,this.outputName
-				                   ,string.Format("{0} Adding Association table for '{1}' in package '{2}'"
-				                                  ,DateTime.Now.ToLongTimeString()
-				                                  ,associatedElement.name
-				                                  ,associatedElement.owningPackage.name)
-				                   ,associatedElement.id
-				                  ,LogTypeEnum.log);
-					//convert the html into RTF
-					string rtfContent = this.convertHTMLToRTF(magicDrawReader.allLinkedAssociationTables[mdID]);
-					//create linked document on the element
-					associatedElement.linkedDocument = rtfContent;
+					if (associatedElement != null)
+					{
+						EAOutputLogger.log(this.model,this.outputName
+					                   ,string.Format("{0} Adding Association table for '{1}' in package '{2}'"
+					                                  ,DateTime.Now.ToLongTimeString()
+					                                  ,associatedElement.name
+					                                  ,associatedElement.owningPackage.name)
+					                   ,associatedElement.id
+					                  ,LogTypeEnum.log);
+						//convert the html into RTF
+						string rtfContent = this.convertHTMLToRTF(magicDrawReader.allLinkedAssociationTables[mdID]);
+						//create linked document on the element
+						associatedElement.linkedDocument = rtfContent;
+					}
 				}
+				
 			}
 			EAOutputLogger.log(this.model,this.outputName
 				                   ,string.Format("{0} Finished Corrections for Association Tables'"
@@ -74,6 +80,7 @@ namespace MagicdrawMigrator
 			rtbTemp.SelectAll();
 			rtbTemp.Paste();
 			return rtbTemp.Rtf;
+
 		}
 
 		#endregion
