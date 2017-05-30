@@ -63,14 +63,22 @@ namespace MagicdrawMigrator
 							{
 								if(hasPackage(workPackage,newData)) 
 								{
-									
 								  // inhoud moven naar desbetreffende package
 								  moveContent(workPackage,getPackage(workPackage,newData));
 								}
 								else 
-								{
-									workPackage.owningPackage = newData;
-									workPackage.save();
+								{					
+									if(workPackage.name == "AT" || workPackage.name == "BE" || workPackage.name == "CH" || workPackage.name == "DE" || workPackage.name == "DK" || workPackage.name == "NL" || workPackage.name == "NO" || workPackage.name == "SE" || workPackage.name == "SI")
+									{
+										var pack = (TSF_EA.Package)model.getElementWrapperByGUID("{AE324957-30D4-41a6-A507-B31E05EE5EA5}");
+										workPackage.owningPackage = pack;
+										workPackage.save();
+									}
+									else
+									{
+										workPackage.owningPackage = newData;
+										workPackage.save();
+									}
 								}
 								
 							}
@@ -102,14 +110,9 @@ namespace MagicdrawMigrator
 		}
 		
 		public void moveContent(TSF_EA.Package subPackage, TSF_EA.Package newData)
-		{
-			if (newData.name == "Belgian Energy Distribution Market") // NULLPOINTER!!!
-			{
-					Debug.WriteLine("here");
-			}
-			
+		{	
 			foreach (TSF_EA.Package p in subPackage.nestedPackages) // de packages onder 'Data' package
-			{				
+			{
 				p.owningPackage = newData;
 				p.save();
 			}
