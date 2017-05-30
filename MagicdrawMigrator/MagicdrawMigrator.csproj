@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Correctors\AssociationTableCorrector.cs" />
+    <Compile Include="Correctors\FixCallBehaviorActionCorrector.cs" />
     <Compile Include="Correctors\MagicDrawCorrector.cs" />
     <Compile Include="Correctors\OCLConstraintsCorrector.cs" />
     <Compile Include="Correctors\SetStructureCorrector.cs" />
