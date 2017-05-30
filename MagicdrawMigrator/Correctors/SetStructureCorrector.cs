@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System;
+using EAAddinFramework.Utilities;
 using TSF_EA =TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
 using System.Diagnostics;
@@ -23,7 +24,12 @@ namespace MagicdrawMigrator
 
 		public override void correct()
 		{
-			
+			//Log start
+			EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Starting Corrections the Package Structure'"
+	                                  ,DateTime.Now.ToLongTimeString())
+	                   ,0
+	                  ,LogTypeEnum.log);
 			// Data package aanmaken dat zal gebruikt worden om alles onder te plaatsen
 			TSF_EA.Package newData = this.model.factory.createNewElement<TSF_EA.Package>(mdPackage,"Data");
 			newData.save();
@@ -32,6 +38,14 @@ namespace MagicdrawMigrator
 			{
 				foreach (TSF_EA.Package dataPackage in mdPackage.nestedPackages) // Doorloopt de Magicdraw Import
 				{	
+					//tell the user which package we are dealing  with
+					EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Correcting package '{1}' with GUID '{2}'"
+	                                  	,DateTime.Now.ToLongTimeString()
+	                                 	,dataPackage.name
+	                                	,dataPackage.guid)
+	                   ,0
+	                  ,LogTypeEnum.log);
 					if (dataPackage.isEmpty)
 					{
 						dataPackage.delete(); //lege packages deleten
@@ -70,19 +84,20 @@ namespace MagicdrawMigrator
 						
 					}
 					
-
-
-//					if(dataPackage.guid != newData.guid)
-//					{
-//						dataPackage.delete();
-//					}
+					//Delete the unneeded packages
+					if(dataPackage.guid != newData.guid)
+					{
+						dataPackage.delete();
+					}
 				}
 
-				
-				
-				
 				mdPackage.refresh();
-				Debug.WriteLine("DONE");
+				//Log Finished
+					EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Finished Corrections the Package Structure'"
+	                                  ,DateTime.Now.ToLongTimeString())
+	                   ,0
+	                  ,LogTypeEnum.log);
 			}
 		}
 		
