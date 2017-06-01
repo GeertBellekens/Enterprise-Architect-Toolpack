@@ -76,13 +76,8 @@ namespace MagicdrawMigrator
 							}
 							else
 							{
-<<<<<<< HEAD
-								Logger.log ("parentID before: " +  workPackage.WrappedPackage.ParentID);
 								workPackage.owningPackage = newData;
-								//debug
-								Logger.log ("parentID after: " +  workPackage.WrappedPackage.ParentID);
 								workPackage.save();
-=======
 								if(hasPackage(workPackage,newData)) 
 								{
 								  // inhoud moven naar desbetreffende package
@@ -103,7 +98,6 @@ namespace MagicdrawMigrator
 									}
 								}
 								
->>>>>>> origin/master
 							}
 						}
 						
