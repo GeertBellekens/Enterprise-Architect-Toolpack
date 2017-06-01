@@ -17,7 +17,7 @@ namespace MagicdrawMigrator
 	{
 		string mdzipPath {get;set;}
 		Dictionary<string,string> _allLinkedAssociationTables;
-		
+		Dictionary<string, MDDiagram> _allDiagrams;
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		Dictionary<string,XmlDocument> sourceFiles
@@ -72,6 +72,16 @@ namespace MagicdrawMigrator
 					xmlModel.Load(sharedModelFile.FullName);
 					//add the xml documents to the dictionary of source files
 					this._sourceFiles.Add(subDirectory.Name + "_SharedModel",xmlModel);
+				}
+			}
+		}
+		public Dictionary<string, MDDiagram> allDiagrams
+		{
+			get
+			{
+				if (_allDiagrams == null)
+				{
+					this.getAllDiagrams();
 				}
 			}
 		}
@@ -178,6 +188,69 @@ namespace MagicdrawMigrator
 			}
 			return foundConstraints;
 		}
+
+		void getAllDiagrams()
+		{
+			var foundDiagrams = new Dictionary<string, MDDiagram>();
+			//first find all the diagram nodes
+			foreach (var sourceFile in this.sourceFiles.Values) 
+			{
+				foreach (XmlNode diagramNode in sourceFile.SelectNodes("//ownedDiagram"))
+				{
+					//get the ID of the diagram. this is a combination of the ID of the owner + the name of the diagram
+					string diagramID = diagramNode.Attributes["ownerOfDiagram"].Value +  diagramNode.Attributes["name"].Value;
+					//get the streamcontentID like <binaryObject streamContentID=BINARY-f9279de7-2e1e-4644-98ca-e1e496b72a22 
+					// because that is the file we need to read and use to figure out the diagramObjects
+					XmlNode binaryObjectNode = diagramNode.SelectSingleNode("./xmi:Extension/diagramRepresentation/diagram:DiagramRepresentationObject/diagramContents/binaryObject");
+					if (binaryObjectNode != null)
+					{
+						MDDiagram currentDiagram;
+						string diagramContentFileName = binaryObjectNode.Attributes["streamContentID"].Value;
+						//get the file with the given name
+						//get the directory of the source file
+						string sourceDirectory = Path.GetDirectoryName(sourceFiles.First(x => x.Value == sourceFile).Key);
+						string diagramFileName = Path.Combine(sourceDirectory,diagramContentFileName);
+						if (File.Exists(diagramFileName))
+						{
+							var xmlDiagram  =new XmlDocument();
+							xmlDiagram.Load(diagramFileName);
+							foreach (XmlNode diagramObjectNode in xmlDiagram.SelectNodes("//mdElement")) 
+							{
+								//get the elementID
+								var elementIDNode = diagramNode.SelectSingleNode("./elementID");
+								if (elementIDNode != null)
+								{
+									string fullHrefString = elementIDNode.Attributes["href"].Value;
+									int seperatorIndex = fullHrefString.IndexOf('#');
+									if (seperatorIndex >= 0 )
+									{
+										string elementID =  fullHrefString.Substring(seperatorIndex);
+										//get the geometry
+										var geometryNode = diagramNode.SelectSingleNode("./geometry");
+										if (geometryNode != null
+										    && ! string.IsNullOrEmpty(geometryNode.InnerText))
+										{
+											if (currentDiagram ==null) currentDiagram = new MDDiagram();
+											var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText);
+											currentDiagram.addDiagramObject(diagramObject);
+										}
+									}
+								}
+								
+							}
+						}
+						//add the diagram to the list
+						if (currentDiagram != null 
+						    && ! _allDiagrams.ContainsKey(diagramID))
+						{
+							_allDiagrams.Add(diagramID,currentDiagram);
+						}
+					}
+				}
+			}
+			_allDiagrams = foundDiagrams;
+		}
+
 		private void getAllAssociationTables()
 		{
 			var foundTables = new Dictionary<string,string>();
