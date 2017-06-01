@@ -40,12 +40,12 @@ namespace MagicdrawMigrator
 			if (mdPackage !=null)
 			{
 
-				//correctors.Add(new OCLConstraintsCorrector(magicDrawReader,model,mdPackage));
-				//correctors.Add(new AssociationTableCorrector(magicDrawReader,model,mdPackage));
-//				correctors.Add(new FixCallBehaviorActionCorrector(magicDrawReader,model,mdPackage));
+				correctors.Add(new OCLConstraintsCorrector(magicDrawReader,model,mdPackage));
+				correctors.Add(new AssociationTableCorrector(magicDrawReader,model,mdPackage));
+				correctors.Add(new FixCallBehaviorActionCorrector(magicDrawReader,model,mdPackage));
 				correctors.Add(new ConvertPropertiesToAttributes(magicDrawReader,model,mdPackage));
-//				correctors.Add(new SetStructureCorrector(magicDrawReader,model, mdPackage));
-//				correctors.Add(new SetStatesOnObjects(magicDrawReader,model, mdPackage));
+				correctors.Add(new SetStructureCorrector(magicDrawReader,model, mdPackage));
+				correctors.Add(new SetStatesOnObjects(magicDrawReader,model, mdPackage));
 				
 				
 				
