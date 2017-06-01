@@ -44,7 +44,7 @@ namespace MagicdrawMigrator
 				
 				
 				
-				if(property.name != null)
+				if(!string.IsNullOrEmpty(property.name))
 				{
 					//Create attribute with the name of the property
 					TSF_EA.Attribute newAttribute = this.model.factory.createNewElement<TSF_EA.Attribute>(property.owner,property.name);
@@ -56,6 +56,16 @@ namespace MagicdrawMigrator
 					newAttribute.multiplicity = property.multiplicity;
 					newAttribute.save();
 					
+					
+					//Tell the user which attribute we created
+					EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Create attribute '{1}' with type '{2}'"
+	                                  	,DateTime.Now.ToLongTimeString()
+	                                 	,newAttribute.name
+	                                	,newAttribute.type)
+	                   ,0
+	                  ,LogTypeEnum.log);
+					
 				}
 				else
 				{
@@ -65,10 +75,22 @@ namespace MagicdrawMigrator
 					newAttribute.type = property.classifier;
 					newAttribute.multiplicity = property.multiplicity;
 					newAttribute.save();
+					
+						//Tell the user which attribute we created
+					EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Create attribute '{1}' with type '{2}'"
+	                                  	,DateTime.Now.ToLongTimeString()
+	                                 	,newAttribute.name
+	                                	,newAttribute.type)
+	                   ,0
+	                  ,LogTypeEnum.log);
 				}
+				
+			
 				
 				
 				//Delete property 
+				property.delete();
 			}
 			
 		
@@ -77,7 +99,7 @@ namespace MagicdrawMigrator
 			
 			//Log Finished
 					EAOutputLogger.log(this.model,this.outputName
-	                   ,string.Format("{0} converting embedded properties to attributes'"
+	                   ,string.Format("{0} Finished converting embedded properties to attributes'"
 	                                  ,DateTime.Now.ToLongTimeString())
 	                   ,0
 	                  ,LogTypeEnum.log);
