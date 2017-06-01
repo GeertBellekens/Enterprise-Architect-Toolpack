@@ -61,6 +61,7 @@
     <Compile Include="Correctors\FixCallBehaviorActionCorrector.cs" />
     <Compile Include="Correctors\MagicDrawCorrector.cs" />
     <Compile Include="Correctors\OCLConstraintsCorrector.cs" />
+    <Compile Include="Correctors\SetStatesOnObjects.cs" />
     <Compile Include="Correctors\SetStructureCorrector.cs" />
     <Compile Include="MagicDrawReader.cs" />
     <Compile Include="MDMigratorForm.cs" />
