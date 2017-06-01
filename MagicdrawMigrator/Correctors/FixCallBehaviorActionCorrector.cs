@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System;
 using EAAddinFramework.Utilities;
 using TSF_EA =TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
-using System.Diagnostics;
-using System.Xml;
 
 namespace MagicdrawMigrator
 {
