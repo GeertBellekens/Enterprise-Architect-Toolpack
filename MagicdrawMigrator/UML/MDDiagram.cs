@@ -9,8 +9,10 @@ namespace MagicdrawMigrator
 	/// </summary>
 	public class MDDiagram
 	{
-		public MDDiagram()
+		public string name {get;set;}
+		public MDDiagram(string name)
 		{
+			this.name = name;
 			_diagramObjects = new List<MDDiagramObject>();
 		}
 		List<MDDiagramObject> _diagramObjects;
