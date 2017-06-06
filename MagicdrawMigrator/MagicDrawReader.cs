@@ -83,6 +83,7 @@ namespace MagicdrawMigrator
 				{
 					this.getAllDiagrams();
 				}
+				return _allDiagrams;
 			}
 		}
 		public Dictionary<string,string> allLinkedAssociationTables
@@ -204,7 +205,7 @@ namespace MagicdrawMigrator
 					XmlNode binaryObjectNode = diagramNode.SelectSingleNode("./xmi:Extension/diagramRepresentation/diagram:DiagramRepresentationObject/diagramContents/binaryObject");
 					if (binaryObjectNode != null)
 					{
-						MDDiagram currentDiagram;
+						MDDiagram currentDiagram = null;
 						string diagramContentFileName = binaryObjectNode.Attributes["streamContentID"].Value;
 						//get the file with the given name
 						//get the directory of the source file
