@@ -198,40 +198,49 @@ namespace MagicdrawMigrator
 			{
 				foreach (XmlNode diagramNode in sourceFile.SelectNodes("//ownedDiagram"))
 				{
+					string diagramName = diagramNode.Attributes["name"].Value;
 					//get the ID of the diagram. this is a combination of the ID of the owner + the name of the diagram
-					string diagramID = diagramNode.Attributes["ownerOfDiagram"].Value +  diagramNode.Attributes["name"].Value;
+					string diagramID = diagramNode.Attributes["ownerOfDiagram"].Value +""+ diagramName ;
 					//get the streamcontentID like <binaryObject streamContentID=BINARY-f9279de7-2e1e-4644-98ca-e1e496b72a22 
 					// because that is the file we need to read and use to figure out the diagramObjects
-					XmlNode binaryObjectNode = diagramNode.SelectSingleNode("./xmi:Extension/diagramRepresentation/diagram:DiagramRepresentationObject/diagramContents/binaryObject");
+					XmlNode binaryObjectNode = diagramNode.SelectSingleNode("//binaryObject");
 					if (binaryObjectNode != null)
 					{
 						MDDiagram currentDiagram = null;
 						string diagramContentFileName = binaryObjectNode.Attributes["streamContentID"].Value;
 						//get the file with the given name
 						//get the directory of the source file
-						string sourceDirectory = Path.GetDirectoryName(sourceFiles.First(x => x.Value == sourceFile).Key);
+						string sourceDirectory = Path.GetDirectoryName(sourceFile.BaseURI.Substring(8));
 						string diagramFileName = Path.Combine(sourceDirectory,diagramContentFileName);
 						if (File.Exists(diagramFileName))
 						{
+							//all this workaround is needed because xmi is not defined as prefix in the binary files of MD
 							var xmlDiagram  =new XmlDocument();
-							xmlDiagram.Load(diagramFileName);
+							XmlReaderSettings settings = new XmlReaderSettings { NameTable = new NameTable() };
+							XmlNamespaceManager xmlns = new XmlNamespaceManager(settings.NameTable);
+							xmlns.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+							XmlParserContext context = new XmlParserContext(null, xmlns, "", XmlSpace.Default);
+							XmlReader reader = XmlReader.Create(diagramFileName, settings, context);
+							xmlDiagram.Load(reader);
+							
+							//xmlDiagram.Load(diagramFileName);
 							foreach (XmlNode diagramObjectNode in xmlDiagram.SelectNodes("//mdElement")) 
 							{
 								//get the elementID
-								var elementIDNode = diagramNode.SelectSingleNode("./elementID");
+								var elementIDNode = diagramObjectNode.SelectSingleNode("//elementID");
 								if (elementIDNode != null)
 								{
 									string fullHrefString = elementIDNode.Attributes["href"].Value;
 									int seperatorIndex = fullHrefString.IndexOf('#');
 									if (seperatorIndex >= 0 )
 									{
-										string elementID =  fullHrefString.Substring(seperatorIndex);
+										string elementID =  fullHrefString.Substring(seperatorIndex +1);
 										//get the geometry
-										var geometryNode = diagramNode.SelectSingleNode("./geometry");
+										var geometryNode = diagramObjectNode.SelectSingleNode("//geometry");
 										if (geometryNode != null
 										    && ! string.IsNullOrEmpty(geometryNode.InnerText))
 										{
-											if (currentDiagram ==null) currentDiagram = new MDDiagram();
+											if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
 											var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText);
 											currentDiagram.addDiagramObject(diagramObject);
 										}
@@ -242,16 +251,20 @@ namespace MagicdrawMigrator
 						}
 						//add the diagram to the list
 						if (currentDiagram != null 
-						    && ! _allDiagrams.ContainsKey(diagramID))
+						    && ! foundDiagrams.ContainsKey(diagramID))
 						{
-							_allDiagrams.Add(diagramID,currentDiagram);
+							foundDiagrams.Add(diagramID,currentDiagram);
 						}
 					}
 				}
 			}
 			_allDiagrams = foundDiagrams;
 		}
-
+		public string getDiagramOnwerID(string diagramID)
+		{
+			return diagramID.Substring(0,diagramID.IndexOf(""));
+		}
+		
 		private void getAllAssociationTables()
 		{
 			var foundTables = new Dictionary<string,string>();
