@@ -238,45 +238,47 @@ namespace MagicdrawMigrator
 									var elementIDNode = diagramObjectNode.SelectSingleNode(".//elementID");
 									if (elementIDNode != null)
 									{
-										try
+									
+										//first theck the href attribute
+										XmlAttribute hrefAttribute = elementIDNode.Attributes["href"];
+										string elementID = string.Empty;
+										if (hrefAttribute != null)
 										{
 											string fullHrefString = elementIDNode.Attributes["href"].Value;
 											int seperatorIndex = fullHrefString.IndexOf('#');
 											if (seperatorIndex >= 0 )
 											{
-												string elementID =  fullHrefString.Substring(seperatorIndex +1);
-												//get the geometry
-												var geometryNode = diagramObjectNode.SelectSingleNode(".//geometry");
-												if (geometryNode != null
-												    && ! string.IsNullOrEmpty(geometryNode.InnerText))
-												{
-													if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
-													var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText);
-													currentDiagram.addDiagramObject(diagramObject);
-												}
+												elementID =  fullHrefString.Substring(seperatorIndex +1);
 											}
 										}
-										catch(NullReferenceException)
+										else
 										{
-											//no href attribute, just log it for now as error
-											//TODO: figure out if we need to create additional elements like notes in EA
-											EAOutputLogger.log(this.model,this.outputName
-								                   ,string.Format("{0} File '{1}' has elementIDNode '{2}' without href attribute"
-								                                  ,DateTime.Now.ToLongTimeString()
-								                                  , diagramFileName 
-								                                 , elementIDNode.InnerText)
-								                   ,0
-								                  ,LogTypeEnum.error);	
+											//check the "xmi:idref attribute
+											XmlAttribute idRefAttribute = elementIDNode.Attributes["xmi:idref"];
+											if (idRefAttribute != null) elementID = idRefAttribute.Value;
 										}
+										
+										if (!string.IsNullOrEmpty(elementID))
+										{
+											//get the geometry
+											var geometryNode = diagramObjectNode.SelectSingleNode(".//geometry");
+											if (geometryNode != null
+											    && ! string.IsNullOrEmpty(geometryNode.InnerText))
+											{
+												if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
+												var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText);
+												currentDiagram.addDiagramObject(diagramObject);
+											}
+										}
+
 									}
-									
 								}
-							}
-							//add the diagram to the list
-							if (currentDiagram != null 
-							    && ! foundDiagrams.ContainsKey(diagramID))
-							{
-								foundDiagrams.Add(diagramID,currentDiagram);
+								//add the diagram to the list
+								if (currentDiagram != null 
+								    && ! foundDiagrams.ContainsKey(diagramID))
+								{
+									foundDiagrams.Add(diagramID,currentDiagram);
+								}
 							}
 						}
 						catch(NullReferenceException)
