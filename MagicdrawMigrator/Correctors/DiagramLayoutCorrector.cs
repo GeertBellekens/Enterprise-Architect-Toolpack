@@ -29,6 +29,8 @@ namespace MagicdrawMigrator
 			foreach (var mdDiagramKeyValue in magicDrawReader.allDiagrams) 
 			{
 				//find the corresponding diagram in EA
+				//get the packageTreeIDstring from he MD package
+				string packageTreeIDString = mdPackage.getPackageTreeIDString();
 				var ownerID = magicDrawReader.getDiagramOnwerID(mdDiagramKeyValue.Key);
 				var mdDiagram = mdDiagramKeyValue.Value;
 				string getCorrespondingdiagramSQL = 
@@ -38,6 +40,7 @@ namespace MagicdrawMigrator
 													and tv.Property = 'md_guid'))
 				where tv.Value = '"+ownerID+"'"
 				+ " and d.Name = '"+mdDiagram.name+ "'"
+				+ " and d.Package_ID in ("+packageTreeIDString+")"
 				+@" union
 				select d.Diagram_ID from (((t_diagram d
 				inner join t_package p on d.Package_ID = p.Package_ID)
@@ -46,7 +49,8 @@ namespace MagicdrawMigrator
 													and tv.Property = 'md_guid'))
 				where d.ParentID = 0
 				and tv.Value = '"+ownerID+"'"
-				+ " and d.Name = '"+mdDiagram.name+ "'";
+				+ " and d.Name = '"+mdDiagram.name+ "'"
+				+ " and d.Package_ID in ("+packageTreeIDString+")";
 				var eaDiagrams = this.model.getDiagramsByQuery(getCorrespondingdiagramSQL);
 				//loop the found diagrams
 				foreach (var eaDiagram in eaDiagrams) 
@@ -56,7 +60,7 @@ namespace MagicdrawMigrator
 		                   				,DateTime.Now.ToLongTimeString()
 		                   				,eaDiagram.owner.name
 		                   				,eaDiagram.name)
-		                   ,0
+					      ,((TSF_EA.ElementWrapper)eaDiagram.owner).id
 		                  ,LogTypeEnum.log);	
 					//loop all diagramObjects in the mdDiagram
 					foreach (var mdDiagramObject in mdDiagram.diagramObjects) 

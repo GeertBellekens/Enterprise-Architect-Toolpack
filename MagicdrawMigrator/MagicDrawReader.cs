@@ -4,6 +4,7 @@ using System;
 using System.Xml;
 using System.IO;
 using System.IO.Compression;
+using EAAddinFramework.Utilities;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
 
@@ -16,6 +17,8 @@ namespace MagicdrawMigrator
 	public class MagicDrawReader
 	{
 		string mdzipPath {get;set;}
+		protected TSF_EA.Model model {get;set;}
+		public string outputName {get;private set;}
 		Dictionary<string,string> _allLinkedAssociationTables;
 		Dictionary<string, MDDiagram> _allDiagrams;
 		Dictionary<string,List<MDConstraint>> allConstraints;
@@ -32,9 +35,11 @@ namespace MagicdrawMigrator
 				return _sourceFiles;
 			}
 		}
-		public MagicDrawReader(string mdzipPath)
+		public MagicDrawReader(string mdzipPath,TSF_EA.Model model)
 		{
 			this.mdzipPath = mdzipPath;
+			this.outputName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+			this.model = model;
 		}
 		private void readMDSourceFiles()
 		{
@@ -203,57 +208,80 @@ namespace MagicdrawMigrator
 					string diagramID = diagramNode.Attributes["ownerOfDiagram"].Value +""+ diagramName ;
 					//get the streamcontentID like <binaryObject streamContentID=BINARY-f9279de7-2e1e-4644-98ca-e1e496b72a22 
 					// because that is the file we need to read and use to figure out the diagramObjects
-					XmlNode binaryObjectNode = diagramNode.SelectSingleNode("//binaryObject");
+					XmlNode binaryObjectNode = diagramNode.SelectSingleNode(".//binaryObject");
 					if (binaryObjectNode != null)
 					{
 						MDDiagram currentDiagram = null;
-						string diagramContentFileName = binaryObjectNode.Attributes["streamContentID"].Value;
-						//get the file with the given name
-						//get the directory of the source file
-						string sourceDirectory = Path.GetDirectoryName(sourceFile.BaseURI.Substring(8));
-						string diagramFileName = Path.Combine(sourceDirectory,diagramContentFileName);
-						if (File.Exists(diagramFileName))
+						try
 						{
-							//all this workaround is needed because xmi is not defined as prefix in the binary files of MD
-							var xmlDiagram  =new XmlDocument();
-							XmlReaderSettings settings = new XmlReaderSettings { NameTable = new NameTable() };
-							XmlNamespaceManager xmlns = new XmlNamespaceManager(settings.NameTable);
-							xmlns.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
-							XmlParserContext context = new XmlParserContext(null, xmlns, "", XmlSpace.Default);
-							XmlReader reader = XmlReader.Create(diagramFileName, settings, context);
-							xmlDiagram.Load(reader);
+							string diagramContentFileName = binaryObjectNode.Attributes["streamContentID"].Value;
 							
-							//xmlDiagram.Load(diagramFileName);
-							foreach (XmlNode diagramObjectNode in xmlDiagram.SelectNodes("//mdElement")) 
+							//get the file with the given name
+							//get the directory of the source file
+							string sourceDirectory = Path.GetDirectoryName(sourceFile.BaseURI.Substring(8));
+							string diagramFileName = Path.Combine(sourceDirectory,diagramContentFileName);
+							if (File.Exists(diagramFileName))
 							{
-								//get the elementID
-								var elementIDNode = diagramObjectNode.SelectSingleNode("//elementID");
-								if (elementIDNode != null)
+								//all this workaround is needed because xmi is not defined as prefix in the binary files of MD
+								var xmlDiagram  =new XmlDocument();
+								XmlReaderSettings settings = new XmlReaderSettings { NameTable = new NameTable() };
+								XmlNamespaceManager xmlns = new XmlNamespaceManager(settings.NameTable);
+								xmlns.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+								XmlParserContext context = new XmlParserContext(null, xmlns, "", XmlSpace.Default);
+								XmlReader reader = XmlReader.Create(diagramFileName, settings, context);
+								xmlDiagram.Load(reader);
+								
+								//xmlDiagram.Load(diagramFileName);
+								foreach (XmlNode diagramObjectNode in xmlDiagram.SelectNodes(".//mdElement")) 
 								{
-									string fullHrefString = elementIDNode.Attributes["href"].Value;
-									int seperatorIndex = fullHrefString.IndexOf('#');
-									if (seperatorIndex >= 0 )
+									//get the elementID
+									var elementIDNode = diagramObjectNode.SelectSingleNode(".//elementID");
+									if (elementIDNode != null)
 									{
-										string elementID =  fullHrefString.Substring(seperatorIndex +1);
-										//get the geometry
-										var geometryNode = diagramObjectNode.SelectSingleNode("//geometry");
-										if (geometryNode != null
-										    && ! string.IsNullOrEmpty(geometryNode.InnerText))
+										try
 										{
-											if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
-											var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText);
-											currentDiagram.addDiagramObject(diagramObject);
+											string fullHrefString = elementIDNode.Attributes["href"].Value;
+											int seperatorIndex = fullHrefString.IndexOf('#');
+											if (seperatorIndex >= 0 )
+											{
+												string elementID =  fullHrefString.Substring(seperatorIndex +1);
+												//get the geometry
+												var geometryNode = diagramObjectNode.SelectSingleNode(".//geometry");
+												if (geometryNode != null
+												    && ! string.IsNullOrEmpty(geometryNode.InnerText))
+												{
+													if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
+													var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText);
+													currentDiagram.addDiagramObject(diagramObject);
+												}
+											}
+										}
+										catch(NullReferenceException)
+										{
+											//no href attribute, just log it for now as error
+											//TODO: figure out if we need to create additional elements like notes in EA
+											EAOutputLogger.log(this.model,this.outputName
+								                   ,string.Format("{0} File '{1}' has elementIDNode '{2}' without href attribute"
+								                                  ,DateTime.Now.ToLongTimeString()
+								                                  , diagramFileName 
+								                                 , elementIDNode.InnerText)
+								                   ,0
+								                  ,LogTypeEnum.error);	
 										}
 									}
+									
 								}
-								
+							}
+							//add the diagram to the list
+							if (currentDiagram != null 
+							    && ! foundDiagrams.ContainsKey(diagramID))
+							{
+								foundDiagrams.Add(diagramID,currentDiagram);
 							}
 						}
-						//add the diagram to the list
-						if (currentDiagram != null 
-						    && ! foundDiagrams.ContainsKey(diagramID))
+						catch(NullReferenceException)
 						{
-							foundDiagrams.Add(diagramID,currentDiagram);
+							//do nothing, we can't do anything with bynary object nodes withotu a streamContentID
 						}
 					}
 				}
