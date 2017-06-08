@@ -53,7 +53,7 @@ namespace MagicdrawMigrator
 	                   ,0
 	                  ,LogTypeEnum.log);
 			
-			//Loop each object
+			//Loop each object and set the state to the corresponding state in the source file
 			foreach (var mdObject in magicDrawReader.allObjects) 
 			{
 				this.model.executeSQL(@"update t_object
