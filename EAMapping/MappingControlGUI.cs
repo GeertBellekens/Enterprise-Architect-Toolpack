@@ -24,7 +24,7 @@ namespace EAMapping
 			//
 			InitializeComponent();
       
-      this.trees.showMapping += this.showMappingClick;
+      this.trees.showMapping += this.handleShowMapping;
 			
 		}
 		public void loadMappingSet(MappingSet mappingSet )
@@ -60,7 +60,7 @@ namespace EAMapping
 		}
 
 		public event EventHandler showMapping = delegate { }; 
-		void showMappingClick(object sender, EventArgs e) {
+		void handleShowMapping(object sender, EventArgs e) {
 			showMapping((Mapping)sender, e);
 		}
 		public event EventHandler selectTarget = delegate { }; 

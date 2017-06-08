@@ -139,7 +139,7 @@ namespace EAMapping
 		}
 
 		public event EventHandler showMapping = delegate { }; 
-		void showMappingClick(object sender, EventArgs e) {
+		void handleShowMapping(object sender, EventArgs e) {
 			showMapping((Mapping)((PictureBox)sender).Tag, e);
 		}
 		
@@ -157,7 +157,7 @@ namespace EAMapping
 			logicTooltip.SetToolTip(pictureBox,mapping.mappingLogic.description);
 			this.Controls.Add(pictureBox);
 			((System.ComponentModel.ISupportInitialize)(pictureBox)).EndInit();
-      pictureBox.DoubleClick += showMappingClick;
+      pictureBox.DoubleClick += handleShowMapping;
       return pictureBox;
 		}
     
