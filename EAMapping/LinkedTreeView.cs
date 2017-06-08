@@ -168,25 +168,8 @@ namespace EAMapping
 
                 var target = this.HitTest(location).Node as LinkedTreeNode;
 
-                if (target == null)
-                {
-                    // seems we're trying to unlink ?
-                    source.Unlink();
-                }
-                else
-                {
-                    if (source.TreeView == this)
-                    {
-                        // dropping a node on same treeview could mean: "change this side of 
-                        // the link ;-)
-                        target.LinkTo(source.OtherNode);
-                        //Code to link  in backend code;
-                    }
-                    else
-                    {
-                        target.LinkTo(source);
-                    }
-
+                if(target != null && source.TreeView != this) {
+                  target.LinkTo(source);
                 }
 
                 this.Invalidate();
