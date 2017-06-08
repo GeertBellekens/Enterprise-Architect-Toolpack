@@ -23,6 +23,8 @@ namespace EAMapping
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+      
+      this.trees.showMapping += this.showMappingClick;
 			
 		}
 		public void loadMappingSet(MappingSet mappingSet )
@@ -57,8 +59,10 @@ namespace EAMapping
 			trees.LeftTree.ExpandAll();
 		}
 
-        
-
+		public event EventHandler showMapping = delegate { }; 
+		void showMappingClick(object sender, EventArgs e) {
+			showMapping((Mapping)sender, e);
+		}
 		public event EventHandler selectTarget = delegate { }; 
 		void GoToSourceButtonClick(object sender, EventArgs e)
 		{

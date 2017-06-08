@@ -137,6 +137,11 @@ namespace EAMapping
 				mappingLine.Draw(g);
 			}	
 		}
+
+		public event EventHandler showMapping = delegate { }; 
+		void showMappingClick(object sender, EventArgs e) {
+			showMapping((Mapping)((PictureBox)sender).Tag, e);
+		}
 		
 		PictureBox drawMappingLogicIcon(Point start, Point end, MappingFramework.Mapping mapping)
 		{
@@ -152,6 +157,7 @@ namespace EAMapping
 			logicTooltip.SetToolTip(pictureBox,mapping.mappingLogic.description);
 			this.Controls.Add(pictureBox);
 			((System.ComponentModel.ISupportInitialize)(pictureBox)).EndInit();
+      pictureBox.DoubleClick += showMappingClick;
       return pictureBox;
 		}
     
