@@ -187,7 +187,9 @@ namespace EAMapping
  //           Screen.PrimaryScreen.Bounds.Height;
             tree.Width = w/7;
 
-            tree.NodeMouseClick += new TreeNodeMouseClickEventHandler(this.UpdateTrees);
+            tree.AfterCollapse += new TreeViewEventHandler(this.UpdateTrees);
+            tree.AfterExpand   += new TreeViewEventHandler(this.UpdateTrees);
+
              this.Controls.Add(tree);
 
             return tree;
