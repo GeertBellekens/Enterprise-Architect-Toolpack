@@ -73,6 +73,11 @@ namespace EAMapping
 
                 this.drawLink((LinkedTreeNode)node);
 
+            } else {
+              if(node.Tag != null) {
+                this.Controls.Remove((PictureBox)node.Tag);
+                node.Tag = null;
+              }
             }
 
             // recurse down
@@ -88,21 +93,31 @@ namespace EAMapping
 
 
 
-        private void drawLink(LinkedTreeNode node)
-        {
-        	Graphics g = this.CreateGraphics();
-        	g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-        	MappingLine line = new MappingLine(defaultLineColor,3,node.ExternalEndPoint, node.OtherNode.ExternalEndPoint,node.mapping);
-        	this.mappingLines.Add(line);
-        	line.Draw(g);
-            //draw mapping logic
-            if (node.mapping != null 
-                && node.mapping.mappingLogic != null)
-            {
-            	this.drawMappingLogicIcon(node.ExternalEndPoint,node.OtherNode.ExternalEndPoint,node.mapping);
-            }
-                
+    private void drawLink(LinkedTreeNode node)
+    {
+    	Graphics g = this.CreateGraphics();
+    	g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+    	MappingLine line = new MappingLine(defaultLineColor,3,node.ExternalEndPoint, node.OtherNode.ExternalEndPoint,node.mapping);
+    	this.mappingLines.Add(line);
+    	line.Draw(g);
+      if (node.mapping != null && node.mapping.mappingLogic != null) {
+        if(node.Tag != null) {
+          // MappingLogicIcon is already showing, move it
+          this.moveMappingLogicIcon(
+            (PictureBox)node.Tag,
+            node.ExternalEndPoint,
+            node.OtherNode.ExternalEndPoint
+          );
+        } else {
+          // create a new marker
+          node.Tag = this.drawMappingLogicIcon(
+            node.ExternalEndPoint,
+            node.OtherNode.ExternalEndPoint,
+            node.mapping
+          );
         }
+      }
+    }
 
 		void mappingLineClicked(object sender, MouseEventArgs e)
 		{
@@ -123,7 +138,7 @@ namespace EAMapping
 			}	
 		}
 		
-		void drawMappingLogicIcon(Point start, Point end, MappingFramework.Mapping mapping)
+		PictureBox drawMappingLogicIcon(Point start, Point end, MappingFramework.Mapping mapping)
 		{
 			var logicIcon = ((System.Drawing.Image)(resources.GetObject("Mapping Logic icon")));
 			var pictureBox = new PictureBox();
@@ -131,13 +146,22 @@ namespace EAMapping
 			pictureBox.Image = logicIcon;
 			pictureBox.BackColor = Color.Transparent;
 			pictureBox.Size = new System.Drawing.Size(24, 24);
-			pictureBox.Location = new System.Drawing.Point(end.X - start.X, (end.Y + start.Y)/2 - pictureBox.Size.Height / 2);
+      this.moveMappingLogicIcon(pictureBox, start, end);
 			pictureBox.Tag = mapping;
 			ToolTip logicTooltip = new ToolTip();
 			logicTooltip.SetToolTip(pictureBox,mapping.mappingLogic.description);
 			this.Controls.Add(pictureBox);
 			((System.ComponentModel.ISupportInitialize)(pictureBox)).EndInit();
+      return pictureBox;
 		}
+    
+    void moveMappingLogicIcon(PictureBox box, Point start, Point end) {
+      Point location = new System.Drawing.Point(
+         end.X - start.X,
+        (end.Y + start.Y)/2 - box.Size.Height / 2
+      );
+      box.Location = location;
+    }
 
 
         private LinkedTreeView createLeftTree()
