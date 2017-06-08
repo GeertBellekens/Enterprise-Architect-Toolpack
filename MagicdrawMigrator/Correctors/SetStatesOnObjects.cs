@@ -10,7 +10,9 @@ using System.Xml;
 namespace MagicdrawMigrator
 {
 	/// <summary>
-	/// Description of SetStatesOnObjects.
+	///Some parts of the Activity Diagrams are missing such as classifiers from partitions, 
+	///Types of actions (always callbehaviour), Forks and Joins, action pins and States on objects. 
+	///(we might have to find another solution for the state on objects issue)
 	/// </summary>
 	public class SetStatesOnObjects:MagicDrawCorrector
 	{
@@ -21,11 +23,59 @@ namespace MagicdrawMigrator
 		
 		public override void correct()
 		{
-			// Look for all the classes under an activity
+			//Log start
+			EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Starting changing type from CentralBufferNode to Object'"
+	                                  ,DateTime.Now.ToLongTimeString())
+	                   ,0
+	                  ,LogTypeEnum.log);
 			
-			// Change the type to Object
+			//Look for all the CentralBufferNodes under an Activity and change the type to Object
+			this.model.executeSQL(@"update t_object
+									set [Object_Type] = 'Object'
+									where Object_ID in
+									(select o1.[Object_ID]
+									from t_object o1
+									inner join t_object o2
+									on o1.[ParentID] = o2.[Object_ID]
+									where o2.[Object_Type] = 'Activity'
+									and o1.[Object_Type] = 'CentralBufferNode')");
 			
-			// Set the state for that Object to the corresponding state in the MagicDrawReader
+			EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Finished changing type from CentralBufferNode to Object'"
+	                                  ,DateTime.Now.ToLongTimeString())
+	                   ,0
+	                  ,LogTypeEnum.log);
+			
+			EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Starting changing the status of the Objects'"
+	                                  ,DateTime.Now.ToLongTimeString())
+	                   ,0
+	                  ,LogTypeEnum.log);
+			
+			//Loop each object
+			foreach (var mdObject in magicDrawReader.allObjects) 
+			{
+				this.model.executeSQL(@"update t_object
+										set [StateFlags] = '" + mdObject.Value + @"'
+										where Object_ID in
+										(select o.[Object_ID]
+										from t_object o
+										inner join [t_objectproperties] op
+										on o.[Object_ID] = op.[Object_ID]
+										where op.[Property] = 'md_guid'
+										and op.[value] = '" + mdObject.Key + "')");
+				
+				EAOutputLogger.log(this.model,this.outputName
+                   	,string.Format("{0} Set state for object '{1}' to '{2}'"
+                  	,DateTime.Now.ToLongTimeString()
+                  	,mdObject.Key
+                  	,mdObject.Value)
+                    	
+       			,0
+      			,LogTypeEnum.log);
+				
+			}
 		}
 	}
 }

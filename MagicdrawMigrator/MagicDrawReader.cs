@@ -21,6 +21,7 @@ namespace MagicdrawMigrator
 		public string outputName {get;private set;}
 		Dictionary<string,string> _allLinkedAssociationTables;
 		Dictionary<string, MDDiagram> _allDiagrams;
+		Dictionary<string, string> _allObjects;
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		Dictionary<string,XmlDocument> sourceFiles
@@ -89,6 +90,17 @@ namespace MagicdrawMigrator
 					this.getAllDiagrams();
 				}
 				return _allDiagrams;
+			}
+		}
+		public Dictionary<string, string> allObjects
+		{
+			get
+			{
+				if (_allObjects == null)
+				{
+					this.getAllObjects();
+				}
+				return _allObjects;
 			}
 		}
 		public Dictionary<string,string> allLinkedAssociationTables
@@ -290,6 +302,88 @@ namespace MagicdrawMigrator
 			}
 			_allDiagrams = foundDiagrams;
 		}
+		
+		
+		void getAllObjects()
+		{
+			var foundObjects = new Dictionary<string, string>();
+			//first find all the object nodes
+			
+			foreach (var sourceFile in this.sourceFiles.Values) 
+			{
+				string objectId = "", inState = "", objectState = "";
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				//[@xmi:type='uml:CentralBufferNode']"
+				
+				foreach (XmlNode objectNode in sourceFile.SelectNodes("//node[@xmi:type='uml:CentralBufferNode']", nsMgr))
+				{
+					try
+					{
+						var id = objectNode.Attributes["xmi:id"].Value;
+						if (id != null)
+						{
+							objectId = id; //md_guid
+							EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Getting objectNode with ObjectID: '{1}'"
+	                                  	,DateTime.Now.ToLongTimeString()
+	                                  	,objectId)
+	                                	
+	                   		,0
+	                  		,LogTypeEnum.log);
+						}
+						
+						XmlNode inStateNode = objectNode.SelectSingleNode(".//inState");
+						if(inStateNode != null)
+						{
+							var idref = inStateNode.Attributes["xmi:idref"].Value;
+							if (idref != null)
+							{
+								inState = idref;
+								EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Getting inState value '{1}'"
+	                                  	,DateTime.Now.ToLongTimeString()
+	                                  	,inState)
+	                                	
+	                   		,0
+	                  		,LogTypeEnum.log);
+							}			
+						}
+					
+						XmlNode stateNode = sourceFile.SelectSingleNode("//subvertex[@xmi:type='uml:State' and @xmi:id='"+ inState +"']", nsMgr);
+						if(stateNode != null)
+						{
+							var name = stateNode.Attributes["name"].Value;
+							if (name != null)
+							{
+								objectState = name;
+								EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Getting object state '{1}'"
+	                                  	,DateTime.Now.ToLongTimeString()
+	                                  	,objectState)
+	                                	
+	                   			,0
+	                  			,LogTypeEnum.log);
+							}	
+						}
+					}
+					catch (NullReferenceException)
+					{
+			
+						
+					}	
+					if (!string.IsNullOrEmpty(objectId) & !string.IsNullOrEmpty(inState) & !string.IsNullOrEmpty(objectState))
+					{
+						foundObjects.Add(objectId,objectState);
+					}
+				
+				}
+				
+			}
+			_allObjects = foundObjects;
+		}
+		
 		public string getDiagramOnwerID(string diagramID)
 		{
 			return diagramID.Substring(0,diagramID.IndexOf(""));

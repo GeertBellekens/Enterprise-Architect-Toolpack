@@ -31,7 +31,7 @@ namespace MagicdrawMigrator
 	                   ,0
 	                  ,LogTypeEnum.log);
 			// Data package aanmaken dat zal gebruikt worden om alles onder te plaatsen
-			TSF_EA.Package newData = this.model.factory.createNewElement<TSF_EA.Package>(mdPackage,"NewData");
+			TSF_EA.Package newData = this.model.factory.createNewElement<TSF_EA.Package>(mdPackage,"Data");
 			newData.save();
 			//reload the new package to make sure we have a complete object
 			newData = (TSF_EA.Package)this.model.getElementWrapperByPackageID(newData.packageID);
