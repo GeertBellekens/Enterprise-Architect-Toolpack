@@ -22,6 +22,7 @@ namespace MagicdrawMigrator
 		Dictionary<string,string> _allLinkedAssociationTables;
 		Dictionary<string, MDDiagram> _allDiagrams;
 		Dictionary<string, string> _allObjects;
+		Dictionary<string, string> _allPartitions;
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		Dictionary<string,XmlDocument> sourceFiles
@@ -101,6 +102,17 @@ namespace MagicdrawMigrator
 					this.getAllObjects();
 				}
 				return _allObjects;
+			}
+		}
+			public Dictionary<string, string> allPartitions
+		{
+			get
+			{
+				if (_allPartitions == null)
+				{
+					this.getAllPartitions();
+				}
+				return _allPartitions;
 			}
 		}
 		public Dictionary<string,string> allLinkedAssociationTables
@@ -382,6 +394,66 @@ namespace MagicdrawMigrator
 				
 			}
 			_allObjects = foundObjects;
+		}
+		
+		void getAllPartitions()
+		{
+			var foundPartitions = new Dictionary<string, string>();
+			
+			//first find all the object nodes
+			foreach (var sourceFile in this.sourceFiles.Values) 
+			{
+				string partitionID = "", representsID = "";
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				
+				foreach (XmlNode partitionNode in sourceFile.SelectNodes("//group[@xmi:type='uml:ActivityPartition']", nsMgr))
+				{
+					//Look for the <group> node based on the md_guid, md_guid = xmi:id in the group node
+					try
+					{
+						//Get the partition id
+						var partition = partitionNode.Attributes["xmi:id"].Value;
+						if (partition != null)
+						{
+							partitionID = partition;
+							EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Getting partitionID: '{1}'"
+	                                  	,DateTime.Now.ToLongTimeString()
+	                                  	,partitionID)
+	                                	
+	                   		,0
+	                  		,LogTypeEnum.log);
+						}
+						
+						//Get the represents id
+						var represents = partitionNode.Attributes["represents"].Value;
+						if (represents != null)
+						{
+							representsID = represents;
+							EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Getting representsID: '{1}'"
+	                                  	,DateTime.Now.ToLongTimeString()
+	                                  	,representsID)
+	                                	
+	                   		,0
+	                  		,LogTypeEnum.log);
+						}
+					}
+					catch (NullReferenceException)
+					{
+			
+						
+					}	
+					if(!string.IsNullOrEmpty(partitionID) & !string.IsNullOrEmpty(representsID))
+					{
+						foundPartitions.Add(partitionID, representsID);
+					}
+				}
+				
+			}
+			_allPartitions = foundPartitions;
 		}
 		
 		public string getDiagramOnwerID(string diagramID)

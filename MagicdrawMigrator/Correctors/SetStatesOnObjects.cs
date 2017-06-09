@@ -76,6 +76,12 @@ namespace MagicdrawMigrator
       			,LogTypeEnum.log);
 				
 			}
+			
+			EAOutputLogger.log(this.model,this.outputName
+                   	,string.Format("{0} Finished set states on objects'"
+                  	,DateTime.Now.ToLongTimeString())
+       			,0
+      			,LogTypeEnum.log);
 		}
 	}
 }
