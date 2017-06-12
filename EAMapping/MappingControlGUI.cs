@@ -46,17 +46,23 @@ namespace EAMapping
 			this.CreateMapping(mapping);
 		}
 
-		public event EventHandler selectTarget = delegate { }; 
+		public event EventHandler selectSource = delegate { }; 
 		void GoToSourceButtonClick(object sender, EventArgs e)
 		{
-			if (this.selectedMapping != null) selectSource(this.selectedMapping,e);
+			if (this.SelectedMapping != null) selectSource(this.SelectedMapping,e);
 		}
 
-		public event EventHandler selectSource = delegate { }; 
+		public event EventHandler selectTarget = delegate { }; 
 		void GoToTargetButtonClick(object sender, EventArgs e)
 		{
-			if (this.selectedMapping != null) selectTarget(this.selectedMapping,e);
+			if (this.SelectedMapping != null) selectTarget(this.SelectedMapping,e);
 		}
+
+    public void ShowMappingButtonClick(object sender, EventArgs e) {
+      if (this.SelectedMapping != null) {
+        this.ShowMapping(this.SelectedMapping);
+      }
+    }
 
 		public event EventHandler exportMappingSet = delegate { }; 
 		void ExportButtonClick(object sender, EventArgs e)
@@ -66,7 +72,7 @@ namespace EAMapping
 
     // PROPERTIES
 
-		public Mapping selectedMapping {
+		public Mapping SelectedMapping {
 			get	{
         LinkedTreeNodes link = this.trees.SelectedLink;
         if(link == null) { return null; }

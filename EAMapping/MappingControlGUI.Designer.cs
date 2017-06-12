@@ -12,6 +12,7 @@ namespace EAMapping
 		private System.Windows.Forms.Button exportButton;
 		private System.Windows.Forms.Button goToTargetButton;
 		private System.Windows.Forms.Button goToSourceButton;
+		private System.Windows.Forms.Button showMappingButton;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -39,6 +40,7 @@ namespace EAMapping
 			this.exportButton = new System.Windows.Forms.Button();
 			this.goToTargetButton = new System.Windows.Forms.Button();
 			this.goToSourceButton = new System.Windows.Forms.Button();
+			this.showMappingButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// trees
@@ -83,6 +85,17 @@ namespace EAMapping
 			this.goToSourceButton.TabIndex = 6;
 			this.goToSourceButton.UseVisualStyleBackColor = true;
 			// 
+			// showMappingButton
+			// 
+			this.showMappingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.showMappingButton.Image = ((System.Drawing.Image)(resources.GetObject("showMapping.Image")));
+			this.showMappingButton.Location = new System.Drawing.Point(63, 558);
+			this.showMappingButton.Name = "showMapping";
+			this.showMappingButton.Size = new System.Drawing.Size(24, 23);
+			this.showMappingButton.TabIndex = 6;
+			this.showMappingButton.UseVisualStyleBackColor = true;
+			this.showMappingButton.Click += new System.EventHandler(this.ShowMappingButtonClick);
+			// 
 			// MappingControlGUI
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -90,6 +103,7 @@ namespace EAMapping
 			this.Controls.Add(this.exportButton);
 			this.Controls.Add(this.goToTargetButton);
 			this.Controls.Add(this.goToSourceButton);
+			this.Controls.Add(this.showMappingButton);
 			this.Controls.Add(this.trees);
 			this.Name = "MappingControlGUI";
 			this.Size = new System.Drawing.Size(994, 584);
