@@ -6,6 +6,7 @@ using System;
 using System.Windows.Forms;
 
 using MappingFramework;
+using AM = EAAddinFramework.Mapping;
 
 namespace EAMapping {
 
@@ -67,13 +68,16 @@ namespace EAMapping {
 
     public LinkedTreeNodes Link(LinkedTreeNode source, LinkedTreeNode target) {
       // create new mapping from link information
-      // Mapping mapping = new Mapping(source., target.)
-      // this.addMapping(mapping);
+      var mapping = new AM.TaggedValueMapping(
+        (AM.MappingEnd)source.MappedEnd, (AM.MappingEnd)target.MappedEnd
+      );
+      this.addMapping(mapping);
 
       // raise Event
-      // this.CreateMapping(mapping);
+      this.CreateMapping(mapping);
 
       // TODO? invalidated to re-render new links ?
+      this.Invalidate();
       return null;
     }
 

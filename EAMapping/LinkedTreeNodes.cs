@@ -40,9 +40,11 @@ namespace EAMapping {
       this.sourceNode = this.trees.SourceTree.AddNode(
         this.Mapping.source.fullMappingPath.Split('.').ToList()
       );
+      this.sourceNode.MappedEnd = mapping.source;
       this.targetNode = this.trees.TargetTree.AddNode(
         this.Mapping.target.fullMappingPath.Split('.').ToList()
       );
+      this.targetNode.MappedEnd = mapping.target;
     }
     
     public void Delete() {

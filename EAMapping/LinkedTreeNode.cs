@@ -17,6 +17,8 @@ namespace EAMapping {
 
     public LinkedTreeNode(string label) : base(label) {}
 
+    public MappingEnd MappedEnd { get; set; }
+
     // the EndPoint at the outside of the TreeView
     public Point ExternalEndPoint {
       get {
