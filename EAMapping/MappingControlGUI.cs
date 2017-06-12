@@ -66,14 +66,13 @@ namespace EAMapping
 		}
 
     public void CreateMappingButtonClick(object sender, EventArgs e) {
-      // TODO
-      // var source = this.trees.SourceTree.getSelectedLinkedTreeNode();
-      // var target = this.trees.TargetTree.getSelectedLinkedTreeNode();
-      // if(source != null && target != null) {
-      //   var mapping = new Mapping(source.MappedEnd, target.MappedEnd);
-      //   this.trees.Add(mapping);
-      //   this.ShowMapping(mapping);
-      // }
+      var source = this.trees.SourceTree.SelectedNode as LinkedTreeNode;
+      var target = this.trees.TargetTree.SelectedNode as LinkedTreeNode;
+      if(source != null && target != null) {
+        this.trees.Link(source, target);
+      } else {
+        MessageBox.Show("Please select a source and target to map.");
+      }
     }
 
     public event Action<Mapping> DeleteMapping = delegate {};
