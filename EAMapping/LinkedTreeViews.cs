@@ -85,6 +85,15 @@ namespace EAMapping {
       return link;
     }
 
+    public void DeleteMapping(Mapping mapping) {
+      if(! this.links.ContainsKey(mapping)) { return; }
+      this.links[mapping].Delete();
+      this.links.Remove(mapping);
+      this.Invalidate();
+      this.SourceTree.Invalidate();
+      this.TargetTree.Invalidate();
+    }
+
     public void Clear() {
       this.SourceTree.Clear();
       this.TargetTree.Clear();

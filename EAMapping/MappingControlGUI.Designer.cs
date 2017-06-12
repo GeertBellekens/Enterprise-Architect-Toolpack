@@ -13,6 +13,7 @@ namespace EAMapping
 		private System.Windows.Forms.Button goToTargetButton;
 		private System.Windows.Forms.Button goToSourceButton;
 		private System.Windows.Forms.Button showMappingButton;
+		private System.Windows.Forms.Button deleteMappingButton;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -41,6 +42,7 @@ namespace EAMapping
 			this.goToTargetButton = new System.Windows.Forms.Button();
 			this.goToSourceButton = new System.Windows.Forms.Button();
 			this.showMappingButton = new System.Windows.Forms.Button();
+			this.deleteMappingButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// trees
@@ -54,16 +56,15 @@ namespace EAMapping
 			this.trees.Size = new System.Drawing.Size(994, 552);
 			this.trees.TabIndex = 0;
 			// 
-			// exportButton
+			// goToSourceButton
 			// 
-			this.exportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.exportButton.Location = new System.Drawing.Point(916, 558);
-			this.exportButton.Name = "exportButton";
-			this.exportButton.Size = new System.Drawing.Size(75, 23);
-			this.exportButton.TabIndex = 8;
-			this.exportButton.Text = "Export";
-			this.exportButton.UseVisualStyleBackColor = true;
-			this.exportButton.Click += new System.EventHandler(this.ExportButtonClick);
+			this.goToSourceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.goToSourceButton.Image = ((System.Drawing.Image)(resources.GetObject("goToSourceButton.Image")));
+			this.goToSourceButton.Location = new System.Drawing.Point(3, 558);
+			this.goToSourceButton.Name = "goToSourceButton";
+			this.goToSourceButton.Size = new System.Drawing.Size(24, 23);
+			this.goToSourceButton.TabIndex = 6;
+			this.goToSourceButton.UseVisualStyleBackColor = true;
 			// 
 			// goToTargetButton
 			// 
@@ -75,16 +76,6 @@ namespace EAMapping
 			this.goToTargetButton.TabIndex = 7;
 			this.goToTargetButton.UseVisualStyleBackColor = true;
 			// 
-			// goToSourceButton
-			// 
-			this.goToSourceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.goToSourceButton.Image = ((System.Drawing.Image)(resources.GetObject("goToSourceButton.Image")));
-			this.goToSourceButton.Location = new System.Drawing.Point(3, 558);
-			this.goToSourceButton.Name = "goToSourceButton";
-			this.goToSourceButton.Size = new System.Drawing.Size(24, 23);
-			this.goToSourceButton.TabIndex = 6;
-			this.goToSourceButton.UseVisualStyleBackColor = true;
-			// 
 			// showMappingButton
 			// 
 			this.showMappingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -92,9 +83,31 @@ namespace EAMapping
 			this.showMappingButton.Location = new System.Drawing.Point(63, 558);
 			this.showMappingButton.Name = "showMapping";
 			this.showMappingButton.Size = new System.Drawing.Size(24, 23);
-			this.showMappingButton.TabIndex = 6;
+			this.showMappingButton.TabIndex = 8;
 			this.showMappingButton.UseVisualStyleBackColor = true;
 			this.showMappingButton.Click += new System.EventHandler(this.ShowMappingButtonClick);
+			// 
+			// deleteMappingButton
+			// 
+			this.deleteMappingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.deleteMappingButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteMapping.Image")));
+			this.deleteMappingButton.Location = new System.Drawing.Point(93, 558);
+			this.deleteMappingButton.Name = "deleteMapping";
+			this.deleteMappingButton.Size = new System.Drawing.Size(24, 23);
+			this.deleteMappingButton.TabIndex = 9;
+			this.deleteMappingButton.UseVisualStyleBackColor = true;
+			this.deleteMappingButton.Click += new System.EventHandler(this.DeleteMappingButtonClick);
+			// 
+			// exportButton
+			// 
+			this.exportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.exportButton.Location = new System.Drawing.Point(916, 558);
+			this.exportButton.Name = "exportButton";
+			this.exportButton.Size = new System.Drawing.Size(75, 23);
+			this.exportButton.TabIndex = 10;
+			this.exportButton.Text = "Export";
+			this.exportButton.UseVisualStyleBackColor = true;
+			this.exportButton.Click += new System.EventHandler(this.ExportButtonClick);
 			// 
 			// MappingControlGUI
 			// 
@@ -104,6 +117,7 @@ namespace EAMapping
 			this.Controls.Add(this.goToTargetButton);
 			this.Controls.Add(this.goToSourceButton);
 			this.Controls.Add(this.showMappingButton);
+			this.Controls.Add(this.deleteMappingButton);
 			this.Controls.Add(this.trees);
 			this.Name = "MappingControlGUI";
 			this.Size = new System.Drawing.Size(994, 584);

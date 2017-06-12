@@ -44,6 +44,10 @@ namespace EAMapping {
         this.Mapping.target.fullMappingPath.Split('.').ToList()
       );
     }
+    
+    public void Delete() {
+      this.removeMappingLogicIcon();
+    }
 
     public override string ToString() {
       return this.sourceNode.Text + " - " + this.targetNode.Text;
@@ -112,8 +116,10 @@ namespace EAMapping {
     }
 
     private void removeMappingLogicIcon() {
-      this.trees.Controls.Remove(this.icon);
-      this.icon = null;
+      if(this.icon != null) {
+        this.trees.Controls.Remove(this.icon);
+        this.icon = null;
+      }
     }
 
     private void handleIconClick(object sender, EventArgs args) {

@@ -11,17 +11,23 @@ namespace EAMapping
 	/// <summary>
 	/// Description of MappingControlGUI.
 	/// </summary>
-	public partial class MappingControlGUI : UserControl
-	{
-		MappingSet mappingSet { get; set; }
-        public List<LinkedTreeNode> leftNodes { get; set; }
-        public List<LinkedTreeNode> rightNodes { get; set; }
+	public partial class MappingControlGUI : UserControl {
+
+		public MappingSet mappingSet           { get; set; }
+    public List<LinkedTreeNode> leftNodes  { get; set; }
+    public List<LinkedTreeNode> rightNodes { get; set; }
+
+		public Mapping SelectedMapping {
+			get	{
+        LinkedTreeNodes link = this.trees.SelectedLink;
+        if(link == null) { return null; }
+        return link.Mapping;
+			}
+		}
         
-		public MappingControlGUI()
-		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
+		public MappingControlGUI() {
+			// The InitializeComponent() call is required for Windows Forms designer
+			// support.
 			InitializeComponent();
 
       // bubble LinkedTreeViews events via our own events
@@ -36,16 +42,6 @@ namespace EAMapping
 
     // EVENTS
 
-		public event Action<Mapping> ShowMapping = delegate { }; 
-		private void handleShowMapping(Mapping mapping) {
-			this.ShowMapping(mapping);
-		}
-
-		public event Action<Mapping> CreateMapping = delegate { }; 
-		private void handleCreateMapping(Mapping mapping) {
-			this.CreateMapping(mapping);
-		}
-
 		public event EventHandler selectSource = delegate { }; 
 		void GoToSourceButtonClick(object sender, EventArgs e)
 		{
@@ -58,9 +54,28 @@ namespace EAMapping
 			if (this.SelectedMapping != null) selectTarget(this.SelectedMapping,e);
 		}
 
+		public event Action<Mapping> ShowMapping = delegate { }; 
+		private void handleShowMapping(Mapping mapping) {
+			this.ShowMapping(mapping);
+		}
+
     public void ShowMappingButtonClick(object sender, EventArgs e) {
       if (this.SelectedMapping != null) {
         this.ShowMapping(this.SelectedMapping);
+      }
+    }
+
+		public event Action<Mapping> CreateMapping = delegate { }; 
+		private void handleCreateMapping(Mapping mapping) {
+			this.CreateMapping(mapping);
+		}
+
+    public event Action<Mapping> DeleteMapping = delegate {};
+    public void DeleteMappingButtonClick(object sender, EventArgs e) {
+      if (this.SelectedMapping != null) {
+        Mapping mapping = this.SelectedMapping;
+        this.trees.DeleteMapping(mapping);
+        this.DeleteMapping(mapping);
       }
     }
 
@@ -70,14 +85,5 @@ namespace EAMapping
 			exportMappingSet(this.mappingSet,e);
 		}
 
-    // PROPERTIES
-
-		public Mapping SelectedMapping {
-			get	{
-        LinkedTreeNodes link = this.trees.SelectedLink;
-        if(link == null) { return null; }
-        return link.Mapping;
-			}
-		}
 	}
 }

@@ -60,6 +60,7 @@ namespace EAMapping
 					_mappingControl = this.model.addTab(mappingControlName, "EAMapping.MappingControlGUI") as MappingControlGUI;
 					_mappingControl.HandleDestroyed  += mappingControl_HandleDestroyed;
 					_mappingControl.ShowMapping      += mappingControl_ShowMapping;
+					_mappingControl.DeleteMapping    += mappingControl_DeleteMapping;
 					_mappingControl.CreateMapping    += mappingControl_CreateMapping;
 					_mappingControl.selectSource     += mappingControl_SelectSource;
 					_mappingControl.selectTarget     += mappingControl_SelectTarget;
@@ -86,15 +87,19 @@ namespace EAMapping
 			
 		}
 
-    void mappingControl_ShowMapping(Mapping mapping) {
-      MessageBox.Show("TODO show mapping: " + mapping);
-    }
-
     void mappingControl_CreateMapping(Mapping mapping) {
-      MessageBox.Show("TODO create mapping: " + mapping);
+      MessageBox.Show("TODO EAMappingAddin::CreateMapping: " + mapping);
     }
 
-        void mappingControl_SelectSource(object sender, EventArgs e)
+    void mappingControl_ShowMapping(Mapping mapping) {
+      MessageBox.Show("TODO EAMappingAddin::ShowMapping: " + mapping);
+    }
+
+    void mappingControl_DeleteMapping(Mapping mapping) {
+      MessageBox.Show("TODO EAMappingAddin::DeleteMapping: " + mapping);
+    }
+
+    void mappingControl_SelectSource(object sender, EventArgs e)
 		{
 			var selectedMapping = sender as Mapping;
 			if (selectedMapping != null
