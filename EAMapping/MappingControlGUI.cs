@@ -68,8 +68,9 @@ namespace EAMapping
 
 		public Mapping selectedMapping {
 			get	{
-        // return this.trees.selectedMapping;
-        return null;
+        LinkedTreeNodes link = this.trees.SelectedLink;
+        if(link == null) { return null; }
+        return link.Mapping;
 			}
 		}
 	}

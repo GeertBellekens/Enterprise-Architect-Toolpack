@@ -17,7 +17,7 @@ namespace EAMapping {
 	    
   public class LinkedTreeNodes {
 
-    private Mapping mapping;
+    public Mapping Mapping { get; private set; }
 
     private LinkedTreeViews trees;
 
@@ -34,14 +34,14 @@ namespace EAMapping {
     private int width;
 
     public LinkedTreeNodes(LinkedTreeViews tree, Mapping mapping ) {
-      this.mapping = mapping;
+      this.Mapping = mapping;
       this.trees   = tree;
 
       this.sourceNode = this.trees.SourceTree.AddNode(
-        this.mapping.source.fullMappingPath.Split('.').ToList()
+        this.Mapping.source.fullMappingPath.Split('.').ToList()
       );
       this.targetNode = this.trees.TargetTree.AddNode(
-        this.mapping.target.fullMappingPath.Split('.').ToList()
+        this.Mapping.target.fullMappingPath.Split('.').ToList()
       );
     }
 
@@ -69,7 +69,7 @@ namespace EAMapping {
         this.sourceNode.ExternalEndPoint, this.targetNode.ExternalEndPoint
       );
       // add an icon if mapping logic is available
-      if ( this.mapping != null && this.mapping.mappingLogic != null) {
+      if ( this.Mapping != null && this.Mapping.mappingLogic != null) {
         this.drawMappingLogicIcon();
       } else {
         this.removeMappingLogicIcon();
@@ -92,7 +92,7 @@ namespace EAMapping {
         this.icon.Size      = new System.Drawing.Size(24, 24);
         ToolTip logicTooltip = new ToolTip();
         logicTooltip.SetToolTip(this.icon,
-          this.mapping.mappingLogic.description
+          this.Mapping.mappingLogic.description
         );
         this.trees.Controls.Add(this.icon);
         ((System.ComponentModel.ISupportInitialize)(this.icon)).EndInit();
