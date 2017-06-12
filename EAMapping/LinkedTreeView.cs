@@ -18,14 +18,17 @@ namespace EAMapping {
     // the other treeview (to check if other end has a selected node)
     private LinkedTreeView otherTree;
 
+    private LinkedTreeViews trees;
+
     public LinkedTreeView LinkTo(LinkedTreeView otherTree) {
       this.otherTree = otherTree;
       this.otherTree.otherTree = this;
       return this;
     }
 
-    public LinkedTreeView() {
-      this.AllowDrop = true;
+    public LinkedTreeView(LinkedTreeViews trees) {
+      this.trees        = trees;
+      this.AllowDrop    = true;
       this.DragDrop    += new DragEventHandler(this.handleDragDrop);
       this.DragOver    += new DragEventHandler(this.handleDragOver);
       this.MouseDown   += new MouseEventHandler(this.handleMouseDown);
@@ -110,9 +113,8 @@ namespace EAMapping {
         Point location = this.PointToClient(Cursor.Position);
         var target = this.HitTest(location).Node as LinkedTreeNode;
         if(target != null && source.TreeView != this) {
-          // TODO create new Mapping/Link + raise event
+          this.trees.Link(source, target);
         }
-        // TODO bubble invalidation to LinkedTreeViews
       }
     }
 

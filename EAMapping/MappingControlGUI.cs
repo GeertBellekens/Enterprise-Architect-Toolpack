@@ -25,8 +25,8 @@ namespace EAMapping
 			InitializeComponent();
 
       // bubble LinkedTreeViews events via our own events
-      this.trees.showMapping   += this.handleShowMapping;
-      this.trees.createMapping += this.handleCreateMapping;
+      this.trees.ShowMapping   += this.handleShowMapping;
+      this.trees.CreateMapping += this.handleCreateMapping;
 		}
 
 		public void loadMappingSet(MappingSet mappingSet) {
@@ -36,14 +36,14 @@ namespace EAMapping
 
     // EVENTS
 
-		public event EventHandler showMapping = delegate { }; 
-		void handleShowMapping(object sender, EventArgs e) {
-			showMapping((Mapping)sender, e);
+		public event Action<Mapping> ShowMapping = delegate { }; 
+		private void handleShowMapping(Mapping mapping) {
+			this.ShowMapping(mapping);
 		}
 
-		public event EventHandler createMapping = delegate { }; 
-		void handleCreateMapping(object sender, EventArgs e) {
-			createMapping((Mapping)sender, e);
+		public event Action<Mapping> CreateMapping = delegate { }; 
+		private void handleCreateMapping(Mapping mapping) {
+			this.CreateMapping(mapping);
 		}
 
 		public event EventHandler selectTarget = delegate { }; 

@@ -31,12 +31,12 @@ namespace EAMapping {
           if (mapping.source.fullMappingPath.Contains("Target")) {
             MessageBox.Show("target spotted");
           } else {
-            this.links.Add( mapping, new LinkedTreeNodes(this, mapping) );
+            this.addMapping(mapping);
           }
         }
       }
     }
-  
+
     public LinkedTreeNodes SelectedLink {
       get {
         return this.links.Values.FirstOrDefault(link => link.IsSelected);
@@ -60,16 +60,30 @@ namespace EAMapping {
     }
 
     // EVENTS
-    
-		public event EventHandler showMapping = delegate { }; 
-		void handleShowMapping(object sender, EventArgs e) {
-			showMapping((Mapping)((PictureBox)sender).Tag, e);
-		}
+    public event Action<Mapping> CreateMapping = delegate { }; 
+		public event Action<Mapping> ShowMapping  = delegate { }; 
 
-		public event EventHandler createMapping = delegate { }; 
-		void handleCreateMapping(object sender, EventArgs e) {
-			createMapping((Mapping)sender, e);
-		}
+    public LinkedTreeNodes Link(LinkedTreeNode source, LinkedTreeNode target) {
+      // create new mapping from link information
+      // Mapping mapping = new Mapping(source., target.)
+      // this.addMapping(mapping);
+
+      // raise Event
+      // this.CreateMapping(mapping);
+
+      // TODO? invalidated to re-render new links ?
+      return null;
+    }
+
+    public void Show(Mapping mapping) {
+      this.ShowMapping(mapping);
+    }
+
+    private LinkedTreeNodes addMapping(Mapping mapping) {
+      LinkedTreeNodes link = new LinkedTreeNodes(this, mapping);
+      this.links.Add(mapping, link);
+      return link;
+    }
 
     public void Clear() {
       this.SourceTree.Clear();
@@ -120,7 +134,7 @@ namespace EAMapping {
     }
 
     private LinkedTreeView createBaseTree() {
-      var tree = new LinkedTreeView();
+      var tree = new LinkedTreeView(this);
       tree.BorderStyle    = BorderStyle.None;
       tree.Width          = Screen.PrimaryScreen.Bounds.Width / 7;
       tree.AfterCollapse += new TreeViewEventHandler(this.updateTrees);

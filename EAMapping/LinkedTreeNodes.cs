@@ -97,8 +97,8 @@ namespace EAMapping {
         this.trees.Controls.Add(this.icon);
         ((System.ComponentModel.ISupportInitialize)(this.icon)).EndInit();
 
-        this.icon.Click += handleIconClick;
-        // this.icon.DoubleClick += handleShowMapping;
+        this.icon.Click       += handleIconClick;
+        this.icon.DoubleClick += handleIconDoubleClick;
       }
 
       // always make sure it's in the right place ;-)
@@ -118,6 +118,10 @@ namespace EAMapping {
 
     private void handleIconClick(object sender, EventArgs args) {
       this.toggleMappingSelection();
+    }
+
+    private void handleIconDoubleClick(object sender, EventArgs args) {
+      this.trees.Show(this.Mapping);
     }
 
     public bool Select() {
