@@ -31,8 +31,8 @@ namespace EAMapping
 			InitializeComponent();
 
       // bubble LinkedTreeViews events via our own events
-      this.trees.ShowMapping   += this.handleShowMapping;
-      this.trees.CreateMapping += this.handleCreateMapping;
+      this.trees.CreateMapping    += this.handleCreateMapping;
+      this.trees.EditMappingLogic += this.handleEditMappingLogic;
 		}
 
 		public void loadMappingSet(MappingSet mappingSet) {
@@ -42,33 +42,39 @@ namespace EAMapping
 
     // EVENTS
 
+    // navigate to source/target
+
 		public event EventHandler selectSource = delegate { }; 
-		void GoToSourceButtonClick(object sender, EventArgs e)
-		{
-			if (this.SelectedMapping != null) selectSource(this.SelectedMapping,e);
+		void GoToSourceButtonClick(object sender, EventArgs e) {
+			if(this.SelectedMapping != null) {
+        selectSource(this.SelectedMapping,e);
+      }
 		}
 
 		public event EventHandler selectTarget = delegate { }; 
-		void GoToTargetButtonClick(object sender, EventArgs e)
-		{
-			if (this.SelectedMapping != null) selectTarget(this.SelectedMapping,e);
-		}
-
-		public event Action<Mapping> ShowMapping = delegate { }; 
-		private void handleShowMapping(Mapping mapping) {
-			this.ShowMapping(mapping);
-		}
-
-    public void ShowMappingButtonClick(object sender, EventArgs e) {
-      if (this.SelectedMapping != null) {
-        this.ShowMapping(this.SelectedMapping);
+		void GoToTargetButtonClick(object sender, EventArgs e) {
+			if(this.SelectedMapping != null) {
+        selectTarget(this.SelectedMapping,e);
       }
-    }
+		}
+
+    // create/delete mapping
 
 		public event Action<Mapping> CreateMapping = delegate { }; 
 		private void handleCreateMapping(Mapping mapping) {
 			this.CreateMapping(mapping);
 		}
+
+    public void CreateMappingButtonClick(object sender, EventArgs e) {
+      // TODO
+      // var source = this.trees.SourceTree.getSelectedLinkedTreeNode();
+      // var target = this.trees.TargetTree.getSelectedLinkedTreeNode();
+      // if(source != null && target != null) {
+      //   var mapping = new Mapping(source.MappedEnd, target.MappedEnd);
+      //   this.trees.Add(mapping);
+      //   this.ShowMapping(mapping);
+      // }
+    }
 
     public event Action<Mapping> DeleteMapping = delegate {};
     public void DeleteMappingButtonClick(object sender, EventArgs e) {
@@ -79,9 +85,32 @@ namespace EAMapping
       }
     }
 
+    // edit / delete mapping logic
+
+		public event Action<Mapping> EditMappingLogic = delegate { };
+		private void handleEditMappingLogic(Mapping mapping) {
+			this.EditMappingLogic(mapping);
+		}
+
+    public void EditMappingLogicButtonClick(object sender, EventArgs e) {
+      if(this.SelectedMapping != null) {
+        this.EditMappingLogic(this.SelectedMapping);
+      }
+    }
+
+		public event Action<Mapping> DeleteMappingLogic = delegate { };
+
+    public void DeleteMappingLogicButtonClick(object sender, EventArgs e) {
+      if(this.trees.SelectedLink != null) {
+        this.DeleteMappingLogic(this.SelectedMapping);
+        this.trees.Invalidate();
+      }
+    }
+
+    // export
+
 		public event EventHandler exportMappingSet = delegate { }; 
-		void ExportButtonClick(object sender, EventArgs e)
-		{
+		void ExportButtonClick(object sender, EventArgs e) {
 			exportMappingSet(this.mappingSet,e);
 		}
 

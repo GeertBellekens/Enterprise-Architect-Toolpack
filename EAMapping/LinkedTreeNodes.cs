@@ -127,7 +127,7 @@ namespace EAMapping {
     }
 
     private void handleIconDoubleClick(object sender, EventArgs args) {
-      this.trees.Show(this.Mapping);
+      this.trees.EditMapping(this.Mapping);
     }
 
     public bool Select() {

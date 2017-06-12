@@ -58,46 +58,18 @@ namespace EAMapping
 				   && this.model != null)
 				{
 					_mappingControl = this.model.addTab(mappingControlName, "EAMapping.MappingControlGUI") as MappingControlGUI;
-					_mappingControl.HandleDestroyed  += mappingControl_HandleDestroyed;
-					_mappingControl.ShowMapping      += mappingControl_ShowMapping;
-					_mappingControl.DeleteMapping    += mappingControl_DeleteMapping;
-					_mappingControl.CreateMapping    += mappingControl_CreateMapping;
-					_mappingControl.selectSource     += mappingControl_SelectSource;
-					_mappingControl.selectTarget     += mappingControl_SelectTarget;
-					_mappingControl.exportMappingSet += mappingControl_ExportMappingSet;
+					_mappingControl.HandleDestroyed    += mappingControl_HandleDestroyed;
+					_mappingControl.CreateMapping      += mappingControl_CreateMapping;
+					_mappingControl.DeleteMapping      += mappingControl_DeleteMapping;
+					_mappingControl.EditMappingLogic   += mappingControl_EditMappingLogic;
+					_mappingControl.DeleteMappingLogic += mappingControl_DeleteMappingLogic;
+					_mappingControl.selectSource       += mappingControl_SelectSource;
+					_mappingControl.selectTarget       += mappingControl_SelectTarget;
+					_mappingControl.exportMappingSet   += mappingControl_ExportMappingSet;
 				}
 				return _mappingControl;
 			}
 		}
-
-		void mappingControl_ExportMappingSet(object sender, EventArgs e)
-		{
-			MappingSet mappingSet = sender as MappingSet;
-			//let the user select a file
-            var browseExportFileDialog = new SaveFileDialog();
-            browseExportFileDialog.Title = "Save export file";
-            browseExportFileDialog.Filter = "Mapping Files|*.csv";
-            browseExportFileDialog.FilterIndex = 1;
-            var dialogResult = browseExportFileDialog.ShowDialog(this.model.mainEAWindow);
-            if (dialogResult == DialogResult.OK)
-            {
-            	//if the user selected the file then put the filename in the abbreviationsfileTextBox
-            	EA_MP.MappingFactory.exportMappingSet((EA_MP.MappingSet)mappingSet,browseExportFileDialog.FileName);
-            }
-			
-		}
-
-    void mappingControl_CreateMapping(Mapping mapping) {
-      MessageBox.Show("TODO EAMappingAddin::CreateMapping: " + mapping);
-    }
-
-    void mappingControl_ShowMapping(Mapping mapping) {
-      MessageBox.Show("TODO EAMappingAddin::ShowMapping: " + mapping);
-    }
-
-    void mappingControl_DeleteMapping(Mapping mapping) {
-      MessageBox.Show("TODO EAMappingAddin::DeleteMapping: " + mapping);
-    }
 
     void mappingControl_SelectSource(object sender, EventArgs e)
 		{
@@ -119,6 +91,39 @@ namespace EAMapping
 			{
 				selectedMapping.target.mappedEnd.select();
 			}
+		}
+
+    void mappingControl_CreateMapping(Mapping mapping) {
+      MessageBox.Show("TODO EAMappingAddin::CreateMapping: " + mapping);
+    }
+
+    void mappingControl_DeleteMapping(Mapping mapping) {
+      MessageBox.Show("TODO EAMappingAddin::DeleteMapping: " + mapping);
+    }
+
+    void mappingControl_EditMappingLogic(Mapping mapping) {
+      MessageBox.Show("TODO EAMappingAddin::EditMappingLogic: " + mapping);
+    }
+
+    void mappingControl_DeleteMappingLogic(Mapping mapping) {
+      MessageBox.Show("TODO EAMappingAddin::DeleteMappingLogic: " + mapping);
+    }
+
+		void mappingControl_ExportMappingSet(object sender, EventArgs e)
+		{
+			MappingSet mappingSet = sender as MappingSet;
+			//let the user select a file
+            var browseExportFileDialog = new SaveFileDialog();
+            browseExportFileDialog.Title = "Save export file";
+            browseExportFileDialog.Filter = "Mapping Files|*.csv";
+            browseExportFileDialog.FilterIndex = 1;
+            var dialogResult = browseExportFileDialog.ShowDialog(this.model.mainEAWindow);
+            if (dialogResult == DialogResult.OK)
+            {
+            	//if the user selected the file then put the filename in the abbreviationsfileTextBox
+            	EA_MP.MappingFactory.exportMappingSet((EA_MP.MappingSet)mappingSet,browseExportFileDialog.FileName);
+            }
+			
 		}
 
 		void mappingControl_HandleDestroyed(object sender, EventArgs e)

@@ -60,8 +60,10 @@ namespace EAMapping {
     }
 
     // EVENTS
-    public event Action<Mapping> CreateMapping = delegate { }; 
-		public event Action<Mapping> ShowMapping  = delegate { }; 
+    // delete events can't be triggered using other than using the toolbar
+    // creation can be triggered by drag and drop, edit by double click
+    public event Action<Mapping> CreateMapping    = delegate { }; 
+		public event Action<Mapping> EditMappingLogic = delegate { };
 
     public LinkedTreeNodes Link(LinkedTreeNode source, LinkedTreeNode target) {
       // create new mapping from link information
@@ -75,8 +77,8 @@ namespace EAMapping {
       return null;
     }
 
-    public void Show(Mapping mapping) {
-      this.ShowMapping(mapping);
+    public void EditMapping(Mapping mapping) {
+      this.EditMappingLogic(mapping);
     }
 
     private LinkedTreeNodes addMapping(Mapping mapping) {
