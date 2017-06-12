@@ -63,6 +63,7 @@ namespace EAMapping
 					_mappingControl.DeleteMapping      += mappingControl_DeleteMapping;
 					_mappingControl.EditMappingLogic   += mappingControl_EditMappingLogic;
 					_mappingControl.DeleteMappingLogic += mappingControl_DeleteMappingLogic;
+          _mappingControl.AddNode            += mappingControl_AddNode;
 					_mappingControl.selectSource       += mappingControl_SelectSource;
 					_mappingControl.selectTarget       += mappingControl_SelectTarget;
 					_mappingControl.exportMappingSet   += mappingControl_ExportMappingSet;
@@ -107,6 +108,10 @@ namespace EAMapping
 
     void mappingControl_DeleteMappingLogic(Mapping mapping) {
       MessageBox.Show("TODO EAMappingAddin::DeleteMappingLogic: " + mapping);
+    }
+
+    void mappingControl_AddNode(object sender, EventArgs e) {
+      MessageBox.Show("TODO EAMappingAddin::AddNode");
     }
 
 		void mappingControl_ExportMappingSet(object sender, EventArgs e)

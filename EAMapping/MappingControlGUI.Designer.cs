@@ -16,6 +16,7 @@ namespace EAMapping
 		private System.Windows.Forms.Button deleteMappingButton;
 		private System.Windows.Forms.Button editMappingLogicButton;
 		private System.Windows.Forms.Button deleteMappingLogicButton;
+		private System.Windows.Forms.Button addNodeButton;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -47,6 +48,7 @@ namespace EAMapping
 			this.deleteMappingButton = new System.Windows.Forms.Button();
 			this.editMappingLogicButton = new System.Windows.Forms.Button();
 			this.deleteMappingLogicButton = new System.Windows.Forms.Button();
+			this.addNodeButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// trees
@@ -120,9 +122,20 @@ namespace EAMapping
 			this.deleteMappingLogicButton.Location = new System.Drawing.Point(153, 558);
 			this.deleteMappingLogicButton.Name = "deleteMappingLogic";
 			this.deleteMappingLogicButton.Size = new System.Drawing.Size(24, 23);
-			this.deleteMappingLogicButton.TabIndex = 8;
+			this.deleteMappingLogicButton.TabIndex = 9;
 			this.deleteMappingLogicButton.UseVisualStyleBackColor = true;
 			this.deleteMappingLogicButton.Click += new System.EventHandler(this.DeleteMappingLogicButtonClick);
+			// 
+			// addNodeButton
+			// 
+			this.addNodeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.addNodeButton.Image = ((System.Drawing.Image)(resources.GetObject("addNode.Image")));
+			this.addNodeButton.Location = new System.Drawing.Point(183, 558);
+			this.addNodeButton.Name = "addNode";
+			this.addNodeButton.Size = new System.Drawing.Size(24, 23);
+			this.addNodeButton.TabIndex = 10;
+			this.addNodeButton.UseVisualStyleBackColor = true;
+			this.addNodeButton.Click += new System.EventHandler(this.AddNodeButtonClick);
 			// 
 			// exportButton
 			// 
@@ -130,7 +143,7 @@ namespace EAMapping
 			this.exportButton.Location = new System.Drawing.Point(916, 558);
 			this.exportButton.Name = "exportButton";
 			this.exportButton.Size = new System.Drawing.Size(75, 23);
-			this.exportButton.TabIndex = 10;
+			this.exportButton.TabIndex = 11;
 			this.exportButton.Text = "Export";
 			this.exportButton.UseVisualStyleBackColor = true;
 			this.exportButton.Click += new System.EventHandler(this.ExportButtonClick);
@@ -146,6 +159,7 @@ namespace EAMapping
 			this.Controls.Add(this.deleteMappingButton);
 			this.Controls.Add(this.editMappingLogicButton);
 			this.Controls.Add(this.deleteMappingLogicButton);
+			this.Controls.Add(this.addNodeButton);
 			this.Controls.Add(this.trees);
 			this.Name = "MappingControlGUI";
 			this.Size = new System.Drawing.Size(994, 584);
