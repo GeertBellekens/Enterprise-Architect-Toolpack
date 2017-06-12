@@ -154,6 +154,7 @@ namespace EAMapping {
       tree.Width          = Screen.PrimaryScreen.Bounds.Width / 7;
       tree.AfterCollapse += new TreeViewEventHandler(this.updateTrees);
       tree.AfterExpand   += new TreeViewEventHandler(this.updateTrees);
+      tree.HideSelection  = false;
       this.Controls.Add(tree);
       return tree;
     }

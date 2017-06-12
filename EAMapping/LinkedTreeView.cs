@@ -29,9 +29,9 @@ namespace EAMapping {
     public LinkedTreeView(LinkedTreeViews trees) {
       this.trees        = trees;
       this.AllowDrop    = true;
+      this.ItemDrag    += new ItemDragEventHandler(this.handleItemDrag);
       this.DragDrop    += new DragEventHandler(this.handleDragDrop);
       this.DragOver    += new DragEventHandler(this.handleDragOver);
-      this.MouseDown   += new MouseEventHandler(this.handleMouseDown);
       this.AfterSelect += new TreeViewEventHandler(this.handleAfterSelect);
     }
 
@@ -91,20 +91,13 @@ namespace EAMapping {
       return node;
     }
 
+    private void handleItemDrag(object sender, ItemDragEventArgs e) {
+      this.SelectedNode = e.Item as LinkedTreeNode;
+      this.DoDragDrop(e.Item, DragDropEffects.All);
+    }
+
     private void handleDragOver(object sender, DragEventArgs e) {
       e.Effect = DragDropEffects.Copy;
-    }
-
-    private void handleAfterSelect(object sender, TreeViewEventArgs e) {
-      this.Capture = false;
-      this.otherTree.Capture = false;
-    }
-
-    private void handleMouseDown(object sender, MouseEventArgs e) {
-      LinkedTreeNode node = this.HitTest(e.Location).Node as LinkedTreeNode;
-      if (node != null) {
-        this.DoDragDrop(node, DragDropEffects.All);
-      }
     }
 
     private void handleDragDrop(object sender, DragEventArgs e) {
@@ -112,10 +105,17 @@ namespace EAMapping {
       if (source != null) {
         Point location = this.PointToClient(Cursor.Position);
         var target = this.HitTest(location).Node as LinkedTreeNode;
+        this.SelectedNode = target;
         if(target != null && source.TreeView != this) {
           this.trees.Link(source, target);
         }
       }
+    }
+
+    private void handleAfterSelect(object sender, TreeViewEventArgs e) {
+      this.Capture = false;
+      this.otherTree.Capture = false;
+      this.trees.Invalidate();
     }
 
     // fake transparancy by inheriting parent background color
