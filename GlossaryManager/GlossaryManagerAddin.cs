@@ -109,8 +109,7 @@ namespace GlossaryManager {
     }
 
     private void import<T>() where T : class {
-      var topic = typeof(T).Name;
-      var file = this.getFileFor(CSV.Loading, topic + "s");
+      var file = this.getFileFor<T>(CSV.Loading);
       if(file != null) {
         List<T> items = GlossaryItem.Load<T>(file);
         foreach(T item in items) {
@@ -122,7 +121,7 @@ namespace GlossaryManager {
 
     private void export<T>() where T : class {
       var topic = typeof(T).Name;
-      var file = this.getFileFor(CSV.Saving, topic + "s");
+      var file = this.getFileFor<T>(CSV.Saving);
       if(file != null) {
         List<T> items = new List<T>();
         // TODO collect items from selected package
@@ -138,7 +137,8 @@ namespace GlossaryManager {
     
     private enum CSV { Loading, Saving }
 
-    private string getFileFor(CSV activity, string topic) {
+    private string getFileFor<T>(CSV activity) {
+      var topic = typeof(T).Name + "s";
       FileDialog selection = activity == CSV.Loading ?
         (FileDialog)new OpenFileDialog() {
           Filter      = "CSV File | *.csv;*.txt",
