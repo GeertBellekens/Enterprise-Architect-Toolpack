@@ -21,7 +21,7 @@ namespace MagicdrawMigrator
 			this.magicDrawReader = magicDrawReader;
 			this.model = model;
 			this.mdPackage = mdPackage;
-			this.outputName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+			this.outputName = System.IO.Path.GetFileName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
 		}
 		public abstract void correct();
 	}
