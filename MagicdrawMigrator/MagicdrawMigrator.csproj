@@ -59,8 +59,7 @@
     <Compile Include="Correctors\AddClassifiersToPartitions.cs" />
     <Compile Include="Correctors\AssociationTableCorrector.cs" />
     <Compile Include="Correctors\ConvertPropertiesToAttributes.cs" />
-    <Compile Include="Correctors\CorrectStereotypes.cs" />
-    <Compile Include="Correctors\CorrectTaggedValues.cs" />
+    <Compile Include="Correctors\CorrectStereotypesAndTaggedValues.cs" />
     <Compile Include="Correctors\DiagramLayoutCorrector.cs" />
     <Compile Include="Correctors\FixCallBehaviorActionCorrector.cs" />
     <Compile Include="Correctors\MagicDrawCorrector.cs" />
