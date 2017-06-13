@@ -6,137 +6,61 @@ using System.Drawing;
 using System.Windows.Forms;
 using MappingFramework;
 
-namespace EAMapping
-{
-	/// <summary>
-	/// Description of LinkedTreeNode.
-	/// </summary>
+namespace EAMapping {
+  
+  // A LinkedTreeNode is a node in a LinkedTreeView
+  // It can be linked to multiple (other) nodes in the other LinkedTreeView
+  // It provides properties with geometric information for the LinkedTreeView
+  // to render additional links
 	    
-    public class LinkedTreeNode : TreeNode
-    {
-        public string Path { get; set;  }
-        public string Label { get; set; }
-        public Mapping mapping {get;set;}
-        public LinkedTreeNode(string label, string path) : base(label) 
-        { 	
-        	Path = path;
-        	Label = label;
-        }
-        public LinkedTreeNode(string label, string path, Mapping mapping) : this(label, path)
-        { 	
-        	this.mapping = mapping;
-        }
+  public class LinkedTreeNode : TreeNode {
 
-        public LinkedTreeNode OtherNode { get; private set; }
+    public LinkedTreeNode(string label) : base(label) {}
 
-        public bool IsLinked { get { return this.OtherNode != null; } }
+    public MappingEnd MappedEnd { get; set; }
 
-
-        public bool HasVisibleLink
-        {
-            get
-            {
-                return this.IsLinked && this.IsVisible && this.OtherNode.IsVisible;
-            }
-        }
-
-        // utility function to manage links
-
-        public LinkedTreeNode LinkTo(LinkedTreeNode otherNode)
-        {
-            this.Unlink();
-
-            otherNode.Unlink();
-            
-            if (otherNode != null)
-            {
-                this.OtherNode = otherNode;
-                this.OtherNode.OtherNode = this;
-                //TODO: backendcode to connect
-            }
-            else
-            {
-                //TODO Unlink code between this and this.OtherNode 
-                //Delete the mapping.
-            }
-
-            return this;
-
-        }
-
-        public void Unlink()
-        {
-            if (this.OtherNode == null) { return; }
-            this.OtherNode.OtherNode = null;
-            this.OtherNode = null;
-        }
-
-        // the EndPoint at the outside of the TreeView
-
-        public Point ExternalEndPoint
-        {
-
-            get
-            {
-
-                LinkedTreeView tree = this.TreeView as LinkedTreeView;
-
-                return new Point(
-
-                  tree.IsLeft ? tree.Right : tree.Left,
-
-                  this.TreeView.Top + this.Bounds.Top + this.Bounds.Height / 2
-
-                );
-
-            }
-
-        }
-
-        // the starting Point next to the Label of the TreeNode
-
-        public Point InternalLabelPoint
-        {
-
-            get
-            {
-
-                LinkedTreeView tree = this.TreeView as LinkedTreeView;
-
-                return new Point(
-
-                  tree.IsLeft ? this.Bounds.Right : this.Bounds.Left,
-
-                  this.Bounds.Top + this.Bounds.Height / 2
-
-                );
-
-            }
-
-        }
-
-        // the internal counterpart of ExternalEndPoint
-
-        public Point InternalEndPoint
-        {
-
-            get
-            {
-
-                LinkedTreeView tree = this.TreeView as LinkedTreeView;
-
-                return new Point(
-
-                  tree.IsLeft ? tree.ClientRectangle.Width : 0,
-
-                  this.Bounds.Top + this.Bounds.Height / 2
-
-                );
-
-            }
-
-        }
-
+    // the EndPoint at the outside of the TreeView
+    public Point ExternalEndPoint {
+      get {
+        LinkedTreeView tree = this.TreeView as LinkedTreeView;
+        return new Point(
+          tree.IsLeft ? tree.Right : tree.Left,
+          this.TreeView.Top + this.Bounds.Top + this.Bounds.Height / 2
+        );
+      }
     }
 
+    public void Draw(Color color, int width) {
+      Graphics g = this.TreeView.CreateGraphics();
+      g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+      g.DrawLine(
+        new Pen(color, width),
+        this.InternalLabelPoint,
+        this.InternalEndPoint
+      );
+    }
+
+    // the starting Point next to the Label of the TreeNode
+    public Point InternalLabelPoint {
+      get {
+        LinkedTreeView tree = this.TreeView as LinkedTreeView;
+        return new Point(
+          tree.IsLeft ? this.Bounds.Right : this.Bounds.Left,
+          this.Bounds.Top + this.Bounds.Height / 2
+        );
+      }
+    }
+
+    // the EndPoint at the inside of the TreeView
+    public Point InternalEndPoint {
+      get {
+        LinkedTreeView tree = this.TreeView as LinkedTreeView;
+        return new Point(
+          tree.IsLeft ? tree.ClientRectangle.Width : 0,
+          this.Bounds.Top + this.Bounds.Height / 2
+        );
+      }
+    }
+
+  }
 }
