@@ -29,7 +29,7 @@ namespace EAMapping {
 
     private PictureBox icon;
 
-    public  bool IsSelected { get; private set; } = false;
+    public  bool IsSelected { get; private set; }
 
     private int width;
 
