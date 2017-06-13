@@ -108,7 +108,7 @@ namespace GlossaryManager {
       this.model.activateTab(appTitle);
     }
 
-    private void import<T>() where T : class {
+    private void import<T>() where T : GlossaryItem {
       var file = this.getFileFor<T>(CSV.Loading);
       if(file != null) {
         List<T> items = GlossaryItem.Load<T>(file);
@@ -119,7 +119,7 @@ namespace GlossaryManager {
       }
     }
 
-    private void export<T>() where T : class {
+    private void export<T>() where T : GlossaryItem {
       var topic = typeof(T).Name;
       var file = this.getFileFor<T>(CSV.Saving);
       if(file != null) {

@@ -63,13 +63,17 @@ namespace GlossaryManager {
     [FieldNullValue(typeof(string), "")]
     public string UpdatedBy;    
 
-  	public static List<T> Load<T>(string file) where T : class {
+  	public static List<T> Load<T>(string file)
+      where T : GlossaryItem
+    {
       var engine = new FileHelperEngine<T>();
       engine.HeaderText = engine.GetFileHeader();
       return engine.ReadFile(file).ToList();
   	}
 
-    public static void Save<T>(string file, List<T> items) where T : class {
+    public static void Save<T>(string file, List<T> items)
+      where T : GlossaryItem
+    {
       var engine = new FileHelperEngine<T>();
       engine.HeaderText = engine.GetFileHeader();
       engine.WriteFile(file, items);
