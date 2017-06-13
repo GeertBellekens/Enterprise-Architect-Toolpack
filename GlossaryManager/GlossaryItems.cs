@@ -4,6 +4,9 @@ using System.Linq;
 
 using FileHelpers;
 
+using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
+using UML=TSF.UmlToolingFramework.UML;
+
 namespace GlossaryManager {
   
   public enum Status {
@@ -90,6 +93,30 @@ namespace GlossaryManager {
         this.UpdatedBy
       });
     }
+
+    // EA support
+
+    public abstract string Stereotype { get; }
+
+    public UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
+      EAWrapped.Package package = (EAWrapped.Package)model.selectedElement;
+      
+      var clazz = model.factory.createNewElement<UML.Classes.Kernel.Class>(
+        package, this.Name
+      );
+
+      var stereotypes = new HashSet<UML.Profiles.Stereotype>();
+      stereotypes.Add(new EAWrapped.Stereotype(
+        model, clazz as EAWrapped.Element, this.Stereotype
+      ));
+      clazz.stereotypes = stereotypes;
+
+      // TODO add more properties
+
+      clazz.save();
+      return clazz;
+    }
+
   }
 
 	[DelimitedRecord(";"), IgnoreFirst(1)]
@@ -111,6 +138,19 @@ namespace GlossaryManager {
         }) +
       ")";
     }
+
+    // EA support
+
+    public override string Stereotype { get { return "Business Item"; } }
+    
+    public UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
+      UML.Classes.Kernel.Class clazz = base.AsClassIn(model);
+
+      // TODO add more properties
+
+      return clazz;
+    }
+
 	}
 
 	[DelimitedRecord(";"), IgnoreFirst(1)]
@@ -152,5 +192,18 @@ namespace GlossaryManager {
         }) +
       ")";
     }
+
+    // EA support
+
+    public override string Stereotype { get { return "Data Item"; } }
+
+    public UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
+      UML.Classes.Kernel.Class clazz = base.AsClassIn(model);
+
+      // TODO add more properties
+
+      return clazz;
+    }
+
 	}
 }

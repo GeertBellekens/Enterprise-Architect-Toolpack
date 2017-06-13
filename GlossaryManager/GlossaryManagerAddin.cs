@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Linq;
 
 using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
+using UML=TSF.UmlToolingFramework.UML;
 
 using EAAddinFramework;
 using EAAddinFramework.Utilities;
@@ -114,7 +115,7 @@ namespace GlossaryManager {
         List<T> items = GlossaryItem.Load<T>(file);
         foreach(T item in items) {
           this.log("importing " + item.ToString());
-          // TODO populate selected package with items
+          item.AsClassIn(this.model);
         }        
       }
     }
