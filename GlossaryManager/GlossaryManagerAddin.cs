@@ -14,10 +14,13 @@ namespace GlossaryManager {
   public class GlossaryManagerAddin : EAAddinBase  {
 
     // menu constants
-    const string menuName   = "-&Glossary Manager";
-    const string menuManage = "&Manage...";
-    const string menuImport = "&Import...";
-    const string menuAbout  = "&About";
+    const string menuName                = "-&Glossary Manager";
+    const string menuManage              = "&Manage...";
+    const string menuImportBusinessItems = "&Import Business Items...";
+    const string menuImportDataItems     = "&Import Data Items...";
+    const string menuExportBusinessItems = "&Export Business Items...";
+    const string menuExportDataItems     = "&Export Data Items...";
+    const string menuAbout               = "&About";
 
     const string appTitle   = "GlossaryManager";
     const string appFQN     = "GlossaryManager.GlossaryManagerUI"; 
@@ -46,7 +49,10 @@ namespace GlossaryManager {
       this.menuHeader = menuName;
       this.menuOptions = new string[] {
         menuManage,
-        menuImport,
+        menuImportBusinessItems,
+        menuImportDataItems,
+        menuExportBusinessItems,
+        menuExportDataItems,
         menuAbout
       };
     }
@@ -66,7 +72,12 @@ namespace GlossaryManager {
                                          ref bool isChecked)
     {
       switch( itemName ) {
-        case menuImport:
+        case menuImportBusinessItems:
+        case menuImportDataItems:
+          isEnabled = this.fullyLoaded && (this.model.selectedElement != null);
+          break;
+        case menuExportBusinessItems:
+        case menuExportDataItems:
           isEnabled = this.fullyLoaded && (this.model.selectedElement != null);
           break;
         default:
@@ -79,9 +90,12 @@ namespace GlossaryManager {
                                       string menuName, string itemName)
     {
       switch( itemName ) {
-        case menuManage: this.manage(); break;
-        case menuImport: this.import(); break;
-        case menuAbout : this.about();  break;
+        case menuManage:              this.manage();               break;
+        case menuImportBusinessItems: this.import<BusinessItem>(); break;
+        case menuImportDataItems:     this.import<DataItem>();     break;
+        case menuExportBusinessItems: this.export<BusinessItem>(); break;
+        case menuExportDataItems:     this.export<DataItem>();     break;
+        case menuAbout:               this.about();                break;
       }
     }
 
@@ -94,12 +108,55 @@ namespace GlossaryManager {
       this.model.activateTab(appTitle);
     }
 
-    private void import() {
-      // TODO
+    private void import<T>() where T : class {
+      var topic = typeof(T).Name;
+      var file = this.getFileFor(CSV.Loading, topic + "s");
+      if(file != null) {
+        List<T> items = GlossaryItem.Load<T>(file);
+        foreach(T item in items) {
+          this.log("importing " + item.ToString());
+          // TODO populate selected package with items
+        }        
+      }
+    }
+
+    private void export<T>() where T : class {
+      var topic = typeof(T).Name;
+      var file = this.getFileFor(CSV.Saving, topic + "s");
+      if(file != null) {
+        List<T> items = new List<T>();
+        // TODO collect items from selected package
+        GlossaryItem.Save<T>(file, items);
+      }
     }
 
     private void about() {
       new AboutWindow().ShowDialog(this.model.mainEAWindow);
+    }
+
+    // support for CSV File IO Dialog boxes
+    
+    private enum CSV { Loading, Saving }
+
+    private string getFileFor(CSV activity, string topic) {
+      FileDialog selection = activity == CSV.Loading ?
+        (FileDialog)new OpenFileDialog() {
+          Filter      = "CSV File | *.csv;*.txt",
+          Title       = "Load a CSV with " + topic,
+          FilterIndex = 1,
+          Multiselect = false
+        }
+        :
+        (FileDialog)new SaveFileDialog() {
+          Filter      = "CSV File | *.csv;*.txt",
+          Title       = "Save " + topic + " to a CSV File",
+          FilterIndex = 1
+        }
+      ;
+      if( selection.ShowDialog() == DialogResult.OK ) {
+        return selection.FileName;
+      }
+      return null;
     }
 
     // support for logging to the EA log window
