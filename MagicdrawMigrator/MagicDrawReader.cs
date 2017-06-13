@@ -282,6 +282,9 @@ namespace MagicdrawMigrator
 											if (idRefAttribute != null) elementID = idRefAttribute.Value;
 										}
 										
+										//get the umlType of the elementNode
+										XmlAttribute umlTypeAttribute = diagramObjectNode.Attributes["elementClass"];
+										string umlType = umlTypeAttribute != null ? umlTypeAttribute.Value : string.Empty;
 										if (!string.IsNullOrEmpty(elementID))
 										{
 											//get the geometry
@@ -290,7 +293,7 @@ namespace MagicdrawMigrator
 											    && ! string.IsNullOrEmpty(geometryNode.InnerText))
 											{
 												if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
-												var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText);
+												var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
 												currentDiagram.addDiagramObject(diagramObject);
 											}
 										}

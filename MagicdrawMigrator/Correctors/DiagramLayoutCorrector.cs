@@ -20,6 +20,7 @@ namespace MagicdrawMigrator
 		}
 		public override void correct()
 		{
+			int diagramCounter = 0;
 		EAOutputLogger.log(this.model,this.outputName
                    ,string.Format("{0} Starting corrections for diagrams'"
                                   ,DateTime.Now.ToLongTimeString())
@@ -55,33 +56,24 @@ namespace MagicdrawMigrator
 				//loop the found diagrams
 				foreach (var eaDiagram in eaDiagrams) 
 				{
+					diagramCounter++;
 					EAOutputLogger.log(this.model,this.outputName
-		                   ,string.Format("{0} Processing diagram '{1}.{2}'"
+		                   ,string.Format("{0} Processing diagram number {1}: '{2}.{3}'"
 		                   				,DateTime.Now.ToLongTimeString()
+		                   				,diagramCounter
 		                   				,eaDiagram.owner.name
 		                   				,eaDiagram.name)
 					      ,((TSF_EA.ElementWrapper)eaDiagram.owner).id
 		                  ,LogTypeEnum.log);	
-					//loop all diagramObjects in the mdDiagram
-					foreach (var mdDiagramObject in mdDiagram.diagramObjects) 
+					//loop all diagramObjects in the mdDiagram that are not activity partitions
+					foreach (var mdDiagramObject in mdDiagram.diagramObjects.Where(x => x.umlType  != "SwimlaneHeader"))
 					{
-						//get the EA element represented by this MDDiagramObject
-						string getEAElementSQL = 
-						@"select o.Object_ID from (t_object o
-						inner join t_objectproperties tv on (tv.Object_ID = o.Object_ID
-															and tv.Property = 'md_guid'))
-						where tv.Value = '" + mdDiagramObject.mdID + "'";
-						var eaElement = this.model.getElementWrappersByQuery(getEAElementSQL).FirstOrDefault();
-						if (eaElement != null)
-						{
-							//first check if the elemnt is already on the diagram
-							if (!eaDiagram.contains(eaElement))
-							{
-								//for each of the elements on the diagram create the diagramobject with the appropriate link to the elemment and geometry.								
-								eaDiagram.addToDiagram(eaElement,mdDiagramObject.x,mdDiagramObject.y,mdDiagramObject.height,mdDiagramObject.width);
-							}
-						}
-
+						addElementToDiagram(mdDiagramObject,eaDiagram);
+					}
+					//then do all Activity Partitions
+					foreach (var mdDiagramObject in mdDiagram.diagramObjects.Where(x => x.umlType  == "SwimlaneHeader"))
+					{
+						addElementToDiagram(mdDiagramObject,eaDiagram);
 					}
 				//save the diagram
 				eaDiagram.save();
@@ -103,6 +95,29 @@ namespace MagicdrawMigrator
 	                   ,0
 	                  ,LogTypeEnum.log);			
 	
+		}
+
+		public void addElementToDiagram(MDDiagramObject mdDiagramObject, TSF_EA.Diagram eaDiagram)
+		{
+			//get the EA element represented by this MDDiagramObject
+			string getEAElementSQL = @"select o.Object_ID from (t_object o
+						inner join t_objectproperties tv on (tv.Object_ID = o.Object_ID
+															and tv.Property = 'md_guid'))
+						where tv.Value = '" + mdDiagramObject.mdID + "'";
+			var eaElement = this.model.getElementWrappersByQuery(getEAElementSQL).FirstOrDefault();
+			if (eaElement != null) {
+				//first check if the elemnt is already on the diagram
+				if (!eaDiagram.contains(eaElement)) {
+					//for each of the elements on the diagram create the diagramobject with the appropriate link to the elemment and geometry.								
+					var newDiagramObject = eaDiagram.addToDiagram(eaElement, mdDiagramObject.x, mdDiagramObject.y, mdDiagramObject.height, mdDiagramObject.width);
+					//if the diagramObject is an ActivityPartition then we need to set its orientation to vertical
+					if (mdDiagramObject.umlType == "SwimlaneHeader")
+					{
+						newDiagramObject.setOrientation(true);
+					}
+				}
+			}
+
 		}
 	}
 }

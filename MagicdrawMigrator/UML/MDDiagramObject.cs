@@ -10,12 +10,14 @@ namespace MagicdrawMigrator
 	public class MDDiagramObject
 	{
 		string _geometry;
-		public MDDiagramObject(string mdID, string geometry)
+		public MDDiagramObject(string mdID, string geometry,string umlType)
 		{
 			this.mdID = mdID;
 			this.geometry = geometry;
+			this.umlType = umlType;
 		}
 		public string mdID {get;set;}
+		public string umlType{get;set;}
 		
 		public string geometry {
 			get {
