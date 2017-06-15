@@ -21,6 +21,7 @@ namespace MagicdrawMigrator
 		public override void correct()
 		{
 			// Packages: ABIE, BDT
+			//{FDF1DB48-A330-4d1c-86EA-90DE44F7E5A1} Guid for an ABIE package
 			
 			// Classes: ABIE, BDT
 			
