@@ -19,6 +19,8 @@ namespace MagicdrawMigrator
 		string mdzipPath {get;set;}
 		protected TSF_EA.Model model {get;set;}
 		public string outputName {get;private set;}
+		Dictionary<string,string> _allClasses;
+		List<MDAssociation> _allASMAAssociations;
 		Dictionary<string,string> _allLinkedAssociationTables;
 		Dictionary<string, MDDiagram> _allDiagrams;
 		Dictionary<string, string> _allObjects;
@@ -104,7 +106,7 @@ namespace MagicdrawMigrator
 				return _allObjects;
 			}
 		}
-			public Dictionary<string, string> allPartitions
+		public Dictionary<string, string> allPartitions
 		{
 			get
 			{
@@ -113,6 +115,17 @@ namespace MagicdrawMigrator
 					this.getAllPartitions();
 				}
 				return _allPartitions;
+			}
+		}
+		public Dictionary<string,string> allClasses
+		{
+			get
+			{
+				if (_allClasses == null)
+				{
+					this.getAllClasses();
+				}
+				return _allClasses;
 			}
 		}
 		public Dictionary<string,string> allLinkedAssociationTables
@@ -124,6 +137,17 @@ namespace MagicdrawMigrator
 					this.getAllAssociationTables();
 				}
 				return _allLinkedAssociationTables;
+			}
+		}
+		public List<MDAssociation> allASMAAssociations
+		{
+			get
+			{
+				if (_allASMAAssociations == null)
+				{
+					this.getAllASMAAssociations();
+				}
+				return _allASMAAssociations;
 			}
 		}
 		public List<MDConstraint> getContraints(string MDElementID)
@@ -145,6 +169,160 @@ namespace MagicdrawMigrator
 			}
 			
 		}
+
+		void getAllASMAAssociations()
+		{
+			var foundAssociations = new List<MDAssociation>();
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				nsMgr.AddNamespace("Business_Document_Library", "http://www.magicdraw.com/schemas/Business_Document_Library.xmi");
+				//get the associations that are missing by looking at the tags with Business_Document_Library:ASMA
+				foreach (XmlNode asmaNode in sourceFile.SelectNodes("//*[local-name() = 'ASMA']",nsMgr)) 
+				{
+					MDAssociationEnd mdTargetEnd = null;
+					MDAssociationEnd mdSourceEnd = null;
+					// and getting the ID of their attributebase_Association
+					XmlAttribute baseAssociationAttribute = asmaNode.Attributes["base_Association"];
+					if (baseAssociationAttribute != null)
+					{
+						string associationID = baseAssociationAttribute.Value;
+						// then get the association itself by looking at the nodes <packagedElement> with attribute  xmi:type='uml:Association' and xmi:id= the id of the association
+						foreach (XmlNode associationNode in sourceFile.SelectNodes("//packagedElement[@xmi:id='"+associationID+"']",nsMgr))					                                                           
+						{
+							XmlNode targetEndNode= null;
+							XmlNode ownedEndNode = associationNode.SelectSingleNode("./ownedEnd");
+							if (ownedEndNode != null)
+							{
+								XmlAttribute typeIDAttribute = ownedEndNode.Attributes["type"];
+								XmlAttribute endIDAttribute = ownedEndNode.Attributes["xmi:id"];
+								if (typeIDAttribute != null
+								   && endIDAttribute != null)
+								{
+									string typeID = typeIDAttribute.Value;
+									string endID = endIDAttribute.Value;
+									foreach (XmlNode memberNode in associationNode.SelectNodes("./memberEnd"))
+									{
+										XmlAttribute idRefAttribute = memberNode.Attributes["xmi:idref"];
+										if (idRefAttribute != null
+										    && !idRefAttribute.Value.Equals(endID))
+										{
+											targetEndNode = memberNode;
+										}
+										else
+										{
+											//create sourceEnd
+											mdSourceEnd = new MDAssociationEnd();
+											mdSourceEnd.aggregationKind = "shared";
+											mdSourceEnd.endClassID = typeIDAttribute.Value;
+										}
+									}
+									if (targetEndNode != null)
+									{
+										XmlAttribute idRefAttribute = targetEndNode.Attributes["xmi:idref"];
+										if (idRefAttribute != null)
+										{
+											string attributeID = idRefAttribute.Value;
+											//find the ownedAttribute node with this xmi:id
+											XmlNode attributeNode = sourceFile.SelectSingleNode("//ownedAttribute[@xmi:id='"+attributeID+"']",nsMgr);
+											if (attributeNode != null)
+											{
+												string name = string.Empty;
+												string lowerBound = string.Empty;
+												string upperBound = string.Empty;
+												string targetTypeID = string.Empty;
+												//get the name from the attribute name
+												XmlAttribute nameAttribute = attributeNode.Attributes["name"];
+												name = nameAttribute != null ? nameAttribute.Value: string.Empty;
+												//get the targeTypeID from attribute href (after the # sign) in the subnode type
+												XmlNode targetTypeNode = attributeNode.SelectSingleNode("./type");
+												if (targetTypeNode != null)
+												{
+													XmlAttribute hrefAttribute = targetTypeNode.Attributes["href"];
+													string fullHrefValue = hrefAttribute != null ? hrefAttribute.Value : string.Empty;
+													//get the part after the # sign
+													var splittedHref = fullHrefValue.Split('#');
+													if (splittedHref.Count() == 2)
+													{
+														targetTypeID = splittedHref[1];
+													}
+												}
+												//get the lowerBound
+												XmlNode lowerBoundNode = attributeNode.SelectSingleNode(".//lowerValue");
+												if (lowerBoundNode != null)
+												{
+													XmlAttribute valueAttribute = lowerBoundNode.Attributes["value"];
+													lowerBound = valueAttribute != null ? valueAttribute.Value: string.Empty;
+												}
+												//get the lowerBound
+												XmlNode upperBoundNode = attributeNode.SelectSingleNode(".//upperValue");
+												if (upperBoundNode != null)
+												{
+													XmlAttribute valueAttribute = upperBoundNode.Attributes["value"];
+													upperBound = valueAttribute != null ? valueAttribute.Value: string.Empty;
+												}
+												//create the targetEnd
+												if (! string.IsNullOrEmpty(targetTypeID))
+												{
+													mdTargetEnd = new MDAssociationEnd();
+													mdTargetEnd.name = name;
+													mdTargetEnd.lowerBound = lowerBound;
+													mdTargetEnd.upperBound = upperBound;
+													mdTargetEnd.endClassID = targetTypeID;
+												}
+											}
+											
+										}
+									}
+									//create the association
+									if (mdSourceEnd != null 
+									    && mdTargetEnd != null)
+									{
+										var newASMAAssocation = new MDAssociation(mdSourceEnd,mdTargetEnd);
+										newASMAAssocation.stereotype = "ASMA";
+										foundAssociations.Add( newASMAAssocation);
+									}
+								}
+							}						
+						}
+					}
+				} 
+				
+			}
+			//set the collection to the found associations
+			_allASMAAssociations = foundAssociations;
+		}
+		void getAllClasses()
+		{
+			var foundClasses = new Dictionary<string, string>();
+			//first find all the class nodes
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				foreach (XmlNode classNode in sourceFile.SelectNodes("//packagedElement [@xmi:type='uml:Class']")) 
+				{
+					//get the ID attribute
+					XmlAttribute idAttribute = classNode.Attributes["xmi:id"];
+					string classID = idAttribute!= null ? idAttribute.Value: string.Empty;
+					//get the name ID
+					XmlAttribute nameAttribute = classNode.Attributes["name"];
+					string className = nameAttribute!= null ? nameAttribute.Value: string.Empty;
+					if (idAttribute != null
+					    && ! foundClasses.Keys.Contains(classID))
+					{
+						foundClasses.Add(classID,className);
+					}
+						
+				} 
+			}
+			//set the found classes
+			_allClasses = foundClasses;
+		}
+
 		/// <summary>
 		/// returns a dictionary of all constraints found in the Magicdraw source files
 		/// </summary>
