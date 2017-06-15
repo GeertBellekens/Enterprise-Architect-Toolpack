@@ -254,7 +254,7 @@ namespace MagicdrawMigrator
 												if (lowerBoundNode != null)
 												{
 													XmlAttribute valueAttribute = lowerBoundNode.Attributes["value"];
-													lowerBound = valueAttribute != null ? valueAttribute.Value: string.Empty;
+													lowerBound = valueAttribute != null ? valueAttribute.Value: "0";
 												}
 												//get the lowerBound
 												XmlNode upperBoundNode = attributeNode.SelectSingleNode(".//upperValue");

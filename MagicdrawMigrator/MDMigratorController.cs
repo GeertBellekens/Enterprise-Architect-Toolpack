@@ -47,8 +47,8 @@ namespace MagicdrawMigrator
 				correctors.Add(new SetStatesOnObjects(magicDrawReader,model, mdPackage));
 				correctors.Add(new DiagramLayoutCorrector(magicDrawReader,model, mdPackage));
 				correctors.Add(new AddClassifiersToPartitions(magicDrawReader,model, mdPackage));
-				correctors.Add(new CorrectStereotypesAndTaggedValues(magicDrawReader,model, mdPackage));
 				correctors.Add(new ASMAAssociationCorrector(magicDrawReader,model, mdPackage));
+				correctors.Add(new CorrectStereotypesAndTaggedValues(magicDrawReader,model, mdPackage));
 			}
 		}
 		public TSF_EA.Package getMagicDrawPackage()
