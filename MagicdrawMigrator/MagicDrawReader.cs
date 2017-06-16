@@ -43,7 +43,7 @@ namespace MagicdrawMigrator
 		public MagicDrawReader(string mdzipPath,TSF_EA.Model model)
 		{
 			this.mdzipPath = mdzipPath;
-			this.outputName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+			this.outputName = System.IO.Path.GetFileName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
 			this.model = model;
 		}
 		private void readMDSourceFiles()
