@@ -24,5 +24,14 @@ namespace MagicdrawMigrator
 			this.outputName = System.IO.Path.GetFileName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
 		}
 		public abstract void correct();
+		
+		public TSF_EA.ElementWrapper getElementByMDid(string mdID)
+		{
+			string getClassesSQL = @"select o.Object_ID from (t_object o
+									inner join t_objectproperties tv on (tv.Object_ID = o.Object_ID
+															and tv.Property = 'md_guid'))
+									where tv.Value = '"+mdID+"'";
+			return this.model.getElementWrappersByQuery(getClassesSQL).FirstOrDefault();
+		}
 	}
 }

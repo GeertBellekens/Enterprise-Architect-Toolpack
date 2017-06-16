@@ -26,6 +26,7 @@ namespace MagicdrawMigrator
 		Dictionary<string, string> _allObjects;
 		Dictionary<string, string> _allPartitions;
 		Dictionary<string, string> _allDependencies;
+		Dictionary<string,string> _allLifeLines;
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		Dictionary<string,XmlDocument> sourceFiles
@@ -85,6 +86,19 @@ namespace MagicdrawMigrator
 				}
 			}
 		}
+
+		public Dictionary<string, string> allLifeLines 
+		{
+			get 
+			{
+				if (_allLifeLines == null)
+				{
+					this.getAllLifeLines();
+				}
+				return _allLifeLines;
+			}
+		}
+
 		public Dictionary<string, MDDiagram> allDiagrams
 		{
 			get
@@ -306,6 +320,52 @@ namespace MagicdrawMigrator
 			//set the collection to the found associations
 			_allASMAAssociations = foundAssociations;
 		}
+
+		void getAllLifeLines()
+		{
+			var foundLifeLines = new Dictionary<string, string>();
+			//first find all the class nodes
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				foreach (XmlNode lifeLineNode in sourceFile.SelectNodes("//lifeline")) 
+				{
+					//get the ID of the lifeline
+					XmlAttribute idAttribute = lifeLineNode.Attributes["xmi:id"];
+					if (idAttribute != null)
+					{
+						string lifelineID = idAttribute.Value;
+						//get the represents attribute
+						XmlAttribute representsAttribute = lifeLineNode.Attributes["represents"];
+						if (representsAttribute != null)
+						{
+							string ownedAttributeID = representsAttribute.Value;
+							//get the ownedAttribute that represents this lifeline
+							XmlNode ownedAttributeNode = sourceFile.SelectSingleNode("//ownedAttribute[@xmi:id='"+ownedAttributeID+"']",nsMgr);
+							if (ownedAttributeNode != null)
+							{
+								//get the type attribute
+								XmlAttribute typeAttribute = ownedAttributeNode.Attributes["type"];
+								if (typeAttribute != null)
+								{
+									string typeID = typeAttribute.Value;
+									//add the lifeline to the list
+									if (! string.IsNullOrEmpty(lifelineID)
+									    && ! string.IsNullOrEmpty(typeID))
+									{
+										foundLifeLines.Add(lifelineID,typeID);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			_allLifeLines = foundLifeLines;
+		}
+
 		void getAllClasses()
 		{
 			var foundClasses = new Dictionary<string, string>();

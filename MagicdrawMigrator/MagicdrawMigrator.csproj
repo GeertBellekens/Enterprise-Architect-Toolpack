@@ -61,6 +61,7 @@
     <Compile Include="Correctors\AssociationTableCorrector.cs" />
     <Compile Include="Correctors\ConvertPropertiesToAttributes.cs" />
     <Compile Include="Correctors\CorrectActorDependencies.cs" />
+    <Compile Include="Correctors\SequenceDiagramCorrector.cs" />
     <Compile Include="Correctors\CorrectStereotypesAndTaggedValues.cs" />
     <Compile Include="Correctors\DiagramLayoutCorrector.cs" />
     <Compile Include="Correctors\FixCallBehaviorActionCorrector.cs" />
