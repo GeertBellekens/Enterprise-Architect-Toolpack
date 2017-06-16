@@ -10,9 +10,9 @@ using System.Xml;
 namespace MagicdrawMigrator
 {
 	/// <summary>
-	///Some parts of the Activity Diagrams are missing such as classifiers from partitions, 
-	///Types of actions (always callbehaviour), Forks and Joins, action pins and States on objects. 
-	///(we might have to find another solution for the state on objects issue)
+	/// In some cases the dependencies between the actors is missing.
+	///
+	///
 	/// </summary>
 	public class CorrectActorDependencies:MagicDrawCorrector
 	{
@@ -23,7 +23,20 @@ namespace MagicdrawMigrator
 		
 		public override void correct()
 		{
+			EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Starting corrections for actor dependencies'"
+	                                  ,DateTime.Now.ToLongTimeString())
+	                   ,0
+	                  ,LogTypeEnum.log);
 			
+			//Get all the dependencies
+			
+			//Get all the actors with the stereotypes 'BusinessPartners' 'Harmonized_Role' and 'AuthorizedRole'
+			//_1d100e3_1078391217020_167244_13292
+			
+			//Get the dependencies between the actors
+			
+			//Create the dependencies in EA
 		}
 	}
 }

@@ -25,6 +25,7 @@ namespace MagicdrawMigrator
 		Dictionary<string, MDDiagram> _allDiagrams;
 		Dictionary<string, string> _allObjects;
 		Dictionary<string, string> _allPartitions;
+		Dictionary<string, string> _allDependencies;
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		Dictionary<string,XmlDocument> sourceFiles
@@ -117,6 +118,16 @@ namespace MagicdrawMigrator
 				return _allPartitions;
 			}
 		}
+		public Dictionary<string, string> allDependencies {
+			get {
+				if (_allDependencies == null)
+				{
+					this.getAllDependencies();
+				}
+				
+				return _allDependencies;
+			}
+		}
 		public Dictionary<string,string> allClasses
 		{
 			get
@@ -170,6 +181,7 @@ namespace MagicdrawMigrator
 			
 		}
 
+		
 		void getAllASMAAssociations()
 		{
 			var foundAssociations = new List<MDAssociation>();
@@ -576,6 +588,42 @@ namespace MagicdrawMigrator
 			}
 			_allObjects = foundObjects;
 		}
+		
+		void getAllDependencies()
+		{
+			var foundDependencies = new Dictionary<string, string>();
+			foreach (var sourceFile in this.sourceFiles.Values) 
+			{
+
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				
+				foreach (XmlNode mapsToNode in sourceFile.SelectNodes("//*[local-name() = 'mapsTo']",nsMgr)) 
+				{
+					string source = "", target = "";
+					XmlAttribute dependencyAttribute = mapsToNode.Attributes["base_Dependency"];
+					
+					//_18_0_4_2ca011f_1442839031446_466323_166407
+					if (dependencyAttribute != null)
+					{
+						string dependencyID = dependencyAttribute.Value;
+						
+						
+						foreach (XmlNode dependencyNode in sourceFile.SelectNodes("//packagedElement[@xmi:id='"+dependencyID+"']",nsMgr))	
+						{
+							//select client node, attribute idref
+							
+							// select supplier node, attribute href, na het hekje
+						}
+					}
+				}
+			}
+			
+			
+			_allDependencies = foundDependencies;
+		}
+			
 		
 		void getAllPartitions()
 		{
