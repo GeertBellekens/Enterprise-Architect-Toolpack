@@ -24,6 +24,7 @@ namespace MagicdrawMigrator
 			          ,DateTime.Now.ToLongTimeString())
 			,0
 			,LogTypeEnum.log);
+			//set the classifiers on the lifelines
 			foreach (var lifeLineID in magicDrawReader.allLifeLines.Keys) 
 			{
 				//get the lifeline and classifier
@@ -41,8 +42,73 @@ namespace MagicdrawMigrator
 					,lifeLine.id
 					,LogTypeEnum.log);
 				}
-				//TODO: Messages, nested fragments, fragment info
 			}
+			//add the messages
+			foreach (MDMessage mdMessage in magicDrawReader.allMessages) 
+			{
+				var source = this.getElementByMDid(mdMessage.sourceID);
+				var target = this.getElementByMDid(mdMessage.targetID);
+				if (source != null
+				    && target != null)
+				{
+					TSF_EA.Message eaMessage;
+					//check if the message already exists
+					string sqlGetExistingMessage = @"select c.Connector_ID from (t_connector c  
+													inner join t_connectortag tv on (tv.ElementID = c.Connector_ID
+																					and tv.Property = 'md_guid'))
+													where c.Connector_Type = 'Sequence'
+													and tv.VALUE = '"+mdMessage.messageID+"'";
+					eaMessage = this.model.getRelationsByQuery(sqlGetExistingMessage).FirstOrDefault() as TSF_EA.Message;
+					if (eaMessage == null)
+					{
+						//check if a message with the same name exists but without a md_guid tagged value
+						string sqlGetMessageWithoutTV = @"select c.Connector_ID from t_connector c  	
+														where c.Connector_Type = 'Sequence'
+														and not exists (select tv.ea_guid from t_connectortag tv 
+																		where tv.ElementID = c.Connector_ID
+																			and tv.Property = 'md_guid')
+														and c.Name = '"+mdMessage.messageName+"'";
+						eaMessage = this.model.getRelationsByQuery(sqlGetExistingMessage).FirstOrDefault() as TSF_EA.Message;
+					}
+					if (eaMessage == null)
+					{
+						//create a new message
+						eaMessage = this.model.factory.createNewElement<TSF_EA.Message>(source,mdMessage.messageName);
+					}
+					//set the properties
+					if (eaMessage != null)
+					{
+						eaMessage.source = source;
+						eaMessage.target = target;
+						eaMessage.name = mdMessage.messageName;
+						eaMessage.save();
+						//changing messageSort is done directly in the database so the connector should already exist.
+						eaMessage.messageSort = mdMessage.isAsynchronous ? UML.Interactions.BasicInteractions.MessageSort.asynchSignal : UML.Interactions.BasicInteractions.MessageSort.synchCall;
+						//add the md_guid tagged value
+						eaMessage.addTaggedValue("md_guid",mdMessage.messageID);
+						//tell the user what we are doing
+						EAOutputLogger.log(this.model,this.outputName
+						,string.Format("{0} Creating message '{1}' in package '{2}'"
+						          	,DateTime.Now.ToLongTimeString()
+						         	, mdMessage.messageName
+						        	, source.owningPackage.name)
+						 ,source.id
+						,LogTypeEnum.log);
+					}
+				}
+				else
+				{
+					EAOutputLogger.log(this.model,this.outputName
+					,string.Format("{0} Could not create message '{1}' between lifelineID '{2}' and lifeLineID '{3}' because at least one of the lifelines was not found"
+					          	,DateTime.Now.ToLongTimeString()
+					         	, mdMessage.messageName
+					        	, mdMessage.sourceID
+					        	, mdMessage.targetID)
+					 ,source != null ? source.id : target != null ? target.id : 0
+					,LogTypeEnum.error);
+				}
+			}
+			
 			EAOutputLogger.log(this.model,this.outputName
 			,string.Format("{0} Finished corrections for Sequence Diagrams"
 			          ,DateTime.Now.ToLongTimeString())

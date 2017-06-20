@@ -27,6 +27,7 @@ namespace MagicdrawMigrator
 		Dictionary<string, string> _allPartitions;
 		Dictionary<string, string> _allDependencies;
 		Dictionary<string,string> _allLifeLines;
+		List<MDMessage> _allMessages;
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		Dictionary<string,XmlDocument> sourceFiles
@@ -86,7 +87,18 @@ namespace MagicdrawMigrator
 				}
 			}
 		}
-
+		
+		public List<MDMessage> allMessages
+		{
+			get
+			{
+				if (_allMessages == null)
+				{
+					this.getAllMessages();
+				}
+				return _allMessages;
+			}
+		}
 		public Dictionary<string, string> allLifeLines 
 		{
 			get 
@@ -321,10 +333,73 @@ namespace MagicdrawMigrator
 			_allASMAAssociations = foundAssociations;
 		}
 
+		void getAllMessages()
+		{
+			var foundMessages = new List<MDMessage>();
+			//first find all the Lifeline nodes
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				foreach (XmlNode messageNode in sourceFile.SelectNodes("//message")) 
+				{
+					//get the messageID
+					XmlAttribute messageIDAttribute = messageNode.Attributes["xmi:id"];
+				 	string messageID = messageIDAttribute != null ? messageIDAttribute.Value: string.Empty;
+					//get the source lifelineID
+					string sourceID = getLifeLineID(messageNode,true,nsMgr);
+				 	//get the target lifelineID
+				 	string targetID = getLifeLineID(messageNode,false,nsMgr);
+				 	//get the name of the message
+				 	XmlAttribute nameAttribute = messageNode.Attributes["name"];
+				 	string messageName = nameAttribute != null ? nameAttribute.Value: string.Empty;
+				 	//get the synchronous/asynchronous attribute
+				 	XmlAttribute messageSortAttribute = messageNode.Attributes["messageSort"];
+				 	bool asynchronousMessage = nameAttribute != null && "asynchSignal".Equals(messageSortAttribute.Value, StringComparison.InvariantCulture);
+				 	//create message
+				 	if (! string.IsNullOrEmpty(messageID)
+				 		&& ! string.IsNullOrEmpty(sourceID)
+				 	    && ! string.IsNullOrEmpty(targetID))
+				 	{
+				 		var mdMessage = new MDMessage(messageID,sourceID,targetID,messageName,asynchronousMessage);
+				 		foundMessages.Add(mdMessage);
+				 	}
+				}
+			}
+			//set the list to the found messages
+			_allMessages = foundMessages;
+		}
+		private string getLifeLineID(XmlNode messageNode, bool source,XmlNamespaceManager nsMgr)
+		{
+			//first get the occurenceID
+			XmlAttribute occurenceIDAttribute = source ? messageNode.Attributes["sendEvent"] : messageNode.Attributes["receiveEvent"];
+			if (occurenceIDAttribute != null)
+			{
+				string occurenceID = occurenceIDAttribute.Value;
+				if (! string.IsNullOrEmpty(occurenceID))
+				{
+					//get the messageOccurenceNode
+					XmlNode occurenceNode = messageNode.SelectSingleNode("..//fragment[@xmi:id='"+occurenceID+"']",nsMgr);
+					if (occurenceNode != null)
+					{
+						//get the covered node
+						XmlNode coveredNode = occurenceNode.SelectSingleNode("covered");
+						if (coveredNode != null)
+						{
+							XmlAttribute idRefAttribute = coveredNode.Attributes["xmi:idref"];
+							return idRefAttribute != null ? idRefAttribute.Value : string.Empty;
+						}
+					}
+				}
+			}
+			//if not found then return empty string
+			return string.Empty;
+		}
 		void getAllLifeLines()
 		{
 			var foundLifeLines = new Dictionary<string, string>();
-			//first find all the class nodes
+			//first find all the Lifeline nodes
 			foreach (var sourceFile in this.sourceFiles.Values)
 			{
 				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
