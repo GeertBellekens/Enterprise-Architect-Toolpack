@@ -30,13 +30,71 @@ namespace MagicdrawMigrator
 	                  ,LogTypeEnum.log);
 			
 			//Get all the dependencies
+			foreach(var mdDependency in magicDrawReader.allDependencies)
+			{
+				
+				//logging	                               
+				EAOutputLogger.log(this.model,this.outputName
+                   	,string.Format("{0} Get MD dependency with source '{1}' and target '{2}' from source files"
+                  	,DateTime.Now.ToLongTimeString()
+                  	,mdDependency.Key
+                  	,mdDependency.Value)
+                    	
+       			,0
+      			,LogTypeEnum.log);
+				
+				//get the ea guid from the md guid
+				// start object guid & end object guid
+				// source _17_0_2_2_b9402f1_1364316968995_855441_30725
+				// target _9_0_2_f54035b_1115716788113_931934_1206 
+
+			    // BusinessPartner -> Harmonized_Role  & Harmonized_Role -> AutorizedRole
+			    KeyValuePair<string,string> objectIdGuidSource = this.model.getObjectIdAndGuid(@"select so.[ea_guid], so.[Object_ID]
+																								from (t_object so
+																								inner join [t_objectproperties] sop
+																								on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdDependency.Key +"'))");
+			    
+			    KeyValuePair<string,string> objectIdGuidTarget = this.model.getObjectIdAndGuid(@"select so.[ea_guid], so.[Object_ID]
+																								from (t_object so
+																								inner join [t_objectproperties] sop
+																								on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdDependency.Value +"'))");
+			    
+			    //Create the new dependency
+			    EAOutputLogger.log(this.model,this.outputName
+                   	,string.Format("{0} Create new dependency with source '{1}' and target '{2}'"
+                  	,DateTime.Now.ToLongTimeString()
+                  	,objectIdGuidSource.Value
+                  	,objectIdGuidTarget.Value)
+                    	
+       			,0
+      			,LogTypeEnum.log);
+				
+			    
+			    TSF_EA.Dependency newDependency = this.model.factory.createNewElement<TSF_EA.Dependency>(this.model.getElementByGUID(objectIdGuidSource.Value), string.Empty);
+			    newDependency.target = this.model.getElementByGUID(objectIdGuidTarget.Value);
+			   
 			
-			//Get all the actors with the stereotypes 'BusinessPartners' 'Harmonized_Role' and 'AuthorizedRole'
-			//_1d100e3_1078391217020_167244_13292
+			    newDependency.addStereotype(this.model.factory.createStereotype(newDependency,"mapsTo"));
+			   
+			    newDependency.save();
+				
+			 
+			    
+				
+			}
 			
-			//Get the dependencies between the actors
 			
-			//Create the dependencies in EA
+			
+					
+			
+			//Log Finished
+					EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Finished correct actor dependencies'"
+	                                  ,DateTime.Now.ToLongTimeString())
+	                   ,0
+	                  ,LogTypeEnum.log);
+			
+		
 		}
 	}
 }

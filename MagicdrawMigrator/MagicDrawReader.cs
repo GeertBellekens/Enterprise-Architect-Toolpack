@@ -7,6 +7,7 @@ using System.IO.Compression;
 using EAAddinFramework.Utilities;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
+using System.Diagnostics;
 
 
 namespace MagicdrawMigrator
@@ -792,17 +793,16 @@ namespace MagicdrawMigrator
 			var foundDependencies = new Dictionary<string, string>();
 			foreach (var sourceFile in this.sourceFiles.Values) 
 			{
-
+				
 				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
 				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
 				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
 				
 				foreach (XmlNode mapsToNode in sourceFile.SelectNodes("//*[local-name() = 'mapsTo']",nsMgr)) 
 				{
-					string source = "", target = "";
+					
 					XmlAttribute dependencyAttribute = mapsToNode.Attributes["base_Dependency"];
 					
-					//_18_0_4_2ca011f_1442839031446_466323_166407
 					if (dependencyAttribute != null)
 					{
 						string dependencyID = dependencyAttribute.Value;
@@ -810,11 +810,47 @@ namespace MagicdrawMigrator
 						
 						foreach (XmlNode dependencyNode in sourceFile.SelectNodes("//packagedElement[@xmi:id='"+dependencyID+"']",nsMgr))	
 						{
-							//select client node, attribute idref
+							string source = "", target = "";
 							
-							// select supplier node, attribute href, na het hekje
+							//select client node, attribute idref
+							XmlNode clientNode = dependencyNode.SelectSingleNode("./client");
+							if (clientNode != null)
+							{
+								XmlAttribute clientAttribute = clientNode.Attributes["xmi:idref"];
+								source = clientAttribute != null? clientAttribute.Value: string.Empty;
+							}
+							
+							// select supplier node, attribute href, after #
+							XmlNode supplierNode = dependencyNode.SelectSingleNode("./supplier");
+							if (supplierNode != null)
+							{
+								XmlAttribute supplierAttribute = supplierNode.Attributes["href"];
+								string fullHrefValue = supplierAttribute != null ? supplierAttribute.Value : string.Empty;
+								//get the part after the # sign
+								var splittedHref = fullHrefValue.Split('#');
+								if (splittedHref.Count() == 2)
+								{
+									target = splittedHref[1];
+								}
+							}
+							
+							if (!string.IsNullOrEmpty(target) & !string.IsNullOrEmpty(source))
+							{
+									try
+									{
+										foundDependencies.Add(source,target);
+									}
+									catch(Exception e)
+									{
+										
+									}
+							}
+						
 						}
+							
 					}
+					
+					
 				}
 			}
 			
