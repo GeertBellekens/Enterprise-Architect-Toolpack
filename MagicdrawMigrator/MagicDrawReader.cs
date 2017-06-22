@@ -250,11 +250,13 @@ namespace MagicdrawMigrator
 							{
 								//create new MDFragment
 								var mdFragment = new MDFragment(ownerID,fragmentID,fragmentType);
-								foreach (XmlNode guardNode in fragmentNode.SelectNodes("./operand/guard/specification",nsMgr)) 
+								foreach (XmlNode operandNode in fragmentNode.SelectNodes("./operand",nsMgr)) 
 								{
+									XmlNode guardNode = operandNode.SelectSingleNode("./guard/specification",nsMgr);
 									//get the guard text
-									XmlAttribute guardValueAttribute = guardNode.Attributes["value"];
-									string operandGuard = guardValueAttribute != null ? guardValueAttribute.Value:string.Empty;
+									XmlAttribute guardValueAttribute = guardNode != null ? guardNode.Attributes["value"] : null;
+									//if the guard is empty then the default is "else"
+									string operandGuard = guardValueAttribute != null ? guardValueAttribute.Value:"else";
 									if (! string.IsNullOrEmpty(operandGuard))
 									{
 										//add it to the fragment

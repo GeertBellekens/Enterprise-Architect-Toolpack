@@ -25,9 +25,9 @@ namespace MagicdrawMigrator
 			,0
 			,LogTypeEnum.log);
 			//set classifiers
-//			setClassifiersOnLifeLines();
-//			//add missing messages
-//			addMessages();
+			setClassifiersOnLifeLines();
+			//add missing messages
+			addMessages();
 			//add missing fragments and update existing fragments
 			addOrUpdateFragments();
 			
@@ -48,31 +48,47 @@ namespace MagicdrawMigrator
 				//create new if is doesn't exist yet
 				//get its owner
 				var owner = this.getElementByMDid(mdFragment.ownerMdID);
-				if (owner != null)
+				if (eaFragment == null
+				    && owner != null)
 				{
 					//create the fragment under the owner
 					eaFragment = this.model.factory.createNewElement<UML.Interactions.BasicInteractions.InteractionFragment>(owner,string.Empty) as TSF_EA.ElementWrapper;
-					//add the md_guid tagged value
-					if (eaFragment != null) eaFragment.addTaggedValue("md_guid",mdFragment.mdID);
 				}
 				if (eaFragment != null)
 				{
 					//set the type
-					if (mdFragment.fragmentType.Equals("alt",StringComparison.InvariantCultureIgnoreCase))
+					switch (mdFragment.fragmentType)
 					{
-						eaFragment.subType = "0";
-					}else if (mdFragment.fragmentType.Equals("opt",StringComparison.InvariantCultureIgnoreCase))
-					{
-						eaFragment.subType = "1";
+						case "alt":
+							eaFragment.subType = "0";
+							break;
+						case "opt":
+							eaFragment.subType = "1";
+							break;
+						case "par":
+							eaFragment.subType = "3";
+							break;
+						case "loop":
+							eaFragment.subType = "4";
+							break;
 					}
 					//update the partitions
-					foreach (var guard in mdFragment.operandGuards) 
+					foreach (var guard in mdFragment.operandGuards)
 					{
-						global::EA.Partition partition = eaFragment.WrappedElement.Partitions.AddNew(string.Empty,mdFragment.fragmentType) as global::EA.Partition;
-						partition.Name = guard;
+						global::EA.Partition partition = eaFragment.WrappedElement.Partitions.AddNew(guard,mdFragment.fragmentType) as global::EA.Partition;
 						partition.Size = 100; //default value, later to be corrected in the DiagramLayoutCorrector
+						eaFragment.isDirty = true; //make sure it gets saved
 					}
 					eaFragment.save();
+					//add the md_guid tagged value if needed
+					if (eaFragment != null) eaFragment.addTaggedValue("md_guid",mdFragment.mdID);
+					//tell the user what we are doing
+					EAOutputLogger.log(this.model,this.outputName
+					,string.Format("{0} Updating fragment in '{1}'"
+					          	,DateTime.Now.ToLongTimeString()
+					          	, eaFragment.owner.name)
+					 ,eaFragment.id
+					,LogTypeEnum.log);
 					//set the operands
 //					string xrefDescription = this.getOperandDescription(mdFragment.operandGuards);
 //					if (! string.IsNullOrEmpty(xrefDescription))
