@@ -124,7 +124,6 @@ namespace GlossaryManager {
 
       return clazz;
     }
-
   }
 
 	[DelimitedRecord(";"), IgnoreFirst(1)]
@@ -162,8 +161,7 @@ namespace GlossaryManager {
       clazz.save();
       return clazz;
     }
-
-	}
+  }
 
 	[DelimitedRecord(";"), IgnoreFirst(1)]
 	public class DataItem	: GlossaryItem {
@@ -224,6 +222,56 @@ namespace GlossaryManager {
       clazz.save();
       return clazz;
     }
-
 	}
+
+  public class GlossaryItemFactory<T> where T : GlossaryItem {
+
+    private GlossaryItemFactory() {}
+
+    public static T FromClass(UML.Classes.Kernel.Class clazz) {
+      if( clazz.stereotypes.Count != 1 ) { return null; }
+
+      GlossaryItem item;
+      if( typeof(T).Name == "BusinessItem" ) {
+        item = new BusinessItem();
+      } else if( typeof(T).Name == "DataItem" ) {
+        item = new DataItem();
+      } else {
+        return null;
+      }
+
+      if( ! clazz.stereotypes.ToList()[0].name.Equals(item.Stereotype) ) {
+        return null;
+      }
+
+      EAWrapped.ElementWrapper eaClass = clazz as EAWrapped.ElementWrapper;
+
+      // base GlossaryItem
+      item.Name        = eaClass.name;
+      item.Author      = eaClass.author;
+      item.Version     = eaClass.version;
+      item.Status      = (Status) Enum.Parse(typeof(Status), eaClass.status);
+      item.Keywords    = eaClass.keywords;
+      item.CreateDate  = eaClass.created;
+      item.UpdateDate  = eaClass.modified;
+      item.UpdatedBy   = eaClass.modifier;
+
+      if( typeof(T).Name == "BusinessItem" ) {
+        ((BusinessItem)item).Description = eaClass.notes;
+        ((BusinessItem)item).Domain      = eaClass.domain;
+      } else if( typeof(T).Name == "DataItem" ){
+        ((DataItem)item).Label           = eaClass.label;
+        ((DataItem)item).LogicalDataType = eaClass.type;
+        ((DataItem)item).Size            = Convert.ToInt32(eaClass.size);
+        ((DataItem)item).Format          = eaClass.format;
+        ((DataItem)item).Description     = eaClass.notes;
+        ((DataItem)item).InitialValue    = eaClass.initialValue;
+      } else {
+        return null; // shouldn't happen, tested before ;-)
+      }
+
+      return (T)item;
+    }
+  }
+
 }

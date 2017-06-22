@@ -124,8 +124,19 @@ namespace GlossaryManager {
       var topic = typeof(T).Name;
       var file = this.getFileFor<T>(CSV.Saving);
       if(file != null) {
+        this.log("exporting to " + file.ToString());
         List<T> items = new List<T>();
-        // TODO collect items from selected package
+        EAWrapped.Package package = (EAWrapped.Package)this.model.selectedElement;
+        this.log("exporting package " + package.ToString());
+        foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
+          T item = GlossaryItemFactory<T>.FromClass(clazz);
+          if( item != null) {
+            this.log("exporting " + item.ToString());
+            items.Add(item);
+          } else {
+            this.log("skipping " + clazz.ToString());
+          }
+        }
         GlossaryItem.Save<T>(file, items);
       }
     }
