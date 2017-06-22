@@ -10,9 +10,9 @@ using UML=TSF.UmlToolingFramework.UML;
 namespace GlossaryManager {
   
   public enum Status {
-      Proposed,
-      Approved,
-      Rejected
+    Proposed,
+    Approved,
+    Rejected
   }
 
   public class StringListConverter : ConverterBase {
@@ -52,14 +52,14 @@ namespace GlossaryManager {
     [FieldConverter(typeof(StringListConverter))]
     public List<string> Keywords;
 
+    [FieldOrder(6)]
     [FieldConverter(ConverterKind.Date, "dd/MM/yyyy")]
     [FieldNullValue(typeof(DateTime), "1900-01-01")]
-    [FieldOrder(6)]
     public DateTime CreateDate;
 
+    [FieldOrder(7)]
     [FieldConverter(ConverterKind.Date, "dd/MM/yyyy")]
     [FieldNullValue(typeof(DateTime), "1900-01-01")]
-    [FieldOrder(7)]
     public DateTime UpdateDate;
 
     [FieldOrder(8)]
@@ -87,6 +87,7 @@ namespace GlossaryManager {
         this.Name,
         this.Author,
         this.Version,
+        this.Status.ToString(),
         "[" + string.Join(",", this.Keywords) + "]",
         this.CreateDate.ToString(),
         this.UpdateDate.ToString(),
@@ -98,7 +99,7 @@ namespace GlossaryManager {
 
     public abstract string Stereotype { get; }
 
-    public UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
+    public virtual UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
       EAWrapped.Package package = (EAWrapped.Package)model.selectedElement;
       
       var clazz = model.factory.createNewElement<UML.Classes.Kernel.Class>(
@@ -111,9 +112,16 @@ namespace GlossaryManager {
       ));
       clazz.stereotypes = stereotypes;
 
-      // TODO add more properties
+      var eaClass = clazz as EAWrapped.ElementWrapper;
+      
+      eaClass.author   = this.Author;
+      eaClass.version  = this.Version;
+      eaClass.status   = this.Status.ToString();
+      eaClass.keywords = this.Keywords;
+      eaClass.created  = this.CreateDate;
+      eaClass.modified = this.UpdateDate;
+      eaClass.modifier = this.UpdatedBy;
 
-      clazz.save();
       return clazz;
     }
 
@@ -143,11 +151,15 @@ namespace GlossaryManager {
 
     public override string Stereotype { get { return "Business Item"; } }
     
-    public UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
+    public override UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
       UML.Classes.Kernel.Class clazz = base.AsClassIn(model);
 
-      // TODO add more properties
+      var eaClass = clazz as EAWrapped.ElementWrapper;
+      
+      eaClass.notes  = this.Description;
+      eaClass.domain = this.Domain;
 
+      clazz.save();
       return clazz;
     }
 
@@ -197,11 +209,19 @@ namespace GlossaryManager {
 
     public override string Stereotype { get { return "Data Item"; } }
 
-    public UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
+    public override UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
       UML.Classes.Kernel.Class clazz = base.AsClassIn(model);
 
-      // TODO add more properties
+      var eaClass = clazz as EAWrapped.ElementWrapper;
+      
+      eaClass.label        = this.Label;
+      eaClass.type         = this.LogicalDataType;
+      eaClass.size         = this.Size.ToString();
+      eaClass.format       = this.Format;
+      eaClass.notes        = this.Description;
+      eaClass.initialValue = this.InitialValue;
 
+      clazz.save();
       return clazz;
     }
 
