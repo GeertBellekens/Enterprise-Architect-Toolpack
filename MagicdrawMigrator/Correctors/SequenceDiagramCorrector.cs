@@ -24,25 +24,67 @@ namespace MagicdrawMigrator
 			          ,DateTime.Now.ToLongTimeString())
 			,0
 			,LogTypeEnum.log);
-			//set the classifiers on the lifelines
-			foreach (var lifeLineID in magicDrawReader.allLifeLines.Keys) 
+			//set classifiers
+//			setClassifiersOnLifeLines();
+//			//add missing messages
+//			addMessages();
+			//add missing fragments and update existing fragments
+			addOrUpdateFragments();
+			
+			EAOutputLogger.log(this.model,this.outputName
+			,string.Format("{0} Finished corrections for Sequence Diagrams"
+			          ,DateTime.Now.ToLongTimeString())
+			,0
+			,LogTypeEnum.log);
+		}
+
+		void addOrUpdateFragments()
+		{
+			//add or update the fragments
+			foreach (var mdFragment in magicDrawReader.allFragments) 
 			{
-				//get the lifeline and classifier
-				var lifeLine = this.getElementByMDid(lifeLineID);
-				var classifier = this.getElementByMDid(magicDrawReader.allLifeLines[lifeLineID]);
-				if (lifeLine != null && classifier != null)
+				//check if the fragment already exists
+				var eaFragment = this.getElementByMDid(mdFragment.mdID);
+				//create new if is doesn't exist yet
+				//get its owner
+				var owner = this.getElementByMDid(mdFragment.ownerMdID);
+				if (owner != null)
 				{
-					lifeLine.classifier = classifier;
-					lifeLine.save();
-					EAOutputLogger.log(this.model,this.outputName
-					,string.Format("{0} Setting classifier {1} on lifeline in package {2}"
-					          	,DateTime.Now.ToLongTimeString()
-					         	, classifier.name
-					        	, lifeLine.owningPackage.name)
-					,lifeLine.id
-					,LogTypeEnum.log);
+					//create the fragment under the owner
+					eaFragment = this.model.factory.createNewElement<UML.Interactions.BasicInteractions.InteractionFragment>(owner,string.Empty) as TSF_EA.ElementWrapper;
+					//add the md_guid tagged value
+					if (eaFragment != null) eaFragment.addTaggedValue("md_guid",mdFragment.mdID);
+				}
+				if (eaFragment != null)
+				{
+					//set the type
+					if (mdFragment.fragmentType.Equals("alt",StringComparison.InvariantCultureIgnoreCase))
+					{
+						eaFragment.subType = "0";
+					}else if (mdFragment.fragmentType.Equals("opt",StringComparison.InvariantCultureIgnoreCase))
+					{
+						eaFragment.subType = "1";
+					}
+					//update the partitions
+					foreach (var guard in mdFragment.operandGuards) 
+					{
+						global::EA.Partition partition = eaFragment.WrappedElement.Partitions.AddNew(string.Empty,mdFragment.fragmentType) as global::EA.Partition;
+						partition.Name = guard;
+						partition.Size = 100; //default value, later to be corrected in the DiagramLayoutCorrector
+					}
+					eaFragment.save();
+					//set the operands
+//					string xrefDescription = this.getOperandDescription(mdFragment.operandGuards);
+//					if (! string.IsNullOrEmpty(xrefDescription))
+//					{
+//						string updateXrefSQL = "";
+//					}
+					
 				}
 			}
+		}
+		void addMessages()
+		{
 			//add the messages
 			foreach (MDMessage mdMessage in magicDrawReader.allMessages) 
 			{
@@ -108,13 +150,37 @@ namespace MagicdrawMigrator
 					,LogTypeEnum.error);
 				}
 			}
-			
-			EAOutputLogger.log(this.model,this.outputName
-			,string.Format("{0} Finished corrections for Sequence Diagrams"
-			          ,DateTime.Now.ToLongTimeString())
-			,0
-			,LogTypeEnum.log);
 		}
-		
+		void setClassifiersOnLifeLines()
+		{
+			//set the classifiers on the lifelines
+			foreach (var lifeLineID in magicDrawReader.allLifeLines.Keys) 
+			{
+				//get the lifeline and classifier
+				var lifeLine = this.getElementByMDid(lifeLineID);
+				var classifier = this.getElementByMDid(magicDrawReader.allLifeLines[lifeLineID]);
+				if (lifeLine != null && classifier != null)
+				{
+					lifeLine.classifier = classifier;
+					lifeLine.save();
+					EAOutputLogger.log(this.model,this.outputName
+					,string.Format("{0} Setting classifier {1} on lifeline in package {2}"
+					          	,DateTime.Now.ToLongTimeString()
+					         	, classifier.name
+					        	, lifeLine.owningPackage.name)
+					,lifeLine.id
+					,LogTypeEnum.log);
+				}
+			}
+		}
+		string getOperandDescription(List<string> operandGuards)
+		{
+			string description = string.Empty;
+			foreach (var guard in operandGuards) 
+			{
+				description += "@PAR;Name="+guard+";Size=100;GUID="+Guid.NewGuid().ToString("B")+";@ENDPAR;";
+			}
+			return description;
+		}
 	}
 }

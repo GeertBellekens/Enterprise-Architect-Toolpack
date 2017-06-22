@@ -27,6 +27,7 @@ namespace MagicdrawMigrator
 		Dictionary<string, string> _allPartitions;
 		Dictionary<string, string> _allDependencies;
 		Dictionary<string,string> _allLifeLines;
+		List<MDFragment> _allFragments;
 		List<MDMessage> _allMessages;
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string,XmlDocument> _sourceFiles;
@@ -88,6 +89,17 @@ namespace MagicdrawMigrator
 			}
 		}
 		
+		public List<MDFragment> allFragments
+		{
+			get
+			{
+				if (_allFragments == null)
+				{
+					this.getAllFragments();
+				}
+				return _allFragments;
+			}
+		}
 		public List<MDMessage> allMessages
 		{
 			get
@@ -207,6 +219,57 @@ namespace MagicdrawMigrator
 			
 		}
 
+		void getAllFragments()
+		{
+			var foundFragments = new List<MDFragment>();
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				//start with all xml nodes with name packagedElement and xmi:type='uml:Interaction'
+				foreach (XmlNode interactionNode in sourceFile.SelectNodes("//packagedElement[@xmi:type='uml:Interaction']",nsMgr))
+				{
+					
+					XmlAttribute interactionIDAttribute = interactionNode.Attributes["xmi:id"];
+					if (interactionIDAttribute != null 
+					    && !string.IsNullOrEmpty(interactionIDAttribute.Value))
+					{
+						string ownerID = interactionIDAttribute.Value;
+						//get all xml nodes of with name fragment that have as xmi:type='uml:CombinedFragment'
+						foreach (XmlNode fragmentNode in interactionNode.SelectNodes(".//fragment[@xmi:type='uml:CombinedFragment']",nsMgr)) 
+						{
+							//get the fragment mdID
+							XmlAttribute fragmentIDAttribute = fragmentNode.Attributes["xmi:id"];
+							string fragmentID = fragmentIDAttribute != null ? fragmentIDAttribute.Value:string.Empty;
+							//get the fragment type
+							XmlAttribute fragmentTypeAttribute = fragmentNode.Attributes["interactionOperator"];
+							string fragmentType = fragmentTypeAttribute != null ? fragmentTypeAttribute.Value:string.Empty;
+							if (! string.IsNullOrEmpty(fragmentID))
+							{
+								//create new MDFragment
+								var mdFragment = new MDFragment(ownerID,fragmentID,fragmentType);
+								foreach (XmlNode guardNode in fragmentNode.SelectNodes("./operand/guard/specification",nsMgr)) 
+								{
+									//get the guard text
+									XmlAttribute guardValueAttribute = guardNode.Attributes["value"];
+									string operandGuard = guardValueAttribute != null ? guardValueAttribute.Value:string.Empty;
+									if (! string.IsNullOrEmpty(operandGuard))
+									{
+										//add it to the fragment
+										mdFragment.operandGuards.Add(operandGuard);
+									}
+								}
+								//add the fragment to the list of found fragments
+								foundFragments.Add(mdFragment);
+							}
+						} 
+					}
+				}
+			}
+			//set the fragments
+			_allFragments = foundFragments;
+		}
 		
 		void getAllASMAAssociations()
 		{

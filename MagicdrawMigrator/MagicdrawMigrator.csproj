@@ -82,6 +82,7 @@
     <Compile Include="UML\MDConstraint.cs" />
     <Compile Include="UML\MDDiagram.cs" />
     <Compile Include="UML\MDDiagramObject.cs" />
+    <Compile Include="UML\MDFragment.cs" />
     <Compile Include="UML\MDMessage.cs" />
   </ItemGroup>
   <ItemGroup>
