@@ -30,8 +30,27 @@ namespace GlossaryManager {
     // we want to handle null values
     protected override bool CustomNullHandling { get { return true; } }
   }
+
+  // anything except nothing is true ;-)
+  public class BoolConverter : ConverterBase {
+    public override object StringToField(string delete) {
+      if(delete != null && delete.Length > 0) { return true; }
+      return false;
+    }
+
+    public override string FieldToString(object fieldValue) {
+      return "";
+    }
+
+    // we want to handle null values
+    protected override bool CustomNullHandling { get { return true; } }
+  }
   
   public abstract class GlossaryItem {
+
+    [FieldOrder(0)]
+    [FieldConverter(typeof(BoolConverter))]
+    public bool Delete;
 
     [FieldOrder(1)]
 		public string Name;
@@ -99,21 +118,24 @@ namespace GlossaryManager {
 
     public abstract string Stereotype { get; }
 
-    public virtual UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
-      EAWrapped.Package package = (EAWrapped.Package)model.selectedElement;
-      
-      var clazz = model.factory.createNewElement<UML.Classes.Kernel.Class>(
+    public UML.Classes.Kernel.Class AsClassIn(EAWrapped.Package package) {
+      var clazz = package.model.factory.createNewElement<UML.Classes.Kernel.Class>(
         package, this.Name
       );
 
       var stereotypes = new HashSet<UML.Profiles.Stereotype>();
       stereotypes.Add(new EAWrapped.Stereotype(
-        model, clazz as EAWrapped.Element, this.Stereotype
+        package.model, clazz as EAWrapped.Element, this.Stereotype
       ));
       clazz.stereotypes = stereotypes;
 
+      this.Update(clazz);
+
+      return clazz;
+    }
+
+    public virtual void Update(UML.Classes.Kernel.Class clazz) {
       var eaClass = clazz as EAWrapped.ElementWrapper;
-      
       eaClass.author   = this.Author;
       eaClass.version  = this.Version;
       eaClass.status   = this.Status.ToString();
@@ -121,9 +143,8 @@ namespace GlossaryManager {
       eaClass.created  = this.CreateDate;
       eaClass.modified = this.UpdateDate;
       eaClass.modifier = this.UpdatedBy;
-
-      return clazz;
     }
+
   }
 
 	[DelimitedRecord(";"), IgnoreFirst(1)]
@@ -150,16 +171,14 @@ namespace GlossaryManager {
 
     public override string Stereotype { get { return "Business Item"; } }
     
-    public override UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
-      UML.Classes.Kernel.Class clazz = base.AsClassIn(model);
+    public override void Update(UML.Classes.Kernel.Class clazz) {
+      base.Update(clazz);
 
       var eaClass = clazz as EAWrapped.ElementWrapper;
-      
       eaClass.notes  = this.Description;
       eaClass.domain = this.Domain;
 
       clazz.save();
-      return clazz;
     }
   }
 
@@ -207,11 +226,10 @@ namespace GlossaryManager {
 
     public override string Stereotype { get { return "Data Item"; } }
 
-    public override UML.Classes.Kernel.Class AsClassIn(EAWrapped.Model model) {
-      UML.Classes.Kernel.Class clazz = base.AsClassIn(model);
+    public override void Update(UML.Classes.Kernel.Class clazz) {
+      base.Update(clazz);
 
       var eaClass = clazz as EAWrapped.ElementWrapper;
-      
       eaClass.label        = this.Label;
       eaClass.type         = this.LogicalDataType;
       eaClass.size         = this.Size.ToString();
@@ -220,29 +238,23 @@ namespace GlossaryManager {
       eaClass.initialValue = this.InitialValue;
 
       clazz.save();
-      return clazz;
     }
+
 	}
 
   public class GlossaryItemFactory<T> where T : GlossaryItem {
 
     private GlossaryItemFactory() {}
 
+    public static bool IsA(UML.Classes.Kernel.Class clazz) {
+      return GlossaryItemFactory<T>.CreateFrom(clazz) != null;
+    }
+
     public static T FromClass(UML.Classes.Kernel.Class clazz) {
       if( clazz.stereotypes.Count != 1 ) { return null; }
 
-      GlossaryItem item;
-      if( typeof(T).Name == "BusinessItem" ) {
-        item = new BusinessItem();
-      } else if( typeof(T).Name == "DataItem" ) {
-        item = new DataItem();
-      } else {
-        return null;
-      }
-
-      if( ! clazz.stereotypes.ToList()[0].name.Equals(item.Stereotype) ) {
-        return null;
-      }
+      GlossaryItem item = GlossaryItemFactory<T>.CreateFrom(clazz);
+      if( item == null ) { return null; }
 
       EAWrapped.ElementWrapper eaClass = clazz as EAWrapped.ElementWrapper;
 
@@ -268,6 +280,23 @@ namespace GlossaryManager {
         ((DataItem)item).InitialValue    = eaClass.initialValue;
       } else {
         return null; // shouldn't happen, tested before ;-)
+      }
+
+      return (T)item;
+    }
+
+    private static T CreateFrom(UML.Classes.Kernel.Class clazz) {
+      GlossaryItem item;
+      if( typeof(T).Name == "BusinessItem" ) {
+        item = new BusinessItem();
+      } else if( typeof(T).Name == "DataItem" ) {
+        item = new DataItem();
+      } else {
+        return null;
+      }
+
+      if( ! clazz.stereotypes.ToList()[0].name.Equals(item.Stereotype) ) {
+        return null;
       }
 
       return (T)item;

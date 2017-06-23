@@ -111,13 +111,41 @@ namespace GlossaryManager {
 
     private void import<T>() where T : GlossaryItem {
       var file = this.getFileFor<T>(CSV.Loading);
-      if(file != null) {
-        List<T> items = GlossaryItem.Load<T>(file);
-        foreach(T item in items) {
+      if(file == null) { return; }
+
+      List<T> items = GlossaryItem.Load<T>(file);
+
+      EAWrapped.Package package = (EAWrapped.Package)this.model.selectedElement;
+      Dictionary<string,EAWrapped.Class> index = this.index<T>(package);
+      this.log("importing in package " + package.ToString());
+
+      foreach(T item in items) {
+        if( ! index.ContainsKey(item.Name) ) {          // create
           this.log("importing " + item.ToString());
-          item.AsClassIn(this.model);
+          item.AsClassIn(package);          
+        } else {
+          if(item.Delete) {                             // delete
+            this.log("removing " + item.Name);
+            package.deleteOwnedElement(index[item.Name]);
+          } else  {                                     // update
+            this.log("updating " + item.Name);
+            item.Update(index[item.Name]);
+          }
         }        
       }
+    }
+
+    private Dictionary<string,EAWrapped.Class> index<T>(EAWrapped.Package package)
+      where T : GlossaryItem
+    {
+      Dictionary<string,EAWrapped.Class> map =
+        new Dictionary<string,EAWrapped.Class>();
+      foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
+        if( GlossaryItemFactory<T>.IsA(clazz) ) {
+          map.Add(clazz.name, clazz);
+        }
+      }
+      return map;
     }
 
     private void export<T>() where T : GlossaryItem {
