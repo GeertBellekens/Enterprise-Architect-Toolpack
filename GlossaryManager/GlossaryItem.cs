@@ -49,43 +49,59 @@ namespace GlossaryManager {
   public abstract class GlossaryItem {
 
     [FieldOrder(0)]
+    [FieldNullValue(typeof(string), "")]
+    public string GUID;
+
+    [FieldOrder(1)]
     [FieldConverter(typeof(BoolConverter))]
     public bool Delete;
 
-    [FieldOrder(1)]
-		public string Name;
-
     [FieldOrder(2)]
-    [FieldNullValue(typeof(string), "")]
-    public string Author;
+		public string Name;
 
     [FieldOrder(3)]
     [FieldNullValue(typeof(string), "")]
-    public string Version;
+    public string Author;
 
     [FieldOrder(4)]
+    [FieldNullValue(typeof(string), "")]
+    public string Version;
+
+    [FieldOrder(5)]
     [FieldNullValue(typeof(Status), "Approved")]
     public Status Status;
 
-    [FieldOrder(5)]
+    [FieldOrder(6)]
     [FieldConverter(typeof(StringListConverter))]
     public List<string> Keywords;
-
-    [FieldOrder(6)]
-    [FieldConverter(ConverterKind.Date, "dd/MM/yyyy")]
-    [FieldNullValue(typeof(DateTime), "1900-01-01")]
-    public DateTime CreateDate;
 
     [FieldOrder(7)]
     [FieldConverter(ConverterKind.Date, "dd/MM/yyyy")]
     [FieldNullValue(typeof(DateTime), "1900-01-01")]
-    public DateTime UpdateDate;
+    public DateTime CreateDate;
 
     [FieldOrder(8)]
+    [FieldConverter(ConverterKind.Date, "dd/MM/yyyy")]
+    [FieldNullValue(typeof(DateTime), "1900-01-01")]
+    public DateTime UpdateDate;
+
+    [FieldOrder(9)]
     [FieldNullValue(typeof(string), "")]
     public string UpdatedBy;    
 
-    public EAWrapped.ElementWrapper Origin { get; set; }
+
+    [FieldValueDiscarded]
+    [FieldHidden]
+    private EAWrapped.ElementWrapper origin = null;
+    public EAWrapped.ElementWrapper Origin {
+      get {
+        return this.origin;
+      }
+      set {
+        this.origin = value;
+        this.GUID = this.origin.guid;
+      }
+    }
 
   	public static List<T> Load<T>(string file)
       where T : GlossaryItem
@@ -105,6 +121,7 @@ namespace GlossaryManager {
 
     public override string ToString() {
       return string.Join(", ", new List<string> {
+        this.GUID,
         this.Name,
         this.Author,
         this.Version,

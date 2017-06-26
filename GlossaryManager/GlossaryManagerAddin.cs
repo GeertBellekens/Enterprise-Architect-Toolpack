@@ -119,28 +119,32 @@ namespace GlossaryManager {
       this.log("importing in package " + package.ToString());
 
       foreach(T item in items) {
-        if( ! index.ContainsKey(item.Name) ) {          // create
+        if( item.GUID == "" ) {                           // create
           this.log("importing " + item.ToString());
           item.AsClassIn(package);          
         } else {
-          if(item.Delete) {                             // delete
-            this.log("removing " + item.Name);
-            package.deleteOwnedElement(index[item.Name]);
-          } else  {                                     // update
-            this.log("updating " + item.Name);
-            item.Update(index[item.Name]);
+          if(index.ContainsKey(item.GUID)) {
+            if(item.Delete) {                             // delete
+              this.log("removing " + item.Name);
+              package.deleteOwnedElement(index[item.GUID]);
+            } else  {                                     // update
+              this.log("updating " + item.Name);
+              item.Update(index[item.GUID]);
+            }
+          } else {
+            this.log("WARNING: item (" + item.GUID + ") is not part of this package.");
           }
         }        
       }
     }
-    
+
     private void export<T>() where T : GlossaryItem {
       var topic = typeof(T).Name;
       var file = this.getFileFor<T>(CSV.Saving);
       if(file != null) {
         this.log("exporting to " + file.ToString());
-        List<T> items = this.list<T>();
-        foreach(var item in items) {
+        List<T> items = new List<T>();
+        foreach(var item in this.list<T>()) {
           if( item != null) {
             this.log("exporting " + item.ToString());
             items.Add(item);
@@ -180,7 +184,7 @@ namespace GlossaryManager {
         new Dictionary<string,EAWrapped.Class>();
       foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
         if( GlossaryItemFactory<T>.IsA(clazz) ) {
-          map.Add(clazz.name, clazz);
+          map.Add(clazz.guid, clazz);
         }
       }
       return map;
