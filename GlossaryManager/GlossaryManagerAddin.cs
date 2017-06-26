@@ -104,7 +104,7 @@ namespace GlossaryManager {
       if( this.model == null ) { return; }
       this.log("starting glossary management activity...");
       this.ui.BusinessItems.Show<BusinessItem>(this.list<BusinessItem>());
-      // this.ui.DataItems.Show(this.list<DataItem>());
+      this.ui.DataItems.Show<DataItem>(this.list<DataItem>());
       this.model.activateTab(appTitle);
     }
 

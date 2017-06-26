@@ -43,7 +43,7 @@ namespace GlossaryManager {
 		}
 
     public BusinessItemTabPage BusinessItems { get; private set; }
-    // public DataItemsTabPage     DataItems     { get; private set; }
+    public DataItemTabPage     DataItems     { get; private set; }
 
     private void createTabControl() {
 			TabControl tabs = new TabControl () {
@@ -56,20 +56,11 @@ namespace GlossaryManager {
       
 			this.BusinessItems = new BusinessItemTabPage(this);
       tabs.Controls.Add( this.BusinessItems );
-			tabs.Controls.Add( this.createDataItemsTabPage() );
+      this.DataItems = new DataItemTabPage(this);
+			tabs.Controls.Add( this.DataItems );
 
 			this.Controls.Add(tabs);
     }
     
-    // Data Items list and record viewers
-
-    private TabPage createDataItemsTabPage() {
-      TabPage tab = new TabPage() { Text   = "Data Items" };
-
-      // TODO
-
-      return tab;
-    }
-
   }
 }

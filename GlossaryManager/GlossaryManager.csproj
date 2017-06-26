@@ -82,6 +82,7 @@
     <Compile Include="Field.cs" />
     <Compile Include="GlossaryItemTabPage.cs" />
     <Compile Include="BusinessItemTabPage.cs" />
+    <Compile Include="DataItemTabPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

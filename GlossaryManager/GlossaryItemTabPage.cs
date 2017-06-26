@@ -14,8 +14,13 @@ namespace GlossaryManager {
     
     private GlossaryManagerUI ui;
     
+    // the master/detail list/form combo
+    private ListView        itemsList;
+    private FlowLayoutPanel form;
+    
     public GlossaryItemTabPage(GlossaryManagerUI ui) : base() {
       this.ui = ui;
+
       var splitContainer = new System.Windows.Forms.SplitContainer() {
         Orientation      = Orientation.Horizontal,
         Size             = new System.Drawing.Size(500, 500),
@@ -37,18 +42,19 @@ namespace GlossaryManager {
 
       this.Controls.Add(splitContainer);
 
-      splitContainer.Panel1.Controls.Add(this.createList());
-      splitContainer.Panel2.Controls.Add(this.createForm());
+      this.createList();
+      this.createForm();
+
+      splitContainer.Panel1.Controls.Add(this.itemsList);
+      splitContainer.Panel2.Controls.Add(this.form);
 
       splitContainer.ResumeLayout(false);
-  
+
       this.addToolbar();
     }
 
     // construction of master/detail = list/form
     
-    private ListView itemsList;
-
     public bool HasItemSelected {
       get {
         return this.itemsList.SelectedItems.Count > 0;
@@ -81,35 +87,30 @@ namespace GlossaryManager {
       return this.itemsList;
     }
 
-    protected virtual Panel createForm() {
-      var panel       = new FlowLayoutPanel() {
+    protected virtual void createForm() {
+      this.form       = new FlowLayoutPanel() {
         FlowDirection = FlowDirection.TopDown,
         Dock          = DockStyle.Fill,
       };
-
-      this.addField(new Field("Name")     { Width = 125 },     panel);
-      this.addField(new Field("Author")   { Width = 125 },     panel);
-      this.addField(new Field("Version"),                      panel);
-      this.addField(new Field("Status", typeof(Status)),       panel);
-      this.addField(new Field("Keywords") { Width = 250 },     panel);
-      this.addField(new Field("Created")  { Enabled = false }, panel);
-      this.addField(new Field("Updated")  { Enabled = false }, panel);
+      this.addField(new Field("Name")     { Width = 125 });
+      this.addField(new Field("Author")   { Width = 125 });
+      this.addField(new Field("Version"));
+      this.addField(new Field("Status", typeof(Status)));
+      this.addField(new Field("Keywords") { Width = 250 });
+      this.addField(new Field("Created")  { Enabled = false });
+      this.addField(new Field("Updated")  { Enabled = false });
+      Control last = this.addField(new Field("Updated by") { Width = 125 });
       // creates a column break, marking the difference between GI and BI/DI
-      panel.SetFlowBreak(
-        this.addField(new Field("Updated by") { Width = 125 },     panel),
-        true
-      );
-
-      return panel;
+      this.form.SetFlowBreak(last, true);
     }
 
     // mapping from field name (= Label) to corresponding Field
     protected Dictionary<string,Field> fields = new Dictionary<string,Field>();
 
-    // adds a field to a panel
-    protected Control addField(Field field, Panel panel) {
+    // adds a field to the form
+    protected Control addField(Field field) {
       this.fields.Add(field.Label.Text, field);
-      panel.Controls.Add(field);
+      this.form.Controls.Add(field);
       field.ValueChanged += this.Update;
       return field;
     }
@@ -117,6 +118,7 @@ namespace GlossaryManager {
     protected virtual void Update(Field field) {
       if( ! this.HasItemSelected ) { return; }
       switch(field.Label.Text) {
+        case "Name":        this.Current.Name        = field.Value; break;
         case "Author":      this.Current.Author      = field.Value; break;
         case "Version":     this.Current.Version     = field.Value; break;
         case "Status":      this.Current.Status      = (Status)Enum.Parse(typeof(Status), field.Value); break;
@@ -193,7 +195,6 @@ namespace GlossaryManager {
       if( ! this.HasItemSelected ) { return; }
 
       this.fields["Name"].Value       = this.Current.Name;
-      this.fields["Name"].Enabled = false;
       this.fields["Author"].Value     = this.Current.Author;
       this.fields["Version"].Value    = this.Current.Version;
       this.fields["Status"].Value     = this.Current.Status.ToString();
@@ -207,7 +208,6 @@ namespace GlossaryManager {
       foreach(Field field in this.fields.Values) {
         field.Clear();
       }
-      this.fields["Name"].Enabled = true;
     }
 
     // custom column sorter

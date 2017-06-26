@@ -35,16 +35,14 @@ namespace GlossaryManager {
       };
     }
 
-    protected override Panel createForm() {
-      var panel = base.createForm();
+    protected override void createForm() {
+      base.createForm();
       this.addField(new Field("Description") {
         Multiline = true,
         Width     = 300,
         Height    = 100
-      }, panel);
-      this.addField(new Field("Domain"), panel);
-  
-      return panel;
+      });
+      this.addField(new Field("Domain"));
     }
 
     protected override void show(object sender, EventArgs e) {

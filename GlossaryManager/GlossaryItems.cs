@@ -148,6 +148,7 @@ namespace GlossaryManager {
 
     public virtual void Update(UML.Classes.Kernel.Class clazz) {
       var eaClass = clazz as EAWrapped.ElementWrapper;
+      eaClass.name     = this.Name;
       eaClass.author   = this.Author;
       eaClass.version  = this.Version;
       eaClass.status   = this.Status.ToString();
