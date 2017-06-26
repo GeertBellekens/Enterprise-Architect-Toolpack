@@ -78,7 +78,10 @@
     </Compile>
     <Compile Include="GlossaryManagerAddin.cs" />
     <Compile Include="GlossaryManagerSettings.cs" />
-    <Compile Include="GlossaryItems.cs" />
+    <Compile Include="GlossaryItem.cs" />
+    <Compile Include="GlossaryItemFactory.cs" />
+    <Compile Include="BusinessItem.cs" />
+    <Compile Include="DataItem.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="GlossaryItemTabPage.cs" />
     <Compile Include="BusinessItemTabPage.cs" />
