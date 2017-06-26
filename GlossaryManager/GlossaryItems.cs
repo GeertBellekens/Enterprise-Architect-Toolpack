@@ -85,6 +85,8 @@ namespace GlossaryManager {
     [FieldNullValue(typeof(string), "")]
     public string UpdatedBy;    
 
+    public EAWrapped.ElementWrapper Origin { get; set; }
+
   	public static List<T> Load<T>(string file)
       where T : GlossaryItem
     {
@@ -130,8 +132,17 @@ namespace GlossaryManager {
       clazz.stereotypes = stereotypes;
 
       this.Update(clazz);
+      this.Origin = clazz as EAWrapped.ElementWrapper;
 
       return clazz;
+    }
+
+    public void Save() {
+      if( this.Origin == null ) {
+        // TODO assertion ? Can't Save without an Origin
+        return;
+      }
+      this.Update(this.Origin as UML.Classes.Kernel.Class);
     }
 
     public virtual void Update(UML.Classes.Kernel.Class clazz) {
@@ -143,8 +154,9 @@ namespace GlossaryManager {
       eaClass.created  = this.CreateDate;
       eaClass.modified = this.UpdateDate;
       eaClass.modifier = this.UpdatedBy;
+      
+      eaClass.save();
     }
-
   }
 
 	[DelimitedRecord(";"), IgnoreFirst(1)]
@@ -256,28 +268,26 @@ namespace GlossaryManager {
       GlossaryItem item = GlossaryItemFactory<T>.CreateFrom(clazz);
       if( item == null ) { return null; }
 
-      EAWrapped.ElementWrapper eaClass = clazz as EAWrapped.ElementWrapper;
-
       // base GlossaryItem
-      item.Name        = eaClass.name;
-      item.Author      = eaClass.author;
-      item.Version     = eaClass.version;
-      item.Status      = (Status) Enum.Parse(typeof(Status), eaClass.status);
-      item.Keywords    = eaClass.keywords;
-      item.CreateDate  = eaClass.created;
-      item.UpdateDate  = eaClass.modified;
-      item.UpdatedBy   = eaClass.modifier;
+      item.Name        = item.Origin.name;
+      item.Author      = item.Origin.author;
+      item.Version     = item.Origin.version;
+      item.Status      = (Status) Enum.Parse(typeof(Status), item.Origin.status);
+      item.Keywords    = item.Origin.keywords;
+      item.CreateDate  = item.Origin.created;
+      item.UpdateDate  = item.Origin.modified;
+      item.UpdatedBy   = item.Origin.modifier;
 
       if( typeof(T).Name == "BusinessItem" ) {
-        ((BusinessItem)item).Description = eaClass.notes;
-        ((BusinessItem)item).Domain      = eaClass.domain;
+        ((BusinessItem)item).Description = item.Origin.notes;
+        ((BusinessItem)item).Domain      = item.Origin.domain;
       } else if( typeof(T).Name == "DataItem" ){
-        ((DataItem)item).Label           = eaClass.label;
-        ((DataItem)item).LogicalDataType = eaClass.type;
-        ((DataItem)item).Size            = Convert.ToInt32(eaClass.size);
-        ((DataItem)item).Format          = eaClass.format;
-        ((DataItem)item).Description     = eaClass.notes;
-        ((DataItem)item).InitialValue    = eaClass.initialValue;
+        ((DataItem)item).Label           = item.Origin.label;
+        ((DataItem)item).LogicalDataType = item.Origin.type;
+        ((DataItem)item).Size            = Convert.ToInt32(item.Origin.size);
+        ((DataItem)item).Format          = item.Origin.format;
+        ((DataItem)item).Description     = item.Origin.notes;
+        ((DataItem)item).InitialValue    = item.Origin.initialValue;
       } else {
         return null; // shouldn't happen, tested before ;-)
       }
@@ -299,6 +309,7 @@ namespace GlossaryManager {
         return null;
       }
 
+      item.Origin = clazz as EAWrapped.ElementWrapper;
       return (T)item;
     }
   }
