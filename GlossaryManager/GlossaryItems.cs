@@ -139,7 +139,8 @@ namespace GlossaryManager {
 
     public void Save() {
       if( this.Origin == null ) {
-        // TODO assertion ? Can't Save without an Origin
+        // TODO assertion ?
+        //      Can't Save without an Origin and should not be possible?!
         return;
       }
       this.Update(this.Origin as UML.Classes.Kernel.Class);

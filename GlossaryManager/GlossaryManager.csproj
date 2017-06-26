@@ -79,6 +79,9 @@
     <Compile Include="GlossaryManagerAddin.cs" />
     <Compile Include="GlossaryManagerSettings.cs" />
     <Compile Include="GlossaryItems.cs" />
+    <Compile Include="Field.cs" />
+    <Compile Include="GlossaryItemTabPage.cs" />
+    <Compile Include="BusinessItemTabPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
