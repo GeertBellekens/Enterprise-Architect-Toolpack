@@ -201,12 +201,12 @@ namespace GlossaryManager {
 
     // support for logging to the EA log window
 
-    private void clearLog() {
+    internal void clearLog() {
       if( this.model == null ) { return; }
       EAOutputLogger.clearLog( this.model, this.settings.outputName );
     }
 
-    private void log(string msg) {
+    internal void log(string msg) {
       if( this.model == null ) { return; }
       EAOutputLogger.log( this.model, this.settings.outputName, msg );
     }
