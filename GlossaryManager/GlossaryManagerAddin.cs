@@ -39,8 +39,6 @@ namespace GlossaryManager {
           this._ui = this.model.addTab(appTitle, appFQN) as GlossaryManagerUI;
           this._ui.Addin = this;
 					this._ui.HandleDestroyed += this.handleHandleDestroyed; 
-        } else {
-          this.log("could not create new Glossary Manager UI instance!");
         }
         return this._ui;
       }
@@ -105,7 +103,8 @@ namespace GlossaryManager {
     private void manage() {
       if( this.model == null ) { return; }
       this.log("starting glossary management activity...");
-      this.ui.Start();
+      List<BusinessItem> items = this.list<BusinessItem>();
+      this.ui.ShowBusinessItems(items);
       this.model.activateTab(appTitle);
     }
 
@@ -134,6 +133,45 @@ namespace GlossaryManager {
         }        
       }
     }
+    
+    private void export<T>() where T : GlossaryItem {
+      var topic = typeof(T).Name;
+      var file = this.getFileFor<T>(CSV.Saving);
+      if(file != null) {
+        this.log("exporting to " + file.ToString());
+        List<T> items = this.list<T>();
+        foreach(var item in items) {
+          if( item != null) {
+            this.log("exporting " + item.ToString());
+            items.Add(item);
+          }
+        }
+        GlossaryItem.Save<T>(file, items);
+      }
+    }
+
+    private void about() {
+      new AboutWindow().ShowDialog(this.model.mainEAWindow);
+    }
+
+    // support for listing and indexing a/the selected package
+    
+    private List<T> list<T>() where T : GlossaryItem {
+      return this.list<T>((EAWrapped.Package)this.model.selectedElement);
+    }
+
+    private List<T> list<T>(EAWrapped.Package package) where T : GlossaryItem {
+      List<T> items = new List<T>();
+      foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
+        T item = GlossaryItemFactory<T>.FromClass(clazz);
+        if( item != null ) { items.Add(item); }
+      }
+      return items;
+    }
+
+    private Dictionary<string,EAWrapped.Class> index<T>() where T : GlossaryItem {
+      return this.index<T>((EAWrapped.Package)this.model.selectedElement);
+    }
 
     private Dictionary<string,EAWrapped.Class> index<T>(EAWrapped.Package package)
       where T : GlossaryItem
@@ -146,31 +184,6 @@ namespace GlossaryManager {
         }
       }
       return map;
-    }
-
-    private void export<T>() where T : GlossaryItem {
-      var topic = typeof(T).Name;
-      var file = this.getFileFor<T>(CSV.Saving);
-      if(file != null) {
-        this.log("exporting to " + file.ToString());
-        List<T> items = new List<T>();
-        EAWrapped.Package package = (EAWrapped.Package)this.model.selectedElement;
-        this.log("exporting package " + package.ToString());
-        foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
-          T item = GlossaryItemFactory<T>.FromClass(clazz);
-          if( item != null) {
-            this.log("exporting " + item.ToString());
-            items.Add(item);
-          } else {
-            this.log("skipping " + clazz.ToString());
-          }
-        }
-        GlossaryItem.Save<T>(file, items);
-      }
-    }
-
-    private void about() {
-      new AboutWindow().ShowDialog(this.model.mainEAWindow);
     }
 
     // support for CSV File IO Dialog boxes

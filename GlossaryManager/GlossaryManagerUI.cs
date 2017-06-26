@@ -14,9 +14,6 @@ namespace GlossaryManager {
 		public GlossaryManagerUI() {
 			InitializeComponent();
 		}
-
-    public void Start() {}
-
   }
 
 }
