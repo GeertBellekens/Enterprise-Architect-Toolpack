@@ -44,6 +44,7 @@ namespace GlossaryManager {
 
     public BusinessItemTabPage BusinessItems { get; private set; }
     public DataItemTabPage     DataItems     { get; private set; }
+    public ColumnLinkTabPage   ColumnLinks   { get; private set; }
 
     private void createTabControl() {
 			TabControl tabs = new TabControl () {
@@ -56,8 +57,12 @@ namespace GlossaryManager {
       
 			this.BusinessItems = new BusinessItemTabPage(this);
       tabs.Controls.Add( this.BusinessItems );
+
       this.DataItems = new DataItemTabPage(this);
 			tabs.Controls.Add( this.DataItems );
+
+      this.ColumnLinks = new ColumnLinkTabPage(this);
+      tabs.Controls.Add( this.ColumnLinks );
 
 			this.Controls.Add(tabs);
     }
