@@ -10,7 +10,11 @@ using System.Drawing;
 
 namespace GlossaryManager {
 
-  public abstract class GlossaryItemTabPage : TabPage {
+  public abstract class FocusableTabPage : TabPage {
+    public virtual void HandleFocus() {}
+  }
+
+  public abstract class GlossaryItemTabPage : FocusableTabPage {
     
     private GlossaryManagerUI ui;
     

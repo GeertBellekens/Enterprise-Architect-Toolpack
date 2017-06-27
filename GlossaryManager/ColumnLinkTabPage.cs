@@ -10,13 +10,17 @@ using System.Drawing;
 
 namespace GlossaryManager {
 
-	public class ColumnLinkTabPage : TabPage {
+	public class ColumnLinkTabPage : FocusableTabPage {
 
     private GlossaryManagerUI ui;
     
     public ColumnLinkTabPage(GlossaryManagerUI ui) : base() {
       this.ui   = ui;
       this.Text = "Column Links";
+    }
+
+    public override void HandleFocus() {
+      MessageBox.Show("Column Linking Tabpage got focus!");
     }
 
   }

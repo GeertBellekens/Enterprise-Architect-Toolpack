@@ -55,6 +55,8 @@ namespace GlossaryManager {
         Padding       = new System.Drawing.Point(15, 7)
       };
       
+      tabs.SelectedIndexChanged += new EventHandler(this.handleTabSelection);
+
 			this.BusinessItems = new BusinessItemTabPage(this);
       tabs.Controls.Add( this.BusinessItems );
 
@@ -65,7 +67,15 @@ namespace GlossaryManager {
       tabs.Controls.Add( this.ColumnLinks );
 
 			this.Controls.Add(tabs);
+
+      // manually trigger focus on first tab
+      this.BusinessItems.HandleFocus();
     }
-    
+
+    private void handleTabSelection(object sender, EventArgs e) {
+      TabControl tabs = sender as TabControl;
+      ((FocusableTabPage)tabs.Controls[tabs.SelectedIndex]).HandleFocus();
+    }
+
   }
 }

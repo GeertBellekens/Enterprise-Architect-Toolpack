@@ -62,7 +62,5 @@ namespace GlossaryManager {
       base.Update(field);
     }
 
-
   }
-
 }
