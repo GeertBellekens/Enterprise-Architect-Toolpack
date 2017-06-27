@@ -35,7 +35,6 @@ namespace GlossaryManager {
     private GlossaryManagerUI ui {
       get {
         if( this._ui == null && this.model != null ) {
-          this.log("creating new Glossary Manager UI instance...");
           this._ui = this.model.addTab(appTitle, appFQN) as GlossaryManagerUI;
           this._ui.Addin = this;
 					this._ui.HandleDestroyed += this.handleHandleDestroyed; 
@@ -102,7 +101,6 @@ namespace GlossaryManager {
     
     private void manage() {
       if( this.model == null ) { return; }
-      this.log("starting glossary management activity...");
       this.ui.BusinessItems.Show<BusinessItem>(this.list<BusinessItem>());
       this.ui.DataItems.Show<DataItem>(this.list<DataItem>());
       this.model.activateTab(appTitle);
