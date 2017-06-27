@@ -152,14 +152,9 @@ namespace GlossaryManager {
       toolStrip.Dock = DockStyle.Bottom;
       this.Controls.Add(toolStrip);
 
-      var gotoButton   = new ToolStripButton();
       var exportButton = new ToolStripButton();
 
       this.SuspendLayout();
-
-      // gotoButton
-      gotoButton.Image = this.ui.resources.GetObject("gotoButton.Image") as Image;
-      gotoButton.Name = "gotoButton";
 
       // exportButton
       exportButton.Name      = "exportButton";
@@ -167,7 +162,6 @@ namespace GlossaryManager {
 
       // this.exportButton.Click += new System.EventHandler(this.ExportButtonClick);
 
-      toolStrip.Items.Add(gotoButton);
       toolStrip.Items.Add(new System.Windows.Forms.ToolStripSeparator());
       toolStrip.Items.Add(exportButton);
 
