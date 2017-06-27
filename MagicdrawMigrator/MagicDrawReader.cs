@@ -710,6 +710,9 @@ namespace MagicdrawMigrator
 		}
 		
 		
+		
+		
+		
 		void getAllObjects()
 		{
 			var foundObjects = new Dictionary<string, string>();
