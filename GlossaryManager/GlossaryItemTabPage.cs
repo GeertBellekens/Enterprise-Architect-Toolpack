@@ -8,6 +8,8 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Drawing;
 
+using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
+
 namespace GlossaryManager {
 
   public abstract class FocusableTabPage : TabPage {
@@ -55,8 +57,26 @@ namespace GlossaryManager {
       splitContainer.ResumeLayout(false);
 
       this.addToolbar();
-    }
 
+      this.ui.NewContext += new NewContextHandler(this.handleContextChange);
+    }
+    
+    // avoid endless update loop:
+    // context-change -> index-change -> select in browser -> context-change...
+    private bool notifyProjectBrowser = true;
+    private void handleContextChange(EAWrapped.ElementWrapper context) {
+      if(context == null) { return; }
+      this.notifyProjectBrowser = false;
+      if(this.HasItemSelected) { this.Selected.Selected = false; }
+      foreach(ListViewItem item in this.itemsList.Items) {
+        if( ((GlossaryItem)item.Tag).Origin.Equals(context) ) {
+          item.Selected = true;
+          return;
+        }
+      }
+      this.notifyProjectBrowser = true;
+    }
+    
     // construction of master/detail = list/form
     
     public bool HasItemSelected {
@@ -65,10 +85,17 @@ namespace GlossaryManager {
       }
     }
 
+    public ListViewItem Selected {
+      get {
+        if( ! this.HasItemSelected ) { return null; }
+        return this.itemsList.SelectedItems[0];        
+      }
+    }
+
     public GlossaryItem Current {
       get {
         if( ! this.HasItemSelected ) { return null; }
-        return (GlossaryItem)this.itemsList.SelectedItems[0].Tag;
+        return (GlossaryItem)this.Selected.Tag;
       }
     }
 
@@ -80,7 +107,8 @@ namespace GlossaryManager {
         Dock               = DockStyle.Fill,
         FullRowSelect      = true,
         View               = View.Details,
-        ListViewItemSorter = this.columnSorter
+        ListViewItemSorter = this.columnSorter,
+        HideSelection      = false
       };
       this.itemsList.ColumnClick          += new ColumnClickEventHandler(this.sortColumn);
       this.itemsList.SelectedIndexChanged += new EventHandler(this.show);
@@ -192,7 +220,9 @@ namespace GlossaryManager {
       this.clear();
       if( ! this.HasItemSelected ) { return; }
 
-      this.Current.SelectInProjectBrowser();
+      if( this.notifyProjectBrowser ) {
+        this.Current.SelectInProjectBrowser();
+      }
 
       this.fields["Name"].Value       = this.Current.Name;
       this.fields["Author"].Value     = this.Current.Author;
@@ -227,7 +257,6 @@ namespace GlossaryManager {
         columnSorter.ColumnToSort = e.Column;
         columnSorter.OrderOfSort = SortOrder.Ascending;
       }
-      this.ui.Addin.log(columnSorter.ToString());
       ((ListView)sender).Sort();
     }
 

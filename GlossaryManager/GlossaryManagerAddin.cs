@@ -12,6 +12,8 @@ using EAAddinFramework.Utilities;
 
 namespace GlossaryManager {
 
+  public delegate void NewContextHandler(EAWrapped.ElementWrapper context);
+
   public class GlossaryManagerAddin : EAAddinBase  {
 
     // menu constants
@@ -36,6 +38,8 @@ namespace GlossaryManager {
       get {
         if( this._ui == null && this.model != null ) {
           this._ui = this.model.addTab(appTitle, appFQN) as GlossaryManagerUI;
+          // this is annoying, during construction of the UI, the Addin cannot
+          // be back-referenced from the ui yet, until we set it here
           this._ui.Addin = this;
 					this._ui.HandleDestroyed += this.handleHandleDestroyed; 
         }
@@ -94,6 +98,27 @@ namespace GlossaryManager {
         case menuExportBusinessItems: this.export<BusinessItem>(); break;
         case menuExportDataItems:     this.export<DataItem>();     break;
         case menuAbout:               this.about();                break;
+      }
+    }
+
+
+    public event NewContextHandler NewContext;
+
+    public override void EA_OnContextItemChanged(EA.Repository Repository,
+                                                 string GUID,
+                                                 EA.ObjectType ot)
+    {
+      if(this.NewContext == null) { return; }
+      if(this.model      == null) { return; }
+      this.NewContext((EAWrapped.ElementWrapper)this.model.selectedItem);
+    }
+
+    public EAWrapped.ElementWrapper SelectedItem {
+      get {
+        return (EAWrapped.ElementWrapper)this.model.selectedItem;
+      }
+      set {
+        this.model.selectedItem = value;
       }
     }
 
