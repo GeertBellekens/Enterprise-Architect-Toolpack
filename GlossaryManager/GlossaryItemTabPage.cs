@@ -194,6 +194,8 @@ namespace GlossaryManager {
       this.clear();
       if( ! this.HasItemSelected ) { return; }
 
+      this.Current.SelectInProjectBrowser();
+
       this.fields["Name"].Value       = this.Current.Name;
       this.fields["Author"].Value     = this.Current.Author;
       this.fields["Version"].Value    = this.Current.Version;

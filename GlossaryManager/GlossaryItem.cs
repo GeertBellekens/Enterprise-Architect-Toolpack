@@ -177,5 +177,9 @@ namespace GlossaryManager {
       eaClass.save();
     }
 
+    public void SelectInProjectBrowser() {
+      this.Origin.model.selectedItem = this.Origin;
+    }
+
   }
 }
