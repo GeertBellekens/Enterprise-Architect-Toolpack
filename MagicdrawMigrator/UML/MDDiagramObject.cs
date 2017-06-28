@@ -29,7 +29,10 @@ namespace MagicdrawMigrator
 				int _x;
 				int _y;
 				int _width;
-				int _height;
+				int _height;	
+				//sometimes there a ";" that seperates start and end points.
+				// we are not interested in that so we replace that by a "," so everything can be treated the same way.
+				this._geometry = _geometry.Replace(';',',');
 				var parts = _geometry.Split(',');
 				x = parts.Count() >= 1 && int.TryParse(parts[0],out _x) ? _x : 0;
 				y = parts.Count() >= 2 && int.TryParse(parts[1],out _y) ?  _y : 0;

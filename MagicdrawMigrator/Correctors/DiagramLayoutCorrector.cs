@@ -77,11 +77,46 @@ namespace MagicdrawMigrator
 					{
 						addElementToDiagram(mdDiagramObject,eaDiagram);
 					}
+					//then do all the messages
+					int i = 1;
+					//default previous y = -100
+					int previousY = -100;
+					foreach (var mdMessageLink in mdDiagram.diagramObjects.Where(x => x.umlType == "SeqMessage" ).OrderBy( y => y.y))
+					{
+						//get the corresponding message
+						
+						string sqlGetMessage = @"select * from (t_connector c 
+												inner join t_connectortag tv on (c.Connector_ID = tv.ElementID
+																				and tv.Property = 'md_guid'))
+												where tv.VALUE = '"+ mdMessageLink.mdID +"'";
+						var messages = this.model.getRelationsByQuery(sqlGetMessage);
+						
+						foreach (TSF_EA.Message message in messages) 
+						{
+							message.sequence = i;
+							int y = mdMessageLink.y * -1 ;
+							message.y = y;
+							message.WrappedConnector.DiagramID = eaDiagram.DiagramID;
+							message.save();
+							//update pdata5 SY field. This needs to be filled with the 35 + the difference between the current Y and the previous Y
+							int SYValue = 35 - (previousY - y);
+							//set the previousY
+							previousY = y;
+							//get pdata5
+							string pdata5 = "SX=0;SY=0;EX=0;EY=0;$LLB=;LLT=;LMT=CX=250:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LMB=;LRT=;LRB=;IRHS=;ILHS=;";
+							//set SY value
+							pdata5 = KeyValuePairsHelper.setValueForKey("SY",SYValue.ToString(),pdata5);
+							//update pdata5
+							string sqlUpdatePdata5 = "update t_connector set PDATA5 = '"+pdata5+"' where ea_guid = '"+message.uniqueID+"'";
+							this.model.executeSQL(sqlUpdatePdata5);
+						}
+						i++;
+					}
 					//save the diagram
 					eaDiagram.save();
 					//set the line styles
 					correctLines(eaDiagram);
-				}
+					}
 				//if no diagram found in EA then report it as error
 				if (!eaDiagrams.Any())
 				{
