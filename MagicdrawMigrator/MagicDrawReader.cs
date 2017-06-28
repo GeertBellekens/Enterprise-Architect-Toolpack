@@ -650,45 +650,40 @@ namespace MagicdrawMigrator
 								foreach (XmlNode diagramObjectNode in xmlDiagram.SelectNodes(".//mdElement")) 
 								{
 									//get the elementID
-									var elementIDNode = diagramObjectNode.SelectSingleNode(".//elementID");
-									if (elementIDNode != null)
+									string elementID = getElementID(diagramObjectNode);
+									//get the umlType of the elementNode
+									XmlAttribute umlTypeAttribute = diagramObjectNode.Attributes["elementClass"];
+									string umlType = umlTypeAttribute != null ? umlTypeAttribute.Value : string.Empty;
+									if (!string.IsNullOrEmpty(elementID)
+									   || umlType == "Split")
 									{
-									
-										//first theck the href attribute
-										XmlAttribute hrefAttribute = elementIDNode.Attributes["href"];
-										string elementID = string.Empty;
-										if (hrefAttribute != null)
+										//get the geometry
+										var geometryNode = diagramObjectNode.SelectSingleNode(".//geometry");
+										if (geometryNode != null
+										    && ! string.IsNullOrEmpty(geometryNode.InnerText))
 										{
-											string fullHrefString = elementIDNode.Attributes["href"].Value;
-											int seperatorIndex = fullHrefString.IndexOf('#');
-											if (seperatorIndex >= 0 )
+											if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
+											var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
+											currentDiagram.addDiagramObject(diagramObject);
+											if (umlType == "Split")
 											{
-												elementID =  fullHrefString.Substring(seperatorIndex +1);
+												XmlNode fragmentNode = diagramObjectNode.ParentNode.ParentNode;
+												if (fragmentNode.Name == "mdElement")
+												{
+													//get the id of the fragment
+													string fragmentID = getElementID(fragmentNode);
+													if (! string.IsNullOrEmpty(fragmentID))
+													{
+														//find the corresponding diagramObject from the current diagram
+														var fragmentDiagramObject = currentDiagram.diagramObjects.FirstOrDefault (x => x.mdID.Equals(fragmentID,StringComparison.CurrentCultureIgnoreCase));
+														if (fragmentDiagramObject != null)
+														{
+															fragmentDiagramObject.ownedSplits.Add(diagramObject);
+														}
+													}
+												}
 											}
 										}
-										else
-										{
-											//check the "xmi:idref attribute
-											XmlAttribute idRefAttribute = elementIDNode.Attributes["xmi:idref"];
-											if (idRefAttribute != null) elementID = idRefAttribute.Value;
-										}
-										
-										//get the umlType of the elementNode
-										XmlAttribute umlTypeAttribute = diagramObjectNode.Attributes["elementClass"];
-										string umlType = umlTypeAttribute != null ? umlTypeAttribute.Value : string.Empty;
-										if (!string.IsNullOrEmpty(elementID))
-										{
-											//get the geometry
-											var geometryNode = diagramObjectNode.SelectSingleNode(".//geometry");
-											if (geometryNode != null
-											    && ! string.IsNullOrEmpty(geometryNode.InnerText))
-											{
-												if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
-												var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
-												currentDiagram.addDiagramObject(diagramObject);
-											}
-										}
-
 									}
 								}
 								//add the diagram to the list
@@ -709,7 +704,35 @@ namespace MagicdrawMigrator
 			_allDiagrams = foundDiagrams;
 		}
 		
+		string getElementID(XmlNode diagramObjectNode)
+		{
+			string elementID = string.Empty;
 		
+			//get the elementID
+			var elementIDNode = diagramObjectNode.SelectSingleNode(".//elementID");
+			if (elementIDNode != null)
+			{
+				//first theck the href attribute
+				XmlAttribute hrefAttribute = elementIDNode.Attributes["href"];
+				
+				if (hrefAttribute != null)
+				{
+					string fullHrefString = elementIDNode.Attributes["href"].Value;
+					int seperatorIndex = fullHrefString.IndexOf('#');
+					if (seperatorIndex >= 0 )
+					{
+						elementID =  fullHrefString.Substring(seperatorIndex +1);
+					}
+				}
+				else
+				{
+					//check the "xmi:idref attribute
+					XmlAttribute idRefAttribute = elementIDNode.Attributes["xmi:idref"];
+					if (idRefAttribute != null) elementID = idRefAttribute.Value;
+				}
+			}
+			return elementID;
+		}
 		
 		
 		

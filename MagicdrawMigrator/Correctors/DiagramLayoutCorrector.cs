@@ -148,17 +148,57 @@ namespace MagicdrawMigrator
 				//first check if the elemnt is already on the diagram
 				if (!eaDiagram.contains(eaElement)) {
 					//for each of the elements on the diagram create the diagramobject with the appropriate link to the elemment and geometry.								
-					var newDiagramObject = eaDiagram.addToDiagram(eaElement, mdDiagramObject.x, mdDiagramObject.y, mdDiagramObject.height, mdDiagramObject.width);
+					var newDiagramObject = eaDiagram.addToDiagram(eaElement, mdDiagramObject.x, mdDiagramObject.y, mdDiagramObject.bottom, mdDiagramObject.right);
 					//if the diagramObject is an ActivityPartition then we need to set its orientation to vertical
 					if (mdDiagramObject.umlType.StartsWith("Swimlane"))
 					{
 						newDiagramObject.setOrientation(true);
 						newDiagramObject.save();
 					}
+
+				}
+				if (mdDiagramObject.umlType == "CombinedFragment"
+					&& mdDiagramObject.ownedSplits.Any())
+				{
+					//set the partitions
+					setPartitionSizes(eaElement,mdDiagramObject);
 				}
 			}
 
 		}
+
+		void setPartitionSizes(TSF_EA.ElementWrapper eaElement, MDDiagramObject mdDiagramObject)
+		{
+			var orderedSplits = mdDiagramObject.ownedSplits.OrderBy(x => x.y).ToList();
+			int i = 0;
+			int previousY = mdDiagramObject.y;
+			foreach (global::EA.Partition partition in eaElement.WrappedElement.Partitions)
+			{
+				//get the corresponding split
+				int partitionSize = 0;
+				if (orderedSplits.Count > i)
+				{
+					var currentSplit = orderedSplits[i];
+					//calculate the size of this partition
+					partitionSize = currentSplit.y - previousY;
+				}
+				else
+				{
+					//set the size to the bottom of the fragment
+					partitionSize = mdDiagramObject.bottom - previousY;
+				}
+				if (partitionSize > 0)
+				{
+					partition.Size = partitionSize;
+					eaElement.isDirty = true;
+				}
+				//up the counter
+				i++;
+			}
+			//save the changes to the partitions by saving the EAElement
+			eaElement.save();
+		}
+
 		//correct the lines 
 		void correctLines(TSF_EA.Diagram eaDiagram)
 		{
