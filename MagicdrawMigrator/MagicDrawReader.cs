@@ -422,7 +422,7 @@ namespace MagicdrawMigrator
 				 	string messageName = nameAttribute != null ? nameAttribute.Value: string.Empty;
 				 	//get the synchronous/asynchronous attribute
 				 	XmlAttribute messageSortAttribute = messageNode.Attributes["messageSort"];
-				 	bool asynchronousMessage = nameAttribute != null && "asynchSignal".Equals(messageSortAttribute.Value, StringComparison.InvariantCulture);
+				 	bool asynchronousMessage = messageSortAttribute != null && "asynchSignal".Equals(messageSortAttribute.Value, StringComparison.InvariantCulture);
 				 	//create message
 				 	if (! string.IsNullOrEmpty(messageID)
 				 		&& ! string.IsNullOrEmpty(sourceID)
