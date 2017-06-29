@@ -49,44 +49,52 @@ namespace MagicdrawMigrator
 				// target _9_0_2_f54035b_1115716788113_931934_1206 
 
 			    // BusinessPartner -> Harmonized_Role  & Harmonized_Role -> AutorizedRole
-			    KeyValuePair<string,string> objectIdGuidSource = this.model.getObjectIdAndGuid(@"select so.[ea_guid], so.[Object_ID]
-																								from (t_object so
-																								inner join [t_objectproperties] sop
-																								on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdDependency.Key +"'))");
+			    var sourceElements = this.model.getElementWrappersByQuery(@"select so.[Object_ID]
+																			from (t_object so
+																			inner join [t_objectproperties] sop
+																			on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdDependency.Key +"'))");
 			    
-			    KeyValuePair<string,string> objectIdGuidTarget = this.model.getObjectIdAndGuid(@"select so.[ea_guid], so.[Object_ID]
-																								from (t_object so
-																								inner join [t_objectproperties] sop
-																								on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdDependency.Value +"'))");
+			    var targetElements =  this.model.getElementWrappersByQuery(@"select so.[Object_ID]
+																			from (t_object so
+																			inner join [t_objectproperties] sop
+																			on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdDependency.Value +"'))");
 			    
-			    //Create the new dependency
-			    EAOutputLogger.log(this.model,this.outputName
-                   	,string.Format("{0} Create new dependency with source '{1}' and target '{2}'"
-                  	,DateTime.Now.ToLongTimeString()
-                  	,objectIdGuidSource.Value
-                  	,objectIdGuidTarget.Value)
-                    	
-       			,0
-      			,LogTypeEnum.log);
-				
-			    
-			    TSF_EA.Dependency newDependency = this.model.factory.createNewElement<TSF_EA.Dependency>(this.model.getElementByGUID(objectIdGuidSource.Value), string.Empty);
-			    newDependency.target = this.model.getElementByGUID(objectIdGuidTarget.Value);
-			   
-			
-			    newDependency.addStereotype(this.model.factory.createStereotype(newDependency,"mapsTo"));
-			   
-			    newDependency.save();
-				
-			 
-			    
-				
-			}
-			
-			
-			
+			    if (sourceElements != null
+			        && sourceElements.Any()
+			        && sourceElements[0] != null
+			        && targetElements != null
+			        && targetElements.Any()
+			        && targetElements[0] != null)
+			    {
+				    //Create the new dependency
+				    EAOutputLogger.log(this.model,this.outputName
+	                   	,string.Format("{0} Create new dependency with source '{1}' and target '{2}'"
+	                  	,DateTime.Now.ToLongTimeString()
+	                  	,sourceElements[0].name
+	                  	,targetElements[0].name)
+	                    	
+	       			,sourceElements[0].id
+	      			,LogTypeEnum.log);
 					
-			
+				    
+				    TSF_EA.Dependency newDependency = this.model.factory.createNewElement<TSF_EA.Dependency>(sourceElements[0], string.Empty);
+				    newDependency.target = targetElements[0];
+				    newDependency.addStereotype(this.model.factory.createStereotype(newDependency,"mapsTo"));
+				    newDependency.save();
+			    }
+			    else
+			    {
+			    	EAOutputLogger.log(this.model,this.outputName
+	                   	,string.Format("{0} Could not create dependency between actors with md_guid '{1}' and target '{2}'"
+	                  	,DateTime.Now.ToLongTimeString()
+	                  	,mdDependency.Key
+	                  	,mdDependency.Value)
+	                    	
+	       			,0
+	      			,LogTypeEnum.error);
+			    }
+			}
+
 			//Log Finished
 					EAOutputLogger.log(this.model,this.outputName
 	                   ,string.Format("{0} Finished correct actor dependencies'"
