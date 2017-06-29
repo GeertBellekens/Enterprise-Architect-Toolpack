@@ -40,7 +40,7 @@ namespace MagicdrawMigrator
 				inner join t_objectproperties tv on (tv.Object_ID = o.Object_ID
 													and tv.Property = 'md_guid'))
 				where tv.Value = '"+ownerID+"'"
-				+ " and d.Name = '"+mdDiagram.name+ "'"
+				+ " and d.Name = '"+mdDiagram.name.Replace("'","''")+ "'"
 				+ " and d.Package_ID in ("+packageTreeIDString+")"
 				+@" union
 				select d.Diagram_ID from (((t_diagram d
@@ -50,21 +50,39 @@ namespace MagicdrawMigrator
 													and tv.Property = 'md_guid'))
 				where d.ParentID = 0
 				and tv.Value = '"+ownerID+"'"
-				+ " and d.Name = '"+mdDiagram.name+ "'"
+				+ " and d.Name = '"+mdDiagram.name.Replace("'","''")+ "'"
 				+ " and d.Package_ID in ("+packageTreeIDString+")";
 				var eaDiagrams = this.model.getDiagramsByQuery(getCorrespondingdiagramSQL);
 				//loop the found diagrams
 				foreach (var eaDiagram in eaDiagrams) 
 				{
 					diagramCounter++;
-					EAOutputLogger.log(this.model,this.outputName
-		                   ,string.Format("{0} Processing diagram number {1}: '{2}.{3}'"
-		                   				,DateTime.Now.ToLongTimeString()
-		                   				,diagramCounter
-		                   				,eaDiagram.owner.name
-		                   				,eaDiagram.name)
-					      ,((TSF_EA.ElementWrapper)eaDiagram.owner).id
-		                  ,LogTypeEnum.log);	
+					if (eaDiagram != null
+					    && eaDiagram.owner is TSF_EA.ElementWrapper)
+					{
+						EAOutputLogger.log(this.model,this.outputName
+			                   ,string.Format("{0} Processing diagram number {1}: '{2}.{3}'"
+			                   				,DateTime.Now.ToLongTimeString()
+			                   				,diagramCounter
+			                   				,eaDiagram.owner.name
+			                   				,eaDiagram.name)
+						      ,((TSF_EA.ElementWrapper)eaDiagram.owner).id
+			                  ,LogTypeEnum.log);	
+					}
+					else if (eaDiagram != null)
+					{
+						EAOutputLogger.log(this.model,this.outputName
+			                   ,string.Format("{0} Processing diagram number {1}: '{2}'"
+			                   				,DateTime.Now.ToLongTimeString()
+			                   				,diagramCounter
+			                   				,eaDiagram.name)
+						      ,0
+			                  ,LogTypeEnum.log);	
+					}
+					else
+					{
+						break;
+					}
 					//loop all diagramObjects in the mdDiagram that are not activity partitions
 					foreach (var mdDiagramObject in mdDiagram.diagramObjects.Where(x => ! x.umlType.StartsWith("Swimlane")))
 					{
