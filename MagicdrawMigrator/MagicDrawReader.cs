@@ -805,7 +805,10 @@ namespace MagicdrawMigrator
 			
 						
 					}	
-					if (!string.IsNullOrEmpty(objectId) & !string.IsNullOrEmpty(inState) & !string.IsNullOrEmpty(objectState))
+					if (!string.IsNullOrEmpty(objectId) 
+					    && !string.IsNullOrEmpty(inState) 
+					    && !string.IsNullOrEmpty(objectState)
+					    && !foundObjects.ContainsKey(objectId))
 					{
 						foundObjects.Add(objectId,objectState);
 					}
