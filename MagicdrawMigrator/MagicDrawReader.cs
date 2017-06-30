@@ -28,8 +28,10 @@ namespace MagicdrawMigrator
 		Dictionary<string, string> _allPartitions;
 		Dictionary<string, string> _allDependencies;
 		Dictionary<string,string> _allLifeLines;
+		Dictionary<string, string> _allMatrixes;
 		List<MDFragment> _allFragments;
 		List<MDMessage> _allMessages;
+		List<MDAttribute> _allAttributes;
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		Dictionary<string,XmlDocument> sourceFiles
@@ -90,6 +92,19 @@ namespace MagicdrawMigrator
 			}
 		}
 		
+		public List<MDAttribute> allAttributes
+		{
+			get
+			{
+				if (_allAttributes == null)
+				{
+					this.getAllAttributes();
+				}
+				return _allAttributes;
+			}
+		}
+		
+		
 		public List<MDFragment> allFragments
 		{
 			get
@@ -121,6 +136,18 @@ namespace MagicdrawMigrator
 					this.getAllLifeLines();
 				}
 				return _allLifeLines;
+			}
+		}
+		
+		public Dictionary<string, string> allMatrixes
+		{
+			get 
+			{
+				if (_allMatrixes == null)
+				{
+					this.getAllMatrixes();
+				}
+				return _allMatrixes;
 			}
 		}
 
@@ -888,6 +915,54 @@ namespace MagicdrawMigrator
 			
 			_allDependencies = foundDependencies;
 		}
+		
+		
+		void getAllMatrixes()
+		{
+			var foundMatrixes = new Dictionary<string, string>();
+			
+			foreach (var sourceFile in this.sourceFiles.Values) 
+			{
+				
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				
+				foreach (XmlNode MatrixNode in sourceFile.SelectNodes("//*[local-name() = 'DependencyMatrix']",nsMgr)) 
+				{
+					XmlAttribute rowCustomOrderAttribute = MatrixNode.Attributes["rowCustomOrder"];
+					
+					if (rowCustomOrderAttribute != null)
+					{
+						string rowCustomOrder = rowCustomOrderAttribute.Value;
+						Debug.WriteLine(rowCustomOrder);
+					}
+				}
+			}
+			_allMatrixes = foundMatrixes;
+		}
+		
+		void getAllAttributes()
+		{
+			var foundAttributes = new List<MDAttribute>();
+			
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				
+				
+				//node -> ownedAttribute
+				//where attribute association not present
+				
+				foreach (XmlNode attributeNode in sourceFile.SelectNodes(" ", nsMgr))
+				{
+					
+				}
+			}
+		}
+			
 			
 		
 		void getAllPartitions()

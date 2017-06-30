@@ -25,6 +25,17 @@ namespace MagicdrawMigrator
 				will probably need to use tagged values to create the links and specific SQL Searches 
 				to get the information out of EA as well. 
 				(to be check with Thibault if the information is present or not)*/
+				
+				EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Starting corrections for relationship matrixes'"
+	                                  ,DateTime.Now.ToLongTimeString())
+	                   ,0
+	                  ,LogTypeEnum.log);
+				
+				foreach(var mdRowScope in magicDrawReader.allMatrixes)
+				{
+					
+				}
 
 		}
 	}
