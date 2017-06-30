@@ -940,7 +940,9 @@ namespace MagicdrawMigrator
 			
 						
 					}	
-					if(!string.IsNullOrEmpty(partitionID) & !string.IsNullOrEmpty(representsID))
+					if(!string.IsNullOrEmpty(partitionID) 
+					   && !string.IsNullOrEmpty(representsID)
+					   && !foundPartitions.ContainsKey(partitionID))
 					{
 						foundPartitions.Add(partitionID, representsID);
 					}
