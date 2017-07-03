@@ -28,7 +28,7 @@ namespace MagicdrawMigrator
 		Dictionary<string, string> _allPartitions;
 		Dictionary<string, string> _allDependencies;
 		Dictionary<string,string> _allLifeLines;
-		Dictionary<string, string> _allMatrixes;
+		List<MDAttribute> _allMatrixes;
 		List<MDFragment> _allFragments;
 		List<MDMessage> _allMessages;
 		List<MDAttribute> _allAttributes;
@@ -139,7 +139,7 @@ namespace MagicdrawMigrator
 			}
 		}
 		
-		public Dictionary<string, string> allMatrixes
+		public List<MDAttribute> allMatrixes
 		{
 			get 
 			{
@@ -449,7 +449,7 @@ namespace MagicdrawMigrator
 				 	string messageName = nameAttribute != null ? nameAttribute.Value: string.Empty;
 				 	//get the synchronous/asynchronous attribute
 				 	XmlAttribute messageSortAttribute = messageNode.Attributes["messageSort"];
-				 	bool asynchronousMessage = messageSortAttribute != null && "asynchSignal".Equals(messageSortAttribute.Value, StringComparison.InvariantCulture);
+				 	bool asynchronousMessage = nameAttribute != null && "asynchSignal".Equals(messageSortAttribute.Value, StringComparison.InvariantCulture);
 				 	//create message
 				 	if (! string.IsNullOrEmpty(messageID)
 				 		&& ! string.IsNullOrEmpty(sourceID)
@@ -677,40 +677,45 @@ namespace MagicdrawMigrator
 								foreach (XmlNode diagramObjectNode in xmlDiagram.SelectNodes(".//mdElement")) 
 								{
 									//get the elementID
-									string elementID = getElementID(diagramObjectNode);
-									//get the umlType of the elementNode
-									XmlAttribute umlTypeAttribute = diagramObjectNode.Attributes["elementClass"];
-									string umlType = umlTypeAttribute != null ? umlTypeAttribute.Value : string.Empty;
-									if (!string.IsNullOrEmpty(elementID)
-									   || umlType == "Split")
+									var elementIDNode = diagramObjectNode.SelectSingleNode(".//elementID");
+									if (elementIDNode != null)
 									{
-										//get the geometry
-										var geometryNode = diagramObjectNode.SelectSingleNode(".//geometry");
-										if (geometryNode != null
-										    && ! string.IsNullOrEmpty(geometryNode.InnerText))
+									
+										//first theck the href attribute
+										XmlAttribute hrefAttribute = elementIDNode.Attributes["href"];
+										string elementID = string.Empty;
+										if (hrefAttribute != null)
 										{
-											if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
-											var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
-											currentDiagram.addDiagramObject(diagramObject);
-											if (umlType == "Split")
+											string fullHrefString = elementIDNode.Attributes["href"].Value;
+											int seperatorIndex = fullHrefString.IndexOf('#');
+											if (seperatorIndex >= 0 )
 											{
-												XmlNode fragmentNode = diagramObjectNode.ParentNode.ParentNode;
-												if (fragmentNode.Name == "mdElement")
-												{
-													//get the id of the fragment
-													string fragmentID = getElementID(fragmentNode);
-													if (! string.IsNullOrEmpty(fragmentID))
-													{
-														//find the corresponding diagramObject from the current diagram
-														var fragmentDiagramObject = currentDiagram.diagramObjects.FirstOrDefault (x => x.mdID.Equals(fragmentID,StringComparison.CurrentCultureIgnoreCase));
-														if (fragmentDiagramObject != null)
-														{
-															fragmentDiagramObject.ownedSplits.Add(diagramObject);
-														}
-													}
-												}
+												elementID =  fullHrefString.Substring(seperatorIndex +1);
 											}
 										}
+										else
+										{
+											//check the "xmi:idref attribute
+											XmlAttribute idRefAttribute = elementIDNode.Attributes["xmi:idref"];
+											if (idRefAttribute != null) elementID = idRefAttribute.Value;
+										}
+										
+										//get the umlType of the elementNode
+										XmlAttribute umlTypeAttribute = diagramObjectNode.Attributes["elementClass"];
+										string umlType = umlTypeAttribute != null ? umlTypeAttribute.Value : string.Empty;
+										if (!string.IsNullOrEmpty(elementID))
+										{
+											//get the geometry
+											var geometryNode = diagramObjectNode.SelectSingleNode(".//geometry");
+											if (geometryNode != null
+											    && ! string.IsNullOrEmpty(geometryNode.InnerText))
+											{
+												if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
+												var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
+												currentDiagram.addDiagramObject(diagramObject);
+											}
+										}
+
 									}
 								}
 								//add the diagram to the list
@@ -731,35 +736,7 @@ namespace MagicdrawMigrator
 			_allDiagrams = foundDiagrams;
 		}
 		
-		string getElementID(XmlNode diagramObjectNode)
-		{
-			string elementID = string.Empty;
 		
-			//get the elementID
-			var elementIDNode = diagramObjectNode.SelectSingleNode(".//elementID");
-			if (elementIDNode != null)
-			{
-				//first theck the href attribute
-				XmlAttribute hrefAttribute = elementIDNode.Attributes["href"];
-				
-				if (hrefAttribute != null)
-				{
-					string fullHrefString = elementIDNode.Attributes["href"].Value;
-					int seperatorIndex = fullHrefString.IndexOf('#');
-					if (seperatorIndex >= 0 )
-					{
-						elementID =  fullHrefString.Substring(seperatorIndex +1);
-					}
-				}
-				else
-				{
-					//check the "xmi:idref attribute
-					XmlAttribute idRefAttribute = elementIDNode.Attributes["xmi:idref"];
-					if (idRefAttribute != null) elementID = idRefAttribute.Value;
-				}
-			}
-			return elementID;
-		}
 		
 		
 		
@@ -832,10 +809,7 @@ namespace MagicdrawMigrator
 			
 						
 					}	
-					if (!string.IsNullOrEmpty(objectId) 
-					    && !string.IsNullOrEmpty(inState) 
-					    && !string.IsNullOrEmpty(objectState)
-					    && !foundObjects.ContainsKey(objectId))
+					if (!string.IsNullOrEmpty(objectId) & !string.IsNullOrEmpty(inState) & !string.IsNullOrEmpty(objectState))
 					{
 						foundObjects.Add(objectId,objectState);
 					}
@@ -919,7 +893,7 @@ namespace MagicdrawMigrator
 		
 		void getAllMatrixes()
 		{
-			var foundMatrixes = new Dictionary<string, string>();
+			var foundMatrixes = new List<MDAttribute>();
 			
 			foreach (var sourceFile in this.sourceFiles.Values) 
 			{
@@ -930,12 +904,28 @@ namespace MagicdrawMigrator
 				
 				foreach (XmlNode MatrixNode in sourceFile.SelectNodes("//*[local-name() = 'DependencyMatrix']",nsMgr)) 
 				{
-					XmlAttribute rowCustomOrderAttribute = MatrixNode.Attributes["rowCustomOrder"];
+					XmlAttribute rowCOAttribute = MatrixNode.Attributes["rowCustomOrder"];
 					
-					if (rowCustomOrderAttribute != null)
-					{
-						string rowCustomOrder = rowCustomOrderAttribute.Value;
-						Debug.WriteLine(rowCustomOrder);
+					XmlAttribute columnCOAttribute = MatrixNode.Attributes["columnCustomOrder"];
+					
+					if (rowCOAttribute != null)
+					{	
+						string rowCO = rowCOAttribute.Value;
+						var splittedrowCO = rowCO.Split(':');
+						for (int i = 0; i < splittedrowCO.Count(); i++)
+        				{
+							if (!splittedrowCO[i].StartsWith("root", StringComparison.Ordinal) && !splittedrowCO[i].StartsWith("branchEnd", StringComparison.Ordinal))
+							{			
+								var EntAt = splittedrowCO[i].Split(',');
+								if (EntAt.Count() == 2)
+								{	
+									MDAttribute mdAttribute = new MDAttribute();
+									mdAttribute.mdParentGuid = EntAt[0];
+									mdAttribute.mdGuid = EntAt[1];
+									foundMatrixes.Add(mdAttribute);
+								}
+							}
+        				}					
 					}
 				}
 			}
@@ -955,12 +945,31 @@ namespace MagicdrawMigrator
 				
 				//node -> ownedAttribute
 				//where attribute association not present
+				//image[not(@type)]"
 				
-				foreach (XmlNode attributeNode in sourceFile.SelectNodes(" ", nsMgr))
+				foreach (XmlNode attributeNode in sourceFile.SelectNodes("//ownedAttribute[not(@association)]", nsMgr))
 				{
 					
+					//get the attribute mdID
+					XmlAttribute attributeIDAttribute = attributeNode.Attributes["xmi:id"];
+					string attributeMDGuid = attributeIDAttribute != null ? attributeIDAttribute.Value:string.Empty;
+					
+					//get the attribute name
+					XmlAttribute nameAttribute = attributeNode.Attributes["name"];
+					string attributeName = nameAttribute != null ? nameAttribute.Value:string.Empty;
+					
+					if (! string.IsNullOrEmpty(attributeMDGuid) && ! string.IsNullOrEmpty(attributeName))
+					{
+						MDAttribute mdAttribute = new MDAttribute();
+						mdAttribute.mdGuid = attributeMDGuid;
+						mdAttribute.name = attributeName;
+						
+						foundAttributes.Add(mdAttribute);
+					}
+						
 				}
 			}
+			_allAttributes = foundAttributes;
 		}
 			
 			
@@ -1015,9 +1024,7 @@ namespace MagicdrawMigrator
 			
 						
 					}	
-					if(!string.IsNullOrEmpty(partitionID) 
-					   && !string.IsNullOrEmpty(representsID)
-					   && !foundPartitions.ContainsKey(partitionID))
+					if(!string.IsNullOrEmpty(partitionID) & !string.IsNullOrEmpty(representsID))
 					{
 						foundPartitions.Add(partitionID, representsID);
 					}

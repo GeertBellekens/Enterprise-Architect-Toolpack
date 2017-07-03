@@ -32,10 +32,24 @@ namespace MagicdrawMigrator
 	                   ,0
 	                  ,LogTypeEnum.log);
 				
-				foreach(var mdRowScope in magicDrawReader.allMatrixes)
+				
+				foreach(var mdRowCO in magicDrawReader.allMatrixes)
 				{
 					
 				}
+				
+//				foreach(var mdAttribute in magicDrawReader.allAttributes)
+//				{
+//						EAOutputLogger.log(this.model,this.outputName
+//					                   	,string.Format("{0} Get attribute '{1}' with GUID '{2}'"
+//	                                  	,DateTime.Now.ToLongTimeString()
+//	                                 	,mdAttribute.name
+//	                                	,mdAttribute.mdGuid)
+//	                   ,0
+//	                  ,LogTypeEnum.log);
+//				}
+				
+
 
 		}
 	}
