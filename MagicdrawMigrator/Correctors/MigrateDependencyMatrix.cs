@@ -33,21 +33,40 @@ namespace MagicdrawMigrator
 	                  ,LogTypeEnum.log);
 				
 				
-				foreach(var mdRowCO in magicDrawReader.allMatrixes)
+//				foreach(var mdDependency in magicDrawReader.allAttDependencies)
+//				{
+//					Debug.WriteLine(mdDependency.source + "   "  + mdDependency.target);
+//				}
+				
+				
+				
+				
+				
+				foreach(var mdAttribute in magicDrawReader.allAttributes)
 				{
+						EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Get attribute '{1}' with mdGUID '{2}' and mdParentGuid '{3}'"
+	                                  	,DateTime.Now.ToLongTimeString()
+	                                 	,mdAttribute.name
+	                                	,mdAttribute.mdGuid
+	                                	,mdAttribute.mdParentGuid)
+	                   ,0
+	                  ,LogTypeEnum.log);
+					Debug.WriteLine("ATTRIBUTE: " + mdAttribute.name);
+					
+					var element = (TSF_EA.Class)getElementByMDid(mdAttribute.mdParentGuid);
+					
+					Debug.WriteLine("CLASS: " + element.name);
+					foreach(var attribute in element.attributes)
+					{
+						Debug.WriteLine(attribute.name);
+					}
 					
 				}
 				
-//				foreach(var mdAttribute in magicDrawReader.allAttributes)
-//				{
-//						EAOutputLogger.log(this.model,this.outputName
-//					                   	,string.Format("{0} Get attribute '{1}' with GUID '{2}'"
-//	                                  	,DateTime.Now.ToLongTimeString()
-//	                                 	,mdAttribute.name
-//	                                	,mdAttribute.mdGuid)
-//	                   ,0
-//	                  ,LogTypeEnum.log);
-//				}
+
+				
+				
 				
 
 
