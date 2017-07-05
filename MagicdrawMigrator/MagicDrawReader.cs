@@ -494,7 +494,8 @@ namespace MagicdrawMigrator
 									string typeID = typeAttribute.Value;
 									//add the lifeline to the list
 									if (! string.IsNullOrEmpty(lifelineID)
-									    && ! string.IsNullOrEmpty(typeID))
+									    && ! string.IsNullOrEmpty(typeID)
+									    && ! foundLifeLines.ContainsKey(lifelineID))
 									{
 										foundLifeLines.Add(lifelineID,typeID);
 									}
@@ -865,16 +866,12 @@ namespace MagicdrawMigrator
 								}
 							}
 							
-							if (!string.IsNullOrEmpty(target) & !string.IsNullOrEmpty(source))
+							if (!string.IsNullOrEmpty(target) 
+							    && !string.IsNullOrEmpty(source)
+							    && ! foundDependencies.ContainsKey(source))
 							{
-									try
-									{
-										foundDependencies.Add(source,target);
-									}
-									catch(Exception e)
-									{
-										
-									}
+
+								foundDependencies.Add(source,target);
 							}
 						
 						}
