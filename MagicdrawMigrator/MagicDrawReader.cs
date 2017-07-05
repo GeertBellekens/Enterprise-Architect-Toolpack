@@ -30,6 +30,8 @@ namespace MagicdrawMigrator
 		Dictionary<string,string> _allLifeLines;
 		List<MDFragment> _allFragments;
 		List<MDMessage> _allMessages;
+		List<MDAttribute> _allAttributes;
+		List<MDDependency> _allAttDependencies;
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		Dictionary<string,XmlDocument> sourceFiles
@@ -89,7 +91,29 @@ namespace MagicdrawMigrator
 				}
 			}
 		}
+		public List<MDDependency> allAttDependencies
+		{
+			get
+			{
+				if (_allAttDependencies == null)
+				{
+					this.getAllAttDependencies();
+				}
+				return _allAttDependencies;
+			}
+		}
 		
+		public List<MDAttribute> allAttributes
+		{
+			get
+			{
+				if (_allAttributes == null)
+				{
+					this.getAllAttributes();
+				}
+				return _allAttributes;
+			}
+		}
 		public List<MDFragment> allFragments
 		{
 			get
@@ -885,7 +909,127 @@ namespace MagicdrawMigrator
 			
 			_allDependencies = foundDependencies;
 		}
+		
+		void getAllAttDependencies()
+		{
+			var foundDependencies = new List<MDDependency>();
 			
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				
+				foreach (XmlNode dependencyNode in sourceFile.SelectNodes("//packagedElement[@xmi:type='uml:Dependency']", nsMgr))
+				{
+						//<client xmi:idref='_18_2_b9402f1_1467202520981_286657_153229'/>
+						//<supplier xmi:idref='_17_0_2_2_eac0340_1366370215876_17265_33738'/>
+						//select client node, attribute idref
+						string source = "", target = "";
+						XmlNode clientNode = dependencyNode.SelectSingleNode("./client");
+						if (clientNode != null)
+						{
+							XmlAttribute clientAttribute = clientNode.Attributes["xmi:idref"];
+							source = clientAttribute != null? clientAttribute.Value: string.Empty;
+							
+							// _17_0_2_eac0340_1354547327504_709036_28090   //Balance Responsible Party ID
+							
+						}
+						XmlNode supplierNode = dependencyNode.SelectSingleNode("./supplier");
+						if (supplierNode != null)
+						{
+							XmlAttribute supplierAttribute = supplierNode.Attributes["xmi:idref"];
+							target = supplierAttribute != null? supplierAttribute.Value: string.Empty;
+						}
+						
+						if (!string.IsNullOrEmpty(target) && !string.IsNullOrEmpty(source))
+						{
+							var mdDependency = new MDDependency();
+							mdDependency.sourceGuid = source;
+						 	mdDependency.targetGuid = target;
+							
+							//first check if both id's are in the list of attributes
+							if (containsDependencies(mdDependency))
+							{
+								foundDependencies.Add(mdDependency);
+							}
+							
+						}
+				}
+			}
+			_allAttDependencies = foundDependencies;
+		}
+		
+		bool containsDependencies(MDDependency dependency)
+		{
+			var sourceAttribute = allAttributes.FirstOrDefault( x => x.mdGuid == dependency.sourceGuid);
+			var targetAttribute = allAttributes.FirstOrDefault( x => x.mdGuid == dependency.targetGuid);
+			bool contains = sourceAttribute != null 
+						&& targetAttribute != null;
+			if (contains)
+			{
+				dependency.sourceName = sourceAttribute.name;
+				dependency.targetName = targetAttribute.name;
+				dependency.sourceParentGuid = sourceAttribute.mdParentGuid;
+				dependency.targetParentGuid = targetAttribute.mdParentGuid;
+			}
+			
+			return contains;
+		}
+		
+		
+		void getAllAttributes()
+		{
+			var foundAttributes = new List<MDAttribute>();
+			
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");	
+				
+				foreach (XmlNode elementNode in sourceFile.SelectNodes(".//packagedElement[@xmi:type='uml:Class']", nsMgr))
+				{
+					//get the element mdID
+					XmlAttribute elementIDAttribute = elementNode.Attributes["xmi:id"];
+					string elementID = elementIDAttribute != null ? elementIDAttribute.Value:string.Empty;
+					
+					//Debug.WriteLine("Class: " + elementNode.Attributes["name"].Value);
+					
+					
+					foreach (XmlNode attributeNode in elementNode.SelectNodes(".//ownedAttribute[@xmi:type='uml:Property' and not(@association) and not(@aggregation)]", nsMgr))
+					{
+						
+						//get the attribute mdID
+						XmlAttribute attributeIDAttribute = attributeNode.Attributes["xmi:id"];
+						string attributeMDGuid = attributeIDAttribute != null ? attributeIDAttribute.Value:string.Empty;
+						
+						//get the attribute name
+						XmlAttribute nameAttribute = attributeNode.Attributes["name"];
+						string attributeName = nameAttribute != null ? nameAttribute.Value:string.Empty;
+						
+						
+						
+						
+						if (! string.IsNullOrEmpty(attributeMDGuid) && ! string.IsNullOrEmpty(attributeName))
+						{
+							//Debug.WriteLine(attributeName);
+							
+							var mdAttribute = new MDAttribute();
+							mdAttribute.mdGuid = attributeMDGuid;
+							mdAttribute.name = attributeName;
+							mdAttribute.mdParentGuid = elementID;
+							foundAttributes.Add(mdAttribute);
+							
+						}
+					}
+					
+				}
+				
+				
+			}
+			_allAttributes = foundAttributes;
+		}
 		
 		void getAllPartitions()
 		{
