@@ -729,20 +729,18 @@ namespace MagicdrawMigrator
 			_allDiagrams = foundDiagrams;
 		}
 		
-		string getElementID(XmlNode diagramObjectNode)
+		string getID(XmlNode node)
 		{
 			string elementID = string.Empty;
-		
-			//get the elementID
-			var elementIDNode = diagramObjectNode.SelectSingleNode(".//elementID");
-			if (elementIDNode != null)
+			
+			if (node != null)
 			{
 				//first theck the href attribute
-				XmlAttribute hrefAttribute = elementIDNode.Attributes["href"];
+				XmlAttribute hrefAttribute = node.Attributes["href"];
 				
 				if (hrefAttribute != null)
 				{
-					string fullHrefString = elementIDNode.Attributes["href"].Value;
+					string fullHrefString = node.Attributes["href"].Value;
 					int seperatorIndex = fullHrefString.IndexOf('#');
 					if (seperatorIndex >= 0 )
 					{
@@ -752,12 +750,22 @@ namespace MagicdrawMigrator
 				else
 				{
 					//check the "xmi:idref attribute
-					XmlAttribute idRefAttribute = elementIDNode.Attributes["xmi:idref"];
+					XmlAttribute idRefAttribute = node.Attributes["xmi:idref"];
 					if (idRefAttribute != null) elementID = idRefAttribute.Value;
 				}
 			}
+			
 			return elementID;
 		}
+		
+		string getElementID(XmlNode diagramObjectNode)
+		{		
+			//get the elementID
+			var node = diagramObjectNode.SelectSingleNode(".//elementID");
+			return getID(node);
+		}
+		
+		
 		
 		
 		
@@ -929,8 +937,7 @@ namespace MagicdrawMigrator
 						XmlNode clientNode = dependencyNode.SelectSingleNode("./client");
 						if (clientNode != null)
 						{
-							XmlAttribute clientAttribute = clientNode.Attributes["xmi:idref"];
-							source = clientAttribute != null? clientAttribute.Value: string.Empty;
+							source = getID(clientNode);
 							
 							// _17_0_2_eac0340_1354547327504_709036_28090   //Balance Responsible Party ID
 							
@@ -938,8 +945,7 @@ namespace MagicdrawMigrator
 						XmlNode supplierNode = dependencyNode.SelectSingleNode("./supplier");
 						if (supplierNode != null)
 						{
-							XmlAttribute supplierAttribute = supplierNode.Attributes["xmi:idref"];
-							target = supplierAttribute != null? supplierAttribute.Value: string.Empty;
+							target = getID(supplierNode);
 						}
 						
 						if (!string.IsNullOrEmpty(target) && !string.IsNullOrEmpty(source))
