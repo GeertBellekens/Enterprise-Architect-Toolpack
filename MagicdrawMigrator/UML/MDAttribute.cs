@@ -18,8 +18,6 @@ namespace MagicdrawMigrator
 		}
 		
 		public string name{get;set;}
-		public string parentGuid{get;set;}
-		public string guid{get;set;}
 		public string mdParentGuid{get;set;}
 		public string mdGuid{get;set;}
 		

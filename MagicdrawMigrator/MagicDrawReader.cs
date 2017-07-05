@@ -919,30 +919,35 @@ namespace MagicdrawMigrator
 						if (!string.IsNullOrEmpty(target) && !string.IsNullOrEmpty(source))
 						{
 							var mdDependency = new MDDependency();
-							mdDependency.source = source;
-						 	mdDependency.target = target;
+							mdDependency.sourceGuid = source;
+						 	mdDependency.targetGuid = target;
 							
 							//first check if both id's are in the list of attributes
-							if (containsDependencies(source) && containsDependencies(target))
+							if (containsDependencies(mdDependency))
 							{
 								foundDependencies.Add(mdDependency);
 							}
 							
 						}
-						
-
 				}
 			}
 			_allAttDependencies = foundDependencies;
 		}
 		
-		bool containsDependencies(string id)
+		bool containsDependencies(MDDependency dependency)
 		{
-			bool contains = false;
-			foreach (var attribute in allAttributes)
+			var sourceAttribute = allAttributes.FirstOrDefault( x => x.mdGuid == dependency.sourceGuid);
+			var targetAttribute = allAttributes.FirstOrDefault( x => x.mdGuid == dependency.targetGuid);
+			bool contains = sourceAttribute != null 
+						&& targetAttribute != null;
+			if (contains)
 			{
-				contains |= attribute.mdGuid == id;
+				dependency.sourceName = sourceAttribute.name;
+				dependency.targetName = targetAttribute.name;
+				dependency.sourceParentGuid = sourceAttribute.mdParentGuid;
+				dependency.targetParentGuid = targetAttribute.mdParentGuid;
 			}
+			
 			return contains;
 		}
 		

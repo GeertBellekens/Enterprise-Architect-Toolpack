@@ -33,42 +33,42 @@ namespace MagicdrawMigrator
 	                  ,LogTypeEnum.log);
 				
 				
-//				foreach(var mdDependency in magicDrawReader.allAttDependencies)
-//				{
-//					Debug.WriteLine(mdDependency.source + "   "  + mdDependency.target);
-//				}
-				
-				
-				
-				
-				
-				foreach(var mdAttribute in magicDrawReader.allAttributes)
+				foreach(var mdDependency in magicDrawReader.allAttDependencies)
 				{
-						EAOutputLogger.log(this.model,this.outputName
-					                   	,string.Format("{0} Get attribute '{1}' with mdGUID '{2}' and mdParentGuid '{3}'"
+					
+					EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Get dependency '{1}' --> '{2}'"
 	                                  	,DateTime.Now.ToLongTimeString()
-	                                 	,mdAttribute.name
-	                                	,mdAttribute.mdGuid
-	                                	,mdAttribute.mdParentGuid)
+	                                 	,mdDependency.sourceName
+	                                	,mdDependency.targetName)
 	                   ,0
 	                  ,LogTypeEnum.log);
-					Debug.WriteLine("ATTRIBUTE: " + mdAttribute.name);
 					
-					var element = (TSF_EA.Class)getElementByMDid(mdAttribute.mdParentGuid);
+					//get the corresponding attributes in EA
+					//source element
+					var sourceElement = (TSF_EA.Class)getElementByMDid(mdDependency.sourceParentGuid);
 					
-					Debug.WriteLine("CLASS: " + element.name);
-					foreach(var attribute in element.attributes)
-					{
-						Debug.WriteLine(attribute.name);
-					}
+					//target element
+					var targetElement = (TSF_EA.Class)getElementByMDid(mdDependency.targetParentGuid);
 					
+					var sourceAttribute = (TSF_EA.Attribute)sourceElement.attributes.FirstOrDefault( x => x.name == mdDependency.sourceName);
+					mdDependency.sourceGuid = sourceAttribute != null? sourceAttribute.guid: string.Empty;
+					
+					var targetAttribute = (TSF_EA.Attribute)targetElement.attributes.FirstOrDefault( x => x.name == mdDependency.targetName);
+					mdDependency.targetGuid = targetAttribute != null? targetAttribute.guid: string.Empty;
+					
+					sourceAttribute.addTaggedValue("sourceAttribute", mdDependency.targetGuid, null, false);
+					
+					
+					EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Set sourceAttribute '{1}' for '{2}'"
+	                                  	,DateTime.Now.ToLongTimeString()
+	                                 	,mdDependency.targetName
+	                                	,mdDependency.sourceName)
+	                   ,0
+	                  ,LogTypeEnum.log);
 				}
 				
-
-				
-				
-				
-
 
 		}
 	}
