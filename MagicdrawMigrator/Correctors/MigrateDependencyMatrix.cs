@@ -57,7 +57,7 @@ namespace MagicdrawMigrator
 					var targetAttribute = (TSF_EA.Attribute)targetElement.attributes.FirstOrDefault( x => x.name == mdDependency.targetName);
 					mdDependency.targetGuid = targetAttribute != null? targetAttribute.guid: string.Empty;
 					
-					sourceAttribute.addTaggedValue("sourceAttribute", mdDependency.targetGuid, null, false);
+					sourceAttribute.addTaggedValue("sourceAttribute", mdDependency.targetGuid);
 					
 					
 					EAOutputLogger.log(this.model,this.outputName
@@ -68,6 +68,13 @@ namespace MagicdrawMigrator
 	                   ,0
 	                  ,LogTypeEnum.log);
 				}
+				
+				
+				EAOutputLogger.log(this.model,this.outputName
+           ,string.Format("{0} Finished Corrections for Dependency Matrix'"
+                          ,DateTime.Now.ToLongTimeString())
+           ,0
+          ,LogTypeEnum.log);
 				
 
 		}
