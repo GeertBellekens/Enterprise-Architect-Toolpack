@@ -765,10 +765,6 @@ namespace MagicdrawMigrator
 			return getID(node);
 		}
 		
-		
-		
-		
-		
 		void getAllObjects()
 		{
 			var foundObjects = new Dictionary<string, string>();
