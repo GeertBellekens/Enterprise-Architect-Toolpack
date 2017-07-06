@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Correctors\AddClassifiersToPartitions.cs" />
+    <Compile Include="Correctors\AddParticipationAssociations.cs" />
     <Compile Include="Correctors\ASMAAssociationCorrector.cs" />
     <Compile Include="Correctors\AssociationTableCorrector.cs" />
     <Compile Include="Correctors\ConvertPropertiesToAttributes.cs" />
