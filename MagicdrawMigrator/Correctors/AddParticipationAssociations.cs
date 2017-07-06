@@ -21,6 +21,17 @@ namespace MagicdrawMigrator
 		
 		public override void correct()
 		{
+			EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Starting corrections <<participates>> associations'"
+	                                  ,DateTime.Now.ToLongTimeString())
+	                   ,0
+	                   ,LogTypeEnum.log);
+			
+			
+			foreach(var mdAssociation in magicDrawReader.allAssociations)
+			{
+				
+			}
 			
 		}
 	}

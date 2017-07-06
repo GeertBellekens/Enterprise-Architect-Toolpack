@@ -27,6 +27,7 @@ namespace MagicdrawMigrator
 		Dictionary<string, string> _allObjects;
 		Dictionary<string, string> _allPartitions;
 		Dictionary<string, string> _allDependencies;
+		Dictionary<string, string> _allAssociations;
 		Dictionary<string,string> _allLifeLines;
 		List<MDFragment> _allFragments;
 		List<MDMessage> _allMessages;
@@ -191,6 +192,21 @@ namespace MagicdrawMigrator
 				return _allDependencies;
 			}
 		}
+		
+		public Dictionary<string, string> allAssociations {
+			get {
+				if (_allAssociations == null)
+				{
+					this.getAllAssociations();
+				}
+				
+				return _allAssociations;
+				
+			}
+		}
+		
+		
+		
 		public Dictionary<string,string> allClasses
 		{
 			get
@@ -847,6 +863,52 @@ namespace MagicdrawMigrator
 			}
 			_allObjects = foundObjects;
 		}
+		
+		void getAllAssociations()
+		{
+			var foundAssociations = new Dictionary<string, string>();
+			
+			foreach (var sourceFile in this.sourceFiles.Values) 
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				
+				foreach (XmlNode participatesNode in sourceFile.SelectNodes("//*[local-name() = 'participates']",nsMgr)) 
+				{
+					//base_Association
+					XmlAttribute associationAttribute = participatesNode.Attributes["base_Association"];
+					
+					string associationID = associationAttribute != null ? associationAttribute.Value:string.Empty;
+					
+					foreach(XmlNode associationNode in sourceFile.SelectNodes("//packagedElement[@xmi:id='"+associationID+"']",nsMgr))
+					{
+						string[] member = new string[2];
+						int i = 0;
+						foreach(XmlNode memberEndNode in associationNode.SelectNodes(".//memberEnd", nsMgr))
+						{
+							XmlAttribute memberAttribute =  memberEndNode.Attributes["xmi:idref"];
+							member[i] = memberAttribute != null? memberAttribute.Value: string.Empty;
+							i++;
+						}
+						string actor = member[0];
+						string usecase = member[1];
+						
+						// create again with association objects
+						if (!string.IsNullOrEmpty(actor) 
+							    && !string.IsNullOrEmpty(usecase)
+							    && ! foundAssociations.ContainsKey(source))
+							{
+
+								foundDependencies.Add(source,target);
+							}
+						        
+					}
+				}
+				
+			}
+		}
+		
 		
 		void getAllDependencies()
 		{
