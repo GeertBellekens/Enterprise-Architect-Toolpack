@@ -628,7 +628,7 @@ namespace MagicdrawMigrator
 							string name = constraintNode.Attributes["name"].Value;
 							string body = string.Empty;
 							XmlNode bodyNode = constraintNode.SelectSingleNode("./specification/body");
-							if (bodyNode != null) body = bodyNode.InnerText;
+							if (bodyNode != null) body = bodyNode.InnerText.Replace("\n","\r\n"); //replace LF with CRLF
 							string language = string.Empty;
 							XmlNode languageNode = constraintNode.SelectSingleNode("./specification/language");
 							if (languageNode != null) language = languageNode.InnerText;
