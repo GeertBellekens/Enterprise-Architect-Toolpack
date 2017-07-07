@@ -25,8 +25,8 @@ namespace GlossaryManager {
     const string menuExportDataItems     = "&Export Data Items...";
     const string menuAbout               = "&About";
 
-    const string appTitle   = "GlossaryManager";
-    const string appFQN     = "GlossaryManager.GlossaryManagerUI"; 
+    const string appTitle                = "GlossaryManager";
+    const string appFQN                  = "GlossaryManager.GlossaryManagerUI"; 
 
     private EAWrapped.Model         model       = null;
     private bool                    fullyLoaded = false;
@@ -108,8 +108,9 @@ namespace GlossaryManager {
                                                  string GUID,
                                                  EA.ObjectType ot)
     {
-      if(this.NewContext == null) { return; }
-      if(this.model      == null) { return; }
+      if(this.NewContext == null)                                   { return; }
+      if(this.model      == null)                                   { return; }
+      if( ! (this.model.selectedItem is EAWrapped.ElementWrapper) ) { return; }
       this.NewContext((EAWrapped.ElementWrapper)this.model.selectedItem);
     }
 
