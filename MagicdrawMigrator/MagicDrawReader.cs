@@ -26,8 +26,8 @@ namespace MagicdrawMigrator
 		Dictionary<string, MDDiagram> _allDiagrams;
 		Dictionary<string, string> _allObjects;
 		Dictionary<string, string> _allPartitions;
-		Dictionary<string, string> _allDependencies;
-		Dictionary<string, string> _allAssociations;
+		List<MDDependency> _allDependencies;
+		List<MDAssociation> _allAssociations;
 		Dictionary<string,string> _allLifeLines;
 		List<MDFragment> _allFragments;
 		List<MDMessage> _allMessages;
@@ -182,7 +182,7 @@ namespace MagicdrawMigrator
 				return _allPartitions;
 			}
 		}
-		public Dictionary<string, string> allDependencies {
+		public List<MDDependency> allDependencies {
 			get {
 				if (_allDependencies == null)
 				{
@@ -193,7 +193,7 @@ namespace MagicdrawMigrator
 			}
 		}
 		
-		public Dictionary<string, string> allAssociations {
+		public List<MDAssociation> allAssociations {
 			get {
 				if (_allAssociations == null)
 				{
@@ -866,7 +866,7 @@ namespace MagicdrawMigrator
 		
 		void getAllAssociations()
 		{
-			var foundAssociations = new Dictionary<string, string>();
+			var foundAssociations = new List<MDAssociation>();
 			
 			foreach (var sourceFile in this.sourceFiles.Values) 
 			{
@@ -883,7 +883,8 @@ namespace MagicdrawMigrator
 					
 					foreach(XmlNode associationNode in sourceFile.SelectNodes("//packagedElement[@xmi:id='"+associationID+"']",nsMgr))
 					{
-						string[] member = new string[2];
+						var member = new string[2];
+						var mdassociation = new MDAssociation();
 						int i = 0;
 						foreach(XmlNode memberEndNode in associationNode.SelectNodes(".//memberEnd", nsMgr))
 						{
@@ -891,28 +892,28 @@ namespace MagicdrawMigrator
 							member[i] = memberAttribute != null? memberAttribute.Value: string.Empty;
 							i++;
 						}
-						string actor = member[0];
-						string usecase = member[1];
+						mdassociation.actor = member[0];
+						mdassociation.usecase = member[1];
 						
 						// create again with association objects
-						if (!string.IsNullOrEmpty(actor) 
-							    && !string.IsNullOrEmpty(usecase)
-							    && ! foundAssociations.ContainsKey(source))
+						if (!string.IsNullOrEmpty(mdassociation.actor) 
+						    && !string.IsNullOrEmpty(mdassociation.usecase))
 							{
 
-								foundDependencies.Add(source,target);
+								foundAssociations.Add(mdassociation);
 							}
 						        
 					}
 				}
 				
 			}
+			_allAssociations = foundAssociations;
 		}
 		
 		
 		void getAllDependencies()
 		{
-			var foundDependencies = new Dictionary<string, string>();
+			var foundDependencies = new List<MDDependency>();
 			foreach (var sourceFile in this.sourceFiles.Values) 
 			{
 				
@@ -932,14 +933,14 @@ namespace MagicdrawMigrator
 						
 						foreach (XmlNode dependencyNode in sourceFile.SelectNodes("//packagedElement[@xmi:id='"+dependencyID+"']",nsMgr))	
 						{
-							string source = "", target = "";
+							var mdDependency = new MDDependency();
 							
 							//select client node, attribute idref
 							XmlNode clientNode = dependencyNode.SelectSingleNode("./client");
 							if (clientNode != null)
 							{
 								XmlAttribute clientAttribute = clientNode.Attributes["xmi:idref"];
-								source = clientAttribute != null? clientAttribute.Value: string.Empty;
+								mdDependency.sourceGuid = clientAttribute != null? clientAttribute.Value: string.Empty;
 							}
 							
 							// select supplier node, attribute href, after #
@@ -952,16 +953,16 @@ namespace MagicdrawMigrator
 								var splittedHref = fullHrefValue.Split('#');
 								if (splittedHref.Count() == 2)
 								{
-									target = splittedHref[1];
+									mdDependency.targetGuid = splittedHref[1];
 								}
 							}
 							
-							if (!string.IsNullOrEmpty(target) 
-							    && !string.IsNullOrEmpty(source)
-							    && ! foundDependencies.ContainsKey(source))
+							if (!string.IsNullOrEmpty(mdDependency.sourceGuid) 
+							    && !string.IsNullOrEmpty(mdDependency.targetGuid)
+							   )
 							{
 
-								foundDependencies.Add(source,target);
+								foundDependencies.Add(mdDependency);
 							}
 						
 						}

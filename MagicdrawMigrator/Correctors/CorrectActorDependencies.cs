@@ -37,8 +37,8 @@ namespace MagicdrawMigrator
 				EAOutputLogger.log(this.model,this.outputName
                    	,string.Format("{0} Get MD dependency with source '{1}' and target '{2}' from source files"
                   	,DateTime.Now.ToLongTimeString()
-                  	,mdDependency.Key
-                  	,mdDependency.Value)
+                  	,mdDependency.sourceGuid
+                  	,mdDependency.targetGuid)
                     	
        			,0
       			,LogTypeEnum.log);
@@ -52,12 +52,12 @@ namespace MagicdrawMigrator
 			    var sourceElements = this.model.getElementWrappersByQuery(@"select so.[Object_ID]
 																			from (t_object so
 																			inner join [t_objectproperties] sop
-																			on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdDependency.Key +"'))");
+																			on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdDependency.sourceGuid +"'))");
 			    
 			    var targetElements =  this.model.getElementWrappersByQuery(@"select so.[Object_ID]
 																			from (t_object so
 																			inner join [t_objectproperties] sop
-																			on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdDependency.Value +"'))");
+																			on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdDependency.targetGuid +"'))");
 			    
 			    if (sourceElements != null
 			        && sourceElements.Any()
@@ -87,8 +87,8 @@ namespace MagicdrawMigrator
 			    	EAOutputLogger.log(this.model,this.outputName
 	                   	,string.Format("{0} Could not create dependency between actors with md_guid '{1}' and target '{2}'"
 	                  	,DateTime.Now.ToLongTimeString()
-	                  	,mdDependency.Key
-	                  	,mdDependency.Value)
+	                  	,mdDependency.sourceGuid
+	                  	,mdDependency.targetGuid)
 	                    	
 	       			,0
 	      			,LogTypeEnum.error);
