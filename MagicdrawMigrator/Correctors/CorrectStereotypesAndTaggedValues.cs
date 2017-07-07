@@ -81,7 +81,7 @@ namespace MagicdrawMigrator
 		public void synchronizeStereotypes()
 		{
 			string profile;
-			ArrayList stereotypes = new ArrayList();
+			var stereotypes = new ArrayList();
 			
 			//UPCC3 - Model Management Abstract Syntax
 			profile = "UPCC3 - Model Management Abstract Syntax";

@@ -87,7 +87,7 @@ namespace MagicdrawMigrator
 								{					
 									if(workPackage.name == "AT" || workPackage.name == "BE" || workPackage.name == "CH" || workPackage.name == "DE" || workPackage.name == "DK" || workPackage.name == "NL" || workPackage.name == "NO" || workPackage.name == "SE" || workPackage.name == "SI")
 									{
-										TSF_EA.Package pack = (TSF_EA.Package)model.getElementWrapperByGUID("{AE324957-30D4-41a6-A507-B31E05EE5EA5}");
+										var pack = (TSF_EA.Package)model.getElementWrapperByGUID("{AE324957-30D4-41a6-A507-B31E05EE5EA5}");
 										workPackage.owningPackage = pack;
 										workPackage.save();
 									}
