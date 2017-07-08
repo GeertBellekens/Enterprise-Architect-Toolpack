@@ -35,10 +35,26 @@ namespace GlossaryManager {
       };
     }
 
+    private List<FieldValue> logicalDataTypes = new List<FieldValue>();
+    public List<FieldValue> LogicalDataTypes {
+      get {
+        return this.logicalDataTypes;
+      }
+      set {
+        this.logicalDataTypes = value;
+        this.logicalDataTypesComboBox.DataSource = this.logicalDataTypes;
+      }
+    }
+
+    private Field logicalDataTypesComboBox;
+
     protected override void createForm() {
       base.createForm();
+      
       this.addField(new Field("Label"));
-      this.addField(new Field("Logical Datatype"));
+      logicalDataTypesComboBox = (Field)this.addField(new Field(
+        "Logical Datatype", FieldOptions.WithNull | FieldOptions.WithPicker, this
+      ));
       this.addField(new Field("Size"));
       this.addField(new Field("Format"));
       this.addField(new Field("Description") {
@@ -54,7 +70,7 @@ namespace GlossaryManager {
       if( ! this.HasItemSelected ) { return; }
 
       this.fields["Label"].Value            = ((DataItem)this.Current).Label;
-      this.fields["Logical Datatype"].Value = ((DataItem)this.Current).LogicalDataType;
+      this.fields["Logical Datatype"].Value = ((DataItem)this.Current).LogicalDataType.ToString();
       this.fields["Size"].Value             = ((DataItem)this.Current).Size.ToString();
       this.fields["Format"].Value           = ((DataItem)this.Current).Format;
       this.fields["Description"].Value      = ((DataItem)this.Current).Description;

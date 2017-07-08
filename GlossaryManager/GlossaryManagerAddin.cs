@@ -29,6 +29,7 @@ namespace GlossaryManager {
     const string appFQN                  = "GlossaryManager.GlossaryManagerUI"; 
 
     private EAWrapped.Model         model       = null;
+    public  EAWrapped.Model Model { get { return this.model; } }
     private bool                    fullyLoaded = false;
 
     private GlossaryManagerSettings settings    = new GlossaryManagerSettings();
@@ -41,6 +42,7 @@ namespace GlossaryManager {
           // this is annoying, during construction of the UI, the Addin cannot
           // be back-referenced from the ui yet, until we set it here
           this._ui.Addin = this;
+          this._ui.Activate(); // so we delay the creation and trigger it here
 					this._ui.HandleDestroyed += this.handleHandleDestroyed; 
         }
         return this._ui;
@@ -128,7 +130,33 @@ namespace GlossaryManager {
     private void manage() {
       if( this.model == null ) { return; }
       this.ui.BusinessItems.Show<BusinessItem>(this.list<BusinessItem>());
-      this.ui.DataItems.Show<DataItem>(this.list<DataItem>());
+      List<DataItem> dataItems = this.list<DataItem>();
+      this.ui.DataItems.Show<DataItem>(dataItems);
+      // add all Logical DataTypes from this package and optionally others
+      // from the dataItems
+      List<FieldValue> logicalDataTypes = new List<FieldValue>();
+      EAWrapped.Package package = (EAWrapped.Package)this.model.selectedElement;
+      foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
+        if(clazz.stereotypes.Count == 1) {
+          if( clazz.stereotypes.ToList()[0].name == "LogicalDataType") {
+            logicalDataTypes.Add(new FieldValue() {
+              Key   = clazz.name,
+              Value = clazz.guid
+            });
+          }
+        }
+      }
+      foreach(DataItem item in dataItems) {
+				EAWrapped.Class element = this.model.getElementByGUID(item.LogicalDataType) as EAWrapped.Class;
+        if(element != null) {
+          logicalDataTypes.Add(new FieldValue() {
+            Key   = element.name,
+            Value = element.guid
+          });
+        }
+      }
+
+      this.ui.DataItems.LogicalDataTypes = logicalDataTypes;
       this.model.activateTab(appTitle);
     }
 

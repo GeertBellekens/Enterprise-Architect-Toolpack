@@ -18,7 +18,7 @@ namespace GlossaryManager {
 
   public abstract class GlossaryItemTabPage : FocusableTabPage {
     
-    private GlossaryManagerUI ui;
+    public GlossaryManagerUI ui { get; private set; }
     
     // the master/detail list/form combo
     private ListView        itemsList;

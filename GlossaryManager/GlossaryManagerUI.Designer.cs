@@ -37,14 +37,16 @@ namespace GlossaryManager {
 			this.Name                = "GlossaryManagerUI";
 			this.Size                = new System.Drawing.Size(994, 584);
 
-      this.createTabControl();
-
 			this.ResumeLayout(false);
 		}
 
     public BusinessItemTabPage BusinessItems { get; private set; }
     public DataItemTabPage     DataItems     { get; private set; }
     public ColumnLinkTabPage   ColumnLinks   { get; private set; }
+
+    public void Activate() {
+      this.createTabControl();
+    }
 
     private void createTabControl() {
 			TabControl tabs = new TabControl () {
