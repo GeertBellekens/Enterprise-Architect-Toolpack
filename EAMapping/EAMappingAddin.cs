@@ -22,6 +22,9 @@ namespace EAMapping
 		// define menu constants
         const string menuName = "-&EA Mapping";
         const string menuMapAsSource = "&Map as Source";
+        const string menuAddNode = "-&Add Node";
+        const string menuAddToSource = "To &Source";
+        const string menuAddToTarget = "To &Target";
         const string menuImportMapping = "&Import Mapping";
         const string menuImportCopybook = "&Import Copybook";
         const string menuSettings = "&Settings";
@@ -34,22 +37,24 @@ namespace EAMapping
         private MappingControlGUI _mappingControl;
         private MappingSet _currentMappingSet = null;
         private EAMappingSettings settings = new EAMappingSettings();
+        private string[] menuSubAddNodeOptions= {string.Empty};
         /// <summary>
         /// constructor, set menu names
         /// </summary>
         public EAMappingAddin():base()
         {
-        	this.menuHeader = menuName;
-          this.menuOptions = new string[] {
-            menuMapAsSource,
-            menuImportMapping,
-            menuImportCopybook,
-            menuSettings,
-            menuAbout
-          };
+			this.menuHeader = menuName;
+			this.menuOptions = new string[] 
+			{
+	        menuMapAsSource,
+	        menuAddNode,
+	        menuImportMapping,
+	        menuImportCopybook,
+	        menuSettings,
+	        menuAbout
+	        };
+			this.menuSubAddNodeOptions = new string[] {menuAddToSource, menuAddToTarget};
         }
-
-
         private MappingControlGUI mappingControl
 		{
 			get
@@ -63,7 +68,6 @@ namespace EAMapping
 					_mappingControl.DeleteMapping      += mappingControl_DeleteMapping;
 					_mappingControl.EditMappingLogic   += mappingControl_EditMappingLogic;
 					_mappingControl.DeleteMappingLogic += mappingControl_DeleteMappingLogic;
-          _mappingControl.AddNode            += mappingControl_AddNode;
 					_mappingControl.selectSource       += mappingControl_SelectSource;
 					_mappingControl.selectTarget       += mappingControl_SelectTarget;
 					_mappingControl.exportMappingSet   += mappingControl_ExportMappingSet;
@@ -110,9 +114,6 @@ namespace EAMapping
       MessageBox.Show("TODO EAMappingAddin::DeleteMappingLogic: " + mapping);
     }
 
-    void mappingControl_AddNode(object sender, EventArgs e) {
-      MessageBox.Show("TODO EAMappingAddin::AddNode");
-    }
 
 		void mappingControl_ExportMappingSet(object sender, EventArgs e)
 		{
@@ -143,18 +144,40 @@ namespace EAMapping
 	        this.fullyLoaded = true;
 		}
 
-    public override void EA_GetMenuState(EA.Repository Repository, string Location, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
-    {
-    	switch( ItemName ) {
-        case menuImportCopybook:
-    			IsEnabled = this.fullyLoaded &&
-                      (this.model.selectedElement != null);
-      		break;
-        default:
-          IsEnabled = true;
-          break;
-      }
-    }
+		public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
+		{
+			switch (MenuName) 
+			{
+				case "":
+					return this.menuHeader;
+				case menuName:
+					return this.menuOptions;
+				case menuAddNode:
+					return this.menuSubAddNodeOptions;
+				default:
+					return string.Empty;
+			}
+		}
+		public override void EA_GetMenuState(EA.Repository Repository, string Location, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
+		{
+			switch( ItemName ) 
+			{
+			    case menuImportCopybook:
+						IsEnabled = this.fullyLoaded &&
+			                  (this.model.selectedElement != null);
+			  		break;
+			    default:
+			      IsEnabled = true;
+			      break;
+			}
+			if (MenuName == menuAddNode)
+			{
+				var selectedAttribute = this.fullyLoaded ? this.model.selectedElement as TSF_EA.Attribute : null;
+		  		IsEnabled = selectedAttribute != null
+		  			&& this._mappingControl != null
+		  			&& this.model.isTabOpen(mappingControlName);
+			}
+		}
 
 
         /// <summary>

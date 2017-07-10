@@ -127,12 +127,6 @@ namespace EAMapping
 			}
 		}
 		
-		public event EventHandler AddNode = delegate {};
-		public void AddNodeButtonClick(object sender, EventArgs e) 
-		{
-			this.AddNode(sender, e);
-		}
-
     	// export
 
 		public event EventHandler exportMappingSet = delegate { }; 

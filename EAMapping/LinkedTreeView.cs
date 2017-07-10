@@ -41,6 +41,7 @@ namespace EAMapping {
 
     public void Clear() {
       this.nodes.Clear();
+      this.Nodes.Clear();
     }
 
     public LinkedTreeNode AddNode(List<string> path) {
