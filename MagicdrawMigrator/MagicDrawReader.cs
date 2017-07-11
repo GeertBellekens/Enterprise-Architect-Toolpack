@@ -27,7 +27,6 @@ namespace MagicdrawMigrator
 		Dictionary<string, string> _allObjects;
 		Dictionary<string, string> _allPartitions;
 		List<MDDependency> _allDependencies;
-		List<MDAssociation> _allAssociations;
 		Dictionary<string,string> _allLifeLines;
 		List<MDFragment> _allFragments;
 		List<MDMessage> _allMessages;
@@ -192,20 +191,6 @@ namespace MagicdrawMigrator
 				return _allDependencies;
 			}
 		}
-		
-		public List<MDAssociation> allAssociations {
-			get {
-				if (_allAssociations == null)
-				{
-					this.getAllAssociations();
-				}
-				
-				return _allAssociations;
-				
-			}
-		}
-		
-		
 		
 		public Dictionary<string,string> allClasses
 		{
@@ -862,52 +847,6 @@ namespace MagicdrawMigrator
 				
 			}
 			_allObjects = foundObjects;
-		}
-		
-		void getAllAssociations()
-		{
-			var foundAssociations = new List<MDAssociation>();
-			
-			foreach (var sourceFile in this.sourceFiles.Values) 
-			{
-				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
-				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
-				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
-				
-				foreach (XmlNode participatesNode in sourceFile.SelectNodes("//*[local-name() = 'participates']",nsMgr)) 
-				{
-					//base_Association
-					XmlAttribute associationAttribute = participatesNode.Attributes["base_Association"];
-					
-					string associationID = associationAttribute != null ? associationAttribute.Value:string.Empty;
-					
-					foreach(XmlNode associationNode in sourceFile.SelectNodes("//packagedElement[@xmi:id='"+associationID+"']",nsMgr))
-					{
-						var member = new string[2];
-						var mdassociation = new MDAssociation();
-						int i = 0;
-						foreach(XmlNode ownedEndNode in associationNode.SelectNodes(".//ownedEnd", nsMgr))
-						{
-							XmlAttribute typeAttribute =  ownedEndNode.Attributes["type"];
-							member[i] = typeAttribute != null? typeAttribute.Value: string.Empty;
-							i++;
-						}
-						mdassociation.ownedEnd_1 = member[0];
-						mdassociation.ownedEnd_2 = member[1];
-						
-						
-						if (!string.IsNullOrEmpty(mdassociation.ownedEnd_1) 
-						    && !string.IsNullOrEmpty(mdassociation.ownedEnd_2))
-							{
-
-								foundAssociations.Add(mdassociation);
-							}
-						        
-					}
-				}
-				
-			}
-			_allAssociations = foundAssociations;
 		}
 		
 		

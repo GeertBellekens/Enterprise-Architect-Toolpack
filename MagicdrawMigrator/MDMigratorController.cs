@@ -52,7 +52,7 @@ namespace MagicdrawMigrator
 //				correctors.Add(new CorrectStereotypesAndTaggedValues(magicDrawReader,model, mdPackage));
 //				correctors.Add(new CorrectActorDependencies(magicDrawReader, model, mdPackage));
 //				correctors.Add(new MigrateDependencyMatrix(magicDrawReader,model, mdPackage));
-				correctors.Add(new AddParticipationAssociations(magicDrawReader, model, mdPackage));
+				correctors.Add(new FixAssociations(magicDrawReader, model, mdPackage));
 			}
 		}
 		public TSF_EA.Package getMagicDrawPackage()
