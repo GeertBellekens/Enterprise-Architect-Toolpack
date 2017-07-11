@@ -192,24 +192,42 @@ namespace EAMapping
         {
             switch (ItemName)
             {
-              case menuMapAsSource:
-                    loadMapping(this.getCurrentMappingSet(true));
-                    //new MappingControlGUI(this.getCurrentMappingSet(true)).ShowDialog();
-                    break;
-  		        case menuAbout :
-  		            new AboutWindow().ShowDialog(this.model.mainEAWindow);
-  		            break;
-  		        case menuImportMapping:
-  		            this.startImportMapping();
-  		            break;
-              case menuImportCopybook:
-                this.importCopybook();
-                break;
-	            case menuSettings:
-		            new MappingSettingsForm(this.settings).ShowDialog(this.model.mainEAWindow);
-                break;
+				case menuMapAsSource:
+				    loadMapping(this.getCurrentMappingSet(true));
+				    break;
+				case menuAddToSource:
+				    addNodeToTree(true);
+				    break;
+				case menuAddToTarget:
+				    addNodeToTree(false);
+				    break;
+				case menuAbout :
+			        new AboutWindow().ShowDialog(this.model.mainEAWindow);
+			        break;
+				case menuImportMapping:
+					this.startImportMapping();
+					break;
+				case menuImportCopybook:
+					this.importCopybook();
+					break;
+				case menuSettings:
+				    new MappingSettingsForm(this.settings).ShowDialog(this.model.mainEAWindow);
+						break;
             }
         }
+
+		void addNodeToTree(bool source)
+		{
+			//get the selected items
+			var selectedElement = this.model.selectedElement as TSF_EA.Element;
+			if (selectedElement != null)
+			{
+				var mappedEnd = new EA_MP.MappingEnd(selectedElement,selectedElement.fqn);
+				//add the selected node to the source or target tree.
+				this.mappingControl.addNode(mappedEnd, source);
+			}
+		}
+
         void loadMapping(MappingFramework.MappingSet mappingSet)
         {        		
       		this.mappingControl.loadMappingSet(this.getCurrentMappingSet(true));

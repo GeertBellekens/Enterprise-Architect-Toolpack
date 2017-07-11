@@ -48,6 +48,18 @@ namespace EAMapping
      		this.trees.ExpandAll();
     	}
 
+		public void addNode(MappingEnd mappedEnd, bool source)
+		{
+			var path =  mappedEnd.fullMappingPath.Split('.').ToList();
+			if (source) 
+			{
+				this.trees.SourceTree.addNode(mappedEnd,path);
+			}
+			else
+			{
+				this.trees.TargetTree.addNode(mappedEnd,path);
+			}
+		}
 		void clear()
 		{
 			this.trees.Clear();

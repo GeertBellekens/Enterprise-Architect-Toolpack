@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Linq;
 using System;
 using System.Windows.Forms;
+using MappingFramework;
+using EA_MP = EAAddinFramework.Mapping;
 
 namespace EAMapping {
 
@@ -43,7 +45,13 @@ namespace EAMapping {
       this.nodes.Clear();
       this.Nodes.Clear();
     }
-
+	
+    public void addNode(MappingEnd end, List<string> path)
+    {
+    	var linkedNode = this.AddNode(path);
+    	linkedNode.MappedEnd = end;
+    	//check if we need to use createPath() to fill the voids in the path
+    }
     public LinkedTreeNode AddNode(List<string> path) {
       string fqn  = string.Join(".", path);
       string name = path[path.Count -1];
