@@ -146,6 +146,8 @@ namespace MagicdrawMigrator
                   ,LogTypeEnum.error);	
 				}
 			}
+			// after all diagram are done we fix the activity partition using a query
+			fixActivityPartitions();
 			EAOutputLogger.log(this.model,this.outputName
 	                   ,string.Format("{0} Finished corrections for diagrams'"
 	                                  ,DateTime.Now.ToLongTimeString())
@@ -153,7 +155,68 @@ namespace MagicdrawMigrator
 	                  ,LogTypeEnum.log);			
 	
 		}
-
+		
+		/// <summary>
+		/// for some reason the activity partitions don't show propertly.
+		/// These updates (only on SQL Server) fix those problems
+		/// 		/// </summary>
+		void fixActivityPartitions()
+		{
+			if (this.model.repositoryType == TSF_EA.RepositoryType.SQLSVR)
+			{
+				EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Fix Activity Partitions'"
+	                                  ,DateTime.Now.ToLongTimeString())
+	                   ,0
+	                  ,LogTypeEnum.log);	
+				//update the bottoms
+				string sqlFixActivityPartitionsBottom = 
+						@"update dor set dor.RectBottom = do.RectBottom
+						from t_diagramObjects do
+						inner join t_object o on do.Object_ID = o.Object_ID
+											and o.Object_Type = 'ActivityPartition'
+						inner join t_diagramobjects dor on do.Diagram_ID = dor.Diagram_ID
+													and do.RectTop = dor.RectTop 
+													and do.RectRight = dor.RectRight
+													and do.RectLeft < dor.RectLeft
+						inner join t_object obr on obr.Object_ID = dor.Object_ID
+												and obr.Object_Type = 'ActivityPartition'
+						inner join t_diagram d on d.Diagram_ID = do.Diagram_ID
+						where 
+						not exists
+						(select * from t_diagramobjects do2
+						inner join t_object o2 on do2.Object_ID = o2.Object_ID
+												and o2.Object_Type = 'ActivityPartition'
+						where do2.Diagram_ID = d.Diagram_ID
+						and do2.RectLeft > do.RectLeft
+						and do2.RectLeft < dor.RectLeft
+						and do2.Instance_ID not in (do.Instance_ID, dor.Instance_ID))";
+				this.model.executeSQL(sqlFixActivityPartitionsBottom);
+				//update the right edges
+				string sqlFixActivityPartitionsRight =
+						@"update do set do.RectRight = dor.RectLeft
+						from t_diagramObjects do
+						inner join t_object o on do.Object_ID = o.Object_ID
+											and o.Object_Type = 'ActivityPartition'
+						inner join t_diagramobjects dor on do.Diagram_ID = dor.Diagram_ID
+													and do.RectTop = dor.RectTop 
+													and do.RectRight = dor.RectRight
+													and do.RectLeft < dor.RectLeft
+						inner join t_object obr on obr.Object_ID = dor.Object_ID
+												and obr.Object_Type = 'ActivityPartition'
+						inner join t_diagram d on d.Diagram_ID = do.Diagram_ID
+						where 
+						not exists
+						(select * from t_diagramobjects do2
+						inner join t_object o2 on do2.Object_ID = o2.Object_ID
+												and o2.Object_Type = 'ActivityPartition'
+						where do2.Diagram_ID = d.Diagram_ID
+						and do2.RectLeft > do.RectLeft
+						and do2.RectLeft < dor.RectLeft
+						and do2.Instance_ID not in (do.Instance_ID, dor.Instance_ID))";
+				this.model.executeSQL(sqlFixActivityPartitionsRight);
+			}
+		}
 		public void addElementToDiagram(MDDiagramObject mdDiagramObject, TSF_EA.Diagram eaDiagram)
 		{
 			//get the EA element represented by this MDDiagramObject
