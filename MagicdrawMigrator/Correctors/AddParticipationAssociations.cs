@@ -32,56 +32,56 @@ namespace MagicdrawMigrator
 			{
 				//Logging	                               
 				EAOutputLogger.log(this.model,this.outputName
-                   	,string.Format("{0} Get association with actor '{1}' and use case '{2}' from source files"
+                   	,string.Format("{0} Get association with ownedEnds '{1}' and '{2}' from source files"
                   	,DateTime.Now.ToLongTimeString()
-                  	,mdAssociation.actor
-                  	,mdAssociation.usecase)
+                  	,mdAssociation.ownedEnd_1
+                  	,mdAssociation.ownedEnd_2)
                     	
        			,0
       			,LogTypeEnum.log);
 				
 				//Get the EA actors and use cases
-				var actors = this.model.getElementWrappersByQuery(@"select so.[Object_ID]
+				var ownedEnds_1 = this.model.getElementWrappersByQuery(@"select so.[Object_ID]
 																			from (t_object so
 																			inner join [t_objectproperties] sop
-																			on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdAssociation.actor +"'))");
+																			on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdAssociation.ownedEnd_1 +"'))");
 				
 				
-				var usecases = this.model.getElementWrappersByQuery(@"select so.[Object_ID]
+				var ownedEnds_2 = this.model.getElementWrappersByQuery(@"select so.[Object_ID]
 																			from (t_object so
 																			inner join [t_objectproperties] sop
-																			on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdAssociation.usecase +"'))");
+																			on (so.[Object_ID] = sop.[Object_ID] and sop.VALUE = '" + mdAssociation.ownedEnd_2 +"'))");
 				
 				
-				if (actors != null
-			        && actors.Any()
-			        && actors[0] != null
-			        && usecases != null
-			        && usecases.Any()
-			        && usecases[0] != null)
+				if (ownedEnds_1 != null
+			        && ownedEnds_1.Any()
+			        && ownedEnds_1[0] != null
+			        && ownedEnds_2 != null
+			        && ownedEnds_2.Any()
+			        && ownedEnds_2[0] != null)
 				{
 					//Create the new association
 				    EAOutputLogger.log(this.model,this.outputName
-	                   	,string.Format("{0} Create new association with actor '{1}' and usecase '{2}'"
+	                   	,string.Format("{0} Create new association between '{1}' and '{2}'"
 	                  	,DateTime.Now.ToLongTimeString()
-	                  	,actors[0].name
-	                  	,usecases[0].name)
-					,actors[0].id
+	                  	,ownedEnds_1[0].name
+	                  	,ownedEnds_2[0].name)
+					,ownedEnds_1[0].id
 	      			,LogTypeEnum.log);
 					
 					
-					TSF_EA.Association newAssociation = this.model.factory.createNewElement<TSF_EA.Association>(actors[0], string.Empty);
-					newAssociation.target = usecases[0];
+					TSF_EA.Association newAssociation = this.model.factory.createNewElement<TSF_EA.Association>(ownedEnds_1[0], string.Empty);
+					newAssociation.target = ownedEnds_2[0];
 					newAssociation.addStereotype(this.model.factory.createStereotype(newAssociation,"participates"));
 					newAssociation.save();
 				}
 				else
 				{
 					EAOutputLogger.log(this.model,this.outputName
-	                   	,string.Format("{0} Could not create association between actor with md_guid '{1}' and usecase '{2}'"
+	                   	,string.Format("{0} Could not create association between '{1}' and '{2}'"
 	                  	,DateTime.Now.ToLongTimeString()
-	                  	,mdAssociation.actor
-	                  	,mdAssociation.usecase)
+	                  	,mdAssociation.ownedEnd_1
+	                  	,mdAssociation.ownedEnd_2)
 	                    	
 	       			,0
 	      			,LogTypeEnum.error);

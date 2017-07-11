@@ -22,7 +22,7 @@ namespace MagicdrawMigrator
 		public MDAssociationEnd target {get;set;}
 		public string name {get;set;}
 		public string stereotype {get;set;}
-		public string actor {get;set;}
-		public string usecase {get;set;}
+		public string ownedEnd_1 {get;set;}
+		public string ownedEnd_2 {get;set;}
 	}
 }

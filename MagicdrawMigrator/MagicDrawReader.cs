@@ -886,18 +886,18 @@ namespace MagicdrawMigrator
 						var member = new string[2];
 						var mdassociation = new MDAssociation();
 						int i = 0;
-						foreach(XmlNode memberEndNode in associationNode.SelectNodes(".//memberEnd", nsMgr))
+						foreach(XmlNode ownedEndNode in associationNode.SelectNodes(".//ownedEnd", nsMgr))
 						{
-							XmlAttribute memberAttribute =  memberEndNode.Attributes["xmi:idref"];
-							member[i] = memberAttribute != null? memberAttribute.Value: string.Empty;
+							XmlAttribute typeAttribute =  ownedEndNode.Attributes["type"];
+							member[i] = typeAttribute != null? typeAttribute.Value: string.Empty;
 							i++;
 						}
-						mdassociation.actor = member[0];
-						mdassociation.usecase = member[1];
+						mdassociation.ownedEnd_1 = member[0];
+						mdassociation.ownedEnd_2 = member[1];
 						
-						// create again with association objects
-						if (!string.IsNullOrEmpty(mdassociation.actor) 
-						    && !string.IsNullOrEmpty(mdassociation.usecase))
+						
+						if (!string.IsNullOrEmpty(mdassociation.ownedEnd_1) 
+						    && !string.IsNullOrEmpty(mdassociation.ownedEnd_2))
 							{
 
 								foundAssociations.Add(mdassociation);
