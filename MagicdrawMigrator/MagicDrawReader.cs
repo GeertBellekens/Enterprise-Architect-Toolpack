@@ -33,6 +33,7 @@ namespace MagicdrawMigrator
 		List<MDAttribute> _allAttributes;
 		List<MDDependency> _allAttDependencies;
 		Dictionary<string,List<MDConstraint>> allConstraints;
+		Dictionary<string, MDElementRelation> _allCrossMDzipRelations;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		Dictionary<string,XmlDocument> sourceFiles
 		{
@@ -89,6 +90,17 @@ namespace MagicdrawMigrator
 					//add the xml documents to the dictionary of source files
 					this._sourceFiles.Add(subDirectory.Name + "_SharedModel",xmlModel);
 				}
+			}
+		}
+		public Dictionary<string, MDElementRelation> allCrossMDzipRelations
+		{
+			get
+			{
+				if (_allCrossMDzipRelations == null)
+				{
+					this.getAllCrossMDZipRelations();
+				}
+				return _allCrossMDzipRelations;
 			}
 		}
 		public List<MDDependency> allAttDependencies
@@ -244,7 +256,60 @@ namespace MagicdrawMigrator
 			}
 			
 		}
-
+		/// <summary>
+		/// gets all simple relations between elements that go between different MDzip files.K
+		/// This can be recognized by the fact that the supplier has a href= attribute instead of a xmi:idref attribute
+		/// </summary>
+		void getAllCrossMDZipRelations()
+		{
+			var foundElementRelations = new Dictionary<string,MDElementRelation>();
+			//loop the source files to find the cross mdzip relations
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				foreach (XmlNode supplierNode in sourceFile.SelectNodes("//supplier[@href]",nsMgr))
+				{
+					
+					//get the parent Node id
+					XmlNode relationNode = supplierNode.ParentNode;				
+					if (relationNode != null)
+					{
+						//get the relationType
+						XmlAttribute relationTypeAttribute = relationNode.Attributes["xmi:type"];
+						string relationType = relationTypeAttribute != null ? relationTypeAttribute.Value : string.Empty;
+						//the relationType is often described as uml:Dependency. In these cases we only want to store "Dependency"
+						var relationParts = relationType.Split(':');
+						if (relationParts.Count() == 2)
+						{
+							relationType = relationParts[1];
+						}
+						//get the relation name
+						XmlAttribute relationNameAttribute = relationNode.Attributes["name"];
+						string relationName = relationNameAttribute != null ? relationNameAttribute.Value : string.Empty;
+						string relationID = getID(relationNode);
+						//get the client node
+						XmlNode sourceNode = relationNode.SelectSingleNode("./client");
+						string sourceID = getID(sourceNode);
+						string targetID = getID(supplierNode);
+						if (! string.IsNullOrEmpty(relationID)
+						    && ! string.IsNullOrEmpty(sourceID)
+						    && ! string.IsNullOrEmpty(targetID)
+						    && ! string.IsNullOrEmpty(relationType)
+						    && ! foundElementRelations.ContainsKey(relationID))
+						{
+							var newRelation = new MDElementRelation(sourceID, targetID,relationType);
+							newRelation.name = relationName;
+							//add the new relation to the list of found relations
+							foundElementRelations.Add(relationID,newRelation);
+						}
+					}
+				}
+			}
+			//set the found relations
+			_allCrossMDzipRelations = foundElementRelations;
+		}
 		void getAllFragments()
 		{
 			var foundFragments = new List<MDFragment>();

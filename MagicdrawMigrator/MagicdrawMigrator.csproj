@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Correctors\AddClassifiersToPartitions.cs" />
+    <Compile Include="Correctors\AddCrossMDzipRelationsCorrector.cs" />
     <Compile Include="Correctors\FixAssociations.cs" />
     <Compile Include="Correctors\ASMAAssociationCorrector.cs" />
     <Compile Include="Correctors\AssociationTableCorrector.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="UML\MDDependency.cs" />
     <Compile Include="UML\MDDiagram.cs" />
     <Compile Include="UML\MDDiagramObject.cs" />
+    <Compile Include="UML\MDElementRelation.cs" />
     <Compile Include="UML\MDFragment.cs" />
     <Compile Include="UML\MDMessage.cs" />
   </ItemGroup>
