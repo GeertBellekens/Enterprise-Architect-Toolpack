@@ -306,6 +306,7 @@ namespace MagicdrawMigrator
 			{
 				case "ControlFlow":
 				case "ObjectFlow":
+				case "Dependency":
 					return TSF_EA.LinkStyle.lsOrthogonalRoundedTree;
 				case "Realization":
 				case "Generalizaion":
@@ -313,7 +314,6 @@ namespace MagicdrawMigrator
 					return TSF_EA.LinkStyle.lsTreeVerticalTree;
 				case "NoteLink":
 				case "Abstraction":
-				case "Dependency":
 				case "Usage":
 				case "UseCase":
 					return TSF_EA.LinkStyle.lsDirectMode;
