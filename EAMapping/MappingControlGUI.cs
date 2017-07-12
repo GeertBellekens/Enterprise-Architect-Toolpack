@@ -59,6 +59,8 @@ namespace EAMapping
 			{
 				this.trees.TargetTree.addNode(mappedEnd,path);
 			}
+			//make sure the new node is visible?
+			this.trees.ExpandAll();
 		}
 		void clear()
 		{
