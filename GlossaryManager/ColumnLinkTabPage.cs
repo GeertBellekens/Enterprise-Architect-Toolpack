@@ -17,7 +17,7 @@ namespace GlossaryManager {
     private GlossaryManagerUI ui;
     private ToolStripLabel notificationLabel;
     private TreeView tree;
-    
+
     public ColumnLinkTabPage(GlossaryManagerUI ui) : base() {
       this.ui   = ui;
       this.Text = "Column Links";
@@ -98,14 +98,35 @@ namespace GlossaryManager {
     }
 
     private void addToolbar() {
+      this.SuspendLayout();
+
       ToolStrip toolStrip = new ToolStrip() {
         Dock = DockStyle.Bottom
       };
 
       this.notificationLabel = new ToolStripLabel();
-      toolStrip.Items.Add(this.notificationLabel); 
+      toolStrip.Items.Add(this.notificationLabel);
+      this.notificationLabel.Alignment =
+        System.Windows.Forms.ToolStripItemAlignment.Right;
+
+      var linkDataItemButton = new ToolStripButton();
+
+      // linkDataItemButton
+      linkDataItemButton.Name  = "linkDataItemButton";
+			linkDataItemButton.Image =
+        (System.Drawing.Image)this.ui.resources.GetObject("linkButton.Image");
+
+      linkDataItemButton.Click += new System.EventHandler(this.linkDataItemButtonClick);
+
+      toolStrip.Items.Add(linkDataItemButton);
 
       this.Controls.Add(toolStrip);
+
+      this.ResumeLayout(false);
+    }
+
+    private void linkDataItemButtonClick(object sender, EventArgs e) {
+      // TODO
     }
 
     private void notify(string msg) {
