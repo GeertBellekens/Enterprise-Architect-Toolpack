@@ -35,14 +35,9 @@ namespace GlossaryManager {
       };
     }
 
-    private List<FieldValue> logicalDataTypes = new List<FieldValue>();
     public List<FieldValue> LogicalDataTypes {
-      get {
-        return this.logicalDataTypes;
-      }
       set {
-        this.logicalDataTypes = value;
-        this.logicalDataTypesComboBox.DataSource = this.logicalDataTypes;
+        this.logicalDataTypesComboBox.DataSource = value;
       }
     }
 
