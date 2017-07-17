@@ -76,7 +76,16 @@ namespace GlossaryManager {
 
     private void handleTabSelection(object sender, EventArgs e) {
       TabControl tabs = sender as TabControl;
-      ((FocusableTabPage)tabs.Controls[tabs.SelectedIndex]).HandleFocus();
+      // TODO: seems to fail when you first select ColumnLinks, it then sends
+      //       HandleFocus to ColumnLinks when selecting DataItems ?!
+      //       All indices seem alright. ?!?!?!
+      // ((FocusableTabPage)tabs.Controls[tabs.SelectedIndex]).HandleFocus();
+      // temp (?!) solution:
+      switch(tabs.SelectedIndex) {
+        case 0: this.BusinessItems.HandleFocus(); break;
+        case 1: this.DataItems.HandleFocus();     break;
+        case 2: this.ColumnLinks.HandleFocus();   break;        
+      }
     }
 
   }
