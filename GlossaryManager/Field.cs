@@ -69,6 +69,8 @@ namespace GlossaryManager {
 
     private FieldOptions     options;
 
+    private readonly BindingList<FieldValue> data = new BindingList<FieldValue>();
+
     // third option: combobox with predefined values
     public Field(string label, FieldOptions options) : base() {
       this.createLabel(label);
@@ -77,10 +79,20 @@ namespace GlossaryManager {
   
       this.ComboBox = new ComboBox() {
         DisplayMember = "Key",
-        ValueMember   = "Value"
+        ValueMember   = "Value",
+        DataSource    = this.data
       };
+
+      if( (this.options & FieldOptions.WithNull) != 0 ) {
+        // add a "null" value
+        this.data.Insert(0, new FieldValue() {
+          Key   = "",
+          Value = ""
+        });
+      }
+
       this.ComboBox.SelectedIndexChanged += new EventHandler(this.change);
-      if( (options & FieldOptions.WithNull) != 0 ) {
+      if( this.IsNullable ) {
         this.ComboBox.DrawMode = DrawMode.OwnerDrawFixed;
         this.ComboBox.DrawItem += new DrawItemEventHandler(drawItem);
       }
@@ -88,38 +100,46 @@ namespace GlossaryManager {
       this.Controls.Add(this.ComboBox);
     }
 
+    public bool IsNullable {
+      get {
+        return (this.options & FieldOptions.WithNull) != 0;
+      }
+    }
+
+    public bool IsPickable {
+      get {
+        return (this.options & FieldOptions.WithPicker) != 0 && this.page != null;
+      }
+    }
+
     public Field(string label, FieldOptions options, GlossaryItemTabPage page)
       : this(label, options)
     {
       this.page = page;
-    }
 
-    private List<FieldValue> items;
-    public List<FieldValue> DataSource {
-      set {
-        this.items = value;
-
-        if( (this.options & FieldOptions.WithNull) != 0 ) {
-          // add a "null" value
-          this.items.Insert(0, new FieldValue() {
-            Key   = "",
-            Value = ""
-          });
-        }
-
-        if( (this.options & FieldOptions.WithPicker) != 0 && this.page != null) {
-          // add option to select...
-          this.items.Add(new FieldValue() { 
-            Key      = "-Select Type...",
-            Value    = null,
-            IsPicked = true
-          });
-        }
-        
-        this.ComboBox.DataSource = new BindingSource(this.items, null);
+      if( this.IsPickable ) {
+        // add option to select...
+        this.data.Add(new FieldValue() { 
+          Key      = "-Select Type...",
+          Value    = "",
+          IsPicked = true
+        });
       }
     }
 
+    public List<FieldValue> DataSource {
+      set {
+        foreach(FieldValue field in value) {
+          if(this.IsPickable) {
+            this.data.Insert(this.data.Count - 1, field);
+          } else {
+            this.data.Add(field);
+          }
+        }
+      }
+    }
+
+    // called when drawing the dropped down (list-)part of the combobox
     void drawItem(object sender, DrawItemEventArgs e) {
       e.DrawBackground();
       string label = ((FieldValue)this.ComboBox.Items[e.Index]).Key;
@@ -153,12 +173,11 @@ namespace GlossaryManager {
         this.ComboBox.SelectedIndex = this.previousSelectedIndex;
         return;
       }
-      int index = this.items.Count - 1;
-      this.items.Insert(index, new FieldValue() {
+      int index = this.data.Count - 1;
+      this.data.Insert(index, new FieldValue() {
         Key   = selection.name,
         Value = selection.guid
       });
-      this.ComboBox.DataSource = new BindingSource(this.items, null);
       this.ComboBox.SelectedIndex = index;
     }
 
