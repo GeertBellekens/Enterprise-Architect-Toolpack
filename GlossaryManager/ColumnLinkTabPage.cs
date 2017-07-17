@@ -316,7 +316,10 @@ namespace GlossaryManager {
       this.Current.length = this.CurrentDataItem.Size;
       // TODO Format
       // TODO ValueSpecification
-      // this.Current.defaultValue = this.CurrentDataItem.InitialValue;
+      this.Current.defaultValue =
+        this.ui.Addin.Model.factory.createValueSpecificationFromString(
+          this.CurrentDataItem.InitialValue
+        );
       this.Current.save();
       this.refreshTree();
     }
