@@ -94,10 +94,29 @@ namespace GlossaryManager {
 
         EAWrapped.TaggedValue tv = this.Current.getTaggedValue("DataItem");
         if(tv != null) {
-          var di = tv.tagValue as EAWrapped.Class;
+          DataItem di = GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as EAWrapped.Class);
           if(di != null) {
-            this.fields["Data Item"].Value = di.guid;
-            // TODO compare Current vs di
+            this.fields["Data Item"].Value = di.GUID;
+            // check if column values (aka field values), match the in the 
+            // prototype (aka the DataItem)
+            // Name == Label
+            this.fields["Name"].BackColor =
+              this.fields["Name"].Value != di.Label ?
+                Color.LightYellow : Color.White;
+            
+            // DataType ??? == LogicalDataType
+            // TODO
+            // Length == Size
+            this.fields["Size"].BackColor =
+              this.fields["Size"].Value != di.Size.ToString() ?
+                Color.LightYellow : Color.White;
+            
+            // Format ??? == Format
+            // TODO
+            // DefaultValue == InitialValue
+            this.fields["Initial Value"].BackColor =
+              this.fields["Initial Value"].Value != di.InitialValue ?
+                Color.LightYellow : Color.White;   
           }
         }
       }

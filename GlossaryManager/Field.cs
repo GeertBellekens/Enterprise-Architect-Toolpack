@@ -264,6 +264,16 @@ namespace GlossaryManager {
       }
     }
 
+    public override Color BackColor {
+      set {
+        if( this.TextBox != null) {
+          this.TextBox.BackColor = value;
+        } else {
+          this.ComboBox.BackColor = value;
+        }
+      }
+    }
+
     public string Value {
       get {
         if( this.TextBox != null ) {
