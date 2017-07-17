@@ -74,8 +74,27 @@ namespace GlossaryManager {
     }
 
     private void showTable(EAWrapped.Class table) {
-      this.tree.Nodes.Add(new TreeNode(table.name));      
-      // TODO loop over columns and add dataitems that are linked
+      var tableNode = new TreeNode(table.name);
+      this.tree.Nodes.Add(tableNode);
+      // TODO: I'm not using Table here, because that requires a Database
+      //       Unsure if having a DB is really a requirement
+      //       So just using the Class representation to work on.
+			foreach(EAWrapped.Attribute attribute in table.attributes) {
+        if(attribute.HasStereotype("column")) {
+          var columnNode = new TreeNode(attribute.name);
+          tableNode.Nodes.Add(columnNode);
+          EAWrapped.TaggedValue tv = attribute.getTaggedValue("DataItem");
+          if(tv != null) {
+            var di = tv.tagValue as EAWrapped.Class;
+            if(di != null) {
+              var diNode = new TreeNode(di.name);
+              diNode.Tag = di;
+              columnNode.Nodes.Add(diNode);
+            }
+          }
+        }
+			}
+      this.tree.ExpandAll();
     }
 
     private void addToolbar() {
