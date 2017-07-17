@@ -78,6 +78,16 @@ namespace GlossaryManager {
       }
     }
 
+    public DataItem CurrentDataItem {
+      get {
+        EAWrapped.TaggedValue tv = this.Current.getTaggedValue("DataItem");
+        if(tv != null) {
+          return GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as EAWrapped.Class);
+        }
+        return null;
+      }
+    }
+
     private bool showing = false;
 
     private void show(object sender, TreeViewEventArgs e) {
@@ -92,32 +102,28 @@ namespace GlossaryManager {
         this.fields["Initial Value"].Value = this.Current.defaultValue.ToString();
 
 
-        EAWrapped.TaggedValue tv = this.Current.getTaggedValue("DataItem");
-        if(tv != null) {
-          DataItem di = GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as EAWrapped.Class);
-          if(di != null) {
-            this.fields["Data Item"].Value = di.GUID;
-            // check if column values (aka field values), match the in the 
-            // prototype (aka the DataItem)
-            // Name == Label
-            this.fields["Name"].BackColor =
-              this.fields["Name"].Value != di.Label ?
-                Color.LightYellow : Color.White;
+        if(this.CurrentDataItem != null) {
+          this.fields["Data Item"].Value = this.CurrentDataItem.GUID;
+          // check if column values (aka field values), match the in the 
+          // prototype (aka the DataItem)
+          // Name == Label
+          this.fields["Name"].BackColor =
+            this.fields["Name"].Value != this.CurrentDataItem.Label ?
+              Color.LightYellow : Color.White;
             
-            // DataType ??? == LogicalDataType
-            // TODO
-            // Length == Size
-            this.fields["Size"].BackColor =
-              this.fields["Size"].Value != di.Size.ToString() ?
-                Color.LightYellow : Color.White;
+          // DataType ??? == LogicalDataType
+          // TODO
+          // Length == Size
+          this.fields["Size"].BackColor =
+            this.fields["Size"].Value != this.CurrentDataItem.Size.ToString() ?
+              Color.LightYellow : Color.White;
             
-            // Format ??? == Format
-            // TODO
-            // DefaultValue == InitialValue
-            this.fields["Initial Value"].BackColor =
-              this.fields["Initial Value"].Value != di.InitialValue ?
-                Color.LightYellow : Color.White;   
-          }
+          // Format ??? == Format
+          // TODO
+          // DefaultValue == InitialValue
+          this.fields["Initial Value"].BackColor =
+            this.fields["Initial Value"].Value != this.CurrentDataItem.InitialValue ?
+              Color.LightYellow : Color.White;   
         }
       }
 
