@@ -71,7 +71,7 @@ namespace GlossaryManager {
       foreach(ListViewItem item in this.itemsList.Items) {
         if( ((GlossaryItem)item.Tag).Origin.Equals(context) ) {
           item.Selected = true;
-          return;
+          break;
         }
       }
       this.notifyProjectBrowser = true;
