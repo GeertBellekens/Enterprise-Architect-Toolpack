@@ -140,7 +140,7 @@ namespace GlossaryManager {
     protected Dictionary<string,Field> fields = new Dictionary<string,Field>();
 
     // adds a field to the form
-    protected Control addField(Field field) {
+    protected Field addField(Field field) {
       this.fields.Add(field.Label.Text, field);
       this.form.Controls.Add(field);
       field.ValueChanged += this.Update;

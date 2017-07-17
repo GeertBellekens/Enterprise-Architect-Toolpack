@@ -52,7 +52,7 @@ namespace GlossaryManager {
       base.createForm();
       
       this.addField(new Field("Label"));
-      this.logicalDataTypesComboBox = (Field)this.addField(new Field(
+      this.logicalDataTypesComboBox = this.addField(new Field(
         "Logical Datatype", FieldOptions.WithNull | FieldOptions.WithPicker, this
       ));
       this.addField(new Field("Size"));

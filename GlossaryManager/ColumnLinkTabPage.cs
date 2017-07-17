@@ -141,7 +141,7 @@ namespace GlossaryManager {
     private Dictionary<string,Field> fields = new Dictionary<string,Field>();
 
     // adds a field to the form
-    private Control addField(Field field) {
+    private Field addField(Field field) {
       this.fields.Add(field.Label.Text, field);
       this.form.Controls.Add(field);
       field.ValueChanged += this.update;
