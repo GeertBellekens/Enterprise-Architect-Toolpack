@@ -293,24 +293,32 @@ namespace GlossaryManager {
       this.notificationLabel.Alignment =
         System.Windows.Forms.ToolStripItemAlignment.Right;
 
-      var linkDataItemButton = new ToolStripButton();
+      var syncButton = new ToolStripButton();
 
-      // linkDataItemButton
-      linkDataItemButton.Name  = "linkDataItemButton";
-			linkDataItemButton.Image =
-        (System.Drawing.Image)this.ui.resources.GetObject("linkButton.Image");
+      // syncButton
+      syncButton.Name  = "syncButton";
+			syncButton.Image =
+        (System.Drawing.Image)this.ui.resources.GetObject("syncButton.Image");
 
-      linkDataItemButton.Click += new System.EventHandler(this.linkDataItemButtonClick);
+      syncButton.Click += new System.EventHandler(this.syncButtonClick);
 
-      toolStrip.Items.Add(linkDataItemButton);
+      toolStrip.Items.Add(syncButton);
 
       this.Controls.Add(toolStrip);
 
       this.ResumeLayout(false);
     }
 
-    private void linkDataItemButtonClick(object sender, EventArgs e) {
-      // TODO
+    private void syncButtonClick(object sender, EventArgs e) {
+      if(this.CurrentDataItem == null) { return; }
+      this.Current.name = this.CurrentDataItem.Label;
+      // TODO DataType
+      this.Current.length = this.CurrentDataItem.Size;
+      // TODO Format
+      // TODO ValueSpecification
+      // this.Current.defaultValue = this.CurrentDataItem.InitialValue;
+      this.Current.save();
+      this.refreshTree();
     }
 
     private void notify(string msg) {
