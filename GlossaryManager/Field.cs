@@ -22,6 +22,7 @@ namespace GlossaryManager {
     public string Key      { get; set; }
     public string Value    { get; set; }
     public bool   IsPicked { get; set; }
+    public object Tag      { get; set; }
   }
 
   [Flags]
@@ -61,7 +62,7 @@ namespace GlossaryManager {
       this.Controls.Add(this.ComboBox);
     }
 
-    private GlossaryItemTabPage page;
+    private GlossaryItemTabPage page = null;
     private EAWrapped.Model model {
       get { return this.page.ui.Addin.Model; }
     }
@@ -69,10 +70,9 @@ namespace GlossaryManager {
     private FieldOptions     options;
 
     // third option: combobox with predefined values
-    public Field(string label, FieldOptions options, GlossaryItemTabPage page) {
+    public Field(string label, FieldOptions options) : base() {
       this.createLabel(label);
 
-      this.page = page;
       this.options = options;
   
       this.ComboBox = new ComboBox() {
@@ -88,6 +88,12 @@ namespace GlossaryManager {
       this.Controls.Add(this.ComboBox);
     }
 
+    public Field(string label, FieldOptions options, GlossaryItemTabPage page)
+      : this(label, options)
+    {
+      this.page = page;
+    }
+
     private List<FieldValue> items;
     public List<FieldValue> DataSource {
       set {
@@ -101,7 +107,7 @@ namespace GlossaryManager {
           });
         }
 
-        if( (this.options & FieldOptions.WithNull) != 0 && this.page != null) {
+        if( (this.options & FieldOptions.WithPicker) != 0 && this.page != null) {
           // add option to select...
           this.items.Add(new FieldValue() { 
             Key      = "-Select Type...",

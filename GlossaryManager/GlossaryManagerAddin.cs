@@ -157,6 +157,7 @@ namespace GlossaryManager {
       }
 
       this.ui.DataItems.LogicalDataTypes = logicalDataTypes;
+      this.ui.ColumnLinks.DataItems = dataItems;
       this.model.activateTab(appTitle);
     }
 
