@@ -148,7 +148,7 @@ namespace GlossaryManager {
       }
       foreach(DataItem item in dataItems) {
 				EAWrapped.Class element = this.model.getElementByGUID(item.LogicalDataType) as EAWrapped.Class;
-        if(element != null) {
+        if(element != null && ! logicalDataTypes.Any(x => x.Value == element.guid)) {
           logicalDataTypes.Add(new FieldValue() {
             Key   = element.name,
             Value = element.guid
