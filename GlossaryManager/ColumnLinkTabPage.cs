@@ -104,6 +104,12 @@ namespace GlossaryManager {
 
         if(this.CurrentDataItem != null) {
           this.fields["Data Item"].Value = this.CurrentDataItem.GUID;
+
+          // automatically sync when the Name == "<new>"
+          if(this.fields["Name"].Value == "<new>") {
+            this.sync();
+          }
+
           // check if column values (aka field values), match the in the 
           // prototype (aka the DataItem)
           // Name == Label
@@ -239,14 +245,30 @@ namespace GlossaryManager {
       this.refreshTree();
     }
 
+    public bool ContextIsDataItem {
+      get {
+        return this.context.HasStereotype("Data Item");
+      }
+    }
+
+    public bool ContextIsTable {
+      get {
+        return this.context.HasStereotype("table");
+      }
+    }
+
+    // used for resetting the selection after selecting the picker and not
+    // selecting a valid next choice
     EAWrapped.Attribute prevSelection = null;
 
     private void refreshTree() {
       this.prevSelection = this.Current;
       this.tree.Nodes.Clear();
-      if(this.context == null) { return; }
-      if(this.context.HasStereotype("Data Item"))  { this.showDataItem(); }
-      else if(this.context.HasStereotype("table")) { this.showTable();    }
+
+      if(this.context == null)     { return; }
+      if(this.ContextIsDataItem)   { this.showDataItem(); }
+      else if(this.ContextIsTable) { this.showTable();    }
+
       this.tree.ExpandAll();
       this.prevSelection = null;
     }
@@ -281,6 +303,8 @@ namespace GlossaryManager {
       // TODO add tables and columns
     }
 
+    // toolbar and buttons
+
     private void addToolbar() {
       this.SuspendLayout();
 
@@ -294,15 +318,18 @@ namespace GlossaryManager {
         System.Windows.Forms.ToolStripItemAlignment.Right;
 
       var syncButton = new ToolStripButton();
-
-      // syncButton
       syncButton.Name  = "syncButton";
 			syncButton.Image =
         (System.Drawing.Image)this.ui.resources.GetObject("syncButton.Image");
-
       syncButton.Click += new System.EventHandler(this.syncButtonClick);
-
       toolStrip.Items.Add(syncButton);
+
+      var addButton = new ToolStripButton();
+      addButton.Name  = "addButton";
+			addButton.Image =
+        (System.Drawing.Image)this.ui.resources.GetObject("addButton.Image");
+      addButton.Click += new System.EventHandler(this.addButtonClick);
+      toolStrip.Items.Add(addButton);
 
       this.Controls.Add(toolStrip);
 
@@ -310,6 +337,10 @@ namespace GlossaryManager {
     }
 
     private void syncButtonClick(object sender, EventArgs e) {
+      this.sync();
+    }
+    
+    private void sync() {
       if(this.CurrentDataItem == null) { return; }
       this.Current.name = this.CurrentDataItem.Label;
       // TODO DataType
@@ -323,6 +354,41 @@ namespace GlossaryManager {
       this.Current.save();
       this.refreshTree();
     }
+
+    private void addButtonClick(object sender, EventArgs e) {
+      if(this.ContextIsTable)         { this.AddEmptyColumn(); }
+      else if(this.ContextIsDataItem) { this.AddColumnFromDataItem(); }
+    }
+
+    // adds an empty column and selects it. user can now select a Data Item.
+    // because of magic values in de new empty column, validation will not only
+    // validate, but also immediately perform a sync
+    private void AddEmptyColumn() {
+      EAWrapped.Attribute attribute =
+        this.ui.Addin.Model.factory.createNewElement<EAWrapped.Attribute>(
+          this.context, "<new>"
+        );
+      attribute.AddStereotype("column");
+      attribute.save();
+      this.context.save();
+      this.refreshTree();
+      this.selectNewColumn();
+    }
+
+    private void selectNewColumn() {
+      foreach(TreeNode column in this.tree.Nodes[0].Nodes) {
+        if(column.Text == "<new>") {
+          this.tree.SelectedNode = column;
+          return;
+        }
+      }
+    }
+
+    private void AddColumnFromDataItem() {
+      // TODO
+    }
+
+    // utility methods to manage the notification text on the ToolStrip
 
     private void notify(string msg) {
       this.notificationLabel.Text = msg;
