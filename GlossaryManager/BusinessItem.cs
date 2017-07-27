@@ -14,11 +14,11 @@ namespace GlossaryManager {
 
     [FieldOrder(100)]
     [FieldNullValue(typeof(string), "")]
-		public string Description;
+		public string Description = "";
 
     [FieldOrder(101)]
     [FieldNullValue(typeof(string), "")]
-		public string Domain;
+		public string Domain = "";
 
     public override string ToString() {
       return "BusinessItem(" + base.ToString() + "," +

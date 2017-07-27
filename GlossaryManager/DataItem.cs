@@ -18,7 +18,7 @@ namespace GlossaryManager {
 
     [FieldOrder(101)]
     [FieldNullValue(typeof(string), "")]
-		public string LogicalDataType;
+		public string LogicalDataType = "";
 
     [FieldOrder(102)]
     [FieldNullValue(typeof(int), "0")]
