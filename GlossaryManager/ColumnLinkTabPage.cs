@@ -318,9 +318,31 @@ namespace GlossaryManager {
     }
 
     private void showDataItem() {
-      this.tree.Nodes.Add(new TreeNode(this.context.name));
-      // TODO find columns that link to this (??)
-      // TODO add tables and columns
+      var diNode = new TreeNode(this.context.name);
+      this.tree.Nodes.Add(diNode);
+      // find tables with columns that point to this DI
+      // TODO: query beyond scope of Glossay Package?!
+      foreach(EAWrapped.Class clazz in this.ui.Addin.managedPackage.ownedElements.OfType<EAWrapped.Class>()) {
+        if(clazz.HasStereotype("table")) {
+          TreeNode tableNode = null;
+    			foreach(EAWrapped.Attribute attribute in clazz.attributes) {
+            if(attribute.HasStereotype("column")) {
+              EAWrapped.TaggedValue tv = attribute.getTaggedValue("DataItem");
+              if(tv != null) {
+                var di = tv.tagValue as EAWrapped.Class;
+                if(di != null && di.guid == this.context.guid) {
+                  if(tableNode == null) {
+                    tableNode = new TreeNode(clazz.name);
+                    diNode.Nodes.Add(tableNode);
+                  }
+                  var columnNode = new TreeNode(attribute.name);
+                  tableNode.Nodes.Add(columnNode);
+                }
+              }
+            }
+          }
+        }
+      }
     }
 
     // toolbar and buttons
