@@ -81,7 +81,7 @@ namespace GlossaryManager {
     public DataItem CurrentDataItem {
       get {
         EAWrapped.TaggedValue tv = this.Current.getTaggedValue("DataItem");
-        if(tv != null) {
+        if(tv != null && tv.tagValue != null) {
           return GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as EAWrapped.Class);
         }
         return null;
@@ -219,6 +219,9 @@ namespace GlossaryManager {
     }
 
     private void checkContext() {
+      if( ! (this.ui.Addin.SelectedItem is EAWrapped.ElementWrapper) ) {
+        return;
+      }
       this.checkContext(this.ui.Addin.SelectedItem);
     }
 

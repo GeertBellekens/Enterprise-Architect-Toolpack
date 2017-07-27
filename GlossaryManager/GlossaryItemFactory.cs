@@ -18,6 +18,7 @@ namespace GlossaryManager {
     }
 
     public static T FromClass(UML.Classes.Kernel.Class clazz) {
+      if( clazz == null )                { return null; }
       if( clazz.stereotypes.Count != 1 ) { return null; }
 
       GlossaryItem item = GlossaryItemFactory<T>.CreateFrom(clazz);

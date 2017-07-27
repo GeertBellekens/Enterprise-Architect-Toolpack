@@ -39,6 +39,7 @@ namespace GlossaryManager {
     
     private int previousSelectedIndex = -1;
 
+    // option 1 : TextBox with label
     public Field(string label) : base() {
       this.createLabel(label);
 
@@ -50,6 +51,7 @@ namespace GlossaryManager {
 
     public Type SelectionType { get; private set; }
 
+    // option 2 : Combobox with a Type/Enumeration of values
     public Field(string label, Type options) : base() {
       this.createLabel(label);
 
@@ -72,7 +74,15 @@ namespace GlossaryManager {
     private readonly BindingList<FieldValue> data = new BindingList<FieldValue>();
 
     // third option: combobox with predefined values
-    public Field(string label, FieldOptions options) : base() {
+    public Field(string label, FieldOptions options)
+      : this(label, options, null) {}
+    
+    // if we need a picker, we need to provide a page
+    public Field(string label, FieldOptions options, GlossaryItemTabPage page)
+      : base()
+    {
+      this.page = page;
+
       this.createLabel(label);
 
       this.options = options;
@@ -83,13 +93,7 @@ namespace GlossaryManager {
         DataSource    = this.data
       };
 
-      if( (this.options & FieldOptions.WithNull) != 0 ) {
-        // add a "null" value
-        this.data.Insert(0, new FieldValue() {
-          Key   = "",
-          Value = ""
-        });
-      }
+      this.setupCleanComboBox();
 
       this.ComboBox.SelectedIndexChanged += new EventHandler(this.change);
       if( this.IsNullable ) {
@@ -112,13 +116,15 @@ namespace GlossaryManager {
       }
     }
 
-    public Field(string label, FieldOptions options, GlossaryItemTabPage page)
-      : this(label, options)
-    {
-      this.page = page;
-
+    private void setupCleanComboBox() {
+      this.data.Clear();
+      if( this.IsNullable ) {
+        this.data.Insert(0, new FieldValue() {
+          Key   = "",
+          Value = ""
+        });
+      }
       if( this.IsPickable ) {
-        // add option to select...
         this.data.Add(new FieldValue() { 
           Key      = "-Select Type...",
           Value    = "",
@@ -129,6 +135,7 @@ namespace GlossaryManager {
 
     public List<FieldValue> DataSource {
       set {
+        this.setupCleanComboBox();
         foreach(FieldValue field in value) {
           if(this.IsPickable) {
             this.data.Insert(this.data.Count - 1, field);

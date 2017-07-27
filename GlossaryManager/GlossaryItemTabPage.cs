@@ -253,6 +253,7 @@ namespace GlossaryManager {
       );
       if( answer != DialogResult.Yes) { return; }
       this.delete(this.Current);
+      this.ui.Addin.refresh();
     }
 
     private void deleteMultipleCurrent() {
@@ -266,13 +267,14 @@ namespace GlossaryManager {
       foreach(ListViewItem row in this.itemsList.SelectedItems) {
         this.delete((GlossaryItem)row.Tag);
       }
+      this.ui.Addin.refresh();
     }
 
     protected void add(GlossaryItem item) {
       // create new BI in package
       item.AsClassIn(this.ui.Addin.managedPackage);
-      // add new item to ListView
-      this.addToList(item);
+      // request addin to refresh all lists (BI, DI, Links)
+      this.ui.Addin.refresh();
       // select it for editing
       this.select(item);
       // focus Name field and select all text
@@ -282,14 +284,9 @@ namespace GlossaryManager {
 
     private void delete(GlossaryItem item) {
       // delete from model
-      // TODO this seems to fail for newly added items. the loop in this method
-      //      doesn't seem to see the newly create item in the package, although
-      //      it _is_ visible in the project browser?!
-      //      closing the UI and reopening it, allows for deletion to work?!
-      //      some sort of refresh is needed, but I didn't find it (CVG)
       this.ui.Addin.managedPackage.deleteOwnedElement(item.Origin);
-      // remove from ListView
-      this.removeFromList(item);
+      // request addin to refresh all lists (BI, DI, Links)
+      this.ui.Addin.refresh();
     }
 
     protected void export<T>() where T : GlossaryItem {
@@ -304,26 +301,14 @@ namespace GlossaryManager {
       this.ui.Addin.import<T>(this.ui.Addin.managedPackage);
     }
 
-    private void addToList(GlossaryItem item) {
-      ListViewItem listItem = new ListViewItem() { Tag = item };
-      this.refreshItemsListItem(listItem);
-      this.itemsList.Items.Add(listItem);
-    }
-
-    private void removeFromList(GlossaryItem removed) {
-      foreach(ListViewItem item in this.itemsList.Items) {
-        if( ((GlossaryItem)item.Tag).Equals(removed) ) {
-          this.itemsList.Items.Remove(item);
-          return;
-        }
-      }
-    }
-
     protected abstract List<string> AsListItemData(GlossaryItem item);
 
     public virtual void Show<T>(List<T> items) where T : GlossaryItem {
+      this.itemsList.Items.Clear();
       foreach(var item in items) {
-        this.addToList(item);
+        ListViewItem listItem = new ListViewItem() { Tag = item };
+        this.refreshItemsListItem(listItem);
+        this.itemsList.Items.Add(listItem);
       }
       foreach(ColumnHeader column in this.itemsList.Columns) {
         column.Width = -1;

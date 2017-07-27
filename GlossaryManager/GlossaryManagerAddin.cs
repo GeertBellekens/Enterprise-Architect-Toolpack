@@ -135,7 +135,7 @@ namespace GlossaryManager {
       this.refresh();
     }
     
-    private void refresh() {
+    public void refresh() {
       this.ui.BusinessItems.Show<BusinessItem>(
         this.list<BusinessItem>(this.managedPackage)
       );
