@@ -228,7 +228,7 @@ namespace GlossaryManager {
       this.fields["Author"].Value     = this.Current.Author;
       this.fields["Version"].Value    = this.Current.Version;
       this.fields["Status"].Value     = this.Current.Status.ToString();
-      this.fields["Keywords"].Value   = string.Join(",", this.Current.Keywords);
+      this.fields["Keywords"].Value   = this.Current.Keywords == null ? "" : string.Join(",", this.Current.Keywords);
       this.fields["Created"].Value    = this.Current.CreateDate.ToString();
       this.fields["Updated"].Value    = this.Current.UpdateDate.ToString();
       this.fields["Updated by"].Value = this.Current.UpdatedBy;
