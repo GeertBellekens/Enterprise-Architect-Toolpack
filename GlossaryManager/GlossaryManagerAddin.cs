@@ -132,9 +132,14 @@ namespace GlossaryManager {
     private void manage() {
       if( this.model == null ) { return; }
       this.managedPackage = (EAWrapped.Package)this.model.selectedElement;
-
-      this.ui.BusinessItems.Show<BusinessItem>(this.list<BusinessItem>());
-      List<DataItem> dataItems = this.list<DataItem>();
+      this.refresh();
+    }
+    
+    private void refresh() {
+      this.ui.BusinessItems.Show<BusinessItem>(
+        this.list<BusinessItem>(this.managedPackage)
+      );
+      List<DataItem> dataItems = this.list<DataItem>(this.managedPackage);
       this.ui.DataItems.Show<DataItem>(dataItems);
 
       // add all Logical DataTypes from this package and optionally others
@@ -198,6 +203,7 @@ namespace GlossaryManager {
           }
         }        
       }
+      this.refresh();
     }
 
     private void export<T>() where T : GlossaryItem {

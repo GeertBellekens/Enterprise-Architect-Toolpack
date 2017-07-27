@@ -94,7 +94,7 @@ namespace GlossaryManager {
     }
 
     internal override void importButtonClick(object sender, EventArgs e) {
-      this.ui.Addin.import<DataItem>(this.ui.Addin.managedPackage);
+      this.import<DataItem>();
     }
   }
 }

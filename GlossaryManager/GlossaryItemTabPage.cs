@@ -300,6 +300,10 @@ namespace GlossaryManager {
       this.ui.Addin.export<T>(list);
     }
 
+    protected void import<T>() where T : GlossaryItem {
+      this.ui.Addin.import<T>(this.ui.Addin.managedPackage);
+    }
+
     private void addToList(GlossaryItem item) {
       ListViewItem listItem = new ListViewItem() { Tag = item };
       this.refreshItemsListItem(listItem);
