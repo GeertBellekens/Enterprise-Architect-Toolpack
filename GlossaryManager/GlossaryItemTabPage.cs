@@ -234,29 +234,71 @@ namespace GlossaryManager {
     // these need to be implemented by the concrete tabpage classes
     // because they know what kind/type of Glossary Item they are working on
     internal abstract void addButtonClick   (object sender, EventArgs e);
-    internal abstract void deleteButtonClick(object sender, EventArgs e);
     internal abstract void exportButtonClick(object sender, EventArgs e);
     internal abstract void importButtonClick(object sender, EventArgs e);
 
-    protected abstract List<string> AsListItemData(GlossaryItem item);
-
-    public virtual void Show<T>(List<T> items) where T : GlossaryItem {
-      foreach(var item in items) {
-        this.add<T>(item);
+    private void deleteButtonClick(object sender, EventArgs e) {
+      switch(this.itemsList.SelectedItems.Count) {
+        case 1:  this.deleteSingleCurrent();   break;
+        default: this.deleteMultipleCurrent(); break;
       }
-      foreach(ColumnHeader column in this.itemsList.Columns) {
-        column.Width = -1;
-      }
-      this.itemsList.Refresh(); // TODO check if needed
     }
 
-    protected virtual void add<T>(T item) where T : GlossaryItem {
+    private void deleteSingleCurrent() {
+      GlossaryItem item = this.Current;
+      var answer = MessageBox.Show(
+        "Are you sure to delete " + item.Name + "?",
+        "Confirm Delete!!",
+        MessageBoxButtons.YesNo
+      );
+      if( answer != DialogResult.Yes) { return; }
+      this.delete(this.Current);
+    }
+
+    private void deleteMultipleCurrent() {
+      var answer = MessageBox.Show(
+        "Are you sure to delete " +
+          this.itemsList.SelectedItems.Count.ToString() + " items?",
+        "Confirm Delete!!",
+        MessageBoxButtons.YesNo
+      );
+      if( answer != DialogResult.Yes) { return; }
+      foreach(ListViewItem row in this.itemsList.SelectedItems) {
+        this.delete((GlossaryItem)row.Tag);
+      }
+    }
+
+    protected void add(GlossaryItem item) {
+      // create new BI in package
+      item.AsClassIn(this.ui.Addin.managedPackage);
+      // add new item to ListView
+      this.addToList(item);
+      // select it for editing
+      this.select(item);
+      // focus Name field and select all text
+      ((TextBox)this.fields["Name"].Control).SelectAll();
+      this.fields["Name"].Control.Focus();
+    }
+
+    private void delete(GlossaryItem item) {
+      // delete from model
+      // TODO this seems to fail for newly added items. the loop in this method
+      //      doesn't seem to see the newly create item in the package, although
+      //      it _is_ visible in the project browser?!
+      //      closing the UI and reopening it, allows for deletion to work?!
+      //      some sort of refresh is needed, but I didn't find it (CVG)
+      this.ui.Addin.managedPackage.deleteOwnedElement(item.Origin);
+      // remove from ListView
+      this.removeFromList(item);
+    }
+
+    private void addToList(GlossaryItem item) {
       ListViewItem listItem = new ListViewItem() { Tag = item };
       this.refreshItemsListItem(listItem);
       this.itemsList.Items.Add(listItem);
     }
 
-    protected virtual void remove<T>(T removed) where T : GlossaryItem {
+    private void removeFromList(GlossaryItem removed) {
       foreach(ListViewItem item in this.itemsList.Items) {
         if( ((GlossaryItem)item.Tag).Equals(removed) ) {
           this.itemsList.Items.Remove(item);
@@ -265,7 +307,19 @@ namespace GlossaryManager {
       }
     }
 
-    protected virtual void handleSelection(object sender, EventArgs e) {
+    protected abstract List<string> AsListItemData(GlossaryItem item);
+
+    public virtual void Show<T>(List<T> items) where T : GlossaryItem {
+      foreach(var item in items) {
+        this.addToList(item);
+      }
+      foreach(ColumnHeader column in this.itemsList.Columns) {
+        column.Width = -1;
+      }
+      this.itemsList.Refresh(); // TODO check if needed
+    }
+
+    private void handleSelection(object sender, EventArgs e) {
       switch(this.itemsList.SelectedItems.Count) {
         case 1:  this.show();  break;
         default: this.clear(); break; // 0 or multiselect
