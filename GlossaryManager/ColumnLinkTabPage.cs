@@ -136,10 +136,15 @@ namespace GlossaryManager {
       this.showing = false;
     }
 
+    private bool clearing = false;
+
     private void clear() {
+      this.clearing = true;  // avoid updates being called, causing tree refresh
       foreach(Field field in this.fields.Values) {
         field.Clear();
+        field.BackColor = Color.White;
       }
+      this.clearing = false;
     }
 
     // splitter cursor handling
@@ -196,7 +201,7 @@ namespace GlossaryManager {
     // Update is called when a Field (in this case only "Data Item") changes
     
     private void update(Field field) {
-      if(this.showing) { return; }
+      if(this.showing || this.clearing) { return; }
 
       // store the linked DI in a TV
       this.Current.dataitem = field.Value;
@@ -210,24 +215,21 @@ namespace GlossaryManager {
     }
 
     private void handleContextChange(EAWrapped.ElementWrapper context) {
-      if(context == null) { return; }
       this.checkContext(context);
     }
 
     public override void HandleFocus() {
-      this.checkContext();
-    }
-
-    private void checkContext() {
-      if( ! (this.ui.Addin.SelectedItem is EAWrapped.ElementWrapper) ) {
-        return;
-      }
       this.checkContext(this.ui.Addin.SelectedItem);
     }
 
     private EAWrapped.Class context = null;
 
     private void checkContext(EAWrapped.ElementWrapper context) {
+      this.clear();
+
+      if(context == null) { return; }
+      if( ! (context is EAWrapped.ElementWrapper) ) { return; }
+
       this.context = null;
       this.notify("Please select a Data Item or Table");
 
@@ -374,14 +376,14 @@ namespace GlossaryManager {
     }
 
     private void addButtonClick(object sender, EventArgs e) {
-      if(this.ContextIsTable)         { this.AddEmptyColumn(); }
+      if(this.ContextIsTable)         { this.addEmptyColumn(); }
       else if(this.ContextIsDataItem) { this.AddColumnFromDataItem(); }
     }
 
     // adds an empty column and selects it. user can now select a Data Item.
     // because of magic values in de new empty column, validation will not only
     // validate, but also immediately perform a sync
-    private void AddEmptyColumn() {
+    private void addEmptyColumn() {
       EAWrapped.Attribute attribute =
         this.ui.Addin.Model.factory.createNewElement<EAWrapped.Attribute>(
           this.context, "<new>"
