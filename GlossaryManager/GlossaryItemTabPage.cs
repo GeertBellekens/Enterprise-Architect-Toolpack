@@ -292,6 +292,14 @@ namespace GlossaryManager {
       this.removeFromList(item);
     }
 
+    protected void export<T>() where T : GlossaryItem {
+      List<T> list = new List<T>();
+      foreach(ListViewItem row in this.itemsList.SelectedItems) {
+        list.Add((T)row.Tag);
+      }
+      this.ui.Addin.export<T>(list);
+    }
+
     private void addToList(GlossaryItem item) {
       ListViewItem listItem = new ListViewItem() { Tag = item };
       this.refreshItemsListItem(listItem);

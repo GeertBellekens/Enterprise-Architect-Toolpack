@@ -90,9 +90,7 @@ namespace GlossaryManager {
     }
 
     internal override void exportButtonClick(object sender, EventArgs e) {
-      // TODO collect selected DataItems
-      // List<DataItem> list = new List<DataItem>();
-      // this.ui.Addin.export<DataItem>(list);
+      this.export<DataItem>();
     }
 
     internal override void importButtonClick(object sender, EventArgs e) {

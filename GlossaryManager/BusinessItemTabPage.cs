@@ -67,9 +67,7 @@ namespace GlossaryManager {
     }
 
     internal override void exportButtonClick(object sender, EventArgs e) {
-      // TODO collect selected BusinessItems
-      // List<BusinessItem> list = new List<BusinessItem>();
-      // this.ui.Addin.export<BusinessItem>(list);
+      this.export<BusinessItem>();
     }
 
     internal override void importButtonClick(object sender, EventArgs e) {
