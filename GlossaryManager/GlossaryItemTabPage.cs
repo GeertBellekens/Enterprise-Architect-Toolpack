@@ -76,7 +76,16 @@ namespace GlossaryManager {
       }
       this.notifyProjectBrowser = true;
     }
-    
+
+    protected void select(GlossaryItem selected) {
+      foreach(ListViewItem item in this.itemsList.Items) {
+        if( ((GlossaryItem)item.Tag).Equals(selected) ) {
+          item.Selected = true;
+          break;
+        }
+      }
+    }
+
     // construction of master/detail = list/form
     
     public bool HasItemSelected {
@@ -178,42 +187,83 @@ namespace GlossaryManager {
         i++;
       }
     }
-    
+
     private void addToolbar() {
-      ToolStrip toolStrip = new ToolStrip();
-      toolStrip.Dock = DockStyle.Bottom;
-      this.Controls.Add(toolStrip);
-
-      var exportButton = new ToolStripButton();
-
       this.SuspendLayout();
 
-      // exportButton
-      exportButton.Name      = "exportButton";
-      exportButton.Text      = "Export";
+      ToolStrip toolStrip = new ToolStrip() {
+        Dock = DockStyle.Bottom
+      };
 
-      // this.exportButton.Click += new System.EventHandler(this.ExportButtonClick);
+      var addButton = new ToolStripButton();
+      addButton.Name  = "addButton";
+      addButton.ToolTipText = "Create New Glossary Item";
+			addButton.Image =
+        (System.Drawing.Image)this.ui.resources.GetObject("addButton.Image");
+      addButton.Click += new System.EventHandler(this.addButtonClick);
+      toolStrip.Items.Add(addButton);
 
-      toolStrip.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+      var deleteButton = new ToolStripButton();
+      deleteButton.Name  = "deleteButton";
+      deleteButton.ToolTipText = "Delete Selected Glossary Item";
+			deleteButton.Image =
+        (System.Drawing.Image)this.ui.resources.GetObject("deleteButton.Image");
+      deleteButton.Click += new System.EventHandler(this.deleteButtonClick);
+      toolStrip.Items.Add(deleteButton);
+
+      var importButton = new ToolStripButton();
+      importButton.Name  = "importButton";
+      importButton.ToolTipText = "Import Glossary Items";
+			importButton.Image =
+        (System.Drawing.Image)this.ui.resources.GetObject("importButton.Image");
+      importButton.Click += new System.EventHandler(this.importButtonClick);
+      toolStrip.Items.Add(importButton);
+
+      var exportButton = new ToolStripButton();
+      exportButton.Name  = "exportButton";
+      exportButton.ToolTipText = "Export Glossary Items";
+			exportButton.Image =
+        (System.Drawing.Image)this.ui.resources.GetObject("exportButton.Image");
+      exportButton.Click += new System.EventHandler(this.exportButtonClick);
       toolStrip.Items.Add(exportButton);
+
+      this.Controls.Add(toolStrip);
 
       this.ResumeLayout(false);
     }
+
+    // these need to be implemented by the concrete tabpage classes
+    // because they know what kind/type of Glossary Item they are working on
+    internal abstract void addButtonClick   (object sender, EventArgs e);
+    internal abstract void deleteButtonClick(object sender, EventArgs e);
+    internal abstract void exportButtonClick(object sender, EventArgs e);
+    internal abstract void importButtonClick(object sender, EventArgs e);
 
     protected abstract List<string> AsListItemData(GlossaryItem item);
 
     public virtual void Show<T>(List<T> items) where T : GlossaryItem {
       foreach(var item in items) {
-        ListViewItem listItem = new ListViewItem() {
-          Tag = item
-        };
-        this.refreshItemsListItem(listItem);
-        this.itemsList.Items.Add(listItem);
+        this.add<T>(item);
       }
       foreach(ColumnHeader column in this.itemsList.Columns) {
         column.Width = -1;
       }
       this.itemsList.Refresh(); // TODO check if needed
+    }
+
+    protected virtual void add<T>(T item) where T : GlossaryItem {
+      ListViewItem listItem = new ListViewItem() { Tag = item };
+      this.refreshItemsListItem(listItem);
+      this.itemsList.Items.Add(listItem);
+    }
+
+    protected virtual void remove<T>(T removed) where T : GlossaryItem {
+      foreach(ListViewItem item in this.itemsList.Items) {
+        if( ((GlossaryItem)item.Tag).Equals(removed) ) {
+          this.itemsList.Items.Remove(item);
+          return;
+        }
+      }
     }
 
     protected virtual void show(object sender, EventArgs e) {

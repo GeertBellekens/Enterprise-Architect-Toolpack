@@ -85,5 +85,47 @@ namespace GlossaryManager {
       base.Update(field);
     }
 
+    internal override void addButtonClick(object sender, EventArgs e) {
+      // create new BI in package
+      DataItem item = new DataItem() { Name = "New Data Item" };
+      item.AsClassIn(this.ui.Addin.managedPackage);
+      // add new BI to ListView
+      this.add<DataItem>(item);
+      // select it for editing
+      this.select(item);
+      // focus Name field and select all text
+      ((TextBox)this.fields["Name"].Control).SelectAll();
+      this.fields["Name"].Control.Focus();
+    }
+
+    internal override void deleteButtonClick(object sender, EventArgs e) {
+      if( ! this.HasItemSelected ) { return; }
+      DataItem item = (DataItem)this.Current;
+      var answer = MessageBox.Show( "Are you sure to delete " + item.Name,
+                                    "Confirm Delete!!",
+                                    MessageBoxButtons.YesNo);
+      if( answer != DialogResult.Yes) { return; }
+      // delete from model
+      // TODO this seems to fail for newly create items. the loop in this method
+      //      doesn't seem to see the newly create item in the package, although
+      //      it _is_ visible in the project browser?!
+      //      closing the UI and reopening it, allows for deletion to work?!
+      //      some sort of refresh is needed, but I didn't find it (CVG)
+      this.ui.Addin.managedPackage.deleteOwnedElement(item.Origin);
+      // remove from ListView
+      this.remove<DataItem>(item);
+    }
+
+    internal override void exportButtonClick(object sender, EventArgs e) {
+      // TODO collect selected DataItems
+      // List<DataItem> list = new List<DataItem>();
+      // this.ui.Addin.export<DataItem>(list);
+    }
+
+    internal override void importButtonClick(object sender, EventArgs e) {
+      this.ui.Addin.import<DataItem>(this.ui.Addin.managedPackage);
+    }
+
+
   }
 }

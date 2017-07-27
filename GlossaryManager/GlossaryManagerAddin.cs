@@ -126,17 +126,23 @@ namespace GlossaryManager {
     }
 
     // activities
+
+    internal EAWrapped.Package managedPackage { get; private set; }
     
     private void manage() {
       if( this.model == null ) { return; }
+      this.managedPackage = (EAWrapped.Package)this.model.selectedElement;
+
       this.ui.BusinessItems.Show<BusinessItem>(this.list<BusinessItem>());
       List<DataItem> dataItems = this.list<DataItem>();
       this.ui.DataItems.Show<DataItem>(dataItems);
+
       // add all Logical DataTypes from this package and optionally others
       // from the dataItems
       List<FieldValue> logicalDataTypes = new List<FieldValue>();
-      EAWrapped.Package package = (EAWrapped.Package)this.model.selectedElement;
-      foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
+      foreach(EAWrapped.Class clazz in
+              this.managedPackage.ownedElements.OfType<EAWrapped.Class>())
+      {
         if(clazz.stereotypes.Count == 1) {
           if( clazz.stereotypes.ToList()[0].name == "LogicalDataType") {
             logicalDataTypes.Add(new FieldValue() {
@@ -162,14 +168,17 @@ namespace GlossaryManager {
     }
 
     private void import<T>() where T : GlossaryItem {
+      this.import<T>((EAWrapped.Package)this.model.selectedElement);
+    }
+    
+    internal void import<T>(EAWrapped.Package package) where T : GlossaryItem {
       var file = this.getFileFor<T>(CSV.Loading);
       if(file == null) { return; }
 
-      List<T> items = GlossaryItem.Load<T>(file);
-
-      EAWrapped.Package package = (EAWrapped.Package)this.model.selectedElement;
-      Dictionary<string,EAWrapped.Class> index = this.index<T>(package);
       this.log("importing in package " + package.ToString());
+
+      Dictionary<string,EAWrapped.Class> index = this.index<T>(package);
+      List<T> items = GlossaryItem.Load<T>(file);
 
       foreach(T item in items) {
         if( item.GUID == "" ) {                           // create
@@ -192,12 +201,18 @@ namespace GlossaryManager {
     }
 
     private void export<T>() where T : GlossaryItem {
+      this.export<T>(this.list<T>());
+    }
+
+    internal void export<T>(List<T> exported) where T : GlossaryItem {
       var topic = typeof(T).Name;
       var file = this.getFileFor<T>(CSV.Saving);
       if(file != null) {
         this.log("exporting to " + file.ToString());
+        // TODO: why iterating a list of the same type ?!
+        //       why can an item be null?
         List<T> items = new List<T>();
-        foreach(var item in this.list<T>()) {
+        foreach(var item in exported) {
           if( item != null) {
             this.log("exporting " + item.ToString());
             items.Add(item);
@@ -220,8 +235,12 @@ namespace GlossaryManager {
     private List<T> list<T>(EAWrapped.Package package) where T : GlossaryItem {
       List<T> items = new List<T>();
       foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
-        T item = GlossaryItemFactory<T>.FromClass(clazz);
-        if( item != null ) { items.Add(item); }
+        try {
+          T item = GlossaryItemFactory<T>.FromClass(clazz);
+          if( item != null ) { items.Add(item); }
+        } catch(Exception e) {
+          MessageBox.Show(e.ToString());
+        }
       }
       return items;
     }
