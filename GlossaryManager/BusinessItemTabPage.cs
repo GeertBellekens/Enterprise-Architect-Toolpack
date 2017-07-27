@@ -45,8 +45,8 @@ namespace GlossaryManager {
       this.addField(new Field("Domain"));
     }
 
-    protected override void show(object sender, EventArgs e) {
-      base.show(sender, e);
+    protected override void show() {
+      base.show();
       if( ! this.HasItemSelected ) { return; }
 
       this.fields["Description"].Value = ((BusinessItem)this.Current).Description;

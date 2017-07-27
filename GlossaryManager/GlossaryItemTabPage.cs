@@ -79,10 +79,7 @@ namespace GlossaryManager {
 
     protected void select(GlossaryItem selected) {
       foreach(ListViewItem item in this.itemsList.Items) {
-        if( ((GlossaryItem)item.Tag).Equals(selected) ) {
-          item.Selected = true;
-          break;
-        }
+        item.Selected = ((GlossaryItem)item.Tag).Equals(selected);
       }
     }
 
@@ -90,7 +87,7 @@ namespace GlossaryManager {
     
     public bool HasItemSelected {
       get {
-        return this.itemsList.SelectedItems.Count > 0;
+        return this.itemsList.SelectedItems.Count == 1;
       }
     }
 
@@ -120,7 +117,7 @@ namespace GlossaryManager {
         HideSelection      = false
       };
       this.itemsList.ColumnClick          += new ColumnClickEventHandler(this.sortColumn);
-      this.itemsList.SelectedIndexChanged += new EventHandler(this.show);
+      this.itemsList.SelectedIndexChanged += new EventHandler(this.handleSelection);
 
       foreach(string label in this.listHeaders ) {
         this.itemsList.Columns.Add(label, -1, HorizontalAlignment.Left);
@@ -158,6 +155,8 @@ namespace GlossaryManager {
 
     protected virtual void Update(Field field) {
       if( ! this.HasItemSelected ) { return; }
+      if( this.itemsList.SelectedItems.Count > 1) { return; }
+
       switch(field.Label.Text) {
         case "Name":        this.Current.Name        = field.Value; break;
         case "Author":      this.Current.Author      = field.Value; break;
@@ -266,7 +265,14 @@ namespace GlossaryManager {
       }
     }
 
-    protected virtual void show(object sender, EventArgs e) {
+    protected virtual void handleSelection(object sender, EventArgs e) {
+      switch(this.itemsList.SelectedItems.Count) {
+        case 1:  this.show();  break;
+        default: this.clear(); break; // 0 or multiselect
+      }
+    }
+
+    protected virtual void show() {
       this.clear();
       if( ! this.HasItemSelected ) { return; }
 

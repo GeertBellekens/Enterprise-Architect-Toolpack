@@ -60,8 +60,8 @@ namespace GlossaryManager {
       this.addField(new Field("Initial Value"));
     }
 
-    protected override void show(object sender, EventArgs e) {
-      base.show(sender, e);
+    protected override void show() {
+      base.show();
       if( ! this.HasItemSelected ) { return; }
 
       this.fields["Label"].Value            = ((DataItem)this.Current).Label;
