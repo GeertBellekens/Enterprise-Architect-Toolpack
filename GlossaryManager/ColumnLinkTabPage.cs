@@ -294,10 +294,25 @@ namespace GlossaryManager {
             var di = tv.tagValue as EAWrapped.Class;
             if(di != null) {
               columnNode.Nodes.Add(new TreeNode(di.name) { Tag = di });
+              // mark column if not in sync
+              if( this.notInSync(attribute, di) ) {
+                columnNode.ForeColor = Color.Red;
+              }
             }
           }
         }
 			}
+    }
+
+    private bool notInSync(EAWrapped.Attribute column, EAWrapped.Class clazz) {
+      DataItem di = GlossaryItemFactory<DataItem>.FromClass(clazz);
+      if(di == null) { return true; } // ???
+      if( column.name != di.Label ) { return true; }
+      // TODO DataType
+      if( column.length != di.Size ) { return true; }
+      // TODO Format
+      if( column.defaultValue.ToString() != di.InitialValue ) { return true; }
+      return false;
     }
 
     private void showDataItem() {
