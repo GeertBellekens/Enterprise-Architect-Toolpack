@@ -70,6 +70,7 @@ namespace GlossaryManager {
         ImageList     = this.treeIcons
       };
       this.tree.AfterSelect += new TreeViewEventHandler(this.showDetail);
+      this.tree.KeyDown     += new KeyEventHandler(this.treeKeyDown);
 
       this.Controls.Add(tree);
       
@@ -81,6 +82,24 @@ namespace GlossaryManager {
       splitContainer.Panel2.Controls.Add(this.form);
 
       splitContainer.ResumeLayout(false);
+    }
+
+    public void treeKeyDown(object sender, KeyEventArgs e) {
+      if (e.Control) {
+        switch (e.KeyCode) {
+          case Keys.A: this.selectAll(); break;
+        }
+      }
+    }
+
+    private void selectAll() {
+      if(this.tree.CheckBoxes) {
+        foreach(var node in this.tree.Nodes.Descendants()
+                                           .Where(n => n.Tag is EAWrapped.Attribute))
+        {
+          node.Checked = true;
+        }
+      }
     }
 
     public bool HasColumnSelected {
