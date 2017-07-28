@@ -282,12 +282,18 @@ namespace GlossaryManager {
 
     private void refreshTree() {
       this.prevSelection = this.Current;
+
+      this.SuspendLayout();
+
       this.tree.Nodes.Clear();
 
       if(this.ContextIsDataItem)   { this.populateTreeForDataItem(); }
       else if(this.ContextIsTable) { this.populateTreeForTable();    }
 
       this.tree.ExpandAll();
+
+      this.ResumeLayout(false);
+
       this.prevSelection = null;
     }
 
