@@ -225,28 +225,24 @@ namespace GlossaryManager {
     private EAWrapped.Class context = null;
 
     private void checkContext(EAWrapped.ElementWrapper context) {
+      // clean up for new context build-up
       this.clear();
-
-      if(context == null) { return; }
-      if( ! (context is EAWrapped.ElementWrapper) ) { return; }
-
-      this.context = null;
       this.notify("Please select a Data Item or Table");
-
+      this.context = null;
       this.tree.Nodes.Clear();
 
-      // detect context and dispatch to approriate UI builder
-      if(context == null) { return; }
-
-      if( ! (context is EAWrapped.Class) ) { return; }
+      // validate context
+      if( context == null )                { return; } // no context
+      if( ! (context is EAWrapped.Class) ) { return; } // wrong context type
 
       EAWrapped.Class clazz = context as EAWrapped.Class;
-      if( clazz.stereotypes.Count != 1 ) { return; }
+      if(!(clazz.HasStereotype("Data Item") || clazz.HasStereotype("table"))) {
+        return;
+      }
 
       // passed all tests, we got a valid context
       this.context = clazz;
       this.hideNotifications();
-
       this.refreshTree();
     }
 
