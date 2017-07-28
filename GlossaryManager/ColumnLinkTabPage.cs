@@ -221,7 +221,9 @@ namespace GlossaryManager {
 
       // store the linked DI in a TV
       this.Current.dataitem = field.Value;
+      var context = this.context;
       this.Current.save();
+      this.ui.Addin.SelectedItem = context;
       
       // make sure that changes in the DI<->column structure are updated in tree
       this.refreshTree();
@@ -440,7 +442,9 @@ namespace GlossaryManager {
         this.ui.Addin.Model.factory.createValueSpecificationFromString(
           this.CurrentDataItem.InitialValue
         );
+      var context = this.context;
       this.Current.save();
+      this.ui.Addin.SelectedItem = context;
       this.refreshTree();
     }
 
