@@ -264,6 +264,8 @@ namespace GlossaryManager {
       this.checkContext(this.ui.Addin.SelectedItem);
     }
 
+    // this is the Table or DataItem that is selected in the Project Browser
+    // and is the root of the TreeView
     private EAWrapped.Class context = null;
 
     private void checkContext(EAWrapped.ElementWrapper context) {
@@ -497,7 +499,7 @@ namespace GlossaryManager {
 
     private void addButtonClick(object sender, EventArgs e) {
       if(this.ContextIsTable)         { this.addEmptyColumn(); }
-      else if(this.ContextIsDataItem) { this.AddColumnFromDataItem(); }
+      else if(this.ContextIsDataItem) { this.linkColumnToDataItem(); }
     }
 
     // adds an empty column and selects it. user can now select a Data Item.
@@ -524,11 +526,35 @@ namespace GlossaryManager {
       }
     }
 
-    private void AddColumnFromDataItem() {
-      // TODO: selected item must be table
-      // - add empty column
-      // - set dataitem reference
-      // - sync
+    private void linkColumnToDataItem() {
+      // TODO: this allows for selecting/creating a new table anywhere
+      //       currently the TreeView will only be populated with tables
+      //       that are within the managed (gloaasry) package.
+
+      // select a table (or create a new one)
+      EAWrapped.Class table =
+        (EAWrapped.Class)this.ui.Addin.Model.getUserSelectedElement(
+          new List<string>() { "Class"}
+        );
+      if( ! table.HasStereotype("table") ) { return; }
+
+      // create new column on table
+      EAWrapped.Attribute attribute =
+        this.ui.Addin.Model.factory.createNewElement<EAWrapped.Attribute>(
+          table, "<new>"
+        );
+      attribute.AddStereotype("column");
+      var context = this.context;
+      attribute.save();
+
+      // link the column to the DataItem
+      attribute.dataitem = context.guid;
+      attribute.save();
+      
+      // sync
+      this.sync(attribute);
+
+      this.ui.Addin.SelectedItem = context;
     }
 
     private void filterButtonCheckedChanged(object sender, EventArgs e) {
