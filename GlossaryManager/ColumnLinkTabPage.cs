@@ -93,13 +93,11 @@ namespace GlossaryManager {
     }
 
     private void selectAll() {
-      if(this.tree.CheckBoxes) {
-        foreach(var node in this.tree.Nodes.Descendants()
-                                           .Where(n => n.Tag is EAWrapped.Attribute))
-        {
-          node.Checked = true;
-        }
-      }
+      if( ! this.tree.CheckBoxes ) { return; }
+      this.tree.Nodes.Descendants()
+                     .Where(n => n.Tag is EAWrapped.Attribute)
+                     .ToList()
+                     .ForEach(n => n.Checked = true);
     }
 
     public bool HasColumnSelected {

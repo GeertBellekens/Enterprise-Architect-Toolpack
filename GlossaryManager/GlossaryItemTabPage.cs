@@ -57,6 +57,8 @@ namespace GlossaryManager {
       splitContainer.ResumeLayout(false);
 
       this.addToolbar();
+      this.deleteButton.Enabled = false;
+      this.exportButton.Enabled = false;
 
       this.ui.NewContext += new NewContextHandler(this.handleContextChange);
     }
@@ -118,11 +120,26 @@ namespace GlossaryManager {
       };
       this.itemsList.ColumnClick          += new ColumnClickEventHandler(this.sortColumn);
       this.itemsList.SelectedIndexChanged += new EventHandler(this.handleSelection);
+      this.itemsList.KeyDown              += new KeyEventHandler(this.listKeyDown);
 
       foreach(string label in this.listHeaders ) {
         this.itemsList.Columns.Add(label, -1, HorizontalAlignment.Left);
       }
       return this.itemsList;
+    }
+
+    public void listKeyDown(object sender, KeyEventArgs e) {
+      if (e.Control) {
+        switch (e.KeyCode) {
+          case Keys.A: this.selectAll(); break;
+        }
+      }
+    }
+
+    private void selectAll() {
+      this.itemsList.Items.OfType<ListViewItem>()
+                          .ToList()
+                          .ForEach(item => item.Selected = true);
     }
 
     protected virtual void createForm() {
@@ -187,6 +204,11 @@ namespace GlossaryManager {
       }
     }
 
+    private ToolStripButton addButton;
+    private ToolStripButton deleteButton;
+    private ToolStripButton importButton;
+    private ToolStripButton exportButton;
+
     private void addToolbar() {
       this.SuspendLayout();
 
@@ -194,37 +216,37 @@ namespace GlossaryManager {
         Dock = DockStyle.Bottom
       };
 
-      var addButton = new ToolStripButton();
-      addButton.Name  = "addButton";
-      addButton.ToolTipText = "Create New Glossary Item";
-			addButton.Image =
-        (System.Drawing.Image)this.ui.resources.GetObject("addButton.Image");
-      addButton.Click += new System.EventHandler(this.addButtonClick);
-      toolStrip.Items.Add(addButton);
+      this.addButton = new ToolStripButton() {
+        Name        = "addButton",
+        ToolTipText = "Create New Glossary Item",
+        Image       = (Image)this.ui.resources.GetObject("addButton.Image")
+      };
+      this.addButton.Click += new EventHandler(this.addButtonClick);
+      toolStrip.Items.Add(this.addButton);
 
-      var deleteButton = new ToolStripButton();
-      deleteButton.Name  = "deleteButton";
-      deleteButton.ToolTipText = "Delete Selected Glossary Item";
-			deleteButton.Image =
-        (System.Drawing.Image)this.ui.resources.GetObject("deleteButton.Image");
-      deleteButton.Click += new System.EventHandler(this.deleteButtonClick);
-      toolStrip.Items.Add(deleteButton);
+      this.deleteButton = new ToolStripButton() {
+        Name        = "deleteButton",
+        ToolTipText = "Delete Selected Glossary Item",
+			  Image       = (Image)this.ui.resources.GetObject("deleteButton.Image")
+      };
+      this.deleteButton.Click += new EventHandler(this.deleteButtonClick);
+      toolStrip.Items.Add(this.deleteButton);
 
-      var importButton = new ToolStripButton();
-      importButton.Name  = "importButton";
-      importButton.ToolTipText = "Import Glossary Items";
-			importButton.Image =
-        (System.Drawing.Image)this.ui.resources.GetObject("importButton.Image");
-      importButton.Click += new System.EventHandler(this.importButtonClick);
-      toolStrip.Items.Add(importButton);
+      this.importButton = new ToolStripButton() {
+        Name        = "importButton",
+        ToolTipText = "Import Glossary Items",
+			  Image       = (Image)this.ui.resources.GetObject("importButton.Image")
+      };
+      this.importButton.Click += new System.EventHandler(this.importButtonClick);
+      toolStrip.Items.Add(this.importButton);
 
-      var exportButton = new ToolStripButton();
-      exportButton.Name  = "exportButton";
-      exportButton.ToolTipText = "Export Glossary Items";
-			exportButton.Image =
-        (System.Drawing.Image)this.ui.resources.GetObject("exportButton.Image");
-      exportButton.Click += new System.EventHandler(this.exportButtonClick);
-      toolStrip.Items.Add(exportButton);
+      this.exportButton = new ToolStripButton() {
+        Name        = "exportButton",
+        ToolTipText = "Export Glossary Items",
+        Image       = (Image)this.ui.resources.GetObject("exportButton.Image")
+      };
+      this.exportButton.Click += new EventHandler(this.exportButtonClick);
+      toolStrip.Items.Add(this.exportButton);
 
       this.Controls.Add(toolStrip);
 
@@ -318,8 +340,20 @@ namespace GlossaryManager {
 
     private void handleSelection(object sender, EventArgs e) {
       switch(this.itemsList.SelectedItems.Count) {
-        case 1:  this.show();  break;
-        default: this.clear(); break; // 0 or multiselect
+        case 0:
+          this.deleteButton.Enabled = false;
+          this.exportButton.Enabled = false;
+          break;
+        case 1:
+          this.deleteButton.Enabled = true;
+          this.exportButton.Enabled = true;
+          this.show();
+          break;
+        default: // multiple
+          this.deleteButton.Enabled = true;
+          this.exportButton.Enabled = true;
+          this.clear();
+          break;
       }
     }
 
