@@ -171,6 +171,7 @@ namespace GlossaryManager {
     }
 
     protected virtual void Update(Field field) {
+      if( this.showing ) { return; }
       if( ! this.HasItemSelected ) { return; }
       if( this.itemsList.SelectedItems.Count > 1) { return; }
 
@@ -357,7 +358,10 @@ namespace GlossaryManager {
       }
     }
 
+    private bool showing = false;
+
     protected virtual void show() {
+      this.showing = true;
       this.clear();
       if( ! this.HasItemSelected ) { return; }
 
@@ -373,6 +377,8 @@ namespace GlossaryManager {
       this.fields["Created"].Value    = this.Current.CreateDate.ToString();
       this.fields["Updated"].Value    = this.Current.UpdateDate.ToString();
       this.fields["Updated by"].Value = this.Current.UpdatedBy;
+
+      this.showing = false;
     }
 
     private void clear() {
