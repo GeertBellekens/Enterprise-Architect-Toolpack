@@ -8,6 +8,8 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Drawing;
 
+using System.Runtime.InteropServices;
+
 using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace GlossaryManager {
@@ -95,13 +97,35 @@ namespace GlossaryManager {
       }
     }
 
+    public List<EAWrapped.Attribute> SelectedColumns {
+      get {
+        if(this.tree.CheckBoxes) {
+          return this.tree.Nodes.Descendants()
+                                .Where(n => n.Checked)
+                                .Select(n => n.Tag)
+                                .Cast<EAWrapped.Attribute>()
+                                .ToList();
+        } else if( this.HasColumnSelected ) {
+          return new List<EAWrapped.Attribute>() {
+            this.Current
+          };
+        } else {
+          return new List<EAWrapped.Attribute>();
+        }
+      }
+    }
+
     public DataItem CurrentDataItem {
       get {
-        if( this.Current == null ) { return null; }
-        EAWrapped.TaggedValue tv = this.Current.getTaggedValue("DataItem");
-        if(tv == null || tv.tagValue == null) { return null; }
-        return GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as EAWrapped.Class);
+        return this.getDataItem(this.Current);
       }
+    }
+
+    private DataItem getDataItem(EAWrapped.Attribute attribute) {
+      if( attribute == null ) { return null; }
+      EAWrapped.TaggedValue tv = attribute.getTaggedValue("DataItem");
+      if(tv == null || tv.tagValue == null) { return null; }
+      return GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as EAWrapped.Class);
     }
 
     private bool showing = false;
@@ -300,8 +324,7 @@ namespace GlossaryManager {
     }
 
     private void populateTreeForDataItem() {
-      var diNode = this.createDataItemNode(this.context);
-      this.tree.Nodes.Add(diNode);
+      var diNode = this.createDataItemNode(this.context, this.tree.Nodes);
       // find tables with columns that point to this DI
       // TODO: query beyond scope of Glossay Package?!
       foreach(EAWrapped.Class clazz in this.ui.Addin.managedPackage.ownedElements.OfType<EAWrapped.Class>()) {
@@ -314,11 +337,9 @@ namespace GlossaryManager {
                 var di = tv.tagValue as EAWrapped.Class;
                 if(di != null && di.guid == this.context.guid) {
                   if(tableNode == null) {
-                    tableNode = this.createTableNode(clazz);
-                    diNode.Nodes.Add(tableNode);
+                    tableNode = this.createTableNode(clazz, diNode.Nodes);
                   }
-                  var columnNode = this.createColumnNode(attribute);
-                  tableNode.Nodes.Add(columnNode);
+                  var columnNode = this.createColumnNode(attribute, tableNode.Nodes);
                   // mark column if not in sync
                   if( this.notInSync(attribute, di) ) {
                     columnNode.ForeColor = Color.Red;
@@ -332,15 +353,13 @@ namespace GlossaryManager {
     }
 
     private void populateTreeForTable() {
-      var tableNode = this.createTableNode(this.context);
-      this.tree.Nodes.Add(tableNode);
+      var tableNode = this.createTableNode(this.context, this.tree.Nodes);
       // TODO: I'm not using Table here, because that requires a Database
       //       Unsure if having a DB is really a requirement
       //       So just using the Class representation to work on.
 			foreach(EAWrapped.Attribute attribute in this.context.attributes) {
         if(attribute.HasStereotype("column")) {
-          var columnNode = this.createColumnNode(attribute);
-          tableNode.Nodes.Add(columnNode);
+          var columnNode = this.createColumnNode(attribute, tableNode.Nodes);
           if(this.prevSelection != null && attribute.guid == this.prevSelection.guid) {
             this.tree.SelectedNode = columnNode;
           }
@@ -348,7 +367,7 @@ namespace GlossaryManager {
           if(tv != null) {
             var di = tv.tagValue as EAWrapped.Class;
             if(di != null) {
-              columnNode.Nodes.Add(this.createDataItemNode(di));
+              this.createDataItemNode(di, columnNode.Nodes);
               // mark column if not in sync
               if( this.notInSync(attribute, di) ) {
                 columnNode.ForeColor = Color.Red;
@@ -359,28 +378,42 @@ namespace GlossaryManager {
 			}
     }
 
-    private TreeNode createTableNode(EAWrapped.Class clazz) {
-      return new TreeNode(clazz.name) {
+    private TreeNode createTableNode(EAWrapped.Class clazz,
+                                     TreeNodeCollection parent)
+    {
+      TreeNode node = new TreeNode(clazz.name) {
         Tag              = clazz,
         ImageKey         = "table",
         SelectedImageKey = "table"
       };
+      parent.Add(node);
+      this.hideCheckBox(node);
+      return node;
     }
 
-    private TreeNode createColumnNode(EAWrapped.Attribute attribute) {
-      return new TreeNode(attribute.name) {
+    private TreeNode createColumnNode(EAWrapped.Attribute attribute,
+                                      TreeNodeCollection parent)
+    {
+      TreeNode node = new TreeNode(attribute.name) {
         Tag              = attribute,
         ImageKey         = "column",
         SelectedImageKey = "column"
       };
+      parent.Add(node);
+      return node;
     }
 
-    private TreeNode createDataItemNode(EAWrapped.Class clazz) {
-      return new TreeNode(clazz.name) {
+    private TreeNode createDataItemNode(EAWrapped.Class clazz,
+                                        TreeNodeCollection parent)
+    {
+      TreeNode node = new TreeNode(clazz.name) {
         Tag              = clazz,
         ImageKey         = "data item",
         SelectedImageKey = "data item"
       };
+      parent.Add(node);
+      this.hideCheckBox(node);
+      return node;
     }
 
     private bool notInSync(EAWrapped.Attribute column, EAWrapped.Class clazz) {
@@ -408,19 +441,27 @@ namespace GlossaryManager {
       this.notificationLabel.Alignment =
         System.Windows.Forms.ToolStripItemAlignment.Right;
 
-      var syncButton = new ToolStripButton();
-      syncButton.Name  = "syncButton";
-			syncButton.Image =
-        (System.Drawing.Image)this.ui.resources.GetObject("syncButton.Image");
-      syncButton.Click += new System.EventHandler(this.syncButtonClick);
+      var syncButton = new ToolStripButton() {
+        Name  = "syncButton",
+			  Image = (System.Drawing.Image)this.ui.resources.GetObject("syncButton.Image")
+      };
+      syncButton.Click += new EventHandler(this.syncButtonClick);
       toolStrip.Items.Add(syncButton);
 
-      var addButton = new ToolStripButton();
-      addButton.Name  = "addButton";
-			addButton.Image =
-        (System.Drawing.Image)this.ui.resources.GetObject("addButton.Image");
-      addButton.Click += new System.EventHandler(this.addButtonClick);
+      var addButton = new ToolStripButton() {
+        Name  = "addButton",
+        Image = (System.Drawing.Image)this.ui.resources.GetObject("addButton.Image")
+      };
+      addButton.Click += new EventHandler(this.addButtonClick);
       toolStrip.Items.Add(addButton);
+
+      var filterButton = new ToolStripButton() {
+        Name  = "filterButton",
+        Image = (System.Drawing.Image)this.ui.resources.GetObject("filterButton.Image"),
+        CheckOnClick = true  
+      };
+      filterButton.CheckedChanged += new EventHandler(this.filterButtonCheckedChanged); 
+      toolStrip.Items.Add(filterButton);
 
       this.Controls.Add(toolStrip);
 
@@ -430,20 +471,26 @@ namespace GlossaryManager {
     private void syncButtonClick(object sender, EventArgs e) {
       this.sync();
     }
-    
+
     private void sync() {
-      if(this.CurrentDataItem == null) { return; }
-      this.Current.name = this.CurrentDataItem.Label;
+      foreach(var column in this.SelectedColumns) {
+        this.sync(column);
+      }
+    }
+
+    private void sync(EAWrapped.Attribute column) {
+      DataItem di = this.getDataItem(column);
+      column.name = di.Label;
       // TODO DataType
-      this.Current.length = this.CurrentDataItem.Size;
+      column.length = di.Size;
       // TODO Format
       // TODO ValueSpecification
-      this.Current.defaultValue =
+      column.defaultValue =
         this.ui.Addin.Model.factory.createValueSpecificationFromString(
-          this.CurrentDataItem.InitialValue
+          di.InitialValue
         );
       var context = this.context;
-      this.Current.save();
+      column.save();
       this.ui.Addin.SelectedItem = context;
       this.refreshTree();
     }
@@ -484,6 +531,11 @@ namespace GlossaryManager {
       // - sync
     }
 
+    private void filterButtonCheckedChanged(object sender, EventArgs e) {
+      this.tree.CheckBoxes = ((ToolStripButton)sender).Checked;
+      this.refreshTree();
+    }
+
     // utility methods to manage the notification text on the ToolStrip
 
     private void notify(string msg) {
@@ -495,5 +547,54 @@ namespace GlossaryManager {
       this.notificationLabel.Visible = false;
     }
 
+    // support for hiding checkboxes on selected TreeNodes
+    // via: https://stackoverflow.com/questions/4826556
+
+    private const int TVIF_STATE = 0x8;
+    private const int TVIS_STATEIMAGEMASK = 0xF000;
+    private const int TV_FIRST = 0x1100;
+    private const int TVM_SETITEM = TV_FIRST + 63;
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8, CharSet = CharSet.Auto)]
+    private struct TVITEM {
+      public int mask;
+      public IntPtr hItem;
+      public int state;
+      public int stateMask;
+      [MarshalAs(UnmanagedType.LPTStr)]
+      public string lpszText;
+      public int cchTextMax;
+      public int iImage;
+      public int iSelectedImage;
+      public int cChildren;
+      public IntPtr lParam;
+    }
+
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam,
+                                             ref TVITEM lParam);
+
+    private void hideCheckBox(TreeNode node) {
+      TVITEM tvi = new TVITEM();
+      tvi.hItem     = node.Handle;
+      tvi.mask      = TVIF_STATE;
+      tvi.stateMask = TVIS_STATEIMAGEMASK;
+      tvi.state     = 0;
+      SendMessage(this.tree.Handle, TVM_SETITEM, IntPtr.Zero, ref tvi);
+    }
+  }
+}
+
+// extension method for listing all descendants of a treenode collection
+// via https://stackoverflow.com/questions/26542568
+
+public static class TreeViewDescendants {
+  internal static IEnumerable<TreeNode> Descendants(this TreeNodeCollection c) {
+    foreach (var node in c.OfType<TreeNode>()) {
+      yield return node;
+      foreach (var child in node.Nodes.Descendants()) {
+        yield return child;
+      }
+    }
   }
 }
