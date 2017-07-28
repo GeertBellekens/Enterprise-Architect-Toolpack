@@ -118,6 +118,12 @@ namespace GlossaryManager {
 
     public EAWrapped.ElementWrapper SelectedItem {
       get {
+        if( this.model.selectedItem is EAWrapped.Attribute &&
+            this.model.selectedItem.owner is EAWrapped.ElementWrapper)
+        {
+          return this.model.selectedItem.owner as EAWrapped.ElementWrapper;
+        }
+        if( ! (this.model.selectedItem is EAWrapped.ElementWrapper) ) { return null; }
         return (EAWrapped.ElementWrapper)this.model.selectedItem;
       }
       set {
