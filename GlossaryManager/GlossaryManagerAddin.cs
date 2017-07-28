@@ -110,10 +110,14 @@ namespace GlossaryManager {
                                                  string GUID,
                                                  EA.ObjectType ot)
     {
-      if(this.NewContext == null)                                   { return; }
-      if(this.model      == null)                                   { return; }
-      if( ! (this.model.selectedItem is EAWrapped.ElementWrapper) ) { return; }
-      this.NewContext((EAWrapped.ElementWrapper)this.model.selectedItem);
+      try {
+        if(this.NewContext == null)                                   { return; }
+        if(this.model      == null)                                   { return; }
+        if( ! (this.model.selectedItem is EAWrapped.ElementWrapper) ) { return; }
+        this.NewContext((EAWrapped.ElementWrapper)this.model.selectedItem);
+      } catch(Exception e) {
+        MessageBox.Show(e.ToString());
+      }
     }
 
     public EAWrapped.ElementWrapper SelectedItem {
