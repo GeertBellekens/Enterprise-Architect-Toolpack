@@ -141,36 +141,40 @@ namespace GlossaryManager {
         this.fields["Format"].Value        = "TODO: what?"; // TODO
         this.fields["Initial Value"].Value = this.Current.defaultValue.ToString();
 
+        this.syncButton.Enabled = true;
 
+        // validate/autosync against DataItem
         if(this.CurrentDataItem != null) {
           this.fields["Data Item"].Value = this.CurrentDataItem.GUID;
 
           // automatically sync when the Name == "<new>"
           if(this.fields["Name"].Value == "<new>") {
             this.sync();
+          } else {
+            // check if column values (aka field values), match the in the 
+            // prototype (aka the DataItem)
+            // Name == Label
+            this.fields["Name"].BackColor =
+              this.fields["Name"].Value != this.CurrentDataItem.Label ?
+                Color.LightYellow : Color.White;
+            
+            // DataType ??? == LogicalDataType
+            // TODO
+            // Length == Size
+            this.fields["Size"].BackColor =
+              this.fields["Size"].Value != this.CurrentDataItem.Size.ToString() ?
+                Color.LightYellow : Color.White;
+            
+            // Format ??? == Format
+            // TODO
+            // DefaultValue == InitialValue
+            this.fields["Initial Value"].BackColor =
+              this.fields["Initial Value"].Value != this.CurrentDataItem.InitialValue ?
+                Color.LightYellow : Color.White;   
           }
-
-          // check if column values (aka field values), match the in the 
-          // prototype (aka the DataItem)
-          // Name == Label
-          this.fields["Name"].BackColor =
-            this.fields["Name"].Value != this.CurrentDataItem.Label ?
-              Color.LightYellow : Color.White;
-            
-          // DataType ??? == LogicalDataType
-          // TODO
-          // Length == Size
-          this.fields["Size"].BackColor =
-            this.fields["Size"].Value != this.CurrentDataItem.Size.ToString() ?
-              Color.LightYellow : Color.White;
-            
-          // Format ??? == Format
-          // TODO
-          // DefaultValue == InitialValue
-          this.fields["Initial Value"].BackColor =
-            this.fields["Initial Value"].Value != this.CurrentDataItem.InitialValue ?
-              Color.LightYellow : Color.White;   
         }
+      } else {
+        this.syncButton.Enabled = false || this.filterButton.Checked;
       }
 
       this.showing = false;
@@ -274,12 +278,17 @@ namespace GlossaryManager {
       this.clear();
       this.notify("Please select a Data Item or Table");
       this.context = null;
+      this.syncButton.Enabled   = false;
+      this.addButton.Enabled    = false;
+      this.filterButton.Enabled = false;
 
       // validate context
       if( context != null && context is EAWrapped.Class) {
         EAWrapped.Class clazz = context as EAWrapped.Class;
         if( clazz.HasStereotype("Data Item") || clazz.HasStereotype("table")) {
           this.context = clazz;
+          this.addButton.Enabled = true;
+          this.filterButton.Enabled = true;
           this.hideNotifications();
         }
       }
@@ -427,6 +436,10 @@ namespace GlossaryManager {
     }
 
     // toolbar and buttons
+    
+    private ToolStripButton syncButton;
+    private ToolStripButton addButton;
+    private ToolStripButton filterButton;
 
     private void addToolbar() {
       this.SuspendLayout();
@@ -440,27 +453,27 @@ namespace GlossaryManager {
       this.notificationLabel.Alignment =
         System.Windows.Forms.ToolStripItemAlignment.Right;
 
-      var syncButton = new ToolStripButton() {
+      this.syncButton = new ToolStripButton() {
         Name  = "syncButton",
 			  Image = (System.Drawing.Image)this.ui.resources.GetObject("syncButton.Image")
       };
-      syncButton.Click += new EventHandler(this.syncButtonClick);
-      toolStrip.Items.Add(syncButton);
+      this.syncButton.Click += new EventHandler(this.syncButtonClick);
+      toolStrip.Items.Add(this.syncButton);
 
-      var addButton = new ToolStripButton() {
+      this.addButton = new ToolStripButton() {
         Name  = "addButton",
         Image = (System.Drawing.Image)this.ui.resources.GetObject("addButton.Image")
       };
-      addButton.Click += new EventHandler(this.addButtonClick);
-      toolStrip.Items.Add(addButton);
+      this.addButton.Click += new EventHandler(this.addButtonClick);
+      toolStrip.Items.Add(this.addButton);
 
-      var filterButton = new ToolStripButton() {
+      this.filterButton = new ToolStripButton() {
         Name  = "filterButton",
         Image = (System.Drawing.Image)this.ui.resources.GetObject("filterButton.Image"),
         CheckOnClick = true  
       };
-      filterButton.CheckedChanged += new EventHandler(this.filterButtonCheckedChanged); 
-      toolStrip.Items.Add(filterButton);
+      this.filterButton.CheckedChanged += new EventHandler(this.filterButtonCheckedChanged); 
+      toolStrip.Items.Add(this.filterButton);
 
       this.Controls.Add(toolStrip);
 
@@ -556,6 +569,7 @@ namespace GlossaryManager {
 
     private void filterButtonCheckedChanged(object sender, EventArgs e) {
       this.tree.CheckBoxes = ((ToolStripButton)sender).Checked;
+      this.syncButton.Enabled = this.tree.CheckBoxes;
       this.refreshTree();
     }
 
