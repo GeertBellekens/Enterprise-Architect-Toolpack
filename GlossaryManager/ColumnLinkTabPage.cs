@@ -311,6 +311,10 @@ namespace GlossaryManager {
                   }
                   var columnNode = this.createColumnNode(attribute);
                   tableNode.Nodes.Add(columnNode);
+                  // mark column if not in sync
+                  if( this.notInSync(attribute, di) ) {
+                    columnNode.ForeColor = Color.Red;
+                  }
                 }
               }
             }
