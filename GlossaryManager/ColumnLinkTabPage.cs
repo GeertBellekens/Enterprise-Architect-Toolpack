@@ -241,7 +241,8 @@ namespace GlossaryManager {
     // Update is called when a Field (in this case only "Data Item") changes
     
     private void update(Field field) {
-      if(this.showing || this.clearing) { return; }
+      if( this.showing || this.clearing ) { return; }
+      if( this.Current == null )          { return; }
 
       // store the linked DI in a TV
       this.Current.dataitem = field.Value;
@@ -273,20 +274,16 @@ namespace GlossaryManager {
       this.clear();
       this.notify("Please select a Data Item or Table");
       this.context = null;
-      this.tree.Nodes.Clear();
 
       // validate context
-      if( context == null )                { return; } // no context
-      if( ! (context is EAWrapped.Class) ) { return; } // wrong context type
-
-      EAWrapped.Class clazz = context as EAWrapped.Class;
-      if(!(clazz.HasStereotype("Data Item") || clazz.HasStereotype("table"))) {
-        return;
+      if( context != null && context is EAWrapped.Class) {
+        EAWrapped.Class clazz = context as EAWrapped.Class;
+        if( clazz.HasStereotype("Data Item") || clazz.HasStereotype("table")) {
+          this.context = clazz;
+          this.hideNotifications();
+        }
       }
 
-      // passed all tests, we got a valid context
-      this.context = clazz;
-      this.hideNotifications();
       this.refreshTree();
     }
 
@@ -311,7 +308,7 @@ namespace GlossaryManager {
     private void refreshTree() {
       this.prevSelection = this.Current;
 
-      this.SuspendLayout();
+      this.tree.SuspendLayout();
 
       this.tree.Nodes.Clear();
 
@@ -320,7 +317,7 @@ namespace GlossaryManager {
 
       this.tree.ExpandAll();
 
-      this.ResumeLayout(false);
+      this.tree.ResumeLayout(false);
 
       this.prevSelection = null;
     }
