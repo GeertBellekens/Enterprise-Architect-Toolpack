@@ -17,6 +17,7 @@ namespace GlossaryManager {
     private GlossaryManagerUI ui;
     private ToolStripLabel    notificationLabel;
     private TreeView          tree;
+    private ImageList         treeIcons;
     private FlowLayoutPanel   form;
 
     public ColumnLinkTabPage(GlossaryManagerUI ui) : base() {
@@ -46,11 +47,27 @@ namespace GlossaryManager {
 
       this.addToolbar();
 
+      // prepare TreeView icons
+      this.treeIcons = new ImageList();
+      this.treeIcons.Images.Add(
+        "data item",
+        (System.Drawing.Image)this.ui.resources.GetObject("dataItem.Image")
+      );
+      this.treeIcons.Images.Add(
+        "table",
+        (System.Drawing.Image)this.ui.resources.GetObject("table.Image")
+      );
+      this.treeIcons.Images.Add(
+        "column",
+        (System.Drawing.Image)this.ui.resources.GetObject("column.Image")
+      );
+
       this.tree = new TreeView() {
         Dock          = DockStyle.Fill,
-        HideSelection = false
+        HideSelection = false,
+        ImageList     = this.treeIcons
       };
-      this.tree.AfterSelect += new TreeViewEventHandler(this.show);
+      this.tree.AfterSelect += new TreeViewEventHandler(this.showDetail);
 
       this.Controls.Add(tree);
       
@@ -80,17 +97,16 @@ namespace GlossaryManager {
 
     public DataItem CurrentDataItem {
       get {
+        if( this.Current == null ) { return null; }
         EAWrapped.TaggedValue tv = this.Current.getTaggedValue("DataItem");
-        if(tv != null && tv.tagValue != null) {
-          return GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as EAWrapped.Class);
-        }
-        return null;
+        if(tv == null || tv.tagValue == null) { return null; }
+        return GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as EAWrapped.Class);
       }
     }
 
     private bool showing = false;
 
-    private void show(object sender, TreeViewEventArgs e) {
+    private void showDetail(object sender, TreeViewEventArgs e) {
       this.showing = true; // avoid updates being called, causing tree refresh
       this.clear();
 
@@ -248,12 +264,14 @@ namespace GlossaryManager {
 
     public bool ContextIsDataItem {
       get {
+        if( this.context == null ) { return false; }
         return this.context.HasStereotype("Data Item");
       }
     }
 
     public bool ContextIsTable {
       get {
+        if( this.context == null ) { return false; }
         return this.context.HasStereotype("table");
       }
     }
@@ -266,55 +284,15 @@ namespace GlossaryManager {
       this.prevSelection = this.Current;
       this.tree.Nodes.Clear();
 
-      if(this.context == null)     { return; }
-      if(this.ContextIsDataItem)   { this.showDataItem(); }
-      else if(this.ContextIsTable) { this.showTable();    }
+      if(this.ContextIsDataItem)   { this.populateTreeForDataItem(); }
+      else if(this.ContextIsTable) { this.populateTreeForTable();    }
 
       this.tree.ExpandAll();
       this.prevSelection = null;
     }
 
-    private void showTable() {
-      var tableNode = new TreeNode(this.context.name);
-      this.tree.Nodes.Add(tableNode);
-      // TODO: I'm not using Table here, because that requires a Database
-      //       Unsure if having a DB is really a requirement
-      //       So just using the Class representation to work on.
-			foreach(EAWrapped.Attribute attribute in this.context.attributes) {
-        if(attribute.HasStereotype("column")) {
-          var columnNode = new TreeNode(attribute.name) { Tag = attribute };
-          tableNode.Nodes.Add(columnNode);
-          if(this.prevSelection != null && attribute.guid == this.prevSelection.guid) {
-            this.tree.SelectedNode = columnNode;
-          }
-          EAWrapped.TaggedValue tv = attribute.getTaggedValue("DataItem");
-          if(tv != null) {
-            var di = tv.tagValue as EAWrapped.Class;
-            if(di != null) {
-              columnNode.Nodes.Add(new TreeNode(di.name) { Tag = di });
-              // mark column if not in sync
-              if( this.notInSync(attribute, di) ) {
-                columnNode.ForeColor = Color.Red;
-              }
-            }
-          }
-        }
-			}
-    }
-
-    private bool notInSync(EAWrapped.Attribute column, EAWrapped.Class clazz) {
-      DataItem di = GlossaryItemFactory<DataItem>.FromClass(clazz);
-      if(di == null) { return true; } // ???
-      if( column.name != di.Label ) { return true; }
-      // TODO DataType
-      if( column.length != di.Size ) { return true; }
-      // TODO Format
-      if( column.defaultValue.ToString() != di.InitialValue ) { return true; }
-      return false;
-    }
-
-    private void showDataItem() {
-      var diNode = new TreeNode(this.context.name);
+    private void populateTreeForDataItem() {
+      var diNode = this.createDataItemNode(this.context);
       this.tree.Nodes.Add(diNode);
       // find tables with columns that point to this DI
       // TODO: query beyond scope of Glossay Package?!
@@ -328,10 +306,10 @@ namespace GlossaryManager {
                 var di = tv.tagValue as EAWrapped.Class;
                 if(di != null && di.guid == this.context.guid) {
                   if(tableNode == null) {
-                    tableNode = new TreeNode(clazz.name);
+                    tableNode = this.createTableNode(clazz);
                     diNode.Nodes.Add(tableNode);
                   }
-                  var columnNode = new TreeNode(attribute.name);
+                  var columnNode = this.createColumnNode(attribute);
                   tableNode.Nodes.Add(columnNode);
                 }
               }
@@ -339,6 +317,69 @@ namespace GlossaryManager {
           }
         }
       }
+    }
+
+    private void populateTreeForTable() {
+      var tableNode = this.createTableNode(this.context);
+      this.tree.Nodes.Add(tableNode);
+      // TODO: I'm not using Table here, because that requires a Database
+      //       Unsure if having a DB is really a requirement
+      //       So just using the Class representation to work on.
+			foreach(EAWrapped.Attribute attribute in this.context.attributes) {
+        if(attribute.HasStereotype("column")) {
+          var columnNode = this.createColumnNode(attribute);
+          tableNode.Nodes.Add(columnNode);
+          if(this.prevSelection != null && attribute.guid == this.prevSelection.guid) {
+            this.tree.SelectedNode = columnNode;
+          }
+          EAWrapped.TaggedValue tv = attribute.getTaggedValue("DataItem");
+          if(tv != null) {
+            var di = tv.tagValue as EAWrapped.Class;
+            if(di != null) {
+              columnNode.Nodes.Add(this.createDataItemNode(di));
+              // mark column if not in sync
+              if( this.notInSync(attribute, di) ) {
+                columnNode.ForeColor = Color.Red;
+              }
+            }
+          }
+        }
+			}
+    }
+
+    private TreeNode createTableNode(EAWrapped.Class clazz) {
+      return new TreeNode(clazz.name) {
+        Tag              = clazz,
+        ImageKey         = "table",
+        SelectedImageKey = "table"
+      };
+    }
+
+    private TreeNode createColumnNode(EAWrapped.Attribute attribute) {
+      return new TreeNode(attribute.name) {
+        Tag              = attribute,
+        ImageKey         = "column",
+        SelectedImageKey = "column"
+      };
+    }
+
+    private TreeNode createDataItemNode(EAWrapped.Class clazz) {
+      return new TreeNode(clazz.name) {
+        Tag              = clazz,
+        ImageKey         = "data item",
+        SelectedImageKey = "data item"
+      };
+    }
+
+    private bool notInSync(EAWrapped.Attribute column, EAWrapped.Class clazz) {
+      DataItem di = GlossaryItemFactory<DataItem>.FromClass(clazz);
+      if(di == null) { return true; } // ???
+      if( column.name != di.Label ) { return true; }
+      // TODO DataType
+      if( column.length != di.Size ) { return true; }
+      // TODO Format
+      if( column.defaultValue.ToString() != di.InitialValue ) { return true; }
+      return false;
     }
 
     // toolbar and buttons
@@ -423,7 +464,10 @@ namespace GlossaryManager {
     }
 
     private void AddColumnFromDataItem() {
-      // TODO
+      // TODO: selected item must be table
+      // - add empty column
+      // - set dataitem reference
+      // - sync
     }
 
     // utility methods to manage the notification text on the ToolStrip
