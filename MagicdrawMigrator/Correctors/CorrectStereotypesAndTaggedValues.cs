@@ -67,6 +67,35 @@ namespace MagicdrawMigrator
 									set [Property] = 'businessTermName'
 									where [Property] = 'businessTerm'");
 			
+			// codeListAgencyIdentifier -> codeListAgencyID
+			this.model.executeSQL(@"update t_objectproperties 
+									set [Property] = 'codeListAgencyID'
+									where [Property] = 'codeListAgencyIdentifier'");
+			
+			this.model.executeSQL(@"update t_attributetag
+									set [Property] = 'codeListAgencyID'
+									where [Property] = 'codeListAgencyIdentifier'");
+			
+			this.model.executeSQL(@"update t_connectortag
+									set [Property] = 'codeListAgencyID'
+									where [Property] = 'codeListAgencyIdentifier'");
+			
+			
+			// codeListIdentifier -> codeListID
+			this.model.executeSQL(@"update t_objectproperties 
+									set [Property] = 'codeListID'
+									where [Property] = 'codeListIdentifier'");
+			
+			this.model.executeSQL(@"update t_attributetag
+									set [Property] = 'codeListID'
+									where [Property] = 'codeListIdentifier'");
+			
+			this.model.executeSQL(@"update t_connectortag
+									set [Property] = 'codeListID'
+									where [Property] = 'codeListIdentifier'");
+			
+			
+			
 			
 			// synchronize stereotypes
 			synchronizeStereotypes();
