@@ -94,9 +94,7 @@ namespace MagicdrawMigrator
 									set [Property] = 'codeListID'
 									where [Property] = 'codeListIdentifier'");
 			
-			
-			
-			
+
 			// synchronize stereotypes
 			synchronizeStereotypes();
 			
