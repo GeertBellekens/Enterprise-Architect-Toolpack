@@ -22,6 +22,7 @@ namespace MagicdrawMigrator
 		public string outputName {get;private set;}
 		Dictionary<string,string> _allClasses;
 		List<MDAssociation> _allASMAAssociations;
+		List<MDAssociation> _allAssociations;
 		Dictionary<string,string> _allLinkedAssociationTables;
 		Dictionary<string, MDDiagram> _allDiagrams;
 		Dictionary<string, string> _allObjects;
@@ -237,6 +238,19 @@ namespace MagicdrawMigrator
 				return _allASMAAssociations;
 			}
 		}
+		
+			public List<MDAssociation> allAssociations
+		{
+			get
+			{
+				if (_allAssociations == null)
+				{
+					this.getAllAssociations();
+				}
+				return _allAssociations;
+			}
+		}
+		
 		public List<MDConstraint> getContraints(string MDElementID)
 		{
 			//check if the constraints were already read
@@ -362,6 +376,30 @@ namespace MagicdrawMigrator
 			}
 			//set the fragments
 			_allFragments = foundFragments;
+		}
+		
+		void getAllAssociations()
+		{
+			var foundAssociations = new List<MDAssociation>();
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");	
+				
+				// eerst packagedElements zoeken dan de ownedattributes
+				foreach (XmlNode ownedAttributeNode in sourceFile.SelectNodes("//ownedAttribute[@xmi:type='uml:Property' and @association", nsMgr))
+				{
+				    MDAssociationEnd mdTargetEnd = null;
+					MDAssociationEnd mdSourceEnd = null;  
+					
+					
+					
+					//ownedattributes -> get parent xmi id (element)
+					//lowervalue & uppervalue
+				}
+				    
+			}
 		}
 		
 		void getAllASMAAssociations()

@@ -22,21 +22,28 @@ namespace MagicdrawMigrator
 		public override void correct()
 		{
 			EAOutputLogger.log(this.model,this.outputName
-	                   ,string.Format("{0} Starting fix associations'"
+	                   ,string.Format("{0} Starting fix multiplicities'"
 	                                  ,DateTime.Now.ToLongTimeString())
 	                   ,0
 	                   ,LogTypeEnum.log);
 			
+			// get all the associations
+			foreach (MDAssociation mdAssociation in magicDrawReader.allAssociations) 
+			{
+				
+			}
+			
+			// no multiplicities
 			
 			
 		
 			
-			
+			// incorrect multiplicities
 			
 			
 			//Log finished
 			EAOutputLogger.log(this.model,this.outputName
-	                   ,string.Format("{0} Finished fix associations"
+	                   ,string.Format("{0} Finished fix multiplicities"
 	                                  ,DateTime.Now.ToLongTimeString())
 	                   ,0
 	                  ,LogTypeEnum.log);
