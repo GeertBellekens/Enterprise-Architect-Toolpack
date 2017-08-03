@@ -387,19 +387,103 @@ namespace MagicdrawMigrator
 				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
 				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");	
 				
-				// eerst packagedElements zoeken dan de ownedattributes
-				foreach (XmlNode ownedAttributeNode in sourceFile.SelectNodes("//ownedAttribute[@xmi:type='uml:Property' and @association", nsMgr))
+				// each class element
+				var mdSourceEnd = new MDAssociationEnd();
+				foreach (XmlNode elementNode in sourceFile.SelectNodes(".//packagedElement [@xmi:type='uml:Class']", nsMgr))
 				{
-				    MDAssociationEnd mdTargetEnd = null;
-					MDAssociationEnd mdSourceEnd = null;  
+					string name = string.Empty;
+					string sourceID = string.Empty;
+					
+					XmlAttribute nameAttribute = elementNode.Attributes["name"];
+					name = nameAttribute != null ? nameAttribute.Value: string.Empty;
+					XmlAttribute IDAttribute = elementNode.Attributes["xmi:id"];
+					sourceID = IDAttribute != null ? IDAttribute.Value: string.Empty;
+					mdSourceEnd.name = name;
+					mdSourceEnd.endClassID = sourceID;
 					
 					
+					//XmlNode sourceEndNode = null;
+					foreach (XmlNode attributeNode in elementNode.SelectNodes(".//ownedAttribute [@xmi:type='uml:Property' and (@association) and (@type)]", nsMgr))
+					{
+						// source
+						string lowerBound = string.Empty;
+						string upperBound = string.Empty;
+						string associationName = string.Empty;
+						
+						//get the name
+						XmlAttribute associationNameAttribute = attributeNode.Attributes["name"];
+						associationName = associationNameAttribute != null ? associationNameAttribute.Value: string.Empty;						
 					
-					//ownedattributes -> get parent xmi id (element)
-					//lowervalue & uppervalue
+						//get the lowerBound
+						XmlNode lowerBoundNode = attributeNode.SelectSingleNode(".//lowerValue");
+						if (lowerBoundNode != null)
+						{
+							XmlAttribute valueAttribute = lowerBoundNode.Attributes["value"];
+							lowerBound = valueAttribute != null ? valueAttribute.Value: "0";
+						}
+						//get the upperBound
+						XmlNode upperBoundNode = attributeNode.SelectSingleNode(".//upperValue");
+						if (upperBoundNode != null)
+						{
+							XmlAttribute valueAttribute = upperBoundNode.Attributes["value"];
+							upperBound = valueAttribute != null ? valueAttribute.Value: string.Empty;
+						}
+						
+						mdSourceEnd.lowerBound = lowerBound;
+						mdSourceEnd.upperBound = upperBound;
+						
+						//get the type
+						string type = string.Empty;
+						XmlAttribute typeAttribute = attributeNode.Attributes["type"];
+						type = typeAttribute != null ? typeAttribute.Value: string.Empty;
+						
+						var mdTargetEnd = new MDAssociationEnd();
+						mdTargetEnd.endClassID = type;
+				
+						XmlNode targetNode = sourceFile.SelectSingleNode("//packagedElement [@xmi:id='" + type + "']", nsMgr);
+						if (targetNode != null)
+						{
+							string targetName = string.Empty;
+							string targetLowerBound = string.Empty;
+							string targetUpperBound = string.Empty;
+							
+							XmlAttribute targetNameAttribute = targetNode.Attributes["name"];
+							targetName = targetNameAttribute != null ? nameAttribute.Value: string.Empty;
+							
+							//get the lowerBound
+							XmlNode targetLowerBoundNode = targetNode.SelectSingleNode(".//lowerValue");
+							if (targetLowerBoundNode != null)
+							{
+								XmlAttribute valueAttribute = targetLowerBoundNode.Attributes["value"];
+								targetLowerBound = valueAttribute != null ? valueAttribute.Value: "0";
+							}
+							//get the upperBound
+							XmlNode targetUpperBoundNode = targetNode.SelectSingleNode(".//upperValue");
+							if (targetUpperBoundNode != null)
+							{
+								XmlAttribute valueAttribute = targetUpperBoundNode.Attributes["value"];
+								targetUpperBound = valueAttribute != null ? valueAttribute.Value: string.Empty;
+							}
+							mdTargetEnd.name = targetName;
+							mdTargetEnd.lowerBound = targetLowerBound;
+							mdTargetEnd.upperBound = targetUpperBound;
+						}
+						
+						
+						//create the association
+						if (mdSourceEnd != null 
+						    && mdTargetEnd != null)
+						{
+							var newAssocation = new MDAssociation(mdSourceEnd,mdTargetEnd);
+							newAssocation.name = associationName;
+							foundAssociations.Add(newAssocation);
+						}
+					}
 				}
-				    
+
 			}
+				//set the collection to the found associations
+			_allAssociations = foundAssociations;
 		}
 		
 		void getAllASMAAssociations()

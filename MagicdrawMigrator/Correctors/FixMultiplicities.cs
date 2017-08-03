@@ -30,15 +30,26 @@ namespace MagicdrawMigrator
 			// get all the associations
 			foreach (MDAssociation mdAssociation in magicDrawReader.allAssociations) 
 			{
+				//find the source class
+				var sourceClass = this.getClassByMDid(mdAssociation.source.endClassID);
+				//find the target class
+				var targetClass = this.getClassByMDid(mdAssociation.target.endClassID);
+				
+				if (sourceClass != null && targetClass != null)
+				{
+					EAOutputLogger.log(this.model,this.outputName
+	                   ,string.Format("{0} Correcting association between '{1}' and '{2}'"
+	                                  ,DateTime.Now.ToLongTimeString()
+	                                 ,sourceClass.name
+	                                 ,targetClass.name)
+	                   ,sourceClass.id
+	                  ,LogTypeEnum.log);
+					
+				}
 				
 			}
 			
-			// no multiplicities
-			
-			
 		
-			
-			// incorrect multiplicities
 			
 			
 			//Log finished
@@ -48,6 +59,18 @@ namespace MagicdrawMigrator
 	                   ,0
 	                  ,LogTypeEnum.log);
 			
+		}
+		
+		
+		
+		TSF_EA.Class getClassByMDid(string mdID)
+		{
+			string getClassesSQL = @"select o.Object_ID from (t_object o
+									inner join t_objectproperties tv on (tv.Object_ID = o.Object_ID
+															and tv.Property = 'md_guid'))
+									where o.Object_Type = 'Class'
+									and tv.Value = '"+mdID+"'";
+			return this.model.getElementWrappersByQuery(getClassesSQL).FirstOrDefault() as TSF_EA.Class;
 		}
 		
 	}
