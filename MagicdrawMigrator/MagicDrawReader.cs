@@ -389,7 +389,7 @@ namespace MagicdrawMigrator
 				
 				// each class element
 				var mdSourceEnd = new MDAssociationEnd();
-				foreach (XmlNode elementNode in sourceFile.SelectNodes(".//packagedElement [@xmi:type='uml:Class']", nsMgr))
+				foreach (XmlNode elementNode in sourceFile.SelectNodes("//packagedElement [@xmi:type='uml:Class']", nsMgr))
 				{
 					string name = string.Empty;
 					string sourceID = string.Empty;
@@ -441,33 +441,7 @@ namespace MagicdrawMigrator
 						mdTargetEnd.endClassID = type;
 				
 						XmlNode targetNode = sourceFile.SelectSingleNode("//packagedElement [@xmi:id='" + type + "']", nsMgr);
-						if (targetNode != null)
-						{
-							string targetName = string.Empty;
-							string targetLowerBound = string.Empty;
-							string targetUpperBound = string.Empty;
-							
-							XmlAttribute targetNameAttribute = targetNode.Attributes["name"];
-							targetName = targetNameAttribute != null ? nameAttribute.Value: string.Empty;
-							
-							//get the lowerBound
-							XmlNode targetLowerBoundNode = targetNode.SelectSingleNode(".//lowerValue");
-							if (targetLowerBoundNode != null)
-							{
-								XmlAttribute valueAttribute = targetLowerBoundNode.Attributes["value"];
-								targetLowerBound = valueAttribute != null ? valueAttribute.Value: "0";
-							}
-							//get the upperBound
-							XmlNode targetUpperBoundNode = targetNode.SelectSingleNode(".//upperValue");
-							if (targetUpperBoundNode != null)
-							{
-								XmlAttribute valueAttribute = targetUpperBoundNode.Attributes["value"];
-								targetUpperBound = valueAttribute != null ? valueAttribute.Value: string.Empty;
-							}
-							mdTargetEnd.name = targetName;
-							mdTargetEnd.lowerBound = targetLowerBound;
-							mdTargetEnd.upperBound = targetUpperBound;
-						}
+						
 						
 						
 						//create the association
@@ -477,6 +451,7 @@ namespace MagicdrawMigrator
 							var newAssocation = new MDAssociation(mdSourceEnd,mdTargetEnd);
 							newAssocation.name = associationName;
 							foundAssociations.Add(newAssocation);
+							
 						}
 					}
 				}
