@@ -36,6 +36,8 @@ namespace MagicdrawMigrator
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string, MDElementRelation> _allCrossMDzipRelations;
 		Dictionary<string,XmlDocument> _sourceFiles;
+		List<MDNote> _allNotes;
+		
 		Dictionary<string,XmlDocument> sourceFiles
 		{
 			get
@@ -104,6 +106,20 @@ namespace MagicdrawMigrator
 				return _allCrossMDzipRelations;
 			}
 		}
+		
+		
+		public List<MDNote> allNotes
+		{
+			get
+			{
+				if (_allNotes == null)
+				{
+					this.getAllNotes();
+				}
+				return _allNotes;
+			}
+		}
+		
 		public List<MDDependency> allAttDependencies
 		{
 			get
@@ -459,6 +475,13 @@ namespace MagicdrawMigrator
 			}
 				//set the collection to the found associations
 			_allAssociations = foundAssociations;
+		}
+		
+		void getAllNotes()
+		{
+			var foundNotes = new List<MDNote>();
+			
+			_allNotes = foundNotes;
 		}
 		
 		void getAllASMAAssociations()

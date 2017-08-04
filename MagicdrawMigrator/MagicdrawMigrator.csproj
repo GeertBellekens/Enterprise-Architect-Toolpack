@@ -92,6 +92,7 @@
     <Compile Include="UML\MDElementRelation.cs" />
     <Compile Include="UML\MDFragment.cs" />
     <Compile Include="UML\MDMessage.cs" />
+    <Compile Include="UML\MDNote.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
