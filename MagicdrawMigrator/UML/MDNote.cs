@@ -10,9 +10,15 @@ namespace MagicdrawMigrator
 	public class MDNote
 	{
 		public string text {get;set;}
+		public string linkedElement {get;set;}
 		
-		public MDNote()
+		public MDNote(string text,string linkedElement)
 		{
+			this.text = text;
+			this.linkedElement = linkedElement;
 		}
+		
+		
+
 	}
 }

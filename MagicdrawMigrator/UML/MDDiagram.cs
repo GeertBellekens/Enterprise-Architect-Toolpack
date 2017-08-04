@@ -10,12 +10,17 @@ namespace MagicdrawMigrator
 	public class MDDiagram
 	{
 		public string name {get;set;}
+		List<MDDiagramObject> _diagramObjects;
+		List<MDNote> _diagramNotes;
+		
 		public MDDiagram(string name)
 		{
 			this.name = name;
 			_diagramObjects = new List<MDDiagramObject>();
+			_diagramNotes = new List<MDNote>();
+			
 		}
-		List<MDDiagramObject> _diagramObjects;
+		
 		public List<MDDiagramObject> diagramObjects 
 		{
 			get 
@@ -27,9 +32,27 @@ namespace MagicdrawMigrator
 				_diagramObjects = value;
 			}
 		}
+		
+		public List<MDNote> diagramNotes
+		{
+			get 
+			{
+				return _diagramNotes;
+			}
+			set 
+			{
+				_diagramNotes = value;
+			}
+		}
+		
 		public void addDiagramObject(MDDiagramObject diagramObject)
 		{
 			this.diagramObjects.Add(diagramObject);
+		}
+		
+		public void addDiagramNote(MDNote diagramNote)
+		{
+			this.diagramNotes.Add(diagramNote);
 		}
 		
 	}

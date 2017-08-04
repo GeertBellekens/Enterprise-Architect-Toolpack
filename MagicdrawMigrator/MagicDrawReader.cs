@@ -36,8 +36,7 @@ namespace MagicdrawMigrator
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string, MDElementRelation> _allCrossMDzipRelations;
 		Dictionary<string,XmlDocument> _sourceFiles;
-		List<MDNote> _allNotes;
-		
+	
 		Dictionary<string,XmlDocument> sourceFiles
 		{
 			get
@@ -108,17 +107,7 @@ namespace MagicdrawMigrator
 		}
 		
 		
-		public List<MDNote> allNotes
-		{
-			get
-			{
-				if (_allNotes == null)
-				{
-					this.getAllNotes();
-				}
-				return _allNotes;
-			}
-		}
+		
 		
 		public List<MDDependency> allAttDependencies
 		{
@@ -475,13 +464,6 @@ namespace MagicdrawMigrator
 			}
 				//set the collection to the found associations
 			_allAssociations = foundAssociations;
-		}
-		
-		void getAllNotes()
-		{
-			var foundNotes = new List<MDNote>();
-			
-			_allNotes = foundNotes;
 		}
 		
 		void getAllASMAAssociations()
@@ -865,6 +847,7 @@ namespace MagicdrawMigrator
 									//get the umlType of the elementNode
 									XmlAttribute umlTypeAttribute = diagramObjectNode.Attributes["elementClass"];
 									string umlType = umlTypeAttribute != null ? umlTypeAttribute.Value : string.Empty;
+									
 									if (!string.IsNullOrEmpty(elementID)
 									   || umlType == "Split")
 									{
@@ -874,26 +857,63 @@ namespace MagicdrawMigrator
 										    && ! string.IsNullOrEmpty(geometryNode.InnerText))
 										{
 											if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
-											var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
-											currentDiagram.addDiagramObject(diagramObject);
-											if (umlType == "Split")
+											
+											//handle the notes
+											if(umlType == "Note")
 											{
-												XmlNode fragmentNode = diagramObjectNode.ParentNode.ParentNode;
-												if (fragmentNode.Name == "mdElement")
+												//get the text
+												string text = string.Empty;
+												var textNode = diagramObjectNode.SelectSingleNode(".//text");
+												if (textNode != null
+										    	&& ! string.IsNullOrEmpty(textNode.InnerText))
 												{
-													//get the id of the fragment
-													string fragmentID = getElementID(fragmentNode);
-													if (! string.IsNullOrEmpty(fragmentID))
+													text = textNode.InnerText;
+												}
+												
+												//get the linked element
+												string linkedElement = string.Empty;
+												var linkedElementNode = diagramObjectNode.SelectSingleNode(".//elementID");
+												if (linkedElementNode != null)
+												{
+													XmlAttribute linkedElementAttribute = linkedElementNode.Attributes["href"];
+													string fullHrefValue = linkedElementAttribute != null ? linkedElementAttribute.Value : string.Empty;
+													//get the part after the # sign
+													var splittedHref = fullHrefValue.Split('#');
+													if (splittedHref.Count() == 2)
 													{
-														//find the corresponding diagramObject from the current diagram
-														var fragmentDiagramObject = currentDiagram.diagramObjects.FirstOrDefault (x => x.mdID.Equals(fragmentID,StringComparison.CurrentCultureIgnoreCase));
-														if (fragmentDiagramObject != null)
+														linkedElement = splittedHref[1];
+													}
+												}
+
+												var note = new MDNote(text,linkedElement);
+												currentDiagram.addDiagramNote(note);
+											}
+											
+												var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
+												currentDiagram.addDiagramObject(diagramObject);
+												
+												if (umlType == "Split")
+												{
+													XmlNode fragmentNode = diagramObjectNode.ParentNode.ParentNode;
+													if (fragmentNode.Name == "mdElement")
+													{
+														//get the id of the fragment
+														string fragmentID = getElementID(fragmentNode);
+														if (! string.IsNullOrEmpty(fragmentID))
 														{
-															fragmentDiagramObject.ownedSplits.Add(diagramObject);
+															//find the corresponding diagramObject from the current diagram
+															var fragmentDiagramObject = currentDiagram.diagramObjects.FirstOrDefault (x => x.mdID.Equals(fragmentID,StringComparison.CurrentCultureIgnoreCase));
+															if (fragmentDiagramObject != null)
+															{
+																fragmentDiagramObject.ownedSplits.Add(diagramObject);
+															}
 														}
 													}
 												}
-											}
+											
+
+											
+
 										}
 									}
 								}

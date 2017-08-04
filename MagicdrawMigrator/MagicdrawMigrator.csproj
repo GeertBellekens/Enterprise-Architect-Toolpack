@@ -83,7 +83,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UML\MDAssociation.cs" />
-    <Compile Include="UML\MDAssociationEnd.cs" />
+    <Compile Include="UML\MDAssociationEnd.cs">
+      <DependentUpon>MDAssociation.cs</DependentUpon>
+    </Compile>
     <Compile Include="UML\MDAttribute.cs" />
     <Compile Include="UML\MDConstraint.cs" />
     <Compile Include="UML\MDDependency.cs" />
