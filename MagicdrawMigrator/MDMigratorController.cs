@@ -77,6 +77,9 @@ namespace MagicdrawMigrator
 				correctors.Add(new MigrateDependencyMatrix(magicDrawReader,model, mdPackage));
 				correctors.Add(new FixAssociations(magicDrawReader, model, mdPackage));
 				correctors.Add(new FixMultiplicities(magicDrawReader, model, mdPackage));
+
+				correctors.Add(new FixNavigabilityOnAssociations(magicDrawReader, model, mdPackage));
+				
 			}
 		}
 		public TSF_EA.Package getMagicDrawPackage()
