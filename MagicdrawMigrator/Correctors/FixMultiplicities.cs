@@ -28,26 +28,26 @@ namespace MagicdrawMigrator
 	                   ,LogTypeEnum.log);
 			
 			// get all the associations
-			foreach (MDAssociation mdAssociation in magicDrawReader.allAssociations) 
-			{
-				//find the source class
-				var sourceClass = this.getClassByMDid(mdAssociation.source.endClassID);
-				//find the target class
-				var targetClass = this.getClassByMDid(mdAssociation.target.endClassID);
-				
-				if (sourceClass != null && targetClass != null)
-				{
-					EAOutputLogger.log(this.model,this.outputName
-	                   ,string.Format("{0} Correcting association between '{1}' and '{2}'"
-	                                  ,DateTime.Now.ToLongTimeString()
-	                                 ,sourceClass.name
-	                                 ,targetClass.name)
-	                   ,sourceClass.id
-	                  ,LogTypeEnum.log);
-					
-				}
-				
-			}
+//			foreach (MDAssociation mdAssociation in magicDrawReader.allAssociations) 
+//			{
+//				//find the source class
+//				var sourceClass = this.getClassByMDid(mdAssociation.source.endClassID);
+//				//find the target class
+//				var targetClass = this.getClassByMDid(mdAssociation.target.endClassID);
+//				
+//				if (sourceClass != null && targetClass != null)
+//				{
+//					EAOutputLogger.log(this.model,this.outputName
+//	                   ,string.Format("{0} Correcting association between '{1}' and '{2}'"
+//	                                  ,DateTime.Now.ToLongTimeString()
+//	                                 ,sourceClass.name
+//	                                 ,targetClass.name)
+//	                   ,sourceClass.id
+//	                  ,LogTypeEnum.log);
+//					
+//				}
+//				
+//			}
 			
 		
 			

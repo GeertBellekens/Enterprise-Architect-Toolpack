@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Correctors\AddClassifiersToPartitions.cs" />
     <Compile Include="Correctors\AddCrossMDzipRelationsCorrector.cs" />
+    <Compile Include="Correctors\AddGuardConditions.cs" />
     <Compile Include="Correctors\FixAssociations.cs" />
     <Compile Include="Correctors\ASMAAssociationCorrector.cs" />
     <Compile Include="Correctors\AssociationTableCorrector.cs" />

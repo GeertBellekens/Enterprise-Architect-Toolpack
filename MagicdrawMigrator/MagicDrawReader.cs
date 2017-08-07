@@ -25,7 +25,7 @@ namespace MagicdrawMigrator
 		Dictionary<string,MDAssociation> _allAssociations;
 		Dictionary<string,MDAssociationEnd> _allAttributeAssociationRoles;
 		List<MDAssociation> _allASMAAssociations;
-		List<MDAssociation> _allAssociations;
+		//List<MDAssociation> _allAssociations;
 		Dictionary<string,string> _allLinkedAssociationTables;
 		Dictionary<string, MDDiagram> _allDiagrams;
 		Dictionary<string, string> _allObjects;
@@ -280,17 +280,17 @@ namespace MagicdrawMigrator
 			}
 		}
 		
-			public List<MDAssociation> allAssociations
-		{
-			get
-			{
-				if (_allAssociations == null)
-				{
-					this.getAllAssociations();
-				}
-				return _allAssociations;
-			}
-		}
+//			public List<MDAssociation> allAssociations
+//		{
+//			get
+//			{
+//				if (_allAssociations == null)
+//				{
+//					this.getAllAssociations();
+//				}
+//				return _allAssociations;
+//			}
+//		}
 		
 		public List<MDConstraint> getContraints(string MDElementID)
 		{
@@ -419,88 +419,88 @@ namespace MagicdrawMigrator
 			_allFragments = foundFragments;
 		}
 		
-		void getAllAssociations()
-		{
-			var foundAssociations = new List<MDAssociation>();
-			foreach (var sourceFile in this.sourceFiles.Values)
-			{
-				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
-				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
-				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");	
-				
-				// each class element
-				var mdSourceEnd = new MDAssociationEnd();
-				foreach (XmlNode elementNode in sourceFile.SelectNodes("//packagedElement [@xmi:type='uml:Class']", nsMgr))
-				{
-					string name = string.Empty;
-					string sourceID = string.Empty;
-					
-					XmlAttribute nameAttribute = elementNode.Attributes["name"];
-					name = nameAttribute != null ? nameAttribute.Value: string.Empty;
-					XmlAttribute IDAttribute = elementNode.Attributes["xmi:id"];
-					sourceID = IDAttribute != null ? IDAttribute.Value: string.Empty;
-					mdSourceEnd.name = name;
-					mdSourceEnd.endClassID = sourceID;
-					
-					
-					//XmlNode sourceEndNode = null;
-					foreach (XmlNode attributeNode in elementNode.SelectNodes(".//ownedAttribute [@xmi:type='uml:Property' and (@association) and (@type)]", nsMgr))
-					{
-						// source
-						string lowerBound = string.Empty;
-						string upperBound = string.Empty;
-						string associationName = string.Empty;
-						
-						//get the name
-						XmlAttribute associationNameAttribute = attributeNode.Attributes["name"];
-						associationName = associationNameAttribute != null ? associationNameAttribute.Value: string.Empty;						
-					
-						//get the lowerBound
-						XmlNode lowerBoundNode = attributeNode.SelectSingleNode(".//lowerValue");
-						if (lowerBoundNode != null)
-						{
-							XmlAttribute valueAttribute = lowerBoundNode.Attributes["value"];
-							lowerBound = valueAttribute != null ? valueAttribute.Value: "0";
-						}
-						//get the upperBound
-						XmlNode upperBoundNode = attributeNode.SelectSingleNode(".//upperValue");
-						if (upperBoundNode != null)
-						{
-							XmlAttribute valueAttribute = upperBoundNode.Attributes["value"];
-							upperBound = valueAttribute != null ? valueAttribute.Value: string.Empty;
-						}
-						
-						mdSourceEnd.lowerBound = lowerBound;
-						mdSourceEnd.upperBound = upperBound;
-						
-						//get the type
-						string type = string.Empty;
-						XmlAttribute typeAttribute = attributeNode.Attributes["type"];
-						type = typeAttribute != null ? typeAttribute.Value: string.Empty;
-						
-						var mdTargetEnd = new MDAssociationEnd();
-						mdTargetEnd.endClassID = type;
-				
-						XmlNode targetNode = sourceFile.SelectSingleNode("//packagedElement [@xmi:id='" + type + "']", nsMgr);
-						
-						
-						
-						//create the association
-						if (mdSourceEnd != null 
-						    && mdTargetEnd != null)
-						{
-							var newAssocation = new MDAssociation(mdSourceEnd,mdTargetEnd);
-							newAssocation.name = associationName;
-							foundAssociations.Add(newAssocation);
-							
-						}
-					}
-				}
-
-			}
-				//set the collection to the found associations
-			_allAssociations = foundAssociations;
-		}
+//		void getAllAssociations()
+//		{
+//			var foundAssociations = new List<MDAssociation>();
+//			foreach (var sourceFile in this.sourceFiles.Values)
+//			{
+//				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+//				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+//				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");	
+//				
+//				// each class element
+//				var mdSourceEnd = new MDAssociationEnd();
+//				foreach (XmlNode elementNode in sourceFile.SelectNodes("//packagedElement [@xmi:type='uml:Class']", nsMgr))
+//				{
+//					string name = string.Empty;
+//					string sourceID = string.Empty;
+//					
+//					XmlAttribute nameAttribute = elementNode.Attributes["name"];
+//					name = nameAttribute != null ? nameAttribute.Value: string.Empty;
+//					XmlAttribute IDAttribute = elementNode.Attributes["xmi:id"];
+//					sourceID = IDAttribute != null ? IDAttribute.Value: string.Empty;
+//					mdSourceEnd.name = name;
+//					mdSourceEnd.endClassID = sourceID;
+//					
+//					
+//					//XmlNode sourceEndNode = null;
+//					foreach (XmlNode attributeNode in elementNode.SelectNodes(".//ownedAttribute [@xmi:type='uml:Property' and (@association) and (@type)]", nsMgr))
+//					{
+//						// source
+//						string lowerBound = string.Empty;
+//						string upperBound = string.Empty;
+//						string associationName = string.Empty;
+//						
+//						//get the name
+//						XmlAttribute associationNameAttribute = attributeNode.Attributes["name"];
+//						associationName = associationNameAttribute != null ? associationNameAttribute.Value: string.Empty;						
+//					
+//						//get the lowerBound
+//						XmlNode lowerBoundNode = attributeNode.SelectSingleNode(".//lowerValue");
+//						if (lowerBoundNode != null)
+//						{
+//							XmlAttribute valueAttribute = lowerBoundNode.Attributes["value"];
+//							lowerBound = valueAttribute != null ? valueAttribute.Value: "0";
+//						}
+//						//get the upperBound
+//						XmlNode upperBoundNode = attributeNode.SelectSingleNode(".//upperValue");
+//						if (upperBoundNode != null)
+//						{
+//							XmlAttribute valueAttribute = upperBoundNode.Attributes["value"];
+//							upperBound = valueAttribute != null ? valueAttribute.Value: string.Empty;
+//						}
+//						
+//						mdSourceEnd.lowerBound = lowerBound;
+//						mdSourceEnd.upperBound = upperBound;
+//						
+//						//get the type
+//						string type = string.Empty;
+//						XmlAttribute typeAttribute = attributeNode.Attributes["type"];
+//						type = typeAttribute != null ? typeAttribute.Value: string.Empty;
+//						
+//						var mdTargetEnd = new MDAssociationEnd();
+//						mdTargetEnd.endClassID = type;
+//				
+//						XmlNode targetNode = sourceFile.SelectSingleNode("//packagedElement [@xmi:id='" + type + "']", nsMgr);
+//						
+//						
+//						
+//						//create the association
+//						if (mdSourceEnd != null 
+//						    && mdTargetEnd != null)
+//						{
+//							var newAssocation = new MDAssociation(mdSourceEnd,mdTargetEnd);
+//							newAssocation.name = associationName;
+//							foundAssociations.Add(newAssocation);
+//							
+//						}
+//					}
+//				}
+//
+//			}
+//				//set the collection to the found associations
+//			_allAssociations = foundAssociations;
+//		}
 		
 		void getAllASMAAssociations()
 		{
