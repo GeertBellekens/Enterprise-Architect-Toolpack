@@ -9,10 +9,11 @@ namespace MagicdrawMigrator
 	/// </summary>
 	public class MDAssociation
 	{
-		public MDAssociation(MDAssociationEnd source, MDAssociationEnd target)
+		public MDAssociation(MDAssociationEnd source, MDAssociationEnd target, string md_guid)
 		{
 			this.source = source;
 			this.target = target;
+			this.md_guid = md_guid;
 		}
 		public MDAssociation()
 		{
@@ -22,5 +23,7 @@ namespace MagicdrawMigrator
 		public MDAssociationEnd target {get;set;}
 		public string name {get;set;}
 		public string stereotype {get;set;}
+		public string md_guid {get;set;}
+		public bool isCrossMDZip {get;set;}
 	}
 }

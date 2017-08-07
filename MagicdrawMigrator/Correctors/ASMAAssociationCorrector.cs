@@ -42,18 +42,35 @@ namespace MagicdrawMigrator
 	                                 ,targetClass.name)
 	                   ,sourceClass.id
 	                  ,LogTypeEnum.log);
-					//create the actual association
-					TSF_EA.Association newAsmaAssociation = this.model.factory.createNewElement<TSF_EA.Association>(sourceClass,string.Empty);
-					//set source end properties
-					setEndProperties(newAsmaAssociation.sourceEnd, mdAssociation.source);
-					//set target end properties
-					setEndProperties(newAsmaAssociation.targetEnd, mdAssociation.target);
-					//set target class
-					newAsmaAssociation.target = targetClass;
-					//set the stereotype
-					newAsmaAssociation.addStereotype(this.model.factory.createStereotype(newAsmaAssociation,mdAssociation.stereotype));
-					//save the new association
-					newAsmaAssociation.save();
+					//check if the association already exists
+					//check if the relation doesn't exist yet
+					string sqlGetExistingRelations = @"select c.Connector_ID from (t_connector c
+												inner join t_connectortag tv on( c.Connector_ID = tv.ElementID
+															and tv.Property = 'md_guid'))
+												where tv.VALUE = '"+mdAssociation.md_guid+"'";
+					TSF_EA.Association newAsmaAssociation = this.model.getRelationsByQuery(sqlGetExistingRelations).FirstOrDefault() as TSF_EA.Association;
+					if (newAsmaAssociation == null)
+					{
+						//create the actual association
+						newAsmaAssociation = this.model.factory.createNewElement<TSF_EA.Association>(sourceClass,string.Empty);
+						//set source end properties
+						setEndProperties(newAsmaAssociation.sourceEnd, mdAssociation.source);
+						//set target end properties
+						setEndProperties(newAsmaAssociation.targetEnd, mdAssociation.target);
+						//set the target end navigable by default
+						newAsmaAssociation.targetEnd.isNavigable = true;
+						//set target class
+						newAsmaAssociation.target = targetClass;
+					}
+					if (newAsmaAssociation != null)
+					{
+						//set the stereotype
+						newAsmaAssociation.addStereotype(this.model.factory.createStereotype(newAsmaAssociation,mdAssociation.stereotype));
+						//save the new association
+						newAsmaAssociation.save();
+						//set the md_guid tagged value
+						newAsmaAssociation.addTaggedValue("md_guid",mdAssociation.md_guid);
+					}
 				}
 				else
 				{

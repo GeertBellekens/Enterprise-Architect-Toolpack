@@ -21,6 +21,9 @@ namespace MagicdrawMigrator
 		protected TSF_EA.Model model {get;set;}
 		public string outputName {get;private set;}
 		Dictionary<string,string> _allClasses;
+		Dictionary<string,MDAssociation> _allCrossMDzipAssociations;
+		Dictionary<string,MDAssociation> _allAssociations;
+		Dictionary<string,MDAssociationEnd> _allAttributeAssociationRoles;
 		List<MDAssociation> _allASMAAssociations;
 		Dictionary<string,string> _allLinkedAssociationTables;
 		Dictionary<string, MDDiagram> _allDiagrams;
@@ -90,6 +93,39 @@ namespace MagicdrawMigrator
 					//add the xml documents to the dictionary of source files
 					this._sourceFiles.Add(subDirectory.Name + "_SharedModel",xmlModel);
 				}
+			}
+		}
+		public Dictionary<string,MDAssociationEnd> allAttributeAssociationRoles
+		{
+			get
+			{
+				if (_allAttributeAssociationRoles == null)
+				{
+					this.getAllAttributeAssociationRoles();
+				}
+				return _allAttributeAssociationRoles;
+			}
+		}
+		public Dictionary<string,MDAssociation> allAssociations
+		{
+			get
+			{
+				if (_allAssociations == null)
+				{
+					this.getAllAssociations();
+				}
+				return _allAssociations;
+			}
+		}
+		public Dictionary<string,MDAssociation> allCrossMDzipAssociations
+		{
+			get
+			{
+				if (_allCrossMDzipAssociations == null)
+				{
+					this.getAllCrossMDzipAssociations();
+				}
+				return _allCrossMDzipAssociations;
 			}
 		}
 		public Dictionary<string, MDElementRelation> allCrossMDzipRelations
@@ -383,103 +419,12 @@ namespace MagicdrawMigrator
 					if (baseAssociationAttribute != null)
 					{
 						string associationID = baseAssociationAttribute.Value;
-						// then get the association itself by looking at the nodes <packagedElement> with attribute  xmi:type='uml:Association' and xmi:id= the id of the association
-						foreach (XmlNode associationNode in sourceFile.SelectNodes("//packagedElement[@xmi:id='"+associationID+"']",nsMgr))					                                                           
+						//get the association
+						if (this.allAssociations.ContainsKey(associationID))
 						{
-							XmlNode targetEndNode= null;
-							XmlNode ownedEndNode = associationNode.SelectSingleNode("./ownedEnd");
-							if (ownedEndNode != null)
-							{
-								XmlAttribute typeIDAttribute = ownedEndNode.Attributes["type"];
-								XmlAttribute endIDAttribute = ownedEndNode.Attributes["xmi:id"];
-								if (typeIDAttribute != null
-								   && endIDAttribute != null)
-								{
-									string typeID = typeIDAttribute.Value;
-									string endID = endIDAttribute.Value;
-									foreach (XmlNode memberNode in associationNode.SelectNodes("./memberEnd"))
-									{
-										XmlAttribute idRefAttribute = memberNode.Attributes["xmi:idref"];
-										if (idRefAttribute != null
-										    && !idRefAttribute.Value.Equals(endID))
-										{
-											targetEndNode = memberNode;
-										}
-										else
-										{
-											//create sourceEnd
-											mdSourceEnd = new MDAssociationEnd();
-											mdSourceEnd.aggregationKind = "shared";
-											mdSourceEnd.endClassID = typeIDAttribute.Value;
-										}
-									}
-									if (targetEndNode != null)
-									{
-										XmlAttribute idRefAttribute = targetEndNode.Attributes["xmi:idref"];
-										if (idRefAttribute != null)
-										{
-											string attributeID = idRefAttribute.Value;
-											//find the ownedAttribute node with this xmi:id
-											XmlNode attributeNode = sourceFile.SelectSingleNode("//ownedAttribute[@xmi:id='"+attributeID+"']",nsMgr);
-											if (attributeNode != null)
-											{
-												string name = string.Empty;
-												string lowerBound = string.Empty;
-												string upperBound = string.Empty;
-												string targetTypeID = string.Empty;
-												//get the name from the attribute name
-												XmlAttribute nameAttribute = attributeNode.Attributes["name"];
-												name = nameAttribute != null ? nameAttribute.Value: string.Empty;
-												//get the targeTypeID from attribute href (after the # sign) in the subnode type
-												XmlNode targetTypeNode = attributeNode.SelectSingleNode("./type");
-												if (targetTypeNode != null)
-												{
-													XmlAttribute hrefAttribute = targetTypeNode.Attributes["href"];
-													string fullHrefValue = hrefAttribute != null ? hrefAttribute.Value : string.Empty;
-													//get the part after the # sign
-													var splittedHref = fullHrefValue.Split('#');
-													if (splittedHref.Count() == 2)
-													{
-														targetTypeID = splittedHref[1];
-													}
-												}
-												//get the lowerBound
-												XmlNode lowerBoundNode = attributeNode.SelectSingleNode(".//lowerValue");
-												if (lowerBoundNode != null)
-												{
-													XmlAttribute valueAttribute = lowerBoundNode.Attributes["value"];
-													lowerBound = valueAttribute != null ? valueAttribute.Value: "0";
-												}
-												//get the lowerBound
-												XmlNode upperBoundNode = attributeNode.SelectSingleNode(".//upperValue");
-												if (upperBoundNode != null)
-												{
-													XmlAttribute valueAttribute = upperBoundNode.Attributes["value"];
-													upperBound = valueAttribute != null ? valueAttribute.Value: string.Empty;
-												}
-												//create the targetEnd
-												if (! string.IsNullOrEmpty(targetTypeID))
-												{
-													mdTargetEnd = new MDAssociationEnd();
-													mdTargetEnd.name = name;
-													mdTargetEnd.lowerBound = lowerBound;
-													mdTargetEnd.upperBound = upperBound;
-													mdTargetEnd.endClassID = targetTypeID;
-												}
-											}
-											
-										}
-									}
-									//create the association
-									if (mdSourceEnd != null 
-									    && mdTargetEnd != null)
-									{
-										var newASMAAssocation = new MDAssociation(mdSourceEnd,mdTargetEnd);
-										newASMAAssocation.stereotype = "ASMA";
-										foundAssociations.Add( newASMAAssocation);
-									}
-								}
-							}						
+							var newASMAAssocation = allAssociations[associationID];
+							newASMAAssocation.stereotype = "ASMA";
+							foundAssociations.Add( newASMAAssocation);
 						}
 					}
 				} 
@@ -488,7 +433,80 @@ namespace MagicdrawMigrator
 			//set the collection to the found associations
 			_allASMAAssociations = foundAssociations;
 		}
-
+		void getAllAssociations()
+		{
+			var foundAssociations = new Dictionary<string,MDAssociation>();
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				
+				// then get the association itself by looking at the nodes <packagedElement> with attribute  xmi:type='uml:Association' and xmi:id= the id of the association
+				foreach (XmlNode associationNode in sourceFile.SelectNodes("//packagedElement[@xmi:type='uml:Association']",nsMgr))					                                                           
+				{
+					//initialize
+					MDAssociationEnd mdTargetEnd = null;
+					MDAssociationEnd mdSourceEnd = null;
+					bool isCrossMDZip = false;
+					//loop membernodes
+					foreach (XmlNode memberNode in associationNode.SelectNodes("./memberEnd"))
+					{
+						MDAssociationEnd associationEnd = null;
+						//check if memberNode is foreign
+						if (this.isForeign(memberNode)) isCrossMDZip = true;
+						//check if the membernode is an ownedEnd of the association
+						string memberID = this.getID(memberNode);
+						XmlNode ownedEndNode = associationNode.SelectSingleNode("./ownedEnd[@xmi:id='"+memberID+"']",nsMgr);
+						if (ownedEndNode != null)
+						{
+							associationEnd = this.createAssociationEnd(ownedEndNode);
+						}
+						else
+						{
+							//we look for the ownedAttribute
+							if (this.allAttributeAssociationRoles.ContainsKey(memberID))
+							{
+								associationEnd = allAttributeAssociationRoles[memberID];
+							}
+						}
+						//set the crossMDzip value
+						if (associationEnd != null)
+						{
+							if (associationEnd.hasForeignType) isCrossMDZip = true;
+							if (mdSourceEnd == null)
+							{
+								mdSourceEnd = associationEnd;
+							}
+							else
+							{
+								mdTargetEnd = associationEnd;
+								mdTargetEnd.isNavigable = true; //set the target navigable per default
+							}
+						}
+					}
+					//create the association
+					if (mdSourceEnd != null 
+					    && mdTargetEnd != null)
+					{
+						var newAssociation = new MDAssociation(mdSourceEnd,mdTargetEnd,this.getID(associationNode));
+						newAssociation.isCrossMDZip = isCrossMDZip;
+						foundAssociations.Add(newAssociation.md_guid,newAssociation);
+					}
+				}
+			}
+			this._allAssociations = foundAssociations;
+		}
+		void getAllCrossMDzipAssociations()
+		{
+			var foundAssociations = new Dictionary<string,MDAssociation>();
+			foreach (var crossAssociationKeyValue in this.allAssociations.Where(
+											x => x.Value.isCrossMDZip ))
+			{
+				foundAssociations.Add(crossAssociationKeyValue.Key, crossAssociationKeyValue.Value);
+			}
+			this._allCrossMDzipAssociations = foundAssociations;
+		}
 		void getAllMessages()
 		{
 			var foundMessages = new List<MDMessage>();
@@ -795,6 +813,17 @@ namespace MagicdrawMigrator
 			_allDiagrams = foundDiagrams;
 		}
 		
+		/// <summary>
+		/// checks if a node is defined in another mdzip file
+		/// </summary>
+		/// <param name="node">the node to check</param>
+		/// <returns>true if the attribute href is found indicating that this node is defined in another file</returns>
+		bool isForeign(XmlNode node)
+		{
+			//if it has a href attribute then it is foreign (and defined in another mdzip file
+			XmlAttribute hrefAttribute = node.Attributes["href"];
+			return hrefAttribute != null;
+		}
 		string getID(XmlNode node)
 		{
 			string elementID = string.Empty;
@@ -817,7 +846,15 @@ namespace MagicdrawMigrator
 				{
 					//check the "xmi:idref attribute
 					XmlAttribute idRefAttribute = node.Attributes["xmi:idref"];
-					if (idRefAttribute != null) elementID = idRefAttribute.Value;
+					if (idRefAttribute == null)
+					{
+						//check the xmi:id attribute
+						idRefAttribute = node.Attributes["xmi:id"];
+					}
+					if (idRefAttribute != null) 
+					{
+						elementID = idRefAttribute.Value;
+					}
 				}
 			}
 			
@@ -1046,7 +1083,79 @@ namespace MagicdrawMigrator
 			return contains;
 		}
 		
+		void getAllAttributeAssociationRoles()
+		{
+			var foundAttributeAssociationRoles = new Dictionary<string,MDAssociationEnd>();
+			
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");	
+				
+				foreach (XmlNode attributeRoleNode in sourceFile.SelectNodes("//ownedAttribute[@xmi:type='uml:Property' and @association]", nsMgr))
+				{
+					//get the id
+					string roleMDGuid = this.getID(attributeRoleNode);
+					var newAssociationEnd = this.createAssociationEnd(attributeRoleNode);
+					if (! string.IsNullOrEmpty(roleMDGuid) && newAssociationEnd != null)
+					{
+						newAssociationEnd.isNavigable = true;//per default ownedAttributes are always navigable
+						foundAttributeAssociationRoles.Add(roleMDGuid,newAssociationEnd);
+					}
+				}				
+				
+			}
+			_allAttributeAssociationRoles = foundAttributeAssociationRoles;
+			
+		}
 		
+		MDAssociationEnd createAssociationEnd(XmlNode roleNode)
+		{
+			string name = string.Empty;
+			string lowerBound = string.Empty;
+			string upperBound = string.Empty;
+			string targetTypeID = string.Empty;
+			string aggregationType = string.Empty;
+			bool hasForeignType = false;
+			//get the name from the attribute name
+			XmlAttribute nameAttribute = roleNode.Attributes["name"];
+			name = nameAttribute != null ? nameAttribute.Value: string.Empty;
+			//get the targeTypeID from attribute href (after the # sign) in the subnode type
+			XmlNode targetTypeNode = roleNode.SelectSingleNode("./type");
+			if (targetTypeNode != null) hasForeignType = this.isForeign(targetTypeNode);
+			targetTypeID = getID(targetTypeNode);
+			//get the lowerBound
+			XmlNode lowerBoundNode = roleNode.SelectSingleNode(".//lowerValue");
+			if (lowerBoundNode != null)
+			{
+				XmlAttribute valueAttribute = lowerBoundNode.Attributes["value"];
+				lowerBound = valueAttribute != null ? valueAttribute.Value: "0";
+			}
+			//get the upperBound
+			XmlNode upperBoundNode = roleNode.SelectSingleNode(".//upperValue");
+			if (upperBoundNode != null)
+			{
+				XmlAttribute valueAttribute = upperBoundNode.Attributes["value"];
+				upperBound = valueAttribute != null ? valueAttribute.Value: string.Empty;
+			}
+			//get the aggregationKind
+			XmlAttribute aggregationAttribute = roleNode.Attributes["aggregation"];
+			aggregationType = aggregationAttribute != null ? aggregationAttribute.Value: string.Empty;
+			if (! string.IsNullOrEmpty(targetTypeID))
+			{
+				var newAssociationEnd = new MDAssociationEnd();
+				newAssociationEnd.aggregationKind = aggregationType;
+				newAssociationEnd.endClassID = targetTypeID;
+				newAssociationEnd.lowerBound = lowerBound;
+				newAssociationEnd.upperBound = upperBound;
+				newAssociationEnd.name = name;
+				newAssociationEnd.hasForeignType = hasForeignType;
+				return newAssociationEnd;
+			}
+			//return null if target type ID not found
+			return null;
+		}
 		void getAllAttributes()
 		{
 			var foundAttributes = new List<MDAttribute>();

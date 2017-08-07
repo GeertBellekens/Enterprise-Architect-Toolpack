@@ -67,7 +67,7 @@ namespace MagicdrawMigrator
 	                  ,LogTypeEnum.log);
 					
 				}
-				else
+				else if (property.classifier != null)
 				{
 					//Create attribute with the name of the classifier
 					TSF_EA.Attribute newAttribute = this.model.factory.createNewElement<TSF_EA.Attribute>(property.owner,property.classifier.name);
@@ -76,7 +76,7 @@ namespace MagicdrawMigrator
 					newAttribute.multiplicity = property.multiplicity;
 					newAttribute.save();
 					
-						//Tell the user which attribute we created
+					//Tell the user which attribute we created
 					EAOutputLogger.log(this.model,this.outputName
 					                   	,string.Format("{0} Create attribute '{1}' with type '{2}'"
 	                                  	,DateTime.Now.ToLongTimeString()
@@ -85,10 +85,20 @@ namespace MagicdrawMigrator
 	                   ,0
 	                  ,LogTypeEnum.log);
 				}
-				
-			
-				
-				
+				else
+				{
+					//Alert the user that we couldn't create the attribute
+					EAOutputLogger.log(this.model,this.outputName
+					                   	,string.Format("{0} Could not create attribute for property with id '{1}'"
+	                                  	,DateTime.Now.ToLongTimeString()
+	                                 	,property.guid
+	                                	)
+	                   ,property.id
+	                  ,LogTypeEnum.error);
+					//stop processing
+					break;
+					
+				}	
 				//Delete property 
 				property.delete();
 			}
