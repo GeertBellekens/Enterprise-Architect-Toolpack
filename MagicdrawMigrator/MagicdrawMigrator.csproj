@@ -64,6 +64,7 @@
     <Compile Include="Correctors\ConvertPropertiesToAttributes.cs" />
     <Compile Include="Correctors\CorrectActorDependencies.cs" />
     <Compile Include="Correctors\FixMultiplicities.cs" />
+    <Compile Include="Correctors\FixNavigabilityOnAssociations.cs" />
     <Compile Include="Correctors\MigrateDependencyMatrix.cs" />
     <Compile Include="Correctors\NotesCorrector.cs" />
     <Compile Include="Correctors\SequenceDiagramCorrector.cs" />
