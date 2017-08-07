@@ -42,7 +42,7 @@ namespace MagicdrawMigrator
 //				correctors.Add(new OCLConstraintsCorrector(magicDrawReader,model,mdPackage));
 //				correctors.Add(new AssociationTableCorrector(magicDrawReader,model,mdPackage));
 //				correctors.Add(new FixCallBehaviorActionCorrector(magicDrawReader,model,mdPackage));
-				correctors.Add(new NotesCorrector(magicDrawReader, model, mdPackage));
+//				correctors.Add(new NotesCorrector(magicDrawReader, model, mdPackage));
 //				correctors.Add(new ConvertPropertiesToAttributes(magicDrawReader,model,mdPackage));
 //				correctors.Add(new SetStructureCorrector(magicDrawReader,model, mdPackage));
 //				correctors.Add(new SetStatesOnObjects(magicDrawReader,model, mdPackage));
@@ -50,12 +50,13 @@ namespace MagicdrawMigrator
 //				correctors.Add(new AddClassifiersToPartitions(magicDrawReader,model, mdPackage));
 //				correctors.Add(new ASMAAssociationCorrector(magicDrawReader,model, mdPackage));
 //				correctors.Add(new SequenceDiagramCorrector(magicDrawReader,model, mdPackage));
-				correctors.Add(new DiagramLayoutCorrector(magicDrawReader,model, mdPackage));
+//				correctors.Add(new DiagramLayoutCorrector(magicDrawReader,model, mdPackage));
 //				correctors.Add(new CorrectStereotypesAndTaggedValues(magicDrawReader,model, mdPackage));
 //				correctors.Add(new CorrectActorDependencies(magicDrawReader, model, mdPackage));
 //				correctors.Add(new MigrateDependencyMatrix(magicDrawReader,model, mdPackage));
 //				correctors.Add(new FixAssociations(magicDrawReader, model, mdPackage));
 //				correctors.Add(new FixMultiplicities(magicDrawReader, model, mdPackage));
+				correctors.Add(new FixNavigabilityOnAssociations(magicDrawReader, model, mdPackage));
 				
 			}
 		}
