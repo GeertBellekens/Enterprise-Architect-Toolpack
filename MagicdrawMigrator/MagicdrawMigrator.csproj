@@ -63,7 +63,10 @@
     <Compile Include="Correctors\AssociationTableCorrector.cs" />
     <Compile Include="Correctors\ConvertPropertiesToAttributes.cs" />
     <Compile Include="Correctors\CorrectActorDependencies.cs" />
+    <Compile Include="Correctors\FixMultiplicities.cs" />
+    <Compile Include="Correctors\FixNavigabilityOnAssociations.cs" />
     <Compile Include="Correctors\MigrateDependencyMatrix.cs" />
+    <Compile Include="Correctors\NotesCorrector.cs" />
     <Compile Include="Correctors\SequenceDiagramCorrector.cs" />
     <Compile Include="Correctors\CorrectStereotypesAndTaggedValues.cs" />
     <Compile Include="Correctors\DiagramLayoutCorrector.cs" />
@@ -81,7 +84,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UML\MDAssociation.cs" />
-    <Compile Include="UML\MDAssociationEnd.cs" />
+    <Compile Include="UML\MDAssociationEnd.cs">
+      <DependentUpon>MDAssociation.cs</DependentUpon>
+    </Compile>
     <Compile Include="UML\MDAttribute.cs" />
     <Compile Include="UML\MDConstraint.cs" />
     <Compile Include="UML\MDDependency.cs" />
@@ -90,6 +95,7 @@
     <Compile Include="UML\MDElementRelation.cs" />
     <Compile Include="UML\MDFragment.cs" />
     <Compile Include="UML\MDMessage.cs" />
+    <Compile Include="UML\MDNote.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

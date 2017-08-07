@@ -33,6 +33,7 @@ namespace MagicdrawMigrator
 									(select x.[XrefID] from (t_xref x 
 									inner join t_object o on o.[ea_guid] = x.[Client])
 									where x.name = 'CustomProperties'
+									and o.[Classifier] <> 0
 									and x.[Description] like '@PROP=@NAME=kind@ENDNAME;@TYPE=ActionKind@ENDTYPE;@VALU=CallBehavior@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;'
 									and o.[Package_ID] in ("+ packageString +"))");
 			

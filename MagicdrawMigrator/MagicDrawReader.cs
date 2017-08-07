@@ -25,6 +25,7 @@ namespace MagicdrawMigrator
 		Dictionary<string,MDAssociation> _allAssociations;
 		Dictionary<string,MDAssociationEnd> _allAttributeAssociationRoles;
 		List<MDAssociation> _allASMAAssociations;
+		List<MDAssociation> _allAssociations;
 		Dictionary<string,string> _allLinkedAssociationTables;
 		Dictionary<string, MDDiagram> _allDiagrams;
 		Dictionary<string, string> _allObjects;
@@ -38,6 +39,7 @@ namespace MagicdrawMigrator
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string, MDElementRelation> _allCrossMDzipRelations;
 		Dictionary<string,XmlDocument> _sourceFiles;
+	
 		Dictionary<string,XmlDocument> sourceFiles
 		{
 			get
@@ -139,6 +141,10 @@ namespace MagicdrawMigrator
 				return _allCrossMDzipRelations;
 			}
 		}
+		
+		
+		
+		
 		public List<MDDependency> allAttDependencies
 		{
 			get
@@ -273,6 +279,19 @@ namespace MagicdrawMigrator
 				return _allASMAAssociations;
 			}
 		}
+		
+			public List<MDAssociation> allAssociations
+		{
+			get
+			{
+				if (_allAssociations == null)
+				{
+					this.getAllAssociations();
+				}
+				return _allAssociations;
+			}
+		}
+		
 		public List<MDConstraint> getContraints(string MDElementID)
 		{
 			//check if the constraints were already read
@@ -398,6 +417,89 @@ namespace MagicdrawMigrator
 			}
 			//set the fragments
 			_allFragments = foundFragments;
+		}
+		
+		void getAllAssociations()
+		{
+			var foundAssociations = new List<MDAssociation>();
+			foreach (var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");	
+				
+				// each class element
+				var mdSourceEnd = new MDAssociationEnd();
+				foreach (XmlNode elementNode in sourceFile.SelectNodes("//packagedElement [@xmi:type='uml:Class']", nsMgr))
+				{
+					string name = string.Empty;
+					string sourceID = string.Empty;
+					
+					XmlAttribute nameAttribute = elementNode.Attributes["name"];
+					name = nameAttribute != null ? nameAttribute.Value: string.Empty;
+					XmlAttribute IDAttribute = elementNode.Attributes["xmi:id"];
+					sourceID = IDAttribute != null ? IDAttribute.Value: string.Empty;
+					mdSourceEnd.name = name;
+					mdSourceEnd.endClassID = sourceID;
+					
+					
+					//XmlNode sourceEndNode = null;
+					foreach (XmlNode attributeNode in elementNode.SelectNodes(".//ownedAttribute [@xmi:type='uml:Property' and (@association) and (@type)]", nsMgr))
+					{
+						// source
+						string lowerBound = string.Empty;
+						string upperBound = string.Empty;
+						string associationName = string.Empty;
+						
+						//get the name
+						XmlAttribute associationNameAttribute = attributeNode.Attributes["name"];
+						associationName = associationNameAttribute != null ? associationNameAttribute.Value: string.Empty;						
+					
+						//get the lowerBound
+						XmlNode lowerBoundNode = attributeNode.SelectSingleNode(".//lowerValue");
+						if (lowerBoundNode != null)
+						{
+							XmlAttribute valueAttribute = lowerBoundNode.Attributes["value"];
+							lowerBound = valueAttribute != null ? valueAttribute.Value: "0";
+						}
+						//get the upperBound
+						XmlNode upperBoundNode = attributeNode.SelectSingleNode(".//upperValue");
+						if (upperBoundNode != null)
+						{
+							XmlAttribute valueAttribute = upperBoundNode.Attributes["value"];
+							upperBound = valueAttribute != null ? valueAttribute.Value: string.Empty;
+						}
+						
+						mdSourceEnd.lowerBound = lowerBound;
+						mdSourceEnd.upperBound = upperBound;
+						
+						//get the type
+						string type = string.Empty;
+						XmlAttribute typeAttribute = attributeNode.Attributes["type"];
+						type = typeAttribute != null ? typeAttribute.Value: string.Empty;
+						
+						var mdTargetEnd = new MDAssociationEnd();
+						mdTargetEnd.endClassID = type;
+				
+						XmlNode targetNode = sourceFile.SelectSingleNode("//packagedElement [@xmi:id='" + type + "']", nsMgr);
+						
+						
+						
+						//create the association
+						if (mdSourceEnd != null 
+						    && mdTargetEnd != null)
+						{
+							var newAssocation = new MDAssociation(mdSourceEnd,mdTargetEnd);
+							newAssocation.name = associationName;
+							foundAssociations.Add(newAssocation);
+							
+						}
+					}
+				}
+
+			}
+				//set the collection to the found associations
+			_allAssociations = foundAssociations;
 		}
 		
 		void getAllASMAAssociations()
@@ -763,6 +865,7 @@ namespace MagicdrawMigrator
 									//get the umlType of the elementNode
 									XmlAttribute umlTypeAttribute = diagramObjectNode.Attributes["elementClass"];
 									string umlType = umlTypeAttribute != null ? umlTypeAttribute.Value : string.Empty;
+									
 									if (!string.IsNullOrEmpty(elementID)
 									   || umlType == "Split")
 									{
@@ -772,26 +875,63 @@ namespace MagicdrawMigrator
 										    && ! string.IsNullOrEmpty(geometryNode.InnerText))
 										{
 											if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
-											var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
-											currentDiagram.addDiagramObject(diagramObject);
-											if (umlType == "Split")
+											
+											//handle the notes
+											if(umlType == "Note")
 											{
-												XmlNode fragmentNode = diagramObjectNode.ParentNode.ParentNode;
-												if (fragmentNode.Name == "mdElement")
+												//get the text
+												string text = string.Empty;
+												var textNode = diagramObjectNode.SelectSingleNode(".//text");
+												if (textNode != null
+										    	&& ! string.IsNullOrEmpty(textNode.InnerText))
 												{
-													//get the id of the fragment
-													string fragmentID = getElementID(fragmentNode);
-													if (! string.IsNullOrEmpty(fragmentID))
+													text = textNode.InnerText;
+												}
+												
+												//get the linked element
+												string linkedElement = string.Empty;
+												var linkedElementNode = diagramObjectNode.SelectSingleNode(".//elementID");
+												if (linkedElementNode != null)
+												{
+													XmlAttribute linkedElementAttribute = linkedElementNode.Attributes["href"];
+													string fullHrefValue = linkedElementAttribute != null ? linkedElementAttribute.Value : string.Empty;
+													//get the part after the # sign
+													var splittedHref = fullHrefValue.Split('#');
+													if (splittedHref.Count() == 2)
 													{
-														//find the corresponding diagramObject from the current diagram
-														var fragmentDiagramObject = currentDiagram.diagramObjects.FirstOrDefault (x => x.mdID.Equals(fragmentID,StringComparison.CurrentCultureIgnoreCase));
-														if (fragmentDiagramObject != null)
+														linkedElement = splittedHref[1];
+													}
+												}
+
+												var note = new MDNote(text,linkedElement);
+												currentDiagram.addDiagramNote(note);
+											}
+											
+												var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
+												currentDiagram.addDiagramObject(diagramObject);
+												
+												if (umlType == "Split")
+												{
+													XmlNode fragmentNode = diagramObjectNode.ParentNode.ParentNode;
+													if (fragmentNode.Name == "mdElement")
+													{
+														//get the id of the fragment
+														string fragmentID = getElementID(fragmentNode);
+														if (! string.IsNullOrEmpty(fragmentID))
 														{
-															fragmentDiagramObject.ownedSplits.Add(diagramObject);
+															//find the corresponding diagramObject from the current diagram
+															var fragmentDiagramObject = currentDiagram.diagramObjects.FirstOrDefault (x => x.mdID.Equals(fragmentID,StringComparison.CurrentCultureIgnoreCase));
+															if (fragmentDiagramObject != null)
+															{
+																fragmentDiagramObject.ownedSplits.Add(diagramObject);
+															}
 														}
 													}
 												}
-											}
+											
+
+											
+
 										}
 									}
 								}
