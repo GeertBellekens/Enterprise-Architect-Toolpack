@@ -48,10 +48,7 @@ namespace MagicdrawMigrator
 				}
 				
 			}
-			
-		
-			
-			
+								
 			//Log finished
 			EAOutputLogger.log(this.model,this.outputName
 	                   ,string.Format("{0} Finished fix multiplicities"
