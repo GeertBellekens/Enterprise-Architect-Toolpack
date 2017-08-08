@@ -38,7 +38,7 @@ namespace MagicdrawMigrator
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string, MDElementRelation> _allCrossMDzipRelations;
 		Dictionary<string,XmlDocument> _sourceFiles;
-		Dictionary<string, MDGuard> _allGuards;
+		List<MDGuard> _allGuards;
 		
 	
 		Dictionary<string,XmlDocument> sourceFiles
@@ -109,7 +109,7 @@ namespace MagicdrawMigrator
 				return _allAttributeAssociationRoles;
 			}
 		}
-		public Dictionary<string,MDAssociation> allAssociations
+		public Dictionary<string, MDAssociation> allAssociations
 		{
 			get
 			{
@@ -121,7 +121,7 @@ namespace MagicdrawMigrator
 			}
 		}
 		
-		public Dictionary<string, MDGuard> allGuards
+		public List<MDGuard> allGuards
 		{
 			get
 			{
@@ -743,7 +743,7 @@ namespace MagicdrawMigrator
 		void getAllGuards()
 		{
 			// object MDGuard aanmaken
-			var foundGuards = new Dictionary<string, MDGuard>();
+			var foundGuards = new List<MDGuard>();
 			
 			foreach (var sourceFile in this.sourceFiles.Values) 
 			{
@@ -778,38 +778,57 @@ namespace MagicdrawMigrator
 									
 									foreach (XmlNode controlFlowNode in xmlDiagram.SelectNodes(".//mdElement [@elementClass='ControlFlow']")) 
 									{
-										//get the end object
-										string linkFirstEndID = string.Empty;
-										var endObjectNode = controlFlowNode.SelectSingleNode(".//linkFirstEndID");
-										if (endObjectNode != null)
-										{
-											XmlAttribute linkFirstEndIdAttribute = endObjectNode.Attributes["xmi:idref"];
-											linkFirstEndID = linkFirstEndIdAttribute != null ? linkFirstEndIdAttribute.Value : string.Empty;
-										}
 										
-										//get the start object 
-										string linkSecondEndID = string.Empty;
-										var startObjectNode = controlFlowNode.SelectSingleNode(".//linkSecondEndID");
-										if (startObjectNode != null)
+										// check guard condition node exists
+										var guardConditionNode = controlFlowNode.SelectSingleNode(".//text");
+										if (guardConditionNode != null)
 										{
-											XmlAttribute linkSecondEndIdAttribute = startObjectNode.Attributes["xmi:idref"];
-											linkSecondEndID = linkSecondEndID != null ? linkSecondEndIdAttribute.Value : string.Empty;
-										}
-										
-										// get the elements
-										// source MDelement by ID
-										var sourceElementNode = xmlDiagram.SelectSingleNode(".//mdElement [@xmi:id='"+ linkSecondEndID +"']", nsMgr);
-									
-											// get the MDGuid (after#)
-											if (sourceElementNode != null)
+											//get the guard condition text
+											string guardCondition = string.Empty;
+											guardCondition = guardConditionNode.InnerText;
+											
+											//get the end object
+											string linkFirstEndID = string.Empty;
+											var endObjectNode = controlFlowNode.SelectSingleNode(".//linkFirstEndID");
+											if (endObjectNode != null)
 											{
-												
+												XmlAttribute linkFirstEndIdAttribute = endObjectNode.Attributes["xmi:idref"];
+												linkFirstEndID = linkFirstEndIdAttribute != null ? linkFirstEndIdAttribute.Value : string.Empty;
 											}
+											
+											//get the start object 
+											string linkSecondEndID = string.Empty;
+											var startObjectNode = controlFlowNode.SelectSingleNode(".//linkSecondEndID");
+											if (startObjectNode != null)
+											{
+												XmlAttribute linkSecondEndIdAttribute = startObjectNode.Attributes["xmi:idref"];
+												linkSecondEndID = linkSecondEndID != null ? linkSecondEndIdAttribute.Value : string.Empty;
+											}									
 										
-										// target MDelement by ID
-										var targetElementNode = xmlDiagram.SelectSingleNode(".//mdElement [@xmi:id='"+ linkFirstEndID +"']", nsMgr);
 										
-											// get the MDGuid (after#)
+											// source MDelement by ID
+											var sourceElementNode = xmlDiagram.SelectSingleNode(".//mdElement [@xmi:id='"+ linkSecondEndID +"']", nsMgr);
+											var sourceIdNode = sourceElementNode.SelectSingleNode(".//elementID");
+											string sourceID = string.Empty;
+											sourceID = getID(sourceIdNode);
+											
+											// target MDelement by ID
+											var targetElementNode = xmlDiagram.SelectSingleNode(".//mdElement [@xmi:id='"+ linkFirstEndID +"']", nsMgr);
+											var targetIdNode = targetElementNode.SelectSingleNode(".//elementID");
+											string targetID = string.Empty;
+											targetID = getID(targetIdNode);	
+											
+											
+											var mdGuard = new MDGuard(guardCondition,sourceID, targetID);
+											foundGuards.Add(mdGuard);
+											
+										}
+										
+								
+								
+										
+										
+										
 									}
 								}
 							}

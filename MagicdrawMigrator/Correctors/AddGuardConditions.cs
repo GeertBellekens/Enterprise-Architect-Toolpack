@@ -30,8 +30,26 @@ namespace MagicdrawMigrator
 			
 			//Add the guard conditions
 			// PDATA2 For ControlFlow: Constraints/Guard property
-			foreach (var mdGuardKeyValue in magicDrawReader.allGuards) 
+			foreach (var mdGuardObject in magicDrawReader.allGuards) 
 			{
+
+				var sourceObject = getElementByMDid(mdGuardObject.sourceMdGuid);
+				var targetObject = getElementByMDid(mdGuardObject.targetMdGuid);
+				
+				if (sourceObject != null && targetObject != null)
+				{
+					EAOutputLogger.log(this.model,this.outputName
+		                   ,string.Format("{0} Add guard '{1}' between'{2}' and '{3}' "
+		                                  ,DateTime.Now.ToLongTimeString()
+		                                  ,mdGuardObject.guardCondition
+		                                  ,sourceObject.name
+		                                  ,targetObject.name)
+		                             
+		                   ,0
+		                  ,LogTypeEnum.log);
+				}
+				
+			
 				
 			}
 			
