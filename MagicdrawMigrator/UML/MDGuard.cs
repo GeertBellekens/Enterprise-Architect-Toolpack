@@ -9,8 +9,6 @@ namespace MagicdrawMigrator
 	/// </summary>
 	public class MDGuard
 	{
-		public MDGuard()
-		{
-		}
+		
 	}
 }

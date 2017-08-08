@@ -38,6 +38,7 @@ namespace MagicdrawMigrator
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string, MDElementRelation> _allCrossMDzipRelations;
 		Dictionary<string,XmlDocument> _sourceFiles;
+		Dictionary<string, MDGuard> _allGuards;
 		
 	
 		Dictionary<string,XmlDocument> sourceFiles
@@ -119,6 +120,19 @@ namespace MagicdrawMigrator
 				return _allAssociations;
 			}
 		}
+		
+		public Dictionary<string, MDGuard> allGuards
+		{
+			get
+			{
+				if (_allGuards == null)
+				{
+					this.getAllGuards();
+				}
+				return _allGuards;
+			}
+		}
+		
 		public Dictionary<string,MDAssociation> allCrossMDzipAssociations
 		{
 			get
@@ -729,10 +743,15 @@ namespace MagicdrawMigrator
 		void getAllGuards()
 		{
 			// object MDGuard aanmaken
+			var foundGuards = new Dictionary<string, MDGuard>();
 			
 			foreach (var sourceFile in this.sourceFiles.Values) 
 			{
-				foreach (XmlNode behaviourNode in sourceFile.SelectNodes("//ownedBehavior [@xmi:type='uml:Activity']"))
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				
+				foreach (XmlNode behaviourNode in sourceFile.SelectNodes("//ownedBehavior [@xmi:type='uml:Activity']", nsMgr))
 				{
 					// <ownedDiagram xmi:type='uml:Diagram'
 					foreach (XmlNode diagramNode in behaviourNode.SelectNodes(".//ownedDiagram"))
@@ -760,27 +779,37 @@ namespace MagicdrawMigrator
 									foreach (XmlNode controlFlowNode in xmlDiagram.SelectNodes(".//mdElement [@elementClass='ControlFlow']")) 
 									{
 										//get the end object
+										string linkFirstEndID = string.Empty;
 										var endObjectNode = controlFlowNode.SelectSingleNode(".//linkFirstEndID");
 										if (endObjectNode != null)
 										{
-											string linkFirstEndID = string.Empty;
-											XmlAttribute linkFirstEndIdAttribute = endObjectNode.Attributes["xmi:id"];
+											XmlAttribute linkFirstEndIdAttribute = endObjectNode.Attributes["xmi:idref"];
 											linkFirstEndID = linkFirstEndIdAttribute != null ? linkFirstEndIdAttribute.Value : string.Empty;
 										}
 										
 										//get the start object 
+										string linkSecondEndID = string.Empty;
 										var startObjectNode = controlFlowNode.SelectSingleNode(".//linkSecondEndID");
 										if (startObjectNode != null)
 										{
-											string linkSecondEndID = string.Empty;
-											XmlAttribute linkSecondEndIdAttribute = startObjectNode.Attributes["xmi:id"];
+											XmlAttribute linkSecondEndIdAttribute = startObjectNode.Attributes["xmi:idref"];
 											linkSecondEndID = linkSecondEndID != null ? linkSecondEndIdAttribute.Value : string.Empty;
 										}
 										
 										// get the elements
-										// source element
+										// source MDelement by ID
+										var sourceElementNode = xmlDiagram.SelectSingleNode(".//mdElement [@xmi:id='"+ linkSecondEndID +"']", nsMgr);
+									
+											// get the MDGuid (after#)
+											if (sourceElementNode != null)
+											{
+												
+											}
 										
-										// start
+										// target MDelement by ID
+										var targetElementNode = xmlDiagram.SelectSingleNode(".//mdElement [@xmi:id='"+ linkFirstEndID +"']", nsMgr);
+										
+											// get the MDGuid (after#)
 									}
 								}
 							}
@@ -792,6 +821,7 @@ namespace MagicdrawMigrator
 					}
 				}
 			}
+			_allGuards = foundGuards;
 		}
 		
 

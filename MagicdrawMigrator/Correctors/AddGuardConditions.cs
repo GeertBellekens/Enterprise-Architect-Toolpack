@@ -30,7 +30,10 @@ namespace MagicdrawMigrator
 			
 			//Add the guard conditions
 			// PDATA2 For ControlFlow: Constraints/Guard property
-			
+			foreach (var mdGuardKeyValue in magicDrawReader.allGuards) 
+			{
+				
+			}
 			
 			
 			//Log finished
