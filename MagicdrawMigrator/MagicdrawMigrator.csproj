@@ -95,6 +95,7 @@
     <Compile Include="UML\MDDiagramObject.cs" />
     <Compile Include="UML\MDElementRelation.cs" />
     <Compile Include="UML\MDFragment.cs" />
+    <Compile Include="UML\MDGuard.cs" />
     <Compile Include="UML\MDMessage.cs" />
     <Compile Include="UML\MDNote.cs" />
   </ItemGroup>

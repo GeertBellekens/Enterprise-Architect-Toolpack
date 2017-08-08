@@ -39,6 +39,7 @@ namespace MagicdrawMigrator
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string, MDElementRelation> _allCrossMDzipRelations;
 		Dictionary<string,XmlDocument> _sourceFiles;
+		
 	
 		Dictionary<string,XmlDocument> sourceFiles
 		{
@@ -820,6 +821,75 @@ namespace MagicdrawMigrator
 			}
 			return foundConstraints;
 		}
+		
+		void getAllGuards()
+		{
+			// object MDGuard aanmaken
+			
+			foreach (var sourceFile in this.sourceFiles.Values) 
+			{
+				foreach (XmlNode behaviourNode in sourceFile.SelectNodes("//ownedBehavior [@xmi:type='uml:Activity']"))
+				{
+					// <ownedDiagram xmi:type='uml:Diagram'
+					foreach (XmlNode diagramNode in behaviourNode.SelectNodes(".//ownedDiagram"))
+					{
+						XmlNode binaryObjectNode = diagramNode.SelectSingleNode(".//binaryObject");
+						if (binaryObjectNode != null)
+						{
+							try
+							{
+								string diagramContentFileName = binaryObjectNode.Attributes["streamContentID"].Value;
+								string sourceDirectory = Path.GetDirectoryName(sourceFile.BaseURI.Substring(8));
+								string diagramFileName = Path.Combine(sourceDirectory,diagramContentFileName);
+								
+								if (File.Exists(diagramFileName))
+								{
+									var xmlDiagram  =new XmlDocument();
+									XmlReaderSettings settings = new XmlReaderSettings { NameTable = new NameTable() };
+									XmlNamespaceManager xmlns = new XmlNamespaceManager(settings.NameTable);
+									xmlns.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+									XmlParserContext context = new XmlParserContext(null, xmlns, "", XmlSpace.Default);
+									XmlReader reader = XmlReader.Create(diagramFileName, settings, context);
+									xmlDiagram.Load(reader);
+									
+									
+									foreach (XmlNode controlFlowNode in xmlDiagram.SelectNodes(".//mdElement [@elementClass='ControlFlow']")) 
+									{
+										//get the end object
+										var endObjectNode = controlFlowNode.SelectSingleNode(".//linkFirstEndID");
+										if (endObjectNode != null)
+										{
+											string linkFirstEndID = string.Empty;
+											XmlAttribute linkFirstEndIdAttribute = endObjectNode.Attributes["xmi:id"];
+											linkFirstEndID = linkFirstEndIdAttribute != null ? linkFirstEndIdAttribute.Value : string.Empty;
+										}
+										
+										//get the start object 
+										var startObjectNode = controlFlowNode.SelectSingleNode(".//linkSecondEndID");
+										if (startObjectNode != null)
+										{
+											string linkSecondEndID = string.Empty;
+											XmlAttribute linkSecondEndIdAttribute = startObjectNode.Attributes["xmi:id"];
+											linkSecondEndID = linkSecondEndID != null ? linkSecondEndIdAttribute.Value : string.Empty;
+										}
+										
+										// get the elements
+										// source element
+										
+										// start
+									}
+								}
+							}
+							catch(NullReferenceException)
+							{
+							//do nothing, we can't do anything with bynary object nodes withotu a streamContentID
+							}
+						}
+					}
+				}
+			}
+		}
+		
 
 		void getAllDiagrams()
 		{

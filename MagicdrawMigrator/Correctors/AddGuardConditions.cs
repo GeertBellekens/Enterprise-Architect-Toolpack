@@ -29,7 +29,7 @@ namespace MagicdrawMigrator
 	                   ,LogTypeEnum.log);
 			
 			//Add the guard conditions
-			
+			// PDATA2 For ControlFlow: Constraints/Guard property
 			
 			
 			
