@@ -28,7 +28,7 @@ namespace MagicdrawMigrator
 	                   ,LogTypeEnum.log);
 			
 			// get all the associations
-			foreach (MDAssociation mdAssociation in magicDrawReader.allAssociations) 
+			foreach (MDAssociation mdAssociation in magicDrawReader.allAssociations.Values) 
 			{
 				//find the source class
 				var sourceClass = this.getClassByMDid(mdAssociation.source.endClassID);
