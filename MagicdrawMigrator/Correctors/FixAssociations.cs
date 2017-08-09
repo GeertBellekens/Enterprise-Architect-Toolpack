@@ -10,8 +10,7 @@ using System.Xml;
 namespace MagicdrawMigrator
 {
 	/// <summary>
-	/// Check if association between actor and use case are correctly displayed and if the stereotype 
-	/// 'participates' is correctly applied onto the association
+	/// Fix the (Unspecified)..(Unspecified) multiplicities on associations by setting the cardinality field to NULL in the database.
 	/// </summary>
 	public class FixAssociations:MagicDrawCorrector
 	{
@@ -22,7 +21,7 @@ namespace MagicdrawMigrator
 		public override void correct()
 		{
 			EAOutputLogger.log(this.model,this.outputName
-	                   ,string.Format("{0} Starting fix associations'"
+	                   ,string.Format("{0} Starting fix associations"
 	                                  ,DateTime.Now.ToLongTimeString())
 	                   ,0
 	                   ,LogTypeEnum.log);
@@ -30,12 +29,11 @@ namespace MagicdrawMigrator
 			
 			
 			this.model.executeSQL(@"update t_connector 
-											set [SourceCard] = NULL,
-											[DestCard] = NULL
-											where [SourceCard] = '(Unspecified)..(Unspecified)'
-											or [DestCard] = '(Unspecified)..(Unspecified)'");
-			
-			
+											set [DestCard] = NULL
+											where [DestCard] = '(Unspecified)..(Unspecified)'");
+			this.model.executeSQL(@"update t_connector 
+											set [SourceCard] = NULL
+											where [SourceCard] = '(Unspecified)..(Unspecified)'");
 			
 			
 			//Log finished
