@@ -108,11 +108,11 @@ namespace MagicdrawMigrator
 						setEndProperties(newCrossAssociation.sourceEnd, mdAssociation.source);
 						//set target end properties
 						setEndProperties(newCrossAssociation.targetEnd, mdAssociation.target);
-						//set the target end navigable by default
-						newCrossAssociation.targetEnd.isNavigable = true;
 						//set target class
 						newCrossAssociation.target = target;
-						//save the association
+						//set navigability
+						newCrossAssociation.targetEnd.isNavigable = true;
+						//save the association						
 						newCrossAssociation.save();
 						//tell the user what is happening
 						EAOutputLogger.log(this.model,this.outputName

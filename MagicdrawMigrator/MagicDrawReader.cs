@@ -470,6 +470,8 @@ namespace MagicdrawMigrator
 					MDAssociationEnd mdTargetEnd = null;
 					MDAssociationEnd mdSourceEnd = null;
 					bool isCrossMDZip = false;
+					//get the association ID
+					string associationID = this.getID(associationNode);
 					//loop membernodes
 					foreach (XmlNode memberNode in associationNode.SelectNodes("./memberEnd"))
 					{
@@ -478,31 +480,43 @@ namespace MagicdrawMigrator
 						if (this.isForeign(memberNode)) isCrossMDZip = true;
 						//check if the membernode is an ownedEnd of the association
 						string memberID = this.getID(memberNode);
-						XmlNode ownedEndNode = associationNode.SelectSingleNode("./ownedEnd[@xmi:id='"+memberID+"']",nsMgr);
-						if (ownedEndNode != null)
+						
+						//we look for the ownedAttribute. In that case we found the target end
+						if (this.allAttributeAssociationRoles.ContainsKey(memberID))
 						{
-							associationEnd = this.createAssociationEnd(ownedEndNode);
+							associationEnd = allAttributeAssociationRoles[memberID];
+							mdTargetEnd = associationEnd;
 						}
-						else
+						else			
 						{
-							//we look for the ownedAttribute
-							if (this.allAttributeAssociationRoles.ContainsKey(memberID))
-							{
-								associationEnd = allAttributeAssociationRoles[memberID];
-							}
+							//if not found as ownedAttribute we look for OwnedEnd on the association
+							XmlNode ownedEndNode = associationNode.SelectSingleNode("./ownedEnd[@xmi:id='"+memberID+"']",nsMgr);
+							if (ownedEndNode != null) associationEnd = this.createAssociationEnd(ownedEndNode);
 						}
 						//set the crossMDzip value
 						if (associationEnd != null)
 						{
 							if (associationEnd.hasForeignType) isCrossMDZip = true;
-							if (mdSourceEnd == null)
-							{
-								mdSourceEnd = associationEnd;
+							if (mdTargetEnd != null )
+						    {
+								//target is already filled in so we found the source
+						    	if (mdSourceEnd == null && mdTargetEnd != associationEnd)
+						    	{
+						    		mdSourceEnd = associationEnd;
+						    	}
 							}
 							else
 							{
-								mdTargetEnd = associationEnd;
-								mdTargetEnd.isNavigable = true; //set the target navigable per default
+								//target not yet filled in so we check the source first
+								if (mdSourceEnd == null)
+						    	{
+						    		mdSourceEnd = associationEnd;
+								}
+								else
+								{
+									//only if the source is already filled in we fill in the target
+									mdTargetEnd = associationEnd;
+								}
 							}
 						}
 					}
@@ -510,9 +524,16 @@ namespace MagicdrawMigrator
 					if (mdSourceEnd != null 
 					    && mdTargetEnd != null)
 					{
-						var newAssociation = new MDAssociation(mdSourceEnd,mdTargetEnd,this.getID(associationNode));
+						//switch aggregationKind from target to source
+						var tempAggregation = mdTargetEnd.aggregationKind;
+						mdTargetEnd.aggregationKind = mdSourceEnd.aggregationKind;
+						mdSourceEnd.aggregationKind = tempAggregation;
+						//set the navigability default to the target end 
+						mdTargetEnd.isNavigable = true; //set the target navigable per default
+						//create the association
+						var newAssociation = new MDAssociation(mdSourceEnd,mdTargetEnd,associationID);
 						newAssociation.isCrossMDZip = isCrossMDZip;
-						foundAssociations.Add(newAssociation.md_guid,newAssociation);
+						foundAssociations.Add(associationID,newAssociation);
 					}
 				}
 			}
@@ -987,6 +1008,24 @@ namespace MagicdrawMigrator
 			XmlAttribute hrefAttribute = node.Attributes["href"];
 			return hrefAttribute != null;
 		}
+		string getID (string idString)
+		{
+			string elementID = string.Empty;
+			int seperatorIndex = idString.IndexOf('#');
+			if (seperatorIndex >= 0 )
+			{
+				elementID =  idString.Substring(seperatorIndex +1);
+			}
+			else
+			{
+				elementID = idString;
+			}
+			return elementID;
+		}
+		bool isForeign(string idString)
+		{
+			return idString.IndexOf('#') >= 0;
+		}
 		string getID(XmlNode node)
 		{
 			string elementID = string.Empty;
@@ -1286,8 +1325,22 @@ namespace MagicdrawMigrator
 			name = nameAttribute != null ? nameAttribute.Value: string.Empty;
 			//get the targeTypeID from attribute href (after the # sign) in the subnode type
 			XmlNode targetTypeNode = roleNode.SelectSingleNode("./type");
-			if (targetTypeNode != null) hasForeignType = this.isForeign(targetTypeNode);
-			targetTypeID = getID(targetTypeNode);
+			if (targetTypeNode != null)
+			{
+				//type is stored as xmlNode
+				hasForeignType = this.isForeign(targetTypeNode);
+				targetTypeID = getID(targetTypeNode);
+			}
+			else
+			{
+				//type is stored as an attribute
+				XmlAttribute typeAttribute = roleNode.Attributes["type"];
+				if (typeAttribute != null)
+				{
+					hasForeignType = this.isForeign(typeAttribute.Value);
+					targetTypeID = getID(typeAttribute.Value);
+				}
+			}
 			//get the lowerBound
 			XmlNode lowerBoundNode = roleNode.SelectSingleNode(".//lowerValue");
 			if (lowerBoundNode != null)
