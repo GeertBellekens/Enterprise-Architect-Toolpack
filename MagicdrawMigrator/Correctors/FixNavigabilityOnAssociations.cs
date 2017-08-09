@@ -29,9 +29,7 @@ namespace MagicdrawMigrator
 			//Fix the navigability --> set navigability from source to target
 			this.model.executeSQL(@"update t_connector 
 											set [Direction] = 'Source -> Destination'
-											where [Connector_Type] = 'Association'");
-			
-			
+											where [Connector_Type] = 'Association'");			
 			
 			//Log finished
 			EAOutputLogger.log(this.model,this.outputName
