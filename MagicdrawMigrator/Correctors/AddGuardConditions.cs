@@ -47,6 +47,31 @@ namespace MagicdrawMigrator
 		                             
 		                   ,0
 		                  ,LogTypeEnum.log);
+				
+					int startObjectId = sourceObject.id;
+					int endObjectId = targetObject.id;
+					string guardCondition = mdGuardObject.guardCondition;
+					guardCondition = guardCondition.Replace("[",string.Empty);
+					guardCondition = guardCondition.Replace("]",string.Empty);
+					guardCondition = guardCondition.Trim();
+					
+					
+					string sqlGetRelations = @"select con.[Connector_ID]
+												from t_connector con
+												where con.start_object_id = " + startObjectId + @"
+												and con.end_object_id = " + endObjectId + @"
+												and con.connector_type = 'ControlFlow'";
+					
+					
+					var controlFlows = this.model.getRelationsByQuery(sqlGetRelations);
+					
+					var controlFlow = controlFlows.FirstOrDefault(x => string.IsNullOrEmpty(x.guardCondition));
+					
+					if (controlFlow != null)
+					{
+						controlFlow.guardCondition = guardCondition;
+					}
+
 				}
 				
 			

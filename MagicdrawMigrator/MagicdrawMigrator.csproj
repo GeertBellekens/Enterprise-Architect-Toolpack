@@ -65,6 +65,7 @@
     <Compile Include="Correctors\CrossMDzipAttributeCorrector.cs" />
     <Compile Include="Correctors\MapsToDependencyCorrector.cs" />
     <Compile Include="Correctors\AssociationCorrector.cs" />
+    <Compile Include="Correctors\LinksAttributesEnumsCorrector.cs" />
     <Compile Include="Correctors\MigrateDependencyMatrix.cs" />
     <Compile Include="Correctors\NotesCorrector.cs" />
     <Compile Include="Correctors\SequenceDiagramCorrector.cs" />
