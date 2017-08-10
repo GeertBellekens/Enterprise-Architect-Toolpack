@@ -70,6 +70,7 @@ namespace MagicdrawMigrator
 				correctors.Add(new MapsToDependencyCorrector(magicDrawReader, model, mdPackage));
 				correctors.Add(new MigrateDependencyMatrix(magicDrawReader,model, mdPackage));				
 				correctors.Add(new AddGuardConditions(magicDrawReader, model, mdPackage));
+				correctors.Add(new LinksAttributesEnumsCorrector(magicDrawReader, model, mdPackage));
 				correctors.Add(new CrossMDzipAttributeCorrector(magicDrawReader, model, mdPackage));
 			}
 		}
