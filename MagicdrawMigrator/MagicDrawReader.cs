@@ -1393,7 +1393,10 @@ namespace MagicdrawMigrator
 						XmlAttribute nameAttribute = attributeNode.Attributes["name"];
 						string attributeName = nameAttribute != null ? nameAttribute.Value:string.Empty;
 						
-						
+						//get the attribute type
+						XmlNode typeNode = attributeNode.SelectSingleNode("./type");
+						string typeID = getID(typeNode);
+						bool isForeignType = typeNode != null && this.isForeign(typeNode);
 						
 						
 						if (! string.IsNullOrEmpty(attributeMDGuid) && ! string.IsNullOrEmpty(attributeName))

@@ -22,7 +22,10 @@ namespace MagicdrawMigrator
 		#region implemented abstract members of MagicDrawCorrector
 		public override void correct()
 		{
-			throw new NotImplementedException();
+			//get all attributes that have a foreign type
+			
+			//get the corresponding attribute in EA
+			//set the type of the attribute in EA
 		}
 		#endregion
 	}
