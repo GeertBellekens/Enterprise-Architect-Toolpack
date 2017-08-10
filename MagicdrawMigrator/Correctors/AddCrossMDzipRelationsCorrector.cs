@@ -23,7 +23,7 @@ namespace MagicdrawMigrator
 		public override void correct()
 		{
 				EAOutputLogger.log(this.model,this.outputName
-	           ,string.Format("{0} Starting corrections for cross MDzip associations'"
+	           ,string.Format("{0} Starting corrections for cross MDzip relations"
 	                          ,DateTime.Now.ToLongTimeString())
 	           ,0
 	          ,LogTypeEnum.log);
@@ -139,7 +139,7 @@ namespace MagicdrawMigrator
 				if (newCrossAssociation != null) newCrossAssociation.addTaggedValue("md_guid",mdCrossAssocation.Key);
 			}
 			EAOutputLogger.log(this.model,this.outputName
-	           ,string.Format("{0} Finished corrections for cross MDzip associations'"
+	           ,string.Format("{0} Finished corrections for cross MDzip relations"
 	                          ,DateTime.Now.ToLongTimeString())
 	           ,0
 	          ,LogTypeEnum.log);

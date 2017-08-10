@@ -29,7 +29,7 @@ namespace MagicdrawMigrator
 		Dictionary<string, MDDiagram> _allDiagrams;
 		Dictionary<string, string> _allObjects;
 		Dictionary<string, string> _allPartitions;
-		List<MDDependency> _allDependencies;
+		List<MDElementRelation> _allMapsToDependencies;
 		Dictionary<string,string> _allLifeLines;
 		List<MDFragment> _allFragments;
 		List<MDMessage> _allMessages;
@@ -37,6 +37,7 @@ namespace MagicdrawMigrator
 		List<MDDependency> _allAttDependencies;
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string, MDElementRelation> _allCrossMDzipRelations;
+		Dictionary<string, MDElementRelation> _allMDElementRelations;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		List<MDGuard> _allGuards;
 		
@@ -155,6 +156,17 @@ namespace MagicdrawMigrator
 				return _allCrossMDzipRelations;
 			}
 		}
+		public Dictionary<string, MDElementRelation> allMDElementRelations
+		{
+			get
+			{
+				if (_allMDElementRelations == null)
+				{
+					this.getAllMDElementRelations();
+				}
+				return _allMDElementRelations;
+			}
+		}
 		
 		
 		
@@ -249,14 +261,14 @@ namespace MagicdrawMigrator
 				return _allPartitions;
 			}
 		}
-		public List<MDDependency> allDependencies {
+		public List<MDElementRelation> allMapsToDependencies {
 			get {
-				if (_allDependencies == null)
+				if (_allMapsToDependencies == null)
 				{
-					this.getAllDependencies();
+					this.getAllMapsToDependencies();
 				}
 				
-				return _allDependencies;
+				return _allMapsToDependencies;
 			}
 		}
 		
@@ -321,14 +333,27 @@ namespace MagicdrawMigrator
 		{
 			var foundElementRelations = new Dictionary<string,MDElementRelation>();
 			//loop the source files to find the cross mdzip relations
+			foreach (var relation in this.allMDElementRelations.Where(
+				x => x.Value.isCrossMDZip))
+			{
+				foundElementRelations.Add(relation.Key, relation.Value);
+			}
+			//set the found relations
+			_allCrossMDzipRelations = foundElementRelations;
+		}
+
+		void getAllMDElementRelations()
+		{
+			var foundElementRelations = new Dictionary<string,MDElementRelation>();
+			//loop the source files to find the cross mdzip relations
 			foreach (var sourceFile in this.sourceFiles.Values)
 			{
 				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
 				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
 				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
-				foreach (XmlNode supplierNode in sourceFile.SelectNodes("//supplier[@href]",nsMgr))
+				foreach (XmlNode supplierNode in sourceFile.SelectNodes("//supplier",nsMgr))
 				{
-					
+					bool isCrossMdZip = this.isForeign(supplierNode);
 					//get the parent Node id
 					XmlNode relationNode = supplierNode.ParentNode;				
 					if (relationNode != null)
@@ -348,16 +373,21 @@ namespace MagicdrawMigrator
 						string relationID = getID(relationNode);
 						//get the client node
 						XmlNode sourceNode = relationNode.SelectSingleNode("./client");
+						//check if crossMDZip
+						if (sourceNode != null && ! isCrossMdZip) isCrossMdZip = this.isForeign(sourceNode);
+						//get the ID's
 						string sourceID = getID(sourceNode);
 						string targetID = getID(supplierNode);
+						//add the relation
 						if (! string.IsNullOrEmpty(relationID)
 						    && ! string.IsNullOrEmpty(sourceID)
 						    && ! string.IsNullOrEmpty(targetID)
 						    && ! string.IsNullOrEmpty(relationType)
 						    && ! foundElementRelations.ContainsKey(relationID))
 						{
-							var newRelation = new MDElementRelation(sourceID, targetID,relationType);
+							var newRelation = new MDElementRelation(sourceID, targetID,relationType,relationID);
 							newRelation.name = relationName;
+							newRelation.isCrossMDZip = isCrossMdZip;
 							//add the new relation to the list of found relations
 							foundElementRelations.Add(relationID,newRelation);
 						}
@@ -365,8 +395,9 @@ namespace MagicdrawMigrator
 				}
 			}
 			//set the found relations
-			_allCrossMDzipRelations = foundElementRelations;
+			_allMDElementRelations = foundElementRelations;
 		}
+
 		void getAllFragments()
 		{
 			var foundFragments = new List<MDFragment>();
@@ -1154,12 +1185,11 @@ namespace MagicdrawMigrator
 		}
 		
 		
-		void getAllDependencies()
+		void getAllMapsToDependencies()
 		{
-			var foundDependencies = new List<MDDependency>();
+			var foundDependencies = new List<MDElementRelation>();
 			foreach (var sourceFile in this.sourceFiles.Values) 
 			{
-				
 				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
 				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
 				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
@@ -1172,52 +1202,14 @@ namespace MagicdrawMigrator
 					if (dependencyAttribute != null)
 					{
 						string dependencyID = dependencyAttribute.Value;
-						
-						
-						foreach (XmlNode dependencyNode in sourceFile.SelectNodes("//packagedElement[@xmi:id='"+dependencyID+"']",nsMgr))	
+						if (this.allMDElementRelations.ContainsKey(dependencyID))
 						{
-							var mdDependency = new MDDependency();
-							
-							//select client node, attribute idref
-							XmlNode clientNode = dependencyNode.SelectSingleNode("./client");
-							if (clientNode != null)
-							{
-								XmlAttribute clientAttribute = clientNode.Attributes["xmi:idref"];
-								mdDependency.sourceGuid = clientAttribute != null? clientAttribute.Value: string.Empty;
-							}
-							
-							// select supplier node, attribute href, after #
-							XmlNode supplierNode = dependencyNode.SelectSingleNode("./supplier");
-							if (supplierNode != null)
-							{
-								XmlAttribute supplierAttribute = supplierNode.Attributes["href"];
-								string fullHrefValue = supplierAttribute != null ? supplierAttribute.Value : string.Empty;
-								//get the part after the # sign
-								var splittedHref = fullHrefValue.Split('#');
-								if (splittedHref.Count() == 2)
-								{
-									mdDependency.targetGuid = splittedHref[1];
-								}
-							}
-							
-							if (!string.IsNullOrEmpty(mdDependency.sourceGuid) 
-							    && !string.IsNullOrEmpty(mdDependency.targetGuid)
-							   )
-							{
-
-								foundDependencies.Add(mdDependency);
-							}
-						
-						}
-							
-					}
-					
-					
+							foundDependencies.Add(allMDElementRelations[dependencyID]);
+						}						
+					}				
 				}
 			}
-			
-			
-			_allDependencies = foundDependencies;
+			_allMapsToDependencies = foundDependencies;
 		}
 		
 		void getAllAttDependencies()
@@ -1255,7 +1247,6 @@ namespace MagicdrawMigrator
 							var mdDependency = new MDDependency();
 							mdDependency.sourceGuid = source;
 						 	mdDependency.targetGuid = target;
-							
 							//first check if both id's are in the list of attributes
 							if (containsDependencies(mdDependency))
 							{

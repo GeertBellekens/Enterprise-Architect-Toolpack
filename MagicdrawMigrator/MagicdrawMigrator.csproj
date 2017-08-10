@@ -59,13 +59,12 @@
     <Compile Include="Correctors\AddClassifiersToPartitions.cs" />
     <Compile Include="Correctors\AddCrossMDzipRelationsCorrector.cs" />
     <Compile Include="Correctors\AddGuardConditions.cs" />
-    <Compile Include="Correctors\FixAssociations.cs" />
     <Compile Include="Correctors\ASMAAssociationCorrector.cs" />
     <Compile Include="Correctors\AssociationTableCorrector.cs" />
     <Compile Include="Correctors\ConvertPropertiesToAttributes.cs" />
-    <Compile Include="Correctors\CorrectActorDependencies.cs" />
-    <Compile Include="Correctors\FixMultiplicities.cs" />
-    <Compile Include="Correctors\FixNavigabilityOnAssociations.cs" />
+    <Compile Include="Correctors\CrossMDzipAttributeCorrector.cs" />
+    <Compile Include="Correctors\MapsToDependencyCorrector.cs" />
+    <Compile Include="Correctors\AssociationCorrector.cs" />
     <Compile Include="Correctors\MigrateDependencyMatrix.cs" />
     <Compile Include="Correctors\NotesCorrector.cs" />
     <Compile Include="Correctors\SequenceDiagramCorrector.cs" />

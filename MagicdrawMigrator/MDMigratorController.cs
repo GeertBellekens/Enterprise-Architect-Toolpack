@@ -29,7 +29,7 @@ namespace MagicdrawMigrator
 			EAOutputLogger.clearLog(this.model, this.outputName);
 			//tell the user what is happening
 			EAOutputLogger.log(this.model,this.outputName
-	           ,string.Format("{0} Starting corrections for Magicdraw import'"
+	           ,string.Format("{0} Starting corrections for Magicdraw import"
 	                          ,DateTime.Now.ToLongTimeString())
 	           ,0
 	          ,LogTypeEnum.log);
@@ -42,7 +42,7 @@ namespace MagicdrawMigrator
 			}
 			//tell the user what is happening
 			EAOutputLogger.log(this.model,this.outputName
-	           ,string.Format("{0} Finished corrections for Magicdraw import'"
+	           ,string.Format("{0} Finished corrections for Magicdraw import"
 	                          ,DateTime.Now.ToLongTimeString())
 	           ,0
 	          ,LogTypeEnum.log);
@@ -53,25 +53,23 @@ namespace MagicdrawMigrator
 			var magicDrawReader = new MagicDrawReader(mdzipPath,this.model);
 			if (mdPackage !=null)
 			{
-				correctors.Add(new OCLConstraintsCorrector(magicDrawReader,model,mdPackage));
-				correctors.Add(new AssociationTableCorrector(magicDrawReader,model,mdPackage));
-				correctors.Add(new FixCallBehaviorActionCorrector(magicDrawReader,model,mdPackage));
-				correctors.Add(new ConvertPropertiesToAttributes(magicDrawReader,model,mdPackage));
-				correctors.Add(new SetStructureCorrector(magicDrawReader,model, mdPackage));
-				correctors.Add(new SetStatesOnObjects(magicDrawReader,model, mdPackage));
-				correctors.Add(new AddCrossMDzipRelationsCorrector(magicDrawReader,model, mdPackage));
-				correctors.Add(new AddClassifiersToPartitions(magicDrawReader,model, mdPackage));
-				correctors.Add(new ASMAAssociationCorrector(magicDrawReader,model, mdPackage));
-				correctors.Add(new SequenceDiagramCorrector(magicDrawReader,model, mdPackage));
-				correctors.Add(new NotesCorrector(magicDrawReader, model, mdPackage));
-				correctors.Add(new DiagramLayoutCorrector(magicDrawReader,model, mdPackage));
-				correctors.Add(new CorrectStereotypesAndTaggedValues(magicDrawReader,model, mdPackage));
-				correctors.Add(new CorrectActorDependencies(magicDrawReader, model, mdPackage));
-				correctors.Add(new MigrateDependencyMatrix(magicDrawReader,model, mdPackage));
-				correctors.Add(new FixAssociations(magicDrawReader, model, mdPackage));
-				correctors.Add(new FixMultiplicities(magicDrawReader, model, mdPackage));
-				correctors.Add(new FixNavigabilityOnAssociations(magicDrawReader, model, mdPackage));	
-				correctors.Add(new AddGuardConditions(magicDrawReader, model, mdPackage));
+//				correctors.Add(new OCLConstraintsCorrector(magicDrawReader,model,mdPackage));
+//				correctors.Add(new AssociationTableCorrector(magicDrawReader,model,mdPackage));
+//				correctors.Add(new FixCallBehaviorActionCorrector(magicDrawReader,model,mdPackage));
+//				correctors.Add(new ConvertPropertiesToAttributes(magicDrawReader,model,mdPackage));
+//				correctors.Add(new SetStructureCorrector(magicDrawReader,model, mdPackage));
+//				correctors.Add(new SetStatesOnObjects(magicDrawReader,model, mdPackage));
+//				correctors.Add(new AddCrossMDzipRelationsCorrector(magicDrawReader,model, mdPackage));
+//				correctors.Add(new ASMAAssociationCorrector(magicDrawReader,model, mdPackage));
+				correctors.Add(new AssociationCorrector(magicDrawReader, model, mdPackage));
+//				correctors.Add(new AddClassifiersToPartitions(magicDrawReader,model, mdPackage));
+//				correctors.Add(new SequenceDiagramCorrector(magicDrawReader,model, mdPackage));
+//				correctors.Add(new NotesCorrector(magicDrawReader, model, mdPackage));
+//				correctors.Add(new DiagramLayoutCorrector(magicDrawReader,model, mdPackage));
+//				correctors.Add(new CorrectStereotypesAndTaggedValues(magicDrawReader,model, mdPackage));
+				correctors.Add(new MapsToDependencyCorrector(magicDrawReader, model, mdPackage));
+//				correctors.Add(new MigrateDependencyMatrix(magicDrawReader,model, mdPackage));				
+//				correctors.Add(new AddGuardConditions(magicDrawReader, model, mdPackage));
 			}
 		}
 		public TSF_EA.Package getMagicDrawPackage()
