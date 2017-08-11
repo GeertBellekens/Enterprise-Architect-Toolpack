@@ -38,6 +38,11 @@ namespace MagicdrawMigrator
 				{
 					//fix navigability
 					this.fixNavigability(eaAssociation);
+					//correct the "(Unspecified)..(Unspecified)" multiplicities in the database
+					string sqlCorrectUnspecified = "update t_connector set DestCard = null where DestCard like '%unspecified%'";
+					this.model.executeSQL(sqlCorrectUnspecified);
+					sqlCorrectUnspecified = "update t_connector set SourceCard = null where SourceCard like '%unspecified%'";
+					this.model.executeSQL(sqlCorrectUnspecified);
 					//check first if the multiplicity is to be corrected
 					if (!mdAssociation.source.lowerBound.Equals(eaAssociation.sourceEnd.lower.ToString())
 					    || !mdAssociation.source.upperBound.Equals(eaAssociation.sourceEnd.upper.ToString())
