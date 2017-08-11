@@ -45,7 +45,7 @@ namespace MagicdrawMigrator
 		                                  ,sourceObject.name
 		                                  ,targetObject.name)
 		                             
-		                   ,0
+		                   ,sourceObject.id
 		                  ,LogTypeEnum.log);
 				
 					int startObjectId = sourceObject.id;

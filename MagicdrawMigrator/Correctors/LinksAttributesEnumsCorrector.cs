@@ -55,6 +55,7 @@ namespace MagicdrawMigrator
 						TSF_EA.Usage usage = this.model.factory.createNewElement<TSF_EA.Usage>(attribute.owner, string.Empty);
 						usage.source = attribute;
 						usage.target = (TSF_EA.Element)attribute.classifier;
+						usage.targetEnd.isNavigable = true;
 						usage.save();
 					}
 						
