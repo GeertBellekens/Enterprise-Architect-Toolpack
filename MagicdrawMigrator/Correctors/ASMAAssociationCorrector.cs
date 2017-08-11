@@ -23,7 +23,7 @@ namespace MagicdrawMigrator
 		public override void correct()
 		{
 			EAOutputLogger.log(this.model,this.outputName
-	                   ,string.Format("{0} Starting corrections for ASMA associations'"
+	                   ,string.Format("{0} Starting corrections for ASMA associations"
 	                                  ,DateTime.Now.ToLongTimeString())
 	                   ,0
 	                  ,LogTypeEnum.log);

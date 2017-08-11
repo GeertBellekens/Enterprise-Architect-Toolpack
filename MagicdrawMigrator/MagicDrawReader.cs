@@ -1386,8 +1386,7 @@ namespace MagicdrawMigrator
 					{
 						
 						//get the attribute mdID
-						XmlAttribute attributeIDAttribute = attributeNode.Attributes["xmi:id"];
-						string attributeMDGuid = attributeIDAttribute != null ? attributeIDAttribute.Value:string.Empty;
+						string attributeMDGuid = getID(attributeNode);
 						
 						//get the attribute name
 						XmlAttribute nameAttribute = attributeNode.Attributes["name"];
@@ -1401,14 +1400,13 @@ namespace MagicdrawMigrator
 						
 						if (! string.IsNullOrEmpty(attributeMDGuid) && ! string.IsNullOrEmpty(attributeName))
 						{
-							//Debug.WriteLine(attributeName);
-							
 							var mdAttribute = new MDAttribute();
 							mdAttribute.mdGuid = attributeMDGuid;
 							mdAttribute.name = attributeName;
 							mdAttribute.mdParentGuid = elementID;
+							mdAttribute.isCrossMDZip = isForeignType;
+							mdAttribute.typeMDGuid = typeID;
 							foundAttributes.Add(mdAttribute);
-							
 						}
 					}
 					
