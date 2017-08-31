@@ -52,6 +52,7 @@ namespace MagicdrawMigrator
 						if (newRelation != null)
 						{
 							newRelation.target = target;
+							newRelation.targetEnd.isNavigable = true;
 							newRelation.save();
 							//save md_guid tag
 							newRelation.addTaggedValue("md_guid",crossRelation.Key);
