@@ -27,61 +27,65 @@ namespace MagicdrawMigrator
 	                          ,DateTime.Now.ToLongTimeString())
 	           ,0
 	          ,LogTypeEnum.log);
-			//loop all simple cross mdzip relations
-			foreach (var crossRelation in magicDrawReader.allCrossMDzipRelations) 
-			{
-				//check if the relation doesn't exist yet
-				string sqlGetExistingRelations = @"select c.Connector_ID from (t_connector c
-												inner join t_connectortag tv on( c.Connector_ID = tv.ElementID
-															and tv.Property = 'md_guid'))
-												where tv.VALUE = '"+crossRelation.Key+"'";
-				var newRelation = this.model.getRelationsByQuery(sqlGetExistingRelations).FirstOrDefault();
-				if (newRelation == null)
-				{
-					MDElementRelation relation = crossRelation.Value;
-					//find source
-					var source = this.getElementByMDid(relation.sourceMDGUID);
-					//find target
-					var target = this.getElementByMDid(relation.targetMDGUID);
-					//create relation
-					if (source != null 
-					    && target != null)
-					{
-						//create the actual relation
-						newRelation = this.model.factory.createNewElement(source,relation.name,relation.relationType) as TSF_EA.ConnectorWrapper;
-						if (newRelation != null)
-						{
-							newRelation.target = target;
-							newRelation.save();
-							//save md_guid tag
-							newRelation.addTaggedValue("md_guid",crossRelation.Key);
-							//tell the user what is happening
-							EAOutputLogger.log(this.model,this.outputName
-							,string.Format("{0} Created relation of type {1} between '{2}' and '{3}'"
-							              ,DateTime.Now.ToLongTimeString()
-							              ,relation.relationType
-							              ,source.name
-							              ,target.name)
-							,source.id
-							,LogTypeEnum.log);
-						}
-						else
-						{
-							//report the fact that we could not create the relation
-							EAOutputLogger.log(this.model,this.outputName
-							,string.Format("{0} Could not create relation of type {1} between '{2}' and '{3}'"
-							              ,DateTime.Now.ToLongTimeString()
-							              ,relation.relationType
-							              ,source.name
-							              ,target.name)
-							,source.id
-							,LogTypeEnum.error);
-						}
-					}
-				}
-				//save md_guid tag
-				if (newRelation != null) newRelation.addTaggedValue("md_guid",crossRelation.Key);
-			}
+			//loop all simple element to element cross mdzip relations
+			//loop all direct element to element cross mdzip relations
+//			foreach (var crossRelation in magicDrawReader.allCrossMDzipRelations) 
+//			{
+//				//check if the relation doesn't exist yet
+//				string sqlGetExistingRelations = @"select c.Connector_ID from (t_connector c
+//												inner join t_connectortag tv on( c.Connector_ID = tv.ElementID
+//															and tv.Property = 'md_guid'))
+//												where tv.VALUE = '"+crossRelation.Key+"'";
+//				var newRelation = this.model.getRelationsByQuery(sqlGetExistingRelations).FirstOrDefault();
+//				if (newRelation == null)
+//				{
+//					MDElementRelation relation = crossRelation.Value;
+//					//find source
+//					var source = this.getElementByMDid(relation.sourceMDGUID);
+//					//find target
+//					var target = this.getElementByMDid(relation.targetMDGUID);
+//					//create relation
+//					if (source != null 
+//					    && target != null)
+//					{
+//						//create the actual relation
+//						newRelation = this.model.factory.createNewElement(source,relation.name,relation.relationType) as TSF_EA.ConnectorWrapper;
+//						if (newRelation != null)
+//						{
+//							newRelation.target = target;
+//							newRelation.save();
+//							//save md_guid tag
+//							newRelation.addTaggedValue("md_guid",crossRelation.Key);
+//							//tell the user what is happening
+//							EAOutputLogger.log(this.model,this.outputName
+//							,string.Format("{0} Created relation of type {1} between '{2}' and '{3}'"
+//							              ,DateTime.Now.ToLongTimeString()
+//							              ,relation.relationType
+//							              ,source.name
+//							              ,target.name)
+//							,source.id
+//							,LogTypeEnum.log);
+//						}
+//						else
+//						{
+//							//report the fact that we could not create the relation
+//							EAOutputLogger.log(this.model,this.outputName
+//							,string.Format("{0} Could not create relation of type {1} between '{2}' and '{3}'"
+//							              ,DateTime.Now.ToLongTimeString()
+//							              ,relation.relationType
+//							              ,source.name
+//							              ,target.name)
+//							,source.id
+//							,LogTypeEnum.error);
+//						}
+//					}
+//				}
+//				//save md_guid tag
+//				if (newRelation != null) newRelation.addTaggedValue("md_guid",crossRelation.Key);
+//			}
+//			
+		
+			
 			//loop all cross MDzip Associations
 			foreach (var mdCrossAssocation in magicDrawReader.allCrossMDzipAssociations) 
 			{
