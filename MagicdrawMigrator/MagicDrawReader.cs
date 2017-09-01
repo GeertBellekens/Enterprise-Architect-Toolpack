@@ -37,7 +37,6 @@ namespace MagicdrawMigrator
 		List<MDDependency> _allAttDependencies;
 		Dictionary<string,List<MDConstraint>> allConstraints;
 		Dictionary<string, MDElementRelation> _allCrossMDzipRelations;
-		Dictionary<string, MDElementRelation> _allDirectMDElementRelations;
 		Dictionary<string, MDElementRelation> _allMDElementRelations;
 		Dictionary<string,XmlDocument> _sourceFiles;
 		List<MDGuard> _allGuards;
@@ -157,9 +156,6 @@ namespace MagicdrawMigrator
 				return _allCrossMDzipRelations;
 			}
 		}
-		
-		
-		
 		public Dictionary<string, MDElementRelation> allMDElementRelations
 		{
 			get
@@ -169,18 +165,6 @@ namespace MagicdrawMigrator
 					this.getAllMDElementRelations();
 				}
 				return _allMDElementRelations;
-			}
-		}
-		
-		public Dictionary<string, MDElementRelation> allDirectMDElementRelations
-		{
-			get
-			{
-				if (_allDirectMDElementRelations == null)
-				{
-					this.getAllDirectMDElementRelations();
-				}
-				return _allDirectMDElementRelations;
 			}
 		}
 		
@@ -349,29 +333,14 @@ namespace MagicdrawMigrator
 		{
 			var foundElementRelations = new Dictionary<string,MDElementRelation>();
 			//loop the source files to find the cross mdzip relations
-			Debug.WriteLine("start met de gewone");
 			foreach (var relation in this.allMDElementRelations.Where(
 				x => x.Value.isCrossMDZip))
 			{
-				Debug.WriteLine(relation.Key);
 				foundElementRelations.Add(relation.Key, relation.Value);
 			}
-			
-			//loop the source files to find the direct cross mdzip relations
-			Debug.WriteLine("start met de directe");
-			foreach (var relation in this.allDirectMDElementRelations.Where(
-				x => x.Value.isCrossMDZip))  
-			{
-				Debug.WriteLine(relation.Key);
-				foundElementRelations.Add(relation.Key, relation.Value);
-			}
-			
-			
 			//set the found relations
 			_allCrossMDzipRelations = foundElementRelations;
 		}
-		
-	
 
 		void getAllMDElementRelations()
 		{
@@ -516,67 +485,6 @@ namespace MagicdrawMigrator
 			//set the collection to the found associations
 			_allASMAAssociations = foundAssociations;
 		}
-		
-		void getAllDirectMDElementRelations()
-		{
-			var foundDirectMDElementRelations = new Dictionary<string, MDElementRelation>();
-			//loop the source files to find the cross mdzip relations
-			foreach (var sourceFile in this.sourceFiles.Values)
-			{
-				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
-				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
-				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
-				foreach (XmlNode generalNode in sourceFile.SelectNodes("//general",nsMgr))
-				{
-					//general node = supplier = target
-					//the packaged element above = client = source
-					bool isCrossMdZip = this.isForeign(generalNode);
-					//get the parent Node id
-					XmlNode generalizationNode = generalNode.ParentNode;
-					
-					if (generalizationNode != null)
-					{
-						//get the relationType
-						XmlAttribute relationTypeAttribute = generalizationNode.Attributes["xmi:type"];
-						string relationType = relationTypeAttribute != null ? relationTypeAttribute.Value : string.Empty;
-						var relationParts = relationType.Split(':');
-						if (relationParts.Count() == 2)
-						{
-							relationType = relationParts[1];
-						}
-						//get the relation name
-						XmlAttribute relationNameAttribute = generalizationNode.Attributes["name"];
-						string relationName = relationNameAttribute != null ? relationNameAttribute.Value : string.Empty;
-						string relationID = getID(generalizationNode);
-						//get the client node
-						XmlNode sourceNode = generalizationNode.ParentNode;
-						//check if crossMDZip
-						if (sourceNode != null && ! isCrossMdZip) isCrossMdZip = this.isForeign(sourceNode);
-						//get the ID's
-						string sourceID = getID(sourceNode);
-						string targetID = getID(generalNode);
-						//add the relation
-						if (! string.IsNullOrEmpty(relationID)
-						    && ! string.IsNullOrEmpty(sourceID)
-						    && ! string.IsNullOrEmpty(targetID)
-						    && ! string.IsNullOrEmpty(relationType)
-						    && ! foundDirectMDElementRelations.ContainsKey(relationID))
-						{
-							var newRelation = new MDElementRelation(sourceID, targetID,relationType,relationID);
-							newRelation.name = relationName;
-							newRelation.isCrossMDZip = isCrossMdZip;
-							//add the new relation to the list of found relations
-							foundDirectMDElementRelations.Add(relationID,newRelation);
-							
-						
-						}	
-					}
-				}
-			}
-			//set the found relations
-			_allDirectMDElementRelations = foundDirectMDElementRelations;
-		}
-		
 		void getAllAssociations()
 		{
 			var foundAssociations = new Dictionary<string,MDAssociation>();

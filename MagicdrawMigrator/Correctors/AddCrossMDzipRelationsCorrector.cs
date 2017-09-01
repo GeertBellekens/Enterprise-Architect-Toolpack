@@ -27,6 +27,7 @@ namespace MagicdrawMigrator
 	                          ,DateTime.Now.ToLongTimeString())
 	           ,0
 	          ,LogTypeEnum.log);
+
 			//loop all simple element to element cross mdzip relations
 			//loop all direct element to element cross mdzip relations
 			foreach (var crossRelation in magicDrawReader.allCrossMDzipRelations) 
@@ -83,9 +84,7 @@ namespace MagicdrawMigrator
 				//save md_guid tag
 				if (newRelation != null) newRelation.addTaggedValue("md_guid",crossRelation.Key);
 			}
-			
-		
-			
+
 			//loop all cross MDzip Associations
 			foreach (var mdCrossAssocation in magicDrawReader.allCrossMDzipAssociations) 
 			{
