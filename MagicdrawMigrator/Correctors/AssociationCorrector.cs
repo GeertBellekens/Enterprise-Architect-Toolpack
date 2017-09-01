@@ -28,9 +28,6 @@ namespace MagicdrawMigrator
 	                   ,0
 	                   ,LogTypeEnum.log);
 			
-			//fix the <<participates>> stereotypes
-			this.fixParticipation();
-			
 			// get all the associations
 			foreach (MDAssociation mdAssociation in magicDrawReader.allAssociations.Values) 
 			{
@@ -220,32 +217,6 @@ namespace MagicdrawMigrator
 				}
 			}
 			return correspondingAssociation;
-		}
-		
-		void fixParticipation()
-		{
-			string sqlGetAssociations = @"select con.Connector_ID, con.[Stereotype]
-										from ((t_connector con
-										inner join t_object ac
-										on (con.[Start_Object_ID] = ac.[Object_ID] and ac.[Stereotype]= 'Harmonized_Role' ))
-										inner join t_object uc
-										on (con.[End_Object_ID] = uc.[Object_ID] and uc.[Stereotype] = 'BusinessRealizationUseCase'))";
-			
-			var associations = this.model.getRelationsByQuery(sqlGetAssociations);
-				
-			foreach (var association in associations) 
-				{
-					association.addStereotype(this.model.factory.createStereotype(association,"participates"));
-					association.save();
-					//tell the user
-					EAOutputLogger.log(this.model,this.outputName
-		                   	,string.Format("{0} Corrected «participates» association'"
-		                  	,DateTime.Now.ToLongTimeString()                  	
-		               )
-					        ,0
-		      			,LogTypeEnum.error);
-				}
-			
 		}
 		
 		
