@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using EAAddinFramework.Utilities;
 using TSF_EA =TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
+using System.Diagnostics;
 
 namespace MagicdrawMigrator
 {
@@ -65,6 +66,7 @@ namespace MagicdrawMigrator
 							              ,target.name)
 							,source.id
 							,LogTypeEnum.log);
+							
 						}
 						else
 						{
@@ -83,6 +85,7 @@ namespace MagicdrawMigrator
 				//save md_guid tag
 				if (newRelation != null) newRelation.addTaggedValue("md_guid",crossRelation.Key);
 			}
+			
 
 			//loop all cross MDzip Associations
 			foreach (var mdCrossAssocation in magicDrawReader.allCrossMDzipAssociations) 
