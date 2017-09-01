@@ -29,7 +29,6 @@ namespace MagicdrawMigrator
 	          ,LogTypeEnum.log);
 
 			//loop all simple element to element cross mdzip relations
-			//loop all direct element to element cross mdzip relations
 			foreach (var crossRelation in magicDrawReader.allCrossMDzipRelations) 
 			{
 				//check if the relation doesn't exist yet
