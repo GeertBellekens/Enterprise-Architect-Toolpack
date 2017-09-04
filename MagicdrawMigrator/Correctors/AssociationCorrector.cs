@@ -242,7 +242,7 @@ namespace MagicdrawMigrator
 		                  	,DateTime.Now.ToLongTimeString()                  	
 		               )
 					        ,0
-		      			,LogTypeEnum.error);
+		      			,LogTypeEnum.log);
 				}
 			
 		}

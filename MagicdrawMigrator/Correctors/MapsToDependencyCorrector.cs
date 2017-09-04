@@ -38,6 +38,7 @@ namespace MagicdrawMigrator
 												inner join t_connectortag tv on( c.Connector_ID = tv.ElementID
 															and tv.Property = 'md_guid'))
 												where tv.VALUE = '"+mdDependency.md_guid+"'";
+				//Ook testen of er nog geen relatie met dat stereotype bestaat.
 	
 				var correspondingDependencies = this.model.getRelationsByQuery(sqlGetExistingRelations).OfType<TSF_EA.Dependency>().ToList();
 				//if not found by mdGUID then to find all dependencies between source and target
