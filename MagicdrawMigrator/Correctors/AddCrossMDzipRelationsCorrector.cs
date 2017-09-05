@@ -38,6 +38,9 @@ namespace MagicdrawMigrator
 															and tv.Property = 'md_guid'))
 												where tv.VALUE = '"+crossRelation.Key+"'";
 				var newRelation = this.model.getRelationsByQuery(sqlGetExistingRelations).FirstOrDefault();
+				
+			
+				
 				if (newRelation == null)
 				{
 					MDElementRelation relation = crossRelation.Value;

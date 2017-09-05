@@ -23,8 +23,10 @@ namespace MagicdrawMigrator
 		Dictionary<string,string> _allClasses;
 		Dictionary<string,MDAssociation> _allCrossMDzipAssociations;
 		Dictionary<string,MDAssociation> _allAssociations;
+		Dictionary<string,MDDependency> _allDependencies;
 		Dictionary<string,MDAssociationEnd> _allAttributeAssociationRoles;
 		List<MDAssociation> _allASMAAssociations;
+		List<MDAssociation> _allParticipatesAssociations;
 		Dictionary<string,string> _allLinkedAssociationTables;
 		Dictionary<string, MDDiagram> _allDiagrams;
 		Dictionary<string, string> _allObjects;
@@ -120,6 +122,18 @@ namespace MagicdrawMigrator
 					this.getAllAssociations();
 				}
 				return _allAssociations;
+			}
+		}
+		
+		public Dictionary<string, MDDependency> allDependencies
+		{
+			get
+			{
+				if (_allDependencies == null)
+				{
+					this.getAllDependencies();
+				}
+				return _allDependencies;
 			}
 		}
 		
@@ -316,6 +330,19 @@ namespace MagicdrawMigrator
 					this.getAllASMAAssociations();
 				}
 				return _allASMAAssociations;
+			}
+		}
+		
+		
+		public List<MDAssociation> allParticipatesAssociations
+		{
+			get
+			{
+				if (_allParticipatesAssociations == null)
+				{
+					this.getParticipatesAssociations();
+				}
+				return _allParticipatesAssociations;
 			}
 		}
 		
@@ -534,6 +561,45 @@ namespace MagicdrawMigrator
 			_allFragments = foundFragments;
 		}
 		
+		
+		void getParticipatesAssociations()
+		{
+			var foundAssociations = new List<MDAssociation>();
+			
+			foreach(var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				nsMgr.AddNamespace("UMM_2_0_Foundation_Module___Long","http://www.magicdraw.com/schemas/UMM_2_0_Foundation_Module___Long.xmi");
+				
+				//get the associations that are missing by looking at the tags with UMM_2_0_Foundation_Module___Long:participates
+				foreach (XmlNode participatesNode in sourceFile.SelectNodes("//*[local-name() = 'participates']",nsMgr)) 
+				{
+					MDAssociationEnd mdTargetEnd = null;
+					MDAssociationEnd mdSourceEnd = null;
+					
+					// and getting the ID of their attribute base_Association
+					XmlAttribute baseAssociationAttribute = participatesNode.Attributes["base_Association"];
+					if (baseAssociationAttribute != null)
+					{
+						string associationID = baseAssociationAttribute.Value;
+						//get the association
+						if (this.allAssociations.ContainsKey(associationID))
+						{
+							var newParticipatesAssocation = allAssociations[associationID];
+							newParticipatesAssocation.stereotype = "participates";
+							foundAssociations.Add(newParticipatesAssocation);
+						}
+					}
+				}
+				
+			}
+			//set the collection to the found associations
+			_allParticipatesAssociations = foundAssociations;
+		}
+			
+		
 		void getAllASMAAssociations()
 		{
 			var foundAssociations = new List<MDAssociation>();
@@ -548,7 +614,7 @@ namespace MagicdrawMigrator
 				{
 					MDAssociationEnd mdTargetEnd = null;
 					MDAssociationEnd mdSourceEnd = null;
-					// and getting the ID of their attributebase_Association
+					// and getting the ID of their attribute base_Association
 					XmlAttribute baseAssociationAttribute = asmaNode.Attributes["base_Association"];
 					if (baseAssociationAttribute != null)
 					{
@@ -558,7 +624,7 @@ namespace MagicdrawMigrator
 						{
 							var newASMAAssocation = allAssociations[associationID];
 							newASMAAssocation.stereotype = "ASMA";
-							foundAssociations.Add( newASMAAssocation);
+							foundAssociations.Add(newASMAAssocation);
 						}
 					}
 				} 
@@ -567,6 +633,21 @@ namespace MagicdrawMigrator
 			//set the collection to the found associations
 			_allASMAAssociations = foundAssociations;
 		}
+		
+		void getAllDependencies()
+		{
+			var foundDependencies = new Dictionary<string,MDDependency>();
+		
+			foreach (var mdDependency in this.allMDElementRelations)
+			{
+				Debug.WriteLine(mdDependency.Value.relationType);
+				//Dependency, Usage, Realization
+			}
+				
+			
+			
+		}
+		
 		void getAllAssociations()
 		{
 			var foundAssociations = new Dictionary<string,MDAssociation>();
@@ -646,8 +727,22 @@ namespace MagicdrawMigrator
 						//create the association
 						var newAssociation = new MDAssociation(mdSourceEnd,mdTargetEnd,associationID);
 						newAssociation.isCrossMDZip = isCrossMDZip;
+						
+						
+						//get the stereotype, search for base_Association with the md_guid
+						XmlNode stereotypeNode = sourceFile.SelectSingleNode("//*[@base_Association='"+newAssociation.md_guid+"']", nsMgr);
+						if(stereotypeNode != null)
+						{
+							if (!string.IsNullOrEmpty(stereotypeNode.LocalName))
+							{
+								newAssociation.stereotype = stereotypeNode.LocalName;
+							}
+						}
+
 						foundAssociations.Add(associationID,newAssociation);
 					}
+					
+					
 				}
 			}
 			this._allAssociations = foundAssociations;

@@ -28,7 +28,7 @@ namespace MagicdrawMigrator
 	                   ,0
 	                   ,LogTypeEnum.log);
 			//fix the <<participates>> stereotypes
-			this.fixParticipation();
+			//this.fixParticipation();
 			
 			// get all the associations
 			foreach (MDAssociation mdAssociation in magicDrawReader.allAssociations.Values) 
@@ -223,6 +223,10 @@ namespace MagicdrawMigrator
 		
 		void fixParticipation()
 		{
+			/*this method adds the stereotype <<participates>> to all the connectors between a 'Harmonized_Role'
+			 * actor and a 'BusinessRealizationUseCase, bRealizationUC' use case
+			 */
+			
 			string sqlGetAssociations = @"select con.Connector_ID, con.[Stereotype]
 										from ((t_connector con
 										inner join t_object ac
@@ -246,6 +250,8 @@ namespace MagicdrawMigrator
 				}
 			
 		}
+		
+	
 		
 
 		

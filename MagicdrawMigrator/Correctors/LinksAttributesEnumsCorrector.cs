@@ -33,7 +33,7 @@ namespace MagicdrawMigrator
 																from t_object o
 																left join t_xref x on (o.[ea_guid] = x.[Client])
 																where o.[Stereotype] like 'BusinessEntity'
-																or (x.[Name] = 'StereoTypes' and x.[Description] like 'BusinessEntity')");
+																or (x.[Name] = 'StereoTypes' and x.[Description] = 'BusinessEntity')");
 			
 			//loop the attribues in the classes, filter the enums out
 			foreach (var businessEntity in classes) 
