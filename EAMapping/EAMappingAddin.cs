@@ -193,7 +193,7 @@ namespace EAMapping
             switch (ItemName)
             {
 				case menuMapAsSource:
-				    loadMapping(this.getCurrentMappingSet(true));
+				    loadMapping(this.getCurrentMappingSet());
 				    break;
 				case menuAddToSource:
 				    addNodeToTree(true);
@@ -230,7 +230,7 @@ namespace EAMapping
 
         void loadMapping(MappingFramework.MappingSet mappingSet)
         {        		
-      		this.mappingControl.loadMappingSet(this.getCurrentMappingSet(true));
+      		this.mappingControl.loadMappingSet(this.getCurrentMappingSet());
             model.activateTab(mappingControlName);
         }
 		void startImportMapping()
@@ -290,14 +290,14 @@ namespace EAMapping
 		{
 			return this.model.getUserSelectedElement(new List<string>{"Class","Package"}) as TSF_EA.Element;
 		}
-        private MappingFramework.MappingSet getCurrentMappingSet(bool source)
+        private MappingFramework.MappingSet getCurrentMappingSet()
         {
     		var selectedItem = model.selectedItem;
     		var selectedPackage = selectedItem as UML.Classes.Kernel.Package;
     		//check if package is selected
     		if (selectedPackage != null)
     		{
-    			_currentMappingSet = getCurrentMappingSet(selectedPackage, source);
+    			_currentMappingSet = getCurrentMappingSet(selectedPackage);
     		}
     		else 
     		{
@@ -305,19 +305,19 @@ namespace EAMapping
 	    		var selectedElement = selectedItem as TSF_EA.ElementWrapper;
 	    		if (selectedElement != null)
 	    		{
-	    			_currentMappingSet = getCurrentMappingSet(selectedElement, source);
+	    			_currentMappingSet = getCurrentMappingSet(selectedElement);
 	    		}
     		}
     		return _currentMappingSet;	
         	
         }
-        private MappingFramework.MappingSet getCurrentMappingSet(UML.Classes.Kernel.Package package, bool source)
+        private MappingFramework.MappingSet getCurrentMappingSet(UML.Classes.Kernel.Package package)
         {
-        	return new EA_MP.PackageMappingSet((TSF_EA.Package)package,source);
+        	return new EA_MP.PackageMappingSet((TSF_EA.Package)package);
         }
-        private MappingFramework.MappingSet getCurrentMappingSet(TSF_EA.ElementWrapper rootElement, bool source)
+        private MappingFramework.MappingSet getCurrentMappingSet(TSF_EA.ElementWrapper rootElement)
         {
-        	return new EA_MP.ElementMappingSet(rootElement,source);
+        	return new EA_MP.ElementMappingSet(rootElement);
         }
 
     // Cobol Copybook support
