@@ -32,8 +32,8 @@ namespace MagicdrawMigrator
 			var classes = this.model.getElementWrappersByQuery(@"select distinct o.[Object_ID]
 																from t_object o
 																left join t_xref x on (o.[ea_guid] = x.[Client])
-																where o.[Stereotype] like 'BusinessEntity'
-																or (x.[Name] = 'StereoTypes' and x.[Description] = 'BusinessEntity')");
+																where o.[Stereotype] like 'BusinessEntity' or o.[StereoType] like 'bEntity'
+																or (x.[Name] = 'StereoTypes' and x.[Description] = 'BusinessEntity' or x.[Description] = 'bEntity')");
 			
 			//loop the attribues in the classes, filter the enums out
 			foreach (var businessEntity in classes) 

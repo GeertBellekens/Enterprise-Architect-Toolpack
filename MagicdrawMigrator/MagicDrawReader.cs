@@ -125,17 +125,7 @@ namespace MagicdrawMigrator
 			}
 		}
 		
-		public Dictionary<string, MDDependency> allDependencies
-		{
-			get
-			{
-				if (_allDependencies == null)
-				{
-					this.getAllDependencies();
-				}
-				return _allDependencies;
-			}
-		}
+		
 		
 		public List<MDGuard> allGuards
 		{
@@ -439,10 +429,11 @@ namespace MagicdrawMigrator
 							var newRelation = new MDElementRelation(sourceID, targetID,relationType,relationID);
 							newRelation.name = relationName;
 							newRelation.isCrossMDZip = isCrossMdZip;
+
 							//add the new relation to the list of found relations
 							foundDirectMDElementRelations.Add(relationID,newRelation);
 							
-						
+							
 						}	
 					}
 				}
@@ -494,9 +485,23 @@ namespace MagicdrawMigrator
 						    && ! string.IsNullOrEmpty(relationType)
 						    && ! foundElementRelations.ContainsKey(relationID))
 						{
+							
 							var newRelation = new MDElementRelation(sourceID, targetID,relationType,relationID);
 							newRelation.name = relationName;
 							newRelation.isCrossMDZip = isCrossMdZip;
+							
+							//get the stereotype, search for base_Dependency, base_Realization, 
+							//dependencies, usages and realisation
+							
+							XmlNode stereotypeNode = sourceFile.SelectSingleNode("//*[@base_Dependency='"+newRelation.md_guid+"' or @base_Realization='"+newRelation.md_guid+"']", nsMgr);
+							if(stereotypeNode != null)
+							{
+								if(!string.IsNullOrEmpty(stereotypeNode.LocalName))
+								{
+									newRelation.stereotype = stereotypeNode.LocalName;								
+								}
+							}
+
 							//add the new relation to the list of found relations
 							foundElementRelations.Add(relationID,newRelation);
 						}
@@ -634,19 +639,6 @@ namespace MagicdrawMigrator
 			_allASMAAssociations = foundAssociations;
 		}
 		
-		void getAllDependencies()
-		{
-			var foundDependencies = new Dictionary<string,MDDependency>();
-		
-			foreach (var mdDependency in this.allMDElementRelations)
-			{
-				Debug.WriteLine(mdDependency.Value.relationType);
-				//Dependency, Usage, Realization
-			}
-				
-			
-			
-		}
 		
 		void getAllAssociations()
 		{
@@ -1128,6 +1120,8 @@ namespace MagicdrawMigrator
 										{
 											if (currentDiagram ==null) currentDiagram = new MDDiagram(diagramName);
 											
+											currentDiagram.id = elementID;
+											
 											//handle the notes
 											if(umlType == "Note")
 											{
@@ -1155,7 +1149,7 @@ namespace MagicdrawMigrator
 													}
 												}
 
-												var note = new MDNote(text,linkedElement);
+												var note = new MDNote(text,linkedElement, currentDiagram,geometryNode.InnerText);
 												currentDiagram.addDiagramNote(note);
 											}
 											

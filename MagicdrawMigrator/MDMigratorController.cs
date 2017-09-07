@@ -54,6 +54,7 @@ namespace MagicdrawMigrator
 			if (mdPackage !=null)
 			{
 
+//				correctors.Add(new RelationsCorrector(magicDrawReader, model, mdPackage));
 //				correctors.Add(new CrossMDzipAttributeCorrector(magicDrawReader, model, mdPackage));
 //				correctors.Add(new OCLConstraintsCorrector(magicDrawReader,model,mdPackage));
 //				correctors.Add(new AssociationTableCorrector(magicDrawReader,model,mdPackage));
@@ -61,8 +62,8 @@ namespace MagicdrawMigrator
 //				correctors.Add(new ConvertPropertiesToAttributes(magicDrawReader,model,mdPackage));
 //				correctors.Add(new SetStructureCorrector(magicDrawReader,model, mdPackage));
 //				correctors.Add(new SetStatesOnObjects(magicDrawReader,model, mdPackage));
-//				correctors.Add(new AddCrossMDzipRelationsCorrector(magicDrawReader,model, mdPackage));
-//				//correctors.Add(new ASMAAssociationCorrector(magicDrawReader,model, mdPackage));
+				//correctors.Add(new AddCrossMDzipRelationsCorrector(magicDrawReader,model, mdPackage));
+				//correctors.Add(new ASMAAssociationCorrector(magicDrawReader,model, mdPackage));
 //				correctors.Add(new AssociationCorrector(magicDrawReader, model, mdPackage));
 //				correctors.Add(new AddClassifiersToPartitions(magicDrawReader,model, mdPackage));
 //				correctors.Add(new SequenceDiagramCorrector(magicDrawReader,model, mdPackage));
@@ -71,9 +72,8 @@ namespace MagicdrawMigrator
 //				correctors.Add(new CorrectStereotypesAndTaggedValues(magicDrawReader,model, mdPackage));
 //				correctors.Add(new MigrateDependencyMatrix(magicDrawReader,model, mdPackage));				
 //				correctors.Add(new AddGuardConditions(magicDrawReader, model, mdPackage));
-//				correctors.Add(new LinksAttributesEnumsCorrector(magicDrawReader, model, mdPackage));
-//				correctors.Add(new MissingRelationsStereotypes(magicDrawReader, model, mdPackage));
-				correctors.Add(new RelationsCorrector(magicDrawReader, model, mdPackage));
+				correctors.Add(new LinksAttributesEnumsCorrector(magicDrawReader, model, mdPackage));
+				
 
 			}
 		}

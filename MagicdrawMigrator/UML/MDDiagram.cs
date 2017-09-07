@@ -12,6 +12,7 @@ namespace MagicdrawMigrator
 		public string name {get;set;}
 		List<MDDiagramObject> _diagramObjects;
 		List<MDNote> _diagramNotes;
+		public string id {get;set;}
 		
 		public MDDiagram(string name)
 		{

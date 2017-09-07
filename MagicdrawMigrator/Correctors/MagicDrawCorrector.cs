@@ -33,5 +33,7 @@ namespace MagicdrawMigrator
 									where tv.Value = '"+mdID+"'";
 			return this.model.getElementWrappersByQuery(getClassesSQL).FirstOrDefault();
 		}
+		
+		
 	}
 }

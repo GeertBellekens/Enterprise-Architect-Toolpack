@@ -27,19 +27,22 @@ namespace MagicdrawMigrator
 	                          ,DateTime.Now.ToLongTimeString())
 	           ,0
 	          ,LogTypeEnum.log);
-			//Dependency, Usage, Realization --> mogen samen genomen worden
+
 			
 			//Abstractions
-			this.correctAbstractions();
+	
 			
 			//Associations
-			//this.correctAssociations();
+			this.correctAssociations();
 			
 			//ControlFlows
-			this.correctControlFlows();
+			//this.correctControlFlows();
 			
-			//Dependencies
-			this.correctDependencies();
+			//Dependencies - Usage - Realisation
+			this.correctElementRelations();
+			
+			//Generalizations
+			this.correctGeneralizations();
 			
 			
 			//Finished
@@ -97,8 +100,14 @@ namespace MagicdrawMigrator
 						setEndProperties(newAssociation.sourceEnd, mdAssociation.Value.source);
 						//set target end properties
 						setEndProperties(newAssociation.targetEnd, mdAssociation.Value.target);
-						//set the target end navigable by default --> always true?
+						//set the target end navigable by default
 						newAssociation.targetEnd.isNavigable = true;
+						if(mdAssociation.Value.stereotype == "participates")
+						{
+							newAssociation.targetEnd.isNavigable = false;
+						}
+						
+						
 						//set target class
 						newAssociation.target = targetElement;
 						//set the stereotype
@@ -110,7 +119,7 @@ namespace MagicdrawMigrator
 						
 						//tell the user
 						EAOutputLogger.log(this.model,this.outputName
-		                   	,string.Format("{0} Corrected «"+mdAssociation.Value.stereotype+"» association between '{1}' and '{2}'"
+		                   	,string.Format("{0} Created «"+mdAssociation.Value.stereotype+"» association between '{1}' and '{2}'"
 		                  	,DateTime.Now.ToLongTimeString()
 		                  	,newAssociation.source.name
 		                  	,newAssociation.target.name)
@@ -145,23 +154,60 @@ namespace MagicdrawMigrator
               ,LogTypeEnum.log);
 		}
 		
-		void correctDependencies()
+		void correctElementRelations()
 		{
 			
 			EAOutputLogger.log(this.model,this.outputName
-                   ,string.Format("{0} Starting corrections for the dependencies"
+                   ,string.Format("{0} Starting corrections for the dependencies, usages and realisations"
                                   ,DateTime.Now.ToLongTimeString())
                    ,0
                   ,LogTypeEnum.log);
 			
-			//First get al the dependencies
-			foreach (var mdDependency in magicDrawReader.allDependencies)
+			//First get al the dependencies, usages and realisations
+			foreach (var mdRelation in magicDrawReader.allMDElementRelations)
 			{
-				
+				//check if the relation already exists
+				if(!exists(mdRelation.Key, mdRelation.Value.sourceMDGUID, mdRelation.Value.targetMDGUID, mdRelation.Value.relationType, mdRelation.Value.stereotype))
+				{
+					var sourceElement = this.getElementByMDid(mdRelation.Value.sourceMDGUID);
+					var targetElement = this.getElementByMDid(mdRelation.Value.targetMDGUID);
+					
+					if (sourceElement != null && targetElement != null)
+					{
+						//create the actual relation
+						var newRelation = this.model.factory.createNewElement(sourceElement, mdRelation.Value.name, mdRelation.Value.relationType) as TSF_EA.ConnectorWrapper;
+						
+						//set target
+						newRelation.target = targetElement;
+					
+						//set the target end navigable by default
+						newRelation.targetEnd.isNavigable = true;
+						
+						//set the stereotype
+						newRelation.addStereotype(this.model.factory.createStereotype(newRelation, mdRelation.Value.stereotype));
+							
+						//save the new relation
+						newRelation.save();
+					
+						//set the md_guid tagged value
+						newRelation.addTaggedValue("md_guid",mdRelation.Key);
+						
+						//tell the user
+						EAOutputLogger.log(this.model,this.outputName
+							,string.Format("{0} Created relation of type {1} between '{2}' and '{3}'"
+							              ,DateTime.Now.ToLongTimeString()
+							              ,mdRelation.Value.relationType
+							              ,sourceElement.name
+							              ,targetElement.name)
+							,sourceElement.id
+							,LogTypeEnum.log);
+						
+					}
+				}
 			}
 		
 			EAOutputLogger.log(this.model,this.outputName
-               ,string.Format("{0} Finished corrections for the dependencies"
+               ,string.Format("{0} Finished corrections for the dependencies, usages and realisations"
                               ,DateTime.Now.ToLongTimeString())
                ,0
               ,LogTypeEnum.log);
@@ -193,7 +239,53 @@ namespace MagicdrawMigrator
                    ,0
                   ,LogTypeEnum.log);
 			
-			
+			//First get all the generalizations
+			foreach (var mdGeneralization in magicDrawReader.allDirectMDElementRelations)
+			{
+				string md_guid = mdGeneralization.Key;
+				string source_id = mdGeneralization.Value.sourceMDGUID;
+				string target_id = mdGeneralization.Value.targetMDGUID;
+				string relationType = mdGeneralization.Value.relationType;
+				string name = mdGeneralization.Value.name;
+				string stereotype = string.Empty;
+				
+				//check if the relation already exists
+				if(!exists(md_guid, source_id, target_id, relationType, stereotype))
+				{
+					var sourceElement = this.getElementByMDid(source_id);
+					var targetElement = this.getElementByMDid(target_id);
+					
+					if (sourceElement != null && targetElement != null)
+					{
+						//create the actual generalization
+						var newGeneralization = this.model.factory.createNewElement(sourceElement, name, relationType) as TSF_EA.Generalization;
+						
+						//set target
+						newGeneralization.target = targetElement;
+						
+						//set the target end navigable by default --> always true?
+						newGeneralization.targetEnd.isNavigable = true;
+						
+						//save the new generalization
+						newGeneralization.save();
+						
+						//set the md_guid tagged value
+						newGeneralization.addTaggedValue("md_guid", md_guid);
+						
+						//tell the user
+						EAOutputLogger.log(this.model,this.outputName
+							,string.Format("{0} Created generalization between '{1}' and '{2}'"
+							              ,DateTime.Now.ToLongTimeString()
+							              ,sourceElement.name
+							              ,targetElement.name)
+							,sourceElement.id
+							,LogTypeEnum.log);
+					}
+					
+					
+				}
+				
+			}
 		
 			EAOutputLogger.log(this.model,this.outputName
                ,string.Format("{0} Finished corrections for the generalizations"
@@ -253,22 +345,7 @@ namespace MagicdrawMigrator
               ,LogTypeEnum.log);
 		}
 		
-		void correctRealisations()
-		{
-						EAOutputLogger.log(this.model,this.outputName
-                   ,string.Format("{0} Starting corrections for the realisations"
-                                  ,DateTime.Now.ToLongTimeString())
-                   ,0
-                  ,LogTypeEnum.log);
-			
-			
 		
-			EAOutputLogger.log(this.model,this.outputName
-               ,string.Format("{0} Finished corrections for the realisations"
-                              ,DateTime.Now.ToLongTimeString())
-               ,0
-              ,LogTypeEnum.log);
-		}
 		
 		void correctSequences()
 		{
@@ -299,23 +376,6 @@ namespace MagicdrawMigrator
 		
 			EAOutputLogger.log(this.model,this.outputName
                ,string.Format("{0} Finished corrections for the stateflows"
-                              ,DateTime.Now.ToLongTimeString())
-               ,0
-              ,LogTypeEnum.log);
-		}
-		
-		void correctUsages()
-		{
-						EAOutputLogger.log(this.model,this.outputName
-                   ,string.Format("{0} Starting corrections for the usages"
-                                  ,DateTime.Now.ToLongTimeString())
-                   ,0
-                  ,LogTypeEnum.log);
-			
-			
-		
-			EAOutputLogger.log(this.model,this.outputName
-               ,string.Format("{0} Finished corrections for the usages"
                               ,DateTime.Now.ToLongTimeString())
                ,0
               ,LogTypeEnum.log);
@@ -361,6 +421,10 @@ namespace MagicdrawMigrator
 		
 		bool exists(string md_guid, string source, string target, string type, string stereotype)
 		{
+			if (type == "Realization")
+			{
+				type = "Realisation";
+			}
 			//check if the relation already exists
 			//first try to find it using the MD guid
 			string sqlGetExistingRelations = @"select c.Connector_ID from (t_connector c
