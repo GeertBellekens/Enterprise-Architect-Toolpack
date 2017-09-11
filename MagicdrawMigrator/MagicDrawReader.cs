@@ -1125,6 +1125,10 @@ namespace MagicdrawMigrator
 											//handle the notes
 											if(umlType == "Note")
 											{
+												//get the ID
+												XmlAttribute noteIdAttribute = diagramObjectNode.Attributes["xmi:id"];
+												string noteId = noteIdAttribute != null ? noteIdAttribute.Value : string.Empty;
+												
 												//get the text
 												string text = string.Empty;
 												var textNode = diagramObjectNode.SelectSingleNode(".//text");
@@ -1149,12 +1153,14 @@ namespace MagicdrawMigrator
 													}
 												}
 
-												var note = new MDNote(text,linkedElement, currentDiagram,geometryNode.InnerText);
+
+												var note = new MDNote(noteId,text,linkedElement);
 												currentDiagram.addDiagramNote(note);
 											}
 											
 												var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
 												currentDiagram.addDiagramObject(diagramObject);
+												
 												
 												if (umlType == "Split")
 												{

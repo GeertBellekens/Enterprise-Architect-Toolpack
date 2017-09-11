@@ -34,76 +34,32 @@ namespace MagicdrawMigrator
 			{
 				var mdDiagram = mdDiagramKeyValue.Value;
 				var ownerID = magicDrawReader.getDiagramOnwerID(mdDiagramKeyValue.Key);
-				var parentElement = getElementByMDid(ownerID); //this is a package, must be the diagram
-				
-				//find the corresponding diagram in EA
-				string getCorrespondingdiagramSQL = 
-				@"select d.Diagram_ID from ((t_diagram d
-				inner join t_object o on o.Object_ID = d.ParentID)
-				inner join t_objectproperties tv on (tv.Object_ID = o.Object_ID
-													and tv.Property = 'md_guid'))
-				where tv.Value = '"+ownerID+"'"
-				+ " and d.Name = '"+mdDiagram.name.Replace("'","''")+ "'"
-				+@" union
-				select d.Diagram_ID from (((t_diagram d
-				inner join t_package p on d.Package_ID = p.Package_ID)
-				inner join t_object o on o.ea_guid = p.ea_guid)
-				inner join t_objectproperties tv on (tv.Object_ID = o.Object_ID
-													and tv.Property = 'md_guid'))
-				where d.ParentID = 0
-				and tv.Value = '"+ownerID+"'"
-				+ " and d.Name = '"+mdDiagram.name.Replace("'","''")+ "'";
-	
-				var eaDiagrams = this.model.getDiagramsByQuery(getCorrespondingdiagramSQL);
-				
-				TSF_EA.Diagram eaDiagram = eaDiagrams.FirstOrDefault();
-				
+				var parentElement = getElementByMDid(ownerID); 
+
 				foreach (var mdDiagramNote in mdDiagram.diagramNotes)
 				{
 					if (parentElement != null)
 					{
+						//create a new note
 						TSF_EA.NoteComment newNote = this.model.factory.createNewElement<TSF_EA.NoteComment>(parentElement, string.Empty);
-						
+						//add the comments to the note
 						newNote.ownedComments.FirstOrDefault().body = mdDiagramNote.text;
+						//save the note
 						newNote.save();
-						eaDiagram.addToDiagram(newNote,mdDiagramNote.x, mdDiagramNote.y, mdDiagramNote.bottom, mdDiagramNote.right);
-						var linkedElement = getElementByMDid(mdDiagramNote.linkedElement);
-						if (linkedElement != null)
-						{
-							TSF_EA.ConnectorWrapper noteLink = newNote.addOwnedElement<TSF_EA.ConnectorWrapper>(string.Empty, "NoteLink");
-							noteLink.target = linkedElement;
-							noteLink.save();
+						//add the tagged value md_guid
+						newNote.addTaggedValue("md_guid", mdDiagramNote.note_Id);
+						
+				
+						
 							EAOutputLogger.log(this.model,this.outputName
-		                   ,string.Format("{0} Create note '{1}' for '{2}'"
-		                                  ,DateTime.Now.ToLongTimeString()
-		                                  ,newNote.ownedComments.FirstOrDefault().body
-		                                 ,getElementByMDid(mdDiagramNote.linkedElement).name)
-							             ,linkedElement.id
-		                  ,LogTypeEnum.log);
-						}
-						else
-						{
-							EAOutputLogger.log(this.model,this.outputName
-		                   ,string.Format("{0} Create note '{1}'"
+		                   ,string.Format("{0} Create new note '{1}'"
 		                                  ,DateTime.Now.ToLongTimeString()
 		                                  ,newNote.ownedComments.FirstOrDefault().body)
-		                             
-		                   ,newNote.id
+		                                 
+							             ,parentElement.id
 		                  ,LogTypeEnum.log);
-						}
 					}
-					else
-					{
-						EAOutputLogger.log(this.model,this.outputName
-		                   ,string.Format("{0} No parent for note '{1}'"
-		                                  ,DateTime.Now.ToLongTimeString()
-		                                  ,mdDiagramNote.text)
-		                             
-		                   ,0
-		                  ,LogTypeEnum.log);
-						
-						
-					}
+					
 
 				}
 			}
