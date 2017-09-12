@@ -47,7 +47,7 @@ namespace MagicdrawMigrator
 															tv.Value = '"+crossAttribute.mdParentGuid+ @"' 
 															and a.Name = '"+crossAttribute.name+ @"'
 															and (a.classifier is null 
-															or a.Classifier <> "+typeElement.id+")";
+															or a.Classifier <> '"+typeElement.id+"')";
 					var correspondingAttributes = this.model.getAttributesByQuery(sqlGetCorrespondingAttribute);
 					//set the type of the attribute in EA
 					foreach (var attribute in correspondingAttributes) 
