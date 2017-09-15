@@ -33,7 +33,7 @@ namespace MagicdrawMigrator
 	
 			
 			//Associations
-			this.correctAssociations();
+			//this.correctAssociations();
 			
 			//ControlFlows
 			//this.correctControlFlows();
@@ -171,6 +171,49 @@ namespace MagicdrawMigrator
 				{
 					var sourceElement = this.getElementByMDid(mdRelation.Value.sourceMDGUID);
 					var targetElement = this.getElementByMDid(mdRelation.Value.targetMDGUID);
+					
+					if(mdRelation.Value.relationType == "Usage" && sourceElement == null && targetElement != null)
+					{
+						//get the attribute with mdGuid = sourceMdGuid of the relation
+						foreach(var mdAttribute in magicDrawReader.allAttributes.Where(x => x.mdGuid == mdRelation.Value.sourceMDGUID))
+						{
+							
+							//mdAttribute = source attribute
+							var attributeParent = this.getElementByMDid(mdAttribute.mdParentGuid);
+							if (attributeParent != null)
+							{
+								// create a 'usage' link from the enum attributes to the enum entities
+								TSF_EA.Usage usage = this.model.factory.createNewElement<TSF_EA.Usage>(attributeParent, string.Empty);
+								
+								//check all atributes in the parent for an attribute with the same name as the mdAttribute
+								foreach (var attribute in attributeParent.attributes.Where(x => x.name == mdAttribute.name))
+								{
+									usage.source = attribute;
+									usage.target = targetElement;
+									usage.targetEnd.isNavigable = true;
+									usage.save();
+									
+									
+									EAOutputLogger.log(this.model,this.outputName
+							                   	,string.Format("{0} Created <<usage>> link from '{1}.{2}' to '{3}'"
+			                                  	,DateTime.Now.ToLongTimeString()
+			                                 	,attributeParent.name
+			                                	,attribute.name
+			                                	,targetElement.name)
+			                  		 ,attributeParent.id
+			                		  ,LogTypeEnum.log);
+								}
+
+								
+							}
+	
+
+						}
+						
+						
+						
+						
+					}
 					
 					if (sourceElement != null && targetElement != null)
 					{
@@ -434,8 +477,31 @@ namespace MagicdrawMigrator
 			
 			var correspondingRelations = this.model.getRelationsByQuery(sqlGetExistingRelations).ToList();
 			
+			//special check for participates
+			if(stereotype == "participates")
+			{
+				sqlGetExistingRelations = @"select c.Connector_ID from ((((t_connector c
+											inner join t_object obs on c.Start_Object_ID = obs.Object_ID)
+											inner join t_objectproperties obstv on (obstv.Object_ID = obs.Object_ID
+																					and obstv.Property = 'md_guid'))
+											inner join t_object obe on c.End_Object_ID = obe.Object_ID)
+											inner join t_objectproperties obetv on (obetv.Object_ID = obe.Object_ID
+																					and obetv.Property = 'md_guid'))
+											where
+											c.Connector_Type = '"+ type +@"'
+											and c.Stereotype = '"+ stereotype +@"'
+											and obstv.Value in ('"+ source + "','" + target + @"')
+											and obetv.Value in ('"+ target +"','" + source +"')";
+				
+				var correspondingParticipates = this.model.getRelationsByQuery(sqlGetExistingRelations).ToList();
+				if(correspondingParticipates.Any()) // als er iets gevonden is
+				{
+					return true; // bestaat al
+				}
+			}
+			
 			//if not found by mdGUID then find all associations between source and target
-			if(!correspondingRelations.Any())
+			if(!correspondingRelations.Any()) // als er niets is
 			{
 				//find the corresponding association based on:
 				//1.the source and target
@@ -456,13 +522,15 @@ namespace MagicdrawMigrator
 											and obetv.Value = '"+ target +"'";
 				
 				correspondingRelations = this.model.getRelationsByQuery(sqlGetExistingRelations).ToList();
-			}
-			if(!correspondingRelations.Any())
-			{
-				return false;
+				if(!correspondingRelations.Any()) // als er niets is 
+				{
+					return false; // bestaat nog niet
+				}
 			}
 			
-			return true;
+
+				
+			return true; // bestaat al
 			
 			
 			

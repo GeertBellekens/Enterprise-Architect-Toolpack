@@ -76,6 +76,7 @@
     <Compile Include="Correctors\OCLConstraintsCorrector.cs" />
     <Compile Include="Correctors\SetStatesOnObjects.cs" />
     <Compile Include="Correctors\SetStructureCorrector.cs" />
+    <Compile Include="Correctors\TimeEventsCorrector.cs" />
     <Compile Include="MagicDrawReader.cs" />
     <Compile Include="MDMigratorForm.cs" />
     <Compile Include="MDMigratorForm.Designer.cs">
@@ -99,6 +100,7 @@
     <Compile Include="UML\MDGuard.cs" />
     <Compile Include="UML\MDMessage.cs" />
     <Compile Include="UML\MDNote.cs" />
+    <Compile Include="UML\MDTimeEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

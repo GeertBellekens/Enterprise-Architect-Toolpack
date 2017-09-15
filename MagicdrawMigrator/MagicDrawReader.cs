@@ -25,6 +25,7 @@ namespace MagicdrawMigrator
 		Dictionary<string,MDAssociation> _allAssociations;
 		Dictionary<string,MDDependency> _allDependencies;
 		Dictionary<string,MDAssociationEnd> _allAttributeAssociationRoles;
+		Dictionary<string,MDTimeEvent> _allTimeEvents;
 		List<MDAssociation> _allASMAAssociations;
 		List<MDAssociation> _allParticipatesAssociations;
 		Dictionary<string,string> _allLinkedAssociationTables;
@@ -125,7 +126,17 @@ namespace MagicdrawMigrator
 			}
 		}
 		
-		
+		public Dictionary<string, MDTimeEvent> allTimeEvents
+		{
+			get
+			{
+				if (_allTimeEvents == null)
+				{
+					this.getAllTimeEvents();
+				}
+				return _allTimeEvents;
+			}
+		}
 		
 		public List<MDGuard> allGuards
 		{
@@ -1104,6 +1115,8 @@ namespace MagicdrawMigrator
 								//xmlDiagram.Load(diagramFileName);
 								foreach (XmlNode diagramObjectNode in xmlDiagram.SelectNodes(".//mdElement")) 
 								{
+									//create the object
+									MDDiagramObject diagramObject;
 									//get the elementID
 									string elementID = getElementID(diagramObjectNode);
 									//get the umlType of the elementNode
@@ -1156,9 +1169,13 @@ namespace MagicdrawMigrator
 
 												var note = new MDNote(noteId,text,linkedElement);
 												currentDiagram.addDiagramNote(note);
+												diagramObject = new MDDiagramObject(noteId,geometryNode.InnerText,umlType);
 											}
-											
-												var diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
+											else
+											{
+												diagramObject = new MDDiagramObject(elementID,geometryNode.InnerText,umlType);
+											}
+
 												currentDiagram.addDiagramObject(diagramObject);
 												
 												
@@ -1585,6 +1602,7 @@ namespace MagicdrawMigrator
 							mdAttribute.isCrossMDZip = isForeignType;
 							mdAttribute.typeMDGuid = typeID;
 							foundAttributes.Add(mdAttribute);
+							
 						}
 					}
 					
@@ -1593,6 +1611,41 @@ namespace MagicdrawMigrator
 				
 			}
 			_allAttributes = foundAttributes;
+		}
+		
+		void getAllTimeEvents()
+		{
+			var foundEvents = new Dictionary<string,MDTimeEvent>();
+			
+			foreach(var sourceFile in this.sourceFiles.Values)
+			{
+				XmlNamespaceManager nsMgr = new XmlNamespaceManager(sourceFile.NameTable);
+				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
+				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
+				
+				foreach (XmlNode elementNode in sourceFile.SelectNodes(".//packagedElement[@xmi:type='uml:TimeEvent']", nsMgr))
+				{
+					//get the element mdID
+					XmlAttribute elementIDAttribute = elementNode.Attributes["xmi:id"];
+					string elementID = elementIDAttribute != null ? elementIDAttribute.Value:string.Empty;
+					
+					foreach (XmlNode expressionNode in elementNode.SelectNodes(".//expr", nsMgr))
+					{
+						//<expr xmi:type='uml:LiteralString' xmi:id='_17_0_2_1_b9402f1_1352729546733_937644_30538' value='GF1'/>
+						//get the value
+						XmlAttribute valueAttribute = expressionNode.Attributes["value"];
+						string value = valueAttribute != null ? valueAttribute.Value:string.Empty;
+						
+						if (!string.IsNullOrEmpty(elementID) && !string.IsNullOrEmpty(value))
+						{
+							var mdTimeEvent = new MDTimeEvent(elementID,value);
+							foundEvents.Add(elementID,mdTimeEvent);
+						}	
+					}
+
+				}
+			}
+			_allTimeEvents = foundEvents;
 		}
 		
 		void getAllPartitions()

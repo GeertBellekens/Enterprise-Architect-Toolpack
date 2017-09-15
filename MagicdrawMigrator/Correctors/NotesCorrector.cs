@@ -49,7 +49,14 @@ namespace MagicdrawMigrator
 						//add the tagged value md_guid
 						newNote.addTaggedValue("md_guid", mdDiagramNote.note_Id);
 						
-				
+						//links
+						var linkedElement = getElementByMDid(mdDiagramNote.linkedElement);
+						if (linkedElement != null)
+						{
+							TSF_EA.ConnectorWrapper noteLink = newNote.addOwnedElement<TSF_EA.ConnectorWrapper>(string.Empty, "NoteLink");
+							noteLink.target = linkedElement;
+							noteLink.save();
+						}
 						
 							EAOutputLogger.log(this.model,this.outputName
 		                   ,string.Format("{0} Create new note '{1}'"
@@ -58,9 +65,7 @@ namespace MagicdrawMigrator
 		                                 
 							             ,parentElement.id
 		                  ,LogTypeEnum.log);
-					}
-					
-
+					}	
 				}
 			}
 			
