@@ -1630,25 +1630,48 @@ namespace MagicdrawMigrator
 				nsMgr.AddNamespace("xmi", "http://www.omg.org/spec/XMI/20131001");
 				nsMgr.AddNamespace("uml", "http://www.omg.org/spec/UML/20131001");
 				
-				foreach (XmlNode elementNode in sourceFile.SelectNodes(".//packagedElement[@xmi:type='uml:TimeEvent']", nsMgr))
+				foreach (XmlNode actionNode in sourceFile.SelectNodes("//node[@xmi:type='uml:AcceptEventAction']", nsMgr))
 				{
-					//get the element mdID
-					XmlAttribute elementIDAttribute = elementNode.Attributes["xmi:id"];
-					string elementID = elementIDAttribute != null ? elementIDAttribute.Value:string.Empty;
+					//get the element mdID from the AcceptEventAction node
+					string elementID = getID(actionNode); //mdGuid from the object in EA
+					string eventID = string.Empty;
 					
-					foreach (XmlNode expressionNode in elementNode.SelectNodes(".//expr", nsMgr))
+					//get the triggernode and event
+					XmlNode triggerNode = actionNode.SelectSingleNode(".//trigger", nsMgr);
+					if (triggerNode != null)
 					{
-						//<expr xmi:type='uml:LiteralString' xmi:id='_17_0_2_1_b9402f1_1352729546733_937644_30538' value='GF1'/>
-						//get the value
-						XmlAttribute valueAttribute = expressionNode.Attributes["value"];
-						string value = valueAttribute != null ? valueAttribute.Value:string.Empty;
-						
-						if (!string.IsNullOrEmpty(elementID) && !string.IsNullOrEmpty(value))
-						{
-							var mdTimeEvent = new MDTimeEvent(elementID,value);
-							foundEvents.Add(elementID,mdTimeEvent);
-						}	
+						XmlAttribute eventAttribute = triggerNode.Attributes["event"];
+						eventID = eventAttribute != null ? eventAttribute.Value:string.Empty;
 					}
+					
+					//get the TimeEvent and the value
+					
+					if(!string.IsNullOrEmpty(eventID))
+					{
+						XmlNode timeEventNode = sourceFile.SelectSingleNode(".//packagedElement[@xmi:id='"+ eventID +"']", nsMgr);
+						if (timeEventNode != null)
+						{
+							XmlNode expressionNode = timeEventNode.SelectSingleNode(".//expr", nsMgr);
+							
+							if (expressionNode != null)
+							{
+								XmlAttribute valueAttribute = expressionNode.Attributes["value"];
+								string value = valueAttribute != null ? valueAttribute.Value:string.Empty;
+								
+								
+								if (!string.IsNullOrEmpty(elementID) && !string.IsNullOrEmpty(value))
+								{
+									var mdTimeEvent = new MDTimeEvent(elementID,value);
+									foundEvents.Add(elementID,mdTimeEvent);
+								}	
+							}
+							
+						}
+					}
+					
+
+					
+					
 
 				}
 			}

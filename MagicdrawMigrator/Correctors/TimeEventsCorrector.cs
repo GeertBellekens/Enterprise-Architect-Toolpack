@@ -31,16 +31,28 @@ namespace MagicdrawMigrator
 
 			//First get all the Time Events
 			foreach (var mdTimeEvent in magicDrawReader.allTimeEvents)
-			{
+			{	
 				TSF_EA.Action TimeEvent = getElementByMDid(mdTimeEvent.Key) as TSF_EA.Action;
 				
 				if (TimeEvent != null)
 				{
-					//TimeEvent;
 					
 					//change type
+					TimeEvent.kind = TSF_EA.ActionKind.AcceptEventTimer;
 					
 					//set name = value
+					TimeEvent.name = mdTimeEvent.Value.value;
+					
+					TimeEvent.save();
+					
+					
+					//let the user know
+							EAOutputLogger.log(this.model,this.outputName
+			                   ,string.Format("{0} Corrected time event '{1}'"
+			                                  ,DateTime.Now.ToLongTimeString()
+			                                 ,TimeEvent.name)
+							  ,TimeEvent.id
+			                  ,LogTypeEnum.log);
 				}
 			}
 			
