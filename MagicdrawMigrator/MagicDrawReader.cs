@@ -669,6 +669,13 @@ namespace MagicdrawMigrator
 					bool isCrossMDZip = false;
 					//get the association ID
 					string associationID = this.getID(associationNode);
+					
+					if (associationID == "_16_6_f54035b_1266497344617_187500_6113")
+					{
+						Debug.WriteLine("ok");
+					}
+					
+					
 					//loop membernodes
 					foreach (XmlNode memberNode in associationNode.SelectNodes("./memberEnd"))
 					{

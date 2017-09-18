@@ -37,6 +37,10 @@ namespace MagicdrawMigrator
 				if (TimeEvent != null)
 				{
 					//TimeEvent;
+					
+					//change type
+					
+					//set name = value
 				}
 			}
 			
