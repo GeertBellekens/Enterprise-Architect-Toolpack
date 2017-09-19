@@ -33,7 +33,7 @@ namespace MagicdrawMigrator
 	
 			
 			//Associations
-			//this.correctAssociations();
+			this.correctAssociations();
 			
 			//ControlFlows
 			//this.correctControlFlows();

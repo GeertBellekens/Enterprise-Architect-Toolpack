@@ -38,6 +38,7 @@ namespace MagicdrawMigrator
 				
 				if (eaAssociation != null)
 				{
+					
 					//fix navigability
 					this.fixNavigability(eaAssociation);
 					//correct the "(Unspecified)..(Unspecified)" multiplicities in the database
@@ -60,7 +61,16 @@ namespace MagicdrawMigrator
 						    && ! string.IsNullOrEmpty(mdAssociation.source.upperBound))
 						{
 							var sourceMultiplicity = new TSF_EA.Multiplicity(mdAssociation.source.lowerBound, mdAssociation.source.upperBound);
-							eaAssociation.sourceEnd.multiplicity = sourceMultiplicity;
+							//navigability
+							if(eaAssociation.WrappedConnector.Direction == "Destination -> Source")
+							{
+								eaAssociation.targetEnd.multiplicity = sourceMultiplicity;
+							}
+							else
+							{
+								eaAssociation.sourceEnd.multiplicity = sourceMultiplicity;
+							}
+							
 							updatedMultiplicity = true;
 						}
 						//set target (only if not both empty)
@@ -68,7 +78,16 @@ namespace MagicdrawMigrator
 						    && ! string.IsNullOrEmpty(mdAssociation.target.upperBound))
 						{
 							var targetMultiplicity = new TSF_EA.Multiplicity(mdAssociation.target.lowerBound, mdAssociation.target.upperBound);
-							eaAssociation.targetEnd.multiplicity = targetMultiplicity;
+							//navigability
+							if(eaAssociation.WrappedConnector.Direction == "Destination -> Source")
+							{
+								eaAssociation.sourceEnd.multiplicity = targetMultiplicity;
+							}
+							else
+							{
+								eaAssociation.targetEnd.multiplicity = targetMultiplicity;
+							}
+							
 							updatedMultiplicity = true;
 						}
 						//tell the user we have updated the multiplicities
@@ -184,27 +203,55 @@ namespace MagicdrawMigrator
 			// - have the same rolenames
 			if (correspondingAssociation == null)
 			{	
+				string sqlGetCorrespondingAssociation = string.Empty;
 				var sourceElement = getElementByMDid(mdAssociation.source.endClassID);
 				var targetElement = getElementByMDid(mdAssociation.target.endClassID);
+			
 				if (sourceElement != null && targetElement != null)
 				{
+					//moved code -> twee checks doen dan
+					//source -> target
+					correspondingAssociation = GetCorrespondingAssociation(sourceElement, targetElement, mdAssociation.source.name, mdAssociation.target.name);
+					//if we find the association we set the md_guid tagged value
+					if (correspondingAssociation != null) 
+					{
+						correspondingAssociation.addTaggedValue("md_guid",mdAssociation.md_guid);
+					}
+					
+					//target -> source
+					correspondingAssociation = GetCorrespondingAssociation(targetElement, sourceElement, mdAssociation.target.name, mdAssociation.source.name);
+					//if we find the association we set the md_guid tagged value
+					if (correspondingAssociation != null) 
+					{
+						correspondingAssociation.addTaggedValue("md_guid",mdAssociation.md_guid);
+					}
+				
+					
+									
+				}
+			}
+			return correspondingAssociation;
+		}
+		
+		private TSF_EA.Association GetCorrespondingAssociation(TSF_EA.ElementWrapper sourceElement, TSF_EA.ElementWrapper targetElement, string sourceName, string targetName )
+		{
 					//first set the first part:
 					string sqlGetCorrespondingAssociation = 
 						@"select c.Connector_ID from t_connector c
 						where c.Connector_Type in ('Association', 'Aggregation')
 						and c.Start_Object_ID = " + sourceElement.id + Environment.NewLine +
 						"and c.End_Object_ID = " + targetElement.id ;
-					if (!string.IsNullOrEmpty(mdAssociation.target.name))
+					if (!string.IsNullOrEmpty(targetName))
 					{
 						//target role is filled in
 						sqlGetCorrespondingAssociation += @" 
-						and c.DestRole = '"+ mdAssociation.target.name +"'";
+						and c.DestRole = '"+ targetName +"'";
 					}
-					if (!string.IsNullOrEmpty(mdAssociation.source.name))
+					if (!string.IsNullOrEmpty(sourceName))
 					{
 						//source role is filled in
 						sqlGetCorrespondingAssociation += @" 
-						and c.SourceRole = '"+ mdAssociation.source.name +"'";
+						and c.SourceRole = '"+ sourceName +"'";
 					}
 					//add the part checking for the md_guid
 					sqlGetCorrespondingAssociation += @" 
@@ -213,13 +260,12 @@ namespace MagicdrawMigrator
 					where tv.ElementID = c.Connector_ID
 					and tv.Property = 'md_guid'
 					and tv.VALUE is not null)";
-					correspondingAssociation = this.model.getRelationsByQuery(sqlGetCorrespondingAssociation).FirstOrDefault() as TSF_EA.Association;
-					//if we find the association we set the md_guid tagged value
-					if (correspondingAssociation != null) correspondingAssociation.addTaggedValue("md_guid",mdAssociation.md_guid);					
-				}
-			}
+					
+					var correspondingAssociation = this.model.getRelationsByQuery(sqlGetCorrespondingAssociation).FirstOrDefault() as TSF_EA.Association;
+					
 			return correspondingAssociation;
 		}
+		
 		
 		void fixParticipation()
 		{

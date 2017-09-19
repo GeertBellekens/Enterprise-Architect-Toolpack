@@ -392,6 +392,8 @@ namespace MagicdrawMigrator
 			_allCrossMDzipRelations = foundElementRelations;
 		}
 		
+
+		
 		void getAllDirectMDElementRelations()
 		{
 			var foundDirectMDElementRelations = new Dictionary<string, MDElementRelation>();
@@ -614,6 +616,8 @@ namespace MagicdrawMigrator
 			//set the collection to the found associations
 			_allParticipatesAssociations = foundAssociations;
 		}
+		
+		
 			
 		
 		void getAllASMAAssociations()
@@ -669,12 +673,6 @@ namespace MagicdrawMigrator
 					bool isCrossMDZip = false;
 					//get the association ID
 					string associationID = this.getID(associationNode);
-					
-					if (associationID == "_16_6_f54035b_1266497344617_187500_6113")
-					{
-						Debug.WriteLine("ok");
-					}
-					
 					
 					//loop membernodes
 					foreach (XmlNode memberNode in associationNode.SelectNodes("./memberEnd"))
