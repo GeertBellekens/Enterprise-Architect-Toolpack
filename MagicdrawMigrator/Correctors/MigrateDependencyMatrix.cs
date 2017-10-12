@@ -51,22 +51,29 @@ namespace MagicdrawMigrator
 					//target element
 					var targetElement = (TSF_EA.Class)getElementByMDid(mdDependency.targetParentGuid);
 					
-					var sourceAttribute = (TSF_EA.Attribute)sourceElement.attributes.FirstOrDefault( x => x.name == mdDependency.sourceName);
-					mdDependency.sourceGuid = sourceAttribute != null? sourceAttribute.guid: string.Empty;
+					if (sourceElement != null & targetElement != null)
+					{
+						var sourceAttribute = (TSF_EA.Attribute)sourceElement.attributes.FirstOrDefault( x => x.name == mdDependency.sourceName);
+						mdDependency.sourceGuid = sourceAttribute != null? sourceAttribute.guid: string.Empty;
+						
+						var targetAttribute = (TSF_EA.Attribute)targetElement.attributes.FirstOrDefault( x => x.name == mdDependency.targetName);
+						mdDependency.targetGuid = targetAttribute != null? targetAttribute.guid: string.Empty;
+						
+						if (sourceAttribute!= null && targetAttribute != null)
+						{
+							sourceAttribute.addTaggedValue("sourceAttribute", mdDependency.targetGuid);
+						
+						
+							EAOutputLogger.log(this.model,this.outputName
+							                   	,string.Format("{0} Set sourceAttribute '{1}' for '{2}'"
+			                                  	,DateTime.Now.ToLongTimeString()
+			                                 	,mdDependency.targetName
+			                                	,mdDependency.sourceName)
+			                   ,0
+			                  ,LogTypeEnum.log);
+						}
+					}
 					
-					var targetAttribute = (TSF_EA.Attribute)targetElement.attributes.FirstOrDefault( x => x.name == mdDependency.targetName);
-					mdDependency.targetGuid = targetAttribute != null? targetAttribute.guid: string.Empty;
-					
-					sourceAttribute.addTaggedValue("sourceAttribute", mdDependency.targetGuid);
-					
-					
-					EAOutputLogger.log(this.model,this.outputName
-					                   	,string.Format("{0} Set sourceAttribute '{1}' for '{2}'"
-	                                  	,DateTime.Now.ToLongTimeString()
-	                                 	,mdDependency.targetName
-	                                	,mdDependency.sourceName)
-	                   ,0
-	                  ,LogTypeEnum.log);
 				}
 				
 				

@@ -20,6 +20,8 @@ namespace MagicdrawMigrator
 		public string name{get;set;}
 		public string mdParentGuid{get;set;}
 		public string mdGuid{get;set;}
+		public bool isCrossMDZip {get;set;}
+		public string typeMDGuid {get;set;}
 		
 	}
 }

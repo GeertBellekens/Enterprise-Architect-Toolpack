@@ -202,7 +202,8 @@ public class EAAddin:EAAddinFramework.EAAddinBase
     internal static List<string> getMenuOptions (UML.Extended.UMLItem element)
     {
     		List<string> menuOptionsList = new List<string>();
-    		if (element is UML.Extended.UMLItem
+    		if (element != null
+    		    && !(element is UML.Classes.Kernel.Relationship)
     		   && element.owner != null)
     		{
     			menuOptionsList.Add(getOwnerMenuName(element));

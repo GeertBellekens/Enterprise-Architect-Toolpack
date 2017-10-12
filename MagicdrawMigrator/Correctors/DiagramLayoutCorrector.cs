@@ -224,6 +224,10 @@ namespace MagicdrawMigrator
 						inner join t_objectproperties tv on (tv.Object_ID = o.Object_ID
 															and tv.Property = 'md_guid'))
 						where tv.Value = '" + mdDiagramObject.mdID + "'";
+			if (mdDiagramObject.umlType == "Note")
+			{
+				//Note
+			}
 			var eaElement = this.model.getElementWrappersByQuery(getEAElementSQL).FirstOrDefault();
 			if (eaElement != null) {
 				//first check if the elemnt is already on the diagram

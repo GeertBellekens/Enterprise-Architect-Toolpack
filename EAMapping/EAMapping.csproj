@@ -68,6 +68,10 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddNodeform.cs" />
+    <Compile Include="AddNodeform.Designer.cs">
+      <DependentUpon>AddNodeform.cs</DependentUpon>
+    </Compile>
     <Compile Include="Custom User Controls\ModelSetContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -84,7 +88,7 @@
     <Compile Include="LinkedTreeView.cs" />
     <Compile Include="LinkedTreeViews.cs" />
     <Compile Include="LinkedTreeNodes.cs">
-    <SubType>UserControl</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ImportMappingForm.cs">
       <SubType>Form</SubType>

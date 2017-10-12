@@ -10,40 +10,35 @@ using System.Xml;
 namespace MagicdrawMigrator
 {
 	/// <summary>
-	/// Check if association between actor and use case are correctly displayed and if the stereotype 
-	/// 'participates' is correctly applied onto the association
+	/// Description of FixNavigabilityOnAssociations.
 	/// </summary>
-	public class FixAssociations:MagicDrawCorrector
+	public class FixNavigabilityOnAssociations:MagicDrawCorrector
 	{
-		public FixAssociations(MagicDrawReader magicDrawReader, TSF_EA.Model model, TSF_EA.Package mdPackage):base(magicDrawReader,model,mdPackage)
+		public FixNavigabilityOnAssociations(MagicDrawReader magicDrawReader, TSF_EA.Model model, TSF_EA.Package mdPackage):base(magicDrawReader,model,mdPackage)
 		{
 		}
 		
 		public override void correct()
 		{
 			EAOutputLogger.log(this.model,this.outputName
-	                   ,string.Format("{0} Starting fix associations'"
+	                   ,string.Format("{0} Starting fix navigability on association roles'"
 	                                  ,DateTime.Now.ToLongTimeString())
 	                   ,0
 	                   ,LogTypeEnum.log);
 			
-			
-			
+			//Fix the navigability --> set navigability from source to target
 			this.model.executeSQL(@"update t_connector 
-											set [SourceCard] = NULL,
-											[DestCard] = NULL
-											where [SourceCard] = '(Unspecified)..(Unspecified)'
-											or [DestCard] = '(Unspecified)..(Unspecified)'");
-			
-			
-			
+											set [Direction] = 'Source -> Destination'
+											where [Connector_Type] = 'Association'");			
 			
 			//Log finished
 			EAOutputLogger.log(this.model,this.outputName
-	                   ,string.Format("{0} Finished fix associations"
+	                   ,string.Format("{0} Finished Starting fix navigability on association roles"
 	                                  ,DateTime.Now.ToLongTimeString())
 	                   ,0
 	                  ,LogTypeEnum.log);
+			
+			
 			
 		}
 	}
