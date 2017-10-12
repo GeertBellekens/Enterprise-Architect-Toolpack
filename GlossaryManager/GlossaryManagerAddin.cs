@@ -151,21 +151,23 @@ namespace GlossaryManager {
       );
       List<DataItem> dataItems = this.list<DataItem>(this.managedPackage);
       this.ui.DataItems.Show<DataItem>(dataItems);
-
       // add all Logical DataTypes from this package and optionally others
-      // from the dataItems
-      List<FieldValue> logicalDataTypes = new List<FieldValue>();
-      foreach(EAWrapped.Class clazz in
-              this.managedPackage.ownedElements.OfType<EAWrapped.Class>())
+	  // from the dataItems
+	  List<FieldValue> logicalDataTypes = new List<FieldValue>();
+      if (this.managedPackage != null)
       {
-        if(clazz.stereotypes.Count == 1) {
-          if( clazz.stereotypes.ToList()[0].name == "LogicalDataType") {
-            logicalDataTypes.Add(new FieldValue() {
-              Key   = clazz.name,
-              Value = clazz.guid
-            });
-          }
-        }
+	      foreach(EAWrapped.Class clazz in
+	              this.managedPackage.ownedElements.OfType<EAWrapped.Class>())
+	      {
+	        if(clazz.stereotypes.Count == 1) {
+	          if( clazz.stereotypes.ToList()[0].name == "LogicalDataType") {
+	            logicalDataTypes.Add(new FieldValue() {
+	              Key   = clazz.name,
+	              Value = clazz.guid
+	            });
+	          }
+	        }
+	      }
       }
       foreach(DataItem item in dataItems) {
 				EAWrapped.Class element = this.model.getElementByGUID(item.LogicalDataType) as EAWrapped.Class;
@@ -250,13 +252,16 @@ namespace GlossaryManager {
 
     private List<T> list<T>(EAWrapped.Package package) where T : GlossaryItem {
       List<T> items = new List<T>();
-      foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
-        try {
-          T item = GlossaryItemFactory<T>.FromClass(clazz);
-          if( item != null ) { items.Add(item); }
-        } catch(Exception e) {
-          MessageBox.Show(e.ToString());
-        }
+      if (package != null)
+      {
+	      foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
+	        try {
+	          T item = GlossaryItemFactory<T>.FromClass(clazz);
+	          if( item != null ) { items.Add(item); }
+	        } catch(Exception e) {
+	          MessageBox.Show(e.ToString());
+	        }
+	      }
       }
       return items;
     }
