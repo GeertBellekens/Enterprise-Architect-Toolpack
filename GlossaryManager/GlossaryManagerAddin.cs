@@ -110,14 +110,20 @@ namespace GlossaryManager {
                                                  string GUID,
                                                  EA.ObjectType ot)
     {
-      try {
-        if(this.NewContext == null)                                   { return; }
-        if(this.model      == null)                                   { return; }
-        if( ! (this.model.selectedItem is EAWrapped.ElementWrapper) ) { return; }
-        this.NewContext((EAWrapped.ElementWrapper)this.model.selectedItem);
-      } catch(Exception e) {
-        MessageBox.Show(e.ToString());
-      }
+		try 
+			{
+			if(this.NewContext == null)                                   { return; }
+			if(this.model      == null)                                   { return; }
+			var selectedElementWrapper = this.model.selectedItem as EAWrapped.ElementWrapper;
+			if (selectedElementWrapper != null)
+			{
+				this.NewContext((EAWrapped.ElementWrapper)this.model.selectedItem);
+			}
+		} 
+		catch(Exception e)
+		{
+	    	
+	  	}
     }
 
     public EAWrapped.ElementWrapper SelectedItem {
@@ -141,7 +147,7 @@ namespace GlossaryManager {
     
     private void manage() {
       if( this.model == null ) { return; }
-      this.managedPackage = (EAWrapped.Package)this.model.selectedElement;
+      this.managedPackage = (EAWrapped.Package)this.Model.selectedTreePackage;
       this.refresh();
     }
     
@@ -311,14 +317,21 @@ namespace GlossaryManager {
 
     // support for logging to the EA log window
 
-    internal void clearLog() {
+    internal void clearLog() 
+    {
       if( this.model == null ) { return; }
       EAOutputLogger.clearLog( this.model, this.settings.outputName );
     }
 
-    internal void log(string msg) {
+    internal void log(string msg) 
+    {
       if( this.model == null ) { return; }
       EAOutputLogger.log( this.model, this.settings.outputName, msg );
+    }
+    internal void logError(string msg) 
+    {
+      if( this.model == null ) { return; }
+      EAOutputLogger.log( this.model, this.settings.outputName, msg,0,LogTypeEnum.error );
     }
 
   }

@@ -13,7 +13,7 @@ using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
 namespace GlossaryManager {
 
   public abstract class FocusableTabPage : TabPage {
-    public virtual void HandleFocus() {}
+		public virtual void HandleFocus(){}
   }
 
   public abstract class GlossaryItemTabPage : FocusableTabPage {
@@ -66,17 +66,37 @@ namespace GlossaryManager {
     // avoid endless update loop:
     // context-change -> index-change -> select in browser -> context-change...
     private bool notifyProjectBrowser = true;
-    private void handleContextChange(EAWrapped.ElementWrapper context) {
-      if(context == null) { return; }
-      this.notifyProjectBrowser = false;
-      if(this.HasItemSelected) { this.Selected.Selected = false; }
-      foreach(ListViewItem item in this.itemsList.Items) {
-        if( ((GlossaryItem)item.Tag).Origin.Equals(context) ) {
-          item.Selected = true;
-          break;
-        }
-      }
-      this.notifyProjectBrowser = true;
+    private void handleContextChange(EAWrapped.ElementWrapper context) 
+    {
+    	//only do something when visible
+    	var ownerTabControl = this.Parent as TabControl;
+    	if (ownerTabControl != null 
+    	    && ownerTabControl.SelectedTab == this)
+    	{
+			if(context == null) { return; }
+			//turn notify off to avoid endless loop
+			this.notifyProjectBrowser = false;
+			//only do something if another element is selected then the already selected element or if no item is selected
+			if (! HasItemSelected
+			      || ! context.Equals(this.Current.Origin))
+	      	{
+				//deselect previous selected item
+				if (this.selectedItem != null) this.selectedItem.Selected = false;
+				//find the corresponsing item and select it
+				foreach(ListViewItem item in this.itemsList.Items) 
+				{
+					var glossaryItem = item.Tag as GlossaryItem;
+					if( glossaryItem != null
+						&& context.Equals(glossaryItem.Origin))
+					{
+					  item.Selected = true;
+					  break;
+					}
+				}
+	     	 }
+			//turn notify back on
+			this.notifyProjectBrowser = true;
+    	}
     }
 
     protected void select(GlossaryItem selected) {
@@ -87,24 +107,17 @@ namespace GlossaryManager {
 
     // construction of master/detail = list/form
     
-    public bool HasItemSelected {
-      get {
-        return this.itemsList.SelectedItems.Count == 1;
-      }
+    public bool HasItemSelected 
+    {
+      get { return this.selectedItem != null;}
     }
 
-    public ListViewItem Selected {
-      get {
-        if( ! this.HasItemSelected ) { return null; }
-        return this.itemsList.SelectedItems[0];        
-      }
-    }
+    public ListViewItem selectedItem {get; set;}
 
-    public GlossaryItem Current {
-      get {
-        if( ! this.HasItemSelected ) { return null; }
-        return (GlossaryItem)this.Selected.Tag;
-      }
+
+    public GlossaryItem Current 
+    {
+    	get { return this.selectedItem != null ? (GlossaryItem)this.selectedItem.Tag : null;}
     }
 
     // to be implemented by specific item class, providing list of headers
@@ -119,7 +132,7 @@ namespace GlossaryManager {
         HideSelection      = false
       };
       this.itemsList.ColumnClick          += new ColumnClickEventHandler(this.sortColumn);
-      this.itemsList.SelectedIndexChanged += new EventHandler(this.handleSelection);
+      this.itemsList.ItemSelectionChanged += this.handleSelection;
       this.itemsList.KeyDown              += new KeyEventHandler(this.listKeyDown);
 
       foreach(string label in this.listHeaders ) {
@@ -143,17 +156,17 @@ namespace GlossaryManager {
     }
 
     protected virtual void createForm() {
-      this.form       = new FlowLayoutPanel() {
+      this.form       = new FlowLayoutPanel() { 
         FlowDirection = FlowDirection.TopDown,
         Dock          = DockStyle.Fill,
       };
       this.addField(new Field("Name")     { Width = 125 });
       this.addField(new Field("Author")   { Width = 125 });
-      this.addField(new Field("Version"));
-      this.addField(new Field("Status", typeof(Status)));
+      this.addField(new Field("Version")  { Width = 125 });
+      this.addField(new Field("Status", typeof(Status)){ Width = 125 });
       this.addField(new Field("Keywords") { Width = 250 });
-      this.addField(new Field("Created")  { Enabled = false });
-      this.addField(new Field("Updated")  { Enabled = false });
+      this.addField(new Field("Created")  {  Width = 125 ,Enabled = false });
+      this.addField(new Field("Updated")  {  Width = 125 ,Enabled = false });
       Control last = this.addField(new Field("Updated by") { Width = 125 });
       // creates a column break, marking the difference between GI and BI/DI
       this.form.SetFlowBreak(last, true);
@@ -339,46 +352,50 @@ namespace GlossaryManager {
       this.itemsList.Refresh(); // TODO check if needed
     }
 
-    private void handleSelection(object sender, EventArgs e) {
-      switch(this.itemsList.SelectedItems.Count) {
-        case 0:
-          this.deleteButton.Enabled = false;
-          this.exportButton.Enabled = false;
-          break;
-        case 1:
-          this.deleteButton.Enabled = true;
-          this.exportButton.Enabled = true;
-          this.show();
-          break;
-        default: // multiple
-          this.deleteButton.Enabled = true;
-          this.exportButton.Enabled = true;
-          this.clear();
-          break;
-      }
+    private void handleSelection(object sender, ListViewItemSelectionChangedEventArgs e) 
+    {
+    	//set the selected item
+    	if (e.IsSelected) this.selectedItem = e.Item;
+    	else this.selectedItem = null;
+    	//show details
+		this.show();
+		//enable or disable buttons
+		enableDisable(); 	
+    }
+    private void enableDisable()
+    {
+    	this.deleteButton.Enabled = this.Current != null;
+    	this.exportButton.Enabled = this.Current != null;
     }
 
     private bool showing = false;
 
     protected virtual void show() {
+      //set showing mode
       this.showing = true;
+      //clear all fields
       this.clear();
-      if( ! this.HasItemSelected ) { return; }
-
+      if( ! this.HasItemSelected ) {return;}
+	  //set the fields
+      this.setFields();
+	  //turn "showing" mode off again
+      this.showing = false;
+      //select the item in the project browser
       if( this.notifyProjectBrowser ) {
         this.Current.SelectInProjectBrowser();
       }
-
-      this.fields["Name"].Value       = this.Current.Name;
-      this.fields["Author"].Value     = this.Current.Author;
-      this.fields["Version"].Value    = this.Current.Version;
-      this.fields["Status"].Value     = this.Current.Status.ToString();
-      this.fields["Keywords"].Value   = this.Current.Keywords == null ? "" : string.Join(",", this.Current.Keywords);
-      this.fields["Created"].Value    = this.Current.CreateDate.ToString();
-      this.fields["Updated"].Value    = this.Current.UpdateDate.ToString();
-      this.fields["Updated by"].Value = this.Current.UpdatedBy;
-
-      this.showing = false;
+    }
+    protected virtual void setFields()
+    {
+		// set the fields
+		this.fields["Name"].Value       = this.Current.Name;
+		this.fields["Author"].Value     = this.Current.Author;
+		this.fields["Version"].Value    = this.Current.Version;
+		this.fields["Status"].Value     = this.Current.Status.ToString();
+		this.fields["Keywords"].Value   = this.Current.Keywords == null ? "" : string.Join(",", this.Current.Keywords);
+		this.fields["Created"].Value    = this.Current.CreateDate.ToString();
+		this.fields["Updated"].Value    = this.Current.UpdateDate.ToString();
+		this.fields["Updated by"].Value = this.Current.UpdatedBy;
     }
 
     private void clear() {

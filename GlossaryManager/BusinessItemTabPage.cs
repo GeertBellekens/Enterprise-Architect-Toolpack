@@ -40,7 +40,7 @@ namespace GlossaryManager {
       this.addField(new Field("Description") {
         Multiline = true,
         Width     = 300,
-        Height    = 100
+        Height    = 115
       });
       this.addField(new Field("Domain"));
     }

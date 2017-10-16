@@ -61,7 +61,8 @@ namespace GlossaryManager {
         return null;
       }
 
-      if( ! clazz.stereotypes.ToList()[0].name.Equals(item.Stereotype) ) {
+      if( ! clazz.stereotypes.Any(x => x.name.Equals(item.Stereotype)) ) 
+      {
         return null;
       }
 

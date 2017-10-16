@@ -60,16 +60,15 @@ namespace GlossaryManager {
       this.addField(new Field("Initial Value"));
     }
 
-    protected override void show() {
-      base.show();
-      if( ! this.HasItemSelected ) { return; }
-
-      this.fields["Label"].Value            = ((DataItem)this.Current).Label;
-      this.fields["Logical Datatype"].Value = ((DataItem)this.Current).LogicalDataType.ToString();
-      this.fields["Size"].Value             = ((DataItem)this.Current).Size.ToString();
-      this.fields["Format"].Value           = ((DataItem)this.Current).Format;
-      this.fields["Description"].Value      = ((DataItem)this.Current).Description;
-      this.fields["Initial Value"].Value    = ((DataItem)this.Current).InitialValue;
+    protected override void setFields() 
+    {
+    	base.setFields();
+        this.fields["Label"].Value            = ((DataItem)this.Current).Label;
+		this.fields["Logical Datatype"].Value = ((DataItem)this.Current).LogicalDataType.ToString();
+		this.fields["Size"].Value             = ((DataItem)this.Current).Size.ToString();
+		this.fields["Format"].Value           = ((DataItem)this.Current).Format;
+		this.fields["Description"].Value      = ((DataItem)this.Current).Description;
+		this.fields["Initial Value"].Value    = ((DataItem)this.Current).InitialValue;
     }
 
     protected override void Update(Field field) {
@@ -77,7 +76,13 @@ namespace GlossaryManager {
       switch(field.Label.Text) {
         case "Label":            ((DataItem)this.Current).Label           = field.Value; break;
         case "Logical Datatype": ((DataItem)this.Current).LogicalDataType = field.Value; break;
-        case "Size":             ((DataItem)this.Current).Size            = Convert.ToInt32(field.Value); break;
+        case "Size":
+        	int newSize;
+        	((DataItem)this.Current).Size = 
+        		int.TryParse(field.Value,out newSize) ?
+        		newSize :
+        		0;
+        	break;
         case "Format":           ((DataItem)this.Current).Format          = field.Value; break;
         case "Description":      ((DataItem)this.Current).Description     = field.Value; break;
         case "Initial Value":    ((DataItem)this.Current).InitialValue    = field.Value; break;        
