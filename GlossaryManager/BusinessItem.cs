@@ -4,13 +4,16 @@ using System.Linq;
 
 using FileHelpers;
 
-using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
+using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using UML=TSF.UmlToolingFramework.UML;
 
 namespace GlossaryManager {
 
 	[DelimitedRecord(";"), IgnoreFirst(1)]
 	public class BusinessItem	: GlossaryItem {
+	
+	//TODO: figure out a way to get the actual values from the MDG
+  	public static List<string> domainValues { get { return new List<string>{"Sales", "Materials", "Logistics", "Human Resources", "Accounting"}; }}		
 
     [FieldOrder(100)]
     [FieldNullValue(typeof(string), "")]
@@ -29,16 +32,25 @@ namespace GlossaryManager {
       ")";
     }
 
+
+
+
     // EA support
 
-    public override string Stereotype { get { return "Business Item"; } }
+    public override string Stereotype { get { return "EDD_BusinessItem"; } }
+    
+    protected override void setOriginValues()
+	{
+		this.Description = this.Origin.notes;
+		this.Domain = this.getTaggedValueString("domain");
+	}
     
     public override void Update(UML.Classes.Kernel.Class clazz) {
       base.Update(clazz);
 
-      var eaClass = clazz as EAWrapped.ElementWrapper;
+      var eaClass = clazz as TSF_EA.ElementWrapper;
       eaClass.notes  = this.Description;
-      eaClass.domain = this.Domain;
+      eaClass.addTaggedValue("domain", this.Domain);
 
       clazz.save();
     }

@@ -64,7 +64,7 @@ namespace GlossaryManager {
     {
     	base.setFields();
         this.fields["Label"].Value            = ((DataItem)this.Current).Label;
-		this.fields["Logical Datatype"].Value = ((DataItem)this.Current).LogicalDataType.ToString();
+		this.fields["Logical Datatype"].Value = ((DataItem)this.Current).LogicalDatatypeName.ToString();
 		this.fields["Size"].Value             = ((DataItem)this.Current).Size.ToString();
 		this.fields["Format"].Value           = ((DataItem)this.Current).Format;
 		this.fields["Description"].Value      = ((DataItem)this.Current).Description;
@@ -75,7 +75,7 @@ namespace GlossaryManager {
       if( ! this.HasItemSelected ) { return; }
       switch(field.Label.Text) {
         case "Label":            ((DataItem)this.Current).Label           = field.Value; break;
-        case "Logical Datatype": ((DataItem)this.Current).LogicalDataType = field.Value; break;
+        case "Logical Datatype": ((DataItem)this.Current).LogicalDatatypeName = field.Value; break;
         case "Size":
         	int newSize;
         	((DataItem)this.Current).Size = 

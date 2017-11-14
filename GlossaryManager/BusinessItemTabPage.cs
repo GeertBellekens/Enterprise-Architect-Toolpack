@@ -42,7 +42,7 @@ namespace GlossaryManager {
         Width     = 300,
         Height    = 115
       });
-      this.addField(new Field("Domain"));
+      this.addField(new Field("Domain", BusinessItem.domainValues) { Width = 125});
     }
 
     protected override void show() {

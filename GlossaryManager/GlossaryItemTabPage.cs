@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Drawing;
 
-using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
+using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace GlossaryManager {
 
@@ -66,7 +66,7 @@ namespace GlossaryManager {
     // avoid endless update loop:
     // context-change -> index-change -> select in browser -> context-change...
     private bool notifyProjectBrowser = true;
-    private void handleContextChange(EAWrapped.ElementWrapper context) 
+    private void handleContextChange(TSF_EA.ElementWrapper context) 
     {
     	//only do something when visible
     	var ownerTabControl = this.Parent as TabControl;
@@ -163,7 +163,7 @@ namespace GlossaryManager {
       this.addField(new Field("Name")     { Width = 125 });
       this.addField(new Field("Author")   { Width = 125 });
       this.addField(new Field("Version")  { Width = 125 });
-      this.addField(new Field("Status", typeof(Status)){ Width = 125 });
+      this.addField(new Field("Status", GlossaryItem.statusValues){ Width = 125 });
       this.addField(new Field("Keywords") { Width = 250 });
       this.addField(new Field("Created")  {  Width = 125 ,Enabled = false });
       this.addField(new Field("Updated")  {  Width = 125 ,Enabled = false });
@@ -192,7 +192,7 @@ namespace GlossaryManager {
         case "Name":        this.Current.Name        = field.Value; break;
         case "Author":      this.Current.Author      = field.Value; break;
         case "Version":     this.Current.Version     = field.Value; break;
-        case "Status":      this.Current.Status      = (Status)Enum.Parse(typeof(Status), field.Value); break;
+        case "Status":      this.Current.Status      = field.Value; break;
         case "Keywords":    this.Current.Keywords    = field.Value.Split(',').ToList(); break;
         case "Updated by":  this.Current.UpdatedBy   = field.Value; break;
       }

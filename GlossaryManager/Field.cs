@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Drawing;
 
-using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
+using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
 
 // A Field is a combination of a Label and a TextBox or ComboBox
@@ -49,23 +49,21 @@ namespace GlossaryManager {
       this.Controls.Add(this.TextBox);
     }
 
-    public Type SelectionType { get; private set; }
-
+   
     // option 2 : Combobox with a Type/Enumeration of values
-    public Field(string label, Type options) : base() {
+    public Field(string label, IEnumerable<string> dataValues) : base() {
       this.createLabel(label);
-
+	  
       this.ComboBox = new ComboBox() {
-        DataSource = Enum.GetValues(options),
+        DataSource = dataValues
       };
       this.ComboBox.SelectedIndexChanged += new EventHandler(this.change);
-      this.SelectionType = options;
 
       this.Controls.Add(this.ComboBox);
     }
 
     private GlossaryItemTabPage page = null;
-    private EAWrapped.Model model {
+    private TSF_EA.Model model {
       get { return this.page.ui.Addin.Model; }
     }
 
@@ -175,7 +173,7 @@ namespace GlossaryManager {
   	}
 
     private void usePicker() {
-      EAWrapped.Class selection = (EAWrapped.Class)this.model.getUserSelectedElement(new List<string>() { "Class"} );
+      TSF_EA.Class selection = (TSF_EA.Class)this.model.getUserSelectedElement(new List<string>() { "Class"} );
       if( selection == null ) {
         this.ComboBox.SelectedIndex = this.previousSelectedIndex;
         return;
@@ -285,35 +283,40 @@ namespace GlossaryManager {
       get {
         if( this.TextBox != null ) {
           return this.TextBox.Text;
-        } else if( this.ComboBox != null) {
-          if(this.SelectionType == null) {
-            return ((FieldValue)this.ComboBox.SelectedItem).Value.ToString();
-          } else {
-            return this.ComboBox.Text;
-          }
+        } else if( this.ComboBox != null) 
+  		{
+  			var fieldValue = this.ComboBox.SelectedItem as FieldValue;
+  			return fieldValue != null ? fieldValue.Value : this.ComboBox.SelectedItem.ToString();
         } 
         return null;
       }
       set {
-        if( this.TextBox != null ) {
-          this.TextBox.Text = value;
-        } else if( this.ComboBox != null ) {
-          if(this.SelectionType == null) {
-            // find value
-            int index = 0;
-            foreach(FieldValue item in this.ComboBox.Items) {
-              if(item.Value == value) { break; }
-              index++;
-            }
-            // reset if not found
-            if(index == this.ComboBox.Items.Count) { index = 0; }
-            this.ComboBox.SelectedIndex = index;
-          } else {
-            this.ComboBox.SelectedIndex = (int)Enum.Parse(this.SelectionType, value);
-          }
+        if( this.TextBox != null ) 
+        {
+        	this.TextBox.Text = value;
+        } 
+  		else if( this.ComboBox != null )
+  		{
+	        // find value
+	        int index = 0;
+	        foreach(var item in this.ComboBox.Items) 
+	        {
+	        	if (item is FieldValue)
+	        	{
+	        		if(((FieldValue)item).Value == value)  break; 
+	        	}
+	        	else
+	        	{
+	        		if (item.Equals(value)) break;
+	        	}
+	          // go to next value
+	          index++;
+	        }
+	        // reset if not found
+	        if(index == this.ComboBox.Items.Count) { index = 0; }
+	        this.ComboBox.SelectedIndex = index;
         }
       }
     }
-  
   }
 }

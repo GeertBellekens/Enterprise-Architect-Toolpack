@@ -4,16 +4,11 @@ using System.Linq;
 
 using FileHelpers;
 
-using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
+using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using UML=TSF.UmlToolingFramework.UML;
 
 namespace GlossaryManager {
   
-  public enum Status {
-    Proposed,
-    Approved,
-    Rejected
-  }
 
   public class StringListConverter : ConverterBase {
     public override object StringToField(string from) {
@@ -47,6 +42,9 @@ namespace GlossaryManager {
   }
   
   public abstract class GlossaryItem {
+  	
+  	//TODO: figure out a way to get the actual values from the model
+  	public static List<string> statusValues { get { return new List<string>{"proposed", "approved", "rejected"}; }}
 
     [FieldOrder(0)]
     [FieldNullValue(typeof(string), "")]
@@ -68,8 +66,8 @@ namespace GlossaryManager {
     public string Version;
 
     [FieldOrder(5)]
-    [FieldNullValue(typeof(Status), "Approved")]
-    public Status Status;
+    [FieldNullValue(typeof(string), "Approved")]
+    public string Status;
 
     [FieldOrder(6)]
     [FieldConverter(typeof(StringListConverter))]
@@ -92,17 +90,36 @@ namespace GlossaryManager {
 
     [FieldValueDiscarded]
     [FieldHidden]
-    private EAWrapped.ElementWrapper origin = null;
-    public EAWrapped.ElementWrapper Origin {
+    private TSF_EA.ElementWrapper origin = null;
+    public TSF_EA.ElementWrapper Origin {
       get {
         return this.origin;
       }
       set {
         this.origin = value;
         this.GUID = this.origin.guid;
+    	this.Name        = this.Origin.name;
+		this.Author      = this.Origin.author;
+		this.Version     = this.Origin.version;
+		this.Status      = this.Origin.status;
+		this.Keywords    = this.Origin.keywords;
+		this.CreateDate  = this.Origin.created;
+		this.UpdateDate  = this.Origin.modified;
+		this.UpdatedBy   = getTaggedValueString("modifier");
+		//set the other origin values
+		setOriginValues();
       }
     }
+    protected abstract void setOriginValues();
 
+	protected string getTaggedValueString(string tagName)
+	{
+		TSF_EA.TaggedValue tv = null;
+		if (this.Origin != null)
+			tv = this.Origin.getTaggedValue(tagName);
+		return tv != null ? tv.eaStringValue : string.Empty;
+	}
+		
   	public static List<T> Load<T>(string file)
       where T : GlossaryItem
     {
@@ -137,19 +154,19 @@ namespace GlossaryManager {
 
     public abstract string Stereotype { get; }
 
-    public UML.Classes.Kernel.Class AsClassIn(EAWrapped.Package package) {
+    public UML.Classes.Kernel.Class AsClassIn(TSF_EA.Package package) {
       var clazz = package.model.factory.createNewElement<UML.Classes.Kernel.Class>(
         package, this.Name
       );
 
       var stereotypes = new HashSet<UML.Profiles.Stereotype>();
-      stereotypes.Add(new EAWrapped.Stereotype(
-        package.model, clazz as EAWrapped.Element, this.Stereotype
+      stereotypes.Add(new TSF_EA.Stereotype(
+        package.model, clazz as TSF_EA.Element, this.Stereotype
       ));
       clazz.stereotypes = stereotypes;
 
       this.Update(clazz);
-      this.Origin = clazz as EAWrapped.ElementWrapper;
+      this.Origin = clazz as TSF_EA.ElementWrapper;
 
       return clazz;
     }
@@ -164,7 +181,7 @@ namespace GlossaryManager {
     }
 
     public virtual void Update(UML.Classes.Kernel.Class clazz) {
-      var eaClass = clazz as EAWrapped.ElementWrapper;
+      var eaClass = clazz as TSF_EA.ElementWrapper;
       eaClass.name     = this.Name;
       eaClass.author   = this.Author;
       eaClass.version  = this.Version;
@@ -172,7 +189,7 @@ namespace GlossaryManager {
       eaClass.keywords = this.Keywords;
       eaClass.created  = this.CreateDate;
       eaClass.modified = this.UpdateDate;
-      eaClass.modifier = this.UpdatedBy;
+      this.origin.addTaggedValue("modifier",this.UpdatedBy);
       
       eaClass.save();
     }
@@ -180,6 +197,6 @@ namespace GlossaryManager {
     public void SelectInProjectBrowser() {
       this.Origin.model.selectedItem = this.Origin;
     }
-
+ 
   }
 }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 
-using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
+using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace GlossaryManager {
 
@@ -26,7 +26,7 @@ namespace GlossaryManager {
 
     public event NewContextHandler NewContext;
     
-    private void handleContextChange(EAWrapped.ElementWrapper context) {
+    private void handleContextChange(TSF_EA.ElementWrapper context) {
       this.NewContext(context);
     }
 

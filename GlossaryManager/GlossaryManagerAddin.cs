@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
 
-using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
+using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using UML=TSF.UmlToolingFramework.UML;
 
 using EAAddinFramework;
@@ -12,7 +12,7 @@ using EAAddinFramework.Utilities;
 
 namespace GlossaryManager {
 
-  public delegate void NewContextHandler(EAWrapped.ElementWrapper context);
+  public delegate void NewContextHandler(TSF_EA.ElementWrapper context);
 
   public class GlossaryManagerAddin : EAAddinBase  {
 
@@ -28,8 +28,8 @@ namespace GlossaryManager {
     const string appTitle                = "GlossaryManager";
     const string appFQN                  = "GlossaryManager.GlossaryManagerUI"; 
 
-    private EAWrapped.Model         model       = null;
-    public  EAWrapped.Model Model { get { return this.model; } }
+    private TSF_EA.Model         model       = null;
+    public  TSF_EA.Model Model { get { return this.model; } }
     private bool                    fullyLoaded = false;
 
     private GlossaryManagerSettings settings    = new GlossaryManagerSettings();
@@ -66,7 +66,7 @@ namespace GlossaryManager {
     }
 
     public override void EA_FileOpen(EA.Repository repository) {
-      this.model = new EAWrapped.Model(repository);
+      this.model = new TSF_EA.Model(repository);
       this.fullyLoaded = true;
     }
 
@@ -114,10 +114,10 @@ namespace GlossaryManager {
 			{
 			if(this.NewContext == null)                                   { return; }
 			if(this.model      == null)                                   { return; }
-			var selectedElementWrapper = this.model.selectedItem as EAWrapped.ElementWrapper;
+			var selectedElementWrapper = this.model.selectedItem as TSF_EA.ElementWrapper;
 			if (selectedElementWrapper != null)
 			{
-				this.NewContext((EAWrapped.ElementWrapper)this.model.selectedItem);
+				this.NewContext((TSF_EA.ElementWrapper)this.model.selectedItem);
 			}
 		} 
 		catch(Exception e)
@@ -126,15 +126,15 @@ namespace GlossaryManager {
 	  	}
     }
 
-    public EAWrapped.ElementWrapper SelectedItem {
+    public TSF_EA.ElementWrapper SelectedItem {
       get {
-        if( this.model.selectedItem is EAWrapped.Attribute &&
-            this.model.selectedItem.owner is EAWrapped.ElementWrapper)
+        if( this.model.selectedItem is TSF_EA.Attribute &&
+            this.model.selectedItem.owner is TSF_EA.ElementWrapper)
         {
-          return this.model.selectedItem.owner as EAWrapped.ElementWrapper;
+          return this.model.selectedItem.owner as TSF_EA.ElementWrapper;
         }
-        if( ! (this.model.selectedItem is EAWrapped.ElementWrapper) ) { return null; }
-        return (EAWrapped.ElementWrapper)this.model.selectedItem;
+        if( ! (this.model.selectedItem is TSF_EA.ElementWrapper) ) { return null; }
+        return (TSF_EA.ElementWrapper)this.model.selectedItem;
       }
       set {
         this.model.selectedItem = value;
@@ -143,18 +143,17 @@ namespace GlossaryManager {
 
     // activities
 
-    internal EAWrapped.Package managedPackage { get; private set; }
+    internal TSF_EA.Package managedPackage { get; private set; }
     
     private void manage() {
       if( this.model == null ) { return; }
-      this.managedPackage = (EAWrapped.Package)this.Model.selectedTreePackage;
+      this.managedPackage = (TSF_EA.Package)this.Model.selectedTreePackage;
       this.refresh();
     }
     
-    public void refresh() {
-      this.ui.BusinessItems.Show<BusinessItem>(
-        this.list<BusinessItem>(this.managedPackage)
-      );
+    public void refresh() 
+    {
+      this.ui.BusinessItems.Show<BusinessItem>(this.list<BusinessItem>(this.managedPackage));
       List<DataItem> dataItems = this.list<DataItem>(this.managedPackage);
       this.ui.DataItems.Show<DataItem>(dataItems);
       // add all Logical DataTypes from this package and optionally others
@@ -162,8 +161,8 @@ namespace GlossaryManager {
 	  List<FieldValue> logicalDataTypes = new List<FieldValue>();
       if (this.managedPackage != null)
       {
-	      foreach(EAWrapped.Class clazz in
-	              this.managedPackage.ownedElements.OfType<EAWrapped.Class>())
+	      foreach(TSF_EA.Class clazz in
+	              this.managedPackage.ownedElements.OfType<TSF_EA.Class>())
 	      {
 	        if(clazz.stereotypes.Count == 1) {
 	          if( clazz.stereotypes.ToList()[0].name == "LogicalDataType") {
@@ -176,7 +175,7 @@ namespace GlossaryManager {
 	      }
       }
       foreach(DataItem item in dataItems) {
-				EAWrapped.Class element = this.model.getElementByGUID(item.LogicalDataType) as EAWrapped.Class;
+				TSF_EA.Class element = this.model.getElementByGUID(item.LogicalDatatypeName) as TSF_EA.Class;
         if(element != null && ! logicalDataTypes.Any(x => x.Value == element.guid)) {
           logicalDataTypes.Add(new FieldValue() {
             Key   = element.name,
@@ -191,16 +190,16 @@ namespace GlossaryManager {
     }
 
     private void import<T>() where T : GlossaryItem {
-      this.import<T>((EAWrapped.Package)this.model.selectedElement);
+      this.import<T>((TSF_EA.Package)this.model.selectedElement);
     }
     
-    internal void import<T>(EAWrapped.Package package) where T : GlossaryItem {
+    internal void import<T>(TSF_EA.Package package) where T : GlossaryItem {
       var file = this.getFileFor<T>(CSV.Loading);
       if(file == null) { return; }
 
       this.log("importing in package " + package.ToString());
 
-      Dictionary<string,EAWrapped.Class> index = this.index<T>(package);
+      Dictionary<string,TSF_EA.Class> index = this.index<T>(package);
       List<T> items = GlossaryItem.Load<T>(file);
 
       foreach(T item in items) {
@@ -253,18 +252,23 @@ namespace GlossaryManager {
     // support for listing and indexing a/the selected package
     
     private List<T> list<T>() where T : GlossaryItem {
-      return this.list<T>((EAWrapped.Package)this.model.selectedElement);
+      return this.list<T>((TSF_EA.Package)this.model.selectedElement);
     }
 
-    private List<T> list<T>(EAWrapped.Package package) where T : GlossaryItem {
+    private List<T> list<T>(TSF_EA.Package package) where T : GlossaryItem 
+    {
       List<T> items = new List<T>();
       if (package != null)
       {
-	      foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
-	        try {
+	      foreach(TSF_EA.Class clazz in package.ownedElements.OfType<TSF_EA.Class>()) 
+	      {
+	        try 
+	        {
 	          T item = GlossaryItemFactory<T>.FromClass(clazz);
 	          if( item != null ) { items.Add(item); }
-	        } catch(Exception e) {
+	        } 
+	        catch(Exception e) 
+	        {
 	          MessageBox.Show(e.ToString());
 	        }
 	      }
@@ -272,16 +276,16 @@ namespace GlossaryManager {
       return items;
     }
 
-    private Dictionary<string,EAWrapped.Class> index<T>() where T : GlossaryItem {
-      return this.index<T>((EAWrapped.Package)this.model.selectedElement);
+    private Dictionary<string,TSF_EA.Class> index<T>() where T : GlossaryItem {
+      return this.index<T>((TSF_EA.Package)this.model.selectedElement);
     }
 
-    private Dictionary<string,EAWrapped.Class> index<T>(EAWrapped.Package package)
+    private Dictionary<string,TSF_EA.Class> index<T>(TSF_EA.Package package)
       where T : GlossaryItem
     {
-      Dictionary<string,EAWrapped.Class> map =
-        new Dictionary<string,EAWrapped.Class>();
-      foreach(EAWrapped.Class clazz in package.ownedElements.OfType<EAWrapped.Class>()) {
+      Dictionary<string,TSF_EA.Class> map =
+        new Dictionary<string,TSF_EA.Class>();
+      foreach(TSF_EA.Class clazz in package.ownedElements.OfType<TSF_EA.Class>()) {
         if( GlossaryItemFactory<T>.IsA(clazz) ) {
           map.Add(clazz.guid, clazz);
         }

@@ -72,6 +72,7 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="LogicalDataType.cs" />
     <Compile Include="GlossaryManagerUI.cs" />
     <Compile Include="GlossaryManagerUI.Designer.cs">
       <DependentUpon>GlossaryManagerUI.cs</DependentUpon>

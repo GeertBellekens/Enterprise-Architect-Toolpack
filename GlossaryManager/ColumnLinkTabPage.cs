@@ -10,7 +10,7 @@ using System.Drawing;
 
 using System.Runtime.InteropServices;
 
-using EAWrapped=TSF.UmlToolingFramework.Wrappers.EA;
+using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace GlossaryManager {
 
@@ -95,7 +95,7 @@ namespace GlossaryManager {
     private void selectAll() {
       if( ! this.tree.CheckBoxes ) { return; }
       this.tree.Nodes.Descendants()
-                     .Where(n => n.Tag is EAWrapped.Attribute)
+                     .Where(n => n.Tag is TSF_EA.Attribute)
                      .ToList()
                      .ForEach(n => n.Checked = true);
     }
@@ -103,31 +103,31 @@ namespace GlossaryManager {
     public bool HasColumnSelected {
       get {
         return this.tree.SelectedNode != null
-            && this.tree.SelectedNode.Tag is EAWrapped.Attribute;
+            && this.tree.SelectedNode.Tag is TSF_EA.Attribute;
       }
     }
 
-    public EAWrapped.Attribute Current {
+    public TSF_EA.Attribute Current {
       get {
         if( ! this.HasColumnSelected ) { return null; }
-        return (EAWrapped.Attribute)this.tree.SelectedNode.Tag;
+        return (TSF_EA.Attribute)this.tree.SelectedNode.Tag;
       }
     }
 
-    public List<EAWrapped.Attribute> SelectedColumns {
+    public List<TSF_EA.Attribute> SelectedColumns {
       get {
         if(this.tree.CheckBoxes) {
           return this.tree.Nodes.Descendants()
                                 .Where(n => n.Checked)
                                 .Select(n => n.Tag)
-                                .Cast<EAWrapped.Attribute>()
+                                .Cast<TSF_EA.Attribute>()
                                 .ToList();
         } else if( this.HasColumnSelected ) {
-          return new List<EAWrapped.Attribute>() {
+          return new List<TSF_EA.Attribute>() {
             this.Current
           };
         } else {
-          return new List<EAWrapped.Attribute>();
+          return new List<TSF_EA.Attribute>();
         }
       }
     }
@@ -138,11 +138,11 @@ namespace GlossaryManager {
       }
     }
 
-    private DataItem getDataItem(EAWrapped.Attribute attribute) {
+    private DataItem getDataItem(TSF_EA.Attribute attribute) {
       if( attribute == null ) { return null; }
-      EAWrapped.TaggedValue tv = attribute.getTaggedValue("DataItem");
+      TSF_EA.TaggedValue tv = attribute.getTaggedValue("DataItem");
       if(tv == null || tv.tagValue == null) { return null; }
-      return GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as EAWrapped.Class);
+      return GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as TSF_EA.Class);
     }
 
     private bool showing = false;
@@ -278,7 +278,7 @@ namespace GlossaryManager {
       // also update any problems wrt the DI
     }
 
-    private void handleContextChange(EAWrapped.ElementWrapper context) {
+    private void handleContextChange(TSF_EA.ElementWrapper context) {
       this.checkContext(context);
     }
 
@@ -288,9 +288,9 @@ namespace GlossaryManager {
 
     // this is the Table or DataItem that is selected in the Project Browser
     // and is the root of the TreeView
-    private EAWrapped.Class context = null;
+    private TSF_EA.Class context = null;
 
-    private void checkContext(EAWrapped.ElementWrapper context) {
+    private void checkContext(TSF_EA.ElementWrapper context) {
       // clean up for new context build-up
       this.clear();
       this.notify("Please select a Data Item or Table");
@@ -300,8 +300,8 @@ namespace GlossaryManager {
       this.filterButton.Enabled = false;
 
       // validate context
-      if( context != null && context is EAWrapped.Class) {
-        EAWrapped.Class clazz = context as EAWrapped.Class;
+      if( context != null && context is TSF_EA.Class) {
+        TSF_EA.Class clazz = context as TSF_EA.Class;
         if( clazz.HasStereotype("Data Item") || clazz.HasStereotype("table")) {
           this.context = clazz;
           this.addButton.Enabled = true;
@@ -329,7 +329,7 @@ namespace GlossaryManager {
 
     // used for resetting the selection after selecting the picker and not
     // selecting a valid next choice
-    EAWrapped.Attribute prevSelection = null;
+    TSF_EA.Attribute prevSelection = null;
 
     private void refreshTree() {
       this.prevSelection = this.Current;
@@ -352,14 +352,14 @@ namespace GlossaryManager {
       var diNode = this.createDataItemNode(this.context, this.tree.Nodes);
       // find tables with columns that point to this DI
       // TODO: query beyond scope of Glossay Package?!
-      foreach(EAWrapped.Class clazz in this.ui.Addin.managedPackage.ownedElements.OfType<EAWrapped.Class>()) {
+      foreach(TSF_EA.Class clazz in this.ui.Addin.managedPackage.ownedElements.OfType<TSF_EA.Class>()) {
         if(clazz.HasStereotype("table")) {
           TreeNode tableNode = null;
-    			foreach(EAWrapped.Attribute attribute in clazz.attributes) {
+    			foreach(TSF_EA.Attribute attribute in clazz.attributes) {
             if(attribute.HasStereotype("column")) {
-              EAWrapped.TaggedValue tv = attribute.getTaggedValue("DataItem");
+              TSF_EA.TaggedValue tv = attribute.getTaggedValue("DataItem");
               if(tv != null) {
-                var di = tv.tagValue as EAWrapped.Class;
+                var di = tv.tagValue as TSF_EA.Class;
                 if(di != null && di.guid == this.context.guid) {
                   if(tableNode == null) {
                     tableNode = this.createTableNode(clazz, diNode.Nodes);
@@ -382,15 +382,15 @@ namespace GlossaryManager {
       // TODO: I'm not using Table here, because that requires a Database
       //       Unsure if having a DB is really a requirement
       //       So just using the Class representation to work on.
-			foreach(EAWrapped.Attribute attribute in this.context.attributes) {
+			foreach(TSF_EA.Attribute attribute in this.context.attributes) {
         if(attribute.HasStereotype("column")) {
           var columnNode = this.createColumnNode(attribute, tableNode.Nodes);
           if(this.prevSelection != null && attribute.guid == this.prevSelection.guid) {
             this.tree.SelectedNode = columnNode;
           }
-          EAWrapped.TaggedValue tv = attribute.getTaggedValue("DataItem");
+          TSF_EA.TaggedValue tv = attribute.getTaggedValue("DataItem");
           if(tv != null) {
-            var di = tv.tagValue as EAWrapped.Class;
+            var di = tv.tagValue as TSF_EA.Class;
             if(di != null) {
               this.createDataItemNode(di, columnNode.Nodes);
               // mark column if not in sync
@@ -403,7 +403,7 @@ namespace GlossaryManager {
 			}
     }
 
-    private TreeNode createTableNode(EAWrapped.Class clazz,
+    private TreeNode createTableNode(TSF_EA.Class clazz,
                                      TreeNodeCollection parent)
     {
       TreeNode node = new TreeNode(clazz.name) {
@@ -416,7 +416,7 @@ namespace GlossaryManager {
       return node;
     }
 
-    private TreeNode createColumnNode(EAWrapped.Attribute attribute,
+    private TreeNode createColumnNode(TSF_EA.Attribute attribute,
                                       TreeNodeCollection parent)
     {
       TreeNode node = new TreeNode(attribute.name) {
@@ -428,7 +428,7 @@ namespace GlossaryManager {
       return node;
     }
 
-    private TreeNode createDataItemNode(EAWrapped.Class clazz,
+    private TreeNode createDataItemNode(TSF_EA.Class clazz,
                                         TreeNodeCollection parent)
     {
       TreeNode node = new TreeNode(clazz.name) {
@@ -441,7 +441,7 @@ namespace GlossaryManager {
       return node;
     }
 
-    private bool notInSync(EAWrapped.Attribute column, EAWrapped.Class clazz) {
+    private bool notInSync(TSF_EA.Attribute column, TSF_EA.Class clazz) {
       DataItem di = GlossaryItemFactory<DataItem>.FromClass(clazz);
       if(di == null) { return true; } // ???
       if( column.name != di.Label ) { return true; }
@@ -507,7 +507,7 @@ namespace GlossaryManager {
       }
     }
 
-    private void sync(EAWrapped.Attribute column) {
+    private void sync(TSF_EA.Attribute column) {
       DataItem di = this.getDataItem(column);
       column.name = di.Label;
       // TODO DataType
@@ -533,8 +533,8 @@ namespace GlossaryManager {
     // because of magic values in de new empty column, validation will not only
     // validate, but also immediately perform a sync
     private void addEmptyColumn() {
-      EAWrapped.Attribute attribute =
-        this.ui.Addin.Model.factory.createNewElement<EAWrapped.Attribute>(
+      TSF_EA.Attribute attribute =
+        this.ui.Addin.Model.factory.createNewElement<TSF_EA.Attribute>(
           this.context, "<new>"
         );
       attribute.AddStereotype("column");
@@ -559,15 +559,15 @@ namespace GlossaryManager {
       //       that are within the managed (gloaasry) package.
 
       // select a table (or create a new one)
-      EAWrapped.Class table =
-        (EAWrapped.Class)this.ui.Addin.Model.getUserSelectedElement(
+      TSF_EA.Class table =
+        (TSF_EA.Class)this.ui.Addin.Model.getUserSelectedElement(
           new List<string>() { "Class"}
         );
       if( ! table.HasStereotype("table") ) { return; }
 
       // create new column on table
-      EAWrapped.Attribute attribute =
-        this.ui.Addin.Model.factory.createNewElement<EAWrapped.Attribute>(
+      TSF_EA.Attribute attribute =
+        this.ui.Addin.Model.factory.createNewElement<TSF_EA.Attribute>(
           table, "<new>"
         );
       attribute.AddStereotype("column");
