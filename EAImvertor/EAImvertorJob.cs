@@ -164,6 +164,8 @@ namespace EAImvertor
 				string xmiFileName = Path.ChangeExtension(Path.GetTempFileName(),".xmi");
 				this.setStatus("Exporting Model");
 				projectPackage.exportToXMI(xmiFileName);
+				//TODO: export diagram and add them to the zip file
+				//projectPackage.exportAllDiagrams(@"C:\temp\testImages\");
 				this.setStatus("Compressing File");
 				if (File.Exists(xmiFileName))
 				{
