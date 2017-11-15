@@ -64,7 +64,7 @@ namespace GlossaryManager {
     {
     	base.setFields();
         this.fields["Label"].Value            = ((DataItem)this.Current).Label;
-		this.fields["Logical Datatype"].Value = ((DataItem)this.Current).LogicalDatatypeName.ToString();
+		this.fields["Logical Datatype"].Value = ((DataItem)this.Current).LogicalDatatypeName;
 		this.fields["Size"].Value             = ((DataItem)this.Current).Size.ToString();
 		this.fields["Format"].Value           = ((DataItem)this.Current).Format;
 		this.fields["Description"].Value      = ((DataItem)this.Current).Description;

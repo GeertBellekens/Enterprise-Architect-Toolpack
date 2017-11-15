@@ -33,9 +33,11 @@ namespace GlossaryManager {
   }
 
   public class Field : FlowLayoutPanel {
-    public Label    Label;
-    public TextBox  TextBox;
-    public ComboBox ComboBox;
+  	public Label    Label {get;set;}
+    public TextBox  TextBox {get;set;}
+    public ComboBox ComboBox {get;set;}
+    public string pickerType {get;set;}
+    public string pickerStereotype {get;set;}
     
     private int previousSelectedIndex = -1;
 
