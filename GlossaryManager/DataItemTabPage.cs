@@ -50,6 +50,8 @@ namespace GlossaryManager {
       this.logicalDataTypesComboBox = this.addField(new Field(
         "Logical Datatype", FieldOptions.WithNull | FieldOptions.WithPicker, this
       ));
+      this.logicalDataTypesComboBox.pickerType = "DataType";
+      this.logicalDataTypesComboBox.pickerStereotype = "EDD_LogicalDatatype";
       this.addField(new Field("Size"));
       this.addField(new Field("Format"));
       this.addField(new Field("Description") {

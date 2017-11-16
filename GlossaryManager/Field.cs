@@ -174,18 +174,21 @@ namespace GlossaryManager {
   		this.ValueChanged(this);
   	}
 
-    private void usePicker() {
-      TSF_EA.Class selection = (TSF_EA.Class)this.model.getUserSelectedElement(new List<string>() { "Class"} );
-      if( selection == null ) {
-        this.ComboBox.SelectedIndex = this.previousSelectedIndex;
-        return;
-      }
-      int index = this.data.Count - 1;
-      this.data.Insert(index, new FieldValue() {
-        Key   = selection.name,
-        Value = selection.guid
-      });
-      this.ComboBox.SelectedIndex = index;
+    private void usePicker() 
+    {
+  		var selection = (UML.Classes.Kernel.NamedElement)this.model.getUserSelectedElement(new List<string>() { pickerType} ,new List<string> {pickerStereotype} );
+		if( selection == null ) 
+		{
+			this.ComboBox.SelectedIndex = this.previousSelectedIndex;
+			return;
+		}
+		int index = this.data.Count - 1;
+		this.data.Insert(index, new FieldValue() 
+			{
+				Key   = selection.name,
+				Value = selection.uniqueID
+			});
+		this.ComboBox.SelectedIndex = index;
     }
 
     private void createLabel(string label) {
