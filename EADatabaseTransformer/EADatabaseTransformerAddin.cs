@@ -269,6 +269,9 @@ namespace EADatabaseTransformer
 
 		private void refreshCompare(bool refreshTransform)
 		{
+			//debug
+			Logger.log("start refreshCompare");
+			var timestamp = DateTime.Now;
 			//refresh transformation and load of new and original database
 			if (refreshTransform)
 			{
@@ -278,6 +281,9 @@ namespace EADatabaseTransformer
 			//compare again
 			_comparer.compare();
 			this.dbCompareControl.loadComparison(_comparer);
+			//debug
+			Logger.log("end refreshcompare. Total time taken : " + (DateTime.Now - timestamp).ToString() );
+			
 		}
 
 		
