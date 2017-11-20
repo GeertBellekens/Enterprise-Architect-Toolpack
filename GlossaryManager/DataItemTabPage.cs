@@ -42,24 +42,40 @@ namespace GlossaryManager {
     }
 
     private Field logicalDataTypesComboBox;
+    
+   	public List<FieldValue> BusinessItems 
+   	{
+      set 
+      {
+        this.businessItemsCombobox.DataSource = value;
+      }
+    }
 
-    protected override void createForm() {
+    private Field businessItemsCombobox;
+
+    protected override void createForm() 
+    {
       base.createForm();
       
-      this.addField(new Field("Label"));
+      this.businessItemsCombobox = this.addField(new Field(
+      	"Business Item", FieldOptions.WithNull | FieldOptions.WithPicker, this)
+      	{ Width = 250 });
+      this.businessItemsCombobox.pickerType = "Class";
+      this.businessItemsCombobox.pickerStereotype = "EDD_BusinessItem";
+      this.addField(new Field("Label"){ Width = 250 });
       this.logicalDataTypesComboBox = this.addField(new Field(
-        "Logical Datatype", FieldOptions.WithNull | FieldOptions.WithPicker, this
-      ));
+        "Logical Datatype", FieldOptions.WithNull | FieldOptions.WithPicker, this)
+        { Width = 250 });
       this.logicalDataTypesComboBox.pickerType = "DataType";
       this.logicalDataTypesComboBox.pickerStereotype = "EDD_LogicalDatatype";
-      this.addField(new Field("Size"));
-      this.addField(new Field("Format"));
+      this.addField(new Field("Size"){ Width = 250 });
+      this.addField(new Field("Format"){ Width = 250 });
+      this.addField(new Field("Initial Value") {Width = 250 });
       this.addField(new Field("Description") {
         Multiline = true,
-        Width     = 300,
-        Height    = 100
-      });
-      this.addField(new Field("Initial Value"));
+        Width     = 250,
+        Height    = 100});
+      
     }
 
     protected override void setFields() 

@@ -160,14 +160,14 @@ namespace GlossaryManager {
         FlowDirection = FlowDirection.TopDown,
         Dock          = DockStyle.Fill,
       };
-      this.addField(new Field("Name")     { Width = 125 });
-      this.addField(new Field("Author")   { Width = 125 });
-      this.addField(new Field("Version")  { Width = 125 });
-      this.addField(new Field("Status", GlossaryItem.statusValues){ Width = 125 });
+      this.addField(new Field("Name")     { Width = 250 });
+      this.addField(new Field("Author")   { Width = 250 });
+      this.addField(new Field("Version")  { Width = 250 });
+      this.addField(new Field("Status", GlossaryItem.statusValues){ Width = 250 });
       this.addField(new Field("Keywords") { Width = 250 });
-      this.addField(new Field("Created")  {  Width = 125 ,Enabled = false });
-      this.addField(new Field("Updated")  {  Width = 125 ,Enabled = false });
-      Control last = this.addField(new Field("Updated by") { Width = 125 });
+      this.addField(new Field("Created")  {  Width = 250 ,Enabled = false });
+      this.addField(new Field("Updated")  {  Width = 250 ,Enabled = false });
+      Control last = this.addField(new Field("Updated by") { Width = 250 });
       // creates a column break, marking the difference between GI and BI/DI
       this.form.SetFlowBreak(last, true);
     }

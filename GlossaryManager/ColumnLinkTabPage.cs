@@ -140,7 +140,7 @@ namespace GlossaryManager {
 
     private DataItem getDataItem(TSF_EA.Attribute attribute) {
       if( attribute == null ) { return null; }
-      TSF_EA.TaggedValue tv = attribute.getTaggedValue("DataItem");
+      TSF_EA.TaggedValue tv = attribute.getTaggedValue("EDD::dataitem");
       if(tv == null || tv.tagValue == null) { return null; }
       return GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as TSF_EA.Class);
     }
@@ -227,11 +227,11 @@ namespace GlossaryManager {
       };
       this.dataItemsComboBox = new Field("Data Item", FieldOptions.WithNull);
       this.addField(this.dataItemsComboBox);
-      this.addField(new Field("Name")           { Enabled = false });
-      this.addField(new Field("Type")           { Enabled = false });
-      this.addField(new Field("Size")           { Enabled = false });
-      this.addField(new Field("Format")         { Enabled = false });
-      this.addField(new Field("Initial Value")  { Enabled = false });
+      this.addField(new Field("Name")           { Enabled = false , Width = 250 });
+      this.addField(new Field("Type")           { Enabled = false , Width = 250 });
+      this.addField(new Field("Size")           { Enabled = false , Width = 250 });
+      this.addField(new Field("Format")         { Enabled = false , Width = 250 });
+      this.addField(new Field("Initial Value")  { Enabled = false , Width = 250 });
     }
 
     // mapping from field name (= Label) to corresponding Field
@@ -266,9 +266,10 @@ namespace GlossaryManager {
       if( this.Current == null )          { return; }
 
       // store the linked DI in a TV
-      this.Current.dataitem = field.Value;
+      //TODO: Create Column class to encapsulate attribute
+      this.Current.addTaggedValue("EDD::dataitem",field.Value);
       var context = this.context;
-      this.Current.save();
+      //this.Current.save(); //no need to save if only tagged values is changed
       this.ui.Addin.SelectedItem = context;
       
       // make sure that changes in the DI<->column structure are updated in tree
@@ -277,6 +278,7 @@ namespace GlossaryManager {
       // and that will trigger a "show"ing of the link information, which will
       // also update any problems wrt the DI
     }
+
 
     private void handleContextChange(TSF_EA.ElementWrapper context) {
       this.checkContext(context);
@@ -357,7 +359,7 @@ namespace GlossaryManager {
           TreeNode tableNode = null;
     			foreach(TSF_EA.Attribute attribute in clazz.attributes) {
             if(attribute.HasStereotype("column")) {
-              TSF_EA.TaggedValue tv = attribute.getTaggedValue("DataItem");
+              TSF_EA.TaggedValue tv = attribute.getTaggedValue("EDD::dataitem");
               if(tv != null) {
                 var di = tv.tagValue as TSF_EA.Class;
                 if(di != null && di.guid == this.context.guid) {
@@ -388,7 +390,7 @@ namespace GlossaryManager {
           if(this.prevSelection != null && attribute.guid == this.prevSelection.guid) {
             this.tree.SelectedNode = columnNode;
           }
-          TSF_EA.TaggedValue tv = attribute.getTaggedValue("DataItem");
+          TSF_EA.TaggedValue tv = attribute.getTaggedValue("EDD::dataitem");
           if(tv != null) {
             var di = tv.tagValue as TSF_EA.Class;
             if(di != null) {
@@ -575,7 +577,7 @@ namespace GlossaryManager {
       attribute.save();
 
       // link the column to the DataItem
-      attribute.dataitem = context.guid;
+      attribute.addTaggedValue("EDD::dataitem",context.guid);
       attribute.save();
       
       // sync

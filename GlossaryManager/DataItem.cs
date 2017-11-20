@@ -50,6 +50,7 @@ namespace GlossaryManager {
     }
 	
 	public LogicalDatatype logicalDatatype {get;set;}
+	public BusinessItem businessItem {get;set;}
 
     // EA support
 
@@ -59,7 +60,10 @@ namespace GlossaryManager {
 	protected override void setOriginValues()
 	{
 		this.Label = this.getTaggedValueString("label");
+		//get the logical datatype
 		getLogicalDatatypeFromOrigin();
+		//get the business item
+		getBusinessItemFromOrigin();
 		int newSize;
 		if (int.TryParse(this.getTaggedValueString("size"),out newSize))
 			this.Size = newSize;
@@ -79,12 +83,27 @@ namespace GlossaryManager {
 			}
 		}
 	}
+	private void getBusinessItemFromOrigin()
+	{
+		if (this.Origin != null)
+		{
+			var tv = this.Origin.getTaggedValue("business item");
+			if (tv != null)
+			{
+				var businessItemClass = tv.tagValue as UML.Classes.Kernel.Class;
+				if (businessItemClass != null)
+				{
+					this.businessItem = new BusinessItem();
+					this.businessItem.Origin = (TSF_EA.Class) businessItemClass;
+				}
+			}
+		}
+	}
 	#endregion
     public override void Update(UML.Classes.Kernel.Class clazz) {
       base.Update(clazz);
-
       var eaClass = clazz as TSF_EA.ElementWrapper;
-      eaClass.addTaggedValue(this.Label,"label");
+      eaClass.addTaggedValue("label",this.Label);
       if (logicalDatatype != null)
       	eaClass.addTaggedValue("logical datatype",this.logicalDatatype.wrappedDatatype);
       eaClass.addTaggedValue("size",this.Size.ToString());

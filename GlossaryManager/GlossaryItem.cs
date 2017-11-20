@@ -165,9 +165,9 @@ namespace GlossaryManager {
       ));
       clazz.stereotypes = stereotypes;
 
-      this.Update(clazz);
       this.Origin = clazz as TSF_EA.ElementWrapper;
-
+      this.Update(clazz);
+      
       return clazz;
     }
 
@@ -185,7 +185,7 @@ namespace GlossaryManager {
       eaClass.name     = this.Name;
       eaClass.author   = this.Author;
       eaClass.version  = this.Version;
-      eaClass.status   = this.Status.ToString();
+      eaClass.status   = this.Status;
       eaClass.keywords = this.Keywords;
       eaClass.created  = this.CreateDate;
       eaClass.modified = this.UpdateDate;
