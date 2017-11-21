@@ -132,6 +132,8 @@
     <None Include="Files\save.png" />
     <None Include="Files\Table.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="ProfilingSessions\Session20171121_103407.sdps" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

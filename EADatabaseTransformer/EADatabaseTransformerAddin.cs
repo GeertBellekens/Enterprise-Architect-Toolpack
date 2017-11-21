@@ -99,7 +99,12 @@ namespace EADatabaseTransformer
 		void saveDatabaseButtonClicked(object sender, EventArgs e)
 		{
 			var selectedComparison = _dbCompareControl.selectedComparison;
+			//debug
+			Logger.log("start save");
+			var timestamp = DateTime.Now;
 			_comparer.save();
+						//debug
+			Logger.log("end save. Total time taken : " + (DateTime.Now - timestamp).ToString() );
 			this.refreshCompare(true);
 			this.model.showTab(compareControlName);
 			//this._dbCompareControl.selectedComparison = selectedComparison;
@@ -130,7 +135,9 @@ namespace EADatabaseTransformer
 		public override void EA_FileOpen(EA.Repository Repository)
 		{
 			// initialize the model
-	        this.model = new UTF_EA.Model(Repository);
+	        this.model = new UTF_EA.Model(Repository, true);
+	        // preload the database factory
+	        DB2DatabaseTransformer.getFactory(this.model);
 			// indicate that we are now fully loaded
 	        this.fullyLoaded = true;
 		}
@@ -246,6 +253,8 @@ namespace EADatabaseTransformer
   		/// </summary>
 		void compareDatabase()
 		{
+			//make sure the cache is flushed
+			this.model.flushCache();
 			var selectedPackage = this.model.selectedElement as UTF_EA.Package;
 			//TODO: allow the user to select either database or logical package if not already linked, or if multiple are linked
 			if (selectedPackage != null)
@@ -275,11 +284,19 @@ namespace EADatabaseTransformer
 			//refresh transformation and load of new and original database
 			if (refreshTransform)
 			{
+				//debug
+				Logger.log("before _databaseTransformer.refresh()");
 				_databaseTransformer.refresh();
+				//debug
+				Logger.log("after _databaseTransformer.refresh()");
 			}
 			_comparer = new DB_EA.Compare.EADatabaseComparer((DB_EA.Database) _databaseTransformer.newDatabase, (DB_EA.Database) _databaseTransformer.existingDatabase);
 			//compare again
+			//debug
+			Logger.log("before _comparer.compare();");
 			_comparer.compare();
+			//debug
+			Logger.log("after _comparer.compare();");
 			this.dbCompareControl.loadComparison(_comparer);
 			//debug
 			Logger.log("end refreshcompare. Total time taken : " + (DateTime.Now - timestamp).ToString() );
