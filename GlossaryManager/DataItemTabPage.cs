@@ -53,31 +53,34 @@ namespace GlossaryManager {
 
     private Field businessItemsCombobox;
 
-    protected override void createForm() 
-    {
-      base.createForm();
-      
-      this.businessItemsCombobox = this.addField(new Field(
-      	"Business Item", FieldOptions.WithNull | FieldOptions.WithPicker, this)
-      	{ Width = 250 });
-      this.businessItemsCombobox.pickerType = "Class";
-      this.businessItemsCombobox.pickerStereotype = "EDD_BusinessItem";
-      this.addField(new Field("Label"){ Width = 250 });
-      this.logicalDataTypesComboBox = this.addField(new Field(
-        "Logical Datatype", FieldOptions.WithNull | FieldOptions.WithPicker, this)
-        { Width = 250 });
-      this.logicalDataTypesComboBox.pickerType = "DataType";
-      this.logicalDataTypesComboBox.pickerStereotype = "EDD_LogicalDatatype";
-      this.addField(new Field("Size"){ Width = 250 });
-      this.addField(new Field("Format"){ Width = 250 });
-      this.addField(new Field("Initial Value") {Width = 250 });
-      this.addField(new Field("Description") {
-        Multiline = true,
-        Width     = 250,
-        Height    = 100});
-      
-    }
-
+	
+	protected override void addSpecificFields()
+	{
+		this.businessItemsCombobox = this.addField(new Field(
+			"Business Item", FieldOptions.WithNull | FieldOptions.WithPicker, this)
+			{ Width = 200 });
+		this.businessItemsCombobox.pickerType = "Class";
+		this.businessItemsCombobox.pickerStereotype = "EDD_BusinessItem";
+		
+		this.addField(new Field("Label"){ Width = 200 });
+		
+		this.logicalDataTypesComboBox = this.addField(new Field(
+		"Logical Datatype", FieldOptions.WithNull | FieldOptions.WithPicker, this)
+		{ Width = 200 });
+		this.logicalDataTypesComboBox.pickerType = "DataType";
+		this.logicalDataTypesComboBox.pickerStereotype = "EDD_LogicalDatatype";
+		
+		this.addField(new Field("Size"){ Width = 200 });
+		this.addField(new Field("Format"){ Width = 200 });
+		this.addField(new Field("Initial Value") {Width = 200 });
+		var last = this.addField(new Field("Description") {
+		Multiline = true,
+		Width     = 200,
+		Height    = 100});
+		// creates a column break, marking the difference between GI and BI/DI
+		this.form.SetFlowBreak(last, true);
+	}
+	
     protected override void setFields() 
     {
     	base.setFields();

@@ -22,9 +22,9 @@ namespace GlossaryManager {
     
     // the master/detail list/form combo
     private ListView        itemsList;
-    private FlowLayoutPanel form;
+    protected FlowLayoutPanel form;
     
-    public GlossaryItemTabPage(GlossaryManagerUI ui) : base() {
+    protected GlossaryItemTabPage(GlossaryManagerUI ui) : base() {
       this.ui = ui;
 
       var splitContainer = new System.Windows.Forms.SplitContainer() {
@@ -34,8 +34,8 @@ namespace GlossaryManager {
         Name             = "splitContainer",
         SplitterDistance = 200,
         SplitterWidth    = 6,
-        Panel1MinSize    = 200,
-        Panel2MinSize    = 100
+        Panel1MinSize    = 50,
+        Panel2MinSize    = 100,
       };
 
       // set here else SplitterDistance causes issues
@@ -43,8 +43,8 @@ namespace GlossaryManager {
 
       splitContainer.SuspendLayout();
 
-      splitContainer.SplitterMoved  += new SplitterEventHandler(splitterMoved);
-      splitContainer.SplitterMoving += new SplitterCancelEventHandler(splitterMoving);
+      splitContainer.SplitterMoved  += splitterMoved;
+      splitContainer.SplitterMoving += splitterMoving;
 
       this.Controls.Add(splitContainer);
 
@@ -53,6 +53,7 @@ namespace GlossaryManager {
 
       splitContainer.Panel1.Controls.Add(this.itemsList);
       splitContainer.Panel2.Controls.Add(this.form);
+      splitContainer.Panel2.AutoScroll = true;
 
       splitContainer.ResumeLayout(false);
 
@@ -154,22 +155,28 @@ namespace GlossaryManager {
                           .ToList()
                           .ForEach(item => item.Selected = true);
     }
-
-    protected virtual void createForm() {
-      this.form       = new FlowLayoutPanel() { 
-        FlowDirection = FlowDirection.TopDown,
-        Dock          = DockStyle.Fill,
-      };
-      this.addField(new Field("Name")     { Width = 250 });
-      this.addField(new Field("Author")   { Width = 250 });
-      this.addField(new Field("Version")  { Width = 250 });
-      this.addField(new Field("Status", GlossaryItem.statusValues){ Width = 250 });
-      this.addField(new Field("Keywords") { Width = 250 });
-      this.addField(new Field("Created")  {  Width = 250 ,Enabled = false });
-      this.addField(new Field("Updated")  {  Width = 250 ,Enabled = false });
-      Control last = this.addField(new Field("Updated by") { Width = 250 });
-      // creates a column break, marking the difference between GI and BI/DI
-      this.form.SetFlowBreak(last, true);
+    /// <summary>
+    /// add the specific fields for the actual concrete type displayed
+    /// </summary>
+    protected abstract void addSpecificFields();
+    /// <summary>
+    /// create the form with all the fields
+    /// </summary>
+    protected void createForm() 
+    {
+		this.form       = new FlowLayoutPanel() { 
+				FlowDirection = FlowDirection.TopDown,
+				Dock          = DockStyle.Fill,
+				};
+		this.addField(new Field("Name")     { Width = 200 });
+		addSpecificFields();
+		this.addField(new Field("Author")   { Width = 200 });
+		this.addField(new Field("Version")  { Width = 200 });
+		this.addField(new Field("Status", GlossaryItem.statusValues){ Width = 200 });
+		this.addField(new Field("Keywords") { Width = 200 });
+		this.addField(new Field("Created")  {  Width = 200 ,Enabled = false });
+		this.addField(new Field("Updated")  {  Width = 200 ,Enabled = false });
+		this.addField(new Field("Updated by") { Width = 200 });
     }
 
     // mapping from field name (= Label) to corresponding Field

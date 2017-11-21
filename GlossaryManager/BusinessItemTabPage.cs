@@ -35,15 +35,16 @@ namespace GlossaryManager {
       };
     }
 
-    protected override void createForm() 
+    protected override void addSpecificFields()
     {
-      base.createForm();
-      this.addField(new Field("Description") {
-        Multiline = true,
-        Width     = 250,
-        Height    = 115
-      });
-      this.addField(new Field("Domain", BusinessItem.domainValues) { Width = 250});
+		this.addField(new Field("Domain", BusinessItem.domainValues) { Width = 200});
+		var last = this.addField(new Field("Description") {
+					Multiline = true,
+					Width     = 200,
+					Height    = 100
+					});
+		// creates a column break, marking the difference between GI and BI/DI
+		this.form.SetFlowBreak(last, true);
     }
 
     protected override void show() {
