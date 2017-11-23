@@ -385,39 +385,21 @@ namespace EADatabaseTransformer
 		}
 		void UpButtonClick(object sender, EventArgs e)
 		{
-			var currentComparison = this.selectedComparison;
-			
-			if (currentComparison != null)
-			{
-				var currentIndex = this._comparer.comparedItems.IndexOf(currentComparison);
-				if (currentIndex > 0 )
-				{
-					if (currentComparison.itemType.Equals("Table",StringComparison.InvariantCultureIgnoreCase))
-				    {
-				    	//this is a table. we have to move all the underlying items as well.
-				    	//TODO: currently not implemented until further notice
-				    }
-					else //not a table, move single item
-					{					
-						//move up by removing it from the current index and adding it to index -1
-						this._comparer.comparedItems.RemoveAt(currentIndex);
-						this._comparer.comparedItems.Insert(currentIndex -1,currentComparison);
-						//reload
-						loadComparison(this._comparer);
-						this.compareDBListView.Items[currentIndex -1].Focused = true;
-						this.compareDBListView.Items[currentIndex -1].Selected = true;
-					}
-				}
-			}
+			movePosition(-1);
 		}
 		void DownButtonClick(object sender, EventArgs e)
+		{
+			movePosition(1);
+		}
+		private void movePosition(int direction)
 		{
 			var currentComparison = this.selectedComparison;
 			
 			if (currentComparison != null)
 			{
 				var currentIndex = this._comparer.comparedItems.IndexOf(currentComparison);
-				if (currentIndex <  this.compareDBListView.Items.Count -1)
+				if (currentIndex + direction >= 0 
+				   && currentIndex + direction < compareDBListView.Items.Count )
 				{
 					if (currentComparison.itemType.Equals("Table",StringComparison.InvariantCultureIgnoreCase))
 				    {
@@ -428,15 +410,23 @@ namespace EADatabaseTransformer
 					{					
 						//move up by removing it from the current index and adding it to index -1
 						this._comparer.comparedItems.RemoveAt(currentIndex);
-						this._comparer.comparedItems.Insert(currentIndex +1,currentComparison);
+						this._comparer.comparedItems.Insert(currentIndex +direction,currentComparison);
+						//move it also in the owner comparison
+						int ownedIndex = currentComparison.ownerComparison.ownedComparisons.IndexOf(currentComparison);
+						if (ownedIndex + direction >= 0
+							&&ownedIndex + direction < currentComparison.ownerComparison.ownedComparisons.Count)
+						{
+							currentComparison.ownerComparison.ownedComparisons.RemoveAt(ownedIndex);
+							currentComparison.ownerComparison.ownedComparisons.Insert(ownedIndex + direction, currentComparison);
+						}
 						//reload
 						loadComparison(this._comparer);
-						this.compareDBListView.Items[currentIndex +1].Focused = true;
-						this.compareDBListView.Items[currentIndex +1].Selected = true;
+						this.compareDBListView.Items[currentIndex +direction].Focused = true;
+						this.compareDBListView.Items[currentIndex +direction].Selected = true;
 					}
 				}
 			}
-		}	
+		}
 
 	}
 }
