@@ -65,9 +65,13 @@ namespace EADatabaseTransformer
 		}
 		public void loadComparison(DB.Compare.DatabaseComparer comparer)
 		{
+			Cursor.Current = Cursors.WaitCursor;
 			this._comparer = comparer;
 			this.clear();
+			//tell the listview we start updating it
+			//this.compareDBListView.BeginUpdate();
 			string tableName = string.Empty;
+			var listViewItems = new List<ListViewItem>();
 			foreach (var comparedItem in comparer.comparedItems) 
 			{
 				if (comparedItem.newDatabaseItem is DB.Table) 
@@ -82,7 +86,10 @@ namespace EADatabaseTransformer
 				this.setStatusColor(newItem);
 				this.compareDBListView.Items.Add(newItem);
 			}
+			//tell the listview we ar done updating
+			//this.compareDBListView.EndUpdate();
 			enableDisable();
+			Cursor.Current = Cursors.Default;
 		}
 		private void setItemBackColor(ListViewItem item, Color color)
 		{
@@ -177,27 +184,15 @@ namespace EADatabaseTransformer
 			string logicalname = string.Empty;
 			if (comparison.newDatabaseItem != null)
 			{
-				logicalname = getLogicalName(comparison.newDatabaseItem);
+				logicalname = comparison.newDatabaseItem.logicalName;
 			}
 			if (logicalname == string.Empty && comparison.existingDatabaseItem != null)
 			{
-				logicalname = getLogicalName(comparison.existingDatabaseItem);
+				logicalname = comparison.existingDatabaseItem.logicalName;
 			}
 			return logicalname;
 		}
-		private string getLogicalName(DB.DatabaseItem databaseItem)
-		{
-			string logicalName = string.Empty;
-			if (databaseItem.logicalElements != null)
-			{
-				var logicalElement = databaseItem.logicalElements.FirstOrDefault();
-				if (logicalElement != null)
-				{
-					logicalName = logicalElement.name;
-				}
-			}
-			return logicalName;
-		}
+
 		
 		private void addDatabaseItemSpecifics(ListViewItem listViewItem,DB.DatabaseItem databaseItem )
 		{
@@ -237,18 +232,22 @@ namespace EADatabaseTransformer
 		public event EventHandler saveDatabaseButtonClick;
 		void SaveDatabaseButtonClick(object sender, EventArgs e)
 		{
+			Cursor.Current = Cursors.WaitCursor;
 			if (this.saveDatabaseButtonClick != null)
 			{
 				saveDatabaseButtonClick(sender, e);
 			}
+			Cursor.Current = Cursors.Default;
 		}
 		public event EventHandler refreshButtonClicked;
 		void RefreshButtonClick(object sender, EventArgs e)
 		{
+			Cursor.Current = Cursors.WaitCursor;
 			if (this.refreshButtonClicked != null)
 			{
 				refreshButtonClicked(sender, e);
 			}
+			Cursor.Current = Cursors.Default;
 		}
 		public event EventHandler selectLogicalItem = delegate { }; 
 		public event EventHandler selectDatabaseItem = delegate { }; 

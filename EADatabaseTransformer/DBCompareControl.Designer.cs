@@ -8,13 +8,6 @@ namespace EADatabaseTransformer
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.ListView compareDBListView;
-		private System.Windows.Forms.ColumnHeader tableColumn;
-		private System.Windows.Forms.ColumnHeader itemTypeColum;
-		private System.Windows.Forms.ColumnHeader newPropertiesColumn;
-		private System.Windows.Forms.ColumnHeader newNameColumn;
-		private System.Windows.Forms.ColumnHeader compareStatusColumn;
-		private System.Windows.Forms.ColumnHeader existingNameColumn;
-		private System.Windows.Forms.ColumnHeader existingPropertiesColumn;
 		private System.Windows.Forms.Button saveDatabaseButton;
 		private System.Windows.Forms.Button refreshButton;
 		private System.Windows.Forms.Button toLogicalButton;
@@ -24,7 +17,6 @@ namespace EADatabaseTransformer
 		private System.Windows.Forms.Button overrideButton;
 		private System.Windows.Forms.Button upButton;
 		private System.Windows.Forms.Button downButton;
-		private System.Windows.Forms.ColumnHeader logicalColumn;
 
 		
 		/// <summary>
@@ -49,16 +41,16 @@ namespace EADatabaseTransformer
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.Windows.Forms.ColumnHeader compareStatusColumn;
+			System.Windows.Forms.ColumnHeader itemTypeColum;
+			System.Windows.Forms.ColumnHeader tableColumn;
+			System.Windows.Forms.ColumnHeader logicalColumn;
+			System.Windows.Forms.ColumnHeader newNameColumn;
+			System.Windows.Forms.ColumnHeader newPropertiesColumn;
+			System.Windows.Forms.ColumnHeader existingNameColumn;
+			System.Windows.Forms.ColumnHeader existingPropertiesColumn;
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DBCompareControl));
 			this.compareDBListView = new System.Windows.Forms.ListView();
-			this.compareStatusColumn = new System.Windows.Forms.ColumnHeader();
-			this.itemTypeColum = new System.Windows.Forms.ColumnHeader();
-			this.tableColumn = new System.Windows.Forms.ColumnHeader();
-			this.logicalColumn = new System.Windows.Forms.ColumnHeader();
-			this.newNameColumn = new System.Windows.Forms.ColumnHeader();
-			this.newPropertiesColumn = new System.Windows.Forms.ColumnHeader();
-			this.existingNameColumn = new System.Windows.Forms.ColumnHeader();
-			this.existingPropertiesColumn = new System.Windows.Forms.ColumnHeader();
 			this.saveDatabaseButton = new System.Windows.Forms.Button();
 			this.refreshButton = new System.Windows.Forms.Button();
 			this.toLogicalButton = new System.Windows.Forms.Button();
@@ -68,6 +60,14 @@ namespace EADatabaseTransformer
 			this.downButton = new System.Windows.Forms.Button();
 			this.renameButton = new System.Windows.Forms.Button();
 			this.overrideButton = new System.Windows.Forms.Button();
+			compareStatusColumn = new System.Windows.Forms.ColumnHeader();
+			itemTypeColum = new System.Windows.Forms.ColumnHeader();
+			tableColumn = new System.Windows.Forms.ColumnHeader();
+			logicalColumn = new System.Windows.Forms.ColumnHeader();
+			newNameColumn = new System.Windows.Forms.ColumnHeader();
+			newPropertiesColumn = new System.Windows.Forms.ColumnHeader();
+			existingNameColumn = new System.Windows.Forms.ColumnHeader();
+			existingPropertiesColumn = new System.Windows.Forms.ColumnHeader();
 			this.SuspendLayout();
 			// 
 			// compareDBListView
@@ -76,14 +76,14 @@ namespace EADatabaseTransformer
 			| System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this.compareDBListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.compareStatusColumn,
-			this.itemTypeColum,
-			this.tableColumn,
-			this.logicalColumn,
-			this.newNameColumn,
-			this.newPropertiesColumn,
-			this.existingNameColumn,
-			this.existingPropertiesColumn});
+			compareStatusColumn,
+			itemTypeColum,
+			tableColumn,
+			logicalColumn,
+			newNameColumn,
+			newPropertiesColumn,
+			existingNameColumn,
+			existingPropertiesColumn});
 			this.compareDBListView.FullRowSelect = true;
 			this.compareDBListView.GridLines = true;
 			this.compareDBListView.Location = new System.Drawing.Point(0, 0);
@@ -99,42 +99,42 @@ namespace EADatabaseTransformer
 			// 
 			// compareStatusColumn
 			// 
-			this.compareStatusColumn.Text = "Status";
+			compareStatusColumn.Text = "Status";
 			// 
 			// itemTypeColum
 			// 
-			this.itemTypeColum.Text = "Item Type";
-			this.itemTypeColum.Width = 80;
+			itemTypeColum.Text = "Item Type";
+			itemTypeColum.Width = 80;
 			// 
 			// tableColumn
 			// 
-			this.tableColumn.Text = "Table";
-			this.tableColumn.Width = 80;
+			tableColumn.Text = "Table";
+			tableColumn.Width = 80;
 			// 
 			// logicalColumn
 			// 
-			this.logicalColumn.Text = "Logical Name";
-			this.logicalColumn.Width = 150;
+			logicalColumn.Text = "Logical Name";
+			logicalColumn.Width = 150;
 			// 
 			// newNameColumn
 			// 
-			this.newNameColumn.Text = "New Name";
-			this.newNameColumn.Width = 160;
+			newNameColumn.Text = "New Name";
+			newNameColumn.Width = 160;
 			// 
 			// newPropertiesColumn
 			// 
-			this.newPropertiesColumn.Text = "New Properties";
-			this.newPropertiesColumn.Width = 190;
+			newPropertiesColumn.Text = "New Properties";
+			newPropertiesColumn.Width = 190;
 			// 
 			// existingNameColumn
 			// 
-			this.existingNameColumn.Text = "Existing Name";
-			this.existingNameColumn.Width = 160;
+			existingNameColumn.Text = "Existing Name";
+			existingNameColumn.Width = 160;
 			// 
 			// existingPropertiesColumn
 			// 
-			this.existingPropertiesColumn.Text = "Existing Properties";
-			this.existingPropertiesColumn.Width = 193;
+			existingPropertiesColumn.Text = "Existing Properties";
+			existingPropertiesColumn.Width = 193;
 			// 
 			// saveDatabaseButton
 			// 
