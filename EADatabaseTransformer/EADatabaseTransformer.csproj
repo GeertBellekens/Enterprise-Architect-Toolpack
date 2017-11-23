@@ -75,6 +75,10 @@
     <Compile Include="DBCompareControl.Designer.cs">
       <DependentUpon>DBCompareControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="debugForm.cs" />
+    <Compile Include="debugForm.Designer.cs">
+      <DependentUpon>debugForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="EADatabaseTransformerAddin.cs" />
     <Compile Include="EADatabaseTransformerSettings.cs" />
     <Compile Include="EADatabaseTransformerSettingsForm.cs">
@@ -115,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DBCompareControl.resx">
       <DependentUpon>DBCompareControl.Designer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="debugForm.resx">
+      <DependentUpon>debugForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EADatabaseTransformerSettingsForm.resx">
       <DependentUpon>EADatabaseTransformerSettingsForm.cs</DependentUpon>

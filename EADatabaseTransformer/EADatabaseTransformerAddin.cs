@@ -35,6 +35,7 @@ namespace EADatabaseTransformer
         private DBCompareControl _dbCompareControl;
         private DB2DatabaseTransformer _databaseTransformer;
         private DB.Compare.DatabaseComparer _comparer;
+        public bool debugMode {get;set;}
         /// <summary>
         /// constructor where we set the menuheader and menuOptions
         /// </summary>
@@ -50,7 +51,8 @@ namespace EADatabaseTransformer
 			{
 				if (_dbCompareControl == null)
 				{
-					_dbCompareControl = this.model.addTab(compareControlName, "EADatabaseTransformer.DBCompareControl") as DBCompareControl;
+					_dbCompareControl = debugMode ? new DBCompareControl()
+						: this.model.addTab(compareControlName, "EADatabaseTransformer.DBCompareControl") as DBCompareControl;
 					_dbCompareControl.HandleDestroyed += dbControl_HandleDestroyed;
 					_dbCompareControl.saveDatabaseButtonClick += saveDatabaseButtonClicked;
 					_dbCompareControl.refreshButtonClicked += refreshButtonClicked;
@@ -203,7 +205,10 @@ namespace EADatabaseTransformer
             {
                 case menuComparetoDatabase:
                 	this.compareDatabase();
-                	Repository.ActivateTab(compareControlName);
+                	if (debugMode)
+                		new debugForm(_dbCompareControl).Show();
+                	else
+                		Repository.ActivateTab(compareControlName);
                     break;
                    case menuCompleteDBwithDLL:
                     this.completeDBwithDLL();
@@ -216,37 +221,38 @@ namespace EADatabaseTransformer
 	                break;
             }
         }
+
 		/// <summary>
 		/// gets the current database and completes it with the user selected ddl file
 		/// </summary>
-    void completeDBwithDLL()
-    {
-      // initialize database
-      var selectedPackage = this.model.selectedElement as UTF_EA.Package;
-      var selectedDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage);
-
-      // get user selected DDL file
-      var browseDDLFileDialog = new OpenFileDialog();
-      browseDDLFileDialog.Filter = "DDL File |*.sql;*.txt";
-      browseDDLFileDialog.FilterIndex = 1;
-      browseDDLFileDialog.Multiselect = false;
-      var dialogResult = browseDDLFileDialog.ShowDialog();
-      if (dialogResult == DialogResult.OK)
-      {
-        var ddlFileName = browseDDLFileDialog.FileName;
-        //read the file contents
-        //workaround to make sure it also works when the file is open
-        var fileStream = new FileStream(ddlFileName,FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        var reader = new StreamReader(fileStream);
-        string source = reader.ReadToEnd();
-        
-        var ddl = new DDL();
-        ddl.Parse(source);
-        
-        new DB2DatabaseTransformer(this.model, null)
-          .complete(selectedDatabase, ddl);
-      }
-    }
+	    void completeDBwithDLL()
+	    {
+	      // initialize database
+	      var selectedPackage = this.model.selectedElement as UTF_EA.Package;
+	      var selectedDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage);
+	
+	      // get user selected DDL file
+	      var browseDDLFileDialog = new OpenFileDialog();
+	      browseDDLFileDialog.Filter = "DDL File |*.sql;*.txt";
+	      browseDDLFileDialog.FilterIndex = 1;
+	      browseDDLFileDialog.Multiselect = false;
+	      var dialogResult = browseDDLFileDialog.ShowDialog();
+	      if (dialogResult == DialogResult.OK)
+	      {
+	        var ddlFileName = browseDDLFileDialog.FileName;
+	        //read the file contents
+	        //workaround to make sure it also works when the file is open
+	        var fileStream = new FileStream(ddlFileName,FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+	        var reader = new StreamReader(fileStream);
+	        string source = reader.ReadToEnd();
+	        
+	        var ddl = new DDL();
+	        ddl.Parse(source);
+	        
+	        new DB2DatabaseTransformer(this.model, null)
+	          .complete(selectedDatabase, ddl);
+	      }
+    	}
 
   		/// <summary>
   		/// start the transformation from the logical model to the database model
