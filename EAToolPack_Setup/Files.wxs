@@ -566,6 +566,149 @@
 						</RegistryKey>
 						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
 					</Component>
+					<Component Id="EDD_AddinFiles" Guid="70503033-ed87-4f03-acb6-ef4420e154b8">
+						<Class Id="{02F8CC26-FB06-3E82-AE9E-0F7E05FE6AA5}" Context="InprocServer32" Description="GlossaryManager.ListViewColumnSorter" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="GlossaryManager.ListViewColumnSorter" Description="GlossaryManager.ListViewColumnSorter" />
+		                </Class>
+		                <Class Id="{0468E1F1-A381-3641-B27D-C7BAAE1FAAF9}" Context="InprocServer32" Description="GlossaryManager.AboutWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="GlossaryManager.AboutWindow" Description="GlossaryManager.AboutWindow" />
+		                </Class>
+		                <Class Id="{325EEB40-3E1D-3E68-B69D-D5CC42C548A3}" Context="InprocServer32" Description="GlossaryManager.BusinessItem" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="GlossaryManager.BusinessItem" Description="GlossaryManager.BusinessItem" />
+		                </Class>
+		                <Class Id="{3BCEEBBD-FE55-3700-ADA2-526F179FC654}" Context="InprocServer32" Description="GlossaryManager.StringListConverter" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="GlossaryManager.StringListConverter" Description="GlossaryManager.StringListConverter" />
+		                </Class>
+		                <Class Id="{6CD1CEE4-7588-386E-9D15-C2B45A3F354A}" Context="InprocServer32" Description="GlossaryManager.BoolConverter" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="GlossaryManager.BoolConverter" Description="GlossaryManager.BoolConverter" />
+		                </Class>
+		                <Class Id="{869AE5BA-BAB1-3FE4-845E-2E8CDD9AF349}" Context="InprocServer32" Description="GlossaryManager.GlossaryManagerUI" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="GlossaryManager.GlossaryManagerUI" Description="GlossaryManager.GlossaryManagerUI" />
+		                </Class>
+		                <Class Id="{8DC00B55-5AC5-3094-B756-9E73BD7DC9CE}" Context="InprocServer32" Description="GlossaryManager.DataItem" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="GlossaryManager.DataItem" Description="GlossaryManager.DataItem" />
+		                </Class>
+		                <Class Id="{A049EEEB-A6FE-336F-B673-FAFD19CF5F3A}" Context="InprocServer32" Description="GlossaryManager.GlossaryManagerAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="GlossaryManager.GlossaryManagerAddin" Description="GlossaryManager.GlossaryManagerAddin" />
+		                </Class>
+		                <Class Id="{A82A35C7-1F12-388E-A1A4-2BD6D6B5A967}" Context="InprocServer32" Description="GlossaryManager.GlossaryManagerSettings" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="GlossaryManager.GlossaryManagerSettings" Description="GlossaryManager.GlossaryManagerSettings" />
+		                </Class>
+		                <Class Id="{D137B53F-BC18-315A-9ED5-2D0419D93DEA}" Context="InprocServer32" Description="GlossaryManager.FieldValue" ThreadingModel="both" ForeignServer="mscoree.dll">
+		                    <ProgId Id="GlossaryManager.FieldValue" Description="GlossaryManager.FieldValue" />
+		                </Class>
+						<File Id="GlossaryManager.pdb" Source="..\GlossaryManager\bin\Debug\GlossaryManager.pdb" />
+						<File Id="GlossaryManager.tlb" Source="..\GlossaryManager\bin\Debug\GlossaryManager.tlb" />
+						<File Id="fil3D7C7D9CCAC93777DA2BEE5DD7B864F4" KeyPath="yes" Source="..\GlossaryManager\bin\Debug\GlossaryManager.dll" />
+		                <ProgId Id="Record" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{02F8CC26-FB06-3E82-AE9E-0F7E05FE6AA5}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{02F8CC26-FB06-3E82-AE9E-0F7E05FE6AA5}\InprocServer32\1.0.0.29114" Name="Class" Value="GlossaryManager.ListViewColumnSorter" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{02F8CC26-FB06-3E82-AE9E-0F7E05FE6AA5}\InprocServer32\1.0.0.29114" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{02F8CC26-FB06-3E82-AE9E-0F7E05FE6AA5}\InprocServer32\1.0.0.29114" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{02F8CC26-FB06-3E82-AE9E-0F7E05FE6AA5}\InprocServer32\1.0.0.29114" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{02F8CC26-FB06-3E82-AE9E-0F7E05FE6AA5}\InprocServer32" Name="Class" Value="GlossaryManager.ListViewColumnSorter" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{02F8CC26-FB06-3E82-AE9E-0F7E05FE6AA5}\InprocServer32" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{02F8CC26-FB06-3E82-AE9E-0F7E05FE6AA5}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{02F8CC26-FB06-3E82-AE9E-0F7E05FE6AA5}\InprocServer32" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{0468E1F1-A381-3641-B27D-C7BAAE1FAAF9}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{0468E1F1-A381-3641-B27D-C7BAAE1FAAF9}\InprocServer32\1.0.0.29114" Name="Class" Value="GlossaryManager.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{0468E1F1-A381-3641-B27D-C7BAAE1FAAF9}\InprocServer32\1.0.0.29114" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{0468E1F1-A381-3641-B27D-C7BAAE1FAAF9}\InprocServer32\1.0.0.29114" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{0468E1F1-A381-3641-B27D-C7BAAE1FAAF9}\InprocServer32\1.0.0.29114" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{0468E1F1-A381-3641-B27D-C7BAAE1FAAF9}\InprocServer32" Name="Class" Value="GlossaryManager.AboutWindow" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{0468E1F1-A381-3641-B27D-C7BAAE1FAAF9}\InprocServer32" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{0468E1F1-A381-3641-B27D-C7BAAE1FAAF9}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{0468E1F1-A381-3641-B27D-C7BAAE1FAAF9}\InprocServer32" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{325EEB40-3E1D-3E68-B69D-D5CC42C548A3}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{325EEB40-3E1D-3E68-B69D-D5CC42C548A3}\InprocServer32\1.0.0.29114" Name="Class" Value="GlossaryManager.BusinessItem" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{325EEB40-3E1D-3E68-B69D-D5CC42C548A3}\InprocServer32\1.0.0.29114" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{325EEB40-3E1D-3E68-B69D-D5CC42C548A3}\InprocServer32\1.0.0.29114" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{325EEB40-3E1D-3E68-B69D-D5CC42C548A3}\InprocServer32\1.0.0.29114" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{325EEB40-3E1D-3E68-B69D-D5CC42C548A3}\InprocServer32" Name="Class" Value="GlossaryManager.BusinessItem" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{325EEB40-3E1D-3E68-B69D-D5CC42C548A3}\InprocServer32" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{325EEB40-3E1D-3E68-B69D-D5CC42C548A3}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{325EEB40-3E1D-3E68-B69D-D5CC42C548A3}\InprocServer32" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3BCEEBBD-FE55-3700-ADA2-526F179FC654}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3BCEEBBD-FE55-3700-ADA2-526F179FC654}\InprocServer32\1.0.0.29114" Name="Class" Value="GlossaryManager.StringListConverter" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3BCEEBBD-FE55-3700-ADA2-526F179FC654}\InprocServer32\1.0.0.29114" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3BCEEBBD-FE55-3700-ADA2-526F179FC654}\InprocServer32\1.0.0.29114" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3BCEEBBD-FE55-3700-ADA2-526F179FC654}\InprocServer32\1.0.0.29114" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3BCEEBBD-FE55-3700-ADA2-526F179FC654}\InprocServer32" Name="Class" Value="GlossaryManager.StringListConverter" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3BCEEBBD-FE55-3700-ADA2-526F179FC654}\InprocServer32" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3BCEEBBD-FE55-3700-ADA2-526F179FC654}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{3BCEEBBD-FE55-3700-ADA2-526F179FC654}\InprocServer32" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{6CD1CEE4-7588-386E-9D15-C2B45A3F354A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{6CD1CEE4-7588-386E-9D15-C2B45A3F354A}\InprocServer32\1.0.0.29114" Name="Class" Value="GlossaryManager.BoolConverter" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{6CD1CEE4-7588-386E-9D15-C2B45A3F354A}\InprocServer32\1.0.0.29114" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{6CD1CEE4-7588-386E-9D15-C2B45A3F354A}\InprocServer32\1.0.0.29114" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{6CD1CEE4-7588-386E-9D15-C2B45A3F354A}\InprocServer32\1.0.0.29114" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{6CD1CEE4-7588-386E-9D15-C2B45A3F354A}\InprocServer32" Name="Class" Value="GlossaryManager.BoolConverter" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{6CD1CEE4-7588-386E-9D15-C2B45A3F354A}\InprocServer32" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{6CD1CEE4-7588-386E-9D15-C2B45A3F354A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{6CD1CEE4-7588-386E-9D15-C2B45A3F354A}\InprocServer32" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{869AE5BA-BAB1-3FE4-845E-2E8CDD9AF349}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{869AE5BA-BAB1-3FE4-845E-2E8CDD9AF349}\InprocServer32\1.0.0.29114" Name="Class" Value="GlossaryManager.GlossaryManagerUI" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{869AE5BA-BAB1-3FE4-845E-2E8CDD9AF349}\InprocServer32\1.0.0.29114" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{869AE5BA-BAB1-3FE4-845E-2E8CDD9AF349}\InprocServer32\1.0.0.29114" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{869AE5BA-BAB1-3FE4-845E-2E8CDD9AF349}\InprocServer32\1.0.0.29114" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{869AE5BA-BAB1-3FE4-845E-2E8CDD9AF349}\InprocServer32" Name="Class" Value="GlossaryManager.GlossaryManagerUI" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{869AE5BA-BAB1-3FE4-845E-2E8CDD9AF349}\InprocServer32" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{869AE5BA-BAB1-3FE4-845E-2E8CDD9AF349}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{869AE5BA-BAB1-3FE4-845E-2E8CDD9AF349}\InprocServer32" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8DC00B55-5AC5-3094-B756-9E73BD7DC9CE}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8DC00B55-5AC5-3094-B756-9E73BD7DC9CE}\InprocServer32\1.0.0.29114" Name="Class" Value="GlossaryManager.DataItem" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8DC00B55-5AC5-3094-B756-9E73BD7DC9CE}\InprocServer32\1.0.0.29114" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8DC00B55-5AC5-3094-B756-9E73BD7DC9CE}\InprocServer32\1.0.0.29114" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8DC00B55-5AC5-3094-B756-9E73BD7DC9CE}\InprocServer32\1.0.0.29114" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8DC00B55-5AC5-3094-B756-9E73BD7DC9CE}\InprocServer32" Name="Class" Value="GlossaryManager.DataItem" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8DC00B55-5AC5-3094-B756-9E73BD7DC9CE}\InprocServer32" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8DC00B55-5AC5-3094-B756-9E73BD7DC9CE}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{8DC00B55-5AC5-3094-B756-9E73BD7DC9CE}\InprocServer32" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A049EEEB-A6FE-336F-B673-FAFD19CF5F3A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A049EEEB-A6FE-336F-B673-FAFD19CF5F3A}\InprocServer32\1.0.0.29114" Name="Class" Value="GlossaryManager.GlossaryManagerAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A049EEEB-A6FE-336F-B673-FAFD19CF5F3A}\InprocServer32\1.0.0.29114" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A049EEEB-A6FE-336F-B673-FAFD19CF5F3A}\InprocServer32\1.0.0.29114" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A049EEEB-A6FE-336F-B673-FAFD19CF5F3A}\InprocServer32\1.0.0.29114" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A049EEEB-A6FE-336F-B673-FAFD19CF5F3A}\InprocServer32" Name="Class" Value="GlossaryManager.GlossaryManagerAddin" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A049EEEB-A6FE-336F-B673-FAFD19CF5F3A}\InprocServer32" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A049EEEB-A6FE-336F-B673-FAFD19CF5F3A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A049EEEB-A6FE-336F-B673-FAFD19CF5F3A}\InprocServer32" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A82A35C7-1F12-388E-A1A4-2BD6D6B5A967}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A82A35C7-1F12-388E-A1A4-2BD6D6B5A967}\InprocServer32\1.0.0.29114" Name="Class" Value="GlossaryManager.GlossaryManagerSettings" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A82A35C7-1F12-388E-A1A4-2BD6D6B5A967}\InprocServer32\1.0.0.29114" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A82A35C7-1F12-388E-A1A4-2BD6D6B5A967}\InprocServer32\1.0.0.29114" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A82A35C7-1F12-388E-A1A4-2BD6D6B5A967}\InprocServer32\1.0.0.29114" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A82A35C7-1F12-388E-A1A4-2BD6D6B5A967}\InprocServer32" Name="Class" Value="GlossaryManager.GlossaryManagerSettings" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A82A35C7-1F12-388E-A1A4-2BD6D6B5A967}\InprocServer32" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A82A35C7-1F12-388E-A1A4-2BD6D6B5A967}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{A82A35C7-1F12-388E-A1A4-2BD6D6B5A967}\InprocServer32" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D137B53F-BC18-315A-9ED5-2D0419D93DEA}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D137B53F-BC18-315A-9ED5-2D0419D93DEA}\InprocServer32\1.0.0.29114" Name="Class" Value="GlossaryManager.FieldValue" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D137B53F-BC18-315A-9ED5-2D0419D93DEA}\InprocServer32\1.0.0.29114" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D137B53F-BC18-315A-9ED5-2D0419D93DEA}\InprocServer32\1.0.0.29114" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D137B53F-BC18-315A-9ED5-2D0419D93DEA}\InprocServer32\1.0.0.29114" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D137B53F-BC18-315A-9ED5-2D0419D93DEA}\InprocServer32" Name="Class" Value="GlossaryManager.FieldValue" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D137B53F-BC18-315A-9ED5-2D0419D93DEA}\InprocServer32" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D137B53F-BC18-315A-9ED5-2D0419D93DEA}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="CLSID\{D137B53F-BC18-315A-9ED5-2D0419D93DEA}\InprocServer32" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="Record\{68BFB6E0-F4FD-398A-B359-FAC92F8CF3A4}\1.0.0.29114" Name="Class" Value="GlossaryManager.FieldOptions" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="Record\{68BFB6E0-F4FD-398A-B359-FAC92F8CF3A4}\1.0.0.29114" Name="Assembly" Value="GlossaryManager, Version=1.0.0.29114, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="Record\{68BFB6E0-F4FD-398A-B359-FAC92F8CF3A4}\1.0.0.29114" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+		                <RegistryValue Root="HKCR" Key="Record\{68BFB6E0-F4FD-398A-B359-FAC92F8CF3A4}\1.0.0.29114" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />		                
+		            </Component>
+					<Component Id="EDD_RegistryEntry" Guid="2b885ff9-2b17-46a2-8cd9-db954f3764c0" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\Enterprise Data Dictionary">
+							<RegistryValue Type="string" Value="GlossaryManager.GlossaryManagerAddin" />
+						</RegistryKey>
+					<Condition> %PROCESSOR_ARCHITECTURE="AMD64" OR %PROCESSOR_ARCHITECTURE="IE64"</Condition>
+					</Component>
+					<Component Id="EDD_RegistryEntry_x86" Guid="053b634b-c11b-4e09-ad46-33075c2ea38c" UninstallWhenSuperseded="yes">
+						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\Enterprise Data Dictionary">
+							<RegistryValue Type="string" Value="GlossaryManager.GlossaryManagerAddin" />
+						</RegistryKey>
+						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
+					</Component>
+					<!--
 					<Component Id="EAMapping_AddinFiles" Guid="49a007a8-8704-4829-8f06-5f684fd33b79">
 		                <Class Id="{25696241-E5EA-3E9D-9B87-E6B72E84EBF8}" Context="InprocServer32" Description="EAMapping.Custom_User_Controls.PTreeView" ThreadingModel="both" ForeignServer="mscoree.dll">
 		                    <ProgId Id="EAMapping.Custom_User_Controls.PTreeView" Description="EAMapping.Custom_User_Controls.PTreeView" />
@@ -683,6 +826,7 @@
 						</RegistryKey>
 						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
 					</Component>
+				-->
 				</Directory>
 			</Directory>
 		</DirectoryRef>
