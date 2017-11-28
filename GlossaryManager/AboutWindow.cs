@@ -15,7 +15,7 @@ namespace GlossaryManager {
       ).ToShortDateString();
 
 			this.HomePage.Links.Add(
-        0,this.HomePage.Text.Length,"http://bellekens.com/glossary-manager/"
+        0,this.HomePage.Text.Length,"http://bellekens.com/enterprise-data-dictionary/"
       );
 			this.AuthorEmail.Links.Add(
         0,this.AuthorEmail.Text.Length,"mailto:geert@bellekens.com"

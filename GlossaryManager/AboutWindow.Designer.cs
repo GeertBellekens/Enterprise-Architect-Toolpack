@@ -49,7 +49,7 @@
 			this.ApplicationTitle.Name = "ApplicationTitle";
 			this.ApplicationTitle.Size = new System.Drawing.Size(267, 23);
 			this.ApplicationTitle.TabIndex = 0;
-			this.ApplicationTitle.Text = "Glossary Manager";
+			this.ApplicationTitle.Text = "Enterprise Data Dictionary";
 			// 
 			// VersionLabel
 			// 
@@ -108,7 +108,7 @@
 			this.HomePage.Size = new System.Drawing.Size(233, 23);
 			this.HomePage.TabIndex = 8;
 			this.HomePage.TabStop = true;
-			this.HomePage.Text = "Glossary manager homepage";
+			this.HomePage.Text = "Enterprise Data Dictionary homepage";
 			this.HomePage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HomePageLinkClicked);
 			// 
 			// OKButton
@@ -154,7 +154,7 @@
 			this.MinimizeBox = false;
 			this.Name = "AboutWindow";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-			this.Text = "About EA Mapping";
+			this.Text = "About Enterprise Data Dictionary";
 			((System.ComponentModel.ISupportInitialize)(this.Logo)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

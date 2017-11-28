@@ -109,9 +109,27 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Files\add.png" />
+    <None Include="Files\businessitem.png" />
+    <None Include="Files\column.png" />
+    <None Include="Files\dataitem.png" />
+    <None Include="Files\delete.png" />
+    <None Include="Files\enterprise-architect.png" />
+    <None Include="Files\export.png" />
+    <None Include="Files\filter.png" />
+    <None Include="Files\folders.png" />
+    <None Include="Files\glossary-manager.ico" />
+    <None Include="Files\glossary-manager.png" />
+    <None Include="Files\import.png" />
+    <None Include="Files\link.png" />
+    <None Include="Files\sync.png" />
+    <None Include="Files\table.png" />
     <None Include="GlossaryManager.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Files" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
