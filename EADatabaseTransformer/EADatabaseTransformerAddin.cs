@@ -101,12 +101,8 @@ namespace EADatabaseTransformer
 		void saveDatabaseButtonClicked(object sender, EventArgs e)
 		{
 			var selectedComparison = _dbCompareControl.selectedComparison;
-			//debug
-			Logger.log("start save");
-			var timestamp = DateTime.Now;
+			EAOutputLogger.log("Saving Database...");
 			_comparer.save();
-						//debug
-			Logger.log("end save. Total time taken : " + (DateTime.Now - timestamp).ToString() );
 			this.refreshCompare(true);
 			this.model.showTab(compareControlName);
 			//this._dbCompareControl.selectedComparison = selectedComparison;
@@ -259,6 +255,8 @@ namespace EADatabaseTransformer
   		/// </summary>
 		void compareDatabase()
 		{
+			//make sure the log is empty
+			EAOutputLogger.clearLog(this.model, this.settings.outputName);
 			//make sure the cache is flushed
 			this.model.flushCache();
 			var selectedPackage = this.model.selectedElement as UTF_EA.Package;
@@ -284,29 +282,20 @@ namespace EADatabaseTransformer
 
 		private void refreshCompare(bool refreshTransform)
 		{
-			//debug
-			Logger.log("start refreshCompare");
-			var timestamp = DateTime.Now;
+			var startTime = System.DateTime.Now;
+			EAOutputLogger.log("Comparing database...");
 			//refresh transformation and load of new and original database
 			if (refreshTransform)
 			{
-				//debug
-				Logger.log("before _databaseTransformer.refresh()");
 				_databaseTransformer.refresh();
-				//debug
-				Logger.log("after _databaseTransformer.refresh()");
 			}
+			//then compare
 			_comparer = new DB_EA.Compare.EADatabaseComparer((DB_EA.Database) _databaseTransformer.newDatabase, (DB_EA.Database) _databaseTransformer.existingDatabase);
-			//compare again
-			//debug
-			Logger.log("before _comparer.compare();");
 			_comparer.compare();
-			//debug
-			Logger.log("after _comparer.compare();");
+			//then load the comparison in the GUI
 			this.dbCompareControl.loadComparison(_comparer);
-			//debug
-			Logger.log("end refreshcompare. Total time taken : " + (DateTime.Now - timestamp).ToString() );
-			
+			//let the user know we have finished
+			EAOutputLogger.log("Finished in "+ (System.DateTime.Now - startTime));
 		}
 
 		

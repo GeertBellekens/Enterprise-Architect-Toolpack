@@ -31,7 +31,7 @@ namespace EADatabaseTransformer
 
 		
 		/// <summary>
-		/// the URL for the Imvertor Service
+		/// the path for the abbreviations file
 		/// </summary>
 		public string abbreviationsPath
 		{
@@ -42,6 +42,20 @@ namespace EADatabaseTransformer
 			set
 			{
 				this.setValue("abbreviationsPath",value);
+			}
+		}
+		/// <summary>
+		/// the path for the abbreviations file
+		/// </summary>
+		public string outputName
+		{
+			get
+			{
+				return this.getValue("outputName");
+			}
+			set
+			{
+				this.setValue("outputName",value);
 			}
 		}
 
