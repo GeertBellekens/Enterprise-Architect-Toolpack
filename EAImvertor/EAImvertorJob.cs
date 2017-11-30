@@ -156,7 +156,8 @@ namespace EAImvertor
 		{
 			this._startDateTime = DateTime.Now;
 			this._backgroundWorker = backgroundWorker;
-			UML.Classes.Kernel.Package projectPackage = getProjectPackage(this.sourcePackage);
+			//UML.Classes.Kernel.Package projectPackage = getProjectPackage(this.sourcePackage); //export only the source package
+			UML.Classes.Kernel.Package projectPackage = this.sourcePackage;
 			if (projectPackage != null)
 			{
 				//create the specific properties for this job
