@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using EAAddinFramework.Databases.Strategy.DB2;
 using EAAddinFramework.Databases.Transformation.DB2;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
@@ -135,7 +136,7 @@ namespace EADatabaseTransformer
 			// initialize the model
 	        this.model = new UTF_EA.Model(Repository, true);
 	        // preload the database factory
-	        DB2DatabaseTransformer.getFactory(this.model);
+	        DB2DatabaseTransformer.getFactory(this.model, DB2StrategyFactory.getInstance());
 			// indicate that we are now fully loaded
 	        this.fullyLoaded = true;
 		}
@@ -225,7 +226,7 @@ namespace EADatabaseTransformer
 	    {
 	      // initialize database
 	      var selectedPackage = this.model.selectedElement as UTF_EA.Package;
-	      var selectedDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage);
+	      var selectedDatabase = DB2DatabaseTransformer.getFactory(this.model,DB2StrategyFactory.getInstance()).createDataBase(selectedPackage);
 	
 	      // get user selected DDL file
 	      var browseDDLFileDialog = new OpenFileDialog();
@@ -245,7 +246,7 @@ namespace EADatabaseTransformer
 	        var ddl = new DDL();
 	        ddl.Parse(source);
 	        
-	        new DB2DatabaseTransformer(this.model, null)
+	        new DB2DatabaseTransformer(this.model,null,DB2StrategyFactory.getInstance())
 	          .complete(selectedDatabase, ddl);
 	      }
     	}
@@ -267,13 +268,13 @@ namespace EADatabaseTransformer
 				if (selectedPackage.stereotypes.Any( x => x.name.Equals("database",StringComparison.InvariantCultureIgnoreCase)))
 			    {
 				    
-				    var existingDatabase = DB2DatabaseTransformer.getFactory(this.model).createDataBase(selectedPackage,true);
-					_databaseTransformer = new DB2DatabaseTransformer(this.model,nameTranslator,true);
+				    var existingDatabase = DB2DatabaseTransformer.getFactory(this.model,DB2StrategyFactory.getInstance()).createDataBase(selectedPackage,true);
+					_databaseTransformer = new DB2DatabaseTransformer(this.model,nameTranslator,DB2StrategyFactory.getInstance(),true);
 				    _databaseTransformer.existingDatabase = existingDatabase;
 				}
 				else
 				{
-					_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage,nameTranslator,true);
+					_databaseTransformer = new DB2DatabaseTransformer((UTF_EA.Package)selectedPackage,nameTranslator,DB2StrategyFactory.getInstance(),true);
 				}
 				
 				refreshCompare(true);	
