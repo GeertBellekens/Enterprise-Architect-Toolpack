@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
 
+using GlossaryManager.GUI;
 using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using UML=TSF.UmlToolingFramework.UML;
 
@@ -25,8 +26,9 @@ namespace GlossaryManager {
     const string menuExportDataItems     = "&Export Data Items...";
     const string menuAbout               = "&About";
 
-    const string appTitle                = "GlossaryManager";
-    const string appFQN                  = "GlossaryManager.GlossaryManagerUI"; 
+    const string appTitle                = "Enterprise Data Dictionary";
+    const string appFQN                  = "GlossaryManager.GlossaryManagerUI";
+    const string guiFQN                  = "GlossaryManager.GUI.EDD_MainControl";
 
     private TSF_EA.Model         model       = null;
     public  TSF_EA.Model Model { get { return this.model; } }
@@ -48,6 +50,22 @@ namespace GlossaryManager {
         return this._ui;
       }
     }
+    private EDD_MainControl _mainControl;
+    private EDD_MainControl mainControl
+    {
+    	get
+    	{
+	        if( this._mainControl == null && this.model != null ) 
+	        {
+	        	this._mainControl = this.model.addTab(appTitle, guiFQN) as EDD_MainControl;
+				this._mainControl.HandleDestroyed += this.handleHandleDestroyed;
+				//TODO: add additional events
+        	}
+	        return this._mainControl;
+    	}
+    	
+    	
+    }
 
     public GlossaryManagerAddin() : base() {
       this.menuHeader = menuName;
@@ -63,6 +81,7 @@ namespace GlossaryManager {
 
     private void handleHandleDestroyed(object sender, EventArgs e) {
       this._ui = null;
+      this._mainControl = null;
     }
 
     public override void EA_FileOpen(EA.Repository repository) {
@@ -145,10 +164,17 @@ namespace GlossaryManager {
 
     internal TSF_EA.Package managedPackage { get; private set; }
     
+    
     private void manage() {
       if( this.model == null ) { return; }
       this.managedPackage = (TSF_EA.Package)this.Model.selectedTreePackage;
-      this.refresh();
+      //this.refresh();
+      this.showGlossaryItems();
+    }
+    
+    private void showGlossaryItems()
+    {
+    	this.mainControl.setBusinessItems(this.list<BusinessItem>(this.managedPackage));
     }
     
     public void refresh() 
@@ -189,11 +215,11 @@ namespace GlossaryManager {
       this.model.activateTab(appTitle);
     }
 
-    private void import<T>() where T : GlossaryItem {
+    private void import<T>() where T : GlossaryItem, new(){
       this.import<T>((TSF_EA.Package)this.model.selectedElement);
     }
     
-    internal void import<T>(TSF_EA.Package package) where T : GlossaryItem {
+    internal void import<T>(TSF_EA.Package package) where T : GlossaryItem, new() {
       var file = this.getFileFor<T>(CSV.Loading);
       if(file == null) { return; }
 
@@ -223,7 +249,7 @@ namespace GlossaryManager {
       this.refresh();
     }
 
-    private void export<T>() where T : GlossaryItem {
+    private void export<T>() where T : GlossaryItem, new() {
       this.export<T>(this.list<T>());
     }
 
@@ -251,37 +277,22 @@ namespace GlossaryManager {
 
     // support for listing and indexing a/the selected package
     
-    private List<T> list<T>() where T : GlossaryItem {
+    private List<T> list<T>() where T : GlossaryItem, new() {
       return this.list<T>((TSF_EA.Package)this.model.selectedElement);
     }
 
-    private List<T> list<T>(TSF_EA.Package package) where T : GlossaryItem 
+    private List<T> list<T>(TSF_EA.Package package) where T : GlossaryItem,new()
     {
-      List<T> items = new List<T>();
-      if (package != null)
-      {
-	      foreach(TSF_EA.Class clazz in package.ownedElements.OfType<TSF_EA.Class>()) 
-	      {
-	        try 
-	        {
-	          T item = GlossaryItemFactory<T>.FromClass(clazz);
-	          if( item != null ) { items.Add(item); }
-	        } 
-	        catch(Exception e) 
-	        {
-	          MessageBox.Show(e.ToString());
-	        }
-	      }
-      }
-      return items;
+      	if (package == null) return new List<T>();
+      	return GlossaryItemFactory<T>.getGlossaryItemsFromPackage(package);
     }
 
-    private Dictionary<string,TSF_EA.Class> index<T>() where T : GlossaryItem {
+    private Dictionary<string,TSF_EA.Class> index<T>() where T : GlossaryItem, new() {
       return this.index<T>((TSF_EA.Package)this.model.selectedElement);
     }
 
     private Dictionary<string,TSF_EA.Class> index<T>(TSF_EA.Package package)
-      where T : GlossaryItem
+      where T : GlossaryItem, new()
     {
       Dictionary<string,TSF_EA.Class> map =
         new Dictionary<string,TSF_EA.Class>();

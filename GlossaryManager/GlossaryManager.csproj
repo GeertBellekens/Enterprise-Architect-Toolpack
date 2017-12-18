@@ -54,6 +54,9 @@
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="ObjectListView">
+      <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -72,22 +75,26 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="LogicalDataType.cs" />
-    <Compile Include="GlossaryManagerUI.cs" />
-    <Compile Include="GlossaryManagerUI.Designer.cs">
-      <DependentUpon>GlossaryManagerUI.cs</DependentUpon>
+    <Compile Include="GUI\EDD_MainControl.cs" />
+    <Compile Include="GUI\EDD_MainControl.Designer.cs">
+      <DependentUpon>EDD_MainControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="LogicalDataType.cs" />
     <Compile Include="GlossaryManagerAddin.cs" />
     <Compile Include="GlossaryManagerSettings.cs" />
     <Compile Include="GlossaryItem.cs" />
     <Compile Include="GlossaryItemFactory.cs" />
     <Compile Include="BusinessItem.cs" />
     <Compile Include="DataItem.cs" />
-    <Compile Include="Field.cs" />
-    <Compile Include="GlossaryItemTabPage.cs" />
-    <Compile Include="BusinessItemTabPage.cs" />
-    <Compile Include="DataItemTabPage.cs" />
-    <Compile Include="ColumnLinkTabPage.cs" />
+    <Compile Include="Old UI\BusinessItemTabPage.cs" />
+    <Compile Include="Old UI\ColumnLinkTabPage.cs" />
+    <Compile Include="Old UI\DataItemTabPage.cs" />
+    <Compile Include="Old UI\Field.cs" />
+    <Compile Include="Old UI\GlossaryItemTabPage.cs" />
+    <Compile Include="Old UI\GlossaryManagerUI.cs" />
+    <Compile Include="Old UI\GlossaryManagerUI.Designer.cs">
+      <DependentUpon>GlossaryManagerUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -104,7 +111,10 @@
     <EmbeddedResource Include="AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GlossaryManagerUI.resx">
+    <EmbeddedResource Include="GUI\EDD_MainControl.resx">
+      <DependentUpon>EDD_MainControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Old UI\GlossaryManagerUI.resx">
       <DependentUpon>GlossaryManagerUI.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -127,9 +137,12 @@
     <None Include="GlossaryManager.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files" />
+    <Folder Include="GUI" />
+    <Folder Include="Old UI" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

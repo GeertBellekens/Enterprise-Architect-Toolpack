@@ -9,7 +9,7 @@ using UML=TSF.UmlToolingFramework.UML;
 
 namespace GlossaryManager {
   
-  public class GlossaryItemFactory<T> where T : GlossaryItem {
+	public class GlossaryItemFactory<T> where T : GlossaryItem, new() {
 
     private GlossaryItemFactory() {}
 
@@ -27,28 +27,30 @@ namespace GlossaryManager {
       return (T)item;
     }
 
-    private static T CreateFrom(UML.Classes.Kernel.Class clazz) {
-      GlossaryItem item;
-      Type TType = typeof(T);
-      if( TType == typeof(BusinessItem) ) 
-      {
-        item = new BusinessItem();
-      } 
-      else if( TType == typeof(DataItem) )
-      {
-        item = new DataItem();
-      } 
-      else
-      {
-        return null;
-      }
-      if( ! clazz.stereotypes.Any(x => x.name.Equals(item.Stereotype)) ) 
-      {
-        return null;
-      }
+    public static List<T> getGlossaryItemsFromPackage(TSF_EA.Package package)
+    {
+    	T dummy = new T(); // needed to get the stereotype
+    	var glossaryItems = new List<T>();
+    	if (package != null)
+    	{
+	    	foreach (var classElement in package.getOwnedElementWrappers<TSF_EA.Class>(dummy.Stereotype, true)) 
+	    	{
+	    		glossaryItems.Add(CreateFrom(classElement));
+	    	}
+    	}
+    	return glossaryItems;
+    	
+    }
 
-      item.Origin = clazz as TSF_EA.ElementWrapper;
-      return (T)item;
+    private static T CreateFrom(UML.Classes.Kernel.Class clazz) 
+    {
+    	T item = new T();
+		if( ! clazz.stereotypes.Any(x => x.name.Equals(item.Stereotype)) ) 
+		{
+			return null;
+		}
+		item.Origin = clazz as TSF_EA.ElementWrapper;
+		return item;
     }
 
   }

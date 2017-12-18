@@ -332,7 +332,7 @@ namespace GlossaryManager {
       this.ui.Addin.refresh();
     }
 
-    protected void export<T>() where T : GlossaryItem {
+    protected void export<T>() where T : GlossaryItem, new() {
       List<T> list = new List<T>();
       foreach(ListViewItem row in this.itemsList.SelectedItems) {
         list.Add((T)row.Tag);
@@ -340,7 +340,7 @@ namespace GlossaryManager {
       this.ui.Addin.export<T>(list);
     }
 
-    protected void import<T>() where T : GlossaryItem {
+    protected void import<T>() where T : GlossaryItem, new() {
       this.ui.Addin.import<T>(this.ui.Addin.managedPackage);
     }
 
