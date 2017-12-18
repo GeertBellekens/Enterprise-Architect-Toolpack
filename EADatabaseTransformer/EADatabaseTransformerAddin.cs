@@ -198,25 +198,33 @@ namespace EADatabaseTransformer
         /// <param name="ItemName">the name of the selected menu item</param>
         public override void EA_MenuClick(EA.Repository Repository, string Location, string MenuName, string ItemName)
         {
-            switch (ItemName)
-            {
-                case menuComparetoDatabase:
-                	this.compareDatabase();
-                	if (debugMode)
-                		new debugForm(_dbCompareControl).Show();
-                	else
-                		Repository.ActivateTab(compareControlName);
-                    break;
-                   case menuCompleteDBwithDLL:
-                    this.completeDBwithDLL();
-                    break;
-		        case menuAbout :
-		            new AboutWindow().ShowDialog();
-		            break;
-	            case menuSettings:
-	                new EADatabaseTransformerSettingsForm(this.settings).ShowDialog();
-	                break;
-            }
+        	try
+        	{
+	            switch (ItemName)
+	            {
+	                case menuComparetoDatabase:
+	                	this.compareDatabase();
+	                	if (debugMode)
+	                		new debugForm(_dbCompareControl).Show();
+	                	else
+	                		Repository.ActivateTab(compareControlName);
+	                    break;
+	                   case menuCompleteDBwithDLL:
+	                    this.completeDBwithDLL();
+	                    break;
+			        case menuAbout :
+			            new AboutWindow().ShowDialog();
+			            break;
+		            case menuSettings:
+		                new EADatabaseTransformerSettingsForm(this.settings).ShowDialog();
+		                break;
+	            }
+        	}
+        	catch(Exception e)
+        	{
+        		//log exception to output window
+        		EAOutputLogger.log(string.Format("Exception occured: {0} \n Stacktrace: {1}",e.Message, e.StackTrace));
+        	}
         }
 
 		/// <summary>
