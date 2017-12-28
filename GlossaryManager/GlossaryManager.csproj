@@ -75,7 +75,9 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\EDD_MainControl.cs" />
+    <Compile Include="GUI\EDD_MainControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\EDD_MainControl.Designer.cs">
       <DependentUpon>EDD_MainControl.cs</DependentUpon>
     </Compile>
@@ -86,12 +88,22 @@
     <Compile Include="GlossaryItemFactory.cs" />
     <Compile Include="BusinessItem.cs" />
     <Compile Include="DataItem.cs" />
-    <Compile Include="Old UI\BusinessItemTabPage.cs" />
-    <Compile Include="Old UI\ColumnLinkTabPage.cs" />
-    <Compile Include="Old UI\DataItemTabPage.cs" />
+    <Compile Include="Old UI\BusinessItemTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Old UI\ColumnLinkTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Old UI\DataItemTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Old UI\Field.cs" />
-    <Compile Include="Old UI\GlossaryItemTabPage.cs" />
-    <Compile Include="Old UI\GlossaryManagerUI.cs" />
+    <Compile Include="Old UI\GlossaryItemTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Old UI\GlossaryManagerUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Old UI\GlossaryManagerUI.Designer.cs">
       <DependentUpon>GlossaryManagerUI.cs</DependentUpon>
     </Compile>
@@ -139,10 +151,6 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Files" />
-    <Folder Include="GUI" />
-    <Folder Include="Old UI" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

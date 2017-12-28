@@ -40,6 +40,7 @@ namespace EAImvertor
 		private System.Windows.Forms.Label resultsFolderLabel;
 		private System.Windows.Forms.TextBox proxyTextBox;
 		private System.Windows.Forms.Label proxyLable;
+		private System.Windows.Forms.CheckBox includeDiagramsCheckBox;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -89,6 +90,7 @@ namespace EAImvertor
 			this.resultsFolderLabel = new System.Windows.Forms.Label();
 			this.proxyTextBox = new System.Windows.Forms.TextBox();
 			this.proxyLable = new System.Windows.Forms.Label();
+			this.includeDiagramsCheckBox = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.timeOutUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.retryIntervalUpDown)).BeginInit();
 			this.SuspendLayout();
@@ -119,6 +121,7 @@ namespace EAImvertor
 			this.defaultPinTextBox.Name = "defaultPinTextBox";
 			this.defaultPinTextBox.Size = new System.Drawing.Size(225, 20);
 			this.defaultPinTextBox.TabIndex = 2;
+			this.defaultPinTextBox.UseSystemPasswordChar = true;
 			this.defaultPinTextBox.TextChanged += new System.EventHandler(this.DefaultPinTextBoxTextChanged);
 			// 
 			// defaultPinLabel
@@ -132,7 +135,7 @@ namespace EAImvertor
 			// applyButton
 			// 
 			this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.applyButton.Location = new System.Drawing.Point(309, 279);
+			this.applyButton.Location = new System.Drawing.Point(309, 311);
 			this.applyButton.Name = "applyButton";
 			this.applyButton.Size = new System.Drawing.Size(75, 23);
 			this.applyButton.TabIndex = 9;
@@ -144,7 +147,7 @@ namespace EAImvertor
 			// 
 			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(228, 279);
+			this.cancelButton.Location = new System.Drawing.Point(228, 311);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 8;
@@ -154,7 +157,7 @@ namespace EAImvertor
 			// okButton
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(147, 279);
+			this.okButton.Location = new System.Drawing.Point(147, 311);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 7;
@@ -358,13 +361,23 @@ namespace EAImvertor
 			this.proxyLable.TabIndex = 27;
 			this.proxyLable.Text = "Proxy";
 			// 
+			// includeDiagramsCheckBox
+			// 
+			this.includeDiagramsCheckBox.Location = new System.Drawing.Point(12, 270);
+			this.includeDiagramsCheckBox.Name = "includeDiagramsCheckBox";
+			this.includeDiagramsCheckBox.Size = new System.Drawing.Size(329, 24);
+			this.includeDiagramsCheckBox.TabIndex = 28;
+			this.includeDiagramsCheckBox.Text = "Include Diagram Images";
+			this.includeDiagramsCheckBox.UseVisualStyleBackColor = true;
+			// 
 			// EAImvertorSettingsForm
 			// 
 			this.AcceptButton = this.okButton;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(393, 314);
+			this.ClientSize = new System.Drawing.Size(393, 346);
+			this.Controls.Add(this.includeDiagramsCheckBox);
 			this.Controls.Add(this.proxyTextBox);
 			this.Controls.Add(this.proxyLable);
 			this.Controls.Add(this.resultsButtonBrowseFolder);

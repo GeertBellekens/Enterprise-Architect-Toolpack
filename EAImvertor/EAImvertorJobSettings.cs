@@ -27,6 +27,7 @@ namespace EAImvertor
 			this.retryInterval = settings.retryInterval;
 			this.urlPostFix = settings.urlPostFix;
 			this.resultsPath = settings.resultsPath;
+			this.includeDiagrams = settings.includeDiagrams;
 		}
 		public List<string> availableProcesses {get;set;}
 
@@ -58,6 +59,7 @@ namespace EAImvertor
 		public string urlPostFix {get;set;}
 		public string resultsPath {get;set;} 	
 		public string proxy {get;set;}
+		public bool includeDiagrams {get;set;}
 		public HttpClient getHttpClient()
 		{
 			return _settings.getHttpClient();

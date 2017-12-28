@@ -78,7 +78,9 @@
     <Compile Include="Correctors\SetStructureCorrector.cs" />
     <Compile Include="Correctors\TimeEventsCorrector.cs" />
     <Compile Include="MagicDrawReader.cs" />
-    <Compile Include="MDMigratorForm.cs" />
+    <Compile Include="MDMigratorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MDMigratorForm.Designer.cs">
       <DependentUpon>MDMigratorForm.cs</DependentUpon>
     </Compile>
@@ -120,9 +122,6 @@
       <DependentUpon>MDMigratorForm.Designer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Correctors" />
-    <Folder Include="UML" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

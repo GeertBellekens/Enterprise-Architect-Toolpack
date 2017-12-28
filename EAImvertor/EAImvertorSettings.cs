@@ -5,7 +5,7 @@ using System.IO;
 using System.Net;
 using System.Xml;
 using UML=TSF.UmlToolingFramework.UML;
-using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
+using TSF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using System.Configuration;
 using System.Linq;
 using System.Net.Http;
@@ -19,6 +19,12 @@ namespace EAImvertor
 	/// </summary>
 	public class EAImvertorSettings : EAAddinFramework.Utilities.AddinSettings
 	{
+		private TSF_EA.Model model {get;set;}
+		public EAImvertorSettings(TSF_EA.Model model)
+		{
+			this.model = model;
+		}
+			
 		private List<string> _availableProcesses;
 		public List<string> availableProcesses
 		{
@@ -278,6 +284,18 @@ namespace EAImvertor
 					newValue = value.ToLower().Replace("%appdata%", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 				}
 				 this.setValue("resultsPath",newValue);
+			}
+		}
+		public bool includeDiagrams
+		{
+			get
+			{
+				return this.getBooleanValue("includeDiagrams");
+				
+			}
+			set
+			{
+				 this.setBooleanValue("includeDiagrams",value);
 			}
 		}
 		public HttpClient getHttpClient()

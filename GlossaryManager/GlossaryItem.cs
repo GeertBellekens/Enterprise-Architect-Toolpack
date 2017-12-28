@@ -155,13 +155,13 @@ namespace GlossaryManager {
     public abstract string Stereotype { get; }
 
     public UML.Classes.Kernel.Class AsClassIn(TSF_EA.Package package) {
-      var clazz = package.model.factory.createNewElement<UML.Classes.Kernel.Class>(
+      var clazz = package.EAModel.factory.createNewElement<UML.Classes.Kernel.Class>(
         package, this.Name
       );
 
       var stereotypes = new HashSet<UML.Profiles.Stereotype>();
       stereotypes.Add(new TSF_EA.Stereotype(
-        package.model, clazz as TSF_EA.Element, this.Stereotype
+        package.EAModel, clazz as TSF_EA.Element, this.Stereotype
       ));
       clazz.stereotypes = stereotypes;
 
@@ -195,7 +195,7 @@ namespace GlossaryManager {
     }
 
     public void SelectInProjectBrowser() {
-      this.Origin.model.selectedItem = this.Origin;
+      this.Origin.EAModel.selectedItem = this.Origin;
     }
  
   }

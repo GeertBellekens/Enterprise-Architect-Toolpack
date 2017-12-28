@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using UML=TSF.UmlToolingFramework.UML;
 using UTF_EA = TSF.UmlToolingFramework.Wrappers.EA;
@@ -46,7 +47,7 @@ namespace EAImvertor
         public EAImvertorAddin():base()
 		{
 			this.menuHeader = menuName;
-			this.settings = new EAImvertorSettings();
+
 		}
 		
         private ImvertorControl imvertorControl
@@ -78,7 +79,23 @@ namespace EAImvertor
 		{
 			//initialize the model
 			this.initialize(Repository);
-
+		}
+		public override void EA_FileClose(EA.Repository Repository)
+		{
+			var tempPath = Path.Combine(Path.GetTempPath(),@"EAImvertor\");
+			//delete temp directory
+			try
+			{
+				//make sure all file handles are released before deleting the directory
+				GC.Collect();
+        		GC.WaitForPendingFinalizers();
+        		//Then delete the temp directory
+				Directory.Delete(tempPath,true);
+			}
+			catch(Exception)
+			{
+				//swallow exception, there might be anothor process using the temp directory
+			}
 		}
 		/// <summary>
 		/// initialize the add-in class
@@ -88,6 +105,8 @@ namespace EAImvertor
 		{
 			//initialize the model
 			this.model = new UTF_EA.Model(Repository);
+			//set the settings
+			this.settings = new EAImvertorSettings(this.model);
 			// indicate that we are now fully loaded
 	        this.fullyLoaded = true;
 		}

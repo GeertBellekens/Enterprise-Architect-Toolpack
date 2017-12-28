@@ -68,7 +68,9 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddNodeform.cs" />
+    <Compile Include="AddNodeform.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AddNodeform.Designer.cs">
       <DependentUpon>AddNodeform.cs</DependentUpon>
     </Compile>
@@ -85,18 +87,22 @@
     <Compile Include="EAMappingAddin.cs" />
     <Compile Include="EAMappingSettings.cs" />
     <Compile Include="LinkedTreeNode.cs" />
-    <Compile Include="LinkedTreeView.cs" />
-    <Compile Include="LinkedTreeViews.cs" />
-    <Compile Include="LinkedTreeNodes.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="LinkedTreeView.cs">
+      <SubType>Component</SubType>
     </Compile>
+    <Compile Include="LinkedTreeViews.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LinkedTreeNodes.cs" />
     <Compile Include="ImportMappingForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ImportMappingForm.Designer.cs">
       <DependentUpon>ImportMappingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MappingControlGUI.cs" />
+    <Compile Include="MappingControlGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="MappingControlGUI.Designer.cs">
       <DependentUpon>MappingControlGUI.cs</DependentUpon>
     </Compile>

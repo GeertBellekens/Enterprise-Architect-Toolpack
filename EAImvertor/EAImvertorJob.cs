@@ -151,26 +151,93 @@ namespace EAImvertor
 	        }
 	        return Path.ChangeExtension(sourceFileName, ".zip");
 	    }
+		private static string compressDirectory(string directoryName, string targetDirectory)
+		{
+			string archiveName = Path.Combine(targetDirectory, Path.ChangeExtension(Path.GetRandomFileName(),".zip"));
+			ZipFile.CreateFromDirectory(directoryName, archiveName);
+			return archiveName;
+		}
+		private string getZippedModelContent()
+		{
+			var tempPath = Path.Combine(Path.GetTempPath(),@"EAImvertor\");
+			//create the temp directory to zip
+			var tempDirectoryInfo =	Directory.CreateDirectory(
+				Path.Combine(tempPath, Path.ChangeExtension(Path.GetRandomFileName(),string.Empty)));
+			//export model to xmi
+			this.setStatus("Exporting Model");
+			sourcePackage.exportToXMI(Path.Combine(tempDirectoryInfo.FullName
+			                                       ,sanitizeFileName( this.sourcePackage.name) + ".xmi")
+			                          , this.settings.includeDiagrams);
+			removeUnwantedDiagramImages(Path.Combine(tempDirectoryInfo.FullName, @"Images\"));
+			//compress the directory
+			this.setStatus("Compressing File(s)");
+			string zippedFileName = compressDirectory(tempDirectoryInfo.FullName, tempPath);
+			this.setStatus("Deleting Temporary Files");
+			//return filename
+			return zippedFileName;
+		}
+		private void removeUnwantedDiagramImages(string directoryPath)
+		{
+			foreach (var file in new DirectoryInfo(directoryPath).GetFiles("EAID_*.png"))
+			{
+				//get the GUID from the filename
+				string diagramGUID = "{" + 
+										file.Name.Replace(".png", "")
+										.Replace("EAID_","")
+										.Replace("_","-") 
+									+ "}";
+				var diagram = sourcePackage.model.getItemFromGUID(diagramGUID) as UML.Diagrams.Diagram;
+				if (diagram != null 
+				    && ! diagram.stereotypes.Any())
+				{
+					//delete the file
+					file.Delete();
+				}
+
+			}
+		}
+		private string sanitizeFileName(string unsafeName)
+		{
+			 foreach (var c in Path.GetInvalidFileNameChars()) 
+			 {
+			 	unsafeName=unsafeName.Replace(c, '-'); 
+			 }
+			 return unsafeName;
+		}
+		private void resetImageFileNames(DirectoryInfo directory)
+		{
+			//replace "-" with underscores, remove "{" and "}" and add EAID_ as prefix
+			foreach (FileInfo file in directory.GetFiles("*.png")) 
+			{
+				string newFileName = "EAID_" + file.Name.Replace("-","_")
+									.Replace("{",string.Empty)
+									.Replace("}", string.Empty);
+				File.Move(file.FullName,Path.Combine(file.Directory.FullName,newFileName));
+			}
+		}
+		private void removeFiles(DirectoryInfo directory,string pattern)
+		{
+			foreach (var file in directory.GetFiles(pattern))
+			{
+				//delete the file
+				file.Delete();
+			}
+		}
+			
 		//public void startJob(string imvertorURL, string pincode,string processName ,string imvertorProperties,string imvertorPropertiesFilePath, string imvertorHistoryFilePath)
 		public void startJob( BackgroundWorker backgroundWorker)
 		{
 			this._startDateTime = DateTime.Now;
 			this._backgroundWorker = backgroundWorker;
 			//UML.Classes.Kernel.Package projectPackage = getProjectPackage(this.sourcePackage); //export only the source package
-			UML.Classes.Kernel.Package projectPackage = this.sourcePackage;
-			if (projectPackage != null)
+			if (sourcePackage != null)
 			{
 				//create the specific properties for this job
-				this.settings.PropertiesFilePath = createSpecificPropertiesFile(projectPackage);
-				string xmiFileName = Path.ChangeExtension(Path.GetTempFileName(),".xmi");
-				this.setStatus("Exporting Model");
-				projectPackage.exportToXMI(xmiFileName);
-				//TODO: export diagram and add them to the zip file
-				//projectPackage.exportAllDiagrams(@"C:\temp\testImages\");
-				this.setStatus("Compressing File");
+				this.settings.PropertiesFilePath = createSpecificPropertiesFile(sourcePackage);
+				string xmiFileName = getZippedModelContent();
+
 				if (File.Exists(xmiFileName))
 				{
-					xmiFileName = CompressFile(xmiFileName);
 					this.setStatus("Uploading Model");
 					try {
 						this._jobID = this.Upload(settings.imvertorURL+settings.urlPostFix +"upload",settings.PIN,settings.ProcessName,settings.Properties
@@ -258,7 +325,7 @@ namespace EAImvertor
 			 exceptions.AddRange(this.errors);
 			foreach (var exception in exceptions) 
 			{
-				var outputItem = ((UTF_EA.Package)this._sourcePackage).model.getItemFromGUID(exception.guid);
+				var outputItem = ((UTF_EA.Package)this._sourcePackage).EAModel.getItemFromGUID(exception.guid);
 				string outputItemName = "-";
 				if (outputItem != null) outputItemName = outputItem.name;
 				outputItems.Add( new UML.Extended.UMLModelOutPutItem(outputItem, 
@@ -268,7 +335,7 @@ namespace EAImvertor
 			var searchOutPut = new EASearchOutput("Imvertor Messages"
 			                                      ,new List<string>(new string[] {"Name","Message Type","Message","Path"})
 			                                      ,outputItems
-			                                      ,((UTF_EA.Package)this._sourcePackage).model);
+			                                      ,((UTF_EA.Package)this._sourcePackage).EAModel);
 			//show the output
 			searchOutPut.show();
 			
@@ -426,7 +493,7 @@ namespace EAImvertor
 			string text = string.Empty;
 			var textNode = exceptionNode.SelectSingleNode("./text");
 			if (textNode != null) text = textNode.InnerText;
-			return new EAImvertorException(((UTF_EA.Package)this._sourcePackage).model,exceptionNode.Name,guid,step,construct,text);
+			return new EAImvertorException(((UTF_EA.Package)this._sourcePackage).EAModel,exceptionNode.Name,guid,step,construct,text);
 		}
 		
 		private XmlDocument getReport(string reportURL, DateTime startTimeStamp = default(DateTime))

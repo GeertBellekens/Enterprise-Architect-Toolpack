@@ -44,6 +44,7 @@ namespace EAImvertor
 			this.timeOutUpDown.Value = this.settings.timeOutInSeconds;
 			this.retryIntervalUpDown.Value = this.settings.retryInterval;
 			this.resultsFolderTextBox.Text = this.settings.resultsPath;
+			this.includeDiagramsCheckBox.Checked = this.settings.includeDiagrams;
 		}
 		private void unloadData()
 		{
@@ -57,6 +58,7 @@ namespace EAImvertor
 			this.settings.retryInterval = int.Parse (this.retryIntervalUpDown.Value.ToString());
 			this.settings.resultsPath = this.resultsFolderTextBox.Text;
 			this.settings.defaultPIN = this.defaultPinTextBox.Text;
+			this.settings.includeDiagrams = includeDiagramsCheckBox.Checked;
 		}
 		/// <summary>
 		/// save the data from the form to the settings
