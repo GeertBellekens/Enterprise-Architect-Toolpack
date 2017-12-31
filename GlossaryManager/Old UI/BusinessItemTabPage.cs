@@ -37,7 +37,7 @@ namespace GlossaryManager {
 
     protected override void addSpecificFields()
     {
-		this.addField(new Field("Domain", BusinessItem.domainValues) { Width = 200});
+		//this.addField(new Field("Domain", BusinessItem.domainValues) { Width = 200});
 		var last = this.addField(new Field("Description") {
 					Multiline = true,
 					Width     = 200,

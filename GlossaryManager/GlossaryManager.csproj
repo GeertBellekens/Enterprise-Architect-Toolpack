@@ -61,6 +61,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -80,6 +81,12 @@
     </Compile>
     <Compile Include="GUI\EDD_MainControl.Designer.cs">
       <DependentUpon>EDD_MainControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\EDD_SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\EDD_SettingsForm.Designer.cs">
+      <DependentUpon>EDD_SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LogicalDataType.cs" />
     <Compile Include="GlossaryManagerAddin.cs" />
@@ -125,6 +132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\EDD_MainControl.resx">
       <DependentUpon>EDD_MainControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\EDD_SettingsForm.resx">
+      <DependentUpon>EDD_SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Old UI\GlossaryManagerUI.resx">
       <DependentUpon>GlossaryManagerUI.cs</DependentUpon>

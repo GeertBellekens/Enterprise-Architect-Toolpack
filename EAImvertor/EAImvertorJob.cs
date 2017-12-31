@@ -325,7 +325,7 @@ namespace EAImvertor
 			 exceptions.AddRange(this.errors);
 			foreach (var exception in exceptions) 
 			{
-				var outputItem = ((UTF_EA.Package)this._sourcePackage).EAModel.getItemFromGUID(exception.guid);
+				var outputItem = this._sourcePackage.model.getItemFromGUID(exception.guid);
 				string outputItemName = "-";
 				if (outputItem != null) outputItemName = outputItem.name;
 				outputItems.Add( new UML.Extended.UMLModelOutPutItem(outputItem, 
@@ -335,7 +335,7 @@ namespace EAImvertor
 			var searchOutPut = new EASearchOutput("Imvertor Messages"
 			                                      ,new List<string>(new string[] {"Name","Message Type","Message","Path"})
 			                                      ,outputItems
-			                                      ,((UTF_EA.Package)this._sourcePackage).EAModel);
+			                                      ,(UTF_EA.Model)this.sourcePackage.model);
 			//show the output
 			searchOutPut.show();
 			

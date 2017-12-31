@@ -36,14 +36,15 @@ namespace GlossaryManager.GUI
 				return this.BusinessItemsListView.SelectedObject as BusinessItem;
 			}
 		}
-		void BusinessItemsListViewSelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (selectedBusinessItem != null)
-			{
-				this.BU_NameTextBox.Text = selectedBusinessItem.Name;
-				this.BU_DomainTextBox.Text = selectedBusinessItem.Domain;
-			}
-		}
 
-	}
+        private void BusinessItemsListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (selectedBusinessItem != null)
+            {
+                this.BU_NameTextBox.Text = selectedBusinessItem.Name;
+                this.BU_DomainTextBox.Text = selectedBusinessItem.Domain;
+                this.BU_DescriptionTextBox.Text = selectedBusinessItem.Description;
+            }
+        }
+    }
 }
