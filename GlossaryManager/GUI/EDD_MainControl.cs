@@ -42,7 +42,7 @@ namespace GlossaryManager.GUI
             if (selectedBusinessItem != null)
             {
                 this.BU_NameTextBox.Text = selectedBusinessItem.Name;
-                this.BU_DomainTextBox.Text = selectedBusinessItem.Domain;
+                this.BU_DomainTextBox.Text = selectedBusinessItem.domainPath;
                 this.BU_DescriptionTextBox.Text = selectedBusinessItem.Description;
             }
         }

@@ -194,7 +194,7 @@ namespace GlossaryManager.GUI
             // 
             // BU_DomainCol
             // 
-            this.BU_DomainCol.AspectName = "Domain";
+            this.BU_DomainCol.AspectName = "domainPath";
             this.BU_DomainCol.Text = "Domain";
             this.BU_DomainCol.ToolTipText = "The domain of the Business Item";
             this.BU_DomainCol.Width = 200;

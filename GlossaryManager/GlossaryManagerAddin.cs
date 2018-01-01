@@ -20,7 +20,7 @@ namespace GlossaryManager
     {
 
         // menu constants
-        const string menuName = "-&Glossary Manager";
+        const string menuName = "-&EDD";
         const string menuManage = "&Manage...";
         const string menuImportBusinessItems = "&Import Business Items...";
         const string menuImportDataItems = "&Import Data Items...";
@@ -39,6 +39,7 @@ namespace GlossaryManager
         private bool fullyLoaded = false;
 
         private GlossaryManagerSettings settings = null;
+        private GlossaryItemFactory factory = null;
 
         private GlossaryManagerUI _ui;
         private GlossaryManagerUI ui
@@ -98,6 +99,7 @@ namespace GlossaryManager
         {
             this.model = new TSF_EA.Model(repository);
             this.settings = new GlossaryManagerSettings(this.model);
+            this.factory = new GlossaryItemFactory(this.settings);
             this.fullyLoaded = true;
         }
 
@@ -360,7 +362,7 @@ namespace GlossaryManager
         private List<T> list<T>(TSF_EA.Package package) where T : GlossaryItem, new()
         {
             if (package == null) return new List<T>();
-            return GlossaryItemFactory<T>.getGlossaryItemsFromPackage(package);
+            return this.factory.getGlossaryItemsFromPackage<T>(package);
         }
 
         private Dictionary<string, TSF_EA.Class> index<T>() where T : GlossaryItem, new()
@@ -375,7 +377,7 @@ namespace GlossaryManager
               new Dictionary<string, TSF_EA.Class>();
             foreach (TSF_EA.Class clazz in package.ownedElements.OfType<TSF_EA.Class>())
             {
-                if (GlossaryItemFactory<T>.IsA(clazz))
+                if (this.factory.IsA<T>(clazz))
                 {
                     map.Add(clazz.guid, clazz);
                 }

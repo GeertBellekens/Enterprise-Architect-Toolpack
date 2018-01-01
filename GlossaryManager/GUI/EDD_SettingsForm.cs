@@ -17,6 +17,7 @@ namespace GlossaryManager.GUI
         {
             InitializeComponent();
             this.settings = settings;
+            this.loadData();
         }
         private void loadData()
         {

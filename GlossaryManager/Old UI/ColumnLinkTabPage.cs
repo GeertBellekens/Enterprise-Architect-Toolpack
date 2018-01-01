@@ -142,7 +142,8 @@ namespace GlossaryManager {
       if( attribute == null ) { return null; }
       TSF_EA.TaggedValue tv = attribute.getTaggedValue("EDD::dataitem");
       if(tv == null || tv.tagValue == null) { return null; }
-      return GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as TSF_EA.Class);
+            //return GlossaryItemFactory<DataItem>.FromClass(tv.tagValue as TSF_EA.Class);
+       return null;
     }
 
     private bool showing = false;
@@ -444,8 +445,9 @@ namespace GlossaryManager {
     }
 
     private bool notInSync(TSF_EA.Attribute column, TSF_EA.Class clazz) {
-      DataItem di = GlossaryItemFactory<DataItem>.FromClass(clazz);
-      if(di == null) { return true; } // ???
+            //DataItem di = GlossaryItemFactory<DataItem>.FromClass(clazz);
+            DataItem di = null;
+      if (di == null) { return true; } // ???
       if( column.name != di.Label ) { return true; }
       // TODO DataType
       if( column.length != di.Size ) { return true; }

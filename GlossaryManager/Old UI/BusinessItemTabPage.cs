@@ -52,14 +52,14 @@ namespace GlossaryManager {
       if( ! this.HasItemSelected ) { return; }
 
       this.fields["Description"].Value = ((BusinessItem)this.Current).Description;
-      this.fields["Domain"].Value      = ((BusinessItem)this.Current).Domain;
+      this.fields["Domain"].Value      = ((BusinessItem)this.Current).domainPath;
     }
 
     protected override void Update(Field field) {
       if( ! this.HasItemSelected ) { return; }
       switch(field.Label.Text) {
         case "Description": ((BusinessItem)this.Current).Description = field.Value; break;
-        case "Domain":      ((BusinessItem)this.Current).Domain      = field.Value; break;        
+        case "Domain":      ((BusinessItem)this.Current).domainPath      = field.Value; break;        
       }
       base.Update(field);
     }

@@ -2,36 +2,37 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using FileHelpers;
-
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
 
 namespace GlossaryManager
 {
 
-    public class GlossaryItemFactory<T> where T : GlossaryItem, new()
+    public class GlossaryItemFactory 
     {
-
-        private GlossaryItemFactory() { }
-
-        public static bool IsA(UML.Classes.Kernel.Class clazz)
+        GlossaryManagerSettings settings { get; set; }
+        public GlossaryItemFactory(GlossaryManagerSettings settings)
         {
-            return GlossaryItemFactory<T>.CreateFrom(clazz) != null;
+            this.settings = settings;
         }
 
-        public static T FromClass(UML.Classes.Kernel.Class clazz)
+        public bool IsA<T>(UML.Classes.Kernel.Class clazz) where T : GlossaryItem, new()
+        {
+            return this.CreateFrom<T>(clazz) != null;
+        }
+
+        public T FromClass<T>(UML.Classes.Kernel.Class clazz) where T : GlossaryItem, new()
         {
             if (clazz == null) { return null; }
             if (clazz.stereotypes.Count != 1) { return null; }
 
-            GlossaryItem item = GlossaryItemFactory<T>.CreateFrom(clazz);
+            GlossaryItem item = this.CreateFrom<T>(clazz);
             if (item == null) { return null; }
 
             return (T)item;
         }
 
-        public static List<T> getGlossaryItemsFromPackage(TSF_EA.Package package)
+        public List<T> getGlossaryItemsFromPackage<T>(TSF_EA.Package package) where T : GlossaryItem, new()
         {
             T dummy = new T(); // needed to get the stereotype
             var glossaryItems = new List<T>();
@@ -39,20 +40,22 @@ namespace GlossaryManager
             {
                 foreach (var classElement in package.getOwnedElementWrappers<TSF_EA.Class>(dummy.Stereotype, true))
                 {
-                    glossaryItems.Add(CreateFrom(classElement));
+                    var item = this.CreateFrom<T>(classElement);
+                    if (item != null) glossaryItems.Add(item);
                 }
             }
             return glossaryItems;
 
         }
 
-        private static T CreateFrom(UML.Classes.Kernel.Class clazz)
+        private T CreateFrom<T>(UML.Classes.Kernel.Class clazz) where T : GlossaryItem, new()
         {
             T item = new T();
             if (!clazz.stereotypes.Any(x => x.name.Equals(item.Stereotype)))
             {
                 return null;
             }
+            item.settings = this.settings;
             item.Origin = clazz as TSF_EA.ElementWrapper;
             return item;
         }

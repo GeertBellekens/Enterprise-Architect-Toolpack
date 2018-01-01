@@ -86,6 +86,8 @@ namespace GlossaryManager
                 setOriginValues();
             }
         }
+        internal GlossaryManagerSettings settings { get; set; }
+
         protected abstract void setOriginValues();
 
         protected string getTaggedValueString(string tagName)
