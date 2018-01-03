@@ -306,9 +306,9 @@ namespace GlossaryManager
                             package.deleteOwnedElement(index[item.GUID]);
                         }
                         else
-                        {                                     // update
+                        {   // update
                             this.log("updating " + item.Name);
-                            item.Update(index[item.GUID]);
+                            item.Save();//TODO: check does this work without parameter??
                         }
                     }
                     else

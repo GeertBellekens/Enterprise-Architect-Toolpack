@@ -103,19 +103,16 @@ namespace GlossaryManager
             }
         }
         #endregion
-        public override void Update(UML.Classes.Kernel.Class clazz)
+        protected override void update()
         {
-            base.Update(clazz);
-            var eaClass = clazz as TSF_EA.ElementWrapper;
-            eaClass.addTaggedValue("label", this.Label);
+            base.update();
+            this.Origin.addTaggedValue("label", this.Label);
             if (logicalDatatype != null)
-                eaClass.addTaggedValue("logical datatype", this.logicalDatatype.wrappedDatatype);
-            eaClass.addTaggedValue("size", this.Size.ToString());
-            eaClass.addTaggedValue("format", this.Format);
-            eaClass.addTaggedValue("initial value", this.InitialValue);
-            eaClass.notes = this.Description;
-
-            clazz.save();
+                this.Origin.addTaggedValue("logical datatype", this.logicalDatatype.wrappedDatatype);
+            this.Origin.addTaggedValue("size", this.Size.ToString());
+            this.Origin.addTaggedValue("format", this.Format);
+            this.Origin.addTaggedValue("initial value", this.InitialValue);
+            this.Origin.notes = this.Description;
         }
 
     }

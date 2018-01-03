@@ -18,7 +18,6 @@ namespace GlossaryManager.GUI
 		private ObjectListView BusinessItemsListView;
 		private OLVColumn BU_Name;
 		private OLVColumn BU_Domain;
-		private System.Windows.Forms.TextBox BU_DomainTextBox;
 		private System.Windows.Forms.Label BU_DomainLabel;
 		private System.Windows.Forms.TextBox BU_NameTextBox;
 		private System.Windows.Forms.Label BU_NameLabel;
@@ -49,7 +48,6 @@ namespace GlossaryManager.GUI
             this.BusinessItemsTabPage = new System.Windows.Forms.TabPage();
             this.BU_DescriptionTextBox = new System.Windows.Forms.TextBox();
             this.BU_DescriptionLabel = new System.Windows.Forms.Label();
-            this.BU_DomainTextBox = new System.Windows.Forms.TextBox();
             this.BU_DomainLabel = new System.Windows.Forms.Label();
             this.BU_NameTextBox = new System.Windows.Forms.TextBox();
             this.BU_NameLabel = new System.Windows.Forms.Label();
@@ -62,9 +60,13 @@ namespace GlossaryManager.GUI
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
+            this.BU_DomainComboBox = new System.Windows.Forms.ComboBox();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.DetailsTabControl.SuspendLayout();
             this.BusinessItemsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BusinessItemsListView)).BeginInit();
+            this.ButtonPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // DomainPanel
@@ -93,9 +95,9 @@ namespace GlossaryManager.GUI
             // BusinessItemsTabPage
             // 
             this.BusinessItemsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.BusinessItemsTabPage.Controls.Add(this.BU_DomainComboBox);
             this.BusinessItemsTabPage.Controls.Add(this.BU_DescriptionTextBox);
             this.BusinessItemsTabPage.Controls.Add(this.BU_DescriptionLabel);
-            this.BusinessItemsTabPage.Controls.Add(this.BU_DomainTextBox);
             this.BusinessItemsTabPage.Controls.Add(this.BU_DomainLabel);
             this.BusinessItemsTabPage.Controls.Add(this.BU_NameTextBox);
             this.BusinessItemsTabPage.Controls.Add(this.BU_NameLabel);
@@ -109,7 +111,7 @@ namespace GlossaryManager.GUI
             // 
             // BU_DescriptionTextBox
             // 
-            this.BU_DescriptionTextBox.Location = new System.Drawing.Point(113, 350);
+            this.BU_DescriptionTextBox.Location = new System.Drawing.Point(113, 324);
             this.BU_DescriptionTextBox.Multiline = true;
             this.BU_DescriptionTextBox.Name = "BU_DescriptionTextBox";
             this.BU_DescriptionTextBox.Size = new System.Drawing.Size(184, 96);
@@ -117,22 +119,15 @@ namespace GlossaryManager.GUI
             // 
             // BU_DescriptionLabel
             // 
-            this.BU_DescriptionLabel.Location = new System.Drawing.Point(7, 353);
+            this.BU_DescriptionLabel.Location = new System.Drawing.Point(7, 327);
             this.BU_DescriptionLabel.Name = "BU_DescriptionLabel";
             this.BU_DescriptionLabel.Size = new System.Drawing.Size(100, 23);
             this.BU_DescriptionLabel.TabIndex = 5;
             this.BU_DescriptionLabel.Text = "Description";
             // 
-            // BU_DomainTextBox
-            // 
-            this.BU_DomainTextBox.Location = new System.Drawing.Point(113, 324);
-            this.BU_DomainTextBox.Name = "BU_DomainTextBox";
-            this.BU_DomainTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_DomainTextBox.TabIndex = 4;
-            // 
             // BU_DomainLabel
             // 
-            this.BU_DomainLabel.Location = new System.Drawing.Point(7, 327);
+            this.BU_DomainLabel.Location = new System.Drawing.Point(7, 430);
             this.BU_DomainLabel.Name = "BU_DomainLabel";
             this.BU_DomainLabel.Size = new System.Drawing.Size(100, 23);
             this.BU_DomainLabel.TabIndex = 3;
@@ -244,10 +239,40 @@ namespace GlossaryManager.GUI
             // 
             this.ButtonPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonPanel.Location = new System.Drawing.Point(0, 614);
+            this.ButtonPanel.Controls.Add(this.cancelButton);
+            this.ButtonPanel.Controls.Add(this.saveButton);
+            this.ButtonPanel.Location = new System.Drawing.Point(0, 610);
             this.ButtonPanel.Name = "ButtonPanel";
-            this.ButtonPanel.Size = new System.Drawing.Size(937, 39);
+            this.ButtonPanel.Size = new System.Drawing.Size(937, 43);
             this.ButtonPanel.TabIndex = 2;
+            // 
+            // BU_DomainComboBox
+            // 
+            this.BU_DomainComboBox.FormattingEnabled = true;
+            this.BU_DomainComboBox.Location = new System.Drawing.Point(113, 427);
+            this.BU_DomainComboBox.Name = "BU_DomainComboBox";
+            this.BU_DomainComboBox.Size = new System.Drawing.Size(184, 21);
+            this.BU_DomainComboBox.TabIndex = 7;
+            // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(768, 11);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 20);
+            this.saveButton.TabIndex = 0;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.Location = new System.Drawing.Point(849, 11);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 20);
+            this.cancelButton.TabIndex = 1;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // EDD_MainControl
             // 
@@ -262,6 +287,7 @@ namespace GlossaryManager.GUI
             this.BusinessItemsTabPage.ResumeLayout(false);
             this.BusinessItemsTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BusinessItemsListView)).EndInit();
+            this.ButtonPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -271,5 +297,8 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.TextBox BU_DescriptionTextBox;
         private System.Windows.Forms.Label BU_DescriptionLabel;
         private OLVColumn BU_DescriptionCol;
+        private System.Windows.Forms.ComboBox BU_DomainComboBox;
+        private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.Button saveButton;
     }
 }

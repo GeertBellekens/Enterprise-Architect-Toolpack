@@ -87,7 +87,7 @@ namespace GlossaryManager
             }
         }
         internal GlossaryManagerSettings settings { get; set; }
-
+        public bool isDirty { get { return origin != null ? origin.isDirty : true; } }
         protected abstract void setOriginValues();
 
         protected string getTaggedValueString(string tagName)
@@ -146,7 +146,7 @@ namespace GlossaryManager
             clazz.stereotypes = stereotypes;
 
             this.Origin = clazz as TSF_EA.ElementWrapper;
-            this.Update(clazz);
+            this.update();
 
             return clazz;
         }
@@ -159,22 +159,27 @@ namespace GlossaryManager
                 //      Can't Save without an Origin and should not be possible?!
                 return;
             }
-            this.Update(this.Origin as UML.Classes.Kernel.Class);
+            this.update();
+            //set updateDate and update user if dirty
+            if (this.isDirty)
+            {
+                this.UpdateDate = DateTime.Now;
+                this.UpdatedBy = this.origin.EAModel.currentUser.login;
+            }
+            //save item
+            this.origin.modified = this.UpdateDate;    
+            this.origin.addTaggedValue("modifier", this.UpdatedBy);
+            this.origin.save();
         }
 
-        public virtual void Update(UML.Classes.Kernel.Class clazz)
+        protected virtual void update()
         {
-            var eaClass = clazz as TSF_EA.ElementWrapper;
-            eaClass.name = this.Name;
-            eaClass.author = this.Author;
-            eaClass.version = this.Version;
-            eaClass.status = this.Status;
-            eaClass.keywords = this.Keywords;
-            eaClass.created = this.CreateDate;
-            eaClass.modified = this.UpdateDate;
-            this.origin.addTaggedValue("modifier", this.UpdatedBy);
-
-            eaClass.save();
+            this.origin.name = this.Name;
+            this.origin.author = this.Author;
+            this.origin.version = this.Version;
+            this.origin.status = this.Status;
+            this.origin.keywords = this.Keywords;
+            this.origin.created = this.CreateDate;
         }
 
         public void SelectInProjectBrowser()

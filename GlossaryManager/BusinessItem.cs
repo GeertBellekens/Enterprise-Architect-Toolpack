@@ -22,6 +22,26 @@ namespace GlossaryManager
         [FieldNullValue(typeof(string), "")]
         public string domainPath = "";
 
+
+        [FieldHidden]
+        private Domain _domain = null;
+        public Domain domain
+        {
+            get
+            {
+                if (_domain == null
+                    && this.Origin != null)
+                {
+                    _domain = new Domain(this.Origin.owningPackage);
+                }
+                return _domain;
+            }
+            set
+            {
+                _domain = value;
+            }
+        }
+
         public override string ToString()
         {
             return "BusinessItem(" + base.ToString() + "," +
@@ -31,7 +51,6 @@ namespace GlossaryManager
               }) +
             ")";
         }
-
 
 
 
@@ -66,7 +85,7 @@ namespace GlossaryManager
         {
             var domains = new List<UML.Classes.Kernel.Package>();
             domains.Add(domainPackage);
-            if (domainPackage.owningPackage != null  && ! domainPackage.owningPackage.Equals(this.settings.businessItemsPackage))
+            if (domainPackage.owningPackage != null && !domainPackage.owningPackage.Equals(this.settings.businessItemsPackage))
             {
                 domains.AddRange(getDomains(domainPackage.owningPackage));
             }
@@ -74,14 +93,11 @@ namespace GlossaryManager
         }
 
 
-        public override void Update(UML.Classes.Kernel.Class clazz)
+        protected override void update()
         {
-            base.Update(clazz);
-
-            var eaClass = clazz as TSF_EA.ElementWrapper;
-            eaClass.notes = this.Description;
-
-            clazz.save();
+            base.update();
+            this.Origin.notes = this.Description;
+            this.Origin.owningPackage = this.domain.wrappedPackage;
         }
 
     }

@@ -76,6 +76,7 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Domain.cs" />
     <Compile Include="GUI\EDD_MainControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

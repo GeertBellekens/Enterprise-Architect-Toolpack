@@ -39,12 +39,33 @@ namespace GlossaryManager.GUI
 
         private void BusinessItemsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            loadSelectedItemData();
+        }
+
+        private void loadSelectedItemData()
+        {
             if (selectedBusinessItem != null)
             {
                 this.BU_NameTextBox.Text = selectedBusinessItem.Name;
-                this.BU_DomainTextBox.Text = selectedBusinessItem.domainPath;
+                this.BU_DomainComboBox.Text = selectedBusinessItem.domainPath;
                 this.BU_DescriptionTextBox.Text = selectedBusinessItem.Description;
             }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (selectedBusinessItem != null)
+            {
+                selectedBusinessItem.Name = this.BU_NameTextBox.Text;
+                //TODO: fix set domain
+                //selectedBusinessItem.domainPath = this.BU_DomainComboBox.Text
+                selectedBusinessItem.Description = this.BU_DescriptionTextBox.Text;
+            }
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            loadSelectedItemData();
         }
     }
 }

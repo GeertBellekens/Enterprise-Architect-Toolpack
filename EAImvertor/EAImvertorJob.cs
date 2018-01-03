@@ -168,7 +168,8 @@ namespace EAImvertor
 			sourcePackage.exportToXMI(Path.Combine(tempDirectoryInfo.FullName
 			                                       ,sanitizeFileName( this.sourcePackage.name) + ".xmi")
 			                          , this.settings.includeDiagrams);
-			removeUnwantedDiagramImages(Path.Combine(tempDirectoryInfo.FullName, @"Images\"));
+            //no longer required. All diagrams may be uploaded
+			//if (settings.includeDiagrams) removeUnwantedDiagramImages(Path.Combine(tempDirectoryInfo.FullName, @"Images\"));
 			//compress the directory
 			this.setStatus("Compressing File(s)");
 			string zippedFileName = compressDirectory(tempDirectoryInfo.FullName, tempPath);
