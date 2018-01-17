@@ -27,8 +27,6 @@ namespace MagicdrawMigrator
 	                                  ,DateTime.Now.ToLongTimeString())
 	                   ,0
 	                   ,LogTypeEnum.log);
-			//fix the <<participates>> stereotypes
-			//this.fixParticipation();
 			
 			// get all the associations
 			foreach (MDAssociation mdAssociation in magicDrawReader.allAssociations.Values) 
@@ -128,7 +126,7 @@ namespace MagicdrawMigrator
 								
 			//Log finished
 			EAOutputLogger.log(this.model,this.outputName
-	                   ,string.Format("{0} Starting to correct Associationss"
+	                   ,string.Format("{0} Finished correcting Associationss"
 	                                  ,DateTime.Now.ToLongTimeString())
 	                   ,0
 	                  ,LogTypeEnum.log);

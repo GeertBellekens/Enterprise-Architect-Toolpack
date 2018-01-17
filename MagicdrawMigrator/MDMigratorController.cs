@@ -23,7 +23,7 @@ namespace MagicdrawMigrator
 			this.outputName = System.IO.Path.GetFileName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
 		}
 		
-		public void startCorrections(string mdzipPath)
+		public void startCorrections(string mdzipPath, List<MagicDrawCorrector> correctionsToStart)
 		{
 			//clear the log
 			EAOutputLogger.clearLog(this.model, this.outputName);
@@ -33,10 +33,8 @@ namespace MagicdrawMigrator
 	                          ,DateTime.Now.ToLongTimeString())
 	           ,0
 	          ,LogTypeEnum.log);
-			//create correctors
-			createCorrectors(mdzipPath);
 			//start correcting
-			foreach (var corrector in this.correctors) 
+			foreach (var corrector in correctionsToStart) 
 			{
 				corrector.correct();
 			}
@@ -47,9 +45,9 @@ namespace MagicdrawMigrator
 	           ,0
 	          ,LogTypeEnum.log);
 		}
-		public void createCorrectors(string mdzipPath)
+		public List<MagicDrawCorrector> createCorrectors(string mdzipPath, TSF_EA.Package mdPackage)
 		{
-			var mdPackage = getMagicDrawPackage();
+			//var mdPackage = getMagicDrawPackage();
 			var magicDrawReader = new MagicDrawReader(mdzipPath,this.model);
 			if (mdPackage !=null)
 			{	
@@ -70,12 +68,11 @@ namespace MagicdrawMigrator
 				correctors.Add(new MigrateDependencyMatrix(magicDrawReader,model, mdPackage));				
 				correctors.Add(new AddGuardConditions(magicDrawReader, model, mdPackage));
 				correctors.Add(new TimeEventsCorrector(magicDrawReader,model,mdPackage));
-
 			}
+            return correctors;
 		}
 		public TSF_EA.Package getMagicDrawPackage()
 		{
-			MessageBox.Show("Please select the package containing the imported Magicdraw Model","Select Magicdraw Import Package");
 			return this.model.getUserSelectedPackage() as TSF_EA.Package;
 		}
 
