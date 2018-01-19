@@ -39,6 +39,8 @@ namespace MagicdrawMigrator
 					
 					//fix navigability
 					this.fixNavigability(eaAssociation);
+                    //set the sequencingKey
+                    this.setSequenceKey(mdAssociation, eaAssociation);
 					//correct the "(Unspecified)..(Unspecified)" multiplicities in the database
 					string sqlCorrectUnspecified = "update t_connector set DestCard = null where DestCard like '%unspecified%'";
 					this.model.executeSQL(sqlCorrectUnspecified);
@@ -132,12 +134,21 @@ namespace MagicdrawMigrator
 	                  ,LogTypeEnum.log);
 			
 		}
-		
-		/// <summary>
-		/// if the association is between two classes, and one of the end is an aggregation or composite then the other side should be navigable
-		/// </summary>
-		/// <param name="eaAssociation">the association to change</param>
-		void fixNavigability(TSF_EA.Association eaAssociation)
+
+        private void setSequenceKey(MDAssociation mdAssociation, TSF_EA.Association eaAssociation)
+        {
+            //find the associationRole with the largest sequenceKey
+            int sequenceKey = mdAssociation.source.sequenceKey > mdAssociation.target.sequenceKey ?
+                            mdAssociation.source.sequenceKey : mdAssociation.target.sequenceKey;
+            //set the tagged value on the association
+            eaAssociation.addTaggedValue("sequencingKey", sequenceKey.ToString());
+        }
+
+        /// <summary>
+        /// if the association is between two classes, and one of the end is an aggregation or composite then the other side should be navigable
+        /// </summary>
+        /// <param name="eaAssociation">the association to change</param>
+        void fixNavigability(TSF_EA.Association eaAssociation)
 		{
 			var sourceEnd = eaAssociation.sourceEnd;
 			var targetEnd = eaAssociation.targetEnd;

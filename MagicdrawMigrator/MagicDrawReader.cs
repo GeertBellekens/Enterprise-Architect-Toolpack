@@ -1548,8 +1548,13 @@ namespace MagicdrawMigrator
 			}
 			//get the aggregationKind
 			XmlAttribute aggregationAttribute = roleNode.Attributes["aggregation"];
-			aggregationType = aggregationAttribute != null ? aggregationAttribute.Value: string.Empty;
-			if (! string.IsNullOrEmpty(targetTypeID))
+            aggregationType = aggregationAttribute != null ? aggregationAttribute.Value : string.Empty;
+            
+            //get the association order
+            int associationOrder = getOwnedAttributeOrder(roleNode);
+
+            //create the association end
+            if (! string.IsNullOrEmpty(targetTypeID))
 			{
 				var newAssociationEnd = new MDAssociationEnd();
 				newAssociationEnd.aggregationKind = aggregationType;
@@ -1558,11 +1563,29 @@ namespace MagicdrawMigrator
 				newAssociationEnd.upperBound = upperBound;
 				newAssociationEnd.name = name;
 				newAssociationEnd.hasForeignType = hasForeignType;
+                newAssociationEnd.sequenceKey = associationOrder;
 				return newAssociationEnd;
 			}
 			//return null if target type ID not found
 			return null;
 		}
+        /// <summary>
+        /// get the order in which this ownedAttribute occurs within its owning elemnet.
+        /// Each attribute counts for 100, each association for 5
+        /// </summary>
+        /// <param name="propertyNode">the propertyNode to get the order for</param>
+        /// <returns>the order relative to the attributes and associations</returns>
+        int getOwnedAttributeOrder(XmlNode propertyNode)
+        {
+            int sequenceKey = 0;
+            //get the owning elemnet
+            foreach (XmlNode ownedAttributeNode in propertyNode.ParentNode.SelectNodes(".//ownedAttribute"))
+            {
+                sequenceKey++;
+                if (getID(propertyNode) == getID(ownedAttributeNode)) break;
+            }
+            return sequenceKey;
+        }
 		void getAllAttributes()
 		{
 			var foundAttributes = new List<MDAttribute>();
@@ -1596,9 +1619,10 @@ namespace MagicdrawMigrator
 						XmlNode typeNode = attributeNode.SelectSingleNode("./type");
 						string typeID = getID(typeNode);
 						bool isForeignType = typeNode != null && this.isForeign(typeNode);
-						
-						
-						if (! string.IsNullOrEmpty(attributeMDGuid) && ! string.IsNullOrEmpty(attributeName))
+
+                        var attributeSequence = getOwnedAttributeOrder(attributeNode);
+
+                        if (! string.IsNullOrEmpty(attributeMDGuid) && ! string.IsNullOrEmpty(attributeName))
 						{
 							var mdAttribute = new MDAttribute();
 							mdAttribute.mdGuid = attributeMDGuid;
@@ -1606,6 +1630,7 @@ namespace MagicdrawMigrator
 							mdAttribute.mdParentGuid = elementID;
 							mdAttribute.isCrossMDZip = isForeignType;
 							mdAttribute.typeMDGuid = typeID;
+                            mdAttribute.sequencingKey = attributeSequence;
 							foundAttributes.Add(mdAttribute);
 							
 						}

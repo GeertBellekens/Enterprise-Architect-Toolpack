@@ -22,6 +22,6 @@ namespace MagicdrawMigrator
 		public string mdGuid{get;set;}
 		public bool isCrossMDZip {get;set;}
 		public string typeMDGuid {get;set;}
-		
-	}
+        public int sequencingKey { get; set; }
+    }
 }

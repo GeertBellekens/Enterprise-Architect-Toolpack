@@ -61,6 +61,7 @@
     <Compile Include="Correctors\AddGuardConditions.cs" />
     <Compile Include="Correctors\ASMAAssociationCorrector.cs" />
     <Compile Include="Correctors\AssociationTableCorrector.cs" />
+    <Compile Include="Correctors\AttributeSequenceCorrector.cs" />
     <Compile Include="Correctors\ConvertPropertiesToAttributes.cs" />
     <Compile Include="Correctors\CrossMDzipAttributeCorrector.cs" />
     <Compile Include="Correctors\AssociationCorrector.cs" />

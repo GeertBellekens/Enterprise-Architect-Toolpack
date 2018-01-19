@@ -13,6 +13,7 @@ namespace MagicdrawMigrator
 		{
 		}
 		public string name{get;set;}
+        public int sequenceKey { get; set; }
 		string _lowerBound;
 		public string lowerBound 
 		{
