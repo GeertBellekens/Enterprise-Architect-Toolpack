@@ -164,12 +164,16 @@ namespace GlossaryManager
 
         private void SettingsForm_browseDataItemsPackage(object sender, EventArgs e)
         {
-            this.settings.dataItemsPackage = this.model.getUserSelectedPackage();
+            var dataItemsPackage = this.model.getUserSelectedPackage();
+            if (dataItemsPackage != null)
+                this.settings.dataItemsPackage = dataItemsPackage;
         }
 
         private void SettingsForm_browseBusinessItemsPackage(object sender, EventArgs e)
         {
-            this.settings.businessItemsPackage = this.model.getUserSelectedPackage();
+            var businessItemsPackage = this.model.getUserSelectedPackage();
+            if (businessItemsPackage != null)
+                this.settings.businessItemsPackage = businessItemsPackage;
         }
 
         public event NewContextHandler NewContext;

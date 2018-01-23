@@ -57,5 +57,12 @@ namespace GlossaryManager.GUI
             this.saveData();
             this.Close();
         }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            //cancel changes and get the data again
+            settings.refresh();
+            this.loadData();
+        }
     }
 }

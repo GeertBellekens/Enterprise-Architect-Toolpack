@@ -121,6 +121,7 @@
             this.cancelButton.TabIndex = 18;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // okButton
             // 
@@ -150,7 +151,11 @@
             this.Controls.Add(this.businessItemsPackageTextBox);
             this.Controls.Add(this.BusinessItemsPackageLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(375, 148);
             this.Name = "EDD_SettingsForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "EDD Settings";
             this.ResumeLayout(false);
             this.PerformLayout();

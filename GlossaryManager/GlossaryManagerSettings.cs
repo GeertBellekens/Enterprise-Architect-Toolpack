@@ -23,7 +23,11 @@ namespace GlossaryManager
         {
             get { return Assembly.GetExecutingAssembly().Location; }
         }
-
+        protected override void clearCache()
+        {
+            this.businessItemsPackage = null;
+            this.dataItemsPackage = null;
+        }
         public string outputName
         {
             get { return this.getValue("outputName"); }
