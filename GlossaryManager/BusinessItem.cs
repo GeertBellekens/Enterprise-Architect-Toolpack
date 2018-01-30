@@ -32,7 +32,7 @@ namespace GlossaryManager
                 if (_domain == null
                     && this.Origin != null)
                 {
-                    _domain = new Domain(this.Origin.owningPackage);
+                    _domain = Domain.getDomain(this.Origin.owningPackage);
                 }
                 return _domain;
             }

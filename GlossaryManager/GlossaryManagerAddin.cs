@@ -67,12 +67,11 @@ namespace GlossaryManager
                 {
                     this._mainControl = this.model.addTab(appTitle, guiFQN) as EDD_MainControl;
                     this._mainControl.HandleDestroyed += this.handleHandleDestroyed;
+                    this._mainControl.SetDomains(Domain.getAllDomains(this.settings.businessItemsPackage));
                     //TODO: add additional events
                 }
                 return this._mainControl;
             }
-
-
         }
 
         public GlossaryManagerAddin() : base()

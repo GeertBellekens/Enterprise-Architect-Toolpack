@@ -12,7 +12,8 @@ namespace GlossaryManager.GUI
 	/// </summary>
 	public partial class EDD_MainControl : UserControl
 	{
-		public EDD_MainControl()
+        public List<Domain> domains { get; set; }
+        public EDD_MainControl()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
@@ -29,6 +30,12 @@ namespace GlossaryManager.GUI
 		{
 			this.BusinessItemsListView.Objects = businessItems;
 		}
+        public void SetDomains(List<Domain> domains)
+        {
+            this.domains = domains;
+            BU_DomainComboBox.DataSource = this.domains;
+            BU_DomainComboBox.DisplayMember = "displayName";
+        }
 		private BusinessItem selectedBusinessItem
 		{
 			get
@@ -47,7 +54,7 @@ namespace GlossaryManager.GUI
             if (selectedBusinessItem != null)
             {
                 this.BU_NameTextBox.Text = selectedBusinessItem.Name;
-                this.BU_DomainComboBox.Text = selectedBusinessItem.domainPath;
+                this.BU_DomainComboBox.SelectedItem = selectedBusinessItem.domain;
                 this.BU_DescriptionTextBox.Text = selectedBusinessItem.Description;
             }
         }
@@ -57,9 +64,11 @@ namespace GlossaryManager.GUI
             if (selectedBusinessItem != null)
             {
                 selectedBusinessItem.Name = this.BU_NameTextBox.Text;
-                //TODO: fix set domain
-                //selectedBusinessItem.domainPath = this.BU_DomainComboBox.Text
+                selectedBusinessItem.domain = (Domain)this.BU_DomainComboBox.SelectedItem;
                 selectedBusinessItem.Description = this.BU_DescriptionTextBox.Text;
+                selectedBusinessItem.Save();
+                //refresh listview
+                this.BusinessItemsListView.RefreshSelectedObjects();
             }
         }
 

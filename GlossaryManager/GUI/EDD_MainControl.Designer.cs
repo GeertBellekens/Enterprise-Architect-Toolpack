@@ -46,6 +46,7 @@ namespace GlossaryManager.GUI
             this.DomainPanel = new System.Windows.Forms.Panel();
             this.DetailsTabControl = new System.Windows.Forms.TabControl();
             this.BusinessItemsTabPage = new System.Windows.Forms.TabPage();
+            this.BU_DomainComboBox = new System.Windows.Forms.ComboBox();
             this.BU_DescriptionTextBox = new System.Windows.Forms.TextBox();
             this.BU_DescriptionLabel = new System.Windows.Forms.Label();
             this.BU_DomainLabel = new System.Windows.Forms.Label();
@@ -60,9 +61,8 @@ namespace GlossaryManager.GUI
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
-            this.BU_DomainComboBox = new System.Windows.Forms.ComboBox();
-            this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
             this.DetailsTabControl.SuspendLayout();
             this.BusinessItemsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BusinessItemsListView)).BeginInit();
@@ -108,6 +108,15 @@ namespace GlossaryManager.GUI
             this.BusinessItemsTabPage.Size = new System.Drawing.Size(923, 529);
             this.BusinessItemsTabPage.TabIndex = 0;
             this.BusinessItemsTabPage.Text = "Business Items";
+            // 
+            // BU_DomainComboBox
+            // 
+            this.BU_DomainComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BU_DomainComboBox.FormattingEnabled = true;
+            this.BU_DomainComboBox.Location = new System.Drawing.Point(113, 427);
+            this.BU_DomainComboBox.Name = "BU_DomainComboBox";
+            this.BU_DomainComboBox.Size = new System.Drawing.Size(184, 21);
+            this.BU_DomainComboBox.TabIndex = 7;
             // 
             // BU_DescriptionTextBox
             // 
@@ -246,13 +255,15 @@ namespace GlossaryManager.GUI
             this.ButtonPanel.Size = new System.Drawing.Size(937, 43);
             this.ButtonPanel.TabIndex = 2;
             // 
-            // BU_DomainComboBox
+            // cancelButton
             // 
-            this.BU_DomainComboBox.FormattingEnabled = true;
-            this.BU_DomainComboBox.Location = new System.Drawing.Point(113, 427);
-            this.BU_DomainComboBox.Name = "BU_DomainComboBox";
-            this.BU_DomainComboBox.Size = new System.Drawing.Size(184, 21);
-            this.BU_DomainComboBox.TabIndex = 7;
+            this.cancelButton.Location = new System.Drawing.Point(849, 11);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 20);
+            this.cancelButton.TabIndex = 1;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // saveButton
             // 
@@ -263,16 +274,6 @@ namespace GlossaryManager.GUI
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            // 
-            // cancelButton
-            // 
-            this.cancelButton.Location = new System.Drawing.Point(849, 11);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 20);
-            this.cancelButton.TabIndex = 1;
-            this.cancelButton.Text = "Cancel";
-            this.cancelButton.UseVisualStyleBackColor = true;
-            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // EDD_MainControl
             // 
