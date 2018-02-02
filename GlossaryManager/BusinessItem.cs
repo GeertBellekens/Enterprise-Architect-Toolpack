@@ -18,10 +18,15 @@ namespace GlossaryManager
         [FieldNullValue(typeof(string), "")]
         public string Description = "";
 
-        [FieldOrder(101)]
-        [FieldNullValue(typeof(string), "")]
-        public string domainPath = "";
-
+        public string domainPath
+        {
+            get
+            {
+                return this.domain != null ?
+                        string.Join(".", this.domain.parentDomains.Select(x => x.name))
+                        : string.Empty;
+            }
+        }
 
         [FieldHidden]
         private Domain _domain = null;
@@ -61,26 +66,9 @@ namespace GlossaryManager
         protected override void setOriginValues()
         {
             this.Description = this.Origin.notes;
-
-            this.domainPath = getDomainPath();
+            
         }
 
-        private string getDomainPath()
-        {
-            setDomainList();
-            return string.Join(".", domainList.Select(x => x.name));
-        }
-        private List<UML.Classes.Kernel.Package> domainList;
-
-        private void setDomainList()
-        {
-            if (this.Origin != null)
-            {
-                this.domainList = getDomains(this.Origin.owningPackage);
-                //set it from top to bottom
-                this.domainList.Reverse();
-            }
-        }
         private List<UML.Classes.Kernel.Package> getDomains(UML.Classes.Kernel.Package domainPackage)
         {
             var domains = new List<UML.Classes.Kernel.Package>();

@@ -59,7 +59,7 @@ namespace GlossaryManager {
       if( ! this.HasItemSelected ) { return; }
       switch(field.Label.Text) {
         case "Description": ((BusinessItem)this.Current).Description = field.Value; break;
-        case "Domain":      ((BusinessItem)this.Current).domainPath      = field.Value; break;        
+        //case "Domain":      ((BusinessItem)this.Current).domainPath      = field.Value; break;        
       }
       base.Update(field);
     }

@@ -43,6 +43,23 @@ namespace GlossaryManager
         {
             return alldomains.ContainsKey(package.uniqueID) ? alldomains[package.uniqueID] : null;
         }
+        public List<Domain> parentDomains
+        {
+            get
+            {
+                List<Domain> domains;
+                if (this.parentDomain == null)
+                {
+                    domains = new List<Domain>();
+                }
+                else
+                {
+                    domains = this.parentDomain.parentDomains;
+                }
+                domains.Add(this);
+                return domains;
+            }
+        }
         public string uniqueID
         {
             get { return this.wrappedPackage.uniqueID; }

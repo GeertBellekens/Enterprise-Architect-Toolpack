@@ -44,6 +44,7 @@ namespace GlossaryManager.GUI
 		private void InitializeComponent()
 		{
             this.DomainPanel = new System.Windows.Forms.Panel();
+            this.domainBreadCrumb = new ComponentFactory.Krypton.Toolkit.KryptonBreadCrumb();
             this.DetailsTabControl = new System.Windows.Forms.TabControl();
             this.BusinessItemsTabPage = new System.Windows.Forms.TabPage();
             this.BU_DomainComboBox = new System.Windows.Forms.ComboBox();
@@ -63,6 +64,8 @@ namespace GlossaryManager.GUI
             this.ButtonPanel = new System.Windows.Forms.Panel();
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
+            this.DomainPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
             this.BusinessItemsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BusinessItemsListView)).BeginInit();
@@ -73,10 +76,27 @@ namespace GlossaryManager.GUI
             // 
             this.DomainPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.DomainPanel.Controls.Add(this.domainBreadCrumb);
             this.DomainPanel.Location = new System.Drawing.Point(0, 0);
             this.DomainPanel.Name = "DomainPanel";
-            this.DomainPanel.Size = new System.Drawing.Size(937, 47);
+            this.DomainPanel.Size = new System.Drawing.Size(937, 28);
             this.DomainPanel.TabIndex = 0;
+            // 
+            // domainBreadCrumb
+            // 
+            this.domainBreadCrumb.AutoSize = false;
+            this.domainBreadCrumb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.domainBreadCrumb.Location = new System.Drawing.Point(0, 0);
+            this.domainBreadCrumb.Name = "domainBreadCrumb";
+            this.domainBreadCrumb.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            // 
+            // 
+            // 
+            this.domainBreadCrumb.RootItem.ShortText = "Domains";
+            this.domainBreadCrumb.SelectedItem = this.domainBreadCrumb.RootItem;
+            this.domainBreadCrumb.Size = new System.Drawing.Size(937, 28);
+            this.domainBreadCrumb.TabIndex = 0;
+            this.domainBreadCrumb.SelectedItemChanged += new System.EventHandler(this.domainBreadCrumb_SelectedItemChanged);
             // 
             // DetailsTabControl
             // 
@@ -86,10 +106,10 @@ namespace GlossaryManager.GUI
             this.DetailsTabControl.Controls.Add(this.BusinessItemsTabPage);
             this.DetailsTabControl.Controls.Add(this.DataItemsTabPage);
             this.DetailsTabControl.Controls.Add(this.ColumnsTabPage);
-            this.DetailsTabControl.Location = new System.Drawing.Point(3, 53);
+            this.DetailsTabControl.Location = new System.Drawing.Point(0, 34);
             this.DetailsTabControl.Name = "DetailsTabControl";
             this.DetailsTabControl.SelectedIndex = 0;
-            this.DetailsTabControl.Size = new System.Drawing.Size(931, 555);
+            this.DetailsTabControl.Size = new System.Drawing.Size(931, 577);
             this.DetailsTabControl.TabIndex = 1;
             // 
             // BusinessItemsTabPage
@@ -105,7 +125,7 @@ namespace GlossaryManager.GUI
             this.BusinessItemsTabPage.Location = new System.Drawing.Point(4, 22);
             this.BusinessItemsTabPage.Name = "BusinessItemsTabPage";
             this.BusinessItemsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.BusinessItemsTabPage.Size = new System.Drawing.Size(923, 529);
+            this.BusinessItemsTabPage.Size = new System.Drawing.Size(923, 551);
             this.BusinessItemsTabPage.TabIndex = 0;
             this.BusinessItemsTabPage.Text = "Business Items";
             // 
@@ -215,7 +235,7 @@ namespace GlossaryManager.GUI
             this.DataItemsTabPage.Location = new System.Drawing.Point(4, 22);
             this.DataItemsTabPage.Name = "DataItemsTabPage";
             this.DataItemsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.DataItemsTabPage.Size = new System.Drawing.Size(923, 529);
+            this.DataItemsTabPage.Size = new System.Drawing.Size(923, 551);
             this.DataItemsTabPage.TabIndex = 1;
             this.DataItemsTabPage.Text = "Data Items";
             this.DataItemsTabPage.UseVisualStyleBackColor = true;
@@ -225,7 +245,7 @@ namespace GlossaryManager.GUI
             this.ColumnsTabPage.Location = new System.Drawing.Point(4, 22);
             this.ColumnsTabPage.Name = "ColumnsTabPage";
             this.ColumnsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ColumnsTabPage.Size = new System.Drawing.Size(923, 529);
+            this.ColumnsTabPage.Size = new System.Drawing.Size(923, 551);
             this.ColumnsTabPage.TabIndex = 2;
             this.ColumnsTabPage.Text = "Columns";
             this.ColumnsTabPage.UseVisualStyleBackColor = true;
@@ -257,9 +277,9 @@ namespace GlossaryManager.GUI
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(849, 11);
+            this.cancelButton.Location = new System.Drawing.Point(849, 7);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 20);
+            this.cancelButton.Size = new System.Drawing.Size(75, 28);
             this.cancelButton.TabIndex = 1;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
@@ -267,9 +287,9 @@ namespace GlossaryManager.GUI
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(768, 11);
+            this.saveButton.Location = new System.Drawing.Point(768, 7);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(75, 20);
+            this.saveButton.Size = new System.Drawing.Size(75, 28);
             this.saveButton.TabIndex = 0;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -284,6 +304,8 @@ namespace GlossaryManager.GUI
             this.Controls.Add(this.DomainPanel);
             this.Name = "EDD_MainControl";
             this.Size = new System.Drawing.Size(937, 653);
+            this.DomainPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).EndInit();
             this.DetailsTabControl.ResumeLayout(false);
             this.BusinessItemsTabPage.ResumeLayout(false);
             this.BusinessItemsTabPage.PerformLayout();
@@ -301,5 +323,6 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.ComboBox BU_DomainComboBox;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button saveButton;
+        private ComponentFactory.Krypton.Toolkit.KryptonBreadCrumb domainBreadCrumb;
     }
 }

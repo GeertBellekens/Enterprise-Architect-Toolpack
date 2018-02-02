@@ -67,12 +67,15 @@ namespace GlossaryManager
                 {
                     this._mainControl = this.model.addTab(appTitle, guiFQN) as EDD_MainControl;
                     this._mainControl.HandleDestroyed += this.handleHandleDestroyed;
+                    this._mainControl.selectedDomainChanged += this.selectedDomainChanged;
                     this._mainControl.SetDomains(Domain.getAllDomains(this.settings.businessItemsPackage));
                     //TODO: add additional events
                 }
                 return this._mainControl;
             }
         }
+
+
 
         public GlossaryManagerAddin() : base()
         {
@@ -233,6 +236,19 @@ namespace GlossaryManager
             this.mainControl.setBusinessItems(this.list<BusinessItem>(this.managedPackage));
         }
 
+        private void selectedDomainChanged(object sender, EventArgs e)
+        {
+            var selectedDomain = sender as Domain;
+            if (selectedDomain != null)
+            {
+                this.managedPackage = (TSF_EA.Package)selectedDomain.wrappedPackage;
+            }
+            else
+            {
+                this.managedPackage = (TSF_EA.Package)this.settings.businessItemsPackage;
+            }
+            this.showGlossaryItems();
+        }
         public void refresh()
         {
             this.ui.BusinessItems.Show<BusinessItem>(this.list<BusinessItem>(this.managedPackage));

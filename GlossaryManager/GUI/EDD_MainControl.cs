@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace GlossaryManager.GUI
 {
@@ -35,8 +36,26 @@ namespace GlossaryManager.GUI
             this.domains = domains;
             BU_DomainComboBox.DataSource = this.domains;
             BU_DomainComboBox.DisplayMember = "displayName";
+            //set the domains breadcrumb
+            foreach (var domain in domains)
+            {
+                if (domain.parentDomain == null) //only process top level domains
+                {
+                    domainBreadCrumb.RootItem.Items.Add(createDomainBreadCrumbItem(domain));
+                }
+            }
         }
-		private BusinessItem selectedBusinessItem
+        public KryptonBreadCrumbItem createDomainBreadCrumbItem(Domain domain)
+        {
+            var breadCrumbItem = new KryptonBreadCrumbItem(domain.name);
+            breadCrumbItem.Tag = domain;
+            foreach(var subDomain in domain.subDomains)
+            {
+                breadCrumbItem.Items.Add(createDomainBreadCrumbItem(subDomain));
+            }
+            return breadCrumbItem;
+        }
+        private BusinessItem selectedBusinessItem
 		{
 			get
 			{
@@ -75,6 +94,13 @@ namespace GlossaryManager.GUI
         private void cancelButton_Click(object sender, EventArgs e)
         {
             loadSelectedItemData();
+        }
+
+        public event EventHandler selectedDomainChanged;
+        private void domainBreadCrumb_SelectedItemChanged(object sender, EventArgs e)
+        {
+            var selectedDomain = domainBreadCrumb.SelectedItem.Tag as Domain;
+            this.selectedDomainChanged?.Invoke(selectedDomain, e);
         }
     }
 }
