@@ -43,6 +43,8 @@ namespace GlossaryManager.GUI
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EDD_MainControl));
             this.DomainPanel = new System.Windows.Forms.Panel();
             this.domainBreadCrumb = new ComponentFactory.Krypton.Toolkit.KryptonBreadCrumb();
             this.DetailsTabControl = new System.Windows.Forms.TabControl();
@@ -64,6 +66,23 @@ namespace GlossaryManager.GUI
             this.ButtonPanel = new System.Windows.Forms.Panel();
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
+            this.BU_VersionTextBox = new System.Windows.Forms.TextBox();
+            this.BU_VersionLabel = new System.Windows.Forms.Label();
+            this.BU_StatusLabel = new System.Windows.Forms.Label();
+            this.BU_StatusCombobox = new System.Windows.Forms.ComboBox();
+            this.BU_KeywordsTextBox = new System.Windows.Forms.TextBox();
+            this.BU_KeywordsLabel = new System.Windows.Forms.Label();
+            this.BU_CreatedTextBox = new System.Windows.Forms.TextBox();
+            this.BU_CreatedLabel = new System.Windows.Forms.Label();
+            this.BU_CreatedByTextBox = new System.Windows.Forms.TextBox();
+            this.BU_CreatedByLabel = new System.Windows.Forms.Label();
+            this.BU_ModifiedByTextBox = new System.Windows.Forms.TextBox();
+            this.BU_ModifiedByLabel = new System.Windows.Forms.Label();
+            this.BU_ModifiedDateTextBox = new System.Windows.Forms.TextBox();
+            this.BU_ModifiedLabel = new System.Windows.Forms.Label();
+            this.navigateProjectBrowserButton = new System.Windows.Forms.Button();
+            this.openPropertiesButton = new System.Windows.Forms.Button();
+            this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
@@ -115,6 +134,20 @@ namespace GlossaryManager.GUI
             // BusinessItemsTabPage
             // 
             this.BusinessItemsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.BusinessItemsTabPage.Controls.Add(this.BU_ModifiedByTextBox);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_ModifiedByLabel);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_ModifiedDateTextBox);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_ModifiedLabel);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_CreatedByTextBox);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_CreatedByLabel);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_CreatedTextBox);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_CreatedLabel);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_KeywordsTextBox);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_KeywordsLabel);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_StatusCombobox);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_StatusLabel);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_VersionTextBox);
+            this.BusinessItemsTabPage.Controls.Add(this.BU_VersionLabel);
             this.BusinessItemsTabPage.Controls.Add(this.BU_DomainComboBox);
             this.BusinessItemsTabPage.Controls.Add(this.BU_DescriptionTextBox);
             this.BusinessItemsTabPage.Controls.Add(this.BU_DescriptionLabel);
@@ -133,14 +166,14 @@ namespace GlossaryManager.GUI
             // 
             this.BU_DomainComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BU_DomainComboBox.FormattingEnabled = true;
-            this.BU_DomainComboBox.Location = new System.Drawing.Point(113, 427);
+            this.BU_DomainComboBox.Location = new System.Drawing.Point(419, 303);
             this.BU_DomainComboBox.Name = "BU_DomainComboBox";
             this.BU_DomainComboBox.Size = new System.Drawing.Size(184, 21);
             this.BU_DomainComboBox.TabIndex = 7;
             // 
             // BU_DescriptionTextBox
             // 
-            this.BU_DescriptionTextBox.Location = new System.Drawing.Point(113, 324);
+            this.BU_DescriptionTextBox.Location = new System.Drawing.Point(112, 329);
             this.BU_DescriptionTextBox.Multiline = true;
             this.BU_DescriptionTextBox.Name = "BU_DescriptionTextBox";
             this.BU_DescriptionTextBox.Size = new System.Drawing.Size(184, 96);
@@ -148,7 +181,7 @@ namespace GlossaryManager.GUI
             // 
             // BU_DescriptionLabel
             // 
-            this.BU_DescriptionLabel.Location = new System.Drawing.Point(7, 327);
+            this.BU_DescriptionLabel.Location = new System.Drawing.Point(6, 332);
             this.BU_DescriptionLabel.Name = "BU_DescriptionLabel";
             this.BU_DescriptionLabel.Size = new System.Drawing.Size(100, 23);
             this.BU_DescriptionLabel.TabIndex = 5;
@@ -156,7 +189,7 @@ namespace GlossaryManager.GUI
             // 
             // BU_DomainLabel
             // 
-            this.BU_DomainLabel.Location = new System.Drawing.Point(7, 430);
+            this.BU_DomainLabel.Location = new System.Drawing.Point(313, 306);
             this.BU_DomainLabel.Name = "BU_DomainLabel";
             this.BU_DomainLabel.Size = new System.Drawing.Size(100, 23);
             this.BU_DomainLabel.TabIndex = 3;
@@ -164,14 +197,14 @@ namespace GlossaryManager.GUI
             // 
             // BU_NameTextBox
             // 
-            this.BU_NameTextBox.Location = new System.Drawing.Point(113, 298);
+            this.BU_NameTextBox.Location = new System.Drawing.Point(112, 303);
             this.BU_NameTextBox.Name = "BU_NameTextBox";
             this.BU_NameTextBox.Size = new System.Drawing.Size(184, 20);
             this.BU_NameTextBox.TabIndex = 2;
             // 
             // BU_NameLabel
             // 
-            this.BU_NameLabel.Location = new System.Drawing.Point(7, 301);
+            this.BU_NameLabel.Location = new System.Drawing.Point(6, 306);
             this.BU_NameLabel.Name = "BU_NameLabel";
             this.BU_NameLabel.Size = new System.Drawing.Size(100, 23);
             this.BU_NameLabel.TabIndex = 1;
@@ -185,7 +218,6 @@ namespace GlossaryManager.GUI
             this.BusinessItemsListView.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
             this.BusinessItemsListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.BusinessItemsListView.BackColor = System.Drawing.SystemColors.Window;
             this.BusinessItemsListView.CellEditUseWholeCell = false;
             this.BusinessItemsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.BU_NameCol,
@@ -193,15 +225,17 @@ namespace GlossaryManager.GUI
             this.BU_DescriptionCol});
             this.BusinessItemsListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.BusinessItemsListView.FullRowSelect = true;
+            this.BusinessItemsListView.GridLines = true;
+            this.BusinessItemsListView.HeaderUsesThemes = true;
             this.BusinessItemsListView.HideSelection = false;
             this.BusinessItemsListView.Location = new System.Drawing.Point(3, 4);
             this.BusinessItemsListView.MultiSelect = false;
             this.BusinessItemsListView.Name = "BusinessItemsListView";
+            this.BusinessItemsListView.ShowCommandMenuOnRightClick = true;
             this.BusinessItemsListView.ShowGroups = false;
             this.BusinessItemsListView.Size = new System.Drawing.Size(914, 290);
             this.BusinessItemsListView.TabIndex = 0;
             this.BusinessItemsListView.TintSortColumn = true;
-            this.BusinessItemsListView.UseAlternatingBackColors = true;
             this.BusinessItemsListView.UseCompatibleStateImageBehavior = false;
             this.BusinessItemsListView.UseFilterIndicator = true;
             this.BusinessItemsListView.UseFiltering = true;
@@ -268,6 +302,8 @@ namespace GlossaryManager.GUI
             // 
             this.ButtonPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonPanel.Controls.Add(this.openPropertiesButton);
+            this.ButtonPanel.Controls.Add(this.navigateProjectBrowserButton);
             this.ButtonPanel.Controls.Add(this.cancelButton);
             this.ButtonPanel.Controls.Add(this.saveButton);
             this.ButtonPanel.Location = new System.Drawing.Point(0, 610);
@@ -277,6 +313,7 @@ namespace GlossaryManager.GUI
             // 
             // cancelButton
             // 
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.Location = new System.Drawing.Point(849, 7);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 28);
@@ -287,6 +324,7 @@ namespace GlossaryManager.GUI
             // 
             // saveButton
             // 
+            this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.saveButton.Location = new System.Drawing.Point(768, 7);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 28);
@@ -294,6 +332,139 @@ namespace GlossaryManager.GUI
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // BU_VersionTextBox
+            // 
+            this.BU_VersionTextBox.Location = new System.Drawing.Point(419, 329);
+            this.BU_VersionTextBox.Name = "BU_VersionTextBox";
+            this.BU_VersionTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_VersionTextBox.TabIndex = 9;
+            // 
+            // BU_VersionLabel
+            // 
+            this.BU_VersionLabel.Location = new System.Drawing.Point(313, 332);
+            this.BU_VersionLabel.Name = "BU_VersionLabel";
+            this.BU_VersionLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_VersionLabel.TabIndex = 8;
+            this.BU_VersionLabel.Text = "Version";
+            // 
+            // BU_StatusLabel
+            // 
+            this.BU_StatusLabel.Location = new System.Drawing.Point(313, 358);
+            this.BU_StatusLabel.Name = "BU_StatusLabel";
+            this.BU_StatusLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_StatusLabel.TabIndex = 10;
+            this.BU_StatusLabel.Text = "Status";
+            // 
+            // BU_StatusCombobox
+            // 
+            this.BU_StatusCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BU_StatusCombobox.FormattingEnabled = true;
+            this.BU_StatusCombobox.Location = new System.Drawing.Point(419, 355);
+            this.BU_StatusCombobox.Name = "BU_StatusCombobox";
+            this.BU_StatusCombobox.Size = new System.Drawing.Size(184, 21);
+            this.BU_StatusCombobox.TabIndex = 11;
+            // 
+            // BU_KeywordsTextBox
+            // 
+            this.BU_KeywordsTextBox.Location = new System.Drawing.Point(419, 382);
+            this.BU_KeywordsTextBox.Name = "BU_KeywordsTextBox";
+            this.BU_KeywordsTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_KeywordsTextBox.TabIndex = 13;
+            // 
+            // BU_KeywordsLabel
+            // 
+            this.BU_KeywordsLabel.Location = new System.Drawing.Point(313, 385);
+            this.BU_KeywordsLabel.Name = "BU_KeywordsLabel";
+            this.BU_KeywordsLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_KeywordsLabel.TabIndex = 12;
+            this.BU_KeywordsLabel.Text = "Keywords";
+            // 
+            // BU_CreatedTextBox
+            // 
+            this.BU_CreatedTextBox.Location = new System.Drawing.Point(732, 303);
+            this.BU_CreatedTextBox.Name = "BU_CreatedTextBox";
+            this.BU_CreatedTextBox.ReadOnly = true;
+            this.BU_CreatedTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_CreatedTextBox.TabIndex = 15;
+            // 
+            // BU_CreatedLabel
+            // 
+            this.BU_CreatedLabel.Location = new System.Drawing.Point(626, 306);
+            this.BU_CreatedLabel.Name = "BU_CreatedLabel";
+            this.BU_CreatedLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_CreatedLabel.TabIndex = 14;
+            this.BU_CreatedLabel.Text = "Creation date";
+            // 
+            // BU_CreatedByTextBox
+            // 
+            this.BU_CreatedByTextBox.Location = new System.Drawing.Point(732, 329);
+            this.BU_CreatedByTextBox.Name = "BU_CreatedByTextBox";
+            this.BU_CreatedByTextBox.ReadOnly = true;
+            this.BU_CreatedByTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_CreatedByTextBox.TabIndex = 17;
+            // 
+            // BU_CreatedByLabel
+            // 
+            this.BU_CreatedByLabel.Location = new System.Drawing.Point(626, 332);
+            this.BU_CreatedByLabel.Name = "BU_CreatedByLabel";
+            this.BU_CreatedByLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_CreatedByLabel.TabIndex = 16;
+            this.BU_CreatedByLabel.Text = "Created by";
+            // 
+            // BU_ModifiedByTextBox
+            // 
+            this.BU_ModifiedByTextBox.Location = new System.Drawing.Point(732, 382);
+            this.BU_ModifiedByTextBox.Name = "BU_ModifiedByTextBox";
+            this.BU_ModifiedByTextBox.ReadOnly = true;
+            this.BU_ModifiedByTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_ModifiedByTextBox.TabIndex = 21;
+            // 
+            // BU_ModifiedByLabel
+            // 
+            this.BU_ModifiedByLabel.Location = new System.Drawing.Point(626, 385);
+            this.BU_ModifiedByLabel.Name = "BU_ModifiedByLabel";
+            this.BU_ModifiedByLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_ModifiedByLabel.TabIndex = 20;
+            this.BU_ModifiedByLabel.Text = "Modified by";
+            // 
+            // BU_ModifiedDateTextBox
+            // 
+            this.BU_ModifiedDateTextBox.Location = new System.Drawing.Point(732, 356);
+            this.BU_ModifiedDateTextBox.Name = "BU_ModifiedDateTextBox";
+            this.BU_ModifiedDateTextBox.ReadOnly = true;
+            this.BU_ModifiedDateTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_ModifiedDateTextBox.TabIndex = 19;
+            // 
+            // BU_ModifiedLabel
+            // 
+            this.BU_ModifiedLabel.Location = new System.Drawing.Point(626, 359);
+            this.BU_ModifiedLabel.Name = "BU_ModifiedLabel";
+            this.BU_ModifiedLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_ModifiedLabel.TabIndex = 18;
+            this.BU_ModifiedLabel.Text = "Modified date";
+            // 
+            // navigateProjectBrowserButton
+            // 
+            this.navigateProjectBrowserButton.Image = ((System.Drawing.Image)(resources.GetObject("navigateProjectBrowserButton.Image")));
+            this.navigateProjectBrowserButton.Location = new System.Drawing.Point(4, 7);
+            this.navigateProjectBrowserButton.Name = "navigateProjectBrowserButton";
+            this.navigateProjectBrowserButton.Size = new System.Drawing.Size(29, 28);
+            this.navigateProjectBrowserButton.TabIndex = 2;
+            this.myToolTip.SetToolTip(this.navigateProjectBrowserButton, "Select in Project Browser");
+            this.navigateProjectBrowserButton.UseVisualStyleBackColor = true;
+            this.navigateProjectBrowserButton.Click += new System.EventHandler(this.navigateProjectBrowserButton_Click);
+            // 
+            // openPropertiesButton
+            // 
+            this.openPropertiesButton.Image = ((System.Drawing.Image)(resources.GetObject("openPropertiesButton.Image")));
+            this.openPropertiesButton.Location = new System.Drawing.Point(39, 7);
+            this.openPropertiesButton.Name = "openPropertiesButton";
+            this.openPropertiesButton.Size = new System.Drawing.Size(29, 28);
+            this.openPropertiesButton.TabIndex = 3;
+            this.myToolTip.SetToolTip(this.openPropertiesButton, "Open Properties");
+            this.openPropertiesButton.UseVisualStyleBackColor = true;
+            this.openPropertiesButton.Click += new System.EventHandler(this.openPropertiesButton_Click);
             // 
             // EDD_MainControl
             // 
@@ -324,5 +495,22 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button saveButton;
         private ComponentFactory.Krypton.Toolkit.KryptonBreadCrumb domainBreadCrumb;
+        private System.Windows.Forms.TextBox BU_CreatedByTextBox;
+        private System.Windows.Forms.Label BU_CreatedByLabel;
+        private System.Windows.Forms.TextBox BU_CreatedTextBox;
+        private System.Windows.Forms.Label BU_CreatedLabel;
+        private System.Windows.Forms.TextBox BU_KeywordsTextBox;
+        private System.Windows.Forms.Label BU_KeywordsLabel;
+        private System.Windows.Forms.ComboBox BU_StatusCombobox;
+        private System.Windows.Forms.Label BU_StatusLabel;
+        private System.Windows.Forms.TextBox BU_VersionTextBox;
+        private System.Windows.Forms.Label BU_VersionLabel;
+        private System.Windows.Forms.TextBox BU_ModifiedByTextBox;
+        private System.Windows.Forms.Label BU_ModifiedByLabel;
+        private System.Windows.Forms.TextBox BU_ModifiedDateTextBox;
+        private System.Windows.Forms.Label BU_ModifiedLabel;
+        private System.Windows.Forms.Button openPropertiesButton;
+        private System.Windows.Forms.ToolTip myToolTip;
+        private System.Windows.Forms.Button navigateProjectBrowserButton;
     }
 }

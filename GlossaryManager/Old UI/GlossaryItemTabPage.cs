@@ -389,7 +389,7 @@ namespace GlossaryManager {
       this.showing = false;
       //select the item in the project browser
       if( this.notifyProjectBrowser ) {
-        this.Current.SelectInProjectBrowser();
+        this.Current.selectInProjectBrowser();
       }
     }
     protected virtual void setFields()

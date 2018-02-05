@@ -167,7 +167,7 @@ namespace GlossaryManager
                 this.UpdatedBy = this.origin.EAModel.currentUser.login;
             }
             //save item
-            this.origin.modified = this.UpdateDate;    
+            this.origin.modified = this.UpdateDate;
             this.origin.addTaggedValue("modifier", this.UpdatedBy);
             this.origin.save();
         }
@@ -182,9 +182,13 @@ namespace GlossaryManager
             this.origin.created = this.CreateDate;
         }
 
-        public void SelectInProjectBrowser()
+        public void selectInProjectBrowser()
         {
-            this.Origin.EAModel.selectedItem = this.Origin;
+            this.origin.open();
+        }
+        public void openProperties()
+        {
+            this.origin.openProperties();
         }
 
     }
