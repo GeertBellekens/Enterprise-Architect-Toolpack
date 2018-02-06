@@ -56,7 +56,7 @@ namespace GlossaryManager
                 return null;
             }
             item.settings = this.settings;
-            item.Origin = clazz as TSF_EA.ElementWrapper;
+            item.origin = clazz as TSF_EA.ElementWrapper;
             return item;
         }
 

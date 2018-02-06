@@ -49,6 +49,20 @@ namespace GlossaryManager.GUI
             this.domainBreadCrumb = new ComponentFactory.Krypton.Toolkit.KryptonBreadCrumb();
             this.DetailsTabControl = new System.Windows.Forms.TabControl();
             this.BusinessItemsTabPage = new System.Windows.Forms.TabPage();
+            this.BU_ModifiedByTextBox = new System.Windows.Forms.TextBox();
+            this.BU_ModifiedByLabel = new System.Windows.Forms.Label();
+            this.BU_ModifiedDateTextBox = new System.Windows.Forms.TextBox();
+            this.BU_ModifiedLabel = new System.Windows.Forms.Label();
+            this.BU_CreatedByTextBox = new System.Windows.Forms.TextBox();
+            this.BU_CreatedByLabel = new System.Windows.Forms.Label();
+            this.BU_CreatedTextBox = new System.Windows.Forms.TextBox();
+            this.BU_CreatedLabel = new System.Windows.Forms.Label();
+            this.BU_KeywordsTextBox = new System.Windows.Forms.TextBox();
+            this.BU_KeywordsLabel = new System.Windows.Forms.Label();
+            this.BU_StatusCombobox = new System.Windows.Forms.ComboBox();
+            this.BU_StatusLabel = new System.Windows.Forms.Label();
+            this.BU_VersionTextBox = new System.Windows.Forms.TextBox();
+            this.BU_VersionLabel = new System.Windows.Forms.Label();
             this.BU_DomainComboBox = new System.Windows.Forms.ComboBox();
             this.BU_DescriptionTextBox = new System.Windows.Forms.TextBox();
             this.BU_DescriptionLabel = new System.Windows.Forms.Label();
@@ -64,24 +78,10 @@ namespace GlossaryManager.GUI
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
+            this.openPropertiesButton = new System.Windows.Forms.Button();
+            this.navigateProjectBrowserButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
-            this.BU_VersionTextBox = new System.Windows.Forms.TextBox();
-            this.BU_VersionLabel = new System.Windows.Forms.Label();
-            this.BU_StatusLabel = new System.Windows.Forms.Label();
-            this.BU_StatusCombobox = new System.Windows.Forms.ComboBox();
-            this.BU_KeywordsTextBox = new System.Windows.Forms.TextBox();
-            this.BU_KeywordsLabel = new System.Windows.Forms.Label();
-            this.BU_CreatedTextBox = new System.Windows.Forms.TextBox();
-            this.BU_CreatedLabel = new System.Windows.Forms.Label();
-            this.BU_CreatedByTextBox = new System.Windows.Forms.TextBox();
-            this.BU_CreatedByLabel = new System.Windows.Forms.Label();
-            this.BU_ModifiedByTextBox = new System.Windows.Forms.TextBox();
-            this.BU_ModifiedByLabel = new System.Windows.Forms.Label();
-            this.BU_ModifiedDateTextBox = new System.Windows.Forms.TextBox();
-            this.BU_ModifiedLabel = new System.Windows.Forms.Label();
-            this.navigateProjectBrowserButton = new System.Windows.Forms.Button();
-            this.openPropertiesButton = new System.Windows.Forms.Button();
             this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
@@ -104,6 +104,7 @@ namespace GlossaryManager.GUI
             // domainBreadCrumb
             // 
             this.domainBreadCrumb.AutoSize = false;
+            this.domainBreadCrumb.ControlBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlClient;
             this.domainBreadCrumb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.domainBreadCrumb.Location = new System.Drawing.Point(0, 0);
             this.domainBreadCrumb.Name = "domainBreadCrumb";
@@ -161,6 +162,117 @@ namespace GlossaryManager.GUI
             this.BusinessItemsTabPage.Size = new System.Drawing.Size(923, 551);
             this.BusinessItemsTabPage.TabIndex = 0;
             this.BusinessItemsTabPage.Text = "Business Items";
+            // 
+            // BU_ModifiedByTextBox
+            // 
+            this.BU_ModifiedByTextBox.Location = new System.Drawing.Point(732, 382);
+            this.BU_ModifiedByTextBox.Name = "BU_ModifiedByTextBox";
+            this.BU_ModifiedByTextBox.ReadOnly = true;
+            this.BU_ModifiedByTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_ModifiedByTextBox.TabIndex = 21;
+            // 
+            // BU_ModifiedByLabel
+            // 
+            this.BU_ModifiedByLabel.Location = new System.Drawing.Point(626, 385);
+            this.BU_ModifiedByLabel.Name = "BU_ModifiedByLabel";
+            this.BU_ModifiedByLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_ModifiedByLabel.TabIndex = 20;
+            this.BU_ModifiedByLabel.Text = "Modified by";
+            // 
+            // BU_ModifiedDateTextBox
+            // 
+            this.BU_ModifiedDateTextBox.Location = new System.Drawing.Point(732, 356);
+            this.BU_ModifiedDateTextBox.Name = "BU_ModifiedDateTextBox";
+            this.BU_ModifiedDateTextBox.ReadOnly = true;
+            this.BU_ModifiedDateTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_ModifiedDateTextBox.TabIndex = 19;
+            // 
+            // BU_ModifiedLabel
+            // 
+            this.BU_ModifiedLabel.Location = new System.Drawing.Point(626, 359);
+            this.BU_ModifiedLabel.Name = "BU_ModifiedLabel";
+            this.BU_ModifiedLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_ModifiedLabel.TabIndex = 18;
+            this.BU_ModifiedLabel.Text = "Modified date";
+            // 
+            // BU_CreatedByTextBox
+            // 
+            this.BU_CreatedByTextBox.Location = new System.Drawing.Point(732, 329);
+            this.BU_CreatedByTextBox.Name = "BU_CreatedByTextBox";
+            this.BU_CreatedByTextBox.ReadOnly = true;
+            this.BU_CreatedByTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_CreatedByTextBox.TabIndex = 17;
+            // 
+            // BU_CreatedByLabel
+            // 
+            this.BU_CreatedByLabel.Location = new System.Drawing.Point(626, 332);
+            this.BU_CreatedByLabel.Name = "BU_CreatedByLabel";
+            this.BU_CreatedByLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_CreatedByLabel.TabIndex = 16;
+            this.BU_CreatedByLabel.Text = "Created by";
+            // 
+            // BU_CreatedTextBox
+            // 
+            this.BU_CreatedTextBox.Location = new System.Drawing.Point(732, 303);
+            this.BU_CreatedTextBox.Name = "BU_CreatedTextBox";
+            this.BU_CreatedTextBox.ReadOnly = true;
+            this.BU_CreatedTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_CreatedTextBox.TabIndex = 15;
+            // 
+            // BU_CreatedLabel
+            // 
+            this.BU_CreatedLabel.Location = new System.Drawing.Point(626, 306);
+            this.BU_CreatedLabel.Name = "BU_CreatedLabel";
+            this.BU_CreatedLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_CreatedLabel.TabIndex = 14;
+            this.BU_CreatedLabel.Text = "Creation date";
+            // 
+            // BU_KeywordsTextBox
+            // 
+            this.BU_KeywordsTextBox.Location = new System.Drawing.Point(419, 382);
+            this.BU_KeywordsTextBox.Name = "BU_KeywordsTextBox";
+            this.BU_KeywordsTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_KeywordsTextBox.TabIndex = 13;
+            // 
+            // BU_KeywordsLabel
+            // 
+            this.BU_KeywordsLabel.Location = new System.Drawing.Point(313, 385);
+            this.BU_KeywordsLabel.Name = "BU_KeywordsLabel";
+            this.BU_KeywordsLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_KeywordsLabel.TabIndex = 12;
+            this.BU_KeywordsLabel.Text = "Keywords";
+            // 
+            // BU_StatusCombobox
+            // 
+            this.BU_StatusCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BU_StatusCombobox.FormattingEnabled = true;
+            this.BU_StatusCombobox.Location = new System.Drawing.Point(419, 355);
+            this.BU_StatusCombobox.Name = "BU_StatusCombobox";
+            this.BU_StatusCombobox.Size = new System.Drawing.Size(184, 21);
+            this.BU_StatusCombobox.TabIndex = 11;
+            // 
+            // BU_StatusLabel
+            // 
+            this.BU_StatusLabel.Location = new System.Drawing.Point(313, 358);
+            this.BU_StatusLabel.Name = "BU_StatusLabel";
+            this.BU_StatusLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_StatusLabel.TabIndex = 10;
+            this.BU_StatusLabel.Text = "Status";
+            // 
+            // BU_VersionTextBox
+            // 
+            this.BU_VersionTextBox.Location = new System.Drawing.Point(419, 329);
+            this.BU_VersionTextBox.Name = "BU_VersionTextBox";
+            this.BU_VersionTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_VersionTextBox.TabIndex = 9;
+            // 
+            // BU_VersionLabel
+            // 
+            this.BU_VersionLabel.Location = new System.Drawing.Point(313, 332);
+            this.BU_VersionLabel.Name = "BU_VersionLabel";
+            this.BU_VersionLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_VersionLabel.TabIndex = 8;
+            this.BU_VersionLabel.Text = "Version";
             // 
             // BU_DomainComboBox
             // 
@@ -226,7 +338,6 @@ namespace GlossaryManager.GUI
             this.BusinessItemsListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.BusinessItemsListView.FullRowSelect = true;
             this.BusinessItemsListView.GridLines = true;
-            this.BusinessItemsListView.HeaderUsesThemes = true;
             this.BusinessItemsListView.HideSelection = false;
             this.BusinessItemsListView.Location = new System.Drawing.Point(3, 4);
             this.BusinessItemsListView.MultiSelect = false;
@@ -242,6 +353,7 @@ namespace GlossaryManager.GUI
             this.BusinessItemsListView.UseHotItem = true;
             this.BusinessItemsListView.View = System.Windows.Forms.View.Details;
             this.BusinessItemsListView.SelectedIndexChanged += new System.EventHandler(this.BusinessItemsListView_SelectedIndexChanged);
+            this.BusinessItemsListView.DoubleClick += new System.EventHandler(this.BusinessItemsListView_DoubleClick);
             // 
             // BU_NameCol
             // 
@@ -311,6 +423,28 @@ namespace GlossaryManager.GUI
             this.ButtonPanel.Size = new System.Drawing.Size(937, 43);
             this.ButtonPanel.TabIndex = 2;
             // 
+            // openPropertiesButton
+            // 
+            this.openPropertiesButton.Image = ((System.Drawing.Image)(resources.GetObject("openPropertiesButton.Image")));
+            this.openPropertiesButton.Location = new System.Drawing.Point(39, 7);
+            this.openPropertiesButton.Name = "openPropertiesButton";
+            this.openPropertiesButton.Size = new System.Drawing.Size(29, 28);
+            this.openPropertiesButton.TabIndex = 3;
+            this.myToolTip.SetToolTip(this.openPropertiesButton, "Open Properties");
+            this.openPropertiesButton.UseVisualStyleBackColor = true;
+            this.openPropertiesButton.Click += new System.EventHandler(this.openPropertiesButton_Click);
+            // 
+            // navigateProjectBrowserButton
+            // 
+            this.navigateProjectBrowserButton.Image = ((System.Drawing.Image)(resources.GetObject("navigateProjectBrowserButton.Image")));
+            this.navigateProjectBrowserButton.Location = new System.Drawing.Point(4, 7);
+            this.navigateProjectBrowserButton.Name = "navigateProjectBrowserButton";
+            this.navigateProjectBrowserButton.Size = new System.Drawing.Size(29, 28);
+            this.navigateProjectBrowserButton.TabIndex = 2;
+            this.myToolTip.SetToolTip(this.navigateProjectBrowserButton, "Select in Project Browser");
+            this.navigateProjectBrowserButton.UseVisualStyleBackColor = true;
+            this.navigateProjectBrowserButton.Click += new System.EventHandler(this.navigateProjectBrowserButton_Click);
+            // 
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -332,139 +466,6 @@ namespace GlossaryManager.GUI
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            // 
-            // BU_VersionTextBox
-            // 
-            this.BU_VersionTextBox.Location = new System.Drawing.Point(419, 329);
-            this.BU_VersionTextBox.Name = "BU_VersionTextBox";
-            this.BU_VersionTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_VersionTextBox.TabIndex = 9;
-            // 
-            // BU_VersionLabel
-            // 
-            this.BU_VersionLabel.Location = new System.Drawing.Point(313, 332);
-            this.BU_VersionLabel.Name = "BU_VersionLabel";
-            this.BU_VersionLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_VersionLabel.TabIndex = 8;
-            this.BU_VersionLabel.Text = "Version";
-            // 
-            // BU_StatusLabel
-            // 
-            this.BU_StatusLabel.Location = new System.Drawing.Point(313, 358);
-            this.BU_StatusLabel.Name = "BU_StatusLabel";
-            this.BU_StatusLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_StatusLabel.TabIndex = 10;
-            this.BU_StatusLabel.Text = "Status";
-            // 
-            // BU_StatusCombobox
-            // 
-            this.BU_StatusCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BU_StatusCombobox.FormattingEnabled = true;
-            this.BU_StatusCombobox.Location = new System.Drawing.Point(419, 355);
-            this.BU_StatusCombobox.Name = "BU_StatusCombobox";
-            this.BU_StatusCombobox.Size = new System.Drawing.Size(184, 21);
-            this.BU_StatusCombobox.TabIndex = 11;
-            // 
-            // BU_KeywordsTextBox
-            // 
-            this.BU_KeywordsTextBox.Location = new System.Drawing.Point(419, 382);
-            this.BU_KeywordsTextBox.Name = "BU_KeywordsTextBox";
-            this.BU_KeywordsTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_KeywordsTextBox.TabIndex = 13;
-            // 
-            // BU_KeywordsLabel
-            // 
-            this.BU_KeywordsLabel.Location = new System.Drawing.Point(313, 385);
-            this.BU_KeywordsLabel.Name = "BU_KeywordsLabel";
-            this.BU_KeywordsLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_KeywordsLabel.TabIndex = 12;
-            this.BU_KeywordsLabel.Text = "Keywords";
-            // 
-            // BU_CreatedTextBox
-            // 
-            this.BU_CreatedTextBox.Location = new System.Drawing.Point(732, 303);
-            this.BU_CreatedTextBox.Name = "BU_CreatedTextBox";
-            this.BU_CreatedTextBox.ReadOnly = true;
-            this.BU_CreatedTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_CreatedTextBox.TabIndex = 15;
-            // 
-            // BU_CreatedLabel
-            // 
-            this.BU_CreatedLabel.Location = new System.Drawing.Point(626, 306);
-            this.BU_CreatedLabel.Name = "BU_CreatedLabel";
-            this.BU_CreatedLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_CreatedLabel.TabIndex = 14;
-            this.BU_CreatedLabel.Text = "Creation date";
-            // 
-            // BU_CreatedByTextBox
-            // 
-            this.BU_CreatedByTextBox.Location = new System.Drawing.Point(732, 329);
-            this.BU_CreatedByTextBox.Name = "BU_CreatedByTextBox";
-            this.BU_CreatedByTextBox.ReadOnly = true;
-            this.BU_CreatedByTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_CreatedByTextBox.TabIndex = 17;
-            // 
-            // BU_CreatedByLabel
-            // 
-            this.BU_CreatedByLabel.Location = new System.Drawing.Point(626, 332);
-            this.BU_CreatedByLabel.Name = "BU_CreatedByLabel";
-            this.BU_CreatedByLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_CreatedByLabel.TabIndex = 16;
-            this.BU_CreatedByLabel.Text = "Created by";
-            // 
-            // BU_ModifiedByTextBox
-            // 
-            this.BU_ModifiedByTextBox.Location = new System.Drawing.Point(732, 382);
-            this.BU_ModifiedByTextBox.Name = "BU_ModifiedByTextBox";
-            this.BU_ModifiedByTextBox.ReadOnly = true;
-            this.BU_ModifiedByTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_ModifiedByTextBox.TabIndex = 21;
-            // 
-            // BU_ModifiedByLabel
-            // 
-            this.BU_ModifiedByLabel.Location = new System.Drawing.Point(626, 385);
-            this.BU_ModifiedByLabel.Name = "BU_ModifiedByLabel";
-            this.BU_ModifiedByLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_ModifiedByLabel.TabIndex = 20;
-            this.BU_ModifiedByLabel.Text = "Modified by";
-            // 
-            // BU_ModifiedDateTextBox
-            // 
-            this.BU_ModifiedDateTextBox.Location = new System.Drawing.Point(732, 356);
-            this.BU_ModifiedDateTextBox.Name = "BU_ModifiedDateTextBox";
-            this.BU_ModifiedDateTextBox.ReadOnly = true;
-            this.BU_ModifiedDateTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_ModifiedDateTextBox.TabIndex = 19;
-            // 
-            // BU_ModifiedLabel
-            // 
-            this.BU_ModifiedLabel.Location = new System.Drawing.Point(626, 359);
-            this.BU_ModifiedLabel.Name = "BU_ModifiedLabel";
-            this.BU_ModifiedLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_ModifiedLabel.TabIndex = 18;
-            this.BU_ModifiedLabel.Text = "Modified date";
-            // 
-            // navigateProjectBrowserButton
-            // 
-            this.navigateProjectBrowserButton.Image = ((System.Drawing.Image)(resources.GetObject("navigateProjectBrowserButton.Image")));
-            this.navigateProjectBrowserButton.Location = new System.Drawing.Point(4, 7);
-            this.navigateProjectBrowserButton.Name = "navigateProjectBrowserButton";
-            this.navigateProjectBrowserButton.Size = new System.Drawing.Size(29, 28);
-            this.navigateProjectBrowserButton.TabIndex = 2;
-            this.myToolTip.SetToolTip(this.navigateProjectBrowserButton, "Select in Project Browser");
-            this.navigateProjectBrowserButton.UseVisualStyleBackColor = true;
-            this.navigateProjectBrowserButton.Click += new System.EventHandler(this.navigateProjectBrowserButton_Click);
-            // 
-            // openPropertiesButton
-            // 
-            this.openPropertiesButton.Image = ((System.Drawing.Image)(resources.GetObject("openPropertiesButton.Image")));
-            this.openPropertiesButton.Location = new System.Drawing.Point(39, 7);
-            this.openPropertiesButton.Name = "openPropertiesButton";
-            this.openPropertiesButton.Size = new System.Drawing.Size(29, 28);
-            this.openPropertiesButton.TabIndex = 3;
-            this.myToolTip.SetToolTip(this.openPropertiesButton, "Open Properties");
-            this.openPropertiesButton.UseVisualStyleBackColor = true;
-            this.openPropertiesButton.Click += new System.EventHandler(this.openPropertiesButton_Click);
             // 
             // EDD_MainControl
             // 

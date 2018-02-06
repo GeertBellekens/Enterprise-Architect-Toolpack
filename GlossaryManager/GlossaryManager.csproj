@@ -99,25 +99,6 @@
     <Compile Include="GlossaryItemFactory.cs" />
     <Compile Include="BusinessItem.cs" />
     <Compile Include="DataItem.cs" />
-    <Compile Include="Old UI\BusinessItemTabPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Old UI\ColumnLinkTabPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Old UI\DataItemTabPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Old UI\Field.cs" />
-    <Compile Include="Old UI\GlossaryItemTabPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Old UI\GlossaryManagerUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Old UI\GlossaryManagerUI.Designer.cs">
-      <DependentUpon>GlossaryManagerUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -144,9 +125,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\EDD_SettingsForm.resx">
       <DependentUpon>EDD_SettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Old UI\GlossaryManagerUI.resx">
-      <DependentUpon>GlossaryManagerUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

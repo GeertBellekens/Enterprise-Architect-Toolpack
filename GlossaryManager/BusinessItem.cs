@@ -10,13 +10,15 @@ using UML = TSF.UmlToolingFramework.UML;
 namespace GlossaryManager
 {
 
-    [DelimitedRecord(";"), IgnoreFirst(1)]
     public class BusinessItem : GlossaryItem
     {
 
-        [FieldOrder(100)]
-        [FieldNullValue(typeof(string), "")]
-        public string Description = "";
+
+        public string Description
+        {
+            get { return this.origin.notes; }
+            set { this.origin.notes = value; }
+        }
 
         public string domainPath
         {
@@ -28,22 +30,22 @@ namespace GlossaryManager
             }
         }
 
-        [FieldHidden]
         private Domain _domain = null;
         public Domain domain
         {
             get
             {
                 if (_domain == null
-                    && this.Origin != null)
+                    && this.origin != null)
                 {
-                    _domain = Domain.getDomain(this.Origin.owningPackage);
+                    _domain = Domain.getDomain(this.origin.owningPackage);
                 }
                 return _domain;
             }
             set
             {
                 _domain = value;
+                this.origin.owningPackage = this.domain.wrappedPackage;
             }
         }
 
@@ -63,11 +65,6 @@ namespace GlossaryManager
 
         public override string Stereotype { get { return "EDD_BusinessItem"; } }
 
-        protected override void setOriginValues()
-        {
-            this.Description = this.Origin.notes;
-            
-        }
 
         private List<UML.Classes.Kernel.Package> getDomains(UML.Classes.Kernel.Package domainPackage)
         {
@@ -83,11 +80,12 @@ namespace GlossaryManager
 
         protected override void update()
         {
-            base.update();
-            this.Origin.notes = this.Description;
-            this.Origin.owningPackage = this.domain.wrappedPackage;
+            //nothing specific to do
         }
 
-
+        protected override void reloadData()
+        {
+            //nothing specific to do
+        }
     }
 }

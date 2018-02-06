@@ -41,23 +41,7 @@ namespace GlossaryManager
         private GlossaryManagerSettings settings = null;
         private GlossaryItemFactory factory = null;
 
-        private GlossaryManagerUI _ui;
-        private GlossaryManagerUI ui
-        {
-            get
-            {
-                if (this._ui == null && this.model != null)
-                {
-                    this._ui = this.model.addTab(appTitle, appFQN) as GlossaryManagerUI;
-                    // this is annoying, during construction of the UI, the Addin cannot
-                    // be back-referenced from the ui yet, until we set it here
-                    this._ui.Addin = this;
-                    this._ui.Activate(); // so we delay the creation and trigger it here
-                    this._ui.HandleDestroyed += this.handleHandleDestroyed;
-                }
-                return this._ui;
-            }
-        }
+
         private EDD_MainControl _mainControl;
         private EDD_MainControl mainControl
         {
@@ -92,7 +76,6 @@ namespace GlossaryManager
 
         private void handleHandleDestroyed(object sender, EventArgs e)
         {
-            this._ui = null;
             this._mainControl = null;
         }
 
@@ -250,12 +233,12 @@ namespace GlossaryManager
         }
         public void refresh()
         {
-            this.ui.BusinessItems.Show<BusinessItem>(this.list<BusinessItem>(this.managedPackage));
+            
             List<DataItem> dataItems = this.list<DataItem>(this.managedPackage);
-            this.ui.DataItems.Show<DataItem>(dataItems);
+            
             // add all Logical DataTypes from this package and optionally others
             // from the dataItems
-            List<FieldValue> logicalDataTypes = new List<FieldValue>();
+          
             if (this.managedPackage != null)
             {
                 foreach (TSF_EA.Class clazz in
@@ -265,11 +248,7 @@ namespace GlossaryManager
                     {
                         if (clazz.stereotypes.ToList()[0].name == "LogicalDataType")
                         {
-                            logicalDataTypes.Add(new FieldValue()
-                            {
-                                Key = clazz.name,
-                                Value = clazz.guid
-                            });
+
                         }
                     }
                 }
@@ -277,18 +256,7 @@ namespace GlossaryManager
             foreach (DataItem item in dataItems)
             {
                 TSF_EA.Class element = this.model.getElementByGUID(item.LogicalDatatypeName) as TSF_EA.Class;
-                if (element != null && !logicalDataTypes.Any(x => x.Value == element.guid))
-                {
-                    logicalDataTypes.Add(new FieldValue()
-                    {
-                        Key = element.name,
-                        Value = element.guid
-                    });
-                }
             }
-
-            this.ui.DataItems.LogicalDataTypes = logicalDataTypes;
-            this.ui.ColumnLinks.DataItems = dataItems;
             this.model.activateTab(appTitle);
         }
 

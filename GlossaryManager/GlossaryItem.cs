@@ -19,84 +19,65 @@ namespace GlossaryManager
         //TODO: figure out a way to get the actual values from the model
         public static List<string> statusValues { get { return new List<string> { "proposed", "approved", "rejected" }; } }
 
-        [FieldOrder(0)]
-        [FieldNullValue(typeof(string), "")]
-        public string GUID;
+        public string GUID
+        {
+            get { return this.origin.uniqueID; }
+        }
 
-        [FieldOrder(1)]
-        [FieldConverter(typeof(BoolConverter))]
         public bool Delete;
 
-        [FieldOrder(2)]
-        public string Name;
-
-        [FieldOrder(3)]
-        [FieldNullValue(typeof(string), "")]
-        public string Author;
-
-        [FieldOrder(4)]
-        [FieldNullValue(typeof(string), "")]
-        public string Version;
-
-        [FieldOrder(5)]
-        [FieldNullValue(typeof(string), "Approved")]
-        public string Status;
-
-        [FieldOrder(6)]
-        [FieldConverter(typeof(StringListConverter))]
-        public List<string> Keywords;
-
-        [FieldOrder(7)]
-        [FieldConverter(ConverterKind.Date, "dd/MM/yyyy")]
-        [FieldNullValue(typeof(DateTime), "1900-01-01")]
-        public DateTime CreateDate;
-
-        [FieldOrder(8)]
-        [FieldConverter(ConverterKind.Date, "dd/MM/yyyy")]
-        [FieldNullValue(typeof(DateTime), "1900-01-01")]
-        public DateTime UpdateDate;
-
-        [FieldOrder(9)]
-        [FieldNullValue(typeof(string), "")]
-        public string UpdatedBy;
-
-
-        [FieldValueDiscarded]
-        [FieldHidden]
-        private TSF_EA.ElementWrapper origin = null;
-        public TSF_EA.ElementWrapper Origin
+        public string Name
         {
-            get
-            {
-                return this.origin;
-            }
-            set
-            {
-                this.origin = value;
-                this.GUID = this.origin.guid;
-                this.Name = this.Origin.name;
-                this.Author = this.Origin.author;
-                this.Version = this.Origin.version;
-                this.Status = this.Origin.status;
-                this.Keywords = this.Origin.keywords;
-                this.CreateDate = this.Origin.created;
-                this.UpdateDate = this.Origin.modified;
-                this.UpdatedBy = getTaggedValueString("modifier");
-                //set the other origin values
-                setOriginValues();
-            }
+            get { return this.origin.name; }
+            set { this.origin.name = value; }
         }
+
+        public string Author
+        {
+            get { return this.origin.author; }
+            set { this.origin.author = value; }
+        }
+
+        public string Version
+        {
+            get { return this.origin.version; }
+            set { this.origin.version = value; }
+        }
+
+        public string Status
+        {
+            get { return this.origin.status; }
+            set { this.origin.status = value; }
+        }
+
+        public List<string> Keywords
+        {
+            get { return this.origin.keywords; }
+            set { this.origin.keywords = value; }
+        }
+
+        public DateTime CreateDate
+        {
+            get { return this.origin.created; }
+        }
+
+        public DateTime UpdateDate
+        {
+            get { return this.origin.modified; }
+        }
+
+        public string UpdatedBy
+        {
+            get { return this.origin.getTaggedValue("modifier")?.eaStringValue; }
+            set { this.origin.addTaggedValue("modifier", value); }
+        }
+
+        public TSF_EA.ElementWrapper origin { get; set; }
+
         internal GlossaryManagerSettings settings { get; set; }
         public bool isDirty { get { return origin != null ? origin.isDirty : true; } }
-        protected abstract void setOriginValues();
+        
 
-        protected string getTaggedValueString(string tagName)
-        {
-            TSF_EA.TaggedValue tv = null;
-            if (this.Origin != null)
-                tv = this.Origin.getTaggedValue(tagName);
-            return tv != null ? tv.eaStringValue : string.Empty;
-        }
 
         public static List<T> Load<T>(string file)
         where T : GlossaryItem
@@ -145,15 +126,20 @@ namespace GlossaryManager
             ));
             clazz.stereotypes = stereotypes;
 
-            this.Origin = clazz as TSF_EA.ElementWrapper;
+            this.origin = clazz as TSF_EA.ElementWrapper;
             this.update();
 
             return clazz;
         }
-
+        public void reload()
+        {
+            this.origin.reload();
+            this.reloadData();
+        }
+        protected abstract void reloadData();
         public void Save()
         {
-            if (this.Origin == null)
+            if (this.origin == null)
             {
                 // TODO assertion ?
                 //      Can't Save without an Origin and should not be possible?!
@@ -163,7 +149,6 @@ namespace GlossaryManager
             //set updateDate and update user if dirty
             if (this.isDirty)
             {
-                this.UpdateDate = DateTime.Now;
                 this.UpdatedBy = this.origin.EAModel.currentUser.login;
             }
             //save item
@@ -172,15 +157,8 @@ namespace GlossaryManager
             this.origin.save();
         }
 
-        protected virtual void update()
-        {
-            this.origin.name = this.Name;
-            this.origin.author = this.Author;
-            this.origin.version = this.Version;
-            this.origin.status = this.Status;
-            this.origin.keywords = this.Keywords;
-            this.origin.created = this.CreateDate;
-        }
+        protected abstract void update();
+        
 
         public void selectInProjectBrowser()
         {

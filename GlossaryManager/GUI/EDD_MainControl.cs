@@ -8,37 +8,37 @@ using ComponentFactory.Krypton.Toolkit;
 
 namespace GlossaryManager.GUI
 {
-	/// <summary>
-	/// Description of EDD_MainControl.
-	/// </summary>
-	public partial class EDD_MainControl : UserControl
-	{
+    /// <summary>
+    /// Description of EDD_MainControl.
+    /// </summary>
+    public partial class EDD_MainControl : UserControl
+    {
         public List<Domain> domains { get; set; }
         public List<String> statusses { get; set; }
         public EDD_MainControl()
-		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
+        {
+            //
+            // The InitializeComponent() call is required for Windows Forms designer support.
+            //
+            InitializeComponent();
             enableDisable();
 
-		}
+        }
         private void enableDisable()
         {
             this.openPropertiesButton.Enabled = this.selectedBusinessItem != null;
             this.navigateProjectBrowserButton.Enabled = this.selectedBusinessItem != null;
         }
-		public void setBusinessItems(IEnumerable<BusinessItem> businessItems, Domain domain)
-		{
-			this.BusinessItemsListView.Objects = businessItems;
+        public void setBusinessItems(IEnumerable<BusinessItem> businessItems, Domain domain)
+        {
+            this.BusinessItemsListView.Objects = businessItems;
             if (domain != null)
             {
                 //select corresponding domain item
                 this.domainBreadCrumb.SelectedItem = getBreadCrumbSubItem(this.domainBreadCrumb.RootItem, domain) ?? this.domainBreadCrumb.RootItem;
             }
             this.BusinessItemsListView.SelectedObject = businessItems.FirstOrDefault();
-		}
+        }
         private KryptonBreadCrumbItem getBreadCrumbSubItem(KryptonBreadCrumbItem parentItem, Domain domain)
         {
             foreach (var subItem in parentItem.Items)
@@ -78,24 +78,51 @@ namespace GlossaryManager.GUI
         {
             var breadCrumbItem = new KryptonBreadCrumbItem(domain.name);
             breadCrumbItem.Tag = domain;
-            foreach(var subDomain in domain.subDomains)
+            foreach (var subDomain in domain.subDomains)
             {
                 breadCrumbItem.Items.Add(createDomainBreadCrumbItem(subDomain));
             }
             return breadCrumbItem;
         }
+        private BusinessItem previousBusinessItem { get; set; }
         private BusinessItem selectedBusinessItem
-		{
-			get
-			{
-				return this.BusinessItemsListView.SelectedObject as BusinessItem;
-			}
-		}
+        {
+            get
+            {
+                return this.BusinessItemsListView.SelectedObject as BusinessItem;
+            }
+        }
 
         private void BusinessItemsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //check if the previous item has been changed
+            if (this.previousBusinessItem != null)
+            {
+                if (this.hasBusinessitemChanged(this.previousBusinessItem))
+                {
+                    var response = MessageBox.Show(this, string.Format("Save changes to {0}?", this.previousBusinessItem.Name)
+                                                     , "Unsaved changes!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (response == DialogResult.Yes)
+                    {
+                        this.unloadBusinessItemData(this.previousBusinessItem);
+                        this.saveBusinessItem(this.previousBusinessItem);
+                    }
+                }
+            }
+            //then load the next item
             loadSelectedItemData();
             enableDisable();
+            //set the previous business item
+            this.previousBusinessItem = this.selectedBusinessItem;
+        }
+        private bool hasBusinessitemChanged (BusinessItem businessItem)
+        {
+            return businessItem.Name != this.BU_NameTextBox.Text
+                    || businessItem.domain != (Domain)this.BU_DomainComboBox.SelectedItem
+                    || businessItem.Description != this.BU_DescriptionTextBox.Text
+                    || businessItem.Status != this.BU_StatusCombobox.Text
+                    || businessItem.Version != this.BU_VersionTextBox.Text
+                    || string.Join(",", businessItem.Keywords) != this.BU_KeywordsTextBox.Text;
         }
 
         private void loadSelectedItemData()
@@ -108,11 +135,10 @@ namespace GlossaryManager.GUI
                 this.BU_StatusCombobox.Text = selectedBusinessItem.Status;
                 this.BU_VersionTextBox.Text = selectedBusinessItem.Version;
                 this.BU_KeywordsTextBox.Text = string.Join(",", selectedBusinessItem.Keywords);
-                this.BU_CreatedTextBox.Text = selectedBusinessItem.CreateDate.ToLongDateString();
+                this.BU_CreatedTextBox.Text = selectedBusinessItem.CreateDate.ToString("G");
                 this.BU_CreatedByTextBox.Text = selectedBusinessItem.Author;
-                this.BU_ModifiedDateTextBox.Text = selectedBusinessItem.UpdateDate.ToLongDateString();
+                this.BU_ModifiedDateTextBox.Text = selectedBusinessItem.UpdateDate.ToString("G");
                 this.BU_ModifiedByTextBox.Text = selectedBusinessItem.UpdatedBy;
-
             }
         }
 
@@ -120,18 +146,26 @@ namespace GlossaryManager.GUI
         {
             if (selectedBusinessItem != null)
             {
-                selectedBusinessItem.Name = this.BU_NameTextBox.Text;
-                selectedBusinessItem.domain = (Domain)this.BU_DomainComboBox.SelectedItem;
-                selectedBusinessItem.Description = this.BU_DescriptionTextBox.Text;
-                selectedBusinessItem.Status = this.BU_StatusCombobox.Text;
-                selectedBusinessItem.Version = this.BU_VersionTextBox.Text;
-                selectedBusinessItem.Keywords = this.BU_KeywordsTextBox.Text.Split(',')
-                                                    .Select(x => x.Trim())
-                                                    .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-                selectedBusinessItem.Save();
+                saveBusinessItem(this.selectedBusinessItem);
                 //refresh listview
                 this.BusinessItemsListView.RefreshSelectedObjects();
             }
+        }
+        private void unloadBusinessItemData(BusinessItem item)
+        {
+            item.Name = this.BU_NameTextBox.Text;
+            item.domain = (Domain)this.BU_DomainComboBox.SelectedItem;
+            item.Description = this.BU_DescriptionTextBox.Text;
+            item.Status = this.BU_StatusCombobox.Text;
+            item.Version = this.BU_VersionTextBox.Text;
+            item.Keywords = this.BU_KeywordsTextBox.Text.Split(',')
+                                                .Select(x => x.Trim())
+                                                .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+        }
+        private void saveBusinessItem(BusinessItem item)
+        {
+            unloadBusinessItemData(item);
+            item.Save();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -152,6 +186,11 @@ namespace GlossaryManager.GUI
         }
 
         private void openPropertiesButton_Click(object sender, EventArgs e)
+        {
+            this.selectedBusinessItem?.openProperties();
+        }
+
+        private void BusinessItemsListView_DoubleClick(object sender, EventArgs e)
         {
             this.selectedBusinessItem?.openProperties();
         }

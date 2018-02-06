@@ -10,33 +10,74 @@ using UML = TSF.UmlToolingFramework.UML;
 namespace GlossaryManager
 {
 
-    [DelimitedRecord(";"), IgnoreFirst(1)]
     public class DataItem : GlossaryItem
     {
+        private string _label;
+        public string Label
+        {
+            get
+            {   if (_label == null)
+                {
+                    this._label = this.origin.getTaggedValue("label")?.eaStringValue;
+                }
+                return _label;
+            }
+            set { this._label = value; }
+        }
 
-        [FieldOrder(100)]
-        [FieldNullValue(typeof(string), "")]
-        public string Label;
+        public string LogicalDatatypeName
+        {
+            get { return this.logicalDatatype?.name; }
+        }
 
-        [FieldOrder(101)]
-        [FieldNullValue(typeof(string), "")]
-        public string LogicalDatatypeName = "";
+        private int? _size;
+        public int? Size
+        {
+            get
+            {
+                if (!this._size.HasValue)
+                {
+                    int newSize;
+                    if (int.TryParse(this.origin.getTaggedValue("size")?.eaStringValue, out newSize))
+                        this._size = newSize;
+                }
+                return _size;
+            }
+            set { this._size = value; }
+        }
 
-        [FieldOrder(102)]
-        [FieldNullValue(typeof(int), "0")]
-        public int Size;
+        private string _format;
+        public string Format
+        {
+            get
+            {
+                if (this._format == null)
+                {
+                    this._format = this.origin.getTaggedValue("format")?.eaStringValue;
+                }
+                return this._format;
+            }
+            set { this._format = value; }
+        }
 
-        [FieldOrder(103)]
-        [FieldNullValue(typeof(string), "")]
-        public string Format;
-
-        [FieldOrder(104)]
-        [FieldNullValue(typeof(string), "")]
-        public string Description;
-
-        [FieldOrder(105)]
-        [FieldNullValue(typeof(string), "")]
-        public string InitialValue;
+        public string Description
+        {
+            get { return this.origin.notes; }
+            set { this.origin.notes = value; }
+        }
+        private string _initialValue;
+        public string InitialValue
+        {
+            get
+            {
+                if (this._initialValue == null)
+                {
+                    this._initialValue = this.origin.getTaggedValue("initial value")?.eaStringValue;
+                }
+                return this._initialValue;
+            }
+            set { this._initialValue = value; }
+        }
 
         public override string ToString()
         {
@@ -52,68 +93,80 @@ namespace GlossaryManager
             ")";
         }
 
-        public LogicalDatatype logicalDatatype { get; set; }
-        public BusinessItem businessItem { get; set; }
+        protected override void update()
+        {
+            //tagged values cannot be held in memory and are always saved immediately to the database
+            this.origin.addTaggedValue("label", this.Label);
+            this.origin.addTaggedValue("initial value", this.InitialValue);
+            this.origin.addTaggedValue("size", this.Size.HasValue ? this.Size.Value.ToString(): string.Empty);
+            this.origin.addTaggedValue("format", this.Format);
+        }
+
+        protected override void reloadData()
+        {
+            this._label = null;
+            this._initialValue = null; 
+            this._size = null; 
+            this._format = null;
+            this._logicalDatatype = null;
+            this._businessItem = null;
+        }
+
+        private LogicalDatatype _logicalDatatype;
+        public LogicalDatatype logicalDatatype
+        {
+            get
+            {
+                if (this._logicalDatatype == null)
+                {
+                    var tv = this.origin.getTaggedValue("logical datatype");
+                    if (tv != null)
+                    {
+                        var datatype = tv.tagValue as UML.Classes.Kernel.DataType;
+                        if (datatype != null)
+                            this._logicalDatatype = new LogicalDatatype(datatype);
+                    } 
+                }
+                return this._logicalDatatype;
+             }
+            set
+            {
+                this._logicalDatatype = value;
+                this.origin.addTaggedValue("logical datatype", value.GUID);
+            }
+        }
+        private BusinessItem _businessItem;
+        public BusinessItem businessItem
+        {
+            get
+            {
+                if (this._businessItem == null)
+                {
+                    var tv = this.origin.getTaggedValue("business item");
+                    if (tv != null)
+                    {
+                        var businessItemClass = tv.tagValue as UML.Classes.Kernel.Class;
+                        if (businessItemClass != null)
+                        {
+                            this._businessItem = new BusinessItem();
+                            this._businessItem.origin = (TSF_EA.Class)businessItemClass;
+                        }
+                    }
+                }
+                return this._businessItem;
+
+            }
+            set
+            {
+                this._businessItem = value;
+            }
+        }
 
         // EA support
 
         public override string Stereotype { get { return "EDD_DataItem"; } }
 
-        #region implemented abstract members of GlossaryItem
-        protected override void setOriginValues()
-        {
-            this.Label = this.getTaggedValueString("label");
-            //get the logical datatype
-            getLogicalDatatypeFromOrigin();
-            //get the business item
-            getBusinessItemFromOrigin();
-            int newSize;
-            if (int.TryParse(this.getTaggedValueString("size"), out newSize))
-                this.Size = newSize;
-            this.Format = this.getTaggedValueString("format");
-            this.InitialValue = this.getTaggedValueString("initial value");
-        }
-        private void getLogicalDatatypeFromOrigin()
-        {
-            if (this.Origin != null)
-            {
-                var tv = this.Origin.getTaggedValue("logical datatype");
-                if (tv != null)
-                {
-                    var datatype = tv.tagValue as UML.Classes.Kernel.DataType;
-                    if (datatype != null)
-                        this.logicalDatatype = new LogicalDatatype(datatype);
-                }
-            }
-        }
-        private void getBusinessItemFromOrigin()
-        {
-            if (this.Origin != null)
-            {
-                var tv = this.Origin.getTaggedValue("business item");
-                if (tv != null)
-                {
-                    var businessItemClass = tv.tagValue as UML.Classes.Kernel.Class;
-                    if (businessItemClass != null)
-                    {
-                        this.businessItem = new BusinessItem();
-                        this.businessItem.Origin = (TSF_EA.Class)businessItemClass;
-                    }
-                }
-            }
-        }
-        #endregion
-        protected override void update()
-        {
-            base.update();
-            this.Origin.addTaggedValue("label", this.Label);
-            if (logicalDatatype != null)
-                this.Origin.addTaggedValue("logical datatype", this.logicalDatatype.wrappedDatatype);
-            this.Origin.addTaggedValue("size", this.Size.ToString());
-            this.Origin.addTaggedValue("format", this.Format);
-            this.Origin.addTaggedValue("initial value", this.InitialValue);
-            this.Origin.notes = this.Description;
-        }
+
 
     }
 }

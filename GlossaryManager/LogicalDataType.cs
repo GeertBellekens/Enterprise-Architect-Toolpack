@@ -21,5 +21,9 @@ namespace GlossaryManager
         {
             get { return this.wrappedDatatype.uniqueID; }
         }
+        public string name
+        {
+            get { return this.wrappedDatatype.name; }
+        }
     }
 }
