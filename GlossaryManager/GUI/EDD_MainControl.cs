@@ -29,6 +29,11 @@ namespace GlossaryManager.GUI
             this.openPropertiesButton.Enabled = this.selectedBusinessItem != null;
             this.navigateProjectBrowserButton.Enabled = this.selectedBusinessItem != null;
         }
+        public List<BusinessItem> getBusinessItems()
+        {
+            return this.BusinessItemsListView.Objects.Cast<BusinessItem>().ToList();
+        }
+        
         public void setBusinessItems(IEnumerable<BusinessItem> businessItems, Domain domain)
         {
             this.BusinessItemsListView.Objects = businessItems;
@@ -38,6 +43,13 @@ namespace GlossaryManager.GUI
                 this.domainBreadCrumb.SelectedItem = getBreadCrumbSubItem(this.domainBreadCrumb.RootItem, domain) ?? this.domainBreadCrumb.RootItem;
             }
             this.BusinessItemsListView.SelectedObject = businessItems.FirstOrDefault();
+        }
+        internal void addItem(GlossaryItem newItem)
+        {
+            //add item to top of  list
+            this.BusinessItemsListView.InsertObjects(0, new List<BusinessItem>() { (BusinessItem) newItem});
+            //select it
+            this.BusinessItemsListView.SelectObject(newItem);
         }
         private KryptonBreadCrumbItem getBreadCrumbSubItem(KryptonBreadCrumbItem parentItem, Domain domain)
         {
@@ -74,6 +86,9 @@ namespace GlossaryManager.GUI
                 }
             }
         }
+
+
+
         public KryptonBreadCrumbItem createDomainBreadCrumbItem(Domain domain)
         {
             var breadCrumbItem = new KryptonBreadCrumbItem(domain.name);
@@ -172,12 +187,14 @@ namespace GlossaryManager.GUI
         {
             loadSelectedItemData();
         }
-
+        public Domain selectedDomain
+        {
+            get { return domainBreadCrumb.SelectedItem.Tag as Domain; }
+        }
         public event EventHandler selectedDomainChanged;
         private void domainBreadCrumb_SelectedItemChanged(object sender, EventArgs e)
         {
-            var selectedDomain = domainBreadCrumb.SelectedItem.Tag as Domain;
-            this.selectedDomainChanged?.Invoke(selectedDomain, e);
+            this.selectedDomainChanged?.Invoke(this.selectedDomain, e);
         }
 
         private void navigateProjectBrowserButton_Click(object sender, EventArgs e)
@@ -193,6 +210,11 @@ namespace GlossaryManager.GUI
         private void BusinessItemsListView_DoubleClick(object sender, EventArgs e)
         {
             this.selectedBusinessItem?.openProperties();
+        }
+        public event EventHandler newButtonClick;
+        private void newButton_Click(object sender, EventArgs e)
+        {
+            this.newButtonClick?.Invoke(sender, e);
         }
     }
 }

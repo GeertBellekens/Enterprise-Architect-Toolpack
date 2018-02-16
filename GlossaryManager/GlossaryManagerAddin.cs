@@ -52,12 +52,23 @@ namespace GlossaryManager
                     this._mainControl = this.model.addTab(appTitle, guiFQN) as EDD_MainControl;
                     this._mainControl.HandleDestroyed += this.handleHandleDestroyed;
                     this._mainControl.selectedDomainChanged += this.selectedDomainChanged;
+                    this._mainControl.newButtonClick += this._mainControl_newButtonClick;
                     this._mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage));
                     this._mainControl.setStatusses(statusses: this.model.getStatusses());
                     //TODO: add additional events
                 }
                 return this._mainControl;
             }
+        }
+
+        private void _mainControl_newButtonClick(object sender, EventArgs e)
+        {
+            //crete new item in the selected package
+            //BusinessItem
+            var parentPackage = mainControl.selectedDomain?.wrappedPackage;
+            if (parentPackage == null) parentPackage = this.settings.businessItemsPackage;
+            var newItem = this.factory.addNew<BusinessItem>(parentPackage);
+            this.mainControl.addItem(newItem);
         }
 
         public GlossaryManagerAddin() : base()

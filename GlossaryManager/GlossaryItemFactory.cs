@@ -8,7 +8,7 @@ using UML = TSF.UmlToolingFramework.UML;
 namespace GlossaryManager
 {
 
-    public class GlossaryItemFactory 
+    public class GlossaryItemFactory
     {
         GlossaryManagerSettings settings { get; set; }
         public GlossaryItemFactory(GlossaryManagerSettings settings)
@@ -58,6 +58,14 @@ namespace GlossaryManager
             item.settings = this.settings;
             item.origin = clazz as TSF_EA.ElementWrapper;
             return item;
+        }
+        public T addNew<T>(UML.Classes.Kernel.Package ownerPackage) where T : GlossaryItem, new()
+        {
+            var wrappedClass = ((TSF_EA.Package)ownerPackage).addOwnedElement<TSF_EA.Class>(string.Empty);
+            var stereotype = new T().Stereotype;
+            wrappedClass.setStereotype(stereotype);
+            wrappedClass.name = stereotype + "1";
+            return CreateFrom<T>(wrappedClass);
         }
 
     }

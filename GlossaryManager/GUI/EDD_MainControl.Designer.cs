@@ -78,6 +78,8 @@ namespace GlossaryManager.GUI
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
+            this.deleteButton = new System.Windows.Forms.Button();
+            this.newButton = new System.Windows.Forms.Button();
             this.openPropertiesButton = new System.Windows.Forms.Button();
             this.navigateProjectBrowserButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
@@ -104,7 +106,6 @@ namespace GlossaryManager.GUI
             // domainBreadCrumb
             // 
             this.domainBreadCrumb.AutoSize = false;
-            this.domainBreadCrumb.ControlBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlClient;
             this.domainBreadCrumb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.domainBreadCrumb.Location = new System.Drawing.Point(0, 0);
             this.domainBreadCrumb.Name = "domainBreadCrumb";
@@ -414,6 +415,8 @@ namespace GlossaryManager.GUI
             // 
             this.ButtonPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonPanel.Controls.Add(this.deleteButton);
+            this.ButtonPanel.Controls.Add(this.newButton);
             this.ButtonPanel.Controls.Add(this.openPropertiesButton);
             this.ButtonPanel.Controls.Add(this.navigateProjectBrowserButton);
             this.ButtonPanel.Controls.Add(this.cancelButton);
@@ -422,6 +425,27 @@ namespace GlossaryManager.GUI
             this.ButtonPanel.Name = "ButtonPanel";
             this.ButtonPanel.Size = new System.Drawing.Size(937, 43);
             this.ButtonPanel.TabIndex = 2;
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteButton.Image")));
+            this.deleteButton.Location = new System.Drawing.Point(128, 7);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(29, 28);
+            this.deleteButton.TabIndex = 5;
+            this.myToolTip.SetToolTip(this.deleteButton, "Delete Element");
+            this.deleteButton.UseVisualStyleBackColor = true;
+            // 
+            // newButton
+            // 
+            this.newButton.Image = ((System.Drawing.Image)(resources.GetObject("newButton.Image")));
+            this.newButton.Location = new System.Drawing.Point(93, 7);
+            this.newButton.Name = "newButton";
+            this.newButton.Size = new System.Drawing.Size(29, 28);
+            this.newButton.TabIndex = 4;
+            this.myToolTip.SetToolTip(this.newButton, "Select in Project Browser");
+            this.newButton.UseVisualStyleBackColor = true;
+            this.newButton.Click += new System.EventHandler(this.newButton_Click);
             // 
             // openPropertiesButton
             // 
@@ -513,5 +537,7 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.Button openPropertiesButton;
         private System.Windows.Forms.ToolTip myToolTip;
         private System.Windows.Forms.Button navigateProjectBrowserButton;
+        private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Button newButton;
     }
 }
