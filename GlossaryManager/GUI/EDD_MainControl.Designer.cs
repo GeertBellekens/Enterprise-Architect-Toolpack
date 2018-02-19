@@ -435,6 +435,7 @@ namespace GlossaryManager.GUI
             this.deleteButton.TabIndex = 5;
             this.myToolTip.SetToolTip(this.deleteButton, "Delete Element");
             this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // newButton
             // 

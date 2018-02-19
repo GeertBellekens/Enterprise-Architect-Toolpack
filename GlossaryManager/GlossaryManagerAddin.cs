@@ -297,7 +297,7 @@ namespace GlossaryManager
                 {
                     if (index.ContainsKey(item.GUID))
                     {
-                        if (item.Delete)
+                        if (item.toBeDeleted)
                         {                             // delete
                             this.log("removing " + item.Name);
                             package.deleteOwnedElement(index[item.GUID]);

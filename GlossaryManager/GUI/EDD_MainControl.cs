@@ -216,5 +216,17 @@ namespace GlossaryManager.GUI
         {
             this.newButtonClick?.Invoke(sender, e);
         }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            var businessItemToDelete = this.selectedBusinessItem;
+            var index = this.BusinessItemsListView.SelectedIndex;
+            if (businessItemToDelete != null)
+            {
+                this.BusinessItemsListView.RemoveObject(businessItemToDelete);
+                businessItemToDelete.delete();
+                this.BusinessItemsListView.SelectedIndex = index > 0 ? index - 1 : 0;
+            }
+        }
     }
 }

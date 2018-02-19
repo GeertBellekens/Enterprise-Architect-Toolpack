@@ -24,7 +24,7 @@ namespace GlossaryManager
             get { return this.origin.uniqueID; }
         }
 
-        public bool Delete;
+        public bool toBeDeleted;
 
         public string Name
         {
@@ -155,6 +155,10 @@ namespace GlossaryManager
             this.origin.modified = this.UpdateDate;
             this.origin.addTaggedValue("modifier", this.UpdatedBy);
             this.origin.save();
+        }
+        public void delete()
+        {
+            this.origin?.delete();
         }
 
         protected abstract void update();
