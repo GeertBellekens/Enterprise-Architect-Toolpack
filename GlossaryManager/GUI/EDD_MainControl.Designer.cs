@@ -85,12 +85,41 @@ namespace GlossaryManager.GUI
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.DI_ModifiedUserTextBox = new System.Windows.Forms.TextBox();
+            this.DI_ModifieUserLabel = new System.Windows.Forms.Label();
+            this.DI_ModifiedDateTextBox = new System.Windows.Forms.TextBox();
+            this.DI_ModifiedDateLabel = new System.Windows.Forms.Label();
+            this.DI_CreatedUserTextBox = new System.Windows.Forms.TextBox();
+            this.DI_CreatedUserLabel = new System.Windows.Forms.Label();
+            this.DI_CreationDateTextBox = new System.Windows.Forms.TextBox();
+            this.DI_CreationDateLabel = new System.Windows.Forms.Label();
+            this.DI_KeywordsTextBox = new System.Windows.Forms.TextBox();
+            this.DI_KeywordsLabel = new System.Windows.Forms.Label();
+            this.DI_StatusComboBox = new System.Windows.Forms.ComboBox();
+            this.DI_StatusLabel = new System.Windows.Forms.Label();
+            this.DI_VersionTextBox = new System.Windows.Forms.TextBox();
+            this.DI_VersionLabel = new System.Windows.Forms.Label();
+            this.DI_DescriptionTextBox = new System.Windows.Forms.TextBox();
+            this.DI_DescriptionLabel = new System.Windows.Forms.Label();
+            this.DI_BusinessItemLabel = new System.Windows.Forms.Label();
+            this.DI_NameTextBox = new System.Windows.Forms.TextBox();
+            this.DI_NameLabel = new System.Windows.Forms.Label();
+            this.dataItemsListView = new BrightIdeasSoftware.ObjectListView();
+            this.DI_NameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.DI_DomainColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.DI_DescriptionColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.DI_BusinessItemTextBox = new System.Windows.Forms.TextBox();
+            this.DI_BusinessItemSelectButton = new System.Windows.Forms.Button();
+            this.DI_DomainComboBox = new System.Windows.Forms.ComboBox();
+            this.DI_DomainLabel = new System.Windows.Forms.Label();
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
             this.BusinessItemsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BusinessItemsListView)).BeginInit();
+            this.DataItemsTabPage.SuspendLayout();
             this.ButtonPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataItemsListView)).BeginInit();
             this.SuspendLayout();
             // 
             // DomainPanel
@@ -132,6 +161,7 @@ namespace GlossaryManager.GUI
             this.DetailsTabControl.SelectedIndex = 0;
             this.DetailsTabControl.Size = new System.Drawing.Size(931, 577);
             this.DetailsTabControl.TabIndex = 1;
+            this.DetailsTabControl.SelectedIndexChanged += new System.EventHandler(this.DetailsTabControl_SelectedIndexChanged);
             // 
             // BusinessItemsTabPage
             // 
@@ -379,13 +409,37 @@ namespace GlossaryManager.GUI
             // 
             // DataItemsTabPage
             // 
+            this.DataItemsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.DataItemsTabPage.Controls.Add(this.DI_DomainComboBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_DomainLabel);
+            this.DataItemsTabPage.Controls.Add(this.DI_BusinessItemSelectButton);
+            this.DataItemsTabPage.Controls.Add(this.DI_BusinessItemTextBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_ModifiedUserTextBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_ModifieUserLabel);
+            this.DataItemsTabPage.Controls.Add(this.DI_ModifiedDateTextBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_ModifiedDateLabel);
+            this.DataItemsTabPage.Controls.Add(this.DI_CreatedUserTextBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_CreatedUserLabel);
+            this.DataItemsTabPage.Controls.Add(this.DI_CreationDateTextBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_CreationDateLabel);
+            this.DataItemsTabPage.Controls.Add(this.DI_KeywordsTextBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_KeywordsLabel);
+            this.DataItemsTabPage.Controls.Add(this.DI_StatusComboBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_StatusLabel);
+            this.DataItemsTabPage.Controls.Add(this.DI_VersionTextBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_VersionLabel);
+            this.DataItemsTabPage.Controls.Add(this.DI_DescriptionTextBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_DescriptionLabel);
+            this.DataItemsTabPage.Controls.Add(this.DI_BusinessItemLabel);
+            this.DataItemsTabPage.Controls.Add(this.DI_NameTextBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_NameLabel);
+            this.DataItemsTabPage.Controls.Add(this.dataItemsListView);
             this.DataItemsTabPage.Location = new System.Drawing.Point(4, 22);
             this.DataItemsTabPage.Name = "DataItemsTabPage";
             this.DataItemsTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.DataItemsTabPage.Size = new System.Drawing.Size(923, 551);
             this.DataItemsTabPage.TabIndex = 1;
             this.DataItemsTabPage.Text = "Data Items";
-            this.DataItemsTabPage.UseVisualStyleBackColor = true;
             // 
             // ColumnsTabPage
             // 
@@ -492,6 +546,245 @@ namespace GlossaryManager.GUI
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // DI_ModifiedUserTextBox
+            // 
+            this.DI_ModifiedUserTextBox.Location = new System.Drawing.Point(732, 381);
+            this.DI_ModifiedUserTextBox.Name = "DI_ModifiedUserTextBox";
+            this.DI_ModifiedUserTextBox.ReadOnly = true;
+            this.DI_ModifiedUserTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_ModifiedUserTextBox.TabIndex = 42;
+            // 
+            // DI_ModifieUserLabel
+            // 
+            this.DI_ModifieUserLabel.Location = new System.Drawing.Point(626, 384);
+            this.DI_ModifieUserLabel.Name = "DI_ModifieUserLabel";
+            this.DI_ModifieUserLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_ModifieUserLabel.TabIndex = 41;
+            this.DI_ModifieUserLabel.Text = "Modified by";
+            // 
+            // DI_ModifiedDateTextBox
+            // 
+            this.DI_ModifiedDateTextBox.Location = new System.Drawing.Point(732, 355);
+            this.DI_ModifiedDateTextBox.Name = "DI_ModifiedDateTextBox";
+            this.DI_ModifiedDateTextBox.ReadOnly = true;
+            this.DI_ModifiedDateTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_ModifiedDateTextBox.TabIndex = 40;
+            // 
+            // DI_ModifiedDateLabel
+            // 
+            this.DI_ModifiedDateLabel.Location = new System.Drawing.Point(626, 358);
+            this.DI_ModifiedDateLabel.Name = "DI_ModifiedDateLabel";
+            this.DI_ModifiedDateLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_ModifiedDateLabel.TabIndex = 39;
+            this.DI_ModifiedDateLabel.Text = "Modified date";
+            // 
+            // DI_CreatedUserTextBox
+            // 
+            this.DI_CreatedUserTextBox.Location = new System.Drawing.Point(732, 328);
+            this.DI_CreatedUserTextBox.Name = "DI_CreatedUserTextBox";
+            this.DI_CreatedUserTextBox.ReadOnly = true;
+            this.DI_CreatedUserTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_CreatedUserTextBox.TabIndex = 38;
+            // 
+            // DI_CreatedUserLabel
+            // 
+            this.DI_CreatedUserLabel.Location = new System.Drawing.Point(626, 331);
+            this.DI_CreatedUserLabel.Name = "DI_CreatedUserLabel";
+            this.DI_CreatedUserLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_CreatedUserLabel.TabIndex = 37;
+            this.DI_CreatedUserLabel.Text = "Created by";
+            // 
+            // DI_CreationDateTextBox
+            // 
+            this.DI_CreationDateTextBox.Location = new System.Drawing.Point(732, 302);
+            this.DI_CreationDateTextBox.Name = "DI_CreationDateTextBox";
+            this.DI_CreationDateTextBox.ReadOnly = true;
+            this.DI_CreationDateTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_CreationDateTextBox.TabIndex = 36;
+            // 
+            // DI_CreationDateLabel
+            // 
+            this.DI_CreationDateLabel.Location = new System.Drawing.Point(626, 305);
+            this.DI_CreationDateLabel.Name = "DI_CreationDateLabel";
+            this.DI_CreationDateLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_CreationDateLabel.TabIndex = 35;
+            this.DI_CreationDateLabel.Text = "Creation date";
+            // 
+            // DI_KeywordsTextBox
+            // 
+            this.DI_KeywordsTextBox.Location = new System.Drawing.Point(419, 381);
+            this.DI_KeywordsTextBox.Name = "DI_KeywordsTextBox";
+            this.DI_KeywordsTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_KeywordsTextBox.TabIndex = 34;
+            // 
+            // DI_KeywordsLabel
+            // 
+            this.DI_KeywordsLabel.Location = new System.Drawing.Point(313, 384);
+            this.DI_KeywordsLabel.Name = "DI_KeywordsLabel";
+            this.DI_KeywordsLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_KeywordsLabel.TabIndex = 33;
+            this.DI_KeywordsLabel.Text = "Keywords";
+            // 
+            // DI_StatusComboBox
+            // 
+            this.DI_StatusComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DI_StatusComboBox.FormattingEnabled = true;
+            this.DI_StatusComboBox.Location = new System.Drawing.Point(419, 354);
+            this.DI_StatusComboBox.Name = "DI_StatusComboBox";
+            this.DI_StatusComboBox.Size = new System.Drawing.Size(184, 21);
+            this.DI_StatusComboBox.TabIndex = 32;
+            // 
+            // DI_StatusLabel
+            // 
+            this.DI_StatusLabel.Location = new System.Drawing.Point(313, 357);
+            this.DI_StatusLabel.Name = "DI_StatusLabel";
+            this.DI_StatusLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_StatusLabel.TabIndex = 31;
+            this.DI_StatusLabel.Text = "Status";
+            // 
+            // DI_VersionTextBox
+            // 
+            this.DI_VersionTextBox.Location = new System.Drawing.Point(419, 328);
+            this.DI_VersionTextBox.Name = "DI_VersionTextBox";
+            this.DI_VersionTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_VersionTextBox.TabIndex = 30;
+            // 
+            // DI_VersionLabel
+            // 
+            this.DI_VersionLabel.Location = new System.Drawing.Point(313, 331);
+            this.DI_VersionLabel.Name = "DI_VersionLabel";
+            this.DI_VersionLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_VersionLabel.TabIndex = 29;
+            this.DI_VersionLabel.Text = "Version";
+            // 
+            // DI_DescriptionTextBox
+            // 
+            this.DI_DescriptionTextBox.Location = new System.Drawing.Point(112, 328);
+            this.DI_DescriptionTextBox.Multiline = true;
+            this.DI_DescriptionTextBox.Name = "DI_DescriptionTextBox";
+            this.DI_DescriptionTextBox.Size = new System.Drawing.Size(184, 96);
+            this.DI_DescriptionTextBox.TabIndex = 27;
+            // 
+            // DI_DescriptionLabel
+            // 
+            this.DI_DescriptionLabel.Location = new System.Drawing.Point(6, 331);
+            this.DI_DescriptionLabel.Name = "DI_DescriptionLabel";
+            this.DI_DescriptionLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_DescriptionLabel.TabIndex = 26;
+            this.DI_DescriptionLabel.Text = "Description";
+            // 
+            // DI_BusinessItemLabel
+            // 
+            this.DI_BusinessItemLabel.Location = new System.Drawing.Point(6, 433);
+            this.DI_BusinessItemLabel.Name = "DI_BusinessItemLabel";
+            this.DI_BusinessItemLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_BusinessItemLabel.TabIndex = 25;
+            this.DI_BusinessItemLabel.Text = "BusinessItem";
+            // 
+            // DI_NameTextBox
+            // 
+            this.DI_NameTextBox.Location = new System.Drawing.Point(112, 302);
+            this.DI_NameTextBox.Name = "DI_NameTextBox";
+            this.DI_NameTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_NameTextBox.TabIndex = 24;
+            // 
+            // DI_NameLabel
+            // 
+            this.DI_NameLabel.Location = new System.Drawing.Point(6, 305);
+            this.DI_NameLabel.Name = "DI_NameLabel";
+            this.DI_NameLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_NameLabel.TabIndex = 23;
+            this.DI_NameLabel.Text = "Name";
+            // 
+            // dataItemsListView
+            // 
+            this.dataItemsListView.AllColumns.Add(this.DI_NameColumn);
+            this.dataItemsListView.AllColumns.Add(this.DI_DomainColumn);
+            this.dataItemsListView.AllColumns.Add(this.DI_DescriptionColumn);
+            this.dataItemsListView.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.dataItemsListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataItemsListView.CellEditUseWholeCell = false;
+            this.dataItemsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.DI_NameColumn,
+            this.DI_DomainColumn,
+            this.DI_DescriptionColumn});
+            this.dataItemsListView.Cursor = System.Windows.Forms.Cursors.Default;
+            this.dataItemsListView.FullRowSelect = true;
+            this.dataItemsListView.GridLines = true;
+            this.dataItemsListView.HideSelection = false;
+            this.dataItemsListView.Location = new System.Drawing.Point(3, 3);
+            this.dataItemsListView.MultiSelect = false;
+            this.dataItemsListView.Name = "dataItemsListView";
+            this.dataItemsListView.ShowCommandMenuOnRightClick = true;
+            this.dataItemsListView.ShowGroups = false;
+            this.dataItemsListView.Size = new System.Drawing.Size(914, 290);
+            this.dataItemsListView.TabIndex = 22;
+            this.dataItemsListView.TintSortColumn = true;
+            this.dataItemsListView.UseCompatibleStateImageBehavior = false;
+            this.dataItemsListView.UseFilterIndicator = true;
+            this.dataItemsListView.UseFiltering = true;
+            this.dataItemsListView.UseHotItem = true;
+            this.dataItemsListView.View = System.Windows.Forms.View.Details;
+            this.dataItemsListView.SelectedIndexChanged += new System.EventHandler(this.dataItemsListView_SelectedIndexChanged);
+            this.dataItemsListView.DoubleClick += new System.EventHandler(this.dataItemsListView_DoubleClick);
+            // 
+            // DI_NameColumn
+            // 
+            this.DI_NameColumn.AspectName = "Name";
+            this.DI_NameColumn.Text = "Name";
+            this.DI_NameColumn.ToolTipText = "Name of the Business Item";
+            this.DI_NameColumn.Width = 200;
+            // 
+            // DI_DomainColumn
+            // 
+            this.DI_DomainColumn.AspectName = "domainPath";
+            this.DI_DomainColumn.Text = "Domain";
+            this.DI_DomainColumn.ToolTipText = "The domain of the Business Item";
+            this.DI_DomainColumn.Width = 200;
+            // 
+            // DI_DescriptionColumn
+            // 
+            this.DI_DescriptionColumn.AspectName = "Description";
+            this.DI_DescriptionColumn.FillsFreeSpace = true;
+            this.DI_DescriptionColumn.Text = "Description";
+            this.DI_DescriptionColumn.ToolTipText = "Description of this Business Item";
+            // 
+            // DI_BusinessItemTextBox
+            // 
+            this.DI_BusinessItemTextBox.Location = new System.Drawing.Point(112, 430);
+            this.DI_BusinessItemTextBox.Name = "DI_BusinessItemTextBox";
+            this.DI_BusinessItemTextBox.ReadOnly = true;
+            this.DI_BusinessItemTextBox.Size = new System.Drawing.Size(152, 20);
+            this.DI_BusinessItemTextBox.TabIndex = 43;
+            // 
+            // DI_BusinessItemSelectButton
+            // 
+            this.DI_BusinessItemSelectButton.Location = new System.Drawing.Point(270, 428);
+            this.DI_BusinessItemSelectButton.Name = "DI_BusinessItemSelectButton";
+            this.DI_BusinessItemSelectButton.Size = new System.Drawing.Size(26, 23);
+            this.DI_BusinessItemSelectButton.TabIndex = 44;
+            this.DI_BusinessItemSelectButton.Text = "...";
+            this.DI_BusinessItemSelectButton.UseVisualStyleBackColor = true;
+            this.DI_BusinessItemSelectButton.Click += new System.EventHandler(this.DI_BusinessItemSelectButton_Click);
+            // 
+            // DI_DomainComboBox
+            // 
+            this.DI_DomainComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DI_DomainComboBox.FormattingEnabled = true;
+            this.DI_DomainComboBox.Location = new System.Drawing.Point(419, 302);
+            this.DI_DomainComboBox.Name = "DI_DomainComboBox";
+            this.DI_DomainComboBox.Size = new System.Drawing.Size(184, 21);
+            this.DI_DomainComboBox.TabIndex = 46;
+            // 
+            // DI_DomainLabel
+            // 
+            this.DI_DomainLabel.Location = new System.Drawing.Point(313, 305);
+            this.DI_DomainLabel.Name = "DI_DomainLabel";
+            this.DI_DomainLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_DomainLabel.TabIndex = 45;
+            this.DI_DomainLabel.Text = "Domain";
+            // 
             // EDD_MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -507,7 +800,10 @@ namespace GlossaryManager.GUI
             this.BusinessItemsTabPage.ResumeLayout(false);
             this.BusinessItemsTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BusinessItemsListView)).EndInit();
+            this.DataItemsTabPage.ResumeLayout(false);
+            this.DataItemsTabPage.PerformLayout();
             this.ButtonPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataItemsListView)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -540,5 +836,32 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.Button navigateProjectBrowserButton;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button newButton;
+        private System.Windows.Forms.Button DI_BusinessItemSelectButton;
+        private System.Windows.Forms.TextBox DI_BusinessItemTextBox;
+        private System.Windows.Forms.TextBox DI_ModifiedUserTextBox;
+        private System.Windows.Forms.Label DI_ModifieUserLabel;
+        private System.Windows.Forms.TextBox DI_ModifiedDateTextBox;
+        private System.Windows.Forms.Label DI_ModifiedDateLabel;
+        private System.Windows.Forms.TextBox DI_CreatedUserTextBox;
+        private System.Windows.Forms.Label DI_CreatedUserLabel;
+        private System.Windows.Forms.TextBox DI_CreationDateTextBox;
+        private System.Windows.Forms.Label DI_CreationDateLabel;
+        private System.Windows.Forms.TextBox DI_KeywordsTextBox;
+        private System.Windows.Forms.Label DI_KeywordsLabel;
+        private System.Windows.Forms.ComboBox DI_StatusComboBox;
+        private System.Windows.Forms.Label DI_StatusLabel;
+        private System.Windows.Forms.TextBox DI_VersionTextBox;
+        private System.Windows.Forms.Label DI_VersionLabel;
+        private System.Windows.Forms.TextBox DI_DescriptionTextBox;
+        private System.Windows.Forms.Label DI_DescriptionLabel;
+        private System.Windows.Forms.Label DI_BusinessItemLabel;
+        private System.Windows.Forms.TextBox DI_NameTextBox;
+        private System.Windows.Forms.Label DI_NameLabel;
+        private ObjectListView dataItemsListView;
+        private OLVColumn DI_NameColumn;
+        private OLVColumn DI_DomainColumn;
+        private OLVColumn DI_DescriptionColumn;
+        private System.Windows.Forms.ComboBox DI_DomainComboBox;
+        private System.Windows.Forms.Label DI_DomainLabel;
     }
 }

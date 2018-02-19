@@ -113,6 +113,25 @@ namespace GlossaryManager
         // EA support
 
         public abstract string Stereotype { get; }
+        private Domain _domain = null;
+        public Domain domain
+        {
+            get
+            {
+                if (_domain == null
+                    && this.origin != null)
+                {
+                    _domain = Domain.getDomain(this.origin.owningPackage);
+                }
+                return _domain;
+            }
+            set
+            {
+                _domain = value;
+                setOwningPackage();
+            }
+        }
+        protected abstract void setOwningPackage();
 
         public UML.Classes.Kernel.Class AsClassIn(TSF_EA.Package package)
         {

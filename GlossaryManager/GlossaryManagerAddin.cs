@@ -53,11 +53,50 @@ namespace GlossaryManager
                     this._mainControl.HandleDestroyed += this.handleHandleDestroyed;
                     this._mainControl.selectedDomainChanged += this.selectedDomainChanged;
                     this._mainControl.newButtonClick += this._mainControl_newButtonClick;
-                    this._mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage));
+                    this._mainControl.selectedTabChanged += this._mainControl_selectedTabChanged;
+                    this._mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage));
                     this._mainControl.setStatusses(statusses: this.model.getStatusses());
                     //TODO: add additional events
                 }
                 return this._mainControl;
+            }
+        }
+        private void selectedDomainChanged(object sender, EventArgs e)
+        {
+            showItemsForSelectedDomain();
+        }
+        private void _mainControl_selectedTabChanged(object sender, EventArgs e)
+        {
+            showItemsForSelectedDomain();
+        }
+        private void showItemsForSelectedDomain()
+        {
+            var selectedDomain = this._mainControl.selectedDomain;
+            if (selectedDomain != null)
+            {
+                this.managedPackage = (TSF_EA.Package)selectedDomain.businessItemsPackage;
+            }
+            else
+            {
+                this.managedPackage = (TSF_EA.Package)this.settings.businessItemsPackage;
+            }
+            switch (this.mainControl.selectedTab)
+            {
+                case GlossaryTab.BusinessItems:
+                    this.managedPackage = selectedDomain != null 
+                                        ? (TSF_EA.Package)selectedDomain.businessItemsPackage
+                                        : (TSF_EA.Package)this.settings.businessItemsPackage;
+                    this.showBusinessItems();
+                    break;
+                case GlossaryTab.DataItems:
+                    this.managedPackage = selectedDomain != null
+                                        ? (TSF_EA.Package)selectedDomain.dataItemsPackage
+                                        : (TSF_EA.Package)this.settings.dataItemsPackage;
+                    this.showDataItems();
+                    break;
+                case GlossaryTab.Columns:
+                    this.showColumns();
+                    break;
             }
         }
 
@@ -65,7 +104,7 @@ namespace GlossaryManager
         {
             //crete new item in the selected package
             //BusinessItem
-            var parentPackage = mainControl.selectedDomain?.wrappedPackage;
+            var parentPackage = mainControl.selectedDomain?.businessItemsPackage;
             if (parentPackage == null) parentPackage = this.settings.businessItemsPackage;
             var newItem = this.factory.addNew<BusinessItem>(parentPackage);
             this.mainControl.addItem(newItem);
@@ -221,30 +260,28 @@ namespace GlossaryManager
             if (this.model == null) { return; }
             this.managedPackage = (TSF_EA.Package)this.Model.selectedTreePackage;
             //this.refresh();
-            this.showGlossaryItems();
+            this.showBusinessItems();
         }
 
-        private void showGlossaryItems()
+        private void showBusinessItems()
         {
             this.mainControl.setBusinessItems(this.list<BusinessItem>(this.managedPackage), Domain.getDomain(this.managedPackage));
         }
 
-        private void selectedDomainChanged(object sender, EventArgs e)
+        
+
+        private void showColumns()
         {
-            var selectedDomain = sender as Domain;
-            if (selectedDomain != null)
-            {
-                this.managedPackage = (TSF_EA.Package)selectedDomain.wrappedPackage;
-            }
-            else
-            {
-                this.managedPackage = (TSF_EA.Package)this.settings.businessItemsPackage;
-            }
-            this.showGlossaryItems();
+            //TODO
         }
+
+        private void showDataItems()
+        {
+            this.mainControl.setDataItems(this.list<DataItem>(this.managedPackage), Domain.getDomain(this.managedPackage));
+        }
+
         public void refresh()
         {
-            
             List<DataItem> dataItems = this.list<DataItem>(this.managedPackage);
             
             // add all Logical DataTypes from this package and optionally others

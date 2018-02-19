@@ -24,30 +24,11 @@ namespace GlossaryManager
         {
             get
             {
-                return this.domain != null ?
-                        string.Join(".", this.domain.parentDomains.Select(x => x.name))
-                        : string.Empty;
+                return this.domain?.domainPath;
             }
         }
 
-        private Domain _domain = null;
-        public Domain domain
-        {
-            get
-            {
-                if (_domain == null
-                    && this.origin != null)
-                {
-                    _domain = Domain.getDomain(this.origin.owningPackage);
-                }
-                return _domain;
-            }
-            set
-            {
-                _domain = value;
-                this.origin.owningPackage = this.domain.wrappedPackage;
-            }
-        }
+
 
         public override string ToString()
         {
@@ -86,6 +67,12 @@ namespace GlossaryManager
         protected override void reloadData()
         {
             //nothing specific to do
+        }
+
+        protected override void setOwningPackage()
+        {
+            if (this.domain.businessItemsPackage == null) domain.createMissingPackage();
+            this.origin.owningPackage = this.domain.businessItemsPackage;
         }
     }
 }

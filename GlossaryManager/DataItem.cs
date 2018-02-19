@@ -16,7 +16,8 @@ namespace GlossaryManager
         public string Label
         {
             get
-            {   if (_label == null)
+            {
+                if (_label == null)
                 {
                     this._label = this.origin.getTaggedValue("label")?.eaStringValue;
                 }
@@ -98,15 +99,15 @@ namespace GlossaryManager
             //tagged values cannot be held in memory and are always saved immediately to the database
             this.origin.addTaggedValue("label", this.Label);
             this.origin.addTaggedValue("initial value", this.InitialValue);
-            this.origin.addTaggedValue("size", this.Size.HasValue ? this.Size.Value.ToString(): string.Empty);
+            this.origin.addTaggedValue("size", this.Size.HasValue ? this.Size.Value.ToString() : string.Empty);
             this.origin.addTaggedValue("format", this.Format);
         }
 
         protected override void reloadData()
         {
             this._label = null;
-            this._initialValue = null; 
-            this._size = null; 
+            this._initialValue = null;
+            this._size = null;
             this._format = null;
             this._logicalDatatype = null;
             this._businessItem = null;
@@ -125,10 +126,10 @@ namespace GlossaryManager
                         var datatype = tv.tagValue as UML.Classes.Kernel.DataType;
                         if (datatype != null)
                             this._logicalDatatype = new LogicalDatatype(datatype);
-                    } 
+                    }
                 }
                 return this._logicalDatatype;
-             }
+            }
             set
             {
                 this._logicalDatatype = value;
@@ -162,11 +163,19 @@ namespace GlossaryManager
             }
         }
 
-        // EA support
-
         public override string Stereotype { get { return "EDD_DataItem"; } }
 
-
-
+        internal void selectBusinessItem()
+        {
+            //let the user select a business item
+            var businessItemOrigin = this.origin.model.getUserSelectedElement(new List<string>() { "Class" },
+                new List<string>() { new BusinessItem().Stereotype }) as UML.Classes.Kernel.Class;
+            this.businessItem = new GlossaryItemFactory(this.settings).FromClass<BusinessItem>(businessItemOrigin);
+        }
+        protected override void setOwningPackage()
+        {
+            if (this.domain.dataItemsPackage == null) domain.createMissingPackage();
+            this.origin.owningPackage = this.domain.dataItemsPackage;
+        }
     }
 }
