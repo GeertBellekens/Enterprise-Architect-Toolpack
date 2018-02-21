@@ -183,7 +183,7 @@ namespace GlossaryManager.GUI
         private bool hasBusinessitemChanged (BusinessItem businessItem)
         {
             return businessItem.Name != this.BU_NameTextBox.Text
-                    || businessItem.domain.domainPath != ((Domain)this.BU_DomainComboBox.SelectedItem).domainPath
+                    || businessItem.domain?.domainPath != ((Domain)this.BU_DomainComboBox.SelectedItem)?.domainPath
                     || businessItem.Description != this.BU_DescriptionTextBox.Text
                     || businessItem.Status != this.BU_StatusCombobox.Text
                     || businessItem.Version != this.BU_VersionTextBox.Text
@@ -192,7 +192,7 @@ namespace GlossaryManager.GUI
         private bool hasDataItemChanged(DataItem dataItem)
         {
             return dataItem.Name != this.DI_NameTextBox.Text
-                    || dataItem.domain.domainPath != ((Domain)this.DI_DomainComboBox.SelectedItem).domainPath
+                    || dataItem.domain?.domainPath != ((Domain)this.DI_DomainComboBox.SelectedItem)?.domainPath
                     || dataItem.Description != this.DI_DescriptionTextBox.Text
                     || dataItem.Status != this.DI_StatusComboBox.Text
                     || dataItem.Version != this.DI_VersionTextBox.Text

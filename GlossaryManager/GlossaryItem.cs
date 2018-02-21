@@ -131,6 +131,13 @@ namespace GlossaryManager
                 setOwningPackage();
             }
         }
+        public string domainPath
+        {
+            get
+            {
+                return this.domain?.domainPath;
+            }
+        }
         protected abstract void setOwningPackage();
 
         public UML.Classes.Kernel.Class AsClassIn(TSF_EA.Package package)

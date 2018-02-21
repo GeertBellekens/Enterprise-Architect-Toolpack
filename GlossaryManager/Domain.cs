@@ -144,6 +144,7 @@ namespace GlossaryManager
                     parentPackage = (TSF_EA.Package)this.dataItemsTopLevelPackage;
                 }
                 this.dataItemsPackage = parentPackage.addOwnedElement<TSF_EA.Package>(this.name);
+                this.dataItemsPackage.save();
             }
             else if (this.businessItemsPackage == null)
             {
@@ -158,6 +159,7 @@ namespace GlossaryManager
                     parentPackage = (TSF_EA.Package)this.businessItemsTopLevelPackage;
                 }
                 this.businessItemsPackage = parentPackage.addOwnedElement<TSF_EA.Package>(this.name);
+                this.businessItemsPackage.save();
             }
         }
 
