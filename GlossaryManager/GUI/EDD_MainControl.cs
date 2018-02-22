@@ -197,7 +197,14 @@ namespace GlossaryManager.GUI
                     || dataItem.Status != this.DI_StatusComboBox.Text
                     || dataItem.Version != this.DI_VersionTextBox.Text
                     || string.Join(",", dataItem.Keywords) != this.DI_KeywordsTextBox.Text
-                    || dataItem.businessItem?.GUID != ((BusinessItem)DI_BusinessItemTextBox.Tag)?.GUID;
+                    || dataItem.businessItem?.GUID != ((BusinessItem)DI_BusinessItemTextBox.Tag)?.GUID
+                    || dataItem.Label != this.DI_LabelTextBox.Text
+                    || dataItem.logicalDatatype?.GUID != ((LogicalDatatype)DI_DatatypeTextBox.Tag)?.GUID
+                    || (dataItem.Size.HasValue ? dataItem.Size.Value : 0) != decimal.ToInt32(DI_SizeNumericUpDown.Value)
+                    || (dataItem.precision.HasValue ? dataItem.precision.Value : 0) != decimal.ToInt32(DI_PrecisionUpDown.Value)
+                    || dataItem.Format != DI_FormatTextBox.Text
+                    || dataItem.InitialValue != DI_InitialValueTextBox.Text;
+                    
         }
 
         private void loadSelectedItemData()
@@ -224,6 +231,15 @@ namespace GlossaryManager.GUI
                 this.DI_DomainComboBox.SelectedItem = selectedDataItem.domain;
                 this.DI_BusinessItemTextBox.Text = selectedDataItem.businessItem?.Name;
                 this.DI_BusinessItemTextBox.Tag = selectedDataItem.businessItem;
+                this.DI_LabelTextBox.Text = selectedDataItem.Label;
+                this.DI_DatatypeTextBox.Text = this.selectedDataItem.logicalDatatype?.name;
+                this.DI_DatatypeTextBox.Tag = this.selectedDataItem.logicalDatatype;
+                this.DI_SizeNumericUpDown.Value = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.Value : 0;
+                this.DI_SizeNumericUpDown.Text = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.ToString() : string.Empty;
+                this.DI_PrecisionUpDown.Value = this.selectedDataItem.precision.HasValue ? this.selectedDataItem.precision.Value : 0;
+                this.DI_PrecisionUpDown.Text = this.selectedDataItem.precision.HasValue ? this.selectedDataItem.precision.ToString() : string.Empty;
+                this.DI_FormatTextBox.Text = this.selectedDataItem.Format;
+                this.DI_InitialValueTextBox.Text = this.selectedDataItem.InitialValue;
                 this.DI_StatusComboBox.Text = selectedDataItem.Status;
                 this.DI_VersionTextBox.Text = selectedDataItem.Version;
                 this.DI_KeywordsTextBox.Text = string.Join(",", selectedDataItem.Keywords);
@@ -279,11 +295,24 @@ namespace GlossaryManager.GUI
             item.businessItem = (BusinessItem)this.DI_BusinessItemTextBox.Tag;
             item.Description = this.DI_DescriptionTextBox.Text;
             item.domain = (Domain)this.DI_DomainComboBox.SelectedItem ;
+            item.Label = this.DI_LabelTextBox.Text;
+            item.logicalDatatype = (LogicalDatatype) this.DI_DatatypeTextBox.Tag;
+            if (string.IsNullOrEmpty(this.DI_SizeNumericUpDown.Text))
+                item.Size = null;
+            else
+                item.Size = decimal.ToInt32(this.DI_SizeNumericUpDown.Value);
+            if (string.IsNullOrEmpty(DI_PrecisionUpDown.Text))
+                item.precision = null;
+            else
+                item.precision = decimal.ToInt32(this.DI_PrecisionUpDown.Value);
+            item.Format = this.DI_FormatTextBox.Text;
+            item.InitialValue = this.DI_InitialValueTextBox.Text;
             item.Status = this.DI_StatusComboBox.Text;
             item.Version = this.DI_VersionTextBox.Text;
             item.Keywords = this.DI_KeywordsTextBox.Text.Split(',')
                                                 .Select(x => x.Trim())
                                                 .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -409,7 +438,14 @@ namespace GlossaryManager.GUI
             this.previousDataItem = this.selectedDataItem;
         }
 
-
+        private void DI_DatatypeSelectButton_Click(object sender, EventArgs e)
+        {
+            if (this.selectedDataItem != null)
+            {
+                this.selectedDataItem.selectLogicalDataType();
+                this.DI_DatatypeTextBox.Text = this.selectedDataItem.logicalDatatype?.name;
+            }
+        }
     }
     public enum GlossaryTab
     {
