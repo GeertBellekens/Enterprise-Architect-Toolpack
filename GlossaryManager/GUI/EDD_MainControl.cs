@@ -37,7 +37,7 @@ namespace GlossaryManager.GUI
         {
             return this.BusinessItemsListView.Objects.Cast<BusinessItem>().ToList();
         }
-        
+
         public void setBusinessItems(IEnumerable<BusinessItem> businessItems, Domain domain)
         {
             this.BusinessItemsListView.Objects = businessItems;
@@ -180,7 +180,7 @@ namespace GlossaryManager.GUI
             //set the previous business item
             this.previousBusinessItem = this.selectedBusinessItem;
         }
-        private bool hasBusinessitemChanged (BusinessItem businessItem)
+        private bool hasBusinessitemChanged(BusinessItem businessItem)
         {
             return businessItem.Name != this.BU_NameTextBox.Text
                     || businessItem.domain?.domainPath != ((Domain)this.BU_DomainComboBox.SelectedItem)?.domainPath
@@ -200,16 +200,20 @@ namespace GlossaryManager.GUI
                     || dataItem.businessItem?.GUID != ((BusinessItem)DI_BusinessItemTextBox.Tag)?.GUID
                     || dataItem.Label != this.DI_LabelTextBox.Text
                     || dataItem.logicalDatatype?.GUID != ((LogicalDatatype)DI_DatatypeTextBox.Tag)?.GUID
-                    || (dataItem.Size.HasValue ? dataItem.Size.Value : 0) != decimal.ToInt32(DI_SizeNumericUpDown.Value)
-                    || (dataItem.precision.HasValue ? dataItem.precision.Value : 0) != decimal.ToInt32(DI_PrecisionUpDown.Value)
+                    || !dataItem.Size.HasValue && !string.IsNullOrEmpty(DI_SizeNumericUpDown.Text)
+                    || dataItem.Size.HasValue && string.IsNullOrEmpty(DI_SizeNumericUpDown.Text)
+                    || dataItem.Size.HasValue && dataItem.Size.Value != decimal.ToInt32(DI_SizeNumericUpDown.Value)
+                    || !dataItem.precision.HasValue && !string.IsNullOrEmpty(DI_PrecisionUpDown.Text)
+                    || dataItem.precision.HasValue && string.IsNullOrEmpty(DI_PrecisionUpDown.Text)
+                    || dataItem.precision.HasValue && dataItem.precision.Value != decimal.ToInt32(DI_PrecisionUpDown.Value)
                     || dataItem.Format != DI_FormatTextBox.Text
                     || dataItem.InitialValue != DI_InitialValueTextBox.Text;
-                    
+
         }
 
         private void loadSelectedItemData()
         {
-            if (this.selectedBusinessItem != null 
+            if (this.selectedBusinessItem != null
                 && this.DetailsTabControl.SelectedTab == this.BusinessItemsTabPage)
             {
                 this.BU_NameTextBox.Text = selectedBusinessItem.Name;
@@ -223,7 +227,7 @@ namespace GlossaryManager.GUI
                 this.BU_ModifiedDateTextBox.Text = selectedBusinessItem.UpdateDate.ToString("G");
                 this.BU_ModifiedByTextBox.Text = selectedBusinessItem.UpdatedBy;
             }
-            else if (this.selectedDataItem != null 
+            else if (this.selectedDataItem != null
                 && this.DetailsTabControl.SelectedTab == this.DataItemsTabPage)
             {
                 this.DI_NameTextBox.Text = selectedDataItem.Name;
@@ -294,9 +298,9 @@ namespace GlossaryManager.GUI
             item.Name = this.DI_NameTextBox.Text;
             item.businessItem = (BusinessItem)this.DI_BusinessItemTextBox.Tag;
             item.Description = this.DI_DescriptionTextBox.Text;
-            item.domain = (Domain)this.DI_DomainComboBox.SelectedItem ;
+            item.domain = (Domain)this.DI_DomainComboBox.SelectedItem;
             item.Label = this.DI_LabelTextBox.Text;
-            item.logicalDatatype = (LogicalDatatype) this.DI_DatatypeTextBox.Tag;
+            item.logicalDatatype = (LogicalDatatype)this.DI_DatatypeTextBox.Tag;
             if (string.IsNullOrEmpty(this.DI_SizeNumericUpDown.Text))
                 item.Size = null;
             else
@@ -324,7 +328,7 @@ namespace GlossaryManager.GUI
             get { return domainBreadCrumb.SelectedItem.Tag as Domain; }
         }
 
-        
+
 
         public event EventHandler selectedDomainChanged;
         private void domainBreadCrumb_SelectedItemChanged(object sender, EventArgs e)
@@ -381,7 +385,7 @@ namespace GlossaryManager.GUI
         private void DetailsTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             //reset previous items
-            switch(this.selectedTab)
+            switch (this.selectedTab)
             {
                 case GlossaryTab.BusinessItems:
                     this.previousBusinessItem = null;
@@ -406,8 +410,9 @@ namespace GlossaryManager.GUI
         {
             if (this.selectedDataItem != null)
             {
-                this.selectedDataItem.selectBusinessItem();
-                this.DI_BusinessItemTextBox.Text = this.selectedDataItem.businessItem?.Name;
+                var businessItem = this.selectedDataItem.selectBusinessItem();
+                this.DI_BusinessItemTextBox.Text = businessItem?.Name;
+                this.DI_BusinessItemTextBox.Tag = businessItem;
             }
         }
         private void dataItemsListView_DoubleClick(object sender, EventArgs e)
@@ -442,8 +447,9 @@ namespace GlossaryManager.GUI
         {
             if (this.selectedDataItem != null)
             {
-                this.selectedDataItem.selectLogicalDataType();
-                this.DI_DatatypeTextBox.Text = this.selectedDataItem.logicalDatatype?.name;
+                var dataType = this.selectedDataItem.selectLogicalDataType();
+                this.DI_DatatypeTextBox.Text = dataType?.name;
+                this.DI_DatatypeTextBox.Tag = dataType;
             }
         }
     }

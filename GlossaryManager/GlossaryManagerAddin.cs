@@ -303,7 +303,7 @@ namespace GlossaryManager
             }
             foreach (DataItem item in dataItems)
             {
-                TSF_EA.Class element = this.model.getElementByGUID(item.LogicalDatatypeName) as TSF_EA.Class;
+                TSF_EA.Class element = this.model.getElementByGUID(item.datatypeDisplayName) as TSF_EA.Class;
             }
             this.model.activateTab(appTitle);
         }
