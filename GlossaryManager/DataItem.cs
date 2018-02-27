@@ -150,7 +150,9 @@ namespace GlossaryManager
             this._size = null;
             this._format = null;
             this._logicalDatatype = null;
+            this.logicalDatatypeLoaded = false;
             this._businessItem = null;
+            this.businessItemLoaded = false;
         }
 
         private bool logicalDatatypeLoaded = false;

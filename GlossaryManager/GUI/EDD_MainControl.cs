@@ -26,12 +26,8 @@ namespace GlossaryManager.GUI
         }
         private void enableDisable()
         {
-            bool itemSelected = (this.selectedBusinessItem != null
-                                && this.DetailsTabControl.SelectedTab == this.BusinessItemsTabPage)
-                                || (this.selectedDataItem != null
-                                && this.DetailsTabControl.SelectedTab == this.DataItemsTabPage);
-            this.openPropertiesButton.Enabled = itemSelected;
-            this.navigateProjectBrowserButton.Enabled = itemSelected;
+            this.openPropertiesButton.Enabled = this.selectedItem != null;
+            this.navigateProjectBrowserButton.Enabled = this.selectedItem != null;
         }
         public List<BusinessItem> getBusinessItems()
         {
@@ -142,18 +138,29 @@ namespace GlossaryManager.GUI
                 return this.dataItemsListView.SelectedObject as DataItem;
             }
         }
-        private GlossaryItem selectedItem
+        private EDDColumn previousColumn { get; set; }
+        private EDDColumn selectedColumn
         {
             get
             {
-                if (this.selectedBusinessItem != null
-                && this.DetailsTabControl.SelectedTab == this.BusinessItemsTabPage)
+                return this.columnsListView.SelectedObject as EDDColumn;
+            }
+        }
+        private IEDDItem selectedItem
+        {
+            get
+            {
+                switch (this.selectedTab)
                 {
-                    return this.selectedBusinessItem;
-                }
-                else
-                {
-                    return this.selectedDataItem;
+                    case GlossaryTab.BusinessItems:
+                        return this.selectedBusinessItem;
+                    case GlossaryTab.DataItems:
+                        return this.selectedDataItem;
+                    case GlossaryTab.Columns:
+                        return this.selectedColumn;
+                    default:
+                        //should never happen
+                        return this.selectedBusinessItem;
                 }
             }
         }
@@ -213,44 +220,57 @@ namespace GlossaryManager.GUI
 
         private void loadSelectedItemData()
         {
-            if (this.selectedBusinessItem != null
-                && this.DetailsTabControl.SelectedTab == this.BusinessItemsTabPage)
+            // if nothing selected then do nothing
+            if (this.selectedItem == null) return;
+            switch (this.selectedTab)
             {
-                this.BU_NameTextBox.Text = selectedBusinessItem.Name;
-                this.BU_DomainComboBox.SelectedItem = selectedBusinessItem.domain;
-                this.BU_DescriptionTextBox.Text = selectedBusinessItem.Description;
-                this.BU_StatusCombobox.Text = selectedBusinessItem.Status;
-                this.BU_VersionTextBox.Text = selectedBusinessItem.Version;
-                this.BU_KeywordsTextBox.Text = string.Join(",", selectedBusinessItem.Keywords);
-                this.BU_CreatedTextBox.Text = selectedBusinessItem.CreateDate.ToString("G");
-                this.BU_CreatedByTextBox.Text = selectedBusinessItem.Author;
-                this.BU_ModifiedDateTextBox.Text = selectedBusinessItem.UpdateDate.ToString("G");
-                this.BU_ModifiedByTextBox.Text = selectedBusinessItem.UpdatedBy;
-            }
-            else if (this.selectedDataItem != null
-                && this.DetailsTabControl.SelectedTab == this.DataItemsTabPage)
-            {
-                this.DI_NameTextBox.Text = selectedDataItem.Name;
-                this.DI_DescriptionTextBox.Text = selectedDataItem.Description;
-                this.DI_DomainComboBox.SelectedItem = selectedDataItem.domain;
-                this.DI_BusinessItemTextBox.Text = selectedDataItem.businessItem?.Name;
-                this.DI_BusinessItemTextBox.Tag = selectedDataItem.businessItem;
-                this.DI_LabelTextBox.Text = selectedDataItem.Label;
-                this.DI_DatatypeTextBox.Text = this.selectedDataItem.logicalDatatype?.name;
-                this.DI_DatatypeTextBox.Tag = this.selectedDataItem.logicalDatatype;
-                this.DI_SizeNumericUpDown.Value = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.Value : 0;
-                this.DI_SizeNumericUpDown.Text = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.ToString() : string.Empty;
-                this.DI_PrecisionUpDown.Value = this.selectedDataItem.precision.HasValue ? this.selectedDataItem.precision.Value : 0;
-                this.DI_PrecisionUpDown.Text = this.selectedDataItem.precision.HasValue ? this.selectedDataItem.precision.ToString() : string.Empty;
-                this.DI_FormatTextBox.Text = this.selectedDataItem.Format;
-                this.DI_InitialValueTextBox.Text = this.selectedDataItem.InitialValue;
-                this.DI_StatusComboBox.Text = selectedDataItem.Status;
-                this.DI_VersionTextBox.Text = selectedDataItem.Version;
-                this.DI_KeywordsTextBox.Text = string.Join(",", selectedDataItem.Keywords);
-                this.DI_CreationDateTextBox.Text = selectedDataItem.CreateDate.ToString("G");
-                this.DI_CreatedUserTextBox.Text = selectedDataItem.Author;
-                this.DI_ModifiedDateTextBox.Text = selectedDataItem.UpdateDate.ToString("G");
-                this.DI_ModifiedUserTextBox.Text = selectedDataItem.UpdatedBy;
+                case GlossaryTab.BusinessItems:
+                    this.BU_NameTextBox.Text = selectedBusinessItem.Name;
+                    this.BU_DomainComboBox.SelectedItem = selectedBusinessItem.domain;
+                    this.BU_DescriptionTextBox.Text = selectedBusinessItem.Description;
+                    this.BU_StatusCombobox.Text = selectedBusinessItem.Status;
+                    this.BU_VersionTextBox.Text = selectedBusinessItem.Version;
+                    this.BU_KeywordsTextBox.Text = string.Join(",", selectedBusinessItem.Keywords);
+                    this.BU_CreatedTextBox.Text = selectedBusinessItem.CreateDate.ToString("G");
+                    this.BU_CreatedByTextBox.Text = selectedBusinessItem.Author;
+                    this.BU_ModifiedDateTextBox.Text = selectedBusinessItem.UpdateDate.ToString("G");
+                    this.BU_ModifiedByTextBox.Text = selectedBusinessItem.UpdatedBy;
+                    break;
+                case GlossaryTab.DataItems:
+                    this.DI_NameTextBox.Text = selectedDataItem.Name;
+                    this.DI_DescriptionTextBox.Text = selectedDataItem.Description;
+                    this.DI_DomainComboBox.SelectedItem = selectedDataItem.domain;
+                    this.DI_BusinessItemTextBox.Text = selectedDataItem.businessItem?.Name;
+                    this.DI_BusinessItemTextBox.Tag = selectedDataItem.businessItem;
+                    this.DI_LabelTextBox.Text = selectedDataItem.Label;
+                    this.DI_DatatypeTextBox.Text = this.selectedDataItem.logicalDatatype?.name;
+                    this.DI_DatatypeTextBox.Tag = this.selectedDataItem.logicalDatatype;
+                    this.DI_SizeNumericUpDown.Value = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.Value : 0;
+                    this.DI_SizeNumericUpDown.Text = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.ToString() : string.Empty;
+                    this.DI_PrecisionUpDown.Value = this.selectedDataItem.precision.HasValue ? this.selectedDataItem.precision.Value : 0;
+                    this.DI_PrecisionUpDown.Text = this.selectedDataItem.precision.HasValue ? this.selectedDataItem.precision.ToString() : string.Empty;
+                    this.DI_FormatTextBox.Text = this.selectedDataItem.Format;
+                    this.DI_InitialValueTextBox.Text = this.selectedDataItem.InitialValue;
+                    this.DI_StatusComboBox.Text = selectedDataItem.Status;
+                    this.DI_VersionTextBox.Text = selectedDataItem.Version;
+                    this.DI_KeywordsTextBox.Text = string.Join(",", selectedDataItem.Keywords);
+                    this.DI_CreationDateTextBox.Text = selectedDataItem.CreateDate.ToString("G");
+                    this.DI_CreatedUserTextBox.Text = selectedDataItem.Author;
+                    this.DI_ModifiedDateTextBox.Text = selectedDataItem.UpdateDate.ToString("G");
+                    this.DI_ModifiedUserTextBox.Text = selectedDataItem.UpdatedBy;
+                    break;
+                case GlossaryTab.Columns:
+                    this.C_NameTextBox.Text = this.selectedColumn.name;
+                    this.C_DatatypeDropdown.Text = this.selectedColumn.column.type?.name;
+                    this.C_SizeUpDow.Text = this.selectedColumn.column.type?.length.ToString();
+                    this.C_SizeUpDow.Value = this.selectedColumn.column.type != null ? this.selectedColumn.column.type.length : 0;
+                    this.C_PrecisionUpDown.Value = this.selectedColumn.column.type != null ? this.selectedColumn.column.type.precision : 0;
+                    this.C_PrecisionUpDown.Text = this.selectedColumn.column.type?.precision.ToString();
+                    this.C_DefaultTextBox.Text = this.selectedColumn.column.initialValue;
+                    this.C_DataItemTextBox.Text = this.selectedColumn.dataItem?.Name;
+                    this.C_DataItemTextBox.Tag = this.selectedColumn.dataItem;
+                    break;
+
             }
         }
 
@@ -294,12 +314,12 @@ namespace GlossaryManager.GUI
         private void saveBusinessItem(BusinessItem item)
         {
             unloadBusinessItemData(item);
-            item.Save();
+            item.save();
         }
         private void saveDataItem(DataItem item)
         {
             this.unloadDataItem(item);
-            item.Save();
+            item.save();
         }
 
         private void unloadDataItem(DataItem item)
@@ -402,6 +422,9 @@ namespace GlossaryManager.GUI
                 case GlossaryTab.DataItems:
                     this.previousDataItem = null;
                     break;
+                case GlossaryTab.Columns:
+                    this.previousColumn = null;
+                    break;
             }
             this.selectedTabChanged?.Invoke(sender, e);
         }
@@ -460,6 +483,29 @@ namespace GlossaryManager.GUI
                 this.DI_DatatypeTextBox.Text = dataType?.name;
                 this.DI_DatatypeTextBox.Tag = dataType;
             }
+        }
+
+        private void columnsListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //check if the previous item has been changed
+            if (this.previousDataItem != null)
+            {
+                if (this.hasDataItemChanged(this.previousDataItem))
+                {
+                    var response = MessageBox.Show(this, string.Format("Save changes to {0}?", this.previousDataItem.Name)
+                                                     , "Unsaved changes!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (response == DialogResult.Yes)
+                    {
+                        this.unloadDataItem(this.previousDataItem);
+                        this.saveDataItem(this.previousDataItem);
+                    }
+                }
+            }
+            //then load the next item
+            loadSelectedItemData();
+            enableDisable();
+            //set the previous business item
+            this.previousDataItem = this.selectedDataItem;
         }
     }
     public enum GlossaryTab

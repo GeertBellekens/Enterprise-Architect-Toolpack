@@ -13,7 +13,7 @@ namespace GlossaryManager
 
 
 
-    public abstract class GlossaryItem
+    public abstract class GlossaryItem: IEDDItem
     {
 
         //TODO: figure out a way to get the actual values from the model
@@ -163,7 +163,7 @@ namespace GlossaryManager
             this.reloadData();
         }
         protected abstract void reloadData();
-        public void Save()
+        public void save()
         {
             if (this.origin == null)
             {

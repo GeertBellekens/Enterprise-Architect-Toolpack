@@ -349,7 +349,7 @@ namespace GlossaryManager
                         else
                         {   // update
                             this.log("updating " + item.Name);
-                            item.Save();//TODO: check does this work without parameter??
+                            item.save();//TODO: check does this work without parameter??
                         }
                     }
                     else

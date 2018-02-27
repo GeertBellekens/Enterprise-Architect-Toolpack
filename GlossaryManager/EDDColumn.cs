@@ -9,7 +9,7 @@ using UML = TSF.UmlToolingFramework.UML;
 
 namespace GlossaryManager
 {
-    class EDDColumn
+    class EDDColumn: IEDDItem
     {
         public EDDColumn(DB_EA.Column wrappedColumn)
         {
@@ -51,6 +51,21 @@ namespace GlossaryManager
                 this._dataItem = value;
                 this.dataItemLoaded = true;
             }
+        }
+
+        public void selectInProjectBrowser()
+        {
+            this.column.Select();
+        }
+
+        public void openProperties()
+        {
+            ((DB_EA.Column)this.column).wrappedattribute.openProperties();
+        }
+
+        public void save()
+        {
+            this.column.save();
         }
     }
 }

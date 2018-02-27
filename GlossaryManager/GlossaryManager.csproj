@@ -114,6 +114,7 @@
     <Compile Include="GUI\EDD_SettingsForm.Designer.cs">
       <DependentUpon>EDD_SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="IEDDItem.cs" />
     <Compile Include="LogicalDataType.cs" />
     <Compile Include="GlossaryManagerAddin.cs" />
     <Compile Include="GlossaryManagerSettings.cs" />
