@@ -254,6 +254,15 @@ namespace GlossaryManager.GUI
             }
         }
 
+        internal void setColumns(List<EDDColumn> columns)
+        {
+            this.columnsListView.AlwaysGroupByColumn = C_TableColumn;
+            this.columnsListView.AlwaysGroupBySortOrder = SortOrder.Ascending;
+            this.columnsListView.ShowGroups = true;
+            this.columnsListView.Objects = columns;
+            //this.columnsListView.BuildList();
+        }
+
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (selectedBusinessItem != null

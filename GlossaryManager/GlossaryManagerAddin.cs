@@ -7,6 +7,8 @@ using System.Linq;
 using GlossaryManager.GUI;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
+using DB = DatabaseFramework;
+using DB_EA = EAAddinFramework.Databases;
 
 using EAAddinFramework;
 using EAAddinFramework.Utilities;
@@ -83,7 +85,7 @@ namespace GlossaryManager
             switch (this.mainControl.selectedTab)
             {
                 case GlossaryTab.BusinessItems:
-                    this.managedPackage = selectedDomain != null 
+                    this.managedPackage = selectedDomain != null
                                         ? (TSF_EA.Package)selectedDomain.businessItemsPackage
                                         : (TSF_EA.Package)this.settings.businessItemsPackage;
                     this.showBusinessItems();
@@ -187,7 +189,9 @@ namespace GlossaryManager
                 case menuAbout: this.about(); break;
             }
         }
-
+        /// <summary>
+        /// open the settign form
+        /// </summary>
         private void openSettings()
         {
             var settingsForm = new EDD_SettingsForm(this.settings);
@@ -195,14 +199,22 @@ namespace GlossaryManager
             settingsForm.browseDataItemsPackage += this.SettingsForm_browseDataItemsPackage;
             settingsForm.ShowDialog(this.model.mainEAWindow);
         }
-
+        /// <summary>
+        /// browse the package for the data items
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arguments</param>
         private void SettingsForm_browseDataItemsPackage(object sender, EventArgs e)
         {
             var dataItemsPackage = this.model.getUserSelectedPackage();
             if (dataItemsPackage != null)
                 this.settings.dataItemsPackage = dataItemsPackage;
         }
-
+        /// <summary>
+        /// browse the package for the business items items
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arguments</param>
         private void SettingsForm_browseBusinessItemsPackage(object sender, EventArgs e)
         {
             var businessItemsPackage = this.model.getUserSelectedPackage();
@@ -210,45 +222,6 @@ namespace GlossaryManager
                 this.settings.businessItemsPackage = businessItemsPackage;
         }
 
-        public event NewContextHandler NewContext;
-
-        public override void EA_OnContextItemChanged(EA.Repository Repository,
-                                                     string GUID,
-                                                     EA.ObjectType ot)
-        {
-            try
-            {
-                if (this.NewContext == null) { return; }
-                if (this.model == null) { return; }
-                var selectedElementWrapper = this.model.selectedItem as TSF_EA.ElementWrapper;
-                if (selectedElementWrapper != null)
-                {
-                    this.NewContext((TSF_EA.ElementWrapper)this.model.selectedItem);
-                }
-            }
-            catch (Exception e)
-            {
-
-            }
-        }
-
-        public TSF_EA.ElementWrapper SelectedItem
-        {
-            get
-            {
-                if (this.model.selectedItem is TSF_EA.Attribute &&
-                    this.model.selectedItem.owner is TSF_EA.ElementWrapper)
-                {
-                    return this.model.selectedItem.owner as TSF_EA.ElementWrapper;
-                }
-                if (!(this.model.selectedItem is TSF_EA.ElementWrapper)) { return null; }
-                return (TSF_EA.ElementWrapper)this.model.selectedItem;
-            }
-            set
-            {
-                this.model.selectedItem = value;
-            }
-        }
 
         // activities
 
@@ -268,11 +241,45 @@ namespace GlossaryManager
             this.mainControl.setBusinessItems(this.list<BusinessItem>(this.managedPackage), Domain.getDomain(this.managedPackage));
         }
 
-        
+
 
         private void showColumns()
         {
-            //TODO
+            //get the databases
+            var databases = this.getDatabases(this.model.selectedTreePackage);
+            //get the list of columns
+            var columns = new List<EDDColumn>();
+            foreach (var db in databases)
+            {
+                foreach (var table in db.tables)
+                {
+                    foreach (DB_EA.Column column in table.columns)
+                    {
+                        columns.Add(new EDDColumn(column));
+                    }
+                }
+            }
+            this.mainControl.setColumns(columns);
+
+        }
+        /// <summary>
+        /// returns all databases under this package and the one above
+        /// </summary>
+        /// <param name="package">the package to start from</param>
+        /// <returns>all databases under the given package or above it</returns>
+        private List<DB.Database> getDatabases(UML.Classes.Kernel.Package package)
+        {
+            var foundDatabases = new List<DB.Database>();
+            //return empty list if package null
+            if (package == null) return foundDatabases;
+            //first get the «database» packages from the selected package
+            foreach (TSF_EA.Package databasePackage in package.getNestedPackageTree(true).Where(x => x.stereotypes.Any(y => y.name.ToLower() == "database")))
+            {
+                string databaseType = databasePackage.taggedValues.FirstOrDefault(x => x.name.ToLower() == "dbms")?.tagValue.ToString();
+                var dbFactory = DB_EA.DatabaseFactory.getFactory(databaseType, this.model, new DB_EA.Strategy.StrategyFactory());
+                foundDatabases.Add(dbFactory.createDataBase(databasePackage));
+            }
+            return foundDatabases;
         }
 
         private void showDataItems()
@@ -283,10 +290,10 @@ namespace GlossaryManager
         public void refresh()
         {
             List<DataItem> dataItems = this.list<DataItem>(this.managedPackage);
-            
+
             // add all Logical DataTypes from this package and optionally others
             // from the dataItems
-          
+
             if (this.managedPackage != null)
             {
                 foreach (TSF_EA.Class clazz in
