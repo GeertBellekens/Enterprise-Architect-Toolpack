@@ -15,7 +15,7 @@ namespace GlossaryManager
         private UML.Classes.Kernel.Package businessItemsTopLevelPackage;
         internal UML.Classes.Kernel.Package dataItemsPackage { get; private set; }
         private UML.Classes.Kernel.Package dataItemsTopLevelPackage;
-        private static Dictionary<string, Domain> alldomains = new Dictionary<string, Domain>();
+        private static Dictionary<string, Domain> alldomains;
         public Domain(UML.Classes.Kernel.Package businessItemsPackage, UML.Classes.Kernel.Package businessItemsTopLevelPackage
                       , UML.Classes.Kernel.Package dataItemsPackage, UML.Classes.Kernel.Package dataItemsTopLevelPackage)
         {
@@ -32,6 +32,7 @@ namespace GlossaryManager
         }
         public static List<Domain> getAllDomains(UML.Classes.Kernel.Package businessItemsTopLevelPackage, UML.Classes.Kernel.Package dataItemsTopLevelPackage)
         {
+            if (alldomains == null) alldomains = new Dictionary<string, Domain>();
             //clear domains
             alldomains.Clear();
             //recreate them

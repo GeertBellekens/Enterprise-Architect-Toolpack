@@ -42,8 +42,8 @@ namespace MagicdrawMigrator
 					{
 						//create a new note
 						TSF_EA.NoteComment newNote = this.model.factory.createNewElement<TSF_EA.NoteComment>(parentElement, string.Empty);
-						//add the comments to the note
-						newNote.ownedComments.FirstOrDefault().body = mdDiagramNote.text;
+                        //add the comments to the note
+                        newNote.ownedComments.FirstOrDefault().body = model.convertToEANotes(mdDiagramNote.text, "HTML");
 						//save the note
 						newNote.save();
 						//add the tagged value md_guid

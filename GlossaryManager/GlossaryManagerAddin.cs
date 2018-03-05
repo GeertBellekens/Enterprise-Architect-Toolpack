@@ -39,6 +39,7 @@ namespace GlossaryManager
         private TSF_EA.Model model = null;
         public TSF_EA.Model Model { get { return this.model; } }
         private bool fullyLoaded = false;
+        private bool showing = false;
 
         private GlossaryManagerSettings settings = null;
         private GlossaryItemFactory factory = null;
@@ -65,18 +66,19 @@ namespace GlossaryManager
         }
         private void selectedDomainChanged(object sender, EventArgs e)
         {
-            showItemsForSelectedDomain();
+            if (!showing)
+                showItemsForDomain(this._mainControl.selectedDomain);
+            showing = false;
         }
         private void _mainControl_selectedTabChanged(object sender, EventArgs e)
         {
-            showItemsForSelectedDomain();
+            showItemsForDomain(this._mainControl.selectedDomain);
         }
-        private void showItemsForSelectedDomain()
+        private void showItemsForDomain(Domain domain)
         {
-            var selectedDomain = this._mainControl.selectedDomain;
-            if (selectedDomain != null)
+            if (domain != null)
             {
-                this.managedPackage = (TSF_EA.Package)selectedDomain.businessItemsPackage;
+                this.managedPackage = (TSF_EA.Package)domain.businessItemsPackage;
             }
             else
             {
@@ -85,16 +87,16 @@ namespace GlossaryManager
             switch (this.mainControl.selectedTab)
             {
                 case GlossaryTab.BusinessItems:
-                    this.managedPackage = selectedDomain != null
-                                        ? (TSF_EA.Package)selectedDomain.businessItemsPackage
+                    var package = domain != null
+                                        ? (TSF_EA.Package)domain.businessItemsPackage
                                         : (TSF_EA.Package)this.settings.businessItemsPackage;
-                    this.showBusinessItems();
+                    this.showBusinessItems(package, domain);
                     break;
                 case GlossaryTab.DataItems:
-                    this.managedPackage = selectedDomain != null
-                                        ? (TSF_EA.Package)selectedDomain.dataItemsPackage
+                    package = domain != null
+                                        ? (TSF_EA.Package)domain.dataItemsPackage
                                         : (TSF_EA.Package)this.settings.dataItemsPackage;
-                    this.showDataItems();
+                    this.showDataItems(package, domain);
                     break;
                 case GlossaryTab.Columns:
                     this.showColumns();
@@ -116,14 +118,14 @@ namespace GlossaryManager
         {
             this.menuHeader = menuName;
             this.menuOptions = new string[] {
-        menuManage,
-        menuImportBusinessItems,
-        menuImportDataItems,
-        menuExportBusinessItems,
-        menuExportDataItems,
-        menuSettings,
-        menuAbout
-      };
+                                menuManage,
+                                menuImportBusinessItems,
+                                menuImportDataItems,
+                                menuExportBusinessItems,
+                                menuExportDataItems,
+                                menuSettings,
+                                menuAbout
+                              };
         }
 
         private void handleHandleDestroyed(object sender, EventArgs e)
@@ -136,6 +138,7 @@ namespace GlossaryManager
             this.model = new TSF_EA.Model(repository);
             this.settings = new GlossaryManagerSettings(this.model);
             this.factory = new GlossaryItemFactory(this.settings);
+            Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage);
             this.fullyLoaded = true;
         }
 
@@ -232,13 +235,20 @@ namespace GlossaryManager
         {
             if (this.model == null) { return; }
             this.managedPackage = (TSF_EA.Package)this.Model.selectedTreePackage;
-            //this.refresh();
-            this.showBusinessItems();
+            this.showBusinessItems((TSF_EA.Package)this.Model.selectedTreePackage, null);
         }
 
-        private void showBusinessItems()
+        private void showBusinessItems(TSF_EA.Package package, Domain domain)
         {
-            this.mainControl.setBusinessItems(this.list<BusinessItem>(this.managedPackage), Domain.getDomain(this.managedPackage));
+            if (domain == null) domain = Domain.getDomain(package);
+            if (domain?.businessItemsPackage != null) package = (TSF_EA.Package)domain.businessItemsPackage;
+            this.mainControl.setBusinessItems(this.list<BusinessItem>(package), domain);
+        }
+        private void showDataItems(TSF_EA.Package package, Domain domain)
+        {
+            if (domain == null) domain = Domain.getDomain(package);
+            if (domain?.dataItemsPackage != null) package = (TSF_EA.Package)domain.dataItemsPackage;
+            this.mainControl.setDataItems(this.list<DataItem>(package), domain);
         }
 
 
@@ -282,10 +292,7 @@ namespace GlossaryManager
             return foundDatabases;
         }
 
-        private void showDataItems()
-        {
-            this.mainControl.setDataItems(this.list<DataItem>(this.managedPackage), Domain.getDomain(this.managedPackage));
-        }
+
 
         public void refresh()
         {
