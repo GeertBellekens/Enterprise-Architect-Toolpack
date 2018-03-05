@@ -99,7 +99,8 @@ namespace GlossaryManager
                     this.showDataItems(package, domain);
                     break;
                 case GlossaryTab.Columns:
-                    this.showColumns();
+                    var dataItems = this.mainControl.dataItems;
+                    this.showColumns(dataItems);
                     break;
             }
         }
@@ -267,14 +268,17 @@ namespace GlossaryManager
 
         private void showColumns(List<DataItem> dataItems)
         {
-            //get the columns based on the given data items
-            var guidString = string.Join(",", dataItems.Select(x => "'" + x.GUID + "'"));
-            string sqlGetColumns = @"select a.[ea_guid] from(t_attribute a
-                                    inner join[t_attributetag] tv on(tv.[ElementID] = a.[ID]
-                                                                      and tv.[Property] = 'EDD::dataitem'))
-                                    where tv.VALUE in (" + guidString + ")";
-            List<TSF_EA.Attribute> attributes = this.model.getAttributesByQuery(sqlGetColumns);
-
+            if (!dataItems.Any())
+            {
+                //call default method if no data items given
+                showColumns();
+            }
+            else
+            {
+                //create the columns based on the DataItems shown in the GUI
+                var columns = EDDColumn.createColumns(this.model, dataItems);
+                this.mainControl.setColumns(columns);
+            }
         }
         private void showColumns()
         {

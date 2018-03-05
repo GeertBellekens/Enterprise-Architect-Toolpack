@@ -54,6 +54,13 @@ namespace GlossaryManager.GUI
             }
             this.dataItemsListView.SelectedObject = dataItems.FirstOrDefault();
         }
+        public List<DataItem> dataItems
+        {
+            get
+            {
+                return this.dataItemsListView.FilteredObjects.Cast<DataItem>().ToList();
+            }
+        }
         internal void addItem(GlossaryItem newItem)
         {
             if (newItem is BusinessItem)

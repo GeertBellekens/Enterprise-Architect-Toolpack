@@ -15,6 +15,25 @@ namespace GlossaryManager
         {
             this._wrappedColumn = wrappedColumn;
         }
+        public static List<EDDColumn> createColumns(TSF_EA.Model model, List<DataItem> dataItems)
+        {
+            //get the columns based on the given data items
+            var guidString = string.Join(",", dataItems.Select(x => "'" + x.GUID + "'"));
+            string sqlGetColumns = @"select a.[ea_guid] from(t_attribute a
+                                    inner join[t_attributetag] tv on(tv.[ElementID] = a.[ID]
+                                                                      and tv.[Property] = 'EDD::dataitem'))
+                                    where tv.VALUE in (" + guidString + ")";
+            List<TSF_EA.Attribute> attributes = model.getAttributesByQuery(sqlGetColumns);
+            var columns = new List<EDDColumn>();
+            foreach (var attribute in attributes)
+            {
+                //for each attribute create the column
+                var dbColumn = DB_EA.DatabaseFactory.createColumn(attribute);
+                if (dbColumn != null) columns.Add(new EDDColumn(dbColumn));
+            }
+            //return colums
+            return columns;
+        }
         private DB_EA.Column _wrappedColumn;
         public DatabaseFramework.Column column { get { return this._wrappedColumn; } }
         public string name { get { return this.column.name; } }
@@ -62,7 +81,6 @@ namespace GlossaryManager
         {
             ((DB_EA.Column)this.column).wrappedattribute.openProperties();
         }
-
         public void save()
         {
             this.column.save();
