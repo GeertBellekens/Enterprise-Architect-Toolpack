@@ -132,8 +132,9 @@ namespace GlossaryManager.GUI
             this.C_NameLabel = new System.Windows.Forms.Label();
             this.columnsListView = new BrightIdeasSoftware.ObjectListView();
             this.C_TableColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.C_PropertiesColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.C_ColumnColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.C_PropertiesColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.C_DataItem = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
@@ -144,7 +145,6 @@ namespace GlossaryManager.GUI
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.C_DataItem = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
@@ -1119,6 +1119,13 @@ namespace GlossaryManager.GUI
             this.C_TableColumn.ToolTipText = "Name of the database and table";
             this.C_TableColumn.Width = 150;
             // 
+            // C_ColumnColumn
+            // 
+            this.C_ColumnColumn.AspectName = "name";
+            this.C_ColumnColumn.Text = "Column";
+            this.C_ColumnColumn.ToolTipText = "Label of the Data Item";
+            this.C_ColumnColumn.Width = 120;
+            // 
             // C_PropertiesColumn
             // 
             this.C_PropertiesColumn.AspectName = "properties";
@@ -1126,12 +1133,11 @@ namespace GlossaryManager.GUI
             this.C_PropertiesColumn.ToolTipText = "Column Properties";
             this.C_PropertiesColumn.Width = 200;
             // 
-            // C_ColumnColumn
+            // C_DataItem
             // 
-            this.C_ColumnColumn.AspectName = "name";
-            this.C_ColumnColumn.Text = "Column";
-            this.C_ColumnColumn.ToolTipText = "Label of the Data Item";
-            this.C_ColumnColumn.Width = 120;
+            this.C_DataItem.AspectName = "dataItem.Name";
+            this.C_DataItem.Text = "DataItem";
+            this.C_DataItem.Width = 150;
             // 
             // BU_Name
             // 
@@ -1180,7 +1186,7 @@ namespace GlossaryManager.GUI
             this.newButton.Name = "newButton";
             this.newButton.Size = new System.Drawing.Size(29, 28);
             this.newButton.TabIndex = 2;
-            this.myToolTip.SetToolTip(this.newButton, "Select in Project Browser");
+            this.myToolTip.SetToolTip(this.newButton, "Add New Element");
             this.newButton.UseVisualStyleBackColor = true;
             this.newButton.Click += new System.EventHandler(this.newButton_Click);
             // 
@@ -1227,12 +1233,6 @@ namespace GlossaryManager.GUI
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            // 
-            // C_DataItem
-            // 
-            this.C_DataItem.AspectName = "dataItem.Name";
-            this.C_DataItem.Text = "DataItem";
-            this.C_DataItem.Width = 150;
             // 
             // EDD_MainControl
             // 

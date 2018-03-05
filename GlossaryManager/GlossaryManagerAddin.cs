@@ -106,12 +106,26 @@ namespace GlossaryManager
 
         private void _mainControl_newButtonClick(object sender, EventArgs e)
         {
-            //crete new item in the selected package
-            //BusinessItem
-            var parentPackage = mainControl.selectedDomain?.businessItemsPackage;
-            if (parentPackage == null) parentPackage = this.settings.businessItemsPackage;
-            var newItem = this.factory.addNew<BusinessItem>(parentPackage);
-            this.mainControl.addItem(newItem);
+            switch (this.mainControl.selectedTab)
+            {
+                case GlossaryTab.BusinessItems:
+                    var package = this.mainControl.selectedDomain != null
+                                        ? (TSF_EA.Package)this.mainControl.selectedDomain.businessItemsPackage
+                                        : (TSF_EA.Package)this.settings.businessItemsPackage;
+                    var newBusinessItem = this.factory.addNew<BusinessItem>(package);
+                    this.mainControl.addItem(newBusinessItem);
+                    break;
+                case GlossaryTab.DataItems:
+                    package = this.mainControl.selectedDomain != null
+                                        ? (TSF_EA.Package)this.mainControl.selectedDomain.dataItemsPackage
+                                        : (TSF_EA.Package)this.settings.dataItemsPackage;
+                    var newDataItem = this.factory.addNew<DataItem>(package);
+                    this.mainControl.addItem(newDataItem);
+                    break;
+                case GlossaryTab.Columns:
+                    //TODO
+                    break;
+            }
         }
 
         public GlossaryManagerAddin() : base()
