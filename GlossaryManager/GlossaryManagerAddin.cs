@@ -265,8 +265,17 @@ namespace GlossaryManager
             this.mainControl.setDataItems(this.list<DataItem>(package), domain);
         }
 
+        private void showColumns(List<DataItem> dataItems)
+        {
+            //get the columns based on the given data items
+            var guidString = string.Join(",", dataItems.Select(x => "'" + x.GUID + "'"));
+            string sqlGetColumns = @"select a.[ea_guid] from(t_attribute a
+                                    inner join[t_attributetag] tv on(tv.[ElementID] = a.[ID]
+                                                                      and tv.[Property] = 'EDD::dataitem'))
+                                    where tv.VALUE in (" + guidString + ")";
+            List<TSF_EA.Attribute> attributes = this.model.getAttributesByQuery(sqlGetColumns);
 
-
+        }
         private void showColumns()
         {
             //get the databases
@@ -296,17 +305,22 @@ namespace GlossaryManager
             var foundDatabases = new List<DB.Database>();
             //return empty list if package null
             if (package == null) return foundDatabases;
+            var databasePackages = new List<UML.Classes.Kernel.Package>();
             //first get the «database» packages from the selected package
-            foreach (TSF_EA.Package databasePackage in package.getNestedPackageTree(true).Where(x => x.stereotypes.Any(y => y.name.ToLower() == "database")))
+            databasePackages.AddRange(package.getNestedPackageTree(true));
+            //then add the parent package(s)
+            databasePackages.AddRange(package.getAllOwners().OfType<UML.Classes.Kernel.Package>());
+            foreach (TSF_EA.Package databasePackage in databasePackages.Where(x => x.stereotypes.Any(y => y.name.ToLower() == "database")))
             {
                 string databaseType = databasePackage.taggedValues.FirstOrDefault(x => x.name.ToLower() == "dbms")?.tagValue.ToString();
-                var dbFactory = DB_EA.DatabaseFactory.getFactory(databaseType, this.model, new DB_EA.Strategy.StrategyFactory());
-                foundDatabases.Add(dbFactory.createDataBase(databasePackage));
+                if (!string.IsNullOrEmpty(databaseType))
+                {
+                    var dbFactory = DB_EA.DatabaseFactory.getFactory(databaseType, this.model, new DB_EA.Strategy.StrategyFactory());
+                    foundDatabases.Add(dbFactory.createDataBase(databasePackage));
+                }
             }
             return foundDatabases;
         }
-
-
 
         public void refresh()
         {
