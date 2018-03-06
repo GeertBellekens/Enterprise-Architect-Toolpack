@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using ComponentFactory.Krypton.Toolkit;
+using DatabaseFramework;
+using DB_EA = EAAddinFramework.Databases;
 
 namespace GlossaryManager.GUI
 {
@@ -28,6 +30,10 @@ namespace GlossaryManager.GUI
         {
             this.openPropertiesButton.Enabled = this.selectedItem != null;
             this.navigateProjectBrowserButton.Enabled = this.selectedItem != null;
+            C_SizeUpDown.Enabled = ((BaseDataType)C_DatatypeDropdown.SelectedItem)?.hasLength == true;
+            if (!C_SizeUpDown.Enabled) C_SizeUpDown.Text = string.Empty;
+            C_PrecisionUpDown.Enabled = ((BaseDataType)C_DatatypeDropdown.SelectedItem)?.hasPrecision == true;
+            if (!C_PrecisionUpDown.Enabled) C_PrecisionUpDown.Text = string.Empty;
         }
         public List<BusinessItem> getBusinessItems()
         {
@@ -268,16 +274,29 @@ namespace GlossaryManager.GUI
                     break;
                 case GlossaryTab.Columns:
                     this.C_NameTextBox.Text = this.selectedColumn.name;
-                    this.C_DatatypeDropdown.Text = this.selectedColumn.column.type?.name;
-                    this.C_SizeUpDow.Text = this.selectedColumn.column.type?.length.ToString();
-                    this.C_SizeUpDow.Value = this.selectedColumn.column.type != null ? this.selectedColumn.column.type.length : 0;
+                    this.C_SizeUpDown.Text = this.selectedColumn.column.type?.length.ToString();
+                    this.C_SizeUpDown.Value = this.selectedColumn.column.type != null ? this.selectedColumn.column.type.length : 0;
                     this.C_PrecisionUpDown.Value = this.selectedColumn.column.type != null ? this.selectedColumn.column.type.precision : 0;
                     this.C_PrecisionUpDown.Text = this.selectedColumn.column.type?.precision.ToString();
+                    C_DatatypeDropdown.Items.Clear();
+                    foreach (var datatype in this.selectedColumn.column.ownerTable.owner.factory.baseDataTypes)
+                    {
+                        C_DatatypeDropdown.Items.Add(datatype);
+                    }
+                    this.C_DatatypeDropdown.DisplayMember = "name";
+                    this.C_DatatypeDropdown.Text = this.selectedColumn.column.type?.name;
+                    if (this.selectedColumn.column.type != null
+                        && this.C_DatatypeDropdown.SelectedItem == null)
+                    {
+                        //find the datatype
+                        this.C_DatatypeDropdown.Items.Add(this.selectedColumn.column.type.type);
+                        this.C_DatatypeDropdown.SelectedItem = this.selectedColumn.column.type.type;
+                    }
+                    this.C_NotNullCheckBox.Checked = this.selectedColumn.column.isNotNullable;
                     this.C_DefaultTextBox.Text = this.selectedColumn.column.initialValue;
                     this.C_DataItemTextBox.Text = this.selectedColumn.dataItem?.Name;
                     this.C_DataItemTextBox.Tag = this.selectedColumn.dataItem;
                     break;
-
             }
         }
 
@@ -287,24 +306,38 @@ namespace GlossaryManager.GUI
             this.columnsListView.AlwaysGroupBySortOrder = SortOrder.Ascending;
             this.columnsListView.ShowGroups = true;
             this.columnsListView.Objects = columns;
-            //this.columnsListView.BuildList();
+            //select the first one
+            this.columnsListView.SelectedObject = columns.FirstOrDefault();
         }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if (selectedBusinessItem != null
-                && this.DetailsTabControl.SelectedTab == this.BusinessItemsTabPage)
+            switch (this.selectedTab)
             {
-                saveBusinessItem(this.selectedBusinessItem);
-                //refresh listview
-                this.BusinessItemsListView.RefreshSelectedObjects();
-            }
-            else if (this.selectedDataItem != null
-               && this.DetailsTabControl.SelectedTab == this.DataItemsTabPage)
-            {
-                this.saveDataItem(this.selectedDataItem);
-                //refresh listview
-                this.dataItemsListView.RefreshSelectedObjects();
+                case GlossaryTab.BusinessItems:
+                    if (this.selectedBusinessItem != null)
+                    {
+                        saveBusinessItem(this.selectedBusinessItem);
+                        //refresh listview
+                        this.BusinessItemsListView.RefreshSelectedObjects();
+                    }
+                    break;
+                case GlossaryTab.DataItems:
+                    if (this.selectedDataItem != null)
+                    {
+                        this.saveDataItem(this.selectedDataItem);
+                        //refresh listview
+                        this.dataItemsListView.RefreshSelectedObjects();
+                    }
+                    break;
+                case GlossaryTab.Columns:
+                    if (this.selectedColumn != null)
+                    {
+                        this.saveColumn(this.selectedColumn);
+                        //refresh listview
+                        this.columnsListView.RefreshSelectedObjects();
+                    }
+                    break;
             }
         }
         private void unloadBusinessItemData(BusinessItem item)
@@ -327,6 +360,11 @@ namespace GlossaryManager.GUI
         {
             this.unloadDataItem(item);
             item.save();
+        }
+        private void saveColumn(EDDColumn column)
+        {
+            this.unloadColumnData(column);
+            column.save();
         }
 
         private void unloadDataItem(DataItem item)
@@ -353,6 +391,14 @@ namespace GlossaryManager.GUI
                                                 .Select(x => x.Trim())
                                                 .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
 
+        }
+        private void unloadColumnData(EDDColumn column)
+        {
+            column.column.name = this.C_NameTextBox.Text;
+            column.column.type = new DB_EA.DataType((DB_EA.BaseDataType)C_DatatypeDropdown.SelectedItem, decimal.ToInt32(C_SizeUpDown.Value), decimal.ToInt32(C_PrecisionUpDown.Value));
+            column.column.isNotNullable = this.C_NotNullCheckBox.Checked;
+            column.column.initialValue = this.C_DefaultTextBox.Text;
+            column.dataItem = (DataItem)this.C_DataItemTextBox.Tag;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -492,6 +538,15 @@ namespace GlossaryManager.GUI
             }
         }
 
+        private void C_DataItemSelectButton_Click(object sender, EventArgs e)
+        {
+            if (this.selectedColumn != null)
+            {
+                var dataItem = this.selectedColumn.selectDataItem();
+                this.C_DataItemTextBox.Text = dataItem.Name;
+                this.C_DefaultTextBox.Tag = dataItem;
+            }
+        }
         private void columnsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             //check if the previous item has been changed
@@ -514,6 +569,13 @@ namespace GlossaryManager.GUI
             //set the previous business item
             this.previousDataItem = this.selectedDataItem;
         }
+
+        private void C_DatatypeDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            enableDisable();
+        }
+
+
     }
     public enum GlossaryTab
     {

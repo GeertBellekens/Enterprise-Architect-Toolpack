@@ -11,11 +11,13 @@ namespace GlossaryManager
 {
     class EDDColumn: IEDDItem
     {
-        public EDDColumn(DB_EA.Column wrappedColumn)
+
+        public EDDColumn(DB_EA.Column wrappedColumn, GlossaryManagerSettings settings)
         {
             this._wrappedColumn = wrappedColumn;
+            this.settings = settings;
         }
-        public static List<EDDColumn> createColumns(TSF_EA.Model model, List<DataItem> dataItems)
+        public static List<EDDColumn> createColumns(TSF_EA.Model model, List<DataItem> dataItems, GlossaryManagerSettings settings)
         {
             //get the columns based on the given data items
             var guidString = string.Join(",", dataItems.Select(x => "'" + x.GUID + "'"));
@@ -29,12 +31,13 @@ namespace GlossaryManager
             {
                 //for each attribute create the column
                 var dbColumn = DB_EA.DatabaseFactory.createColumn(attribute);
-                if (dbColumn != null) columns.Add(new EDDColumn(dbColumn));
+                if (dbColumn != null) columns.Add(new EDDColumn(dbColumn, settings));
             }
             //return colums
             return columns;
         }
         private DB_EA.Column _wrappedColumn;
+        private GlossaryManagerSettings settings { get; set; }
         public DatabaseFramework.Column column { get { return this._wrappedColumn; } }
         public string name { get { return this.column.name; } }
         public string tableName { get { return (string.IsNullOrEmpty(this.databaseName) ? 
@@ -84,6 +87,18 @@ namespace GlossaryManager
         public void save()
         {
             this.column.save();
+            this._wrappedColumn.wrappedattribute.addTaggedValue("EDD::dataitem", this.dataItem?.GUID);
+        }
+
+        public DataItem selectDataItem()
+        {
+            //let the user select a logical datatype
+            var dataItemclass = this._wrappedColumn.wrappedattribute.model.getUserSelectedElement(new List<string>() { "Class" },
+                new List<string>() {new DataItem().Stereotype }) as UML.Classes.Kernel.Class;
+            if (dataItemclass != null)
+                return new GlossaryItemFactory(this.settings).FromClass<DataItem>(dataItemclass);
+            else
+                return null;
         }
     }
 }

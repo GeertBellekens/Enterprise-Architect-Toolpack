@@ -118,7 +118,7 @@ namespace GlossaryManager.GUI
             this.DI_BusinessItem = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ColumnsTabPage = new System.Windows.Forms.TabPage();
             this.C_PrecisionUpDown = new System.Windows.Forms.NumericUpDown();
-            this.C_SizeUpDow = new System.Windows.Forms.NumericUpDown();
+            this.C_SizeUpDown = new System.Windows.Forms.NumericUpDown();
             this.C_DefaultTextBox = new System.Windows.Forms.TextBox();
             this.C_DefaultLabel = new System.Windows.Forms.Label();
             this.C_PrecisionLabel = new System.Windows.Forms.Label();
@@ -145,6 +145,8 @@ namespace GlossaryManager.GUI
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.C_NotNullCheckBox = new System.Windows.Forms.CheckBox();
+            this.C_NotNullLabel = new System.Windows.Forms.Label();
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
@@ -156,7 +158,7 @@ namespace GlossaryManager.GUI
             ((System.ComponentModel.ISupportInitialize)(this.dataItemsListView)).BeginInit();
             this.ColumnsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.C_PrecisionUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.C_SizeUpDow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.C_SizeUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnsListView)).BeginInit();
             this.ButtonPanel.SuspendLayout();
             this.SuspendLayout();
@@ -926,8 +928,10 @@ namespace GlossaryManager.GUI
             // ColumnsTabPage
             // 
             this.ColumnsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.ColumnsTabPage.Controls.Add(this.C_NotNullLabel);
+            this.ColumnsTabPage.Controls.Add(this.C_NotNullCheckBox);
             this.ColumnsTabPage.Controls.Add(this.C_PrecisionUpDown);
-            this.ColumnsTabPage.Controls.Add(this.C_SizeUpDow);
+            this.ColumnsTabPage.Controls.Add(this.C_SizeUpDown);
             this.ColumnsTabPage.Controls.Add(this.C_DefaultTextBox);
             this.ColumnsTabPage.Controls.Add(this.C_DefaultLabel);
             this.ColumnsTabPage.Controls.Add(this.C_PrecisionLabel);
@@ -950,7 +954,7 @@ namespace GlossaryManager.GUI
             // C_PrecisionUpDown
             // 
             this.C_PrecisionUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_PrecisionUpDown.Location = new System.Drawing.Point(108, 377);
+            this.C_PrecisionUpDown.Location = new System.Drawing.Point(108, 378);
             this.C_PrecisionUpDown.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -961,24 +965,24 @@ namespace GlossaryManager.GUI
             this.C_PrecisionUpDown.TabIndex = 68;
             this.C_PrecisionUpDown.ThousandsSeparator = true;
             // 
-            // C_SizeUpDow
+            // C_SizeUpDown
             // 
-            this.C_SizeUpDow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_SizeUpDow.Location = new System.Drawing.Point(108, 350);
-            this.C_SizeUpDow.Maximum = new decimal(new int[] {
+            this.C_SizeUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.C_SizeUpDown.Location = new System.Drawing.Point(108, 351);
+            this.C_SizeUpDown.Maximum = new decimal(new int[] {
             99999999,
             0,
             0,
             0});
-            this.C_SizeUpDow.Name = "C_SizeUpDow";
-            this.C_SizeUpDow.Size = new System.Drawing.Size(120, 20);
-            this.C_SizeUpDow.TabIndex = 67;
-            this.C_SizeUpDow.ThousandsSeparator = true;
+            this.C_SizeUpDown.Name = "C_SizeUpDown";
+            this.C_SizeUpDown.Size = new System.Drawing.Size(120, 20);
+            this.C_SizeUpDown.TabIndex = 67;
+            this.C_SizeUpDown.ThousandsSeparator = true;
             // 
             // C_DefaultTextBox
             // 
             this.C_DefaultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DefaultTextBox.Location = new System.Drawing.Point(108, 403);
+            this.C_DefaultTextBox.Location = new System.Drawing.Point(108, 424);
             this.C_DefaultTextBox.Name = "C_DefaultTextBox";
             this.C_DefaultTextBox.Size = new System.Drawing.Size(184, 20);
             this.C_DefaultTextBox.TabIndex = 70;
@@ -986,7 +990,7 @@ namespace GlossaryManager.GUI
             // C_DefaultLabel
             // 
             this.C_DefaultLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DefaultLabel.Location = new System.Drawing.Point(2, 406);
+            this.C_DefaultLabel.Location = new System.Drawing.Point(2, 427);
             this.C_DefaultLabel.Name = "C_DefaultLabel";
             this.C_DefaultLabel.Size = new System.Drawing.Size(100, 23);
             this.C_DefaultLabel.TabIndex = 92;
@@ -995,7 +999,7 @@ namespace GlossaryManager.GUI
             // C_PrecisionLabel
             // 
             this.C_PrecisionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_PrecisionLabel.Location = new System.Drawing.Point(2, 379);
+            this.C_PrecisionLabel.Location = new System.Drawing.Point(2, 380);
             this.C_PrecisionLabel.Name = "C_PrecisionLabel";
             this.C_PrecisionLabel.Size = new System.Drawing.Size(100, 23);
             this.C_PrecisionLabel.TabIndex = 91;
@@ -1004,7 +1008,7 @@ namespace GlossaryManager.GUI
             // C_SizeLabel
             // 
             this.C_SizeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_SizeLabel.Location = new System.Drawing.Point(2, 352);
+            this.C_SizeLabel.Location = new System.Drawing.Point(2, 353);
             this.C_SizeLabel.Name = "C_SizeLabel";
             this.C_SizeLabel.Size = new System.Drawing.Size(100, 23);
             this.C_SizeLabel.TabIndex = 90;
@@ -1013,17 +1017,18 @@ namespace GlossaryManager.GUI
             // C_DataItemSelectButton
             // 
             this.C_DataItemSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DataItemSelectButton.Location = new System.Drawing.Point(266, 425);
+            this.C_DataItemSelectButton.Location = new System.Drawing.Point(266, 448);
             this.C_DataItemSelectButton.Name = "C_DataItemSelectButton";
             this.C_DataItemSelectButton.Size = new System.Drawing.Size(26, 23);
             this.C_DataItemSelectButton.TabIndex = 62;
             this.C_DataItemSelectButton.Text = "...";
             this.C_DataItemSelectButton.UseVisualStyleBackColor = true;
+            this.C_DataItemSelectButton.Click += new System.EventHandler(this.C_DataItemSelectButton_Click);
             // 
             // C_DataItemTextBox
             // 
             this.C_DataItemTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DataItemTextBox.Location = new System.Drawing.Point(108, 427);
+            this.C_DataItemTextBox.Location = new System.Drawing.Point(108, 450);
             this.C_DataItemTextBox.Name = "C_DataItemTextBox";
             this.C_DataItemTextBox.ReadOnly = true;
             this.C_DataItemTextBox.Size = new System.Drawing.Size(152, 20);
@@ -1034,15 +1039,16 @@ namespace GlossaryManager.GUI
             this.C_DatatypeDropdown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.C_DatatypeDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.C_DatatypeDropdown.FormattingEnabled = true;
-            this.C_DatatypeDropdown.Location = new System.Drawing.Point(108, 323);
+            this.C_DatatypeDropdown.Location = new System.Drawing.Point(108, 324);
             this.C_DatatypeDropdown.Name = "C_DatatypeDropdown";
             this.C_DatatypeDropdown.Size = new System.Drawing.Size(184, 21);
             this.C_DatatypeDropdown.TabIndex = 72;
+            this.C_DatatypeDropdown.SelectedIndexChanged += new System.EventHandler(this.C_DatatypeDropdown_SelectedIndexChanged);
             // 
             // C_DatatypeLabel
             // 
             this.C_DatatypeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DatatypeLabel.Location = new System.Drawing.Point(2, 328);
+            this.C_DatatypeLabel.Location = new System.Drawing.Point(2, 329);
             this.C_DatatypeLabel.Name = "C_DatatypeLabel";
             this.C_DatatypeLabel.Size = new System.Drawing.Size(100, 23);
             this.C_DatatypeLabel.TabIndex = 82;
@@ -1051,7 +1057,7 @@ namespace GlossaryManager.GUI
             // C_DataItemLabel
             // 
             this.C_DataItemLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DataItemLabel.Location = new System.Drawing.Point(2, 430);
+            this.C_DataItemLabel.Location = new System.Drawing.Point(3, 453);
             this.C_DataItemLabel.Name = "C_DataItemLabel";
             this.C_DataItemLabel.Size = new System.Drawing.Size(100, 23);
             this.C_DataItemLabel.TabIndex = 79;
@@ -1234,6 +1240,25 @@ namespace GlossaryManager.GUI
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // C_NotNullCheckBox
+            // 
+            this.C_NotNullCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.C_NotNullCheckBox.AutoSize = true;
+            this.C_NotNullCheckBox.Location = new System.Drawing.Point(108, 404);
+            this.C_NotNullCheckBox.Name = "C_NotNullCheckBox";
+            this.C_NotNullCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.C_NotNullCheckBox.TabIndex = 93;
+            this.C_NotNullCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // C_NotNullLabel
+            // 
+            this.C_NotNullLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.C_NotNullLabel.Location = new System.Drawing.Point(2, 404);
+            this.C_NotNullLabel.Name = "C_NotNullLabel";
+            this.C_NotNullLabel.Size = new System.Drawing.Size(100, 23);
+            this.C_NotNullLabel.TabIndex = 94;
+            this.C_NotNullLabel.Text = "Not Null";
+            // 
             // EDD_MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1257,7 +1282,7 @@ namespace GlossaryManager.GUI
             this.ColumnsTabPage.ResumeLayout(false);
             this.ColumnsTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.C_PrecisionUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.C_SizeUpDow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.C_SizeUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnsListView)).EndInit();
             this.ButtonPanel.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1335,7 +1360,7 @@ namespace GlossaryManager.GUI
         private OLVColumn DI_DatatypeColumn;
         private OLVColumn DI_BusinessItem;
         private System.Windows.Forms.NumericUpDown C_PrecisionUpDown;
-        private System.Windows.Forms.NumericUpDown C_SizeUpDow;
+        private System.Windows.Forms.NumericUpDown C_SizeUpDown;
         private System.Windows.Forms.TextBox C_DefaultTextBox;
         private System.Windows.Forms.Label C_DefaultLabel;
         private System.Windows.Forms.Label C_PrecisionLabel;
@@ -1352,5 +1377,7 @@ namespace GlossaryManager.GUI
         private OLVColumn C_PropertiesColumn;
         private OLVColumn C_ColumnColumn;
         private OLVColumn C_DataItem;
+        private System.Windows.Forms.Label C_NotNullLabel;
+        private System.Windows.Forms.CheckBox C_NotNullCheckBox;
     }
 }

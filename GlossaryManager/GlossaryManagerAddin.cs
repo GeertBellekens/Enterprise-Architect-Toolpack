@@ -250,7 +250,27 @@ namespace GlossaryManager
         {
             if (this.model == null) { return; }
             this.managedPackage = (TSF_EA.Package)this.Model.selectedTreePackage;
-            this.showBusinessItems((TSF_EA.Package)this.Model.selectedTreePackage, null);
+            if (this._mainControl != null)
+            {
+                switch (this.mainControl.selectedTab)
+                {
+                    case GlossaryTab.BusinessItems:
+                        this.showBusinessItems((TSF_EA.Package)this.Model.selectedTreePackage, this.mainControl.selectedDomain);
+                        break;
+                    case GlossaryTab.DataItems:
+                        this.showDataItems((TSF_EA.Package)this.Model.selectedTreePackage, this.mainControl.selectedDomain);
+                        break;
+                    case GlossaryTab.Columns:
+                        this.showColumns(this.mainControl.dataItems);
+                        break;
+                }
+            }
+            else
+            {
+                //default show business items
+                this.showBusinessItems((TSF_EA.Package)this.Model.selectedTreePackage, null);
+            }
+            
         }
 
         private void showBusinessItems(TSF_EA.Package package, Domain domain)
@@ -276,7 +296,7 @@ namespace GlossaryManager
             else
             {
                 //create the columns based on the DataItems shown in the GUI
-                var columns = EDDColumn.createColumns(this.model, dataItems);
+                var columns = EDDColumn.createColumns(this.model, dataItems, this.settings);
                 this.mainControl.setColumns(columns);
             }
         }
@@ -292,7 +312,7 @@ namespace GlossaryManager
                 {
                     foreach (DB_EA.Column column in table.columns)
                     {
-                        columns.Add(new EDDColumn(column));
+                        columns.Add(new EDDColumn(column, this.settings));
                     }
                 }
             }
