@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using ComponentFactory.Krypton.Toolkit;
 using DatabaseFramework;
 using DB_EA = EAAddinFramework.Databases;
+using BrightIdeasSoftware;
 
 namespace GlossaryManager.GUI
 {
@@ -24,6 +25,13 @@ namespace GlossaryManager.GUI
             //
             InitializeComponent();
             enableDisable();
+            this.columnsListView.CanExpandGetter = delegate (object x) {
+                return (x is EDDTable);
+            };
+            this.columnsListView.ChildrenGetter = delegate (object x) {
+                var table = (EDDTable)x;
+                return table.columns;
+            };
 
         }
         private void enableDisable()
@@ -35,11 +43,16 @@ namespace GlossaryManager.GUI
             C_PrecisionUpDown.Enabled = ((BaseDataType)C_DatatypeDropdown.SelectedItem)?.hasPrecision == true;
             if (!C_PrecisionUpDown.Enabled) C_PrecisionUpDown.Text = string.Empty;
         }
+        public void clear()
+        {
+            this.BusinessItemsListView.ClearObjects();
+            this.dataItemsListView.ClearObjects();
+            this.columnsListView.ClearObjects();
+        }
         public List<BusinessItem> getBusinessItems()
         {
             return this.BusinessItemsListView.Objects.Cast<BusinessItem>().ToList();
         }
-
         public void setBusinessItems(IEnumerable<BusinessItem> businessItems, Domain domain)
         {
             this.BusinessItemsListView.Objects = businessItems;
@@ -59,6 +72,17 @@ namespace GlossaryManager.GUI
                 this.domainBreadCrumb.SelectedItem = getBreadCrumbSubItem(this.domainBreadCrumb.RootItem, domain) ?? this.domainBreadCrumb.RootItem;
             }
             this.dataItemsListView.SelectedObject = dataItems.FirstOrDefault();
+        }
+        internal void setColumns(List<EDDTable> tables, Domain domain)
+        {
+            this.columnsListView.Objects = tables;
+            if (domain != null)
+            {
+                //select corresponding domain item
+                this.domainBreadCrumb.SelectedItem = getBreadCrumbSubItem(this.domainBreadCrumb.RootItem, domain) ?? this.domainBreadCrumb.RootItem;
+            }
+            //select the first one
+            this.columnsListView.SelectedObject = tables.FirstOrDefault()?.columns.FirstOrDefault();
         }
         public List<DataItem> dataItems
         {
@@ -200,6 +224,28 @@ namespace GlossaryManager.GUI
             //set the previous business item
             this.previousBusinessItem = this.selectedBusinessItem;
         }
+        private void dataItemsListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //check if the previous item has been changed
+            if (this.previousDataItem != null)
+            {
+                if (this.hasDataItemChanged(this.previousDataItem))
+                {
+                    var response = MessageBox.Show(this, string.Format("Save changes to {0}?", this.previousDataItem.Name)
+                                                     , "Unsaved changes!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (response == DialogResult.Yes)
+                    {
+                        this.unloadDataItem(this.previousDataItem);
+                        this.saveDataItem(this.previousDataItem);
+                    }
+                }
+            }
+            //then load the next item
+            loadSelectedItemData();
+            enableDisable();
+            //set the previous business item
+            this.previousDataItem = this.selectedDataItem;
+        }
         private bool hasBusinessitemChanged(BusinessItem businessItem)
         {
             return businessItem.Name != this.BU_NameTextBox.Text
@@ -228,6 +274,18 @@ namespace GlossaryManager.GUI
                     || dataItem.precision.HasValue && dataItem.precision.Value != decimal.ToInt32(DI_PrecisionUpDown.Value)
                     || dataItem.Format != DI_FormatTextBox.Text
                     || dataItem.InitialValue != DI_InitialValueTextBox.Text;
+
+        }
+        private bool hasColumnChanged(EDDColumn column)
+        {
+            //TODO
+            return column.name != this.C_NameTextBox.Text
+                || column.column.type?.type.name != ((BaseDataType)this.C_DatatypeDropdown.SelectedItem)?.name
+                || column.column.type?.length != decimal.ToInt32(this.C_SizeUpDown.Value)
+                || column.column.type?.precision != decimal.ToInt32(this.C_PrecisionUpDown.Value)
+                || column.column.isNotNullable != this.C_NotNullCheckBox.Checked
+                || column.dataItem?.GUID != ((DataItem)this.C_DataItemTextBox.Tag)?.GUID
+                || column.column.initialValue != this.C_DefaultTextBox.Text;
 
         }
 
@@ -300,15 +358,7 @@ namespace GlossaryManager.GUI
             }
         }
 
-        internal void setColumns(List<EDDColumn> columns)
-        {
-            this.columnsListView.AlwaysGroupByColumn = C_TableColumn;
-            this.columnsListView.AlwaysGroupBySortOrder = SortOrder.Ascending;
-            this.columnsListView.ShowGroups = true;
-            this.columnsListView.Objects = columns;
-            //select the first one
-            this.columnsListView.SelectedObject = columns.FirstOrDefault();
-        }
+
 
         private void saveButton_Click(object sender, EventArgs e)
         {
@@ -466,6 +516,8 @@ namespace GlossaryManager.GUI
         public event EventHandler selectedTabChanged;
         private void DetailsTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //set mousecursor
+            Cursor.Current = Cursors.WaitCursor;
             //reset previous items
             switch (this.selectedTab)
             {
@@ -480,6 +532,7 @@ namespace GlossaryManager.GUI
                     break;
             }
             this.selectedTabChanged?.Invoke(sender, e);
+            Cursor.Current = Cursors.Default;
         }
         public GlossaryTab selectedTab
         {
@@ -505,28 +558,7 @@ namespace GlossaryManager.GUI
             this.selectedDataItem?.openProperties();
         }
 
-        private void dataItemsListView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //check if the previous item has been changed
-            if (this.previousDataItem != null)
-            {
-                if (this.hasDataItemChanged(this.previousDataItem))
-                {
-                    var response = MessageBox.Show(this, string.Format("Save changes to {0}?", this.previousDataItem.Name)
-                                                     , "Unsaved changes!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    if (response == DialogResult.Yes)
-                    {
-                        this.unloadDataItem(this.previousDataItem);
-                        this.saveDataItem(this.previousDataItem);
-                    }
-                }
-            }
-            //then load the next item
-            loadSelectedItemData();
-            enableDisable();
-            //set the previous business item
-            this.previousDataItem = this.selectedDataItem;
-        }
+
 
         private void DI_DatatypeSelectButton_Click(object sender, EventArgs e)
         {
@@ -543,23 +575,23 @@ namespace GlossaryManager.GUI
             if (this.selectedColumn != null)
             {
                 var dataItem = this.selectedColumn.selectDataItem();
-                this.C_DataItemTextBox.Text = dataItem.Name;
-                this.C_DefaultTextBox.Tag = dataItem;
+                this.C_DataItemTextBox.Text = dataItem?.Name;
+                this.C_DataItemTextBox.Tag = dataItem;
             }
         }
         private void columnsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             //check if the previous item has been changed
-            if (this.previousDataItem != null)
+            if (this.previousColumn != null)
             {
-                if (this.hasDataItemChanged(this.previousDataItem))
+                if (this.hasColumnChanged(this.previousColumn))
                 {
-                    var response = MessageBox.Show(this, string.Format("Save changes to {0}?", this.previousDataItem.Name)
+                    var response = MessageBox.Show(this, string.Format("Save changes to {0}?", this.previousColumn.name)
                                                      , "Unsaved changes!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (response == DialogResult.Yes)
                     {
-                        this.unloadDataItem(this.previousDataItem);
-                        this.saveDataItem(this.previousDataItem);
+                        this.unloadColumnData(this.previousColumn);
+                        this.saveColumn(this.previousColumn);
                     }
                 }
             }
@@ -567,16 +599,18 @@ namespace GlossaryManager.GUI
             loadSelectedItemData();
             enableDisable();
             //set the previous business item
-            this.previousDataItem = this.selectedDataItem;
+            this.previousColumn = this.selectedColumn;
         }
+
+
 
         private void C_DatatypeDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
             enableDisable();
         }
-
-
+        
     }
+
     public enum GlossaryTab
     {
         BusinessItems,

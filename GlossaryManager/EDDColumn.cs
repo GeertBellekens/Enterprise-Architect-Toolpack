@@ -9,7 +9,7 @@ using UML = TSF.UmlToolingFramework.UML;
 
 namespace GlossaryManager
 {
-    class EDDColumn: IEDDItem
+    public class EDDColumn: IEDDItem
     {
 
         public EDDColumn(DB_EA.Column wrappedColumn, GlossaryManagerSettings settings)
@@ -17,7 +17,7 @@ namespace GlossaryManager
             this._wrappedColumn = wrappedColumn;
             this.settings = settings;
         }
-        public static List<EDDColumn> createColumns(TSF_EA.Model model, List<DataItem> dataItems, GlossaryManagerSettings settings)
+        public static List<EDDTable> createColumns(TSF_EA.Model model, List<DataItem> dataItems, GlossaryManagerSettings settings)
         {
             //get the columns based on the given data items
             var guidString = string.Join(",", dataItems.Select(x => "'" + x.GUID + "'"));
@@ -26,15 +26,27 @@ namespace GlossaryManager
                                                                       and tv.[Property] = 'EDD::dataitem'))
                                     where tv.VALUE in (" + guidString + ")";
             List<TSF_EA.Attribute> attributes = model.getAttributesByQuery(sqlGetColumns);
-            var columns = new List<EDDColumn>();
+            var tables = new Dictionary<string,EDDTable>();
             foreach (var attribute in attributes)
             {
-                //for each attribute create the column
-                var dbColumn = DB_EA.DatabaseFactory.createColumn(attribute);
-                if (dbColumn != null) columns.Add(new EDDColumn(dbColumn, settings));
+                var classElement = attribute.owner as TSF_EA.Class;
+                if (classElement != null)
+                {
+                    //for each attribute create the column
+                    var dbColumn = DB_EA.DatabaseFactory.createColumn(attribute);
+                    if (dbColumn != null)
+                    {
+                        var newColumn = new EDDColumn(dbColumn, settings);
+                        EDDTable ownerTable = tables.ContainsKey(classElement.uniqueID) ?
+                                              tables[classElement.uniqueID]
+                                              : new EDDTable((DB_EA.Table)dbColumn.ownerTable, settings);
+                        ownerTable.addColumn(newColumn);
+                        tables[ownerTable.uniqueID] = ownerTable;
+                    }
+                }  
             }
             //return colums
-            return columns;
+            return tables.Values.ToList();
         }
         private DB_EA.Column _wrappedColumn;
         private GlossaryManagerSettings settings { get; set; }

@@ -117,6 +117,8 @@ namespace GlossaryManager.GUI
             this.DI_DomainColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.DI_BusinessItem = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ColumnsTabPage = new System.Windows.Forms.TabPage();
+            this.C_NotNullLabel = new System.Windows.Forms.Label();
+            this.C_NotNullCheckBox = new System.Windows.Forms.CheckBox();
             this.C_PrecisionUpDown = new System.Windows.Forms.NumericUpDown();
             this.C_SizeUpDown = new System.Windows.Forms.NumericUpDown();
             this.C_DefaultTextBox = new System.Windows.Forms.TextBox();
@@ -130,11 +132,12 @@ namespace GlossaryManager.GUI
             this.C_DataItemLabel = new System.Windows.Forms.Label();
             this.C_NameTextBox = new System.Windows.Forms.TextBox();
             this.C_NameLabel = new System.Windows.Forms.Label();
-            this.columnsListView = new BrightIdeasSoftware.ObjectListView();
+            this.columnsListView = new BrightIdeasSoftware.TreeListView();
             this.C_TableColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.C_ColumnColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.C_PropertiesColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.C_DataItem = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.columnsListViewImageList = new System.Windows.Forms.ImageList(this.components);
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
@@ -145,8 +148,6 @@ namespace GlossaryManager.GUI
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.C_NotNullCheckBox = new System.Windows.Forms.CheckBox();
-            this.C_NotNullLabel = new System.Windows.Forms.Label();
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
@@ -951,6 +952,25 @@ namespace GlossaryManager.GUI
             this.ColumnsTabPage.TabIndex = 2;
             this.ColumnsTabPage.Text = "Columns";
             // 
+            // C_NotNullLabel
+            // 
+            this.C_NotNullLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.C_NotNullLabel.Location = new System.Drawing.Point(2, 404);
+            this.C_NotNullLabel.Name = "C_NotNullLabel";
+            this.C_NotNullLabel.Size = new System.Drawing.Size(100, 23);
+            this.C_NotNullLabel.TabIndex = 94;
+            this.C_NotNullLabel.Text = "Not Null";
+            // 
+            // C_NotNullCheckBox
+            // 
+            this.C_NotNullCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.C_NotNullCheckBox.AutoSize = true;
+            this.C_NotNullCheckBox.Location = new System.Drawing.Point(108, 404);
+            this.C_NotNullCheckBox.Name = "C_NotNullCheckBox";
+            this.C_NotNullCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.C_NotNullCheckBox.TabIndex = 93;
+            this.C_NotNullCheckBox.UseVisualStyleBackColor = true;
+            // 
             // C_PrecisionUpDown
             // 
             this.C_PrecisionUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1099,6 +1119,7 @@ namespace GlossaryManager.GUI
             this.columnsListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.columnsListView.FullRowSelect = true;
             this.columnsListView.GridLines = true;
+            this.columnsListView.GroupImageList = this.columnsListViewImageList;
             this.columnsListView.HideSelection = false;
             this.columnsListView.Location = new System.Drawing.Point(3, 3);
             this.columnsListView.MultiSelect = false;
@@ -1144,6 +1165,13 @@ namespace GlossaryManager.GUI
             this.C_DataItem.AspectName = "dataItem.Name";
             this.C_DataItem.Text = "DataItem";
             this.C_DataItem.Width = 150;
+            // 
+            // columnsListViewImageList
+            // 
+            this.columnsListViewImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("columnsListViewImageList.ImageStream")));
+            this.columnsListViewImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.columnsListViewImageList.Images.SetKeyName(0, "table.png");
+            this.columnsListViewImageList.Images.SetKeyName(1, "folders.png");
             // 
             // BU_Name
             // 
@@ -1239,25 +1267,6 @@ namespace GlossaryManager.GUI
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            // 
-            // C_NotNullCheckBox
-            // 
-            this.C_NotNullCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_NotNullCheckBox.AutoSize = true;
-            this.C_NotNullCheckBox.Location = new System.Drawing.Point(108, 404);
-            this.C_NotNullCheckBox.Name = "C_NotNullCheckBox";
-            this.C_NotNullCheckBox.Size = new System.Drawing.Size(15, 14);
-            this.C_NotNullCheckBox.TabIndex = 93;
-            this.C_NotNullCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // C_NotNullLabel
-            // 
-            this.C_NotNullLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_NotNullLabel.Location = new System.Drawing.Point(2, 404);
-            this.C_NotNullLabel.Name = "C_NotNullLabel";
-            this.C_NotNullLabel.Size = new System.Drawing.Size(100, 23);
-            this.C_NotNullLabel.TabIndex = 94;
-            this.C_NotNullLabel.Text = "Not Null";
             // 
             // EDD_MainControl
             // 
@@ -1372,12 +1381,13 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.Label C_DataItemLabel;
         private System.Windows.Forms.TextBox C_NameTextBox;
         private System.Windows.Forms.Label C_NameLabel;
-        private ObjectListView columnsListView;
+        private TreeListView columnsListView;
         private OLVColumn C_TableColumn;
         private OLVColumn C_PropertiesColumn;
         private OLVColumn C_ColumnColumn;
         private OLVColumn C_DataItem;
         private System.Windows.Forms.Label C_NotNullLabel;
         private System.Windows.Forms.CheckBox C_NotNullCheckBox;
+        private System.Windows.Forms.ImageList columnsListViewImageList;
     }
 }

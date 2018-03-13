@@ -102,6 +102,7 @@
     </Compile>
     <Compile Include="EDDColumn.cs" />
     <Compile Include="Domain.cs" />
+    <Compile Include="EDDTable.cs" />
     <Compile Include="GUI\EDD_MainControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -113,6 +114,12 @@
     </Compile>
     <Compile Include="GUI\EDD_SettingsForm.Designer.cs">
       <DependentUpon>EDD_SettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\EDD_TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\EDD_TestForm.Designer.cs">
+      <DependentUpon>EDD_TestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IEDDItem.cs" />
     <Compile Include="LogicalDataType.cs" />
@@ -153,6 +160,9 @@
     <EmbeddedResource Include="GUI\EDD_SettingsForm.resx">
       <DependentUpon>EDD_SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\EDD_TestForm.resx">
+      <DependentUpon>EDD_TestForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -179,6 +189,8 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

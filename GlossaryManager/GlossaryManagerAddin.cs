@@ -30,6 +30,7 @@ namespace GlossaryManager
         const string menuExportDataItems = "&Export Data Items...";
         const string menuSettings = "&Settings...";
         const string menuAbout = "&About";
+        const string menuTest = "Test";
 
 
         const string appTitle = "Enterprise Data Dictionary";
@@ -64,8 +65,20 @@ namespace GlossaryManager
                 return this._mainControl;
             }
         }
+        public void test()
+        {
+            var testForm = new EDD_TestForm();
+            testForm.mainControl.selectedDomainChanged += this.selectedDomainChanged;
+            testForm.mainControl.newButtonClick += this._mainControl_newButtonClick;
+            testForm.mainControl.selectedTabChanged += this._mainControl_selectedTabChanged;
+            testForm.mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage));
+            testForm.mainControl.setStatusses(statusses: this.model.getStatusses());
+            this._mainControl = testForm.mainControl;
+            testForm.Show();
+        }
         private void selectedDomainChanged(object sender, EventArgs e)
         {
+            this.mainControl.clear();
             if (!showing)
                 showItemsForDomain(this._mainControl.selectedDomain);
             showing = false;
@@ -76,14 +89,6 @@ namespace GlossaryManager
         }
         private void showItemsForDomain(Domain domain)
         {
-            if (domain != null)
-            {
-                this.managedPackage = (TSF_EA.Package)domain.businessItemsPackage;
-            }
-            else
-            {
-                this.managedPackage = (TSF_EA.Package)this.settings.businessItemsPackage;
-            }
             switch (this.mainControl.selectedTab)
             {
                 case GlossaryTab.BusinessItems:
@@ -99,8 +104,12 @@ namespace GlossaryManager
                     this.showDataItems(package, domain);
                     break;
                 case GlossaryTab.Columns:
+                    package = domain != null
+                                        ? (TSF_EA.Package)domain.dataItemsPackage
+                                        : (TSF_EA.Package)this.settings.dataItemsPackage;
                     var dataItems = this.mainControl.dataItems;
-                    this.showColumns(dataItems);
+                    if (!dataItems.Any()) dataItems = this.getDataItems(package, domain);
+                    this.showColumns(dataItems,domain);
                     break;
             }
         }
@@ -139,7 +148,8 @@ namespace GlossaryManager
                                 menuExportBusinessItems,
                                 menuExportDataItems,
                                 menuSettings,
-                                menuAbout
+                                menuAbout,
+                                menuTest
                               };
         }
 
@@ -204,9 +214,16 @@ namespace GlossaryManager
                 case menuSettings:
                     this.openSettings();
                     break;
-                case menuAbout: this.about(); break;
+                case menuAbout:
+                    this.about();
+                    break;
+                case menuTest:
+                    this.test();
+                    break;
             }
         }
+
+
         /// <summary>
         /// open the settign form
         /// </summary>
@@ -246,6 +263,7 @@ namespace GlossaryManager
         internal TSF_EA.Package managedPackage { get; private set; }
 
 
+
         private void manage()
         {
             if (this.model == null) { return; }
@@ -255,13 +273,13 @@ namespace GlossaryManager
                 switch (this.mainControl.selectedTab)
                 {
                     case GlossaryTab.BusinessItems:
-                        this.showBusinessItems((TSF_EA.Package)this.Model.selectedTreePackage, this.mainControl.selectedDomain);
+                        this.showBusinessItems((TSF_EA.Package)this.Model.selectedTreePackage, null);
                         break;
                     case GlossaryTab.DataItems:
-                        this.showDataItems((TSF_EA.Package)this.Model.selectedTreePackage, this.mainControl.selectedDomain);
+                        this.showDataItems((TSF_EA.Package)this.Model.selectedTreePackage,null);
                         break;
                     case GlossaryTab.Columns:
-                        this.showColumns(this.mainControl.dataItems);
+                        this.showColumns(this.getDataItems((TSF_EA.Package)this.model.selectedTreePackage, null), null);
                         break;
                 }
             }
@@ -283,10 +301,16 @@ namespace GlossaryManager
         {
             if (domain == null) domain = Domain.getDomain(package);
             if (domain?.dataItemsPackage != null) package = (TSF_EA.Package)domain.dataItemsPackage;
-            this.mainControl.setDataItems(this.list<DataItem>(package), domain);
+            this.mainControl.setDataItems(this.getDataItems(package, domain),domain);
+        }
+        private List<DataItem> getDataItems(TSF_EA.Package package, Domain domain)
+        {
+            if (domain == null) domain = Domain.getDomain(package);
+            if (domain?.dataItemsPackage != null) package = (TSF_EA.Package)domain.dataItemsPackage;
+            return this.list<DataItem>(package);
         }
 
-        private void showColumns(List<DataItem> dataItems)
+        private void showColumns(List<DataItem> dataItems, Domain domain)
         {
             if (!dataItems.Any())
             {
@@ -297,7 +321,7 @@ namespace GlossaryManager
             {
                 //create the columns based on the DataItems shown in the GUI
                 var columns = EDDColumn.createColumns(this.model, dataItems, this.settings);
-                this.mainControl.setColumns(columns);
+                this.mainControl.setColumns(columns, domain);
             }
         }
         private void showColumns()
@@ -305,19 +329,19 @@ namespace GlossaryManager
             //get the databases
             var databases = this.getDatabases(this.model.selectedTreePackage);
             //get the list of columns
-            var columns = new List<EDDColumn>();
+            var tables = new List<EDDTable>();
             foreach (var db in databases)
             {
                 foreach (var table in db.tables)
                 {
+                    var eddTable = new EDDTable((DB_EA.Table)table, this.settings);
                     foreach (DB_EA.Column column in table.columns)
                     {
-                        columns.Add(new EDDColumn(column, this.settings));
+                        eddTable.addColumn(new EDDColumn(column, this.settings));
                     }
                 }
             }
-            this.mainControl.setColumns(columns);
-
+            this.mainControl.setColumns(tables, null);
         }
         /// <summary>
         /// returns all databases under this package and the one above
