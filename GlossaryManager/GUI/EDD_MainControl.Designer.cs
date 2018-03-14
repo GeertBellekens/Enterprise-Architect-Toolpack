@@ -136,6 +136,7 @@ namespace GlossaryManager.GUI
             this.C_NameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.C_PropertiesColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.C_DataItem = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.C_DatabaseColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.columnsListViewImageList = new System.Windows.Forms.ImageList(this.components);
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -147,7 +148,6 @@ namespace GlossaryManager.GUI
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.C_DatabaseColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
@@ -1142,10 +1142,10 @@ namespace GlossaryManager.GUI
             // C_NameColumn
             // 
             this.C_NameColumn.AspectName = "name";
-            this.C_NameColumn.GroupWithItemCountFormat = "{0} ({1} columns)";
-            this.C_NameColumn.GroupWithItemCountSingularFormat = "{0} (1 column)";
-            this.C_NameColumn.Text = "";
-            this.C_NameColumn.ToolTipText = "Name of the database and table";
+            this.C_NameColumn.GroupWithItemCountFormat = "";
+            this.C_NameColumn.GroupWithItemCountSingularFormat = "";
+            this.C_NameColumn.Text = "Name";
+            this.C_NameColumn.ToolTipText = "Name";
             this.C_NameColumn.Width = 150;
             // 
             // C_PropertiesColumn
@@ -1160,6 +1160,12 @@ namespace GlossaryManager.GUI
             this.C_DataItem.AspectName = "dataItem.Name";
             this.C_DataItem.Text = "DataItem";
             this.C_DataItem.Width = 150;
+            // 
+            // C_DatabaseColumn
+            // 
+            this.C_DatabaseColumn.AspectName = "databaseName";
+            this.C_DatabaseColumn.Text = "Database";
+            this.C_DatabaseColumn.Width = 150;
             // 
             // columnsListViewImageList
             // 
@@ -1262,12 +1268,6 @@ namespace GlossaryManager.GUI
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            // 
-            // C_DatabaseColumn
-            // 
-            this.C_DatabaseColumn.AspectName = "databaseName";
-            this.C_DatabaseColumn.Text = "Database";
-            this.C_DatabaseColumn.Width = 150;
             // 
             // EDD_MainControl
             // 
