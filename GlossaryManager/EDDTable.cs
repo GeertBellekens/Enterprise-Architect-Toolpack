@@ -27,6 +27,7 @@ namespace GlossaryManager
                 return this._colums;
             }
         }
+        public string name { get { return this.wrappedTable.name; } }
         public void addColumn(EDDColumn column)
         {
             this.columns.Add(column);

@@ -52,10 +52,7 @@ namespace GlossaryManager
         private GlossaryManagerSettings settings { get; set; }
         public DatabaseFramework.Column column { get { return this._wrappedColumn; } }
         public string name { get { return this.column.name; } }
-        public string tableName { get { return (string.IsNullOrEmpty(this.databaseName) ? 
-                                                    string.Empty : 
-                                                    this.databaseName + ".") 
-                                                + this.column.ownerTable.name; } }
+        public string tableName { get {return this.column.ownerTable.name; } }
         public string databaseName { get { return this.column.ownerTable.owner?.name; } }
         public string properties {  get { return this.column.properties; } }
         private bool dataItemLoaded = false;

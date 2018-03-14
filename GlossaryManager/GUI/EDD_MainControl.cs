@@ -25,14 +25,27 @@ namespace GlossaryManager.GUI
             //
             InitializeComponent();
             enableDisable();
+            setColumnsListViewDelegates();
+
+        }
+        private void setColumnsListViewDelegates()
+        {
+            //tell the control who can expand (only tables)
             this.columnsListView.CanExpandGetter = delegate (object x) {
                 return (x is EDDTable);
             };
+            //tell the control how to expand
             this.columnsListView.ChildrenGetter = delegate (object x) {
                 var table = (EDDTable)x;
                 return table.columns;
             };
-
+            //tell the control which image to show
+            this.C_NameColumn.ImageGetter = delegate (object rowObject) {
+                if (rowObject is EDDTable) return "table";
+                if (rowObject is EDDColumn) return "column";
+                else return string.Empty;
+            };
+            
         }
         private void enableDisable()
         {
@@ -81,6 +94,8 @@ namespace GlossaryManager.GUI
                 //select corresponding domain item
                 this.domainBreadCrumb.SelectedItem = getBreadCrumbSubItem(this.domainBreadCrumb.RootItem, domain) ?? this.domainBreadCrumb.RootItem;
             }
+            //expand all
+            this.columnsListView.ExpandAll();
             //select the first one
             this.columnsListView.SelectedObject = tables.FirstOrDefault()?.columns.FirstOrDefault();
         }

@@ -133,8 +133,7 @@ namespace GlossaryManager.GUI
             this.C_NameTextBox = new System.Windows.Forms.TextBox();
             this.C_NameLabel = new System.Windows.Forms.Label();
             this.columnsListView = new BrightIdeasSoftware.TreeListView();
-            this.C_TableColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.C_ColumnColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.C_NameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.C_PropertiesColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.C_DataItem = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.columnsListViewImageList = new System.Windows.Forms.ImageList(this.components);
@@ -148,6 +147,7 @@ namespace GlossaryManager.GUI
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.C_DatabaseColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
@@ -1102,20 +1102,20 @@ namespace GlossaryManager.GUI
             // 
             // columnsListView
             // 
-            this.columnsListView.AllColumns.Add(this.C_TableColumn);
-            this.columnsListView.AllColumns.Add(this.C_ColumnColumn);
+            this.columnsListView.AllColumns.Add(this.C_NameColumn);
             this.columnsListView.AllColumns.Add(this.C_PropertiesColumn);
             this.columnsListView.AllColumns.Add(this.C_DataItem);
+            this.columnsListView.AllColumns.Add(this.C_DatabaseColumn);
             this.columnsListView.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
             this.columnsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.columnsListView.CellEditUseWholeCell = false;
             this.columnsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.C_TableColumn,
-            this.C_ColumnColumn,
+            this.C_NameColumn,
             this.C_PropertiesColumn,
-            this.C_DataItem});
+            this.C_DataItem,
+            this.C_DatabaseColumn});
             this.columnsListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.columnsListView.FullRowSelect = true;
             this.columnsListView.GridLines = true;
@@ -1128,6 +1128,7 @@ namespace GlossaryManager.GUI
             this.columnsListView.ShowGroups = false;
             this.columnsListView.ShowItemCountOnGroups = true;
             this.columnsListView.Size = new System.Drawing.Size(914, 290);
+            this.columnsListView.SmallImageList = this.columnsListViewImageList;
             this.columnsListView.TabIndex = 1;
             this.columnsListView.TintSortColumn = true;
             this.columnsListView.UseCompatibleStateImageBehavior = false;
@@ -1135,23 +1136,17 @@ namespace GlossaryManager.GUI
             this.columnsListView.UseFiltering = true;
             this.columnsListView.UseHotItem = true;
             this.columnsListView.View = System.Windows.Forms.View.Details;
+            this.columnsListView.VirtualMode = true;
             this.columnsListView.SelectedIndexChanged += new System.EventHandler(this.columnsListView_SelectedIndexChanged);
             // 
-            // C_TableColumn
+            // C_NameColumn
             // 
-            this.C_TableColumn.AspectName = "tableName";
-            this.C_TableColumn.GroupWithItemCountFormat = "{0} ({1} columns)";
-            this.C_TableColumn.GroupWithItemCountSingularFormat = "{0} (1 column)";
-            this.C_TableColumn.Text = "Table";
-            this.C_TableColumn.ToolTipText = "Name of the database and table";
-            this.C_TableColumn.Width = 150;
-            // 
-            // C_ColumnColumn
-            // 
-            this.C_ColumnColumn.AspectName = "name";
-            this.C_ColumnColumn.Text = "Column";
-            this.C_ColumnColumn.ToolTipText = "Label of the Data Item";
-            this.C_ColumnColumn.Width = 120;
+            this.C_NameColumn.AspectName = "name";
+            this.C_NameColumn.GroupWithItemCountFormat = "{0} ({1} columns)";
+            this.C_NameColumn.GroupWithItemCountSingularFormat = "{0} (1 column)";
+            this.C_NameColumn.Text = "";
+            this.C_NameColumn.ToolTipText = "Name of the database and table";
+            this.C_NameColumn.Width = 150;
             // 
             // C_PropertiesColumn
             // 
@@ -1170,8 +1165,8 @@ namespace GlossaryManager.GUI
             // 
             this.columnsListViewImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("columnsListViewImageList.ImageStream")));
             this.columnsListViewImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.columnsListViewImageList.Images.SetKeyName(0, "table.png");
-            this.columnsListViewImageList.Images.SetKeyName(1, "folders.png");
+            this.columnsListViewImageList.Images.SetKeyName(0, "table");
+            this.columnsListViewImageList.Images.SetKeyName(1, "column");
             // 
             // BU_Name
             // 
@@ -1267,6 +1262,12 @@ namespace GlossaryManager.GUI
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // C_DatabaseColumn
+            // 
+            this.C_DatabaseColumn.AspectName = "databaseName";
+            this.C_DatabaseColumn.Text = "Database";
+            this.C_DatabaseColumn.Width = 150;
             // 
             // EDD_MainControl
             // 
@@ -1382,12 +1383,12 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.TextBox C_NameTextBox;
         private System.Windows.Forms.Label C_NameLabel;
         private TreeListView columnsListView;
-        private OLVColumn C_TableColumn;
+        private OLVColumn C_NameColumn;
         private OLVColumn C_PropertiesColumn;
-        private OLVColumn C_ColumnColumn;
         private OLVColumn C_DataItem;
         private System.Windows.Forms.Label C_NotNullLabel;
         private System.Windows.Forms.CheckBox C_NotNullCheckBox;
         private System.Windows.Forms.ImageList columnsListViewImageList;
+        private OLVColumn C_DatabaseColumn;
     }
 }
