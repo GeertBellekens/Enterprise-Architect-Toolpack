@@ -48,15 +48,15 @@ namespace EAValidationFramework
             switch (extension)
             {
                 case "xml":
-                    // Get information from xml-document
+                    // Checks are grouped per directory
+                    string path = Path.GetDirectoryName(file);
+                    this.Group = path.Substring(path.LastIndexOf("\\") + 1);
+
+                    // Load xml-document
                     XmlDocument xmldoc = new XmlDocument();
                     xmldoc.Load(file);
 
-                    // Checks are grouped per directory
-                    string path = Path.GetDirectoryName(file);
-                    int index = path.LastIndexOf("\\")+1;
-                    this.Group = path.Substring(index);
-
+                    // Interprete xml node and subnodes
                     XmlNode node = xmldoc.DocumentElement.SelectSingleNode(controller.settings.XML_CheckMainNode);
                     foreach(XmlNode subNode in node.ChildNodes)
                     {

@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using System.Xml.Schema;
 
 namespace EAValidationFramework
 {
@@ -46,6 +49,27 @@ namespace EAValidationFramework
             xmltext = xmltext.Replace("&amp;", "&");
 
             return xmltext;
+        }
+
+        public static bool ValidToXSD(EAValidatorController controller, string filename)
+        {
+            bool valid = true;
+            string schemaNamespace = "";
+            string schemaFileName = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + @"\Files\check.xsd";
+            if(!(FileOrDirectoryExists(schemaFileName)))
+            {
+                controller.addLineToEAOutput("XSD schema not found: ", schemaFileName);
+                return false;
+            }
+            XmlSchemaSet schemas = new XmlSchemaSet();
+            schemas.Add(schemaNamespace, schemaFileName);
+
+            XDocument doc = XDocument.Load(filename);
+            doc.Validate(schemas, (o, e) => {
+                controller.addLineToEAOutput(e.Message + ": ", filename);
+                valid = false;
+            });
+            return valid;
         }
     }
 }

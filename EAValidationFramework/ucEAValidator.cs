@@ -68,16 +68,6 @@ namespace EAValidationFramework
             // Load files from directory as checks
             this.controller.loadChecksFromDirectory(this.controller.settings.ValidationChecks_Directory);
 
-            // Get subdirectories for main directory
-            if(Utils.FileOrDirectoryExists(this.controller.settings.ValidationChecks_Directory))
-            { 
-                string[] subdirectories = Utils.getSubdirectoriesForDirectory(this.controller.settings.ValidationChecks_Directory);
-
-                // Load files from subdirectories as checks
-                foreach (string subdir in subdirectories)
-                    this.controller.loadChecksFromDirectory(subdir);
-            }
-
             // Show checks/validations in objectListViews     
             this.olvChecks.SetObjects(this.controller.checks);
             this.olvValidations.SetObjects(this.controller.validations);

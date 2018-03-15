@@ -97,6 +97,10 @@
     <EmbeddedResource Include="ucEAValidator.resx">
       <DependentUpon>ucEAValidator.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Files\Check.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Files\license.rtf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
