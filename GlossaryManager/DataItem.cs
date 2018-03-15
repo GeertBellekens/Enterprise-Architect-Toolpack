@@ -26,25 +26,62 @@ namespace GlossaryManager
             set { this._label = value; }
         }
 
-        public string LogicalDatatypeName
+        public string datatypeDisplayName
         {
-            get { return this.logicalDatatype?.name; }
+            get
+            {
+                string suffix = Size.HasValue && Size.Value > 0 ? "(" + Size.ToString() : string.Empty;
+                if (! string.IsNullOrEmpty(suffix))
+                {
+                    suffix += this.precision.HasValue && this.precision.Value > 0 ? "," + this.precision.ToString() : string.Empty;
+                    suffix += ")";
+                }
+                return this.logicalDatatype?.name + suffix;
+            }
         }
-
+        private bool sizeLoaded = false;
         private int? _size;
         public int? Size
         {
             get
             {
-                if (!this._size.HasValue)
+                if (!this.sizeLoaded)
                 {
                     int newSize;
                     if (int.TryParse(this.origin.getTaggedValue("size")?.eaStringValue, out newSize))
+                    {
                         this._size = newSize;
+                    }
                 }
+                this.sizeLoaded = true;
                 return _size;
             }
-            set { this._size = value; }
+            set
+            {
+                this._size = value;
+                this.sizeLoaded = true;
+            }
+        }
+        private bool precisionLoaded = false;
+        private int? _precision;
+        public int? precision
+        {
+            get
+            {
+                if (!this.precisionLoaded)
+                {
+                    int newprecision;
+                    if (int.TryParse(this.origin.getTaggedValue("precision")?.eaStringValue, out newprecision))
+                        this._precision = newprecision;
+                }
+                this.precisionLoaded = true;
+                return _precision;
+            }
+            set
+            {
+                this._precision = value;
+                this.precisionLoaded = true;
+            }
         }
 
         private string _format;
@@ -85,7 +122,7 @@ namespace GlossaryManager
             return "DataItem(" + base.ToString() + "," +
               string.Join(", ", new List<string>() {
           this.Label,
-          this.LogicalDatatypeName,
+          this.datatypeDisplayName,
           this.Size.ToString(),
           this.Format,
           this.Description,
@@ -100,7 +137,10 @@ namespace GlossaryManager
             this.origin.addTaggedValue("label", this.Label);
             this.origin.addTaggedValue("initial value", this.InitialValue);
             this.origin.addTaggedValue("size", this.Size.HasValue ? this.Size.Value.ToString() : string.Empty);
+            this.origin.addTaggedValue("precision", this.precision.HasValue ? this.precision.Value.ToString() : string.Empty);
             this.origin.addTaggedValue("format", this.Format);
+            this.origin.addTaggedValue("logical datatype", this.logicalDatatype?.GUID);
+            this.origin.addTaggedValue("business item", this.businessItem?.GUID);
         }
 
         protected override void reloadData()
@@ -110,15 +150,18 @@ namespace GlossaryManager
             this._size = null;
             this._format = null;
             this._logicalDatatype = null;
+            this.logicalDatatypeLoaded = false;
             this._businessItem = null;
+            this.businessItemLoaded = false;
         }
 
+        private bool logicalDatatypeLoaded = false;
         private LogicalDatatype _logicalDatatype;
         public LogicalDatatype logicalDatatype
         {
             get
             {
-                if (this._logicalDatatype == null)
+                if (!this.logicalDatatypeLoaded)
                 {
                     var tv = this.origin.getTaggedValue("logical datatype");
                     if (tv != null)
@@ -127,21 +170,23 @@ namespace GlossaryManager
                         if (datatype != null)
                             this._logicalDatatype = new LogicalDatatype(datatype);
                     }
+                    this.logicalDatatypeLoaded = true;
                 }
                 return this._logicalDatatype;
             }
             set
             {
                 this._logicalDatatype = value;
-                this.origin.addTaggedValue("logical datatype", value.GUID);
+                this.logicalDatatypeLoaded = true;
             }
         }
+        private bool businessItemLoaded = false;
         private BusinessItem _businessItem;
         public BusinessItem businessItem
         {
             get
             {
-                if (this._businessItem == null)
+                if (!this.businessItemLoaded)
                 {
                     var tv = this.origin.getTaggedValue("business item");
                     if (tv != null)
@@ -153,6 +198,7 @@ namespace GlossaryManager
                             this._businessItem.origin = (TSF_EA.Class)businessItemClass;
                         }
                     }
+                    this.businessItemLoaded = true;
                 }
                 return this._businessItem;
 
@@ -160,22 +206,41 @@ namespace GlossaryManager
             set
             {
                 this._businessItem = value;
+                this.businessItemLoaded = true;
             }
         }
 
         public override string Stereotype { get { return "EDD_DataItem"; } }
 
-        internal void selectBusinessItem()
+        /// <summary>
+        /// allows the user to select a business item and return it
+        /// </summary>
+        /// <returns>the business item selected by the user</returns>
+        internal BusinessItem selectBusinessItem()
         {
             //let the user select a business item
             var businessItemOrigin = this.origin.model.getUserSelectedElement(new List<string>() { "Class" },
                 new List<string>() { new BusinessItem().Stereotype }) as UML.Classes.Kernel.Class;
-            this.businessItem = new GlossaryItemFactory(this.settings).FromClass<BusinessItem>(businessItemOrigin);
+            return new GlossaryItemFactory(this.settings).FromClass<BusinessItem>(businessItemOrigin);
         }
         protected override void setOwningPackage()
         {
             if (this.domain.dataItemsPackage == null) domain.createMissingPackage();
             this.origin.owningPackage = this.domain.dataItemsPackage;
+        }
+        /// <summary>
+        /// allows the user to select a logical datatype
+        /// </summary>
+        /// <returns>the logical datatype selected by the user</returns>
+        internal LogicalDatatype selectLogicalDataType()
+        {
+            //let the user select a logical datatype
+            var dataType = this.origin.model.getUserSelectedElement(new List<string>() { "DataType" },
+                new List<string>() { LogicalDatatype.stereoType }) as UML.Classes.Kernel.DataType;
+            if (dataType != null)
+                return new LogicalDatatype(dataType);
+            else
+                return null;
         }
     }
 }
