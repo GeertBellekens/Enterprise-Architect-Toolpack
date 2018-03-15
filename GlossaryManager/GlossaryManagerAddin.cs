@@ -7,6 +7,8 @@ using System.Linq;
 using GlossaryManager.GUI;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
+using DB = DatabaseFramework;
+using DB_EA = EAAddinFramework.Databases;
 
 using EAAddinFramework;
 using EAAddinFramework.Utilities;
@@ -28,6 +30,7 @@ namespace GlossaryManager
         const string menuExportDataItems = "&Export Data Items...";
         const string menuSettings = "&Settings...";
         const string menuAbout = "&About";
+        const string menuTest = "Test";
 
 
         const string appTitle = "Enterprise Data Dictionary";
@@ -37,6 +40,7 @@ namespace GlossaryManager
         private TSF_EA.Model model = null;
         public TSF_EA.Model Model { get { return this.model; } }
         private bool fullyLoaded = false;
+        private bool showing = false;
 
         private GlossaryManagerSettings settings = null;
         private GlossaryItemFactory factory = null;
@@ -61,67 +65,92 @@ namespace GlossaryManager
                 return this._mainControl;
             }
         }
+        public void test()
+        {
+            var testForm = new EDD_TestForm();
+            testForm.mainControl.selectedDomainChanged += this.selectedDomainChanged;
+            testForm.mainControl.newButtonClick += this._mainControl_newButtonClick;
+            testForm.mainControl.selectedTabChanged += this._mainControl_selectedTabChanged;
+            testForm.mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage));
+            testForm.mainControl.setStatusses(statusses: this.model.getStatusses());
+            this._mainControl = testForm.mainControl;
+            testForm.Show();
+        }
         private void selectedDomainChanged(object sender, EventArgs e)
         {
-            showItemsForSelectedDomain();
+            this.mainControl.clear();
+            if (!showing)
+                showItemsForDomain(this._mainControl.selectedDomain);
+            showing = false;
         }
         private void _mainControl_selectedTabChanged(object sender, EventArgs e)
         {
-            showItemsForSelectedDomain();
+            showItemsForDomain(this._mainControl.selectedDomain);
         }
-        private void showItemsForSelectedDomain()
+        private void showItemsForDomain(Domain domain)
         {
-            var selectedDomain = this._mainControl.selectedDomain;
-            if (selectedDomain != null)
-            {
-                this.managedPackage = (TSF_EA.Package)selectedDomain.businessItemsPackage;
-            }
-            else
-            {
-                this.managedPackage = (TSF_EA.Package)this.settings.businessItemsPackage;
-            }
             switch (this.mainControl.selectedTab)
             {
                 case GlossaryTab.BusinessItems:
-                    this.managedPackage = selectedDomain != null 
-                                        ? (TSF_EA.Package)selectedDomain.businessItemsPackage
+                    var package = domain != null
+                                        ? (TSF_EA.Package)domain.businessItemsPackage
                                         : (TSF_EA.Package)this.settings.businessItemsPackage;
-                    this.showBusinessItems();
+                    this.showBusinessItems(package, domain);
                     break;
                 case GlossaryTab.DataItems:
-                    this.managedPackage = selectedDomain != null
-                                        ? (TSF_EA.Package)selectedDomain.dataItemsPackage
+                    package = domain != null
+                                        ? (TSF_EA.Package)domain.dataItemsPackage
                                         : (TSF_EA.Package)this.settings.dataItemsPackage;
-                    this.showDataItems();
+                    this.showDataItems(package, domain);
                     break;
                 case GlossaryTab.Columns:
-                    this.showColumns();
+                    package = domain != null
+                                        ? (TSF_EA.Package)domain.dataItemsPackage
+                                        : (TSF_EA.Package)this.settings.dataItemsPackage;
+                    var dataItems = this.mainControl.dataItems;
+                    if (!dataItems.Any()) dataItems = this.getDataItems(package, domain);
+                    this.showColumns(dataItems,domain);
                     break;
             }
         }
 
         private void _mainControl_newButtonClick(object sender, EventArgs e)
         {
-            //crete new item in the selected package
-            //BusinessItem
-            var parentPackage = mainControl.selectedDomain?.businessItemsPackage;
-            if (parentPackage == null) parentPackage = this.settings.businessItemsPackage;
-            var newItem = this.factory.addNew<BusinessItem>(parentPackage);
-            this.mainControl.addItem(newItem);
+            switch (this.mainControl.selectedTab)
+            {
+                case GlossaryTab.BusinessItems:
+                    var package = this.mainControl.selectedDomain != null
+                                        ? (TSF_EA.Package)this.mainControl.selectedDomain.businessItemsPackage
+                                        : (TSF_EA.Package)this.settings.businessItemsPackage;
+                    var newBusinessItem = this.factory.addNew<BusinessItem>(package);
+                    this.mainControl.addItem(newBusinessItem);
+                    break;
+                case GlossaryTab.DataItems:
+                    package = this.mainControl.selectedDomain != null
+                                        ? (TSF_EA.Package)this.mainControl.selectedDomain.dataItemsPackage
+                                        : (TSF_EA.Package)this.settings.dataItemsPackage;
+                    var newDataItem = this.factory.addNew<DataItem>(package);
+                    this.mainControl.addItem(newDataItem);
+                    break;
+                case GlossaryTab.Columns:
+                    //TODO
+                    break;
+            }
         }
 
         public GlossaryManagerAddin() : base()
         {
             this.menuHeader = menuName;
             this.menuOptions = new string[] {
-        menuManage,
-        menuImportBusinessItems,
-        menuImportDataItems,
-        menuExportBusinessItems,
-        menuExportDataItems,
-        menuSettings,
-        menuAbout
-      };
+                                menuManage,
+                                menuImportBusinessItems,
+                                menuImportDataItems,
+                                menuExportBusinessItems,
+                                menuExportDataItems,
+                                menuSettings,
+                                menuAbout,
+                                menuTest
+                              };
         }
 
         private void handleHandleDestroyed(object sender, EventArgs e)
@@ -134,6 +163,7 @@ namespace GlossaryManager
             this.model = new TSF_EA.Model(repository);
             this.settings = new GlossaryManagerSettings(this.model);
             this.factory = new GlossaryItemFactory(this.settings);
+            Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage);
             this.fullyLoaded = true;
         }
 
@@ -184,10 +214,19 @@ namespace GlossaryManager
                 case menuSettings:
                     this.openSettings();
                     break;
-                case menuAbout: this.about(); break;
+                case menuAbout:
+                    this.about();
+                    break;
+                case menuTest:
+                    this.test();
+                    break;
             }
         }
 
+
+        /// <summary>
+        /// open the settign form
+        /// </summary>
         private void openSettings()
         {
             var settingsForm = new EDD_SettingsForm(this.settings);
@@ -195,14 +234,22 @@ namespace GlossaryManager
             settingsForm.browseDataItemsPackage += this.SettingsForm_browseDataItemsPackage;
             settingsForm.ShowDialog(this.model.mainEAWindow);
         }
-
+        /// <summary>
+        /// browse the package for the data items
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arguments</param>
         private void SettingsForm_browseDataItemsPackage(object sender, EventArgs e)
         {
             var dataItemsPackage = this.model.getUserSelectedPackage();
             if (dataItemsPackage != null)
                 this.settings.dataItemsPackage = dataItemsPackage;
         }
-
+        /// <summary>
+        /// browse the package for the business items items
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arguments</param>
         private void SettingsForm_browseBusinessItemsPackage(object sender, EventArgs e)
         {
             var businessItemsPackage = this.model.getUserSelectedPackage();
@@ -210,83 +257,126 @@ namespace GlossaryManager
                 this.settings.businessItemsPackage = businessItemsPackage;
         }
 
-        public event NewContextHandler NewContext;
-
-        public override void EA_OnContextItemChanged(EA.Repository Repository,
-                                                     string GUID,
-                                                     EA.ObjectType ot)
-        {
-            try
-            {
-                if (this.NewContext == null) { return; }
-                if (this.model == null) { return; }
-                var selectedElementWrapper = this.model.selectedItem as TSF_EA.ElementWrapper;
-                if (selectedElementWrapper != null)
-                {
-                    this.NewContext((TSF_EA.ElementWrapper)this.model.selectedItem);
-                }
-            }
-            catch (Exception e)
-            {
-
-            }
-        }
-
-        public TSF_EA.ElementWrapper SelectedItem
-        {
-            get
-            {
-                if (this.model.selectedItem is TSF_EA.Attribute &&
-                    this.model.selectedItem.owner is TSF_EA.ElementWrapper)
-                {
-                    return this.model.selectedItem.owner as TSF_EA.ElementWrapper;
-                }
-                if (!(this.model.selectedItem is TSF_EA.ElementWrapper)) { return null; }
-                return (TSF_EA.ElementWrapper)this.model.selectedItem;
-            }
-            set
-            {
-                this.model.selectedItem = value;
-            }
-        }
 
         // activities
 
         internal TSF_EA.Package managedPackage { get; private set; }
 
 
+
         private void manage()
         {
             if (this.model == null) { return; }
             this.managedPackage = (TSF_EA.Package)this.Model.selectedTreePackage;
-            //this.refresh();
-            this.showBusinessItems();
+            if (this._mainControl != null)
+            {
+                switch (this.mainControl.selectedTab)
+                {
+                    case GlossaryTab.BusinessItems:
+                        this.showBusinessItems((TSF_EA.Package)this.Model.selectedTreePackage, null);
+                        break;
+                    case GlossaryTab.DataItems:
+                        this.showDataItems((TSF_EA.Package)this.Model.selectedTreePackage,null);
+                        break;
+                    case GlossaryTab.Columns:
+                        this.showColumns(this.getDataItems((TSF_EA.Package)this.model.selectedTreePackage, null), null);
+                        break;
+                }
+            }
+            else
+            {
+                //default show business items
+                this.showBusinessItems((TSF_EA.Package)this.Model.selectedTreePackage, null);
+            }
+            
         }
 
-        private void showBusinessItems()
+        private void showBusinessItems(TSF_EA.Package package, Domain domain)
         {
-            this.mainControl.setBusinessItems(this.list<BusinessItem>(this.managedPackage), Domain.getDomain(this.managedPackage));
+            if (domain == null) domain = Domain.getDomain(package);
+            if (domain?.businessItemsPackage != null) package = (TSF_EA.Package)domain.businessItemsPackage;
+            this.mainControl.setBusinessItems(this.list<BusinessItem>(package), domain);
+        }
+        private void showDataItems(TSF_EA.Package package, Domain domain)
+        {
+            if (domain == null) domain = Domain.getDomain(package);
+            if (domain?.dataItemsPackage != null) package = (TSF_EA.Package)domain.dataItemsPackage;
+            this.mainControl.setDataItems(this.getDataItems(package, domain),domain);
+        }
+        private List<DataItem> getDataItems(TSF_EA.Package package, Domain domain)
+        {
+            if (domain == null) domain = Domain.getDomain(package);
+            if (domain?.dataItemsPackage != null) package = (TSF_EA.Package)domain.dataItemsPackage;
+            return this.list<DataItem>(package);
         }
 
-        
-
+        private void showColumns(List<DataItem> dataItems, Domain domain)
+        {
+            if (!dataItems.Any())
+            {
+                //call default method if no data items given
+                showColumns();
+            }
+            else
+            {
+                //create the columns based on the DataItems shown in the GUI
+                var columns = EDDColumn.createColumns(this.model, dataItems, this.settings);
+                this.mainControl.setColumns(columns, domain);
+            }
+        }
         private void showColumns()
         {
-            //TODO
+            //get the databases
+            var databases = this.getDatabases(this.model.selectedTreePackage);
+            //get the list of columns
+            var tables = new List<EDDTable>();
+            foreach (var db in databases)
+            {
+                foreach (var table in db.tables)
+                {
+                    var eddTable = new EDDTable((DB_EA.Table)table, this.settings);
+                    foreach (DB_EA.Column column in table.columns)
+                    {
+                        eddTable.addColumn(new EDDColumn(column, this.settings));
+                    }
+                }
+            }
+            this.mainControl.setColumns(tables, null);
         }
-
-        private void showDataItems()
+        /// <summary>
+        /// returns all databases under this package and the one above
+        /// </summary>
+        /// <param name="package">the package to start from</param>
+        /// <returns>all databases under the given package or above it</returns>
+        private List<DB.Database> getDatabases(UML.Classes.Kernel.Package package)
         {
-            this.mainControl.setDataItems(this.list<DataItem>(this.managedPackage), Domain.getDomain(this.managedPackage));
+            var foundDatabases = new List<DB.Database>();
+            //return empty list if package null
+            if (package == null) return foundDatabases;
+            var databasePackages = new List<UML.Classes.Kernel.Package>();
+            //first get the «database» packages from the selected package
+            databasePackages.AddRange(package.getNestedPackageTree(true));
+            //then add the parent package(s)
+            databasePackages.AddRange(package.getAllOwners().OfType<UML.Classes.Kernel.Package>());
+            foreach (TSF_EA.Package databasePackage in databasePackages.Where(x => x.stereotypes.Any(y => y.name.ToLower() == "database")))
+            {
+                string databaseType = databasePackage.taggedValues.FirstOrDefault(x => x.name.ToLower() == "dbms")?.tagValue.ToString();
+                if (!string.IsNullOrEmpty(databaseType))
+                {
+                    var dbFactory = DB_EA.DatabaseFactory.getFactory(databaseType, this.model, new DB_EA.Strategy.StrategyFactory());
+                    foundDatabases.Add(dbFactory.createDataBase(databasePackage));
+                }
+            }
+            return foundDatabases;
         }
 
         public void refresh()
         {
             List<DataItem> dataItems = this.list<DataItem>(this.managedPackage);
-            
+
             // add all Logical DataTypes from this package and optionally others
             // from the dataItems
-          
+
             if (this.managedPackage != null)
             {
                 foreach (TSF_EA.Class clazz in
@@ -303,7 +393,7 @@ namespace GlossaryManager
             }
             foreach (DataItem item in dataItems)
             {
-                TSF_EA.Class element = this.model.getElementByGUID(item.LogicalDatatypeName) as TSF_EA.Class;
+                TSF_EA.Class element = this.model.getElementByGUID(item.datatypeDisplayName) as TSF_EA.Class;
             }
             this.model.activateTab(appTitle);
         }
@@ -342,7 +432,7 @@ namespace GlossaryManager
                         else
                         {   // update
                             this.log("updating " + item.Name);
-                            item.Save();//TODO: check does this work without parameter??
+                            item.save();//TODO: check does this work without parameter??
                         }
                     }
                     else

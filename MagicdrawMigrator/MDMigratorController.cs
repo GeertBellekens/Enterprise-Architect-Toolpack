@@ -54,13 +54,13 @@ namespace MagicdrawMigrator
 				correctors.Add(new SetStructureCorrector(magicDrawReader,model, mdPackage));	
 				correctors.Add(new NotesCorrector(magicDrawReader, model, mdPackage));
 				correctors.Add(new RelationsCorrector(magicDrawReader, model, mdPackage));
-				correctors.Add(new CrossMDzipAttributeCorrector(magicDrawReader, model, mdPackage));
+                correctors.Add(new AssociationCorrector(magicDrawReader, model, mdPackage));
+                correctors.Add(new CrossMDzipAttributeCorrector(magicDrawReader, model, mdPackage));
 				correctors.Add(new OCLConstraintsCorrector(magicDrawReader,model,mdPackage));
 				correctors.Add(new AssociationTableCorrector(magicDrawReader,model,mdPackage));
 				correctors.Add(new FixCallBehaviorActionCorrector(magicDrawReader,model,mdPackage));
 				correctors.Add(new ConvertPropertiesToAttributes(magicDrawReader,model,mdPackage));
 				correctors.Add(new SetStatesOnObjects(magicDrawReader,model, mdPackage));
-				correctors.Add(new AssociationCorrector(magicDrawReader, model, mdPackage));
                 correctors.Add(new AttributeSequenceCorrector(magicDrawReader, model, mdPackage));
 				correctors.Add(new AddClassifiersToPartitions(magicDrawReader,model, mdPackage));
 				correctors.Add(new SequenceDiagramCorrector(magicDrawReader,model, mdPackage));

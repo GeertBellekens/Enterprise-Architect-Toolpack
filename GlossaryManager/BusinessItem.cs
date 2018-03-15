@@ -20,13 +20,7 @@ namespace GlossaryManager
             set { this.origin.notes = value; }
         }
 
-        public string domainPath
-        {
-            get
-            {
-                return this.domain?.domainPath;
-            }
-        }
+
 
 
 
