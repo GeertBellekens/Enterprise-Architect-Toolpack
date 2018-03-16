@@ -1,0 +1,38 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Check" type="CheckType"/>
+  <xs:complexType name="FiltersType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="Change" minOccurs="0"/>
+      <xs:element type="xs:string" name="Release" minOccurs="0"/>
+      <xs:element type="xs:string" name="Package" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="QueryToFindElementsType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="Main"/>
+      <xs:element type="FiltersType" name="Filters"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ParametersType">
+	<xs:sequence minOccurs="0" maxOccurs="unbounded">
+	   <xs:any processContents="lax"/>
+	</xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="QueryToCheckFoundElementsType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="Main"/>
+      <xs:element type="ParametersType" name="Parameters"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CheckType">
+    <xs:sequence>
+      <xs:element type="xs:byte" name="CheckId"/>
+      <xs:element type="xs:string" name="CheckDescription"/>
+      <xs:element type="QueryToFindElementsType" name="QueryToFindElements"/>
+      <xs:element type="QueryToCheckFoundElementsType" name="QueryToCheckFoundElements"/>
+      <xs:element type="xs:string" name="WarningType"/>
+      <xs:element type="xs:string" name="Rationale"/>
+      <xs:element type="xs:string" name="ProposedSolution"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

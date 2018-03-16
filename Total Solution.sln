@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
+<<<<<<< HEAD
+VisualStudioVersion = 15.0.27130.2027
+=======
 VisualStudioVersion = 15.0.27130.2010
+>>>>>>> origin/master
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinFramework", "..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj", "{4161DD26-375F-4744-BA96-B70366E19A78}"
 EndProject
@@ -76,6 +80,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicdrawMigrator", "MagicdrawMigrator\MagicdrawMigrator.csproj", "{94030455-11AD-4B6F-BA5B-3C58D9FE25E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlossaryManager", "GlossaryManager\GlossaryManager.csproj", "{0F163106-7C92-4BB8-B54C-0FF8315D1779}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAValidationFramework", "EAValidationFramework\EAValidationFramework.csproj", "{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}"
 EndProject
 Global
 	GlobalSection(Performance) = preSolution
@@ -272,6 +278,14 @@ Global
 		{0F163106-7C92-4BB8-B54C-0FF8315D1779}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0F163106-7C92-4BB8-B54C-0FF8315D1779}.Release|x86.ActiveCfg = Release|Any CPU
 		{0F163106-7C92-4BB8-B54C-0FF8315D1779}.Release|x86.Build.0 = Release|Any CPU
+		{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}.Debug|x86.Build.0 = Debug|Any CPU
+		{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}.Release|x86.ActiveCfg = Release|Any CPU
+		{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
