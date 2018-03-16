@@ -1,104 +1,104 @@
 ﻿<?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*"
+  <Product Id="*"
 		Name="Bellekens EA Toolpack"
 		Language="1033"
 		Version="1.5.7.0"
 		UpgradeCode="38FA9DDF-F162-4EB2-A836-0A66A78F5EC6"
 		Manufacturer="Bellekens">
-		<Package Description="Installs the Bellekens EA Toolpack v1.5.7.0 on this computer"
+    <Package Description="Installs the Bellekens EA Toolpack v1.5.7.0 on this computer"
 			Comments="Contains EA Navigator, EA-Matic, EA Message Composer EA Database Transformer, EA Imvertor, EA TFS connector and EA Mapping"
 			InstallerVersion="200"
 			Compressed="yes"
 			InstallScope="perMachine"/>
-		
-		<Icon Id="Bellekens.ico" SourceFile=".\Files\Bellekens.ico"/>
-		<Property Id="ARPPRODUCTICON" Value="Bellekens.ico" />
-		<Property Id="ARPHELPLINK" Value="http://bellekens.com" />
-		
-		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
-		
-		<Upgrade Id="38FA9DDF-F162-4EB2-A836-0A66A78F5EC6">
-      	<UpgradeVersion Minimum="1.5.7.0"
-                      IncludeMinimum="no"
-                      OnlyDetect="yes"
-                      Language="1033"
-                      Property="NEWPRODUCTFOUND" />
-     	<UpgradeVersion Minimum="0.1.0.0"
+
+    <Icon Id="Bellekens.ico" SourceFile=".\Files\Bellekens.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="Bellekens.ico" />
+    <Property Id="ARPHELPLINK" Value="http://bellekens.com" />
+
+    <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
+
+    <Upgrade Id="38FA9DDF-F162-4EB2-A836-0A66A78F5EC6">
+      <UpgradeVersion Minimum="1.5.7.0"
+                    IncludeMinimum="no"
+                    OnlyDetect="yes"
+                    Language="1033"
+                    Property="NEWPRODUCTFOUND" />
+      <UpgradeVersion Minimum="0.1.0.0"
                       IncludeMinimum="yes"
                       Maximum="1.5.7.0"
                       IncludeMaximum="no"
                       Language="1033"
                       Property="UPGRADEFOUND" />
-    	</Upgrade>
-		
-		<!-- Installation directory and files are defined in Files.wxs -->
-		<Directory Id="TARGETDIR" Name="SourceDir"/>
-		
-		<Feature Id="EAAddinFramework"
+    </Upgrade>
+
+    <!-- Installation directory and files are defined in Files.wxs -->
+    <Directory Id="TARGETDIR" Name="SourceDir"/>
+
+    <Feature Id="EAAddinFramework"
 		         Title="EA addin Framework"
 		         Description="Shared framework component for all add-ins"
 		         Absent="disallow"
 		         Level="1">
-		         <ComponentRef Id="Framework_AddinFiles"/>
-		</Feature>		
-		<Feature Id="ECDMMesageComposer"
+      <ComponentRef Id="Framework_AddinFiles"/>
+    </Feature>
+    <Feature Id="ECDMMesageComposer"
 		         Title="EA Message composer"
 		         Description="Enterprise Architect schema composer add-in"
 		         Level="1">
-		         <ComponentRef Id="ECDM_AddinFiles"/>
-				 <ComponentRef Id="ECDM_RegistryEntry"/>
-				 <ComponentRef Id="ECDM_RegistryEntry_x86"/>
-		</Feature>
-		<Feature Id="EANavigator"
+      <ComponentRef Id="ECDM_AddinFiles"/>
+      <ComponentRef Id="ECDM_RegistryEntry"/>
+      <ComponentRef Id="ECDM_RegistryEntry_x86"/>
+    </Feature>
+    <Feature Id="EANavigator"
 		         Title="EA Navigator"
 		         Description="Add-in for easy navigation in a model"
 		         Level="1">
-		         <ComponentRef Id="EANavigator_AddinFiles"/>
-				 <ComponentRef Id="EANavigator_RegistryEntry"/>
-				 <ComponentRef Id="EANavigator_RegistryEntry_x86"/>
-		</Feature>
-		<Feature Id="EAMatic"
+      <ComponentRef Id="EANavigator_AddinFiles"/>
+      <ComponentRef Id="EANavigator_RegistryEntry"/>
+      <ComponentRef Id="EANavigator_RegistryEntry_x86"/>
+    </Feature>
+    <Feature Id="EAMatic"
 		         Title="EA-Matic"
 		         Description="Use scripting as a substitute for compiled add-ins"
 		         Level="1">
-		         <ComponentRef Id="EAMatic_AddinFiles"/>
-				 <ComponentRef Id="EAMatic_RegistryEntry"/>
-				 <ComponentRef Id="EAMatic_RegistryEntry_x86"/>
-		</Feature>	
-		<Feature Id="EAImvertor"
+      <ComponentRef Id="EAMatic_AddinFiles"/>
+      <ComponentRef Id="EAMatic_RegistryEntry"/>
+      <ComponentRef Id="EAMatic_RegistryEntry_x86"/>
+    </Feature>
+    <Feature Id="EAImvertor"
 		         Title="EA Imvertor"
 		         Description="Call the Imvertor server from within Enterprise Architect"
 		         Level="1">
-		         <ComponentRef Id="EAImvertor_AddinFiles"/>
-				 <ComponentRef Id="EAImvertor_RegistryEntry"/>
-				 <ComponentRef Id="EAImvertor_RegistryEntry_x86"/>
-		</Feature>
-		<Feature Id="EABDTransformer"
+      <ComponentRef Id="EAImvertor_AddinFiles"/>
+      <ComponentRef Id="EAImvertor_RegistryEntry"/>
+      <ComponentRef Id="EAImvertor_RegistryEntry_x86"/>
+    </Feature>
+    <Feature Id="EABDTransformer"
 		         Title="EA Database Transformer"
 		         Description="Transform logical data models to database models"
 		         Level="1">
-		         <ComponentRef Id="EABDTransformer_AddinFiles"/>
-				 <ComponentRef Id="EABDTransformer_RegistryEntry"/>
-				 <ComponentRef Id="EABDTransformer_RegistryEntry_x86"/>
-		</Feature>
-		<Feature Id="EATFSConnector"
+      <ComponentRef Id="EABDTransformer_AddinFiles"/>
+      <ComponentRef Id="EABDTransformer_RegistryEntry"/>
+      <ComponentRef Id="EABDTransformer_RegistryEntry_x86"/>
+    </Feature>
+    <Feature Id="EATFSConnector"
 		         Title="EA TFS Connector"
 		         Description="Synchronize workitems between TFS and EA"
 		         Level="1">
-		         <ComponentRef Id="EATFSConnector_AddinFiles"/>
-				 <ComponentRef Id="EATFSConnector_RegistryEntry"/>
-				 <ComponentRef Id="EATFSConnector_RegistryEntry_x86"/>
-		</Feature>
-		<Feature Id="EDD"
+      <ComponentRef Id="EATFSConnector_AddinFiles"/>
+      <ComponentRef Id="EATFSConnector_RegistryEntry"/>
+      <ComponentRef Id="EATFSConnector_RegistryEntry_x86"/>
+    </Feature>
+    <Feature Id="EDD"
 		         Title="Enterprise Data Dictionary"
 		         Description="Maintain an Enterprise Data Dictionary in EA"
 		         Level="1">
-		         <ComponentRef Id="EDD_AddinFiles"/>
-				 <ComponentRef Id="EDD_RegistryEntry"/>
-				 <ComponentRef Id="EDD_RegistryEntry_x86"/>
-		</Feature>
-		<!--
+      <ComponentRef Id="EDD_AddinFiles"/>
+      <ComponentRef Id="EDD_RegistryEntry"/>
+      <ComponentRef Id="EDD_RegistryEntry_x86"/>
+    </Feature>
+    <!--
 		<Feature Id="EAMapping"
 		         Title="EA Mapping"
 		         Description="Map data models in EA"
@@ -108,28 +108,28 @@
 				 <ComponentRef Id="EAMapping_RegistryEntry_x86"/>
 		</Feature>
 		-->
-				
-		<!-- Check for .Net framework 4.5 Client-->
-		<PropertyRef Id="NETFRAMEWORK45"/>
-		
-		
-		<Condition Message="This application requires .NET Framework v4.5 Please install the .NET Framework then run this installer again.">
-   		 <![CDATA[Installed OR NETFRAMEWORK45]]>
-		</Condition>
-		
-		<CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
-	 
-	    <!-- Sequences -->
-	    <InstallExecuteSequence>
-	      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
-	      <RemoveExistingProducts After="InstallValidate" />
-	    </InstallExecuteSequence>
-	   
-	    <InstallUISequence>
-	      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
-	    </InstallUISequence>
-		
-		<!-- 
+
+    <!-- Check for .Net framework 4.5 Client-->
+    <PropertyRef Id="NETFRAMEWORK45"/>
+
+
+    <Condition Message="This application requires .NET Framework v4.5 Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    </Condition>
+
+    <CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
+
+    <!-- Sequences -->
+    <InstallExecuteSequence>
+      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+      <RemoveExistingProducts After="InstallValidate" />
+    </InstallExecuteSequence>
+
+    <InstallUISequence>
+      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+    </InstallUISequence>
+
+    <!-- 
 			Using the Wix UI library
  
 			With the the WixUI_FeatureTree dialog set the user goes 
@@ -137,6 +137,6 @@
 			customization dialog. This dialog set is useful
 			when your product installs all features by default. 
 		-->
-		<UIRef Id="WixUI_FeatureTree"/>
-	</Product>
+    <UIRef Id="WixUI_FeatureTree"/>
+  </Product>
 </Wix>
