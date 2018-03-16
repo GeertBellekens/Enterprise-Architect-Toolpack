@@ -2,20 +2,26 @@ Enterprise Architect Toolpack
 by Geert Bellekens (geert@bellekens.com)
 Copyright 2011 , Geert Bellekens
 
-Homepage:
-http://geertbellekens.github.com/Enterprise-Architect-Toolpack/
+Download:
+https://bellekens.com/product/bellekens-enterprise-architect-toolpack/
 
 Description:
-The Enterprise Architect Toolpack will contain the actual tools and add-ins for Sparx Systems Enterprise Architect that can be used by end-users.
-In time more add-ins and tools will be added to this repository.
+The Enterprise Architect Toolpack contains the actual tools and add-ins for Sparx Systems Enterprise Architect
 
 Contains:
-- EANavigator/ An add-in allowing to navigate from an operation to all sequence diagrams that use it, and vice versa, from a message that calls an operation to the actual operation.
+- [EA Navigator](https://bellekens.com/ea-navigator/)
+- [EA Message Composer](https://bellekens.com/ecdm-message-composer/)
+- [EA TFS Connector](https://bellekens.com/ea-tfs-connector/)
+- [EA-Matic](https://bellekens.com/ea-matic/)
+- [EA Database Transformer](https://bellekens.com/ea-database-transformer/)
+- [EA Imvertor](https://bellekens.com/ea-imvertor/)
 
 
 Dependencies:
-- Enterprise Architect Add-in Framework: https://github.com/GeertBellekens/Enterprise-Architect-Add-in-Framework
-- UML Tooling Framework: https://github.com/GeertBellekens/UML-Tooling-Framework
+- [Enterprise Architect Add-in Framework](https://github.com/GeertBellekens/Enterprise-Architect-Add-in-Framework)
+- [UML Tooling Framework](https://github.com/GeertBellekens/UML-Tooling-Framework)
+- [cobol-object-mapper](https://github.com/GeertBellekens/cobol-object-mapper)
+- [DDL-parser](https://github.com/GeertBellekens/DDL-Parser)
 
 More info:
-http://geertbellekens.wordpress.com
+http://bellekens.com
