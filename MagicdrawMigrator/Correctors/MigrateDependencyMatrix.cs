@@ -34,16 +34,7 @@ namespace MagicdrawMigrator
 				
 				
 				foreach(var mdDependency in magicDrawReader.allAttDependencies)
-				{
-					
-					EAOutputLogger.log(this.model,this.outputName
-					                   	,string.Format("{0} Get dependency '{1}' --> '{2}'"
-	                                  	,DateTime.Now.ToLongTimeString()
-	                                 	,mdDependency.sourceName
-	                                	,mdDependency.targetName)
-	                   ,0
-	                  ,LogTypeEnum.log);
-					
+				{			
 					//get the corresponding attributes in EA
 					//source element
 					var sourceElement = (TSF_EA.Class)getElementByMDid(mdDependency.sourceParentGuid);
@@ -61,9 +52,9 @@ namespace MagicdrawMigrator
 						
 						if (sourceAttribute!= null && targetAttribute != null)
 						{
-							sourceAttribute.addTaggedValue("sourceAttribute", mdDependency.targetGuid);
-						
-						
+                            //add duplicates here to allow for 
+							sourceAttribute.addTaggedValue("sourceAttribute", mdDependency.targetGuid,null,true);
+												
 							EAOutputLogger.log(this.model,this.outputName
 							                   	,string.Format("{0} Set sourceAttribute '{1}' for '{2}'"
 			                                  	,DateTime.Now.ToLongTimeString()
