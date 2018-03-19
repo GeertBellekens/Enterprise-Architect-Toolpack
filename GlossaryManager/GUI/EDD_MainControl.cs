@@ -31,21 +31,24 @@ namespace GlossaryManager.GUI
         private void setColumnsListViewDelegates()
         {
             //tell the control who can expand (only tables)
-            this.columnsListView.CanExpandGetter = delegate (object x) {
+            this.columnsListView.CanExpandGetter = delegate (object x)
+            {
                 return (x is EDDTable);
             };
             //tell the control how to expand
-            this.columnsListView.ChildrenGetter = delegate (object x) {
+            this.columnsListView.ChildrenGetter = delegate (object x)
+            {
                 var table = (EDDTable)x;
                 return table.columns;
             };
             //tell the control which image to show
-            this.C_NameColumn.ImageGetter = delegate (object rowObject) {
+            this.C_NameColumn.ImageGetter = delegate (object rowObject)
+            {
                 if (rowObject is EDDTable) return "table";
                 if (rowObject is EDDColumn) return "column";
                 else return string.Empty;
             };
-            
+
         }
         private void enableDisable()
         {
@@ -284,9 +287,9 @@ namespace GlossaryManager.GUI
                     || !dataItem.Size.HasValue && !string.IsNullOrEmpty(DI_SizeNumericUpDown.Text)
                     || dataItem.Size.HasValue && string.IsNullOrEmpty(DI_SizeNumericUpDown.Text)
                     || dataItem.Size.HasValue && dataItem.Size.Value != decimal.ToInt32(DI_SizeNumericUpDown.Value)
-                    || !dataItem.precision.HasValue && !string.IsNullOrEmpty(DI_PrecisionUpDown.Text)
-                    || dataItem.precision.HasValue && string.IsNullOrEmpty(DI_PrecisionUpDown.Text)
-                    || dataItem.precision.HasValue && dataItem.precision.Value != decimal.ToInt32(DI_PrecisionUpDown.Value)
+                    || !dataItem.Precision.HasValue && !string.IsNullOrEmpty(DI_PrecisionUpDown.Text)
+                    || dataItem.Precision.HasValue && string.IsNullOrEmpty(DI_PrecisionUpDown.Text)
+                    || dataItem.Precision.HasValue && dataItem.Precision.Value != decimal.ToInt32(DI_PrecisionUpDown.Value)
                     || dataItem.Format != DI_FormatTextBox.Text
                     || dataItem.InitialValue != DI_InitialValueTextBox.Text;
 
@@ -333,8 +336,8 @@ namespace GlossaryManager.GUI
                     this.DI_DatatypeTextBox.Tag = this.selectedDataItem.logicalDatatype;
                     this.DI_SizeNumericUpDown.Value = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.Value : 0;
                     this.DI_SizeNumericUpDown.Text = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.ToString() : string.Empty;
-                    this.DI_PrecisionUpDown.Value = this.selectedDataItem.precision.HasValue ? this.selectedDataItem.precision.Value : 0;
-                    this.DI_PrecisionUpDown.Text = this.selectedDataItem.precision.HasValue ? this.selectedDataItem.precision.ToString() : string.Empty;
+                    this.DI_PrecisionUpDown.Value = this.selectedDataItem.Precision.HasValue ? this.selectedDataItem.Precision.Value : 0;
+                    this.DI_PrecisionUpDown.Text = this.selectedDataItem.Precision.HasValue ? this.selectedDataItem.Precision.ToString() : string.Empty;
                     this.DI_FormatTextBox.Text = this.selectedDataItem.Format;
                     this.DI_InitialValueTextBox.Text = this.selectedDataItem.InitialValue;
                     this.DI_StatusComboBox.Text = selectedDataItem.Status;
@@ -352,7 +355,7 @@ namespace GlossaryManager.GUI
                     this.C_PrecisionUpDown.Value = this.selectedColumn.column.type != null ? this.selectedColumn.column.type.precision : 0;
                     this.C_PrecisionUpDown.Text = this.selectedColumn.column.type?.precision.ToString();
                     C_DatatypeDropdown.Items.Clear();
-                    foreach (var datatype in this.selectedColumn.column.ownerTable.owner.factory.baseDataTypes)
+                    foreach (var datatype in this.selectedColumn.column.factory.baseDataTypes)
                     {
                         C_DatatypeDropdown.Items.Add(datatype);
                     }
@@ -445,9 +448,9 @@ namespace GlossaryManager.GUI
             else
                 item.Size = decimal.ToInt32(this.DI_SizeNumericUpDown.Value);
             if (string.IsNullOrEmpty(DI_PrecisionUpDown.Text))
-                item.precision = null;
+                item.Precision = null;
             else
-                item.precision = decimal.ToInt32(this.DI_PrecisionUpDown.Value);
+                item.Precision = decimal.ToInt32(this.DI_PrecisionUpDown.Value);
             item.Format = this.DI_FormatTextBox.Text;
             item.InitialValue = this.DI_InitialValueTextBox.Text;
             item.Status = this.DI_StatusComboBox.Text;
@@ -592,6 +595,19 @@ namespace GlossaryManager.GUI
                 var dataItem = this.selectedColumn.selectDataItem();
                 this.C_DataItemTextBox.Text = dataItem?.Name;
                 this.C_DataItemTextBox.Tag = dataItem;
+
+                if (dataItem != null &&
+                    this.selectedColumn.dataItem.GUID != dataItem.GUID)
+                {
+                    //reset to defaults based on the logical datatype and its technical mapping
+                    this.C_NameTextBox.Text = dataItem.Label;
+                    this.C_SizeUpDown.Value = dataItem.Size.HasValue ? dataItem.Size.Value: 0 ;
+                    this.C_SizeUpDown.Text = dataItem.Size.HasValue ? dataItem.Size.Value.ToString() : string.Empty;
+                    this.C_PrecisionUpDown.Value = dataItem.Precision.HasValue ? dataItem.Precision.Value : 0;
+                    this.C_PrecisionUpDown.Text = dataItem.Precision.HasValue ? dataItem.Precision.Value.ToString() : string.Empty;
+                    this.C_DatatypeDropdown.Text = dataItem.logicalDatatype?.getBaseDatatype(this.selectedColumn.column.factory.databaseName)?.name;
+                    this.C_DefaultTextBox.Text = dataItem.InitialValue;
+                }
             }
         }
         private void columnsListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -623,7 +639,7 @@ namespace GlossaryManager.GUI
         {
             enableDisable();
         }
-        
+
     }
 
     public enum GlossaryTab

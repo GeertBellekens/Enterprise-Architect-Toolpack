@@ -33,7 +33,7 @@ namespace GlossaryManager
                 string suffix = Size.HasValue && Size.Value > 0 ? "(" + Size.ToString() : string.Empty;
                 if (! string.IsNullOrEmpty(suffix))
                 {
-                    suffix += this.precision.HasValue && this.precision.Value > 0 ? "," + this.precision.ToString() : string.Empty;
+                    suffix += this.Precision.HasValue && this.Precision.Value > 0 ? "," + this.Precision.ToString() : string.Empty;
                     suffix += ")";
                 }
                 return this.logicalDatatype?.name + suffix;
@@ -64,7 +64,7 @@ namespace GlossaryManager
         }
         private bool precisionLoaded = false;
         private int? _precision;
-        public int? precision
+        public int? Precision
         {
             get
             {
@@ -137,7 +137,7 @@ namespace GlossaryManager
             this.origin.addTaggedValue("label", this.Label);
             this.origin.addTaggedValue("initial value", this.InitialValue);
             this.origin.addTaggedValue("size", this.Size.HasValue ? this.Size.Value.ToString() : string.Empty);
-            this.origin.addTaggedValue("precision", this.precision.HasValue ? this.precision.Value.ToString() : string.Empty);
+            this.origin.addTaggedValue("precision", this.Precision.HasValue ? this.Precision.Value.ToString() : string.Empty);
             this.origin.addTaggedValue("format", this.Format);
             this.origin.addTaggedValue("logical datatype", this.logicalDatatype?.GUID);
             this.origin.addTaggedValue("business item", this.businessItem?.GUID);
