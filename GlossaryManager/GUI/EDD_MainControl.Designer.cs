@@ -177,7 +177,6 @@ namespace GlossaryManager.GUI
             // domainBreadCrumb
             // 
             this.domainBreadCrumb.AutoSize = false;
-            this.domainBreadCrumb.ControlBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlClient;
             this.domainBreadCrumb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.domainBreadCrumb.Location = new System.Drawing.Point(0, 0);
             this.domainBreadCrumb.Name = "domainBreadCrumb";
@@ -1112,6 +1111,7 @@ namespace GlossaryManager.GUI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.columnsListView.CellEditUseWholeCell = false;
+            this.columnsListView.CheckedAspectName = "showAllColumns";
             this.columnsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.C_NameColumn,
             this.C_PropertiesColumn,

@@ -13,12 +13,13 @@ namespace GlossaryManager
     {
         public DB_EA.Table wrappedTable { get { return this._wrappedTable; } }
         private DB_EA.Table _wrappedTable;
-        private GlossaryManagerSettings settings;
+        private GlossaryManagerSettings settings;   
         public EDDTable(DB_EA.Table wrappedTable, GlossaryManagerSettings settings)
         {
             this._wrappedTable = wrappedTable;
             this.settings = settings;
         }
+        public Boolean showAllColumns { get; set; }
         List<EDDColumn> _colums = new List<EDDColumn>();
         public List<EDDColumn> columns
         {

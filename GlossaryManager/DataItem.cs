@@ -219,8 +219,9 @@ namespace GlossaryManager
         internal BusinessItem selectBusinessItem()
         {
             //let the user select a business item
-            var businessItemOrigin = this.origin.model.getUserSelectedElement(new List<string>() { "Class" },
-                new List<string>() { new BusinessItem().Stereotype }) as UML.Classes.Kernel.Class;
+            var businessItemOrigin = this.origin.model.getUserSelectedElement(new List<string>() { "Class" }
+                                    , new List<string>() { new BusinessItem().Stereotype }
+                                    , this.businessItem?.GUID) as UML.Classes.Kernel.Class;
             return new GlossaryItemFactory(this.settings).FromClass<BusinessItem>(businessItemOrigin);
         }
         protected override void setOwningPackage()
@@ -235,8 +236,9 @@ namespace GlossaryManager
         internal LogicalDatatype selectLogicalDataType()
         {
             //let the user select a logical datatype
-            var dataType = this.origin.model.getUserSelectedElement(new List<string>() { "DataType" },
-                new List<string>() { LogicalDatatype.stereoType }) as UML.Classes.Kernel.DataType;
+            var dataType = this.origin.model.getUserSelectedElement(new List<string>() { "DataType" }
+                                    ,new List<string>() { LogicalDatatype.stereoType }
+                                    ,this.logicalDatatype?.GUID) as UML.Classes.Kernel.DataType;
             if (dataType != null)
                 return new LogicalDatatype(dataType);
             else

@@ -102,8 +102,9 @@ namespace GlossaryManager
         public DataItem selectDataItem()
         {
             //let the user select a logical datatype
-            var dataItemclass = this._wrappedColumn.wrappedattribute.model.getUserSelectedElement(new List<string>() { "Class" },
-                new List<string>() {new DataItem().Stereotype }) as UML.Classes.Kernel.Class;
+            var dataItemclass = this._wrappedColumn.wrappedattribute.model.getUserSelectedElement(new List<string>() { "Class" }
+                ,new List<string>() {new DataItem().Stereotype }
+                , this.dataItem?.GUID) as UML.Classes.Kernel.Class;
             if (dataItemclass != null)
                 return new GlossaryItemFactory(this.settings).FromClass<DataItem>(dataItemclass);
             else

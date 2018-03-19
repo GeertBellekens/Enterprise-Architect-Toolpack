@@ -48,6 +48,7 @@ namespace GlossaryManager.GUI
                 if (rowObject is EDDColumn) return "column";
                 else return string.Empty;
             };
+            
 
         }
         private void enableDisable()
@@ -222,6 +223,16 @@ namespace GlossaryManager.GUI
 
         private void BusinessItemsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //check if the business item data has been changed
+            validateBusinessItemChanges();
+            //then load the next item
+            loadSelectedItemData();
+            enableDisable();
+            //set the previous business item
+            this.previousBusinessItem = this.selectedBusinessItem;
+        }
+        private void validateBusinessItemChanges()
+        {
             //check if the previous item has been changed
             if (this.previousBusinessItem != null)
             {
@@ -236,13 +247,18 @@ namespace GlossaryManager.GUI
                     }
                 }
             }
+        }
+        private void dataItemsListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //validate the possible changes
+            validateDataItemsChanges();
             //then load the next item
             loadSelectedItemData();
             enableDisable();
             //set the previous business item
-            this.previousBusinessItem = this.selectedBusinessItem;
+            this.previousDataItem = this.selectedDataItem;
         }
-        private void dataItemsListView_SelectedIndexChanged(object sender, EventArgs e)
+        private void validateDataItemsChanges()
         {
             //check if the previous item has been changed
             if (this.previousDataItem != null)
@@ -258,11 +274,6 @@ namespace GlossaryManager.GUI
                     }
                 }
             }
-            //then load the next item
-            loadSelectedItemData();
-            enableDisable();
-            //set the previous business item
-            this.previousDataItem = this.selectedDataItem;
         }
         private bool hasBusinessitemChanged(BusinessItem businessItem)
         {
@@ -536,6 +547,21 @@ namespace GlossaryManager.GUI
         {
             //set mousecursor
             Cursor.Current = Cursors.WaitCursor;
+            //validate possible changes
+            switch (this.previousTab)
+            {
+                case GlossaryTab.BusinessItems:
+                    this.validateBusinessItemChanges();
+                    break;
+                case GlossaryTab.DataItems:
+                    this.validateDataItemsChanges();
+                    break;
+                case GlossaryTab.Columns:
+                    this.validateColumnChanges();
+                    break;
+            }
+            //set previous tab
+            this.previousTab = this.selectedTab;
             //reset previous items
             switch (this.selectedTab)
             {
@@ -561,6 +587,7 @@ namespace GlossaryManager.GUI
                 else return GlossaryTab.Columns;
             }
         }
+        public GlossaryTab previousTab { get; set; }
 
         private void DI_BusinessItemSelectButton_Click(object sender, EventArgs e)
         {
@@ -612,6 +639,16 @@ namespace GlossaryManager.GUI
         }
         private void columnsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //check if column data has been changed
+            validateColumnChanges();
+            //then load the next item
+            loadSelectedItemData();
+            enableDisable();
+            //set the previous business item
+            this.previousColumn = this.selectedColumn;
+        }
+        private void validateColumnChanges()
+        {
             //check if the previous item has been changed
             if (this.previousColumn != null)
             {
@@ -626,14 +663,7 @@ namespace GlossaryManager.GUI
                     }
                 }
             }
-            //then load the next item
-            loadSelectedItemData();
-            enableDisable();
-            //set the previous business item
-            this.previousColumn = this.selectedColumn;
         }
-
-
 
         private void C_DatatypeDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
