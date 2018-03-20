@@ -11,10 +11,11 @@ namespace GlossaryManager
 {
     public class EDDColumn: IEDDItem
     {
-
-        public EDDColumn(DB_EA.Column wrappedColumn, GlossaryManagerSettings settings)
+        public EDDTable table { get; private set; }
+        public EDDColumn(DB_EA.Column wrappedColumn,EDDTable table, GlossaryManagerSettings settings)
         {
             this._wrappedColumn = wrappedColumn;
+            this.table = table;
             this.settings = settings;
         }
         public static List<EDDTable> createColumns(TSF_EA.Model model, List<DataItem> dataItems, GlossaryManagerSettings settings)
@@ -36,10 +37,10 @@ namespace GlossaryManager
                     var dbColumn = DB_EA.DatabaseFactory.createColumn(attribute);
                     if (dbColumn != null)
                     {
-                        var newColumn = new EDDColumn(dbColumn, settings);
                         EDDTable ownerTable = tables.ContainsKey(classElement.uniqueID) ?
                                               tables[classElement.uniqueID]
                                               : new EDDTable((DB_EA.Table)dbColumn.ownerTable, settings);
+                        var newColumn = new EDDColumn(dbColumn, ownerTable, settings);
                         ownerTable.addColumn(newColumn);
                         tables[ownerTable.uniqueID] = ownerTable;
                     }

@@ -199,7 +199,7 @@ namespace GlossaryManager.GUI
         {
             get
             {
-                return this.columnsListView.SelectedObject as EDDColumn;
+                return this.selectedItem as EDDColumn;
             }
         }
         private IEDDItem selectedItem
@@ -213,7 +213,7 @@ namespace GlossaryManager.GUI
                     case GlossaryTab.DataItems:
                         return this.selectedDataItem;
                     case GlossaryTab.Columns:
-                        return this.selectedColumn;
+                        return this.columnsListView.SelectedObject as IEDDItem;
                     default:
                         //should never happen
                         return this.selectedBusinessItem;
@@ -360,29 +360,32 @@ namespace GlossaryManager.GUI
                     this.DI_ModifiedUserTextBox.Text = selectedDataItem.UpdatedBy;
                     break;
                 case GlossaryTab.Columns:
-                    this.C_NameTextBox.Text = this.selectedColumn.name;
-                    this.C_SizeUpDown.Text = this.selectedColumn.column.type?.length.ToString();
-                    this.C_SizeUpDown.Value = this.selectedColumn.column.type != null ? this.selectedColumn.column.type.length : 0;
-                    this.C_PrecisionUpDown.Value = this.selectedColumn.column.type != null ? this.selectedColumn.column.type.precision : 0;
-                    this.C_PrecisionUpDown.Text = this.selectedColumn.column.type?.precision.ToString();
+                    this.C_NameTextBox.Text = this.selectedColumn?.name;
+                    this.C_SizeUpDown.Text = this.selectedColumn?.column.type?.length.ToString();
+                    this.C_SizeUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.length : 0;
+                    this.C_PrecisionUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.precision : 0;
+                    this.C_PrecisionUpDown.Text = this.selectedColumn?.column.type?.precision.ToString();
                     C_DatatypeDropdown.Items.Clear();
-                    foreach (var datatype in this.selectedColumn.column.factory.baseDataTypes)
+                    if (this.selectedColumn != null)
                     {
-                        C_DatatypeDropdown.Items.Add(datatype);
+                        foreach (var datatype in this.selectedColumn.column.factory.baseDataTypes)
+                        {
+                            C_DatatypeDropdown.Items.Add(datatype);
+                        }
                     }
                     this.C_DatatypeDropdown.DisplayMember = "name";
-                    this.C_DatatypeDropdown.Text = this.selectedColumn.column.type?.name;
-                    if (this.selectedColumn.column.type != null
+                    this.C_DatatypeDropdown.Text = this.selectedColumn?.column.type?.name;
+                    if (this.selectedColumn?.column.type != null
                         && this.C_DatatypeDropdown.SelectedItem == null)
                     {
                         //find the datatype
                         this.C_DatatypeDropdown.Items.Add(this.selectedColumn.column.type.type);
                         this.C_DatatypeDropdown.SelectedItem = this.selectedColumn.column.type.type;
                     }
-                    this.C_NotNullCheckBox.Checked = this.selectedColumn.column.isNotNullable;
-                    this.C_DefaultTextBox.Text = this.selectedColumn.column.initialValue;
-                    this.C_DataItemTextBox.Text = this.selectedColumn.dataItem?.Name;
-                    this.C_DataItemTextBox.Tag = this.selectedColumn.dataItem;
+                    this.C_NotNullCheckBox.Checked = this.selectedColumn != null ? this.selectedColumn.column.isNotNullable : false;
+                    this.C_DefaultTextBox.Text = this.selectedColumn?.column.initialValue;
+                    this.C_DataItemTextBox.Text = this.selectedColumn?.dataItem?.Name;
+                    this.C_DataItemTextBox.Tag = this.selectedColumn?.dataItem;
                     break;
             }
         }
@@ -575,6 +578,9 @@ namespace GlossaryManager.GUI
                     this.previousColumn = null;
                     break;
             }
+            //make the specific columns button invisible
+            this.showAllColumnsButton.Visible = this.selectedTab == GlossaryTab.Columns;
+            //execute event
             this.selectedTabChanged?.Invoke(sender, e);
             Cursor.Current = Cursors.Default;
         }
@@ -669,7 +675,24 @@ namespace GlossaryManager.GUI
         {
             enableDisable();
         }
-
+        private EDDTable selectedTable
+        {
+            get
+            {
+                if (this.selectedItem == null)
+                    return null;
+                var table = this.selectedItem as EDDTable;
+                return table != null ? table : this.selectedColumn.table;
+            }
+        }
+        private void showAllColumnsButton_Click(object sender, EventArgs e)
+        {
+            if (this.selectedTable != null)
+            {
+                this.selectedTable.loadAllColumns();
+                this.columnsListView.RefreshObject(this.selectedTable);
+            }
+        }
     }
 
     public enum GlossaryTab

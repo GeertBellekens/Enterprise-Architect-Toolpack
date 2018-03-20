@@ -38,7 +38,7 @@ namespace GlossaryManager
             this.columns.Clear();
             foreach (var column in this.wrappedTable.columns)
             {
-                this.addColumn(new EDDColumn((DB_EA.Column)column, this.settings));
+                this.addColumn(new EDDColumn((DB_EA.Column)column,this, this.settings));
             }
         }
         public string uniqueID

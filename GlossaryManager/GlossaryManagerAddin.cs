@@ -337,7 +337,7 @@ namespace GlossaryManager
                     var eddTable = new EDDTable((DB_EA.Table)table, this.settings);
                     foreach (DB_EA.Column column in table.columns)
                     {
-                        eddTable.addColumn(new EDDColumn(column, this.settings));
+                        eddTable.addColumn(new EDDColumn(column, eddTable, this.settings));
                     }
                 }
             }

@@ -141,6 +141,7 @@ namespace GlossaryManager.GUI
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
+            this.showAllColumnsButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.newButton = new System.Windows.Forms.Button();
             this.openPropertiesButton = new System.Windows.Forms.Button();
@@ -1193,6 +1194,7 @@ namespace GlossaryManager.GUI
             // 
             this.ButtonPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonPanel.Controls.Add(this.showAllColumnsButton);
             this.ButtonPanel.Controls.Add(this.deleteButton);
             this.ButtonPanel.Controls.Add(this.newButton);
             this.ButtonPanel.Controls.Add(this.openPropertiesButton);
@@ -1203,6 +1205,18 @@ namespace GlossaryManager.GUI
             this.ButtonPanel.Name = "ButtonPanel";
             this.ButtonPanel.Size = new System.Drawing.Size(937, 41);
             this.ButtonPanel.TabIndex = 2;
+            // 
+            // showAllColumnsButton
+            // 
+            this.showAllColumnsButton.Image = ((System.Drawing.Image)(resources.GetObject("showAllColumnsButton.Image")));
+            this.showAllColumnsButton.Location = new System.Drawing.Point(176, 7);
+            this.showAllColumnsButton.Name = "showAllColumnsButton";
+            this.showAllColumnsButton.Size = new System.Drawing.Size(29, 28);
+            this.showAllColumnsButton.TabIndex = 6;
+            this.myToolTip.SetToolTip(this.showAllColumnsButton, "Show All columns");
+            this.showAllColumnsButton.UseVisualStyleBackColor = true;
+            this.showAllColumnsButton.Visible = false;
+            this.showAllColumnsButton.Click += new System.EventHandler(this.showAllColumnsButton_Click);
             // 
             // deleteButton
             // 
@@ -1391,5 +1405,6 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.CheckBox C_NotNullCheckBox;
         private System.Windows.Forms.ImageList columnsListViewImageList;
         private OLVColumn C_DatabaseColumn;
+        private System.Windows.Forms.Button showAllColumnsButton;
     }
 }
