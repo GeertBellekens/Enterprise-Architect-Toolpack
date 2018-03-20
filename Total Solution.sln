@@ -1,11 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-<<<<<<< HEAD
 VisualStudioVersion = 15.0.27130.2027
-=======
-VisualStudioVersion = 15.0.27130.2010
->>>>>>> origin/master
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAddinFramework", "..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj", "{4161DD26-375F-4744-BA96-B70366E19A78}"
 EndProject
@@ -81,12 +77,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicdrawMigrator", "Magicd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlossaryManager", "GlossaryManager\GlossaryManager.csproj", "{0F163106-7C92-4BB8-B54C-0FF8315D1779}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAValidationFramework", "EAValidationFramework\EAValidationFramework.csproj", "{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAValidatorApp", "EAValidationFramework\EAValidatorApp.csproj", "{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAValidator", "EAValidator\EAValidator.csproj", "{3382D99A-B4A1-4E20-8745-8C283772909D}"
 EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
@@ -286,12 +281,23 @@ Global
 		{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}.Release|x86.ActiveCfg = Release|Any CPU
 		{C45DABCA-C5AC-48A4-901B-C55AD8A271AF}.Release|x86.Build.0 = Release|Any CPU
+		{3382D99A-B4A1-4E20-8745-8C283772909D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3382D99A-B4A1-4E20-8745-8C283772909D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3382D99A-B4A1-4E20-8745-8C283772909D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3382D99A-B4A1-4E20-8745-8C283772909D}.Debug|x86.Build.0 = Debug|Any CPU
+		{3382D99A-B4A1-4E20-8745-8C283772909D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3382D99A-B4A1-4E20-8745-8C283772909D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3382D99A-B4A1-4E20-8745-8C283772909D}.Release|x86.ActiveCfg = Release|Any CPU
+		{3382D99A-B4A1-4E20-8745-8C283772909D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E32434E1-077D-42F5-B9EF-FFEF142382A5}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

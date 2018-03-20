@@ -7,32 +7,33 @@ using EAAddinFramework.Utilities;
 using TSF.UmlToolingFramework.UML.Extended;
 using System.Windows.Forms;
 
-namespace EAValidationFramework
+namespace EAValidator
 {
     /// <summary>
     /// EAValidatorController organizes the validations
     /// </summary>
     public class EAValidatorController
     {
-        TSF_EA.Model model { get; set; }
+        TSF_EA.Model _model { get; set; }
         public string outputName { get; private set; }
         public List<Validation> validations { get; set; }
         public List<Check> checks { get; set; }
-        public EAValidationFrameworkSettings settings { get; set; }
+        public EAValidatorSettings settings { get; set; }
 
-        public EAValidatorController()
+        public EAValidatorController():this(new TSF_EA.Model()) {  }
+
+        public EAValidatorController(TSF_EA.Model model)
         {
-            model = new TSF_EA.Model();
+            _model = model;
             validations = new List<Validation>();
             checks = new List<Check>();
-            this.settings = new EAValidationFrameworkSettings();
-            this.outputName = System.IO.Path.GetFileName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            this.settings = new EAValidatorSettings();
+            this.outputName = this.settings.outputName;
         }
 
         public TSF_EA.Element getUserSelectedElement()
         {
-            //return this.model.getUserSelectedElement(new List<string> { "Change", "Class", "Package" }) as TSF_EA.Element;
-            return this.model.getUserSelectedElement(new List<string> { this.settings.SearchElementTypes }) as TSF_EA.Element;
+            return this._model.getUserSelectedElement(new List<string> { "Change", "Package" }) as TSF_EA.Element;
         }
 
         public void OpenInEA(Validation validation)
@@ -41,7 +42,7 @@ namespace EAValidationFramework
             {
                 // First find the type of Item in EA
                 UMLItem item = null;
-                item = this.model.getItemFromGUID(validation.ItemGuid);
+                item = this._model.getItemFromGUID(validation.ItemGuid);
                 if (item != null)
                 {
                     // Select in EA Package Browser
@@ -84,7 +85,7 @@ namespace EAValidationFramework
                     if (Utils.ValidToXSD(this, file))
                     {
                         // add new check
-                        Check check = new Check(file, extension, this, this.model);
+                        Check check = new Check(file, extension, this, this._model);
                         checks.Add(check);
                         this.addLineToEAOutput("Check added: ", check.CheckId + " - " + check.CheckDescription);
                     }
@@ -105,7 +106,7 @@ namespace EAValidationFramework
                         // Verify that xml-doc is accepted by xsd
                         if (Utils.ValidToXSD(this, file))
                         {
-                            Check check = new Check(file, extension, this, this.model);
+                            Check check = new Check(file, extension, this, this._model);
                             checks.Add(check);
                             this.addLineToEAOutput("Check added: ", check.CheckId + " - " + check.CheckDescription);
                         }
@@ -120,12 +121,12 @@ namespace EAValidationFramework
 
         public void clearEAOutput()
         {
-            EAOutputLogger.clearLog(this.model, this.outputName);
+            EAOutputLogger.clearLog(this._model, this.outputName);
         }
 
         public void addLineToEAOutput(string outputline, string parameter)
         {
-            EAOutputLogger.log(this.model, this.outputName, string.Format("{0} {1} {2}", DateTime.Now.ToLongTimeString(), outputline, parameter), 0, LogTypeEnum.log);
+            EAOutputLogger.log(this._model, this.outputName, string.Format("{0} {1} {2}", DateTime.Now.ToLongTimeString(), outputline, parameter), 0, LogTypeEnum.log);
         }
 
         public bool ValidateChecks(ucEAValidator uc, List<Check> selectedchecks, TSF_EA.Element EA_element)
@@ -134,14 +135,14 @@ namespace EAValidationFramework
             clearEAOutput();
 
             // Check if the Enterprise Architect connection is sql
-            var repositoryType = this.model.repositoryType.ToString();
+            var repositoryType = this._model.repositoryType.ToString();
             if (!(this.settings.AllowedRepositoryTypes.Contains(repositoryType)))
             {
                 MessageBox.Show("Connectiontype of EA project not allowed: " + repositoryType + Environment.NewLine + "Please connect to another EA project.");
                 addLineToEAOutput("Connectiontype of EA project not allowed: ", repositoryType);
                 return false;
             }
-            addLineToEAOutput("Connected to: ", model.repositoryType.ToString());
+            addLineToEAOutput("Connected to: ", _model.repositoryType.ToString());
 
             // Check if any checks are selected
             int numberOfChecks = selectedchecks.Count();

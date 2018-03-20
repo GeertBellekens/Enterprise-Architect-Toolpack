@@ -2,7 +2,7 @@
  * User: wij
  * Date: 25/02/2011 4:52
  */
-namespace EAValidationFramework
+namespace EAValidator
 {
     partial class AboutWindow
     {

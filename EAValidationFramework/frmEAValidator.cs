@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using EAValidator;
 
-namespace EAValidationFramework
+namespace EAValidatorApp
 {
     public partial class frmEAValidator : Form
     {

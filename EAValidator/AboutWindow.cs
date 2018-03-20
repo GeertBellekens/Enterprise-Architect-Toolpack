@@ -6,7 +6,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace EAValidationFramework
+namespace EAValidator
 {
 	/// <summary>
 	/// Description of AboutWindow.

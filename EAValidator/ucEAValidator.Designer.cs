@@ -1,4 +1,4 @@
-﻿namespace EAValidationFramework
+﻿namespace EAValidator
 {
     partial class ucEAValidator
     {
@@ -112,12 +112,9 @@
             this.olvValidations.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvValidations.Location = new System.Drawing.Point(14, 368);
             this.olvValidations.Name = "olvValidations";
-            this.olvValidations.ShowCommandMenuOnRightClick = true;
             this.olvValidations.Size = new System.Drawing.Size(974, 195);
             this.olvValidations.TabIndex = 2;
             this.olvValidations.UseCompatibleStateImageBehavior = false;
-            this.olvValidations.UseFilterIndicator = true;
-            this.olvValidations.UseFiltering = true;
             this.olvValidations.View = System.Windows.Forms.View.Details;
             this.olvValidations.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.olvValidations_CellToolTipShowing);
             this.olvValidations.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvValidations_MouseDoubleClick);
@@ -215,7 +212,6 @@
             this.olvColCheckNumberOfElementsFound,
             this.olvColCheckNumberOfValidationResults});
             this.olvChecks.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvChecks.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.olvChecks.Location = new System.Drawing.Point(14, 60);
             this.olvChecks.Name = "olvChecks";
             this.olvChecks.Size = new System.Drawing.Size(974, 173);
@@ -228,10 +224,8 @@
             // olvColCheckDescription
             // 
             this.olvColCheckDescription.AspectName = "CheckDescription";
-            this.olvColCheckDescription.Groupable = false;
             this.olvColCheckDescription.HeaderCheckBox = true;
             this.olvColCheckDescription.HeaderCheckState = System.Windows.Forms.CheckState.Checked;
-            this.olvColCheckDescription.IsEditable = false;
             this.olvColCheckDescription.MaximumWidth = 800;
             this.olvColCheckDescription.MinimumWidth = 50;
             this.olvColCheckDescription.Text = "Description";
@@ -241,8 +235,6 @@
             // 
             this.olvColCheckId.AspectName = "CheckId";
             this.olvColCheckId.AspectToStringFormat = "";
-            this.olvColCheckId.Groupable = false;
-            this.olvColCheckId.IsEditable = false;
             this.olvColCheckId.MaximumWidth = 200;
             this.olvColCheckId.MinimumWidth = 50;
             this.olvColCheckId.Text = "Id";
@@ -252,8 +244,6 @@
             // olvColCheckStatus
             // 
             this.olvColCheckStatus.AspectName = "Status";
-            this.olvColCheckStatus.Groupable = false;
-            this.olvColCheckStatus.IsEditable = false;
             this.olvColCheckStatus.MaximumWidth = 250;
             this.olvColCheckStatus.MinimumWidth = 50;
             this.olvColCheckStatus.Text = "Status";
@@ -263,16 +253,12 @@
             // olvColCheckWarningType
             // 
             this.olvColCheckWarningType.AspectName = "WarningType";
-            this.olvColCheckWarningType.Groupable = false;
-            this.olvColCheckWarningType.IsEditable = false;
             this.olvColCheckWarningType.Text = "Warning Type";
             this.olvColCheckWarningType.Width = 100;
             // 
             // olvColCheckGroup
             // 
             this.olvColCheckGroup.AspectName = "Group";
-            this.olvColCheckGroup.Groupable = false;
-            this.olvColCheckGroup.IsEditable = false;
             this.olvColCheckGroup.Text = "Group";
             this.olvColCheckGroup.Width = 141;
             // 
@@ -280,7 +266,6 @@
             // 
             this.olvColCheckNumberOfElementsFound.AspectName = "NumberOfElementsFound";
             this.olvColCheckNumberOfElementsFound.AspectToStringFormat = "";
-            this.olvColCheckNumberOfElementsFound.Groupable = false;
             this.olvColCheckNumberOfElementsFound.Text = "# found";
             this.olvColCheckNumberOfElementsFound.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.olvColCheckNumberOfElementsFound.Width = 80;
@@ -289,7 +274,6 @@
             // 
             this.olvColCheckNumberOfValidationResults.AspectName = "NumberOfValidationResults";
             this.olvColCheckNumberOfValidationResults.AspectToStringFormat = "";
-            this.olvColCheckNumberOfValidationResults.Groupable = false;
             this.olvColCheckNumberOfValidationResults.Text = "# results";
             this.olvColCheckNumberOfValidationResults.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.olvColCheckNumberOfValidationResults.Width = 86;
@@ -461,7 +445,6 @@
             this.Controls.Add(this.btnDoValidation);
             this.Name = "ucEAValidator";
             this.Size = new System.Drawing.Size(1003, 579);
-            this.Load += new System.EventHandler(this.ucEAValidator_Load);
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

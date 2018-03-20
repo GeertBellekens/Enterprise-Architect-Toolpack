@@ -7,7 +7,7 @@ using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using System.Windows.Forms;
 using EAAddinFramework.Utilities;
 
-namespace EAValidationFramework
+namespace EAValidator
 {
     /// <summary>
     /// Class Validation defined to show in objectListView.
@@ -204,16 +204,27 @@ namespace EAValidationFramework
             if(this.Status == "ERROR")
             {
                 controller.addLineToEAOutput("- Error while searching elements.", "");
+                return validations;
             }
-            else if (foundelementguids.Length > 0)
+
+            if (foundelementguids.Length > 0)
             {
                 controller.addLineToEAOutput("- Elements found: ", this.NumberOfElementsFound);
                 
                 foundelementguids = foundelementguids.Substring(1);   // remove first ","
                 // Perform the checks for the elements found (based on their guids)
                 validations = CheckFoundElements(controller, foundelementguids);
+                if (this.Status == "ERROR")
+                {
+                    controller.addLineToEAOutput("- Error while validating found elements.", "");
+                }
+                controller.addLineToEAOutput("- Validation results found: ", this.NumberOfValidationResults);
             }
-            controller.addLineToEAOutput("- Validation results found: ", this.NumberOfValidationResults);
+            else
+            {
+                this.NumberOfValidationResults = "0";
+                controller.addLineToEAOutput("- No elements found.", "");
+            }
             return validations;
         }
 
@@ -228,25 +239,35 @@ namespace EAValidationFramework
                 if (!(String.IsNullOrEmpty(EA_element.guid)))
                 {
                     string filterType;
+                    string whereclause = string.Empty;
                     if (EA_element is TSF_EA.Package)
                     {
                         filterType = "Package";
+                        this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
+
+                        // Replace Branch with package-guids of branch
+                        if (whereclause.Contains(controller.settings.PackageBranch))
+                            whereclause = whereclause.Replace(controller.settings.PackageBranch, getBranchPackageIDsByGuid(EA_element.guid));
+                        else
+                            // Replace Search Term with Element guid
+                            whereclause = whereclause.Replace(controller.settings.SearchTermInQueryToFindElements, EA_element.guid);
                     }
                     else
                     {
                         filterType = EA_element.stereotypeNames.FirstOrDefault();
-                    }
-                    string whereclause = string.Empty;
-                    this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
+                        this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
+
+                        // Replace Search Term with Element guid
+                        whereclause = whereclause.Replace(controller.settings.SearchTermInQueryToFindElements, EA_element.guid);
+                    }                    
+                    
                     if (string.IsNullOrEmpty(whereclause))
-                    {
-                        //MessageBox.Show("Filter not found for check: " + Environment.NewLine + filterType + " -> " + this.CheckDescription);
+                    {                        
                         this.SetStatus("ERROR");
                         return "";
                     }
                     else
-                    {
-                        whereclause = whereclause.Replace(controller.settings.SearchTermInQuery, EA_element.guid);
+                    {                        
                         qryToFindElements = qryToFindElements + whereclause;
                     }
                 }
@@ -259,8 +280,15 @@ namespace EAValidationFramework
             var foundelementguids = "";
             try
             {
+                // Execute the query using EA
                 var elementsFound = this.model.SQLQuery(qryToFindElements);
                 
+                if(elementsFound.SelectSingleNode("//Row")==null)
+                {
+                    this.SetStatus("ERROR");
+                    return foundelementguids;
+                }
+
                 // Parse xml document with elements found and count number of elements found
                 foreach (XmlNode node in elementsFound.SelectNodes("//Row"))
                 {
@@ -275,23 +303,94 @@ namespace EAValidationFramework
             }
             catch (Exception)
             {
-                MessageBox.Show("Error in query: " + qryToFindElements);
+                //MessageBox.Show("Error in query: " + qryToFindElements);
                 this.SetStatus("ERROR");
             }
             return foundelementguids;
+        }
+
+        private string getBranchPackageIDsByGuid(string packageguid)
+        {
+            // Get query to select Package guids 9 levels deep of selected package
+            string qrybranchselectids = "SELECT p1.Package_ID" +
+                                       " FROM t_package AS p1" +
+                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
+                                       " UNION ALL" +
+                                       " SELECT p2.Package_ID FROM (t_package AS p1 " +
+                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
+                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
+                                       " UNION ALL" +
+                                       " SELECT p3.Package_ID FROM ((t_package AS p1 " +
+                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
+                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
+                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
+                                       " UNION ALL" +
+                                       " SELECT p4.Package_ID FROM (((t_package AS p1 " +
+                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
+                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
+                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
+                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
+                                       " UNION ALL" +
+                                       " SELECT p5.Package_ID FROM ((((t_package AS p1 " +
+                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
+                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
+                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
+                                       " LEFT JOIN t_package p5 ON p5.Parent_ID = p4.Package_ID)" +
+                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
+                                       " UNION ALL" +
+                                       " SELECT p6.Package_ID FROM (((((t_package AS p1 " +
+                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
+                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
+                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
+                                       " LEFT JOIN t_package p5 ON p5.Parent_ID = p4.Package_ID)" +
+                                       " LEFT JOIN t_package p6 ON p6.Parent_ID = p5.Package_ID)" +
+                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
+                                       " UNION ALL" +
+                                       " SELECT p7.Package_ID FROM ((((((t_package AS p1 " +
+                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
+                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
+                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
+                                       " LEFT JOIN t_package p5 ON p5.Parent_ID = p4.Package_ID)" +
+                                       " LEFT JOIN t_package p6 ON p6.Parent_ID = p5.Package_ID)" +
+                                       " LEFT JOIN t_package p7 ON p7.Parent_ID = p6.Package_ID)" +
+                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
+                                       " UNION ALL" +
+                                       " SELECT p8.Package_ID FROM (((((((t_package AS p1 " +
+                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
+                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
+                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
+                                       " LEFT JOIN t_package p5 ON p5.Parent_ID = p4.Package_ID)" +
+                                       " LEFT JOIN t_package p6 ON p6.Parent_ID = p5.Package_ID)" +
+                                       " LEFT JOIN t_package p7 ON p7.Parent_ID = p6.Package_ID)" +
+                                       " LEFT JOIN t_package p8 ON p8.Parent_ID = p7.Package_ID)" +
+                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
+                                       " UNION ALL" +
+                                       " SELECT p9.Package_ID FROM ((((((((t_package AS p1 " +
+                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
+                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
+                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
+                                       " LEFT JOIN t_package p5 ON p5.Parent_ID = p4.Package_ID)" +
+                                       " LEFT JOIN t_package p6 ON p6.Parent_ID = p5.Package_ID)" +
+                                       " LEFT JOIN t_package p7 ON p7.Parent_ID = p6.Package_ID)" +
+                                       " LEFT JOIN t_package p8 ON p8.Parent_ID = p7.Package_ID)" +
+                                       " LEFT JOIN t_package p9 ON p9.Parent_ID = p8.Package_ID)" +
+                                       " WHERE p1.ea_guid = '" + packageguid + "'";
+
+            return qrybranchselectids;
         }
 
         private List<Validation> CheckFoundElements(EAValidatorController controller, string foundelementguids)
         {
             // Prepare
             var validations = new List<Validation>();
-            int numberOfValidationResults = 0;            
+            int numberOfValidationResults = 0;
 
             // Replace SearchTerm with list of guids
-            var qryToCheckFoundElements = this.QueryToCheckFoundElements.Replace(controller.settings.SearchTermInQuery, foundelementguids);
+            var qryToCheckFoundElements = this.QueryToCheckFoundElements;
+            qryToCheckFoundElements = qryToCheckFoundElements.Replace(controller.settings.ElementGuidsInQueryToCheckFoundElements, foundelementguids);            
 
             // Search for Parameters in query and replace them
-            foreach(KeyValuePair<string, string> parameter in this.QueryToCheckFoundElementsParameters)
+            foreach (KeyValuePair<string, string> parameter in this.QueryToCheckFoundElementsParameters)
             {
                 string searchKey = "#" + parameter.Key + "#";
                 qryToCheckFoundElements = qryToCheckFoundElements.Replace(searchKey, parameter.Value);
@@ -299,7 +398,14 @@ namespace EAValidationFramework
             
             try
             {
+                // Execute the query using EA
                 var results = this.model.SQLQuery(qryToCheckFoundElements);
+
+                if (results.SelectSingleNode("//Row") == null)
+                {
+                    this.SetStatus("ERROR");
+                    return validations;
+                }
 
                 // Parse xml document with results and create validation for every row found
                 foreach (XmlNode validationNode in results.SelectNodes("//Row"))
@@ -315,7 +421,7 @@ namespace EAValidationFramework
             }
             catch (Exception)
             {
-                MessageBox.Show("Error in query: " + qryToCheckFoundElements);
+                //MessageBox.Show("Error in query: " + qryToCheckFoundElements);
                 this.SetStatus("ERROR");
             }
 

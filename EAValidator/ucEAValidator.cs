@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using System.IO;
 
-namespace EAValidationFramework
+namespace EAValidator
 {
     /// <summary>
     /// User Control that contains interface elements
@@ -19,30 +19,47 @@ namespace EAValidationFramework
         public ucEAValidator()
         {
             InitializeComponent();  // needed for Windows Form
-        }        
 
-        public void setController(EAValidatorController controller)
-        {
-            this.controller = controller;
-        }
-            
-        private void ucEAValidator_Load(object sender, EventArgs e)
-        {
-            // Load of user control ucEAValidator
             chkExcludeArchivePackages.Checked = true;
-            txtDirectoryValidationChecks.Text = this.controller.settings.ValidationChecks_Directory;
 
-            pictureBox1.ImageLocation = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + @"\Files\logo.gif";
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            string path = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + @"\Files\logo.gif";
+            if (Utils.FileOrDirectoryExists(path))
+                pictureBox1.ImageLocation = path;
+            else
+                pictureBox1.Hide();
 
             olvChecks.EmptyListMsg = "No checks found to validate.";
             olvChecks.CheckBoxes = true;
             olvChecks.CheckedAspectName = "Selected";
             olvChecks.Cursor = DefaultCursor;
             olvChecks.FullRowSelect = true;
-            olvChecks.MultiSelect = false;
+            olvChecks.MultiSelect = true;
             olvChecks.UseCellFormatEvents = true;  // necessary to use colours in cells
             olvChecks.IncludeColumnHeadersInCopy = true;
+            olvChecks.CellEditUseWholeCell = false;
+
+            olvColCheckDescription.HeaderCheckBox = true;
+
+            olvChecks.ShowGroups = false;
+            //olvColCheckDescription.Groupable = false;
+            //olvColCheckId.Groupable = false;
+            //olvColCheckStatus.Groupable = false;
+            //olvColCheckWarningType.Groupable = false;
+            //olvColCheckNumberOfElementsFound.Groupable = false;
+            //olvColCheckNumberOfValidationResults.Groupable = false;
+            //olvColCheckGroup.Groupable = false;
+
+            olvColCheckDescription.IsEditable = false;
+            olvColCheckId.IsEditable = false;
+            olvColCheckStatus.IsEditable = false;
+            olvColCheckWarningType.IsEditable = false;
+            olvColCheckNumberOfElementsFound.IsEditable = false;
+            olvColCheckNumberOfValidationResults.IsEditable = false;
+            olvColCheckGroup.IsEditable = false;
+
+            olvColCheckNumberOfElementsFound.Sortable = false;
+            olvColCheckNumberOfValidationResults.Sortable = false;
 
             olvValidations.EmptyListMsg = "";
             olvValidations.CheckBoxes = false;
@@ -51,7 +68,15 @@ namespace EAValidationFramework
             olvValidations.MultiSelect = true;
             olvValidations.IncludeColumnHeadersInCopy = true;
             olvValidations.ShowItemCountOnGroups = true;
+            olvValidations.ShowCommandMenuOnRightClick = true;
+            olvValidations.UseFilterIndicator = true;
+            olvValidations.UseFiltering = true;
+            olvValidations.CellEditUseWholeCell = false;
+        }
 
+        public void setController(EAValidatorController controller)
+        {
+            this.controller = controller;
             Initiate();
         }
 
@@ -62,6 +87,9 @@ namespace EAValidationFramework
             progressBar1.Value = 0;
             progressBar1.Maximum = 100;
 
+            // Default directory
+            txtDirectoryValidationChecks.Text = this.controller.settings.ValidationChecks_Directory;
+            
             // Clear lists
             clearLists();
 
@@ -69,6 +97,7 @@ namespace EAValidationFramework
             this.controller.loadChecksFromDirectory(this.controller.settings.ValidationChecks_Directory);
 
             // Show checks/validations in objectListViews     
+            olvColCheckDescription.HeaderCheckState = CheckState.Checked;
             this.olvChecks.SetObjects(this.controller.checks);
             this.olvValidations.SetObjects(this.controller.validations);
 
@@ -188,6 +217,7 @@ namespace EAValidationFramework
         {
             // Change the setting to the selected directory
             this.controller.settings.ValidationChecks_Directory = Utils.selectDirectory(this.controller.settings.ValidationChecks_Directory);
+            this.controller.settings.save();
 
             // Refresh fields on screen
             Initiate();
@@ -218,9 +248,11 @@ namespace EAValidationFramework
         {
             // Get the ElementGuid of the selected row  (max 1 row)
             Validation validation = (Validation) this.olvValidations.SelectedObject;
-
-            // Open the selected item in Enterprise Architect
-            this.controller.OpenInEA(validation);
+            if(validation != null)
+            { 
+                // Open the selected item in Enterprise Architect
+                this.controller.OpenInEA(validation);
+            }
         }
 
         private void olvChecks_CellToolTipShowing(object sender, BrightIdeasSoftware.ToolTipShowingEventArgs e)

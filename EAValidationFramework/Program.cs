@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using EAWrappers = TSF.UmlToolingFramework.Wrappers.EA;
+using EAValidator;
 
-namespace EAValidationFramework
+namespace EAValidatorApp
 {
     static class Program
     {

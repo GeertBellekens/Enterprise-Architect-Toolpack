@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Schema;
 
-namespace EAValidationFramework
+namespace EAValidator
 {
     class Utils
     {
@@ -51,7 +51,7 @@ namespace EAValidationFramework
             return xmltext;
         }
 
-        public static bool ValidToXSD(EAValidatorController controller, string filename)
+        public static bool ValidToXSD(EAValidatorController controller, string file)
         {
             bool valid = true;
             string schemaNamespace = "";
@@ -63,10 +63,10 @@ namespace EAValidationFramework
             }
             XmlSchemaSet schemas = new XmlSchemaSet();
             schemas.Add(schemaNamespace, schemaFileName);
-
-            XDocument doc = XDocument.Load(filename);
+            string filename = new FileInfo(file).Name;
+            XDocument doc = XDocument.Load(file);
             doc.Validate(schemas, (o, e) => {
-                controller.addLineToEAOutput(e.Message + ": ", filename);
+                controller.addLineToEAOutput(filename + ": ", e.Message);
                 valid = false;
             });
             return valid;
