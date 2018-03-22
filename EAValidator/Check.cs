@@ -401,11 +401,12 @@ namespace EAValidator
                 // Execute the query using EA
                 var results = this.model.SQLQuery(qryToCheckFoundElements);
 
-                if (results.SelectSingleNode("//Row") == null)
+                // If there are no results => all found elements passed or query has an error.
+                /*if (results.SelectSingleNode("//Row") == null)
                 {
                     this.SetStatus("ERROR");
                     return validations;
-                }
+                }*/
 
                 // Parse xml document with results and create validation for every row found
                 foreach (XmlNode validationNode in results.SelectNodes("//Row"))
