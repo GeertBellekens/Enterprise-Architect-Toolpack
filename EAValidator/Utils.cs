@@ -64,11 +64,18 @@ namespace EAValidator
             XmlSchemaSet schemas = new XmlSchemaSet();
             schemas.Add(schemaNamespace, schemaFileName);
             string filename = new FileInfo(file).Name;
+            string message = String.Empty;
             XDocument doc = XDocument.Load(file);
             doc.Validate(schemas, (o, e) => {
                 controller.addLineToEAOutput(filename + ": ", e.Message);
+                message = message + System.Environment.NewLine + "-> " + e.Message;
                 valid = false;
             });
+            if (!String.IsNullOrEmpty(message))
+            { 
+                message = filename + " : " + message;
+                MessageBox.Show(message);
+            }
             return valid;
         }
     }

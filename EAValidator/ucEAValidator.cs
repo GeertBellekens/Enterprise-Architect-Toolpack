@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
+using UML = TSF.UmlToolingFramework.UML;
 using System.IO;
 
 namespace EAValidator
@@ -14,13 +15,19 @@ namespace EAValidator
     public partial class ucEAValidator : UserControl
     {
         private TSF_EA.Element EA_element { get; set; }
+        private TSF_EA.Diagram EA_diagram { get; set; }
         private EAValidatorController controller { get; set; }
 
         public ucEAValidator()
         {
             InitializeComponent();  // needed for Windows Form
 
+            txtDirectoryValidationChecks.ReadOnly = true;
+
             chkExcludeArchivePackages.Checked = true;
+
+            progressBar1.Enabled = false;
+            progressBar1.UseWaitCursor = true;
 
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             string path = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + @"\Files\logo.gif";
@@ -61,6 +68,11 @@ namespace EAValidator
             olvColCheckNumberOfElementsFound.Sortable = false;
             olvColCheckNumberOfValidationResults.Sortable = false;
 
+            txtElementName.ReadOnly = true;
+            txtElementType.ReadOnly = true;
+            txtDiagramName.ReadOnly = true;
+            txtDiagramType.ReadOnly = true;
+
             olvValidations.EmptyListMsg = "";
             olvValidations.CheckBoxes = false;
             olvValidations.Cursor = DefaultCursor;
@@ -89,7 +101,7 @@ namespace EAValidator
 
             // Default directory
             txtDirectoryValidationChecks.Text = this.controller.settings.ValidationChecks_Directory;
-            
+
             // Clear lists
             clearLists();
 
@@ -145,11 +157,11 @@ namespace EAValidator
                 if (listOfChecksForValidation.Count() == olvChecks.GetItemCount())
                     msg = "Validate all checks?";
                 else
-                { 
+                {
                     msg = "Validate the selected checks?";
                     // Set status to default "Not Validated"
                     foreach (Check check in this.controller.checks)
-                    { 
+                    {
                         check.SetStatus("Not Validated");
                         check.NumberOfElementsFound = "";
                         check.NumberOfValidationResults = "";
@@ -160,8 +172,9 @@ namespace EAValidator
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     bool successful = true;
+
                     // Validate alle checked checks
-                    successful = this.controller.ValidateChecks(this, listOfChecksForValidation, EA_element);
+                    successful = this.controller.ValidateChecks(this, listOfChecksForValidation, EA_element, EA_diagram);
 
                     // Show validation results on screen
                     this.olvValidations.Objects = this.controller.validations;
@@ -180,37 +193,75 @@ namespace EAValidator
             }
         }
 
-        private void btnSelectElement_Click(object sender, EventArgs e)
+        private void ClearScopeFields()
         {
-            // Default
             txtElementName.Text = "";
             txtElementType.Text = "";
+            EA_element = null as TSF_EA.Element;
+
+            txtDiagramName.Text = "";
+            txtDiagramType.Text = "";
+            EA_diagram = null as TSF_EA.Diagram;
+        }
+
+        private void btnSelectElement_Click(object sender, EventArgs e)
+        {
+            ClearScopeFields();
 
             // Select one element using EA Package Browser  (EA must be connected to a project)
             try
-            { 
+            {
                 EA_element = this.controller.getUserSelectedElement();
             }
-            catch(Exception){}
+            catch (Exception) { }
 
             if (EA_element != null)
             {
-                // Show element details on screen
-                txtElementName.Text = EA_element.name;
-
                 string filterType;
                 if (EA_element is TSF_EA.Package)
+                {
                     filterType = "Package";
+                }
                 else
+                {
                     filterType = EA_element.stereotypeNames.FirstOrDefault();
-                txtElementType.Text = filterType;
+                }
 
-                // Clear lists 
-                Initiate();
+                // Show element details on screen
+                txtElementName.Text = EA_element.name;
+                txtElementType.Text = filterType;
+            }
+            // (Re-)Initialize screen fields
+            Initiate();
+        }
+
+        private void btnSelectDiagram_Click(object sender, EventArgs e)
+        {
+            ClearScopeFields();
+
+            // Select the diagram that is selected in the EA Package Browser
+            EA_diagram = this.controller.getSelectedDiagram();
+            if (EA_diagram != null)
+            {
+                string diagramtype = EA_diagram.GetType().ToString().Substring(EA_diagram.GetType().ToString().LastIndexOf(".") + 1);
+                // Only keep diagram if it is a Use Case diagram
+                if (diagramtype == "UseCaseDiagram")
+                {
+                    txtDiagramName.Text = EA_diagram.name;
+                    txtDiagramType.Text = diagramtype;
+                }
+                else
+                {
+                    MessageBox.Show("Please select a Use Case-diagram in the Project Browser.");
+                    EA_diagram = null as TSF_EA.Diagram;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a Use Case-diagram in the Project Browser.");
             }
 
-            // Set focus to "Start Validation"
-            this.btnDoValidation.Select();
+            Initiate();
         }
 
         private void btnSelectQueryDirectory_Click(object sender, EventArgs e)
@@ -229,7 +280,7 @@ namespace EAValidator
             if (e.ColumnIndex == this.olvColCheckStatus.Index)
             {
                 Check check = (Check)e.Model;
-                switch(check.Status)
+                switch (check.Status)
                 {
                     case "Passed":
                         e.SubItem.ForeColor = Color.Green;
@@ -247,9 +298,9 @@ namespace EAValidator
         private void olvValidations_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             // Get the ElementGuid of the selected row  (max 1 row)
-            Validation validation = (Validation) this.olvValidations.SelectedObject;
-            if(validation != null)
-            { 
+            Validation validation = (Validation)this.olvValidations.SelectedObject;
+            if (validation != null)
+            {
                 // Open the selected item in Enterprise Architect
                 this.controller.OpenInEA(validation);
             }
@@ -272,7 +323,7 @@ namespace EAValidator
             {
                 Validation validation = (Validation)e.Model;
                 Check check = this.controller.checks.FirstOrDefault(x => x.CheckId == validation.CheckId);
-                if(check != null)
+                if (check != null)
                     e.Text = check.ProposedSolution;
             }
         }
@@ -281,6 +332,11 @@ namespace EAValidator
         {
             AboutWindow about = new AboutWindow();
             about.Show();
+        }
+
+        private void btnClearScope_Click(object sender, EventArgs e)
+        {
+            ClearScopeFields();
         }
     }
 }

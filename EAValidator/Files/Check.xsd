@@ -5,6 +5,7 @@
       <xs:element type="xs:string" name="Change" minOccurs="0"/>
       <xs:element type="xs:string" name="Release" minOccurs="0"/>
       <xs:element type="xs:string" name="Package" minOccurs="0"/>
+	  <xs:element type="xs:string" name="FunctionalDesign" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="QueryToFindElementsType">

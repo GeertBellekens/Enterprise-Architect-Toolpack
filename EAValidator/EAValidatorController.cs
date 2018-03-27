@@ -33,7 +33,13 @@ namespace EAValidator
 
         public TSF_EA.Element getUserSelectedElement()
         {
+            // Possible Types: see http://www.sparxsystems.com/enterprise_architect_user_guide/12.0/automation_and_scripting/element2.html
             return this._model.getUserSelectedElement(new List<string> { "Change", "Package" }) as TSF_EA.Element;
+        }
+
+        public TSF_EA.Diagram getSelectedDiagram()
+        {
+            return this._model.selectedDiagram as TSF_EA.Diagram;
         }
 
         public void OpenInEA(Validation validation)
@@ -55,8 +61,8 @@ namespace EAValidator
                     }
                     else
                     {
-                        // Open the properties
-                        item.openProperties();
+                        // Open the properties  => Do not open properties because item needs to be unlocked first.
+                        //item.openProperties();
                     }
 
                 }
@@ -129,7 +135,7 @@ namespace EAValidator
             EAOutputLogger.log(this._model, this.outputName, string.Format("{0} {1} {2}", DateTime.Now.ToLongTimeString(), outputline, parameter), 0, LogTypeEnum.log);
         }
 
-        public bool ValidateChecks(ucEAValidator uc, List<Check> selectedchecks, TSF_EA.Element EA_element)
+        public bool ValidateChecks(ucEAValidator uc, List<Check> selectedchecks, TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram)
         {
             // Clear the log
             clearEAOutput();
@@ -162,7 +168,7 @@ namespace EAValidator
                 {
                     addLineToEAOutput("Validating check: ", check.CheckDescription);
 
-                    validations.AddRange(check.Validate(this, EA_element, uc.getExcludeArchivedPackagesState()));
+                    validations.AddRange(check.Validate(this, EA_element, EA_diagram, uc.getExcludeArchivedPackagesState()));
                     var obj = checks.FirstOrDefault(x => x.CheckId == check.CheckId);
                     if (obj != null) obj.SetStatus(check.Status);
 

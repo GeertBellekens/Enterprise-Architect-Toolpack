@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.IO;
+using TSF.UmlToolingFramework.UML.Extended;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using System.Windows.Forms;
 using EAAddinFramework.Utilities;
+using System.Data.SqlClient;
 
 namespace EAValidator
 {
@@ -21,7 +23,7 @@ namespace EAValidator
         public bool Selected { get; set; }                          // Value for Checkbox in list
         public string CheckId { get; set; }                         // Unique Identifier of the check
         public string CheckDescription { get; set; }                // Title of the check
-        public string Status { get; set;  }                         // Status of the check  (Not validated / Passed / Failed)
+        public string Status { get; set; }                         // Status of the check  (Not validated / Passed / Failed)
         public string Group { get; set; }                           // Group of the check
 
         public string QueryToFindElements { get; set; }                                     // sql-query to search for elements that must be checked
@@ -35,7 +37,7 @@ namespace EAValidator
         public string WarningType { get; set; }                     // Severity of the impact when problems are found. i.e. error, warning, (information)
         public string Rationale { get; set; }                       // Explanation of the logic of the check
         public string ProposedSolution { get; set; }                // Proposed Solution of the check
-        
+
         public Check(string file, string extension, EAValidatorController controller, TSF_EA.Model model)
         {
             // Constructor
@@ -58,9 +60,9 @@ namespace EAValidator
 
                     // Interprete xml node and subnodes
                     XmlNode node = xmldoc.DocumentElement.SelectSingleNode(controller.settings.XML_CheckMainNode);
-                    foreach(XmlNode subNode in node.ChildNodes)
+                    foreach (XmlNode subNode in node.ChildNodes)
                     {
-                        InterpreteCheckSubNode(subNode);                        
+                        InterpreteCheckSubNode(subNode);
                     }
                     break;
 
@@ -74,10 +76,10 @@ namespace EAValidator
                 MessageBox.Show("XML file does not have all mandatory content." + " - " + file);
             }
         }
-        
+
         public void SetStatus(string newstatus)
         {
-            switch(newstatus)
+            switch (newstatus)
             {
                 case "Not Validated":
                     this.Status = newstatus;
@@ -190,18 +192,18 @@ namespace EAValidator
             return true;
         }
 
-        public List<Validation> Validate(EAValidatorController controller, TSF_EA.Element EA_element, bool excludeArchivedPackages)
+        public List<Validation> Validate(EAValidatorController controller, TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages)
         {
             var validations = new List<Validation>();
-            
+
             // Default status to Passed
             this.SetStatus("Passed");
             this.NumberOfElementsFound = "";
             this.NumberOfValidationResults = "";
 
             // Search elements that need to be checked depending on filters and give back their guids.
-            var foundelementguids = getElementGuids(controller, EA_element, excludeArchivedPackages);
-            if(this.Status == "ERROR")
+            var foundelementguids = getElementGuids(controller, EA_element, EA_diagram, excludeArchivedPackages);
+            if (this.Status == "ERROR")
             {
                 controller.addLineToEAOutput("- Error while searching elements.", "");
                 return validations;
@@ -210,7 +212,7 @@ namespace EAValidator
             if (foundelementguids.Length > 0)
             {
                 controller.addLineToEAOutput("- Elements found: ", this.NumberOfElementsFound);
-                
+
                 foundelementguids = foundelementguids.Substring(1);   // remove first ","
                 // Perform the checks for the elements found (based on their guids)
                 validations = CheckFoundElements(controller, foundelementguids);
@@ -228,14 +230,14 @@ namespace EAValidator
             return validations;
         }
 
-        private string getElementGuids(EAValidatorController controller, TSF_EA.Element EA_element, bool excludeArchivedPackages)
+        private string getElementGuids(EAValidatorController controller, TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages)
         {
             var qryToFindElements = this.QueryToFindElements;
             int numberOfElementsFound = 0;
 
             // Check EA_element => Change / Release / Package / ...  and add to query
             if (EA_element != null)
-            {                
+            {
                 if (!(String.IsNullOrEmpty(EA_element.guid)))
                 {
                     string filterType;
@@ -244,34 +246,63 @@ namespace EAValidator
                     {
                         filterType = "Package";
                         this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
-
-                        // Replace Branch with package-guids of branch
-                        if (whereclause.Contains(controller.settings.PackageBranch))
-                            whereclause = whereclause.Replace(controller.settings.PackageBranch, getBranchPackageIDsByGuid(EA_element.guid));
+                        if (string.IsNullOrEmpty(whereclause))
+                        {
+                            this.SetStatus("ERROR");
+                            return "";
+                        }
                         else
-                            // Replace Search Term with Element guid
-                            whereclause = whereclause.Replace(controller.settings.SearchTermInQueryToFindElements, EA_element.guid);
+                        {
+                            // Replace Branch with package-guids of branch
+                            if (whereclause.Contains(controller.settings.PackageBranch))
+                                whereclause = whereclause.Replace(controller.settings.PackageBranch, getBranchPackageIDsByGuid(EA_element.guid));
+                            else
+                                // Replace Search Term with Element guid
+                                whereclause = whereclause.Replace(controller.settings.SearchTermInQueryToFindElements, EA_element.guid);
+                        }
                     }
                     else
                     {
                         filterType = EA_element.stereotypeNames.FirstOrDefault();
                         this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
+                        if (string.IsNullOrEmpty(whereclause))
+                        {
+                            this.SetStatus("ERROR");
+                            return "";
+                        }
+                        else
+                        {
+                            // Replace Search Term with Element guid
+                            whereclause = whereclause.Replace(controller.settings.SearchTermInQueryToFindElements, EA_element.guid);
+                        }
+                    }
+                    qryToFindElements = qryToFindElements + whereclause;
+                }
+            }
 
-                        // Replace Search Term with Element guid
-                        whereclause = whereclause.Replace(controller.settings.SearchTermInQueryToFindElements, EA_element.guid);
-                    }                    
-                    
+            // Check EA_diagram => Use Case diagram (= Functional Design) and add to query
+            if (EA_diagram != null)
+            {
+                if (!(String.IsNullOrEmpty(EA_diagram.diagramGUID)))
+                {
+                    string filterType;
+                    string whereclause = string.Empty;
+                    filterType = "FunctionalDesign";
+                    this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
                     if (string.IsNullOrEmpty(whereclause))
-                    {                        
+                    {
                         this.SetStatus("ERROR");
                         return "";
                     }
                     else
-                    {                        
-                        qryToFindElements = qryToFindElements + whereclause;
+                    {
+                        // Replace Search Term with diagram guid
+                        whereclause = whereclause.Replace(controller.settings.SearchTermInQueryToFindElements, EA_diagram.diagramGUID);
                     }
+                    qryToFindElements = qryToFindElements + whereclause;
                 }
             }
+
             if (excludeArchivedPackages)
             {
                 qryToFindElements = qryToFindElements + " " + controller.settings.QueryExcludeArchivedPackages;
@@ -282,12 +313,6 @@ namespace EAValidator
             {
                 // Execute the query using EA
                 var elementsFound = this.model.SQLQuery(qryToFindElements);
-                
-                if(elementsFound.SelectSingleNode("//Row")==null)
-                {
-                    this.SetStatus("ERROR");
-                    return foundelementguids;
-                }
 
                 // Parse xml document with elements found and count number of elements found
                 foreach (XmlNode node in elementsFound.SelectNodes("//Row"))
@@ -301,7 +326,7 @@ namespace EAValidator
                 }
                 this.NumberOfElementsFound = numberOfElementsFound.ToString();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 //MessageBox.Show("Error in query: " + qryToFindElements);
                 this.SetStatus("ERROR");
@@ -387,7 +412,7 @@ namespace EAValidator
 
             // Replace SearchTerm with list of guids
             var qryToCheckFoundElements = this.QueryToCheckFoundElements;
-            qryToCheckFoundElements = qryToCheckFoundElements.Replace(controller.settings.ElementGuidsInQueryToCheckFoundElements, foundelementguids);            
+            qryToCheckFoundElements = qryToCheckFoundElements.Replace(controller.settings.ElementGuidsInQueryToCheckFoundElements, foundelementguids);
 
             // Search for Parameters in query and replace them
             foreach (KeyValuePair<string, string> parameter in this.QueryToCheckFoundElementsParameters)
@@ -395,18 +420,11 @@ namespace EAValidator
                 string searchKey = "#" + parameter.Key + "#";
                 qryToCheckFoundElements = qryToCheckFoundElements.Replace(searchKey, parameter.Value);
             }
-            
+
             try
             {
                 // Execute the query using EA
                 var results = this.model.SQLQuery(qryToCheckFoundElements);
-
-                // If there are no results => all found elements passed or query has an error.
-                /*if (results.SelectSingleNode("//Row") == null)
-                {
-                    this.SetStatus("ERROR");
-                    return validations;
-                }*/
 
                 // Parse xml document with results and create validation for every row found
                 foreach (XmlNode validationNode in results.SelectNodes("//Row"))

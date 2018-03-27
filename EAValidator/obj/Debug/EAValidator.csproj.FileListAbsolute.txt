@@ -35,3 +35,4 @@ C:\Users\vangoal\Documents\GitHub\Enterprise-Architect-Toolpack\EAValidator\obj\
 C:\Users\vangoal\Documents\GitHub\Enterprise-Architect-Toolpack\EAValidator\obj\Debug\EAValidator.csproj.CoreCompileInputs.cache
 C:\Users\vangoal\Documents\GitHub\Enterprise-Architect-Toolpack\EAValidator\obj\Debug\EAValidator.dll
 C:\Users\vangoal\Documents\GitHub\Enterprise-Architect-Toolpack\EAValidator\obj\Debug\EAValidator.pdb
+C:\Users\vangoal\Documents\GitHub\Enterprise-Architect-Toolpack\EAValidator\obj\Debug\EAValidator.Properties.Resources.resources
