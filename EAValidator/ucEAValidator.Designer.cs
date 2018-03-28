@@ -1,4 +1,4 @@
-﻿namespace EAValidationFramework
+﻿namespace EAValidator
 {
     partial class ucEAValidator
     {
@@ -64,6 +64,14 @@
             this.chkExcludeArchivePackages = new System.Windows.Forms.CheckBox();
             this.btnAbout = new System.Windows.Forms.Button();
             this.grpElement = new System.Windows.Forms.GroupBox();
+            this.lblDiagramTypeInfo = new System.Windows.Forms.Label();
+            this.lblElementTypeInfo = new System.Windows.Forms.Label();
+            this.txtDiagramName = new System.Windows.Forms.TextBox();
+            this.txtDiagramType = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblDiagram = new System.Windows.Forms.Label();
+            this.btnSelectDiagram = new System.Windows.Forms.Button();
+            this.btnClearScope = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -72,12 +80,13 @@
             // 
             // btnDoValidation
             // 
-            this.btnDoValidation.Location = new System.Drawing.Point(590, 288);
+            this.btnDoValidation.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnDoValidation.Location = new System.Drawing.Point(729, 326);
             this.btnDoValidation.Name = "btnDoValidation";
-            this.btnDoValidation.Size = new System.Drawing.Size(154, 48);
+            this.btnDoValidation.Size = new System.Drawing.Size(166, 48);
             this.btnDoValidation.TabIndex = 0;
             this.btnDoValidation.Text = "Start Validation";
-            this.btnDoValidation.UseVisualStyleBackColor = true;
+            this.btnDoValidation.UseVisualStyleBackColor = false;
             this.btnDoValidation.Click += new System.EventHandler(this.btnDoValidation_Click);
             // 
             // olvValidations
@@ -110,14 +119,11 @@
             this.olvColPackageParentLvl4,
             this.olvColPackageParentLvl5});
             this.olvValidations.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvValidations.Location = new System.Drawing.Point(14, 368);
+            this.olvValidations.Location = new System.Drawing.Point(14, 419);
             this.olvValidations.Name = "olvValidations";
-            this.olvValidations.ShowCommandMenuOnRightClick = true;
-            this.olvValidations.Size = new System.Drawing.Size(974, 195);
+            this.olvValidations.Size = new System.Drawing.Size(971, 265);
             this.olvValidations.TabIndex = 2;
             this.olvValidations.UseCompatibleStateImageBehavior = false;
-            this.olvValidations.UseFilterIndicator = true;
-            this.olvValidations.UseFiltering = true;
             this.olvValidations.View = System.Windows.Forms.View.Details;
             this.olvValidations.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.olvValidations_CellToolTipShowing);
             this.olvValidations.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvValidations_MouseDoubleClick);
@@ -215,10 +221,9 @@
             this.olvColCheckNumberOfElementsFound,
             this.olvColCheckNumberOfValidationResults});
             this.olvChecks.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvChecks.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.olvChecks.Location = new System.Drawing.Point(14, 60);
             this.olvChecks.Name = "olvChecks";
-            this.olvChecks.Size = new System.Drawing.Size(974, 173);
+            this.olvChecks.Size = new System.Drawing.Size(971, 173);
             this.olvChecks.TabIndex = 3;
             this.olvChecks.UseCompatibleStateImageBehavior = false;
             this.olvChecks.View = System.Windows.Forms.View.Details;
@@ -228,10 +233,8 @@
             // olvColCheckDescription
             // 
             this.olvColCheckDescription.AspectName = "CheckDescription";
-            this.olvColCheckDescription.Groupable = false;
             this.olvColCheckDescription.HeaderCheckBox = true;
             this.olvColCheckDescription.HeaderCheckState = System.Windows.Forms.CheckState.Checked;
-            this.olvColCheckDescription.IsEditable = false;
             this.olvColCheckDescription.MaximumWidth = 800;
             this.olvColCheckDescription.MinimumWidth = 50;
             this.olvColCheckDescription.Text = "Description";
@@ -241,8 +244,6 @@
             // 
             this.olvColCheckId.AspectName = "CheckId";
             this.olvColCheckId.AspectToStringFormat = "";
-            this.olvColCheckId.Groupable = false;
-            this.olvColCheckId.IsEditable = false;
             this.olvColCheckId.MaximumWidth = 200;
             this.olvColCheckId.MinimumWidth = 50;
             this.olvColCheckId.Text = "Id";
@@ -252,8 +253,6 @@
             // olvColCheckStatus
             // 
             this.olvColCheckStatus.AspectName = "Status";
-            this.olvColCheckStatus.Groupable = false;
-            this.olvColCheckStatus.IsEditable = false;
             this.olvColCheckStatus.MaximumWidth = 250;
             this.olvColCheckStatus.MinimumWidth = 50;
             this.olvColCheckStatus.Text = "Status";
@@ -263,16 +262,12 @@
             // olvColCheckWarningType
             // 
             this.olvColCheckWarningType.AspectName = "WarningType";
-            this.olvColCheckWarningType.Groupable = false;
-            this.olvColCheckWarningType.IsEditable = false;
             this.olvColCheckWarningType.Text = "Warning Type";
             this.olvColCheckWarningType.Width = 100;
             // 
             // olvColCheckGroup
             // 
             this.olvColCheckGroup.AspectName = "Group";
-            this.olvColCheckGroup.Groupable = false;
-            this.olvColCheckGroup.IsEditable = false;
             this.olvColCheckGroup.Text = "Group";
             this.olvColCheckGroup.Width = 141;
             // 
@@ -280,7 +275,6 @@
             // 
             this.olvColCheckNumberOfElementsFound.AspectName = "NumberOfElementsFound";
             this.olvColCheckNumberOfElementsFound.AspectToStringFormat = "";
-            this.olvColCheckNumberOfElementsFound.Groupable = false;
             this.olvColCheckNumberOfElementsFound.Text = "# found";
             this.olvColCheckNumberOfElementsFound.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.olvColCheckNumberOfElementsFound.Width = 80;
@@ -289,7 +283,6 @@
             // 
             this.olvColCheckNumberOfValidationResults.AspectName = "NumberOfValidationResults";
             this.olvColCheckNumberOfValidationResults.AspectToStringFormat = "";
-            this.olvColCheckNumberOfValidationResults.Groupable = false;
             this.olvColCheckNumberOfValidationResults.Text = "# results";
             this.olvColCheckNumberOfValidationResults.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.olvColCheckNumberOfValidationResults.Width = 86;
@@ -308,7 +301,7 @@
             this.lblResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lblResults.AutoSize = true;
-            this.lblResults.Location = new System.Drawing.Point(11, 348);
+            this.lblResults.Location = new System.Drawing.Point(11, 399);
             this.lblResults.Name = "lblResults";
             this.lblResults.Size = new System.Drawing.Size(124, 17);
             this.lblResults.TabIndex = 5;
@@ -320,23 +313,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDirectoryValidationChecks.Location = new System.Drawing.Point(158, 15);
             this.txtDirectoryValidationChecks.Name = "txtDirectoryValidationChecks";
-            this.txtDirectoryValidationChecks.ReadOnly = true;
-            this.txtDirectoryValidationChecks.Size = new System.Drawing.Size(695, 22);
+            this.txtDirectoryValidationChecks.Size = new System.Drawing.Size(692, 22);
             this.txtDirectoryValidationChecks.TabIndex = 6;
             // 
             // txtElementName
             // 
             this.txtElementName.Location = new System.Drawing.Point(83, 24);
             this.txtElementName.Name = "txtElementName";
-            this.txtElementName.ReadOnly = true;
             this.txtElementName.Size = new System.Drawing.Size(447, 22);
             this.txtElementName.TabIndex = 8;
             // 
             // btnSelectElement
             // 
-            this.btnSelectElement.Location = new System.Drawing.Point(391, 52);
+            this.btnSelectElement.Location = new System.Drawing.Point(536, 24);
             this.btnSelectElement.Name = "btnSelectElement";
-            this.btnSelectElement.Size = new System.Drawing.Size(139, 22);
+            this.btnSelectElement.Size = new System.Drawing.Size(147, 49);
             this.btnSelectElement.TabIndex = 9;
             this.btnSelectElement.Text = "Select element...";
             this.btnSelectElement.UseVisualStyleBackColor = true;
@@ -354,7 +345,7 @@
             // btnSelectQueryDirectory
             // 
             this.btnSelectQueryDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectQueryDirectory.Location = new System.Drawing.Point(859, 15);
+            this.btnSelectQueryDirectory.Location = new System.Drawing.Point(856, 15);
             this.btnSelectQueryDirectory.Name = "btnSelectQueryDirectory";
             this.btnSelectQueryDirectory.Size = new System.Drawing.Size(129, 22);
             this.btnSelectQueryDirectory.TabIndex = 11;
@@ -364,19 +355,17 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Enabled = false;
-            this.progressBar1.Location = new System.Drawing.Point(590, 339);
+            this.progressBar1.Location = new System.Drawing.Point(729, 377);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(154, 15);
+            this.progressBar1.Size = new System.Drawing.Size(166, 15);
             this.progressBar1.Step = 1;
             this.progressBar1.TabIndex = 12;
-            this.progressBar1.UseWaitCursor = true;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pictureBox1.Location = new System.Drawing.Point(913, 239);
+            this.pictureBox1.Location = new System.Drawing.Point(910, 268);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(75, 100);
             this.pictureBox1.TabIndex = 13;
@@ -384,9 +373,8 @@
             // 
             // txtElementType
             // 
-            this.txtElementType.Location = new System.Drawing.Point(83, 52);
+            this.txtElementType.Location = new System.Drawing.Point(83, 49);
             this.txtElementType.Name = "txtElementType";
-            this.txtElementType.ReadOnly = true;
             this.txtElementType.Size = new System.Drawing.Size(196, 22);
             this.txtElementType.TabIndex = 15;
             // 
@@ -402,7 +390,7 @@
             // lblElementType
             // 
             this.lblElementType.AutoSize = true;
-            this.lblElementType.Location = new System.Drawing.Point(37, 52);
+            this.lblElementType.Location = new System.Drawing.Point(37, 49);
             this.lblElementType.Name = "lblElementType";
             this.lblElementType.Size = new System.Drawing.Size(40, 17);
             this.lblElementType.TabIndex = 18;
@@ -411,17 +399,17 @@
             // chkExcludeArchivePackages
             // 
             this.chkExcludeArchivePackages.AutoSize = true;
-            this.chkExcludeArchivePackages.Location = new System.Drawing.Point(590, 264);
+            this.chkExcludeArchivePackages.Location = new System.Drawing.Point(729, 285);
             this.chkExcludeArchivePackages.Name = "chkExcludeArchivePackages";
-            this.chkExcludeArchivePackages.Size = new System.Drawing.Size(285, 21);
+            this.chkExcludeArchivePackages.Size = new System.Drawing.Size(166, 38);
             this.chkExcludeArchivePackages.TabIndex = 19;
-            this.chkExcludeArchivePackages.Text = "Exclude Packages \"Archive/Deleted/Old\"";
+            this.chkExcludeArchivePackages.Text = "Exclude Packages\r\n\"Archive/Deleted/Old\"";
             this.chkExcludeArchivePackages.UseVisualStyleBackColor = true;
             // 
             // btnAbout
             // 
             this.btnAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAbout.Location = new System.Drawing.Point(913, 343);
+            this.btnAbout.Location = new System.Drawing.Point(910, 372);
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(75, 23);
             this.btnAbout.TabIndex = 20;
@@ -431,6 +419,13 @@
             // 
             // grpElement
             // 
+            this.grpElement.Controls.Add(this.lblDiagramTypeInfo);
+            this.grpElement.Controls.Add(this.lblElementTypeInfo);
+            this.grpElement.Controls.Add(this.txtDiagramName);
+            this.grpElement.Controls.Add(this.txtDiagramType);
+            this.grpElement.Controls.Add(this.label1);
+            this.grpElement.Controls.Add(this.lblDiagram);
+            this.grpElement.Controls.Add(this.btnSelectDiagram);
             this.grpElement.Controls.Add(this.btnSelectElement);
             this.grpElement.Controls.Add(this.txtElementName);
             this.grpElement.Controls.Add(this.txtElementType);
@@ -438,15 +433,86 @@
             this.grpElement.Controls.Add(this.lblElementName);
             this.grpElement.Location = new System.Drawing.Point(14, 239);
             this.grpElement.Name = "grpElement";
-            this.grpElement.Size = new System.Drawing.Size(545, 97);
+            this.grpElement.Size = new System.Drawing.Size(707, 153);
             this.grpElement.TabIndex = 21;
             this.grpElement.TabStop = false;
-            this.grpElement.Text = "Related to :";
+            this.grpElement.Text = "Scope :";
+            // 
+            // lblDiagramTypeInfo
+            // 
+            this.lblDiagramTypeInfo.AutoSize = true;
+            this.lblDiagramTypeInfo.Location = new System.Drawing.Point(285, 120);
+            this.lblDiagramTypeInfo.Name = "lblDiagramTypeInfo";
+            this.lblDiagramTypeInfo.Size = new System.Drawing.Size(134, 17);
+            this.lblDiagramTypeInfo.TabIndex = 28;
+            this.lblDiagramTypeInfo.Text = "(Use Case diagram)";
+            // 
+            // lblElementTypeInfo
+            // 
+            this.lblElementTypeInfo.AutoSize = true;
+            this.lblElementTypeInfo.Location = new System.Drawing.Point(285, 52);
+            this.lblElementTypeInfo.Name = "lblElementTypeInfo";
+            this.lblElementTypeInfo.Size = new System.Drawing.Size(198, 17);
+            this.lblElementTypeInfo.TabIndex = 27;
+            this.lblElementTypeInfo.Text = "(Change / Release / Package)";
+            // 
+            // txtDiagramName
+            // 
+            this.txtDiagramName.Location = new System.Drawing.Point(83, 92);
+            this.txtDiagramName.Name = "txtDiagramName";
+            this.txtDiagramName.Size = new System.Drawing.Size(447, 22);
+            this.txtDiagramName.TabIndex = 23;
+            // 
+            // txtDiagramType
+            // 
+            this.txtDiagramType.Location = new System.Drawing.Point(83, 117);
+            this.txtDiagramType.Name = "txtDiagramType";
+            this.txtDiagramType.Size = new System.Drawing.Size(196, 22);
+            this.txtDiagramType.TabIndex = 24;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(37, 117);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 17);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "Type";
+            // 
+            // lblDiagram
+            // 
+            this.lblDiagram.AutoSize = true;
+            this.lblDiagram.Location = new System.Drawing.Point(18, 92);
+            this.lblDiagram.Name = "lblDiagram";
+            this.lblDiagram.Size = new System.Drawing.Size(61, 17);
+            this.lblDiagram.TabIndex = 25;
+            this.lblDiagram.Text = "Diagram";
+            // 
+            // btnSelectDiagram
+            // 
+            this.btnSelectDiagram.Location = new System.Drawing.Point(536, 92);
+            this.btnSelectDiagram.Name = "btnSelectDiagram";
+            this.btnSelectDiagram.Size = new System.Drawing.Size(147, 50);
+            this.btnSelectDiagram.TabIndex = 22;
+            this.btnSelectDiagram.Text = "Select diagram from Project Browser";
+            this.btnSelectDiagram.UseVisualStyleBackColor = true;
+            this.btnSelectDiagram.Click += new System.EventHandler(this.btnSelectDiagram_Click);
+            // 
+            // btnClearScope
+            // 
+            this.btnClearScope.BackColor = System.Drawing.SystemColors.Control;
+            this.btnClearScope.Location = new System.Drawing.Point(729, 245);
+            this.btnClearScope.Name = "btnClearScope";
+            this.btnClearScope.Size = new System.Drawing.Size(166, 30);
+            this.btnClearScope.TabIndex = 29;
+            this.btnClearScope.Text = "Clear Scope";
+            this.btnClearScope.UseVisualStyleBackColor = false;
+            this.btnClearScope.Click += new System.EventHandler(this.btnClearScope_Click);
             // 
             // ucEAValidator
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.grpElement);
+            this.Controls.Add(this.btnClearScope);
             this.Controls.Add(this.btnAbout);
             this.Controls.Add(this.chkExcludeArchivePackages);
             this.Controls.Add(this.pictureBox1);
@@ -459,9 +525,9 @@
             this.Controls.Add(this.olvChecks);
             this.Controls.Add(this.olvValidations);
             this.Controls.Add(this.btnDoValidation);
+            this.Controls.Add(this.grpElement);
             this.Name = "ucEAValidator";
-            this.Size = new System.Drawing.Size(1003, 579);
-            this.Load += new System.EventHandler(this.ucEAValidator_Load);
+            this.Size = new System.Drawing.Size(1000, 700);
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -510,5 +576,13 @@
         private BrightIdeasSoftware.OLVColumn olvColPackageParentLvl5;
         private System.Windows.Forms.Button btnAbout;
         private System.Windows.Forms.GroupBox grpElement;
+        private System.Windows.Forms.Button btnSelectDiagram;
+        private System.Windows.Forms.TextBox txtDiagramName;
+        private System.Windows.Forms.TextBox txtDiagramType;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblDiagram;
+        private System.Windows.Forms.Label lblElementTypeInfo;
+        private System.Windows.Forms.Label lblDiagramTypeInfo;
+        private System.Windows.Forms.Button btnClearScope;
     }
 }

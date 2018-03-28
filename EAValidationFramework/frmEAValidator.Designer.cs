@@ -1,4 +1,6 @@
-﻿namespace EAValidationFramework
+﻿using EAValidator;
+
+namespace EAValidatorApp
 {
     partial class frmEAValidator
     {
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ucEAValidator = new EAValidationFramework.ucEAValidator();
+            this.ucEAValidator = new EAValidator.ucEAValidator();
             this.SuspendLayout();
             // 
             // ucEAValidator

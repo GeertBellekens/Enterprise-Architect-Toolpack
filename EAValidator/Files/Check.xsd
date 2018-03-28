@@ -5,11 +5,18 @@
       <xs:element type="xs:string" name="Change" minOccurs="0"/>
       <xs:element type="xs:string" name="Release" minOccurs="0"/>
       <xs:element type="xs:string" name="Package" minOccurs="0"/>
+	  <xs:element type="xs:string" name="FunctionalDesign" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="QueryToFindElementsType">
     <xs:sequence>
-      <xs:element type="xs:string" name="Main"/>
+      <xs:element name="Main">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="16"/>
+			</xs:restriction>
+		</xs:simpleType>
+	  </xs:element>
       <xs:element type="FiltersType" name="Filters"/>
     </xs:sequence>
   </xs:complexType>
@@ -20,17 +27,36 @@
   </xs:complexType>
   <xs:complexType name="QueryToCheckFoundElementsType">
     <xs:sequence>
-      <xs:element type="xs:string" name="Main"/>
+      <xs:element name="Main">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="16"/>
+			</xs:restriction>
+		</xs:simpleType>
+	  </xs:element>
       <xs:element type="ParametersType" name="Parameters"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="CheckType">
     <xs:sequence>
-      <xs:element type="xs:byte" name="CheckId"/>
-      <xs:element type="xs:string" name="CheckDescription"/>
+      <xs:element type="xs:integer" name="CheckId"/>
+      <xs:element name="CheckDescription">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+			</xs:restriction>
+		</xs:simpleType>
+	  </xs:element>
       <xs:element type="QueryToFindElementsType" name="QueryToFindElements"/>
       <xs:element type="QueryToCheckFoundElementsType" name="QueryToCheckFoundElements"/>
-      <xs:element type="xs:string" name="WarningType"/>
+      <xs:element name="WarningType">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="20"/>
+			</xs:restriction>
+		</xs:simpleType>
+	  </xs:element>
       <xs:element type="xs:string" name="Rationale"/>
       <xs:element type="xs:string" name="ProposedSolution"/>
     </xs:sequence>

@@ -1,8 +1,7 @@
-﻿
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Xml;
 
-namespace EAValidationFramework
+namespace EAValidator
 {
     /// <summary>
     /// Validation = validation results of performed checks.
@@ -43,7 +42,9 @@ namespace EAValidationFramework
                 InterpreteValidationResultSubNode(subNode);
             }
             if (!this.HasMandatoryContent())
+            {
                 MessageBox.Show("Validation result does not have all mandatory content." + " - " + check.CheckDescription);
+            }
         }
 
         private void InterpreteValidationResultSubNode(XmlNode subNode)

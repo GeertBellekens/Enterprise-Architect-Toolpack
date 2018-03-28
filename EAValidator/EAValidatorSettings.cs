@@ -2,26 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 
-namespace EAValidationFramework
+namespace EAValidator
 {
-    public class EAValidationFrameworkSettings : EAAddinFramework.Utilities.AddinSettings
+    public class EAValidatorSettings : EAAddinFramework.Utilities.AddinSettings
     {
+        #region EA Add-in Framework settings
         protected override string configSubPath
         {
             get
             {
-                return @"\Bellekens\EAValidationFramework\";
+                return @"\Bellekens\EAValidator\";
             }
         }
         protected override string defaultConfigFilePath
         {
             get
             {
-                return System.Reflection.Assembly.GetExecutingAssembly().Location;
+                return Assembly.GetExecutingAssembly().Location;
             }
         }
+        #endregion
+
+        #region EA Validator settings
+
+        public string outputName
+        {
+            get
+            {
+                return this.getValue("outputName");
+            }
+            set
+            {
+                this.setValue("outputName", value);
+            }
+        }
+
         public string ValidationChecks_Directory
         {
             get
@@ -34,15 +52,39 @@ namespace EAValidationFramework
             }
         }
 
-        public string SearchTermInQuery
+        public string SearchTermInQueryToFindElements
         {
             get
             {
-                return this.getValue("SearchTermInQuery");
+                return this.getValue("SearchTermInQueryToFindElements");
             }
             set
             {
-                this.setValue("SearchTermInQuery", value);
+                this.setValue("SearchTermInQueryToFindElements", value);
+            }
+        }
+
+        public string ElementGuidsInQueryToCheckFoundElements
+        {
+            get
+            {
+                return this.getValue("ElementGuidsInQueryToCheckFoundElements");
+            }
+            set
+            {
+                this.setValue("ElementGuidsInQueryToCheckFoundElements", value);
+            }
+        }
+
+        public string PackageBranch
+        {
+            get
+            {
+                return this.getValue("PackageBranch");
+            }
+            set
+            {
+                this.setValue("PackageBranch", value);
             }
         }
 
@@ -105,5 +147,7 @@ namespace EAValidationFramework
                 this.setValue("QueryExcludeArchivedPackages", value);
             }
         }
+
+        #endregion
     }
 }
