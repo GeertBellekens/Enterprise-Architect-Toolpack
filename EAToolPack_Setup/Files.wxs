@@ -26,6 +26,13 @@
             <File Id="System.Net.Http.Formatting.dll" Name="System.Net.Http.Formatting.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\System.Net.Http.Formatting.dll" />
             <File Id="System.Web.Http.dll" Name="System.Web.Http.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\System.Web.Http.dll" />
             <File Id="System.Web.Http.WebHost.dll" Name="System.Web.Http.WebHost.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\System.Web.Http.WebHost.dll" />
+            <File Id="ComponentFactory.Krypton.Design.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ComponentFactory.Krypton.Design.dll" />
+            <File Id="ComponentFactory.Krypton.Docking.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ComponentFactory.Krypton.Docking.dll"  />
+            <File Id="ComponentFactory.Krypton.Navigator.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ComponentFactory.Krypton.Navigator.dll" />
+            <File Id="ComponentFactory.Krypton.Ribbon.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ComponentFactory.Krypton.Ribbon.dll" />
+            <File Id="ComponentFactory.Krypton.Toolkit.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ComponentFactory.Krypton.Toolkit.dll" />
+            <File Id="ComponentFactory.Krypton.Workspace.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ComponentFactory.Krypton.Workspace.dll" />
+            <File Id="ObjectListView.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ObjectListView.dll" />
             <Class Id="{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.Model" ThreadingModel="both" ForeignServer="mscoree.dll">
               <ProgId Id="TSF.UmlToolingFramework.Wrappers.EA.Model" Description="TSF.UmlToolingFramework.Wrappers.EA.Model" />
             </Class>
@@ -599,13 +606,7 @@
             </Class>
             <File Id="GlossaryManager.pdb" Source="..\GlossaryManager\bin\Debug\GlossaryManager.pdb" />
             <File Id="GlossaryManager.tlb" Source="..\GlossaryManager\bin\Debug\GlossaryManager.tlb" />
-            <File Id="ComponentFactory.Krypton.Design.dll" Source="..\GlossaryManager\bin\Debug\ComponentFactory.Krypton.Design.dll" />
-            <File Id="ComponentFactory.Krypton.Docking.dll" Source="..\GlossaryManager\bin\Debug\ComponentFactory.Krypton.Docking.dll" />
-            <File Id="ComponentFactory.Krypton.Navigator.dll" Source="..\GlossaryManager\bin\Debug\ComponentFactory.Krypton.Navigator.dll" />
-            <File Id="ComponentFactory.Krypton.Ribbon.dll" Source="..\GlossaryManager\bin\Debug\ComponentFactory.Krypton.Ribbon.dll" />
-            <File Id="ComponentFactory.Krypton.Toolkit.dll" Source="..\GlossaryManager\bin\Debug\ComponentFactory.Krypton.Toolkit.dll" />
-            <File Id="ComponentFactory.Krypton.Workspace.dll" Source="..\GlossaryManager\bin\Debug\ComponentFactory.Krypton.Workspace.dll" />
-            <File Id="ObjectListView.dll" Source="..\GlossaryManager\bin\Debug\ObjectListView.dll" />
+
             <File Id="fil3D7C7D9CCAC93777DA2BEE5DD7B864F4" KeyPath="yes" Source="..\GlossaryManager\bin\Debug\GlossaryManager.dll" />
             <ProgId Id="Record" />
             <RegistryValue Root="HKCR" Key="CLSID\{02F8CC26-FB06-3E82-AE9E-0F7E05FE6AA5}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
@@ -712,6 +713,85 @@
           <Component Id="EDD_RegistryEntry_x86" Guid="053b634b-c11b-4e09-ad46-33075c2ea38c" UninstallWhenSuperseded="yes">
             <RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\Enterprise Data Dictionary">
               <RegistryValue Type="string" Value="GlossaryManager.GlossaryManagerAddin" />
+            </RegistryKey>
+            <Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
+          </Component>
+          <Component Id="EAValidator_AddinFiles" Guid="a18ffd05-126e-47b3-9c8c-3823e7f3161d">
+            <Class Id="{1A625E81-64AA-3984-860D-A9D782426696}" Context="InprocServer32" Description="EAValidator.EAValidatorAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAValidator.EAValidatorAddin" Description="EAValidator.EAValidatorAddin" />
+            </Class>
+            <Class Id="{308E39FB-9589-3FF2-970F-3D9635D47A6E}" Context="InprocServer32" Description="EAValidator.ucEAValidator" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAValidator.ucEAValidator" Description="EAValidator.ucEAValidator" />
+            </Class>
+            <Class Id="{BB72152F-154B-3E1B-A1F2-757C729A7F33}" Context="InprocServer32" Description="EAValidator.AboutWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAValidator.AboutWindow" Description="EAValidator.AboutWindow" />
+            </Class>
+            <Class Id="{C1C32CD4-79D0-3EE2-99E4-3C57442F27CD}" Context="InprocServer32" Description="EAValidator.EAValidatorSettings" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAValidator.EAValidatorSettings" Description="EAValidator.EAValidatorSettings" />
+            </Class>
+            <Class Id="{D70711C8-BB28-3983-9761-95FEA331EC70}" Context="InprocServer32" Description="EAValidator.EAValidatorController" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAValidator.EAValidatorController" Description="EAValidator.EAValidatorController" />
+            </Class>
+            <File Id="EAValidator.dll.config" Source="..\EAValidator\bin\Debug\EAValidator.dll.config" />
+            <File Id="EAValidator.pdb"  Source="..\EAValidator\bin\Debug\EAValidator.pdb" />
+            <File Id="EAValidator.tlb" Source="..\EAValidator\bin\Debug\EAValidator.tlb" />
+            
+            <File Id="fil904F58FF7F62609D844E592FCE998D3A" KeyPath="yes" Source="..\EAValidator\bin\Debug\EAValidator.dll" />
+            <RegistryValue Root="HKCR" Key="CLSID\{1A625E81-64AA-3984-860D-A9D782426696}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{1A625E81-64AA-3984-860D-A9D782426696}\InprocServer32\1.5.7.19102" Name="Class" Value="EAValidator.EAValidatorAddin" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{1A625E81-64AA-3984-860D-A9D782426696}\InprocServer32\1.5.7.19102" Name="Assembly" Value="EAValidator, Version=1.5.7.19102, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{1A625E81-64AA-3984-860D-A9D782426696}\InprocServer32\1.5.7.19102" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{1A625E81-64AA-3984-860D-A9D782426696}\InprocServer32\1.5.7.19102" Name="CodeBase" Value="file:///[#fil904F58FF7F62609D844E592FCE998D3A]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{1A625E81-64AA-3984-860D-A9D782426696}\InprocServer32" Name="Class" Value="EAValidator.EAValidatorAddin" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{1A625E81-64AA-3984-860D-A9D782426696}\InprocServer32" Name="Assembly" Value="EAValidator, Version=1.5.7.19102, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{1A625E81-64AA-3984-860D-A9D782426696}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{1A625E81-64AA-3984-860D-A9D782426696}\InprocServer32" Name="CodeBase" Value="file:///[#fil904F58FF7F62609D844E592FCE998D3A]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{308E39FB-9589-3FF2-970F-3D9635D47A6E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{308E39FB-9589-3FF2-970F-3D9635D47A6E}\InprocServer32\1.5.7.19102" Name="Class" Value="EAValidator.ucEAValidator" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{308E39FB-9589-3FF2-970F-3D9635D47A6E}\InprocServer32\1.5.7.19102" Name="Assembly" Value="EAValidator, Version=1.5.7.19102, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{308E39FB-9589-3FF2-970F-3D9635D47A6E}\InprocServer32\1.5.7.19102" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{308E39FB-9589-3FF2-970F-3D9635D47A6E}\InprocServer32\1.5.7.19102" Name="CodeBase" Value="file:///[#fil904F58FF7F62609D844E592FCE998D3A]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{308E39FB-9589-3FF2-970F-3D9635D47A6E}\InprocServer32" Name="Class" Value="EAValidator.ucEAValidator" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{308E39FB-9589-3FF2-970F-3D9635D47A6E}\InprocServer32" Name="Assembly" Value="EAValidator, Version=1.5.7.19102, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{308E39FB-9589-3FF2-970F-3D9635D47A6E}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{308E39FB-9589-3FF2-970F-3D9635D47A6E}\InprocServer32" Name="CodeBase" Value="file:///[#fil904F58FF7F62609D844E592FCE998D3A]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{BB72152F-154B-3E1B-A1F2-757C729A7F33}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{BB72152F-154B-3E1B-A1F2-757C729A7F33}\InprocServer32\1.5.7.19102" Name="Class" Value="EAValidator.AboutWindow" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{BB72152F-154B-3E1B-A1F2-757C729A7F33}\InprocServer32\1.5.7.19102" Name="Assembly" Value="EAValidator, Version=1.5.7.19102, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{BB72152F-154B-3E1B-A1F2-757C729A7F33}\InprocServer32\1.5.7.19102" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{BB72152F-154B-3E1B-A1F2-757C729A7F33}\InprocServer32\1.5.7.19102" Name="CodeBase" Value="file:///[#fil904F58FF7F62609D844E592FCE998D3A]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{BB72152F-154B-3E1B-A1F2-757C729A7F33}\InprocServer32" Name="Class" Value="EAValidator.AboutWindow" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{BB72152F-154B-3E1B-A1F2-757C729A7F33}\InprocServer32" Name="Assembly" Value="EAValidator, Version=1.5.7.19102, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{BB72152F-154B-3E1B-A1F2-757C729A7F33}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{BB72152F-154B-3E1B-A1F2-757C729A7F33}\InprocServer32" Name="CodeBase" Value="file:///[#fil904F58FF7F62609D844E592FCE998D3A]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C1C32CD4-79D0-3EE2-99E4-3C57442F27CD}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C1C32CD4-79D0-3EE2-99E4-3C57442F27CD}\InprocServer32\1.5.7.19102" Name="Class" Value="EAValidator.EAValidatorSettings" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C1C32CD4-79D0-3EE2-99E4-3C57442F27CD}\InprocServer32\1.5.7.19102" Name="Assembly" Value="EAValidator, Version=1.5.7.19102, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C1C32CD4-79D0-3EE2-99E4-3C57442F27CD}\InprocServer32\1.5.7.19102" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C1C32CD4-79D0-3EE2-99E4-3C57442F27CD}\InprocServer32\1.5.7.19102" Name="CodeBase" Value="file:///[#fil904F58FF7F62609D844E592FCE998D3A]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C1C32CD4-79D0-3EE2-99E4-3C57442F27CD}\InprocServer32" Name="Class" Value="EAValidator.EAValidatorSettings" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C1C32CD4-79D0-3EE2-99E4-3C57442F27CD}\InprocServer32" Name="Assembly" Value="EAValidator, Version=1.5.7.19102, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C1C32CD4-79D0-3EE2-99E4-3C57442F27CD}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C1C32CD4-79D0-3EE2-99E4-3C57442F27CD}\InprocServer32" Name="CodeBase" Value="file:///[#fil904F58FF7F62609D844E592FCE998D3A]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D70711C8-BB28-3983-9761-95FEA331EC70}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D70711C8-BB28-3983-9761-95FEA331EC70}\InprocServer32\1.5.7.19102" Name="Class" Value="EAValidator.EAValidatorController" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D70711C8-BB28-3983-9761-95FEA331EC70}\InprocServer32\1.5.7.19102" Name="Assembly" Value="EAValidator, Version=1.5.7.19102, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D70711C8-BB28-3983-9761-95FEA331EC70}\InprocServer32\1.5.7.19102" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D70711C8-BB28-3983-9761-95FEA331EC70}\InprocServer32\1.5.7.19102" Name="CodeBase" Value="file:///[#fil904F58FF7F62609D844E592FCE998D3A]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D70711C8-BB28-3983-9761-95FEA331EC70}\InprocServer32" Name="Class" Value="EAValidator.EAValidatorController" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D70711C8-BB28-3983-9761-95FEA331EC70}\InprocServer32" Name="Assembly" Value="EAValidator, Version=1.5.7.19102, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D70711C8-BB28-3983-9761-95FEA331EC70}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D70711C8-BB28-3983-9761-95FEA331EC70}\InprocServer32" Name="CodeBase" Value="file:///[#fil904F58FF7F62609D844E592FCE998D3A]" Type="string" Action="write" />
+          </Component>
+          <Component Id="EAValidator_RegistryEntry" Guid="3cc8c8a1-55b3-445a-8844-340d527415c9" UninstallWhenSuperseded="yes">
+            <RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\EA Validator">
+              <RegistryValue Type="string" Value="EAValidator.EAValidatorAddin" />
+            </RegistryKey>
+            <Condition> %PROCESSOR_ARCHITECTURE="AMD64" OR %PROCESSOR_ARCHITECTURE="IE64"</Condition>
+          </Component>
+          <Component Id="EAValidator_RegistryEntry_x86" Guid="ba062081-9ecf-46e4-b752-f63bb053663c" UninstallWhenSuperseded="yes">
+            <RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA Validator">
+              <RegistryValue Type="string" Value="EAValidator.EAValidatorAddin" />
             </RegistryKey>
             <Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
           </Component>
@@ -834,6 +914,12 @@
 						<Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
 					</Component>
 				-->
+          <Directory Id="Files" Name="Files">
+            <Component Id="EAValidator_ExtraFiles" Guid="29085904-c1d1-4348-b872-d7e42c472b27" DiskId="1">
+              <File Id="EAValidatorLogo.gif" Source="..\EAValidator\bin\Debug\Files\EAValidatorLogo.gif" />
+              <File Id="check.xsd" Source="..\EAValidator\bin\Debug\Files\check.xsd" />
+            </Component>
+          </Directory>
         </Directory>
       </Directory>
     </DirectoryRef>

@@ -30,7 +30,7 @@ namespace EAValidator
             progressBar1.UseWaitCursor = true;
 
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            string path = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + @"\Files\logo.gif";
+            string path = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + @"\Files\EAValidatorLogo.gif";
             if (Utils.FileOrDirectoryExists(path))
                 pictureBox1.ImageLocation = path;
             else
