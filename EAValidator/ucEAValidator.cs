@@ -338,5 +338,24 @@ namespace EAValidator
         {
             ClearScopeFields();
         }
+
+        private void olvChecks_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            //get selected check
+            var selectedCheck = this.olvChecks.SelectedObject as Check;
+            if (selectedCheck != null)
+            {
+                //get the first validationResult for this type of check
+                var validation = this.olvValidations.Objects
+                                    .OfType<Validation>()
+                                    .LastOrDefault(x => x.CheckId == selectedCheck.CheckId);
+                //TODO: figure out a fast way to get the first item shown
+                //show the validation
+                if (validation != null)
+                {
+                    this.olvValidations.EnsureModelVisible(validation);
+                }
+            }
+        }
     }
 }
