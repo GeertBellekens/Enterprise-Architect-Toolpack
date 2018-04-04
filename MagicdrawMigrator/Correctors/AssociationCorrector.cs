@@ -53,7 +53,7 @@ namespace MagicdrawMigrator
                         || !mdAssociation.source.upperBound.Equals(eaAssociation.sourceEnd.upper.ToString())
                         || !mdAssociation.target.lowerBound.Equals(eaAssociation.targetEnd.lower.ToString())
                         || !mdAssociation.target.upperBound.Equals(eaAssociation.targetEnd.upper.ToString()))
-
+                    {
                         //actually fix the multiplicities
                         try
                         {
@@ -63,16 +63,7 @@ namespace MagicdrawMigrator
                                 && !string.IsNullOrEmpty(mdAssociation.source.upperBound))
                             {
                                 var sourceMultiplicity = new TSF_EA.Multiplicity(mdAssociation.source.lowerBound, mdAssociation.source.upperBound);
-                                //navigability
-                                if (eaAssociation.WrappedConnector.Direction == "Destination -> Source")
-                                {
-                                    eaAssociation.targetEnd.multiplicity = sourceMultiplicity;
-                                }
-                                else
-                                {
-                                    eaAssociation.sourceEnd.multiplicity = sourceMultiplicity;
-                                }
-
+                                eaAssociation.sourceEnd.multiplicity = sourceMultiplicity;
                                 updatedMultiplicity = true;
                             }
                             //set target (only if not both empty)
@@ -80,16 +71,8 @@ namespace MagicdrawMigrator
                                 && !string.IsNullOrEmpty(mdAssociation.target.upperBound))
                             {
                                 var targetMultiplicity = new TSF_EA.Multiplicity(mdAssociation.target.lowerBound, mdAssociation.target.upperBound);
-                                //navigability
-                                if (eaAssociation.WrappedConnector.Direction == "Destination -> Source")
-                                {
-                                    eaAssociation.sourceEnd.multiplicity = targetMultiplicity;
-                                }
-                                else
-                                {
-                                    eaAssociation.targetEnd.multiplicity = targetMultiplicity;
-                                }
 
+                                eaAssociation.targetEnd.multiplicity = targetMultiplicity;
                                 updatedMultiplicity = true;
                             }
                             //tell the user we have updated the multiplicities
@@ -124,6 +107,7 @@ namespace MagicdrawMigrator
                                                           , e.Message
                                                           , e.StackTrace));
                         }
+                    }
                 }
 
             }
@@ -243,7 +227,7 @@ namespace MagicdrawMigrator
 
             return correspondingAssociation;
         }
-        private TSF_EA.Association createNewCorrespondingAssociation(TSF_EA.ElementWrapper sourceElement, TSF_EA.ElementWrapper targetElement,MDAssociation mdAssociation)
+        private TSF_EA.Association createNewCorrespondingAssociation(TSF_EA.ElementWrapper sourceElement, TSF_EA.ElementWrapper targetElement, MDAssociation mdAssociation)
         {
             //create the actual association
             TSF_EA.Association newAssociation = this.model.factory.createNewElement<TSF_EA.Association>(sourceElement, string.Empty);
@@ -271,7 +255,7 @@ namespace MagicdrawMigrator
 
         private AggregationKind parseAggregationKind(string aggregationKind)
         {
-            switch(aggregationKind.ToLower())
+            switch (aggregationKind.ToLower())
             {
                 case "composite":
                     return AggregationKind.composite;
