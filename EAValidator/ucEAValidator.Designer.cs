@@ -41,14 +41,15 @@
             this.olvColPackageParentLvl3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColPackageParentLvl4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColPackageParentLvl5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColWarningType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvChecks = new BrightIdeasSoftware.ObjectListView();
             this.olvColCheckDescription = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckStatus = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColCheckWarningType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColCheckGroup = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckNumberOfElementsFound = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckNumberOfValidationResults = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColCheckWarningType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColCheckGroup = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.lblChecks = new System.Windows.Forms.Label();
             this.lblResults = new System.Windows.Forms.Label();
             this.txtDirectoryValidationChecks = new System.Windows.Forms.TextBox();
@@ -102,6 +103,7 @@
             this.olvValidations.AllColumns.Add(this.olvColPackageParentLvl3);
             this.olvValidations.AllColumns.Add(this.olvColPackageParentLvl4);
             this.olvValidations.AllColumns.Add(this.olvColPackageParentLvl5);
+            this.olvValidations.AllColumns.Add(this.olvColWarningType);
             this.olvValidations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -117,7 +119,8 @@
             this.olvColPackageParentLvl2,
             this.olvColPackageParentLvl3,
             this.olvColPackageParentLvl4,
-            this.olvColPackageParentLvl5});
+            this.olvColPackageParentLvl5,
+            this.olvColWarningType});
             this.olvValidations.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvValidations.Location = new System.Drawing.Point(14, 419);
             this.olvValidations.Name = "olvValidations";
@@ -199,15 +202,21 @@
             this.olvColPackageParentLvl5.Text = "Pckg+5";
             this.olvColPackageParentLvl5.Width = 74;
             // 
+            // olvColWarningType
+            // 
+            this.olvColWarningType.AspectName = "CheckWarningType";
+            this.olvColWarningType.Text = "Result Type";
+            this.olvColWarningType.Width = 100;
+            // 
             // olvChecks
             // 
             this.olvChecks.AllColumns.Add(this.olvColCheckDescription);
             this.olvChecks.AllColumns.Add(this.olvColCheckId);
             this.olvChecks.AllColumns.Add(this.olvColCheckStatus);
-            this.olvChecks.AllColumns.Add(this.olvColCheckWarningType);
-            this.olvChecks.AllColumns.Add(this.olvColCheckGroup);
             this.olvChecks.AllColumns.Add(this.olvColCheckNumberOfElementsFound);
             this.olvChecks.AllColumns.Add(this.olvColCheckNumberOfValidationResults);
+            this.olvChecks.AllColumns.Add(this.olvColCheckWarningType);
+            this.olvChecks.AllColumns.Add(this.olvColCheckGroup);
             this.olvChecks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.olvChecks.CellEditUseWholeCell = false;
@@ -216,10 +225,10 @@
             this.olvColCheckDescription,
             this.olvColCheckId,
             this.olvColCheckStatus,
-            this.olvColCheckWarningType,
-            this.olvColCheckGroup,
             this.olvColCheckNumberOfElementsFound,
-            this.olvColCheckNumberOfValidationResults});
+            this.olvColCheckNumberOfValidationResults,
+            this.olvColCheckWarningType,
+            this.olvColCheckGroup});
             this.olvChecks.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvChecks.Location = new System.Drawing.Point(14, 60);
             this.olvChecks.Name = "olvChecks";
@@ -259,18 +268,6 @@
             this.olvColCheckStatus.ToolTipText = "Check status is not validated, passed or failed";
             this.olvColCheckStatus.Width = 103;
             // 
-            // olvColCheckWarningType
-            // 
-            this.olvColCheckWarningType.AspectName = "WarningType";
-            this.olvColCheckWarningType.Text = "Warning Type";
-            this.olvColCheckWarningType.Width = 100;
-            // 
-            // olvColCheckGroup
-            // 
-            this.olvColCheckGroup.AspectName = "Group";
-            this.olvColCheckGroup.Text = "Group";
-            this.olvColCheckGroup.Width = 141;
-            // 
             // olvColCheckNumberOfElementsFound
             // 
             this.olvColCheckNumberOfElementsFound.AspectName = "NumberOfElementsFound";
@@ -286,6 +283,18 @@
             this.olvColCheckNumberOfValidationResults.Text = "# results";
             this.olvColCheckNumberOfValidationResults.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.olvColCheckNumberOfValidationResults.Width = 86;
+            // 
+            // olvColCheckWarningType
+            // 
+            this.olvColCheckWarningType.AspectName = "WarningType";
+            this.olvColCheckWarningType.Text = "Result Type";
+            this.olvColCheckWarningType.Width = 100;
+            // 
+            // olvColCheckGroup
+            // 
+            this.olvColCheckGroup.AspectName = "Group";
+            this.olvColCheckGroup.Text = "Group";
+            this.olvColCheckGroup.Width = 141;
             // 
             // lblChecks
             // 
@@ -584,5 +593,6 @@
         private System.Windows.Forms.Label lblElementTypeInfo;
         private System.Windows.Forms.Label lblDiagramTypeInfo;
         private System.Windows.Forms.Button btnClearScope;
+        private BrightIdeasSoftware.OLVColumn olvColWarningType;
     }
 }
