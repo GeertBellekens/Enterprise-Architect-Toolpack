@@ -143,13 +143,13 @@ namespace GlossaryManager
             this.menuHeader = menuName;
             this.menuOptions = new string[] {
                                 menuManage,
-                                menuImportBusinessItems,
-                                menuImportDataItems,
-                                menuExportBusinessItems,
-                                menuExportDataItems,
+                                //menuImportBusinessItems,
+                                //menuImportDataItems,
+                                //menuExportBusinessItems,
+                                //menuExportDataItems,
                                 menuSettings,
-                                menuAbout,
-                                menuTest
+                                menuAbout
+                                //,menuTest
                               };
         }
 
@@ -175,13 +175,13 @@ namespace GlossaryManager
             switch (itemName)
             {
                 case menuImportBusinessItems:
-                case menuImportDataItems:
-                    isEnabled = this.fullyLoaded && (this.model.selectedElement != null);
-                    break;
-                case menuExportBusinessItems:
-                case menuExportDataItems:
-                    isEnabled = this.fullyLoaded && (this.model.selectedElement != null);
-                    break;
+                //case menuImportDataItems:
+                //    isEnabled = this.fullyLoaded && (this.model.selectedElement != null);
+                //    break;
+                //case menuExportBusinessItems:
+                //case menuExportDataItems:
+                //    isEnabled = this.fullyLoaded && (this.model.selectedElement != null);
+                //    break;
                 case menuSettings:
                     isEnabled = this.fullyLoaded;
                     break;
@@ -199,27 +199,27 @@ namespace GlossaryManager
                 case menuManage:
                     this.manage();
                     break;
-                case menuImportBusinessItems:
-                    this.import<BusinessItem>();
-                    break;
-                case menuImportDataItems:
-                    this.import<DataItem>();
-                    break;
-                case menuExportBusinessItems:
-                    this.export<BusinessItem>();
-                    break;
-                case menuExportDataItems:
-                    this.export<DataItem>();
-                    break;
+                //case menuImportBusinessItems:
+                //    this.import<BusinessItem>();
+                //    break;
+                //case menuImportDataItems:
+                //    this.import<DataItem>();
+                //    break;
+                //case menuExportBusinessItems:
+                //    this.export<BusinessItem>();
+                //    break;
+                //case menuExportDataItems:
+                //    this.export<DataItem>();
+                //    break;
                 case menuSettings:
                     this.openSettings();
                     break;
                 case menuAbout:
                     this.about();
                     break;
-                case menuTest:
-                    this.test();
-                    break;
+                //case menuTest:
+                //    this.test();
+                //    break;
             }
         }
 
