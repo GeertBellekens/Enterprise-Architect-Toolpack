@@ -238,6 +238,7 @@
             this.olvChecks.View = System.Windows.Forms.View.Details;
             this.olvChecks.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.olvChecks_CellToolTipShowing);
             this.olvChecks.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.olvChecks_FormatCell);
+            this.olvChecks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvChecks_MouseDoubleClick);
             // 
             // olvColCheckDescription
             // 
@@ -301,7 +302,7 @@
             this.lblChecks.AutoSize = true;
             this.lblChecks.Location = new System.Drawing.Point(11, 40);
             this.lblChecks.Name = "lblChecks";
-            this.lblChecks.Size = new System.Drawing.Size(131, 17);
+            this.lblChecks.Size = new System.Drawing.Size(101, 13);
             this.lblChecks.TabIndex = 4;
             this.lblChecks.Text = "Checks to validate :";
             // 
@@ -312,7 +313,7 @@
             this.lblResults.AutoSize = true;
             this.lblResults.Location = new System.Drawing.Point(11, 399);
             this.lblResults.Name = "lblResults";
-            this.lblResults.Size = new System.Drawing.Size(124, 17);
+            this.lblResults.Size = new System.Drawing.Size(92, 13);
             this.lblResults.TabIndex = 5;
             this.lblResults.Text = "Validation results :";
             // 
@@ -322,14 +323,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDirectoryValidationChecks.Location = new System.Drawing.Point(158, 15);
             this.txtDirectoryValidationChecks.Name = "txtDirectoryValidationChecks";
-            this.txtDirectoryValidationChecks.Size = new System.Drawing.Size(692, 22);
+            this.txtDirectoryValidationChecks.Size = new System.Drawing.Size(692, 20);
             this.txtDirectoryValidationChecks.TabIndex = 6;
             // 
             // txtElementName
             // 
             this.txtElementName.Location = new System.Drawing.Point(83, 24);
             this.txtElementName.Name = "txtElementName";
-            this.txtElementName.Size = new System.Drawing.Size(447, 22);
+            this.txtElementName.Size = new System.Drawing.Size(447, 20);
             this.txtElementName.TabIndex = 8;
             // 
             // btnSelectElement
@@ -347,7 +348,7 @@
             this.lblSourceDirectory.AutoSize = true;
             this.lblSourceDirectory.Location = new System.Drawing.Point(11, 15);
             this.lblSourceDirectory.Name = "lblSourceDirectory";
-            this.lblSourceDirectory.Size = new System.Drawing.Size(134, 17);
+            this.lblSourceDirectory.Size = new System.Drawing.Size(104, 13);
             this.lblSourceDirectory.TabIndex = 10;
             this.lblSourceDirectory.Text = "Location of checks: ";
             // 
@@ -384,7 +385,7 @@
             // 
             this.txtElementType.Location = new System.Drawing.Point(83, 49);
             this.txtElementType.Name = "txtElementType";
-            this.txtElementType.Size = new System.Drawing.Size(196, 22);
+            this.txtElementType.Size = new System.Drawing.Size(196, 20);
             this.txtElementType.TabIndex = 15;
             // 
             // lblElementName
@@ -392,7 +393,7 @@
             this.lblElementName.AutoSize = true;
             this.lblElementName.Location = new System.Drawing.Point(18, 24);
             this.lblElementName.Name = "lblElementName";
-            this.lblElementName.Size = new System.Drawing.Size(59, 17);
+            this.lblElementName.Size = new System.Drawing.Size(45, 13);
             this.lblElementName.TabIndex = 16;
             this.lblElementName.Text = "Element";
             // 
@@ -401,7 +402,7 @@
             this.lblElementType.AutoSize = true;
             this.lblElementType.Location = new System.Drawing.Point(37, 49);
             this.lblElementType.Name = "lblElementType";
-            this.lblElementType.Size = new System.Drawing.Size(40, 17);
+            this.lblElementType.Size = new System.Drawing.Size(31, 13);
             this.lblElementType.TabIndex = 18;
             this.lblElementType.Text = "Type";
             // 
@@ -410,7 +411,7 @@
             this.chkExcludeArchivePackages.AutoSize = true;
             this.chkExcludeArchivePackages.Location = new System.Drawing.Point(729, 285);
             this.chkExcludeArchivePackages.Name = "chkExcludeArchivePackages";
-            this.chkExcludeArchivePackages.Size = new System.Drawing.Size(166, 38);
+            this.chkExcludeArchivePackages.Size = new System.Drawing.Size(135, 30);
             this.chkExcludeArchivePackages.TabIndex = 19;
             this.chkExcludeArchivePackages.Text = "Exclude Packages\r\n\"Archive/Deleted/Old\"";
             this.chkExcludeArchivePackages.UseVisualStyleBackColor = true;
@@ -452,7 +453,7 @@
             this.lblDiagramTypeInfo.AutoSize = true;
             this.lblDiagramTypeInfo.Location = new System.Drawing.Point(285, 120);
             this.lblDiagramTypeInfo.Name = "lblDiagramTypeInfo";
-            this.lblDiagramTypeInfo.Size = new System.Drawing.Size(134, 17);
+            this.lblDiagramTypeInfo.Size = new System.Drawing.Size(99, 13);
             this.lblDiagramTypeInfo.TabIndex = 28;
             this.lblDiagramTypeInfo.Text = "(Use Case diagram)";
             // 
@@ -461,7 +462,7 @@
             this.lblElementTypeInfo.AutoSize = true;
             this.lblElementTypeInfo.Location = new System.Drawing.Point(285, 52);
             this.lblElementTypeInfo.Name = "lblElementTypeInfo";
-            this.lblElementTypeInfo.Size = new System.Drawing.Size(198, 17);
+            this.lblElementTypeInfo.Size = new System.Drawing.Size(154, 13);
             this.lblElementTypeInfo.TabIndex = 27;
             this.lblElementTypeInfo.Text = "(Change / Release / Package)";
             // 
@@ -469,14 +470,14 @@
             // 
             this.txtDiagramName.Location = new System.Drawing.Point(83, 92);
             this.txtDiagramName.Name = "txtDiagramName";
-            this.txtDiagramName.Size = new System.Drawing.Size(447, 22);
+            this.txtDiagramName.Size = new System.Drawing.Size(447, 20);
             this.txtDiagramName.TabIndex = 23;
             // 
             // txtDiagramType
             // 
             this.txtDiagramType.Location = new System.Drawing.Point(83, 117);
             this.txtDiagramType.Name = "txtDiagramType";
-            this.txtDiagramType.Size = new System.Drawing.Size(196, 22);
+            this.txtDiagramType.Size = new System.Drawing.Size(196, 20);
             this.txtDiagramType.TabIndex = 24;
             // 
             // label1
@@ -484,7 +485,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(37, 117);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 17);
+            this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 26;
             this.label1.Text = "Type";
             // 
@@ -493,7 +494,7 @@
             this.lblDiagram.AutoSize = true;
             this.lblDiagram.Location = new System.Drawing.Point(18, 92);
             this.lblDiagram.Name = "lblDiagram";
-            this.lblDiagram.Size = new System.Drawing.Size(61, 17);
+            this.lblDiagram.Size = new System.Drawing.Size(46, 13);
             this.lblDiagram.TabIndex = 25;
             this.lblDiagram.Text = "Diagram";
             // 
