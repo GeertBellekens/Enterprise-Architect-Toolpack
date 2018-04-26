@@ -347,6 +347,20 @@ namespace ECDMMessageComposer
 				this.setValue("elementTagName",value);
 			}
 		}
+        /// <summary>
+        /// Indicates that the original attribute order will be kep. If false then all new attributes will be added to the end.
+        /// </summary>
+        public bool keepOriginalAttributeOrder
+        {
+            get
+            {
+                return this.getBooleanValue("keepOriginalAttributeOrder");
+            }
+            set
+            {
+                this.setBooleanValue("keepOriginalAttributeOrder", value);
+            }
+        }
     }
 }
 

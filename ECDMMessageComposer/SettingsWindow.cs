@@ -42,6 +42,8 @@ namespace ECDMMessageComposer
 			loadGridData(hiddenElementGrid, settings.hiddenElementTypes);
 			//copy generalizations
 			this.generalCopyGeneralizationsCheckbox.Checked = settings.copyGeneralizations;
+            //keep original attribute order
+            this.KeepAttributeOrder.Checked = settings.keepOriginalAttributeOrder;
 			//addDataTypes checkbox
 			this.addDataTypesCheckBox.Checked = this.settings.addDataTypes;
 			//addSourceElements checkbox
@@ -98,8 +100,9 @@ namespace ECDMMessageComposer
 		    this.settings.checkSecurity = this.checkSecurityCheckBox.Checked;
 		    this.settings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
 		    this.settings.usePackageSchemasOnly = this.usePackageSubsetsOnlyCheckBox.Checked;
-			//diagram options
-			this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
+            this.settings.keepOriginalAttributeOrder = this.KeepAttributeOrder.Checked;
+            //diagram options
+            this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
 			this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;
 			//datatype options
 		    this.settings.copyDataTypes = this.copyDatatypesCheckbox.Checked;

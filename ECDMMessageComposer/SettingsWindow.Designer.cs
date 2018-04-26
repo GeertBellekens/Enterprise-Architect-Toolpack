@@ -78,563 +78,576 @@ namespace ECDMMessageComposer
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsWindow));
-			this.ignoredStereoTypesGrid = new System.Windows.Forms.DataGridView();
-			this.StereotypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.deleteStereotypeButton = new System.Windows.Forms.Button();
-			this.okButton = new System.Windows.Forms.Button();
-			this.cancelButton = new System.Windows.Forms.Button();
-			this.applyButton = new System.Windows.Forms.Button();
-			this.ignoredTaggedValuesGrid = new System.Windows.Forms.DataGridView();
-			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.deleteTaggedValueButton = new System.Windows.Forms.Button();
-			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.diagramOptionsGroupBox = new System.Windows.Forms.GroupBox();
-			this.deleteHiddenElementButton = new System.Windows.Forms.Button();
-			this.hiddenElementGrid = new System.Windows.Forms.DataGridView();
-			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.addSourceElementCheckBox = new System.Windows.Forms.CheckBox();
-			this.addDataTypesCheckBox = new System.Windows.Forms.CheckBox();
-			this.copyDatatypesCheckbox = new System.Windows.Forms.CheckBox();
-			this.dataTypeOptionsGroupBox = new System.Windows.Forms.GroupBox();
-			this.copyDataTypeGeneralizationsCheckBox = new System.Windows.Forms.CheckBox();
-			this.limitDatatypesCheckBox = new System.Windows.Forms.CheckBox();
-			this.deleteDataTypeButton = new System.Windows.Forms.Button();
-			this.dataTypesGridView = new System.Windows.Forms.DataGridView();
-			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.traceabilityGroupBox = new System.Windows.Forms.GroupBox();
-			this.associationTagLabel = new System.Windows.Forms.Label();
-			this.associationTagTextBox = new System.Windows.Forms.TextBox();
-			this.attributeTagLabel = new System.Windows.Forms.Label();
-			this.attributeTagTextBox = new System.Windows.Forms.TextBox();
-			this.GeneralGroupBox = new System.Windows.Forms.GroupBox();
-			this.usePackageSubsetsOnlyCheckBox = new System.Windows.Forms.CheckBox();
-			this.deleteUnusedElementsCheckBox = new System.Windows.Forms.CheckBox();
-			this.generalCopyGeneralizationsCheckbox = new System.Windows.Forms.CheckBox();
-			this.checkSecurityCheckBox = new System.Windows.Forms.CheckBox();
-			this.notesPrefixTextBox = new System.Windows.Forms.TextBox();
-			this.prefixNotesCheckBox = new System.Windows.Forms.CheckBox();
-			this.RedirectGeneralizationsCheckBox = new System.Windows.Forms.CheckBox();
-			this.xmlSchemaGroup = new System.Windows.Forms.GroupBox();
-			this.elementTagLabel = new System.Windows.Forms.Label();
-			this.elementTagTextBox = new System.Windows.Forms.TextBox();
-			this.tvInsteadOfTraceCheckBox = new System.Windows.Forms.CheckBox();
-			this.orderAssociationsAmongstAttributesCheckbox = new System.Windows.Forms.CheckBox();
-			this.orderAssociationsCheckbox = new System.Windows.Forms.CheckBox();
-			this.noAttributeDependenciesCheckbox = new System.Windows.Forms.CheckBox();
-			((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-			this.splitContainer1.Panel1.SuspendLayout();
-			this.splitContainer1.Panel2.SuspendLayout();
-			this.splitContainer1.SuspendLayout();
-			this.diagramOptionsGroupBox.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.hiddenElementGrid)).BeginInit();
-			this.dataTypeOptionsGroupBox.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dataTypesGridView)).BeginInit();
-			this.traceabilityGroupBox.SuspendLayout();
-			this.GeneralGroupBox.SuspendLayout();
-			this.xmlSchemaGroup.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// ignoredStereoTypesGrid
-			// 
-			this.ignoredStereoTypesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.ignoredStereoTypesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.StereotypeColumn});
-			this.ignoredStereoTypesGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ignoredStereoTypesGrid.Location = new System.Drawing.Point(0, 0);
-			this.ignoredStereoTypesGrid.Name = "ignoredStereoTypesGrid";
-			this.ignoredStereoTypesGrid.RowHeadersVisible = false;
-			this.ignoredStereoTypesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ignoredStereoTypesGrid.Size = new System.Drawing.Size(177, 151);
-			this.ignoredStereoTypesGrid.TabIndex = 0;
-			// 
-			// StereotypeColumn
-			// 
-			this.StereotypeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.StereotypeColumn.HeaderText = "Ignored Stereotypes";
-			this.StereotypeColumn.Name = "StereotypeColumn";
-			this.StereotypeColumn.ToolTipText = "Classes with these stereotypes will not be deleted when updating a subset model";
-			// 
-			// deleteStereotypeButton
-			// 
-			this.deleteStereotypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.deleteStereotypeButton.Location = new System.Drawing.Point(478, 172);
-			this.deleteStereotypeButton.Name = "deleteStereotypeButton";
-			this.deleteStereotypeButton.Size = new System.Drawing.Size(75, 23);
-			this.deleteStereotypeButton.TabIndex = 1;
-			this.deleteStereotypeButton.Text = "Delete";
-			this.deleteStereotypeButton.UseVisualStyleBackColor = true;
-			this.deleteStereotypeButton.Click += new System.EventHandler(this.DeleteStereotypeButtonClick);
-			// 
-			// okButton
-			// 
-			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.okButton.Location = new System.Drawing.Point(496, 542);
-			this.okButton.Name = "okButton";
-			this.okButton.Size = new System.Drawing.Size(75, 23);
-			this.okButton.TabIndex = 2;
-			this.okButton.Text = "OK";
-			this.okButton.UseVisualStyleBackColor = true;
-			this.okButton.Click += new System.EventHandler(this.OkButtonClick);
-			// 
-			// cancelButton
-			// 
-			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(577, 542);
-			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.Size = new System.Drawing.Size(75, 23);
-			this.cancelButton.TabIndex = 3;
-			this.cancelButton.Text = "Cancel";
-			this.cancelButton.UseVisualStyleBackColor = true;
-			this.cancelButton.Click += new System.EventHandler(this.CancelButtonClick);
-			// 
-			// applyButton
-			// 
-			this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.applyButton.Location = new System.Drawing.Point(658, 542);
-			this.applyButton.Name = "applyButton";
-			this.applyButton.Size = new System.Drawing.Size(75, 23);
-			this.applyButton.TabIndex = 4;
-			this.applyButton.Text = "Apply";
-			this.applyButton.UseVisualStyleBackColor = true;
-			this.applyButton.Click += new System.EventHandler(this.ApplyButtonClick);
-			// 
-			// ignoredTaggedValuesGrid
-			// 
-			this.ignoredTaggedValuesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.ignoredTaggedValuesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.dataGridViewTextBoxColumn1});
-			this.ignoredTaggedValuesGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ignoredTaggedValuesGrid.Location = new System.Drawing.Point(0, 0);
-			this.ignoredTaggedValuesGrid.Name = "ignoredTaggedValuesGrid";
-			this.ignoredTaggedValuesGrid.RowHeadersVisible = false;
-			this.ignoredTaggedValuesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ignoredTaggedValuesGrid.Size = new System.Drawing.Size(176, 151);
-			this.ignoredTaggedValuesGrid.TabIndex = 5;
-			// 
-			// dataGridViewTextBoxColumn1
-			// 
-			this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.dataGridViewTextBoxColumn1.HeaderText = "Ignored Tagged Values";
-			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-			this.dataGridViewTextBoxColumn1.ToolTipText = "These tagged values will be left untouched when they have a value in the subset m" +
-	"odel";
-			// 
-			// deleteTaggedValueButton
-			// 
-			this.deleteTaggedValueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.deleteTaggedValueButton.Location = new System.Drawing.Point(660, 172);
-			this.deleteTaggedValueButton.Name = "deleteTaggedValueButton";
-			this.deleteTaggedValueButton.Size = new System.Drawing.Size(75, 23);
-			this.deleteTaggedValueButton.TabIndex = 6;
-			this.deleteTaggedValueButton.Text = "Delete";
-			this.deleteTaggedValueButton.UseVisualStyleBackColor = true;
-			this.deleteTaggedValueButton.Click += new System.EventHandler(this.DeleteTaggedValueButtonClick);
-			// 
-			// splitContainer1
-			// 
-			this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.splitContainer1.Location = new System.Drawing.Point(376, 15);
-			this.splitContainer1.Name = "splitContainer1";
-			// 
-			// splitContainer1.Panel1
-			// 
-			this.splitContainer1.Panel1.Controls.Add(this.ignoredStereoTypesGrid);
-			// 
-			// splitContainer1.Panel2
-			// 
-			this.splitContainer1.Panel2.Controls.Add(this.ignoredTaggedValuesGrid);
-			this.splitContainer1.Size = new System.Drawing.Size(357, 151);
-			this.splitContainer1.SplitterDistance = 177;
-			this.splitContainer1.TabIndex = 7;
-			// 
-			// diagramOptionsGroupBox
-			// 
-			this.diagramOptionsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.diagramOptionsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.diagramOptionsGroupBox.Controls.Add(this.deleteHiddenElementButton);
-			this.diagramOptionsGroupBox.Controls.Add(this.hiddenElementGrid);
-			this.diagramOptionsGroupBox.Controls.Add(this.addSourceElementCheckBox);
-			this.diagramOptionsGroupBox.Controls.Add(this.addDataTypesCheckBox);
-			this.diagramOptionsGroupBox.Location = new System.Drawing.Point(14, 389);
-			this.diagramOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 75);
-			this.diagramOptionsGroupBox.Name = "diagramOptionsGroupBox";
-			this.diagramOptionsGroupBox.Size = new System.Drawing.Size(357, 158);
-			this.diagramOptionsGroupBox.TabIndex = 8;
-			this.diagramOptionsGroupBox.TabStop = false;
-			this.diagramOptionsGroupBox.Text = "Diagram Options";
-			// 
-			// deleteHiddenElementButton
-			// 
-			this.deleteHiddenElementButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.deleteHiddenElementButton.Location = new System.Drawing.Point(276, 130);
-			this.deleteHiddenElementButton.Name = "deleteHiddenElementButton";
-			this.deleteHiddenElementButton.Size = new System.Drawing.Size(75, 23);
-			this.deleteHiddenElementButton.TabIndex = 9;
-			this.deleteHiddenElementButton.Text = "Delete";
-			this.deleteHiddenElementButton.UseVisualStyleBackColor = true;
-			// 
-			// hiddenElementGrid
-			// 
-			this.hiddenElementGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.hiddenElementGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.hiddenElementGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.dataGridViewTextBoxColumn3});
-			this.hiddenElementGrid.Location = new System.Drawing.Point(175, 19);
-			this.hiddenElementGrid.Name = "hiddenElementGrid";
-			this.hiddenElementGrid.RowHeadersVisible = false;
-			this.hiddenElementGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.hiddenElementGrid.Size = new System.Drawing.Size(176, 105);
-			this.hiddenElementGrid.TabIndex = 8;
-			// 
-			// dataGridViewTextBoxColumn3
-			// 
-			this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.dataGridViewTextBoxColumn3.HeaderText = "Hidden Element Types";
-			this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-			this.dataGridViewTextBoxColumn3.ToolTipText = "List of Element types and sterereotypes that should not be shown on diagrams";
-			// 
-			// addSourceElementCheckBox
-			// 
-			this.addSourceElementCheckBox.Location = new System.Drawing.Point(7, 49);
-			this.addSourceElementCheckBox.Name = "addSourceElementCheckBox";
-			this.addSourceElementCheckBox.Size = new System.Drawing.Size(143, 24);
-			this.addSourceElementCheckBox.TabIndex = 1;
-			this.addSourceElementCheckBox.Text = "Add Source Elements";
-			this.addSourceElementCheckBox.UseVisualStyleBackColor = true;
-			// 
-			// addDataTypesCheckBox
-			// 
-			this.addDataTypesCheckBox.Location = new System.Drawing.Point(7, 19);
-			this.addDataTypesCheckBox.Name = "addDataTypesCheckBox";
-			this.addDataTypesCheckBox.Size = new System.Drawing.Size(104, 24);
-			this.addDataTypesCheckBox.TabIndex = 0;
-			this.addDataTypesCheckBox.Text = "Add Datatypes";
-			this.addDataTypesCheckBox.UseVisualStyleBackColor = true;
-			// 
-			// copyDatatypesCheckbox
-			// 
-			this.copyDatatypesCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.copyDatatypesCheckbox.Location = new System.Drawing.Point(6, 19);
-			this.copyDatatypesCheckbox.Name = "copyDatatypesCheckbox";
-			this.copyDatatypesCheckbox.Size = new System.Drawing.Size(162, 24);
-			this.copyDatatypesCheckbox.TabIndex = 2;
-			this.copyDatatypesCheckbox.Text = "Copy Datatypes to subset";
-			this.copyDatatypesCheckbox.UseVisualStyleBackColor = true;
-			this.copyDatatypesCheckbox.CheckedChanged += new System.EventHandler(this.CopyDatatypesCheckboxCheckedChanged);
-			// 
-			// dataTypeOptionsGroupBox
-			// 
-			this.dataTypeOptionsGroupBox.Controls.Add(this.copyDataTypeGeneralizationsCheckBox);
-			this.dataTypeOptionsGroupBox.Controls.Add(this.limitDatatypesCheckBox);
-			this.dataTypeOptionsGroupBox.Controls.Add(this.deleteDataTypeButton);
-			this.dataTypeOptionsGroupBox.Controls.Add(this.dataTypesGridView);
-			this.dataTypeOptionsGroupBox.Controls.Add(this.copyDatatypesCheckbox);
-			this.dataTypeOptionsGroupBox.Location = new System.Drawing.Point(14, 221);
-			this.dataTypeOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 45);
-			this.dataTypeOptionsGroupBox.Name = "dataTypeOptionsGroupBox";
-			this.dataTypeOptionsGroupBox.Size = new System.Drawing.Size(351, 162);
-			this.dataTypeOptionsGroupBox.TabIndex = 9;
-			this.dataTypeOptionsGroupBox.TabStop = false;
-			this.dataTypeOptionsGroupBox.Text = "Datatype Options";
-			// 
-			// copyDataTypeGeneralizationsCheckBox
-			// 
-			this.copyDataTypeGeneralizationsCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.copyDataTypeGeneralizationsCheckBox.Location = new System.Drawing.Point(6, 79);
-			this.copyDataTypeGeneralizationsCheckBox.Name = "copyDataTypeGeneralizationsCheckBox";
-			this.copyDataTypeGeneralizationsCheckBox.Size = new System.Drawing.Size(162, 24);
-			this.copyDataTypeGeneralizationsCheckBox.TabIndex = 9;
-			this.copyDataTypeGeneralizationsCheckBox.Text = "Copy Generalizations";
-			this.copyDataTypeGeneralizationsCheckBox.UseVisualStyleBackColor = true;
-			// 
-			// limitDatatypesCheckBox
-			// 
-			this.limitDatatypesCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.limitDatatypesCheckBox.Location = new System.Drawing.Point(6, 49);
-			this.limitDatatypesCheckBox.Name = "limitDatatypesCheckBox";
-			this.limitDatatypesCheckBox.Size = new System.Drawing.Size(162, 24);
-			this.limitDatatypesCheckBox.TabIndex = 8;
-			this.limitDatatypesCheckBox.Text = "Limit Datatypes to copy";
-			this.limitDatatypesCheckBox.UseVisualStyleBackColor = true;
-			this.limitDatatypesCheckBox.CheckedChanged += new System.EventHandler(this.LimitDatatypesCheckBoxCheckedChanged);
-			// 
-			// deleteDataTypeButton
-			// 
-			this.deleteDataTypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.deleteDataTypeButton.Location = new System.Drawing.Point(269, 130);
-			this.deleteDataTypeButton.Name = "deleteDataTypeButton";
-			this.deleteDataTypeButton.Size = new System.Drawing.Size(75, 23);
-			this.deleteDataTypeButton.TabIndex = 7;
-			this.deleteDataTypeButton.Text = "Delete";
-			this.deleteDataTypeButton.UseVisualStyleBackColor = true;
-			this.deleteDataTypeButton.Click += new System.EventHandler(this.DeleteDataTypeButtonClick);
-			// 
-			// dataTypesGridView
-			// 
-			this.dataTypesGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-			| System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.dataTypesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataTypesGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.dataGridViewTextBoxColumn2});
-			this.dataTypesGridView.Location = new System.Drawing.Point(174, 19);
-			this.dataTypesGridView.Name = "dataTypesGridView";
-			this.dataTypesGridView.RowHeadersVisible = false;
-			this.dataTypesGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataTypesGridView.Size = new System.Drawing.Size(170, 105);
-			this.dataTypesGridView.TabIndex = 6;
-			// 
-			// dataGridViewTextBoxColumn2
-			// 
-			this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.dataGridViewTextBoxColumn2.HeaderText = "Datatypes to copy";
-			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-			this.dataGridViewTextBoxColumn2.ToolTipText = "Only copy these datatypes to the subset model";
-			// 
-			// traceabilityGroupBox
-			// 
-			this.traceabilityGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.traceabilityGroupBox.Controls.Add(this.associationTagLabel);
-			this.traceabilityGroupBox.Controls.Add(this.associationTagTextBox);
-			this.traceabilityGroupBox.Controls.Add(this.attributeTagLabel);
-			this.traceabilityGroupBox.Controls.Add(this.attributeTagTextBox);
-			this.traceabilityGroupBox.Location = new System.Drawing.Point(383, 201);
-			this.traceabilityGroupBox.Name = "traceabilityGroupBox";
-			this.traceabilityGroupBox.Size = new System.Drawing.Size(357, 76);
-			this.traceabilityGroupBox.TabIndex = 10;
-			this.traceabilityGroupBox.TabStop = false;
-			this.traceabilityGroupBox.Text = "Traceability tags";
-			// 
-			// associationTagLabel
-			// 
-			this.associationTagLabel.Location = new System.Drawing.Point(185, 20);
-			this.associationTagLabel.Name = "associationTagLabel";
-			this.associationTagLabel.Size = new System.Drawing.Size(100, 17);
-			this.associationTagLabel.TabIndex = 3;
-			this.associationTagLabel.Text = "AssociationTag";
-			// 
-			// associationTagTextBox
-			// 
-			this.associationTagTextBox.Location = new System.Drawing.Point(185, 40);
-			this.associationTagTextBox.Name = "associationTagTextBox";
-			this.associationTagTextBox.Size = new System.Drawing.Size(164, 20);
-			this.associationTagTextBox.TabIndex = 2;
-			// 
-			// attributeTagLabel
-			// 
-			this.attributeTagLabel.Location = new System.Drawing.Point(5, 20);
-			this.attributeTagLabel.Name = "attributeTagLabel";
-			this.attributeTagLabel.Size = new System.Drawing.Size(100, 17);
-			this.attributeTagLabel.TabIndex = 1;
-			this.attributeTagLabel.Text = "AttributeTag";
-			// 
-			// attributeTagTextBox
-			// 
-			this.attributeTagTextBox.Location = new System.Drawing.Point(5, 40);
-			this.attributeTagTextBox.Name = "attributeTagTextBox";
-			this.attributeTagTextBox.Size = new System.Drawing.Size(164, 20);
-			this.attributeTagTextBox.TabIndex = 0;
-			// 
-			// GeneralGroupBox
-			// 
-			this.GeneralGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.GeneralGroupBox.Controls.Add(this.usePackageSubsetsOnlyCheckBox);
-			this.GeneralGroupBox.Controls.Add(this.deleteUnusedElementsCheckBox);
-			this.GeneralGroupBox.Controls.Add(this.generalCopyGeneralizationsCheckbox);
-			this.GeneralGroupBox.Controls.Add(this.checkSecurityCheckBox);
-			this.GeneralGroupBox.Controls.Add(this.notesPrefixTextBox);
-			this.GeneralGroupBox.Controls.Add(this.prefixNotesCheckBox);
-			this.GeneralGroupBox.Controls.Add(this.RedirectGeneralizationsCheckBox);
-			this.GeneralGroupBox.Location = new System.Drawing.Point(14, 12);
-			this.GeneralGroupBox.MinimumSize = new System.Drawing.Size(0, 20);
-			this.GeneralGroupBox.Name = "GeneralGroupBox";
-			this.GeneralGroupBox.Size = new System.Drawing.Size(349, 203);
-			this.GeneralGroupBox.TabIndex = 11;
-			this.GeneralGroupBox.TabStop = false;
-			this.GeneralGroupBox.Text = "General Options";
-			// 
-			// usePackageSubsetsOnlyCheckBox
-			// 
-			this.usePackageSubsetsOnlyCheckBox.Location = new System.Drawing.Point(6, 165);
-			this.usePackageSubsetsOnlyCheckBox.Name = "usePackageSubsetsOnlyCheckBox";
-			this.usePackageSubsetsOnlyCheckBox.Size = new System.Drawing.Size(276, 24);
-			this.usePackageSubsetsOnlyCheckBox.TabIndex = 7;
-			this.usePackageSubsetsOnlyCheckBox.Text = "Use Package Structure for subset determination";
-			this.usePackageSubsetsOnlyCheckBox.UseVisualStyleBackColor = true;
-			// 
-			// deleteUnusedElementsCheckBox
-			// 
-			this.deleteUnusedElementsCheckBox.Location = new System.Drawing.Point(6, 135);
-			this.deleteUnusedElementsCheckBox.Name = "deleteUnusedElementsCheckBox";
-			this.deleteUnusedElementsCheckBox.Size = new System.Drawing.Size(248, 24);
-			this.deleteUnusedElementsCheckBox.TabIndex = 6;
-			this.deleteUnusedElementsCheckBox.Text = "Delete unused subset elements";
-			this.deleteUnusedElementsCheckBox.UseVisualStyleBackColor = true;
-			// 
-			// generalCopyGeneralizationsCheckbox
-			// 
-			this.generalCopyGeneralizationsCheckbox.Location = new System.Drawing.Point(6, 19);
-			this.generalCopyGeneralizationsCheckbox.Name = "generalCopyGeneralizationsCheckbox";
-			this.generalCopyGeneralizationsCheckbox.Size = new System.Drawing.Size(247, 24);
-			this.generalCopyGeneralizationsCheckbox.TabIndex = 5;
-			this.generalCopyGeneralizationsCheckbox.Text = "Copy Generalizations";
-			this.generalCopyGeneralizationsCheckbox.UseVisualStyleBackColor = true;
-			// 
-			// checkSecurityCheckBox
-			// 
-			this.checkSecurityCheckBox.Location = new System.Drawing.Point(6, 105);
-			this.checkSecurityCheckBox.Name = "checkSecurityCheckBox";
-			this.checkSecurityCheckBox.Size = new System.Drawing.Size(248, 24);
-			this.checkSecurityCheckBox.TabIndex = 4;
-			this.checkSecurityCheckBox.Text = "Check Security locks";
-			this.checkSecurityCheckBox.UseVisualStyleBackColor = true;
-			// 
-			// notesPrefixTextBox
-			// 
-			this.notesPrefixTextBox.Location = new System.Drawing.Point(100, 77);
-			this.notesPrefixTextBox.Name = "notesPrefixTextBox";
-			this.notesPrefixTextBox.Size = new System.Drawing.Size(242, 20);
-			this.notesPrefixTextBox.TabIndex = 3;
-			// 
-			// prefixNotesCheckBox
-			// 
-			this.prefixNotesCheckBox.Location = new System.Drawing.Point(6, 75);
-			this.prefixNotesCheckBox.Name = "prefixNotesCheckBox";
-			this.prefixNotesCheckBox.Size = new System.Drawing.Size(102, 24);
-			this.prefixNotesCheckBox.TabIndex = 1;
-			this.prefixNotesCheckBox.Text = "Prefix Notes";
-			this.prefixNotesCheckBox.UseVisualStyleBackColor = true;
-			this.prefixNotesCheckBox.CheckedChanged += new System.EventHandler(this.PrefixNotesCheckBoxCheckedChanged);
-			// 
-			// RedirectGeneralizationsCheckBox
-			// 
-			this.RedirectGeneralizationsCheckBox.Location = new System.Drawing.Point(6, 45);
-			this.RedirectGeneralizationsCheckBox.Name = "RedirectGeneralizationsCheckBox";
-			this.RedirectGeneralizationsCheckBox.Size = new System.Drawing.Size(247, 24);
-			this.RedirectGeneralizationsCheckBox.TabIndex = 0;
-			this.RedirectGeneralizationsCheckBox.Text = "Redirect Generalizations to subset";
-			this.RedirectGeneralizationsCheckBox.UseVisualStyleBackColor = true;
-			// 
-			// xmlSchemaGroup
-			// 
-			this.xmlSchemaGroup.Controls.Add(this.elementTagLabel);
-			this.xmlSchemaGroup.Controls.Add(this.elementTagTextBox);
-			this.xmlSchemaGroup.Controls.Add(this.tvInsteadOfTraceCheckBox);
-			this.xmlSchemaGroup.Controls.Add(this.orderAssociationsAmongstAttributesCheckbox);
-			this.xmlSchemaGroup.Controls.Add(this.orderAssociationsCheckbox);
-			this.xmlSchemaGroup.Controls.Add(this.noAttributeDependenciesCheckbox);
-			this.xmlSchemaGroup.Location = new System.Drawing.Point(388, 283);
-			this.xmlSchemaGroup.Name = "xmlSchemaGroup";
-			this.xmlSchemaGroup.Size = new System.Drawing.Size(345, 193);
-			this.xmlSchemaGroup.TabIndex = 12;
-			this.xmlSchemaGroup.TabStop = false;
-			this.xmlSchemaGroup.Text = "XML Schema Options";
-			// 
-			// elementTagLabel
-			// 
-			this.elementTagLabel.Location = new System.Drawing.Point(6, 139);
-			this.elementTagLabel.Name = "elementTagLabel";
-			this.elementTagLabel.Size = new System.Drawing.Size(100, 17);
-			this.elementTagLabel.TabIndex = 13;
-			this.elementTagLabel.Text = "Element Tag";
-			// 
-			// elementTagTextBox
-			// 
-			this.elementTagTextBox.Location = new System.Drawing.Point(6, 159);
-			this.elementTagTextBox.Name = "elementTagTextBox";
-			this.elementTagTextBox.Size = new System.Drawing.Size(164, 20);
-			this.elementTagTextBox.TabIndex = 12;
-			// 
-			// tvInsteadOfTraceCheckBox
-			// 
-			this.tvInsteadOfTraceCheckBox.Location = new System.Drawing.Point(6, 112);
-			this.tvInsteadOfTraceCheckBox.Name = "tvInsteadOfTraceCheckBox";
-			this.tvInsteadOfTraceCheckBox.Size = new System.Drawing.Size(276, 24);
-			this.tvInsteadOfTraceCheckBox.TabIndex = 11;
-			this.tvInsteadOfTraceCheckBox.Text = "Use Tagged Values instead of Trace";
-			this.tvInsteadOfTraceCheckBox.UseVisualStyleBackColor = true;
-			this.tvInsteadOfTraceCheckBox.CheckedChanged += new System.EventHandler(this.TtvInsteadOfTraceCheckBoxCheckedChanged);
-			// 
-			// orderAssociationsAmongstAttributesCheckbox
-			// 
-			this.orderAssociationsAmongstAttributesCheckbox.Location = new System.Drawing.Point(6, 82);
-			this.orderAssociationsAmongstAttributesCheckbox.Name = "orderAssociationsAmongstAttributesCheckbox";
-			this.orderAssociationsAmongstAttributesCheckbox.Size = new System.Drawing.Size(276, 24);
-			this.orderAssociationsAmongstAttributesCheckbox.TabIndex = 10;
-			this.orderAssociationsAmongstAttributesCheckbox.Text = "Order Associations between Attributes";
-			this.orderAssociationsAmongstAttributesCheckbox.UseVisualStyleBackColor = true;
-			// 
-			// orderAssociationsCheckbox
-			// 
-			this.orderAssociationsCheckbox.Location = new System.Drawing.Point(6, 52);
-			this.orderAssociationsCheckbox.Name = "orderAssociationsCheckbox";
-			this.orderAssociationsCheckbox.Size = new System.Drawing.Size(276, 24);
-			this.orderAssociationsCheckbox.TabIndex = 9;
-			this.orderAssociationsCheckbox.Text = "Order Associations Alphabetically";
-			this.orderAssociationsCheckbox.UseVisualStyleBackColor = true;
-			this.orderAssociationsCheckbox.CheckedChanged += new System.EventHandler(this.OrderAssociationsCheckboxCheckedChanged);
-			// 
-			// noAttributeDependenciesCheckbox
-			// 
-			this.noAttributeDependenciesCheckbox.Location = new System.Drawing.Point(6, 22);
-			this.noAttributeDependenciesCheckbox.Name = "noAttributeDependenciesCheckbox";
-			this.noAttributeDependenciesCheckbox.Size = new System.Drawing.Size(248, 24);
-			this.noAttributeDependenciesCheckbox.TabIndex = 8;
-			this.noAttributeDependenciesCheckbox.Text = "Do not create Attribute dependencies";
-			this.noAttributeDependenciesCheckbox.UseVisualStyleBackColor = true;
-			// 
-			// SettingsWindow
-			// 
-			this.AcceptButton = this.okButton;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(745, 573);
-			this.Controls.Add(this.xmlSchemaGroup);
-			this.Controls.Add(this.deleteTaggedValueButton);
-			this.Controls.Add(this.deleteStereotypeButton);
-			this.Controls.Add(this.GeneralGroupBox);
-			this.Controls.Add(this.traceabilityGroupBox);
-			this.Controls.Add(this.dataTypeOptionsGroupBox);
-			this.Controls.Add(this.diagramOptionsGroupBox);
-			this.Controls.Add(this.applyButton);
-			this.Controls.Add(this.cancelButton);
-			this.Controls.Add(this.okButton);
-			this.Controls.Add(this.splitContainer1);
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "SettingsWindow";
-			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "EA Message Composer settings";
-			((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).EndInit();
-			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-			this.splitContainer1.ResumeLayout(false);
-			this.diagramOptionsGroupBox.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.hiddenElementGrid)).EndInit();
-			this.dataTypeOptionsGroupBox.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.dataTypesGridView)).EndInit();
-			this.traceabilityGroupBox.ResumeLayout(false);
-			this.traceabilityGroupBox.PerformLayout();
-			this.GeneralGroupBox.ResumeLayout(false);
-			this.GeneralGroupBox.PerformLayout();
-			this.xmlSchemaGroup.ResumeLayout(false);
-			this.xmlSchemaGroup.PerformLayout();
-			this.ResumeLayout(false);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsWindow));
+            this.ignoredStereoTypesGrid = new System.Windows.Forms.DataGridView();
+            this.StereotypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deleteStereotypeButton = new System.Windows.Forms.Button();
+            this.okButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.applyButton = new System.Windows.Forms.Button();
+            this.ignoredTaggedValuesGrid = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deleteTaggedValueButton = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.diagramOptionsGroupBox = new System.Windows.Forms.GroupBox();
+            this.deleteHiddenElementButton = new System.Windows.Forms.Button();
+            this.hiddenElementGrid = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.addSourceElementCheckBox = new System.Windows.Forms.CheckBox();
+            this.addDataTypesCheckBox = new System.Windows.Forms.CheckBox();
+            this.copyDatatypesCheckbox = new System.Windows.Forms.CheckBox();
+            this.dataTypeOptionsGroupBox = new System.Windows.Forms.GroupBox();
+            this.copyDataTypeGeneralizationsCheckBox = new System.Windows.Forms.CheckBox();
+            this.limitDatatypesCheckBox = new System.Windows.Forms.CheckBox();
+            this.deleteDataTypeButton = new System.Windows.Forms.Button();
+            this.dataTypesGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.traceabilityGroupBox = new System.Windows.Forms.GroupBox();
+            this.associationTagLabel = new System.Windows.Forms.Label();
+            this.associationTagTextBox = new System.Windows.Forms.TextBox();
+            this.attributeTagLabel = new System.Windows.Forms.Label();
+            this.attributeTagTextBox = new System.Windows.Forms.TextBox();
+            this.GeneralGroupBox = new System.Windows.Forms.GroupBox();
+            this.usePackageSubsetsOnlyCheckBox = new System.Windows.Forms.CheckBox();
+            this.deleteUnusedElementsCheckBox = new System.Windows.Forms.CheckBox();
+            this.generalCopyGeneralizationsCheckbox = new System.Windows.Forms.CheckBox();
+            this.checkSecurityCheckBox = new System.Windows.Forms.CheckBox();
+            this.notesPrefixTextBox = new System.Windows.Forms.TextBox();
+            this.prefixNotesCheckBox = new System.Windows.Forms.CheckBox();
+            this.RedirectGeneralizationsCheckBox = new System.Windows.Forms.CheckBox();
+            this.xmlSchemaGroup = new System.Windows.Forms.GroupBox();
+            this.elementTagLabel = new System.Windows.Forms.Label();
+            this.elementTagTextBox = new System.Windows.Forms.TextBox();
+            this.tvInsteadOfTraceCheckBox = new System.Windows.Forms.CheckBox();
+            this.orderAssociationsAmongstAttributesCheckbox = new System.Windows.Forms.CheckBox();
+            this.orderAssociationsCheckbox = new System.Windows.Forms.CheckBox();
+            this.noAttributeDependenciesCheckbox = new System.Windows.Forms.CheckBox();
+            this.KeepAttributeOrder = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.diagramOptionsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hiddenElementGrid)).BeginInit();
+            this.dataTypeOptionsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataTypesGridView)).BeginInit();
+            this.traceabilityGroupBox.SuspendLayout();
+            this.GeneralGroupBox.SuspendLayout();
+            this.xmlSchemaGroup.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // ignoredStereoTypesGrid
+            // 
+            this.ignoredStereoTypesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ignoredStereoTypesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.StereotypeColumn});
+            this.ignoredStereoTypesGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ignoredStereoTypesGrid.Location = new System.Drawing.Point(0, 0);
+            this.ignoredStereoTypesGrid.Name = "ignoredStereoTypesGrid";
+            this.ignoredStereoTypesGrid.RowHeadersVisible = false;
+            this.ignoredStereoTypesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ignoredStereoTypesGrid.Size = new System.Drawing.Size(177, 151);
+            this.ignoredStereoTypesGrid.TabIndex = 0;
+            // 
+            // StereotypeColumn
+            // 
+            this.StereotypeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.StereotypeColumn.HeaderText = "Ignored Stereotypes";
+            this.StereotypeColumn.Name = "StereotypeColumn";
+            this.StereotypeColumn.ToolTipText = "Classes with these stereotypes will not be deleted when updating a subset model";
+            // 
+            // deleteStereotypeButton
+            // 
+            this.deleteStereotypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteStereotypeButton.Location = new System.Drawing.Point(478, 172);
+            this.deleteStereotypeButton.Name = "deleteStereotypeButton";
+            this.deleteStereotypeButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteStereotypeButton.TabIndex = 1;
+            this.deleteStereotypeButton.Text = "Delete";
+            this.deleteStereotypeButton.UseVisualStyleBackColor = true;
+            this.deleteStereotypeButton.Click += new System.EventHandler(this.DeleteStereotypeButtonClick);
+            // 
+            // okButton
+            // 
+            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.okButton.Location = new System.Drawing.Point(496, 551);
+            this.okButton.Name = "okButton";
+            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.TabIndex = 2;
+            this.okButton.Text = "OK";
+            this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.OkButtonClick);
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.Location = new System.Drawing.Point(577, 551);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 3;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.CancelButtonClick);
+            // 
+            // applyButton
+            // 
+            this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.applyButton.Location = new System.Drawing.Point(658, 551);
+            this.applyButton.Name = "applyButton";
+            this.applyButton.Size = new System.Drawing.Size(75, 23);
+            this.applyButton.TabIndex = 4;
+            this.applyButton.Text = "Apply";
+            this.applyButton.UseVisualStyleBackColor = true;
+            this.applyButton.Click += new System.EventHandler(this.ApplyButtonClick);
+            // 
+            // ignoredTaggedValuesGrid
+            // 
+            this.ignoredTaggedValuesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ignoredTaggedValuesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1});
+            this.ignoredTaggedValuesGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ignoredTaggedValuesGrid.Location = new System.Drawing.Point(0, 0);
+            this.ignoredTaggedValuesGrid.Name = "ignoredTaggedValuesGrid";
+            this.ignoredTaggedValuesGrid.RowHeadersVisible = false;
+            this.ignoredTaggedValuesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ignoredTaggedValuesGrid.Size = new System.Drawing.Size(176, 151);
+            this.ignoredTaggedValuesGrid.TabIndex = 5;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Ignored Tagged Values";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ToolTipText = "These tagged values will be left untouched when they have a value in the subset m" +
+    "odel";
+            // 
+            // deleteTaggedValueButton
+            // 
+            this.deleteTaggedValueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteTaggedValueButton.Location = new System.Drawing.Point(660, 172);
+            this.deleteTaggedValueButton.Name = "deleteTaggedValueButton";
+            this.deleteTaggedValueButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteTaggedValueButton.TabIndex = 6;
+            this.deleteTaggedValueButton.Text = "Delete";
+            this.deleteTaggedValueButton.UseVisualStyleBackColor = true;
+            this.deleteTaggedValueButton.Click += new System.EventHandler(this.DeleteTaggedValueButtonClick);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(376, 15);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.ignoredStereoTypesGrid);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.ignoredTaggedValuesGrid);
+            this.splitContainer1.Size = new System.Drawing.Size(357, 151);
+            this.splitContainer1.SplitterDistance = 177;
+            this.splitContainer1.TabIndex = 7;
+            // 
+            // diagramOptionsGroupBox
+            // 
+            this.diagramOptionsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.diagramOptionsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.diagramOptionsGroupBox.Controls.Add(this.deleteHiddenElementButton);
+            this.diagramOptionsGroupBox.Controls.Add(this.hiddenElementGrid);
+            this.diagramOptionsGroupBox.Controls.Add(this.addSourceElementCheckBox);
+            this.diagramOptionsGroupBox.Controls.Add(this.addDataTypesCheckBox);
+            this.diagramOptionsGroupBox.Location = new System.Drawing.Point(14, 416);
+            this.diagramOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 75);
+            this.diagramOptionsGroupBox.Name = "diagramOptionsGroupBox";
+            this.diagramOptionsGroupBox.Size = new System.Drawing.Size(357, 158);
+            this.diagramOptionsGroupBox.TabIndex = 8;
+            this.diagramOptionsGroupBox.TabStop = false;
+            this.diagramOptionsGroupBox.Text = "Diagram Options";
+            // 
+            // deleteHiddenElementButton
+            // 
+            this.deleteHiddenElementButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteHiddenElementButton.Location = new System.Drawing.Point(276, 130);
+            this.deleteHiddenElementButton.Name = "deleteHiddenElementButton";
+            this.deleteHiddenElementButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteHiddenElementButton.TabIndex = 9;
+            this.deleteHiddenElementButton.Text = "Delete";
+            this.deleteHiddenElementButton.UseVisualStyleBackColor = true;
+            // 
+            // hiddenElementGrid
+            // 
+            this.hiddenElementGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.hiddenElementGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.hiddenElementGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn3});
+            this.hiddenElementGrid.Location = new System.Drawing.Point(175, 19);
+            this.hiddenElementGrid.Name = "hiddenElementGrid";
+            this.hiddenElementGrid.RowHeadersVisible = false;
+            this.hiddenElementGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.hiddenElementGrid.Size = new System.Drawing.Size(176, 105);
+            this.hiddenElementGrid.TabIndex = 8;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn3.HeaderText = "Hidden Element Types";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ToolTipText = "List of Element types and sterereotypes that should not be shown on diagrams";
+            // 
+            // addSourceElementCheckBox
+            // 
+            this.addSourceElementCheckBox.Location = new System.Drawing.Point(7, 49);
+            this.addSourceElementCheckBox.Name = "addSourceElementCheckBox";
+            this.addSourceElementCheckBox.Size = new System.Drawing.Size(143, 24);
+            this.addSourceElementCheckBox.TabIndex = 1;
+            this.addSourceElementCheckBox.Text = "Add Source Elements";
+            this.addSourceElementCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // addDataTypesCheckBox
+            // 
+            this.addDataTypesCheckBox.Location = new System.Drawing.Point(7, 19);
+            this.addDataTypesCheckBox.Name = "addDataTypesCheckBox";
+            this.addDataTypesCheckBox.Size = new System.Drawing.Size(104, 24);
+            this.addDataTypesCheckBox.TabIndex = 0;
+            this.addDataTypesCheckBox.Text = "Add Datatypes";
+            this.addDataTypesCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // copyDatatypesCheckbox
+            // 
+            this.copyDatatypesCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.copyDatatypesCheckbox.Location = new System.Drawing.Point(6, 19);
+            this.copyDatatypesCheckbox.Name = "copyDatatypesCheckbox";
+            this.copyDatatypesCheckbox.Size = new System.Drawing.Size(162, 24);
+            this.copyDatatypesCheckbox.TabIndex = 2;
+            this.copyDatatypesCheckbox.Text = "Copy Datatypes to subset";
+            this.copyDatatypesCheckbox.UseVisualStyleBackColor = true;
+            this.copyDatatypesCheckbox.CheckedChanged += new System.EventHandler(this.CopyDatatypesCheckboxCheckedChanged);
+            // 
+            // dataTypeOptionsGroupBox
+            // 
+            this.dataTypeOptionsGroupBox.Controls.Add(this.copyDataTypeGeneralizationsCheckBox);
+            this.dataTypeOptionsGroupBox.Controls.Add(this.limitDatatypesCheckBox);
+            this.dataTypeOptionsGroupBox.Controls.Add(this.deleteDataTypeButton);
+            this.dataTypeOptionsGroupBox.Controls.Add(this.dataTypesGridView);
+            this.dataTypeOptionsGroupBox.Controls.Add(this.copyDatatypesCheckbox);
+            this.dataTypeOptionsGroupBox.Location = new System.Drawing.Point(14, 248);
+            this.dataTypeOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 45);
+            this.dataTypeOptionsGroupBox.Name = "dataTypeOptionsGroupBox";
+            this.dataTypeOptionsGroupBox.Size = new System.Drawing.Size(351, 162);
+            this.dataTypeOptionsGroupBox.TabIndex = 9;
+            this.dataTypeOptionsGroupBox.TabStop = false;
+            this.dataTypeOptionsGroupBox.Text = "Datatype Options";
+            // 
+            // copyDataTypeGeneralizationsCheckBox
+            // 
+            this.copyDataTypeGeneralizationsCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.copyDataTypeGeneralizationsCheckBox.Location = new System.Drawing.Point(6, 79);
+            this.copyDataTypeGeneralizationsCheckBox.Name = "copyDataTypeGeneralizationsCheckBox";
+            this.copyDataTypeGeneralizationsCheckBox.Size = new System.Drawing.Size(162, 24);
+            this.copyDataTypeGeneralizationsCheckBox.TabIndex = 9;
+            this.copyDataTypeGeneralizationsCheckBox.Text = "Copy Generalizations";
+            this.copyDataTypeGeneralizationsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // limitDatatypesCheckBox
+            // 
+            this.limitDatatypesCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.limitDatatypesCheckBox.Location = new System.Drawing.Point(6, 49);
+            this.limitDatatypesCheckBox.Name = "limitDatatypesCheckBox";
+            this.limitDatatypesCheckBox.Size = new System.Drawing.Size(162, 24);
+            this.limitDatatypesCheckBox.TabIndex = 8;
+            this.limitDatatypesCheckBox.Text = "Limit Datatypes to copy";
+            this.limitDatatypesCheckBox.UseVisualStyleBackColor = true;
+            this.limitDatatypesCheckBox.CheckedChanged += new System.EventHandler(this.LimitDatatypesCheckBoxCheckedChanged);
+            // 
+            // deleteDataTypeButton
+            // 
+            this.deleteDataTypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteDataTypeButton.Location = new System.Drawing.Point(269, 130);
+            this.deleteDataTypeButton.Name = "deleteDataTypeButton";
+            this.deleteDataTypeButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteDataTypeButton.TabIndex = 7;
+            this.deleteDataTypeButton.Text = "Delete";
+            this.deleteDataTypeButton.UseVisualStyleBackColor = true;
+            this.deleteDataTypeButton.Click += new System.EventHandler(this.DeleteDataTypeButtonClick);
+            // 
+            // dataTypesGridView
+            // 
+            this.dataTypesGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataTypesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataTypesGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn2});
+            this.dataTypesGridView.Location = new System.Drawing.Point(174, 19);
+            this.dataTypesGridView.Name = "dataTypesGridView";
+            this.dataTypesGridView.RowHeadersVisible = false;
+            this.dataTypesGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataTypesGridView.Size = new System.Drawing.Size(170, 105);
+            this.dataTypesGridView.TabIndex = 6;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Datatypes to copy";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ToolTipText = "Only copy these datatypes to the subset model";
+            // 
+            // traceabilityGroupBox
+            // 
+            this.traceabilityGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.traceabilityGroupBox.Controls.Add(this.associationTagLabel);
+            this.traceabilityGroupBox.Controls.Add(this.associationTagTextBox);
+            this.traceabilityGroupBox.Controls.Add(this.attributeTagLabel);
+            this.traceabilityGroupBox.Controls.Add(this.attributeTagTextBox);
+            this.traceabilityGroupBox.Location = new System.Drawing.Point(383, 210);
+            this.traceabilityGroupBox.Name = "traceabilityGroupBox";
+            this.traceabilityGroupBox.Size = new System.Drawing.Size(357, 76);
+            this.traceabilityGroupBox.TabIndex = 10;
+            this.traceabilityGroupBox.TabStop = false;
+            this.traceabilityGroupBox.Text = "Traceability tags";
+            // 
+            // associationTagLabel
+            // 
+            this.associationTagLabel.Location = new System.Drawing.Point(185, 20);
+            this.associationTagLabel.Name = "associationTagLabel";
+            this.associationTagLabel.Size = new System.Drawing.Size(100, 17);
+            this.associationTagLabel.TabIndex = 3;
+            this.associationTagLabel.Text = "AssociationTag";
+            // 
+            // associationTagTextBox
+            // 
+            this.associationTagTextBox.Location = new System.Drawing.Point(185, 40);
+            this.associationTagTextBox.Name = "associationTagTextBox";
+            this.associationTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.associationTagTextBox.TabIndex = 2;
+            // 
+            // attributeTagLabel
+            // 
+            this.attributeTagLabel.Location = new System.Drawing.Point(5, 20);
+            this.attributeTagLabel.Name = "attributeTagLabel";
+            this.attributeTagLabel.Size = new System.Drawing.Size(100, 17);
+            this.attributeTagLabel.TabIndex = 1;
+            this.attributeTagLabel.Text = "AttributeTag";
+            // 
+            // attributeTagTextBox
+            // 
+            this.attributeTagTextBox.Location = new System.Drawing.Point(5, 40);
+            this.attributeTagTextBox.Name = "attributeTagTextBox";
+            this.attributeTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.attributeTagTextBox.TabIndex = 0;
+            // 
+            // GeneralGroupBox
+            // 
+            this.GeneralGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.GeneralGroupBox.Controls.Add(this.KeepAttributeOrder);
+            this.GeneralGroupBox.Controls.Add(this.usePackageSubsetsOnlyCheckBox);
+            this.GeneralGroupBox.Controls.Add(this.deleteUnusedElementsCheckBox);
+            this.GeneralGroupBox.Controls.Add(this.generalCopyGeneralizationsCheckbox);
+            this.GeneralGroupBox.Controls.Add(this.checkSecurityCheckBox);
+            this.GeneralGroupBox.Controls.Add(this.notesPrefixTextBox);
+            this.GeneralGroupBox.Controls.Add(this.prefixNotesCheckBox);
+            this.GeneralGroupBox.Controls.Add(this.RedirectGeneralizationsCheckBox);
+            this.GeneralGroupBox.Location = new System.Drawing.Point(14, 12);
+            this.GeneralGroupBox.MinimumSize = new System.Drawing.Size(0, 20);
+            this.GeneralGroupBox.Name = "GeneralGroupBox";
+            this.GeneralGroupBox.Size = new System.Drawing.Size(349, 230);
+            this.GeneralGroupBox.TabIndex = 11;
+            this.GeneralGroupBox.TabStop = false;
+            this.GeneralGroupBox.Text = "General Options";
+            // 
+            // usePackageSubsetsOnlyCheckBox
+            // 
+            this.usePackageSubsetsOnlyCheckBox.Location = new System.Drawing.Point(6, 167);
+            this.usePackageSubsetsOnlyCheckBox.Name = "usePackageSubsetsOnlyCheckBox";
+            this.usePackageSubsetsOnlyCheckBox.Size = new System.Drawing.Size(276, 24);
+            this.usePackageSubsetsOnlyCheckBox.TabIndex = 7;
+            this.usePackageSubsetsOnlyCheckBox.Text = "Use Package Structure for subset determination";
+            this.usePackageSubsetsOnlyCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // deleteUnusedElementsCheckBox
+            // 
+            this.deleteUnusedElementsCheckBox.Location = new System.Drawing.Point(6, 137);
+            this.deleteUnusedElementsCheckBox.Name = "deleteUnusedElementsCheckBox";
+            this.deleteUnusedElementsCheckBox.Size = new System.Drawing.Size(248, 24);
+            this.deleteUnusedElementsCheckBox.TabIndex = 6;
+            this.deleteUnusedElementsCheckBox.Text = "Delete unused subset elements";
+            this.deleteUnusedElementsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // generalCopyGeneralizationsCheckbox
+            // 
+            this.generalCopyGeneralizationsCheckbox.Location = new System.Drawing.Point(6, 19);
+            this.generalCopyGeneralizationsCheckbox.Name = "generalCopyGeneralizationsCheckbox";
+            this.generalCopyGeneralizationsCheckbox.Size = new System.Drawing.Size(247, 24);
+            this.generalCopyGeneralizationsCheckbox.TabIndex = 5;
+            this.generalCopyGeneralizationsCheckbox.Text = "Copy Generalizations";
+            this.generalCopyGeneralizationsCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // checkSecurityCheckBox
+            // 
+            this.checkSecurityCheckBox.Location = new System.Drawing.Point(6, 107);
+            this.checkSecurityCheckBox.Name = "checkSecurityCheckBox";
+            this.checkSecurityCheckBox.Size = new System.Drawing.Size(248, 24);
+            this.checkSecurityCheckBox.TabIndex = 4;
+            this.checkSecurityCheckBox.Text = "Check Security locks";
+            this.checkSecurityCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // notesPrefixTextBox
+            // 
+            this.notesPrefixTextBox.Location = new System.Drawing.Point(100, 81);
+            this.notesPrefixTextBox.Name = "notesPrefixTextBox";
+            this.notesPrefixTextBox.Size = new System.Drawing.Size(242, 20);
+            this.notesPrefixTextBox.TabIndex = 3;
+            // 
+            // prefixNotesCheckBox
+            // 
+            this.prefixNotesCheckBox.Location = new System.Drawing.Point(6, 79);
+            this.prefixNotesCheckBox.Name = "prefixNotesCheckBox";
+            this.prefixNotesCheckBox.Size = new System.Drawing.Size(102, 24);
+            this.prefixNotesCheckBox.TabIndex = 1;
+            this.prefixNotesCheckBox.Text = "Prefix Notes";
+            this.prefixNotesCheckBox.UseVisualStyleBackColor = true;
+            this.prefixNotesCheckBox.CheckedChanged += new System.EventHandler(this.PrefixNotesCheckBoxCheckedChanged);
+            // 
+            // RedirectGeneralizationsCheckBox
+            // 
+            this.RedirectGeneralizationsCheckBox.Location = new System.Drawing.Point(6, 49);
+            this.RedirectGeneralizationsCheckBox.Name = "RedirectGeneralizationsCheckBox";
+            this.RedirectGeneralizationsCheckBox.Size = new System.Drawing.Size(247, 24);
+            this.RedirectGeneralizationsCheckBox.TabIndex = 0;
+            this.RedirectGeneralizationsCheckBox.Text = "Redirect Generalizations to subset";
+            this.RedirectGeneralizationsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // xmlSchemaGroup
+            // 
+            this.xmlSchemaGroup.Controls.Add(this.elementTagLabel);
+            this.xmlSchemaGroup.Controls.Add(this.elementTagTextBox);
+            this.xmlSchemaGroup.Controls.Add(this.tvInsteadOfTraceCheckBox);
+            this.xmlSchemaGroup.Controls.Add(this.orderAssociationsAmongstAttributesCheckbox);
+            this.xmlSchemaGroup.Controls.Add(this.orderAssociationsCheckbox);
+            this.xmlSchemaGroup.Controls.Add(this.noAttributeDependenciesCheckbox);
+            this.xmlSchemaGroup.Location = new System.Drawing.Point(383, 296);
+            this.xmlSchemaGroup.Name = "xmlSchemaGroup";
+            this.xmlSchemaGroup.Size = new System.Drawing.Size(357, 193);
+            this.xmlSchemaGroup.TabIndex = 12;
+            this.xmlSchemaGroup.TabStop = false;
+            this.xmlSchemaGroup.Text = "XML Schema Options";
+            // 
+            // elementTagLabel
+            // 
+            this.elementTagLabel.Location = new System.Drawing.Point(6, 139);
+            this.elementTagLabel.Name = "elementTagLabel";
+            this.elementTagLabel.Size = new System.Drawing.Size(100, 17);
+            this.elementTagLabel.TabIndex = 13;
+            this.elementTagLabel.Text = "Element Tag";
+            // 
+            // elementTagTextBox
+            // 
+            this.elementTagTextBox.Location = new System.Drawing.Point(6, 159);
+            this.elementTagTextBox.Name = "elementTagTextBox";
+            this.elementTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.elementTagTextBox.TabIndex = 12;
+            // 
+            // tvInsteadOfTraceCheckBox
+            // 
+            this.tvInsteadOfTraceCheckBox.Location = new System.Drawing.Point(6, 112);
+            this.tvInsteadOfTraceCheckBox.Name = "tvInsteadOfTraceCheckBox";
+            this.tvInsteadOfTraceCheckBox.Size = new System.Drawing.Size(276, 24);
+            this.tvInsteadOfTraceCheckBox.TabIndex = 11;
+            this.tvInsteadOfTraceCheckBox.Text = "Use Tagged Values instead of Trace";
+            this.tvInsteadOfTraceCheckBox.UseVisualStyleBackColor = true;
+            this.tvInsteadOfTraceCheckBox.CheckedChanged += new System.EventHandler(this.TtvInsteadOfTraceCheckBoxCheckedChanged);
+            // 
+            // orderAssociationsAmongstAttributesCheckbox
+            // 
+            this.orderAssociationsAmongstAttributesCheckbox.Location = new System.Drawing.Point(6, 82);
+            this.orderAssociationsAmongstAttributesCheckbox.Name = "orderAssociationsAmongstAttributesCheckbox";
+            this.orderAssociationsAmongstAttributesCheckbox.Size = new System.Drawing.Size(276, 24);
+            this.orderAssociationsAmongstAttributesCheckbox.TabIndex = 10;
+            this.orderAssociationsAmongstAttributesCheckbox.Text = "Order Associations between Attributes";
+            this.orderAssociationsAmongstAttributesCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // orderAssociationsCheckbox
+            // 
+            this.orderAssociationsCheckbox.Location = new System.Drawing.Point(6, 52);
+            this.orderAssociationsCheckbox.Name = "orderAssociationsCheckbox";
+            this.orderAssociationsCheckbox.Size = new System.Drawing.Size(276, 24);
+            this.orderAssociationsCheckbox.TabIndex = 9;
+            this.orderAssociationsCheckbox.Text = "Order Associations Alphabetically";
+            this.orderAssociationsCheckbox.UseVisualStyleBackColor = true;
+            this.orderAssociationsCheckbox.CheckedChanged += new System.EventHandler(this.OrderAssociationsCheckboxCheckedChanged);
+            // 
+            // noAttributeDependenciesCheckbox
+            // 
+            this.noAttributeDependenciesCheckbox.Location = new System.Drawing.Point(6, 22);
+            this.noAttributeDependenciesCheckbox.Name = "noAttributeDependenciesCheckbox";
+            this.noAttributeDependenciesCheckbox.Size = new System.Drawing.Size(248, 24);
+            this.noAttributeDependenciesCheckbox.TabIndex = 8;
+            this.noAttributeDependenciesCheckbox.Text = "Do not create Attribute dependencies";
+            this.noAttributeDependenciesCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // KeepAttributeOrder
+            // 
+            this.KeepAttributeOrder.Location = new System.Drawing.Point(6, 197);
+            this.KeepAttributeOrder.Name = "KeepAttributeOrder";
+            this.KeepAttributeOrder.Size = new System.Drawing.Size(276, 24);
+            this.KeepAttributeOrder.TabIndex = 8;
+            this.KeepAttributeOrder.Text = "Keep original attribute order";
+            this.KeepAttributeOrder.UseVisualStyleBackColor = true;
+            // 
+            // SettingsWindow
+            // 
+            this.AcceptButton = this.okButton;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.cancelButton;
+            this.ClientSize = new System.Drawing.Size(745, 582);
+            this.Controls.Add(this.xmlSchemaGroup);
+            this.Controls.Add(this.deleteTaggedValueButton);
+            this.Controls.Add(this.deleteStereotypeButton);
+            this.Controls.Add(this.GeneralGroupBox);
+            this.Controls.Add(this.traceabilityGroupBox);
+            this.Controls.Add(this.dataTypeOptionsGroupBox);
+            this.Controls.Add(this.diagramOptionsGroupBox);
+            this.Controls.Add(this.applyButton);
+            this.Controls.Add(this.cancelButton);
+            this.Controls.Add(this.okButton);
+            this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "SettingsWindow";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "EA Message Composer settings";
+            ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.diagramOptionsGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.hiddenElementGrid)).EndInit();
+            this.dataTypeOptionsGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataTypesGridView)).EndInit();
+            this.traceabilityGroupBox.ResumeLayout(false);
+            this.traceabilityGroupBox.PerformLayout();
+            this.GeneralGroupBox.ResumeLayout(false);
+            this.GeneralGroupBox.PerformLayout();
+            this.xmlSchemaGroup.ResumeLayout(false);
+            this.xmlSchemaGroup.PerformLayout();
+            this.ResumeLayout(false);
 
 		}
-		//this.ResumeLayout(false);
+
+        private System.Windows.Forms.CheckBox KeepAttributeOrder;
+        //this.ResumeLayout(false);
     }
 }
