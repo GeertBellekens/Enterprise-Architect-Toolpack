@@ -64,6 +64,7 @@ namespace EAValidator
             olvColCheckNumberOfElementsFound.IsEditable = false;
             olvColCheckNumberOfValidationResults.IsEditable = false;
             olvColCheckGroup.IsEditable = false;
+            olvColCheckRationale.IsEditable = false;
 
             olvColCheckNumberOfElementsFound.Sortable = false;
             olvColCheckNumberOfValidationResults.Sortable = false;
