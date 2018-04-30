@@ -119,16 +119,30 @@ namespace GlossaryManager
             switch (this.mainControl.selectedTab)
             {
                 case GlossaryTab.BusinessItems:
-                    var package = this.mainControl.selectedDomain != null
-                                        ? (TSF_EA.Package)this.mainControl.selectedDomain.businessItemsPackage
-                                        : (TSF_EA.Package)this.settings.businessItemsPackage;
+                    UML.Classes.Kernel.Package package = this.mainControl.selectedDomain != null
+                                        ? this.mainControl.selectedDomain.businessItemsPackage
+                                        : this.settings.businessItemsPackage;
+                    if (package == null
+                    && this.mainControl.selectedDomain != null)
+                    {
+                        //add the missing package
+                        this.mainControl.selectedDomain.createMissingPackage();
+                        package = this.mainControl.selectedDomain.businessItemsPackage;
+                    }
                     var newBusinessItem = this.factory.addNew<BusinessItem>(package);
                     this.mainControl.addItem(newBusinessItem);
                     break;
                 case GlossaryTab.DataItems:
                     package = this.mainControl.selectedDomain != null
-                                        ? (TSF_EA.Package)this.mainControl.selectedDomain.dataItemsPackage
-                                        : (TSF_EA.Package)this.settings.dataItemsPackage;
+                                        ? this.mainControl.selectedDomain.dataItemsPackage
+                                        : this.settings.dataItemsPackage;
+                    if (package == null 
+                        && this.mainControl.selectedDomain != null)
+                    {
+                        //add the missing package
+                        this.mainControl.selectedDomain.createMissingPackage();
+                        package = this.mainControl.selectedDomain.dataItemsPackage;
+                    }
                     var newDataItem = this.factory.addNew<DataItem>(package);
                     this.mainControl.addItem(newDataItem);
                     break;

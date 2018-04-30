@@ -130,7 +130,7 @@ namespace GlossaryManager
             return allSubDomains;
         }
 
-        internal void createMissingPackage()
+        public void createMissingPackage()
         {
             if (this.dataItemsPackage == null)
             {
