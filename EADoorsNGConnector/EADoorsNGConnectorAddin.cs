@@ -12,12 +12,12 @@ using DoorsNG = EAAddinFramework.Requirements.DoorsNG;
 
 namespace EADoorsNGConnector
 {
-    class EADoorsNGConnectorAddin : EAAddinFramework.EAAddinBase
+    public class EADoorsNGConnectorAddin : EAAddinFramework.EAAddinBase
     {
         // define menu constants
         const string menuName = "-&Doors NG Connector";
-        const string menuSynchTFStoEA = "&Doors NG => EA";
-        const string menuSynchEAtoTFS = "&EA => Doors NG";
+        const string menuSynchDoorsNGtoEA = "&Doors NG => EA";
+        const string menuSynchEAtoDoorsNG = "&EA => Doors NG";
         const string menuSettings = "&Settings";
         const string menuSetProject = "Set &Project";
         const string menuGoToTFSWeb = "&Open in Doors NG";
@@ -36,7 +36,7 @@ namespace EADoorsNGConnector
         public EADoorsNGConnectorAddin() : base()
         {
             this.menuHeader = menuName;
-            this.menuOptions = new string[] { menuSynchTFStoEA, menuSynchEAtoTFS, menuSetProject, menuGoToTFSWeb, menuSettings, menuAbout };
+            this.menuOptions = new string[] { menuSynchDoorsNGtoEA, menuSynchEAtoDoorsNG, menuSetProject, menuGoToTFSWeb, menuSettings, menuAbout };
         }
         public override void EA_FileOpen(EA.Repository Repository)
         {
@@ -65,12 +65,12 @@ namespace EADoorsNGConnector
                 case menuSetProject:
                     IsEnabled = (MenuLocation == "TreeView" && this.model.selectedElement is TSF_EA.Package);
                     break;
-                case menuSynchTFStoEA:
+                case menuSynchDoorsNGtoEA:
                     IsEnabled = (this.model.selectedElement is TSF_EA.Package
                                  && !(this.model.selectedElement is TSF_EA.RootPackage)
                                  || (this.getCurrentRequirement() != null && this.getCurrentRequirement().ID.Length > 0));
                     break;
-                case menuSynchEAtoTFS:
+                case menuSynchEAtoDoorsNG:
                     IsEnabled = (this.model.selectedElement is TSF_EA.Package
                                 || this.model.selectedElement is TSF_EA.ElementWrapper);
                     break;
@@ -94,11 +94,11 @@ namespace EADoorsNGConnector
         {
             switch (ItemName)
             {
-                case menuSynchTFStoEA:
-                    synchTFSToEA();
-                    break;
-                case menuSynchEAtoTFS:
+                case menuSynchDoorsNGtoEA:
                     synchDoorsNGToEA();
+                    break;
+                case menuSynchEAtoDoorsNG:
+                    synchEAToDoorsNG();
                     break;
                 case menuSetProject:
                     setProject();
@@ -178,7 +178,7 @@ namespace EADoorsNGConnector
                 : null;
 
         }
-        void synchDoorsNGToEA()
+        void synchEAToDoorsNG()
         {
             try
             {
@@ -218,17 +218,16 @@ namespace EADoorsNGConnector
             }
         }
 
-        private void synchTFSToEA()
+        private void synchDoorsNGToEA()
         {
             try
             {
                 var results = new Dictionary<DoorsNG.DoorsNGRequirement, bool>();
                 //get a list of all workitems of a certain type
                 var currentFolder = getCurrentFolder();
-                //get the workitems is project was found
+                //get the workitems if project was found
                 if (currentFolder != null)
                 {
-
                     var selectImportTypes = new SelectImportTypesForm(this.settings);
                     if (selectImportTypes.ShowDialog(this.EAModel.mainEAWindow) == DialogResult.OK)
                     {
@@ -288,6 +287,7 @@ namespace EADoorsNGConnector
             var projectForm = new SetProjectForm();
             if (currentProject != null) projectForm.projectName = currentProject.name;
 
+            //TODO: fix by creating Project class
             //set on root node
             var selectedRoot = this.model.selectedItem as TSF_EA.RootPackage;
             if (selectedRoot != null)
@@ -295,7 +295,7 @@ namespace EADoorsNGConnector
                 if (projectForm.ShowDialog(EAModel.mainEAWindow) == DialogResult.OK
                    && projectForm.projectName.Length > 0)
                 {
-                    selectedRoot.notes = "project=" + projectForm.projectName;
+                    selectedRoot.notes = "RQProject=" + projectForm.projectName;
                     selectedRoot.save();
                 }
             }
@@ -308,7 +308,7 @@ namespace EADoorsNGConnector
                     if (projectForm.ShowDialog(EAModel.mainEAWindow) == DialogResult.OK
                        && projectForm.projectName.Length > 0)
                     {
-                        selectedPackage.addTaggedValue("project", projectForm.projectName);
+                        selectedPackage.addTaggedValue("RQProject", projectForm.projectName);
                     }
                 }
             }
