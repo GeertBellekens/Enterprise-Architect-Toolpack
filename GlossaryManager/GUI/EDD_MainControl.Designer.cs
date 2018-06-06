@@ -1293,9 +1293,9 @@ namespace GlossaryManager.GUI
             // filterButton
             // 
             this.filterButton.Image = ((System.Drawing.Image)(resources.GetObject("filterButton.Image")));
-            this.filterButton.Location = new System.Drawing.Point(387, 5);
+            this.filterButton.Location = new System.Drawing.Point(387, 8);
             this.filterButton.Name = "filterButton";
-            this.filterButton.Size = new System.Drawing.Size(29, 28);
+            this.filterButton.Size = new System.Drawing.Size(30, 20);
             this.filterButton.TabIndex = 62;
             this.myToolTip.SetToolTip(this.filterButton, "Add New Element");
             this.filterButton.UseVisualStyleBackColor = true;

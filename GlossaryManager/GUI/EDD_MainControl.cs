@@ -741,30 +741,14 @@ namespace GlossaryManager.GUI
         {
             if (settingDefaults) return; //not while setting the defaults
             this.nameFilter = this.nameFilterTextBox.Text;
-            if ( this.nameFilterTextBox.Text == string.Empty)
-            {
-                this.setFilterDefaults();
-            }
-            else
-            {
-                //set the forecolor to be black once they start typing
-                this.nameFilterTextBox.ForeColor = Color.Black;
-            }
+
         }
 
         private void descriptionFilterTextBox_TextChanged(object sender, EventArgs e)
         {
             if (settingDefaults) return; //not while setting the defaults
             this.descriptionFilter = descriptionFilterTextBox.Text;
-            if (this.descriptionFilterTextBox.Text == string.Empty)
-            {
-                this.setFilterDefaults();
-            }
-            else
-            {
-                //set the forecolor to be black once they start typing
-                this.descriptionFilterTextBox.ForeColor = Color.Black;
-            }
+            
         }
         public event EventHandler filterButtonClicked;
         private void filterButton_Click(object sender, EventArgs e)
@@ -780,6 +764,7 @@ namespace GlossaryManager.GUI
                 this.nameFilterTextBox.Clear();
                 this.settingDefaults = false;
                 this.nameFilterDefaultActive = false;
+                this.nameFilterTextBox.ForeColor = Color.Black;
             }
         }
 
@@ -792,6 +777,7 @@ namespace GlossaryManager.GUI
                     this.descriptionFilterTextBox.Clear();
                     this.settingDefaults = false;
                     this.descriptionFilterDefaultActive = false;
+                    this.descriptionFilterTextBox.ForeColor = Color.Black;
                 }
             }
         }
