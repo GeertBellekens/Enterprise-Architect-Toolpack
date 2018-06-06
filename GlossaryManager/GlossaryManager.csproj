@@ -103,6 +103,7 @@
     <Compile Include="EDDColumn.cs" />
     <Compile Include="Domain.cs" />
     <Compile Include="EDDTable.cs" />
+    <Compile Include="GlossaryItemSearchCriteria.cs" />
     <Compile Include="GUI\EDD_MainControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -18,6 +18,10 @@ namespace GlossaryManager.GUI
     {
         public List<Domain> domains { get; set; }
         public List<String> statusses { get; set; }
+        const string nameFilterDefault = "Name";
+        bool nameFilterDefaultActive;
+        const string descriptionFilterDefault = "Description";
+        bool descriptionFilterDefaultActive;
         public EDD_MainControl()
         {
             //
@@ -26,7 +30,37 @@ namespace GlossaryManager.GUI
             InitializeComponent();
             enableDisable();
             setColumnsListViewDelegates();
+            setFilterDefaults();
 
+        }
+        private bool settingDefaults { get; set; }
+        /// <summary>
+        /// set the default text and forecolor for the empty filter fields
+        /// </summary>
+        private void setFilterDefaults()
+        {
+            this.settingDefaults = true;
+            if (string.IsNullOrEmpty(this.nameFilterTextBox.Text))
+            {
+                this.nameFilterTextBox.Text = nameFilterDefault;
+                this.nameFilterTextBox.ForeColor = Color.Gray;
+                this.nameFilterDefaultActive = true;
+            }
+            if (string.IsNullOrEmpty(this.descriptionFilterTextBox.Text))
+            {
+                this.descriptionFilterTextBox.Text = descriptionFilterDefault;
+                this.descriptionFilterTextBox.ForeColor = Color.Gray;
+                this.descriptionFilterDefaultActive = true;
+            }
+            this.settingDefaults = false;
+        }
+        private string nameFilter { get; set; }
+        private string descriptionFilter { get; set; }
+        public GlossaryItemSearchCriteria searchCriteria
+        {
+            get { return new GlossaryItemSearchCriteria() {
+                            nameSearchTerm = this.nameFilter,
+                            descriptionSearchTerm = this.descriptionFilter }; }
         }
         private void setColumnsListViewDelegates()
         {
@@ -48,7 +82,7 @@ namespace GlossaryManager.GUI
                 if (rowObject is EDDColumn) return "column";
                 else return string.Empty;
             };
-            
+
 
         }
         private void enableDisable()
@@ -59,6 +93,7 @@ namespace GlossaryManager.GUI
             if (!C_SizeUpDown.Enabled) C_SizeUpDown.Text = string.Empty;
             C_PrecisionUpDown.Enabled = ((BaseDataType)C_DatatypeDropdown.SelectedItem)?.hasPrecision == true;
             if (!C_PrecisionUpDown.Enabled) C_PrecisionUpDown.Text = string.Empty;
+            this.newButton.Enabled = this.selectedDomain != null;
         }
         public void clear()
         {
@@ -490,6 +525,14 @@ namespace GlossaryManager.GUI
         public Domain selectedDomain
         {
             get { return domainBreadCrumb.SelectedItem.Tag as Domain; }
+            set
+            {
+                if (value != null)
+                {
+                    //select corresponding domain item
+                    this.domainBreadCrumb.SelectedItem = getBreadCrumbSubItem(this.domainBreadCrumb.RootItem, value) ?? this.domainBreadCrumb.RootItem;
+                }
+            }
         }
 
 
@@ -634,7 +677,7 @@ namespace GlossaryManager.GUI
                 {
                     //reset to defaults based on the logical datatype and its technical mapping
                     this.C_NameTextBox.Text = dataItem.Label;
-                    this.C_SizeUpDown.Value = dataItem.Size.HasValue ? dataItem.Size.Value: 0 ;
+                    this.C_SizeUpDown.Value = dataItem.Size.HasValue ? dataItem.Size.Value : 0;
                     this.C_SizeUpDown.Text = dataItem.Size.HasValue ? dataItem.Size.Value.ToString() : string.Empty;
                     this.C_PrecisionUpDown.Value = dataItem.Precision.HasValue ? dataItem.Precision.Value : 0;
                     this.C_PrecisionUpDown.Text = dataItem.Precision.HasValue ? dataItem.Precision.Value.ToString() : string.Empty;
@@ -692,6 +735,77 @@ namespace GlossaryManager.GUI
                 this.selectedTable.loadAllColumns();
                 this.columnsListView.RefreshObject(this.selectedTable);
             }
+        }
+        
+        private void nameFilterTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (settingDefaults) return; //not while setting the defaults
+            this.nameFilter = this.nameFilterTextBox.Text;
+            if ( this.nameFilterTextBox.Text == string.Empty)
+            {
+                this.setFilterDefaults();
+            }
+            else
+            {
+                //set the forecolor to be black once they start typing
+                this.nameFilterTextBox.ForeColor = Color.Black;
+            }
+        }
+
+        private void descriptionFilterTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (settingDefaults) return; //not while setting the defaults
+            this.descriptionFilter = descriptionFilterTextBox.Text;
+            if (this.descriptionFilterTextBox.Text == string.Empty)
+            {
+                this.setFilterDefaults();
+            }
+            else
+            {
+                //set the forecolor to be black once they start typing
+                this.descriptionFilterTextBox.ForeColor = Color.Black;
+            }
+        }
+        public event EventHandler filterButtonClicked;
+        private void filterButton_Click(object sender, EventArgs e)
+        {
+            this.filterButtonClicked?.Invoke(sender, e);
+        }
+
+        private void nameFilterTextBox_Enter(object sender, EventArgs e)
+        {
+            if (this.nameFilterDefaultActive)
+            {
+                this.settingDefaults = true;
+                this.nameFilterTextBox.Clear();
+                this.settingDefaults = false;
+                this.nameFilterDefaultActive = false;
+            }
+        }
+
+        private void descriptionFilterTextBox_Enter(object sender, EventArgs e)
+        {
+            {
+                if (this.descriptionFilterDefaultActive)
+                {
+                    this.settingDefaults = true;
+                    this.descriptionFilterTextBox.Clear();
+                    this.settingDefaults = false;
+                    this.descriptionFilterDefaultActive = false;
+                }
+            }
+        }
+
+        private void descriptionFilterTextBox_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.descriptionFilterTextBox.Text))
+                    this.setFilterDefaults();
+        }
+
+        private void nameFilterTextBox_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.nameFilterTextBox.Text))
+                     this.setFilterDefaults();
         }
     }
 

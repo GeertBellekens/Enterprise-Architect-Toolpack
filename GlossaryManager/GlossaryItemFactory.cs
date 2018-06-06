@@ -32,20 +32,31 @@ namespace GlossaryManager
             return (T)item;
         }
 
-        public List<T> getGlossaryItemsFromPackage<T>(TSF_EA.Package package) where T : GlossaryItem, new()
+        public List<T> getGlossaryItemsFromPackage<T>(TSF_EA.Package package, GlossaryItemSearchCriteria criteria) where T : GlossaryItem, new()
         {
             T dummy = new T(); // needed to get the stereotype
+            //build a search string
+            string sqlGetGlossaryItems = string.Format(@"select top 50 o.[Object_ID] from t_object o
+                                                        where o.[Name] like '%{0}%'
+                                                        and o.[Note] like '%{1}%'
+                                                        and o.[Stereotype] = '{2}'
+                                                        and o.[Package_ID] in ({3})",
+                                                        criteria.nameSearchTerm,
+                                                        criteria.descriptionSearchTerm,
+                                                        dummy.Stereotype,
+                                                        package.getPackageTreeIDString());
+             
+            
             var glossaryItems = new List<T>();
             if (package != null)
             {
-                foreach (var classElement in package.getOwnedElementWrappers<TSF_EA.Class>(dummy.Stereotype, true))
+                foreach (var classElement in package.EAModel.getElementWrappersByQuery(sqlGetGlossaryItems).OfType<UML.Classes.Kernel.Class>())
                 {
                     var item = this.CreateFrom<T>(classElement);
                     if (item != null) glossaryItems.Add(item);
                 }
             }
             return glossaryItems;
-
         }
 
         private T CreateFrom<T>(UML.Classes.Kernel.Class clazz) where T : GlossaryItem, new()

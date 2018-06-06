@@ -49,6 +49,10 @@ namespace GlossaryManager.GUI
             this.domainBreadCrumb = new ComponentFactory.Krypton.Toolkit.KryptonBreadCrumb();
             this.DetailsTabControl = new System.Windows.Forms.TabControl();
             this.BusinessItemsTabPage = new System.Windows.Forms.TabPage();
+            this.BusinessItemsListView = new BrightIdeasSoftware.ObjectListView();
+            this.BU_NameCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.BU_DomainCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.BU_DescriptionCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_ModifiedByTextBox = new System.Windows.Forms.TextBox();
             this.BU_ModifiedByLabel = new System.Windows.Forms.Label();
             this.BU_ModifiedDateTextBox = new System.Windows.Forms.TextBox();
@@ -69,10 +73,6 @@ namespace GlossaryManager.GUI
             this.BU_DomainLabel = new System.Windows.Forms.Label();
             this.BU_NameTextBox = new System.Windows.Forms.TextBox();
             this.BU_NameLabel = new System.Windows.Forms.Label();
-            this.BusinessItemsListView = new BrightIdeasSoftware.ObjectListView();
-            this.BU_NameCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.BU_DomainCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.BU_DescriptionCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.DataItemsTabPage = new System.Windows.Forms.TabPage();
             this.DI_PrecisionUpDown = new System.Windows.Forms.NumericUpDown();
             this.DI_SizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -149,6 +149,10 @@ namespace GlossaryManager.GUI
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.filterButton = new System.Windows.Forms.Button();
+            this.FilterPanel = new System.Windows.Forms.Panel();
+            this.descriptionFilterTextBox = new System.Windows.Forms.TextBox();
+            this.nameFilterTextBox = new System.Windows.Forms.TextBox();
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
@@ -163,6 +167,7 @@ namespace GlossaryManager.GUI
             ((System.ComponentModel.ISupportInitialize)(this.C_SizeUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnsListView)).BeginInit();
             this.ButtonPanel.SuspendLayout();
+            this.FilterPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // DomainPanel
@@ -178,6 +183,7 @@ namespace GlossaryManager.GUI
             // domainBreadCrumb
             // 
             this.domainBreadCrumb.AutoSize = false;
+            this.domainBreadCrumb.ControlBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlClient;
             this.domainBreadCrumb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.domainBreadCrumb.Location = new System.Drawing.Point(0, 0);
             this.domainBreadCrumb.Name = "domainBreadCrumb";
@@ -199,16 +205,17 @@ namespace GlossaryManager.GUI
             this.DetailsTabControl.Controls.Add(this.BusinessItemsTabPage);
             this.DetailsTabControl.Controls.Add(this.DataItemsTabPage);
             this.DetailsTabControl.Controls.Add(this.ColumnsTabPage);
-            this.DetailsTabControl.Location = new System.Drawing.Point(0, 34);
+            this.DetailsTabControl.Location = new System.Drawing.Point(0, 72);
             this.DetailsTabControl.Name = "DetailsTabControl";
             this.DetailsTabControl.SelectedIndex = 0;
-            this.DetailsTabControl.Size = new System.Drawing.Size(931, 445);
+            this.DetailsTabControl.Size = new System.Drawing.Size(931, 407);
             this.DetailsTabControl.TabIndex = 1;
             this.DetailsTabControl.SelectedIndexChanged += new System.EventHandler(this.DetailsTabControl_SelectedIndexChanged);
             // 
             // BusinessItemsTabPage
             // 
             this.BusinessItemsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.BusinessItemsTabPage.Controls.Add(this.BusinessItemsListView);
             this.BusinessItemsTabPage.Controls.Add(this.BU_ModifiedByTextBox);
             this.BusinessItemsTabPage.Controls.Add(this.BU_ModifiedByLabel);
             this.BusinessItemsTabPage.Controls.Add(this.BU_ModifiedDateTextBox);
@@ -229,192 +236,12 @@ namespace GlossaryManager.GUI
             this.BusinessItemsTabPage.Controls.Add(this.BU_DomainLabel);
             this.BusinessItemsTabPage.Controls.Add(this.BU_NameTextBox);
             this.BusinessItemsTabPage.Controls.Add(this.BU_NameLabel);
-            this.BusinessItemsTabPage.Controls.Add(this.BusinessItemsListView);
             this.BusinessItemsTabPage.Location = new System.Drawing.Point(4, 22);
             this.BusinessItemsTabPage.Name = "BusinessItemsTabPage";
             this.BusinessItemsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.BusinessItemsTabPage.Size = new System.Drawing.Size(923, 419);
+            this.BusinessItemsTabPage.Size = new System.Drawing.Size(923, 381);
             this.BusinessItemsTabPage.TabIndex = 0;
             this.BusinessItemsTabPage.Text = "Business Items";
-            // 
-            // BU_ModifiedByTextBox
-            // 
-            this.BU_ModifiedByTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_ModifiedByTextBox.Location = new System.Drawing.Point(732, 370);
-            this.BU_ModifiedByTextBox.Name = "BU_ModifiedByTextBox";
-            this.BU_ModifiedByTextBox.ReadOnly = true;
-            this.BU_ModifiedByTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_ModifiedByTextBox.TabIndex = 10;
-            // 
-            // BU_ModifiedByLabel
-            // 
-            this.BU_ModifiedByLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_ModifiedByLabel.Location = new System.Drawing.Point(626, 373);
-            this.BU_ModifiedByLabel.Name = "BU_ModifiedByLabel";
-            this.BU_ModifiedByLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_ModifiedByLabel.TabIndex = 20;
-            this.BU_ModifiedByLabel.Text = "Modified by";
-            // 
-            // BU_ModifiedDateTextBox
-            // 
-            this.BU_ModifiedDateTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_ModifiedDateTextBox.Location = new System.Drawing.Point(732, 344);
-            this.BU_ModifiedDateTextBox.Name = "BU_ModifiedDateTextBox";
-            this.BU_ModifiedDateTextBox.ReadOnly = true;
-            this.BU_ModifiedDateTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_ModifiedDateTextBox.TabIndex = 9;
-            // 
-            // BU_ModifiedLabel
-            // 
-            this.BU_ModifiedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_ModifiedLabel.Location = new System.Drawing.Point(626, 347);
-            this.BU_ModifiedLabel.Name = "BU_ModifiedLabel";
-            this.BU_ModifiedLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_ModifiedLabel.TabIndex = 18;
-            this.BU_ModifiedLabel.Text = "Modified date";
-            // 
-            // BU_CreatedByTextBox
-            // 
-            this.BU_CreatedByTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_CreatedByTextBox.Location = new System.Drawing.Point(732, 317);
-            this.BU_CreatedByTextBox.Name = "BU_CreatedByTextBox";
-            this.BU_CreatedByTextBox.ReadOnly = true;
-            this.BU_CreatedByTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_CreatedByTextBox.TabIndex = 8;
-            // 
-            // BU_CreatedByLabel
-            // 
-            this.BU_CreatedByLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_CreatedByLabel.Location = new System.Drawing.Point(626, 320);
-            this.BU_CreatedByLabel.Name = "BU_CreatedByLabel";
-            this.BU_CreatedByLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_CreatedByLabel.TabIndex = 16;
-            this.BU_CreatedByLabel.Text = "Created by";
-            // 
-            // BU_CreatedTextBox
-            // 
-            this.BU_CreatedTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_CreatedTextBox.Location = new System.Drawing.Point(732, 291);
-            this.BU_CreatedTextBox.Name = "BU_CreatedTextBox";
-            this.BU_CreatedTextBox.ReadOnly = true;
-            this.BU_CreatedTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_CreatedTextBox.TabIndex = 7;
-            // 
-            // BU_CreatedLabel
-            // 
-            this.BU_CreatedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_CreatedLabel.Location = new System.Drawing.Point(626, 294);
-            this.BU_CreatedLabel.Name = "BU_CreatedLabel";
-            this.BU_CreatedLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_CreatedLabel.TabIndex = 14;
-            this.BU_CreatedLabel.Text = "Creation date";
-            // 
-            // BU_KeywordsTextBox
-            // 
-            this.BU_KeywordsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_KeywordsTextBox.Location = new System.Drawing.Point(419, 370);
-            this.BU_KeywordsTextBox.Name = "BU_KeywordsTextBox";
-            this.BU_KeywordsTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_KeywordsTextBox.TabIndex = 6;
-            // 
-            // BU_KeywordsLabel
-            // 
-            this.BU_KeywordsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_KeywordsLabel.Location = new System.Drawing.Point(313, 373);
-            this.BU_KeywordsLabel.Name = "BU_KeywordsLabel";
-            this.BU_KeywordsLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_KeywordsLabel.TabIndex = 12;
-            this.BU_KeywordsLabel.Text = "Keywords";
-            // 
-            // BU_StatusCombobox
-            // 
-            this.BU_StatusCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_StatusCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BU_StatusCombobox.FormattingEnabled = true;
-            this.BU_StatusCombobox.Location = new System.Drawing.Point(419, 343);
-            this.BU_StatusCombobox.Name = "BU_StatusCombobox";
-            this.BU_StatusCombobox.Size = new System.Drawing.Size(184, 21);
-            this.BU_StatusCombobox.TabIndex = 5;
-            // 
-            // BU_StatusLabel
-            // 
-            this.BU_StatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_StatusLabel.Location = new System.Drawing.Point(313, 346);
-            this.BU_StatusLabel.Name = "BU_StatusLabel";
-            this.BU_StatusLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_StatusLabel.TabIndex = 10;
-            this.BU_StatusLabel.Text = "Status";
-            // 
-            // BU_VersionTextBox
-            // 
-            this.BU_VersionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_VersionTextBox.Location = new System.Drawing.Point(419, 317);
-            this.BU_VersionTextBox.Name = "BU_VersionTextBox";
-            this.BU_VersionTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_VersionTextBox.TabIndex = 4;
-            // 
-            // BU_VersionLabel
-            // 
-            this.BU_VersionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_VersionLabel.Location = new System.Drawing.Point(313, 320);
-            this.BU_VersionLabel.Name = "BU_VersionLabel";
-            this.BU_VersionLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_VersionLabel.TabIndex = 8;
-            this.BU_VersionLabel.Text = "Version";
-            // 
-            // BU_DomainComboBox
-            // 
-            this.BU_DomainComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_DomainComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BU_DomainComboBox.FormattingEnabled = true;
-            this.BU_DomainComboBox.Location = new System.Drawing.Point(419, 291);
-            this.BU_DomainComboBox.Name = "BU_DomainComboBox";
-            this.BU_DomainComboBox.Size = new System.Drawing.Size(184, 21);
-            this.BU_DomainComboBox.TabIndex = 3;
-            // 
-            // BU_DescriptionTextBox
-            // 
-            this.BU_DescriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_DescriptionTextBox.Location = new System.Drawing.Point(112, 317);
-            this.BU_DescriptionTextBox.Multiline = true;
-            this.BU_DescriptionTextBox.Name = "BU_DescriptionTextBox";
-            this.BU_DescriptionTextBox.Size = new System.Drawing.Size(184, 96);
-            this.BU_DescriptionTextBox.TabIndex = 2;
-            // 
-            // BU_DescriptionLabel
-            // 
-            this.BU_DescriptionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_DescriptionLabel.Location = new System.Drawing.Point(6, 320);
-            this.BU_DescriptionLabel.Name = "BU_DescriptionLabel";
-            this.BU_DescriptionLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_DescriptionLabel.TabIndex = 5;
-            this.BU_DescriptionLabel.Text = "Description";
-            // 
-            // BU_DomainLabel
-            // 
-            this.BU_DomainLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_DomainLabel.Location = new System.Drawing.Point(313, 294);
-            this.BU_DomainLabel.Name = "BU_DomainLabel";
-            this.BU_DomainLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_DomainLabel.TabIndex = 3;
-            this.BU_DomainLabel.Text = "Domain";
-            // 
-            // BU_NameTextBox
-            // 
-            this.BU_NameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_NameTextBox.Location = new System.Drawing.Point(112, 291);
-            this.BU_NameTextBox.Name = "BU_NameTextBox";
-            this.BU_NameTextBox.Size = new System.Drawing.Size(184, 20);
-            this.BU_NameTextBox.TabIndex = 1;
-            // 
-            // BU_NameLabel
-            // 
-            this.BU_NameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BU_NameLabel.Location = new System.Drawing.Point(6, 294);
-            this.BU_NameLabel.Name = "BU_NameLabel";
-            this.BU_NameLabel.Size = new System.Drawing.Size(100, 23);
-            this.BU_NameLabel.TabIndex = 1;
-            this.BU_NameLabel.Text = "Name";
             // 
             // BusinessItemsListView
             // 
@@ -439,7 +266,7 @@ namespace GlossaryManager.GUI
             this.BusinessItemsListView.Name = "BusinessItemsListView";
             this.BusinessItemsListView.ShowCommandMenuOnRightClick = true;
             this.BusinessItemsListView.ShowGroups = false;
-            this.BusinessItemsListView.Size = new System.Drawing.Size(914, 281);
+            this.BusinessItemsListView.Size = new System.Drawing.Size(914, 243);
             this.BusinessItemsListView.TabIndex = 0;
             this.BusinessItemsListView.TintSortColumn = true;
             this.BusinessItemsListView.UseCompatibleStateImageBehavior = false;
@@ -470,6 +297,185 @@ namespace GlossaryManager.GUI
             this.BU_DescriptionCol.FillsFreeSpace = true;
             this.BU_DescriptionCol.Text = "Description";
             this.BU_DescriptionCol.ToolTipText = "Description of this Business Item";
+            // 
+            // BU_ModifiedByTextBox
+            // 
+            this.BU_ModifiedByTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_ModifiedByTextBox.Location = new System.Drawing.Point(732, 332);
+            this.BU_ModifiedByTextBox.Name = "BU_ModifiedByTextBox";
+            this.BU_ModifiedByTextBox.ReadOnly = true;
+            this.BU_ModifiedByTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_ModifiedByTextBox.TabIndex = 10;
+            // 
+            // BU_ModifiedByLabel
+            // 
+            this.BU_ModifiedByLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_ModifiedByLabel.Location = new System.Drawing.Point(626, 335);
+            this.BU_ModifiedByLabel.Name = "BU_ModifiedByLabel";
+            this.BU_ModifiedByLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_ModifiedByLabel.TabIndex = 20;
+            this.BU_ModifiedByLabel.Text = "Modified by";
+            // 
+            // BU_ModifiedDateTextBox
+            // 
+            this.BU_ModifiedDateTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_ModifiedDateTextBox.Location = new System.Drawing.Point(732, 306);
+            this.BU_ModifiedDateTextBox.Name = "BU_ModifiedDateTextBox";
+            this.BU_ModifiedDateTextBox.ReadOnly = true;
+            this.BU_ModifiedDateTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_ModifiedDateTextBox.TabIndex = 9;
+            // 
+            // BU_ModifiedLabel
+            // 
+            this.BU_ModifiedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_ModifiedLabel.Location = new System.Drawing.Point(626, 309);
+            this.BU_ModifiedLabel.Name = "BU_ModifiedLabel";
+            this.BU_ModifiedLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_ModifiedLabel.TabIndex = 18;
+            this.BU_ModifiedLabel.Text = "Modified date";
+            // 
+            // BU_CreatedByTextBox
+            // 
+            this.BU_CreatedByTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_CreatedByTextBox.Location = new System.Drawing.Point(732, 279);
+            this.BU_CreatedByTextBox.Name = "BU_CreatedByTextBox";
+            this.BU_CreatedByTextBox.ReadOnly = true;
+            this.BU_CreatedByTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_CreatedByTextBox.TabIndex = 8;
+            // 
+            // BU_CreatedByLabel
+            // 
+            this.BU_CreatedByLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_CreatedByLabel.Location = new System.Drawing.Point(626, 282);
+            this.BU_CreatedByLabel.Name = "BU_CreatedByLabel";
+            this.BU_CreatedByLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_CreatedByLabel.TabIndex = 16;
+            this.BU_CreatedByLabel.Text = "Created by";
+            // 
+            // BU_CreatedTextBox
+            // 
+            this.BU_CreatedTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_CreatedTextBox.Location = new System.Drawing.Point(732, 253);
+            this.BU_CreatedTextBox.Name = "BU_CreatedTextBox";
+            this.BU_CreatedTextBox.ReadOnly = true;
+            this.BU_CreatedTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_CreatedTextBox.TabIndex = 7;
+            // 
+            // BU_CreatedLabel
+            // 
+            this.BU_CreatedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_CreatedLabel.Location = new System.Drawing.Point(626, 256);
+            this.BU_CreatedLabel.Name = "BU_CreatedLabel";
+            this.BU_CreatedLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_CreatedLabel.TabIndex = 14;
+            this.BU_CreatedLabel.Text = "Creation date";
+            // 
+            // BU_KeywordsTextBox
+            // 
+            this.BU_KeywordsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_KeywordsTextBox.Location = new System.Drawing.Point(419, 332);
+            this.BU_KeywordsTextBox.Name = "BU_KeywordsTextBox";
+            this.BU_KeywordsTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_KeywordsTextBox.TabIndex = 6;
+            // 
+            // BU_KeywordsLabel
+            // 
+            this.BU_KeywordsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_KeywordsLabel.Location = new System.Drawing.Point(313, 335);
+            this.BU_KeywordsLabel.Name = "BU_KeywordsLabel";
+            this.BU_KeywordsLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_KeywordsLabel.TabIndex = 12;
+            this.BU_KeywordsLabel.Text = "Keywords";
+            // 
+            // BU_StatusCombobox
+            // 
+            this.BU_StatusCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_StatusCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BU_StatusCombobox.FormattingEnabled = true;
+            this.BU_StatusCombobox.Location = new System.Drawing.Point(419, 305);
+            this.BU_StatusCombobox.Name = "BU_StatusCombobox";
+            this.BU_StatusCombobox.Size = new System.Drawing.Size(184, 21);
+            this.BU_StatusCombobox.TabIndex = 5;
+            // 
+            // BU_StatusLabel
+            // 
+            this.BU_StatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_StatusLabel.Location = new System.Drawing.Point(313, 308);
+            this.BU_StatusLabel.Name = "BU_StatusLabel";
+            this.BU_StatusLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_StatusLabel.TabIndex = 10;
+            this.BU_StatusLabel.Text = "Status";
+            // 
+            // BU_VersionTextBox
+            // 
+            this.BU_VersionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_VersionTextBox.Location = new System.Drawing.Point(419, 279);
+            this.BU_VersionTextBox.Name = "BU_VersionTextBox";
+            this.BU_VersionTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_VersionTextBox.TabIndex = 4;
+            // 
+            // BU_VersionLabel
+            // 
+            this.BU_VersionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_VersionLabel.Location = new System.Drawing.Point(313, 282);
+            this.BU_VersionLabel.Name = "BU_VersionLabel";
+            this.BU_VersionLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_VersionLabel.TabIndex = 8;
+            this.BU_VersionLabel.Text = "Version";
+            // 
+            // BU_DomainComboBox
+            // 
+            this.BU_DomainComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_DomainComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BU_DomainComboBox.FormattingEnabled = true;
+            this.BU_DomainComboBox.Location = new System.Drawing.Point(419, 253);
+            this.BU_DomainComboBox.Name = "BU_DomainComboBox";
+            this.BU_DomainComboBox.Size = new System.Drawing.Size(184, 21);
+            this.BU_DomainComboBox.TabIndex = 3;
+            // 
+            // BU_DescriptionTextBox
+            // 
+            this.BU_DescriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_DescriptionTextBox.Location = new System.Drawing.Point(112, 279);
+            this.BU_DescriptionTextBox.Multiline = true;
+            this.BU_DescriptionTextBox.Name = "BU_DescriptionTextBox";
+            this.BU_DescriptionTextBox.Size = new System.Drawing.Size(184, 96);
+            this.BU_DescriptionTextBox.TabIndex = 2;
+            // 
+            // BU_DescriptionLabel
+            // 
+            this.BU_DescriptionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_DescriptionLabel.Location = new System.Drawing.Point(6, 282);
+            this.BU_DescriptionLabel.Name = "BU_DescriptionLabel";
+            this.BU_DescriptionLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_DescriptionLabel.TabIndex = 5;
+            this.BU_DescriptionLabel.Text = "Description";
+            // 
+            // BU_DomainLabel
+            // 
+            this.BU_DomainLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_DomainLabel.Location = new System.Drawing.Point(313, 256);
+            this.BU_DomainLabel.Name = "BU_DomainLabel";
+            this.BU_DomainLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_DomainLabel.TabIndex = 3;
+            this.BU_DomainLabel.Text = "Domain";
+            // 
+            // BU_NameTextBox
+            // 
+            this.BU_NameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_NameTextBox.Location = new System.Drawing.Point(112, 253);
+            this.BU_NameTextBox.Name = "BU_NameTextBox";
+            this.BU_NameTextBox.Size = new System.Drawing.Size(184, 20);
+            this.BU_NameTextBox.TabIndex = 1;
+            // 
+            // BU_NameLabel
+            // 
+            this.BU_NameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BU_NameLabel.Location = new System.Drawing.Point(6, 256);
+            this.BU_NameLabel.Name = "BU_NameLabel";
+            this.BU_NameLabel.Size = new System.Drawing.Size(100, 23);
+            this.BU_NameLabel.TabIndex = 1;
+            this.BU_NameLabel.Text = "Name";
             // 
             // DataItemsTabPage
             // 
@@ -514,7 +520,7 @@ namespace GlossaryManager.GUI
             this.DataItemsTabPage.Location = new System.Drawing.Point(4, 22);
             this.DataItemsTabPage.Name = "DataItemsTabPage";
             this.DataItemsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.DataItemsTabPage.Size = new System.Drawing.Size(923, 419);
+            this.DataItemsTabPage.Size = new System.Drawing.Size(923, 381);
             this.DataItemsTabPage.TabIndex = 1;
             this.DataItemsTabPage.Text = "Data Items";
             // 
@@ -949,14 +955,14 @@ namespace GlossaryManager.GUI
             this.ColumnsTabPage.Location = new System.Drawing.Point(4, 22);
             this.ColumnsTabPage.Name = "ColumnsTabPage";
             this.ColumnsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ColumnsTabPage.Size = new System.Drawing.Size(923, 419);
+            this.ColumnsTabPage.Size = new System.Drawing.Size(923, 381);
             this.ColumnsTabPage.TabIndex = 2;
             this.ColumnsTabPage.Text = "Columns";
             // 
             // C_NotNullLabel
             // 
             this.C_NotNullLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_NotNullLabel.Location = new System.Drawing.Point(3, 339);
+            this.C_NotNullLabel.Location = new System.Drawing.Point(3, 301);
             this.C_NotNullLabel.Name = "C_NotNullLabel";
             this.C_NotNullLabel.Size = new System.Drawing.Size(100, 23);
             this.C_NotNullLabel.TabIndex = 94;
@@ -966,7 +972,7 @@ namespace GlossaryManager.GUI
             // 
             this.C_NotNullCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.C_NotNullCheckBox.AutoSize = true;
-            this.C_NotNullCheckBox.Location = new System.Drawing.Point(109, 339);
+            this.C_NotNullCheckBox.Location = new System.Drawing.Point(109, 301);
             this.C_NotNullCheckBox.Name = "C_NotNullCheckBox";
             this.C_NotNullCheckBox.Size = new System.Drawing.Size(15, 14);
             this.C_NotNullCheckBox.TabIndex = 93;
@@ -975,7 +981,7 @@ namespace GlossaryManager.GUI
             // C_PrecisionUpDown
             // 
             this.C_PrecisionUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_PrecisionUpDown.Location = new System.Drawing.Point(109, 313);
+            this.C_PrecisionUpDown.Location = new System.Drawing.Point(109, 275);
             this.C_PrecisionUpDown.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -989,7 +995,7 @@ namespace GlossaryManager.GUI
             // C_SizeUpDown
             // 
             this.C_SizeUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_SizeUpDown.Location = new System.Drawing.Point(109, 286);
+            this.C_SizeUpDown.Location = new System.Drawing.Point(109, 248);
             this.C_SizeUpDown.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -1003,7 +1009,7 @@ namespace GlossaryManager.GUI
             // C_DefaultTextBox
             // 
             this.C_DefaultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DefaultTextBox.Location = new System.Drawing.Point(109, 359);
+            this.C_DefaultTextBox.Location = new System.Drawing.Point(109, 321);
             this.C_DefaultTextBox.Name = "C_DefaultTextBox";
             this.C_DefaultTextBox.Size = new System.Drawing.Size(184, 20);
             this.C_DefaultTextBox.TabIndex = 70;
@@ -1011,7 +1017,7 @@ namespace GlossaryManager.GUI
             // C_DefaultLabel
             // 
             this.C_DefaultLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DefaultLabel.Location = new System.Drawing.Point(3, 362);
+            this.C_DefaultLabel.Location = new System.Drawing.Point(3, 324);
             this.C_DefaultLabel.Name = "C_DefaultLabel";
             this.C_DefaultLabel.Size = new System.Drawing.Size(100, 23);
             this.C_DefaultLabel.TabIndex = 92;
@@ -1020,7 +1026,7 @@ namespace GlossaryManager.GUI
             // C_PrecisionLabel
             // 
             this.C_PrecisionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_PrecisionLabel.Location = new System.Drawing.Point(3, 315);
+            this.C_PrecisionLabel.Location = new System.Drawing.Point(3, 277);
             this.C_PrecisionLabel.Name = "C_PrecisionLabel";
             this.C_PrecisionLabel.Size = new System.Drawing.Size(100, 23);
             this.C_PrecisionLabel.TabIndex = 91;
@@ -1029,7 +1035,7 @@ namespace GlossaryManager.GUI
             // C_SizeLabel
             // 
             this.C_SizeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_SizeLabel.Location = new System.Drawing.Point(3, 288);
+            this.C_SizeLabel.Location = new System.Drawing.Point(3, 250);
             this.C_SizeLabel.Name = "C_SizeLabel";
             this.C_SizeLabel.Size = new System.Drawing.Size(100, 23);
             this.C_SizeLabel.TabIndex = 90;
@@ -1038,7 +1044,7 @@ namespace GlossaryManager.GUI
             // C_DataItemSelectButton
             // 
             this.C_DataItemSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DataItemSelectButton.Location = new System.Drawing.Point(267, 383);
+            this.C_DataItemSelectButton.Location = new System.Drawing.Point(267, 345);
             this.C_DataItemSelectButton.Name = "C_DataItemSelectButton";
             this.C_DataItemSelectButton.Size = new System.Drawing.Size(26, 23);
             this.C_DataItemSelectButton.TabIndex = 62;
@@ -1049,7 +1055,7 @@ namespace GlossaryManager.GUI
             // C_DataItemTextBox
             // 
             this.C_DataItemTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DataItemTextBox.Location = new System.Drawing.Point(109, 385);
+            this.C_DataItemTextBox.Location = new System.Drawing.Point(109, 347);
             this.C_DataItemTextBox.Name = "C_DataItemTextBox";
             this.C_DataItemTextBox.ReadOnly = true;
             this.C_DataItemTextBox.Size = new System.Drawing.Size(152, 20);
@@ -1060,7 +1066,7 @@ namespace GlossaryManager.GUI
             this.C_DatatypeDropdown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.C_DatatypeDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.C_DatatypeDropdown.FormattingEnabled = true;
-            this.C_DatatypeDropdown.Location = new System.Drawing.Point(109, 259);
+            this.C_DatatypeDropdown.Location = new System.Drawing.Point(109, 221);
             this.C_DatatypeDropdown.Name = "C_DatatypeDropdown";
             this.C_DatatypeDropdown.Size = new System.Drawing.Size(184, 21);
             this.C_DatatypeDropdown.TabIndex = 72;
@@ -1069,7 +1075,7 @@ namespace GlossaryManager.GUI
             // C_DatatypeLabel
             // 
             this.C_DatatypeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DatatypeLabel.Location = new System.Drawing.Point(3, 264);
+            this.C_DatatypeLabel.Location = new System.Drawing.Point(3, 226);
             this.C_DatatypeLabel.Name = "C_DatatypeLabel";
             this.C_DatatypeLabel.Size = new System.Drawing.Size(100, 23);
             this.C_DatatypeLabel.TabIndex = 82;
@@ -1078,7 +1084,7 @@ namespace GlossaryManager.GUI
             // C_DataItemLabel
             // 
             this.C_DataItemLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_DataItemLabel.Location = new System.Drawing.Point(3, 388);
+            this.C_DataItemLabel.Location = new System.Drawing.Point(3, 350);
             this.C_DataItemLabel.Name = "C_DataItemLabel";
             this.C_DataItemLabel.Size = new System.Drawing.Size(100, 23);
             this.C_DataItemLabel.TabIndex = 79;
@@ -1087,7 +1093,7 @@ namespace GlossaryManager.GUI
             // C_NameTextBox
             // 
             this.C_NameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_NameTextBox.Location = new System.Drawing.Point(109, 234);
+            this.C_NameTextBox.Location = new System.Drawing.Point(109, 196);
             this.C_NameTextBox.Name = "C_NameTextBox";
             this.C_NameTextBox.Size = new System.Drawing.Size(184, 20);
             this.C_NameTextBox.TabIndex = 59;
@@ -1095,7 +1101,7 @@ namespace GlossaryManager.GUI
             // C_NameLabel
             // 
             this.C_NameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.C_NameLabel.Location = new System.Drawing.Point(3, 237);
+            this.C_NameLabel.Location = new System.Drawing.Point(3, 199);
             this.C_NameLabel.Name = "C_NameLabel";
             this.C_NameLabel.Size = new System.Drawing.Size(100, 23);
             this.C_NameLabel.TabIndex = 78;
@@ -1129,7 +1135,7 @@ namespace GlossaryManager.GUI
             this.columnsListView.ShowCommandMenuOnRightClick = true;
             this.columnsListView.ShowGroups = false;
             this.columnsListView.ShowItemCountOnGroups = true;
-            this.columnsListView.Size = new System.Drawing.Size(914, 225);
+            this.columnsListView.Size = new System.Drawing.Size(914, 187);
             this.columnsListView.SmallImageList = this.columnsListViewImageList;
             this.columnsListView.TabIndex = 1;
             this.columnsListView.TintSortColumn = true;
@@ -1209,7 +1215,7 @@ namespace GlossaryManager.GUI
             // showAllColumnsButton
             // 
             this.showAllColumnsButton.Image = ((System.Drawing.Image)(resources.GetObject("showAllColumnsButton.Image")));
-            this.showAllColumnsButton.Location = new System.Drawing.Point(176, 7);
+            this.showAllColumnsButton.Location = new System.Drawing.Point(179, 7);
             this.showAllColumnsButton.Name = "showAllColumnsButton";
             this.showAllColumnsButton.Size = new System.Drawing.Size(29, 28);
             this.showAllColumnsButton.TabIndex = 6;
@@ -1221,7 +1227,7 @@ namespace GlossaryManager.GUI
             // deleteButton
             // 
             this.deleteButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteButton.Image")));
-            this.deleteButton.Location = new System.Drawing.Point(128, 7);
+            this.deleteButton.Location = new System.Drawing.Point(131, 7);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(29, 28);
             this.deleteButton.TabIndex = 3;
@@ -1232,7 +1238,7 @@ namespace GlossaryManager.GUI
             // newButton
             // 
             this.newButton.Image = ((System.Drawing.Image)(resources.GetObject("newButton.Image")));
-            this.newButton.Location = new System.Drawing.Point(93, 7);
+            this.newButton.Location = new System.Drawing.Point(96, 7);
             this.newButton.Name = "newButton";
             this.newButton.Size = new System.Drawing.Size(29, 28);
             this.newButton.TabIndex = 2;
@@ -1284,6 +1290,50 @@ namespace GlossaryManager.GUI
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // filterButton
+            // 
+            this.filterButton.Image = ((System.Drawing.Image)(resources.GetObject("filterButton.Image")));
+            this.filterButton.Location = new System.Drawing.Point(387, 5);
+            this.filterButton.Name = "filterButton";
+            this.filterButton.Size = new System.Drawing.Size(29, 28);
+            this.filterButton.TabIndex = 62;
+            this.myToolTip.SetToolTip(this.filterButton, "Add New Element");
+            this.filterButton.UseVisualStyleBackColor = true;
+            this.filterButton.Click += new System.EventHandler(this.filterButton_Click);
+            // 
+            // FilterPanel
+            // 
+            this.FilterPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FilterPanel.Controls.Add(this.filterButton);
+            this.FilterPanel.Controls.Add(this.descriptionFilterTextBox);
+            this.FilterPanel.Controls.Add(this.nameFilterTextBox);
+            this.FilterPanel.Location = new System.Drawing.Point(0, 29);
+            this.FilterPanel.Name = "FilterPanel";
+            this.FilterPanel.Size = new System.Drawing.Size(937, 37);
+            this.FilterPanel.TabIndex = 3;
+            // 
+            // descriptionFilterTextBox
+            // 
+            this.descriptionFilterTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.descriptionFilterTextBox.Location = new System.Drawing.Point(197, 8);
+            this.descriptionFilterTextBox.Name = "descriptionFilterTextBox";
+            this.descriptionFilterTextBox.Size = new System.Drawing.Size(184, 20);
+            this.descriptionFilterTextBox.TabIndex = 61;
+            this.descriptionFilterTextBox.TextChanged += new System.EventHandler(this.descriptionFilterTextBox_TextChanged);
+            this.descriptionFilterTextBox.Enter += new System.EventHandler(this.descriptionFilterTextBox_Enter);
+            this.descriptionFilterTextBox.Leave += new System.EventHandler(this.descriptionFilterTextBox_Leave);
+            // 
+            // nameFilterTextBox
+            // 
+            this.nameFilterTextBox.Location = new System.Drawing.Point(7, 8);
+            this.nameFilterTextBox.Name = "nameFilterTextBox";
+            this.nameFilterTextBox.Size = new System.Drawing.Size(184, 20);
+            this.nameFilterTextBox.TabIndex = 60;
+            this.nameFilterTextBox.TextChanged += new System.EventHandler(this.nameFilterTextBox_TextChanged);
+            this.nameFilterTextBox.Enter += new System.EventHandler(this.nameFilterTextBox_Enter);
+            this.nameFilterTextBox.Leave += new System.EventHandler(this.nameFilterTextBox_Leave);
+            // 
             // EDD_MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1291,6 +1341,7 @@ namespace GlossaryManager.GUI
             this.Controls.Add(this.ButtonPanel);
             this.Controls.Add(this.DetailsTabControl);
             this.Controls.Add(this.DomainPanel);
+            this.Controls.Add(this.FilterPanel);
             this.Name = "EDD_MainControl";
             this.Size = new System.Drawing.Size(937, 522);
             this.DomainPanel.ResumeLayout(false);
@@ -1310,6 +1361,8 @@ namespace GlossaryManager.GUI
             ((System.ComponentModel.ISupportInitialize)(this.C_SizeUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnsListView)).EndInit();
             this.ButtonPanel.ResumeLayout(false);
+            this.FilterPanel.ResumeLayout(false);
+            this.FilterPanel.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -1406,5 +1459,9 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.ImageList columnsListViewImageList;
         private OLVColumn C_DatabaseColumn;
         private System.Windows.Forms.Button showAllColumnsButton;
+        private System.Windows.Forms.Panel FilterPanel;
+        private System.Windows.Forms.Button filterButton;
+        private System.Windows.Forms.TextBox descriptionFilterTextBox;
+        private System.Windows.Forms.TextBox nameFilterTextBox;
     }
 }

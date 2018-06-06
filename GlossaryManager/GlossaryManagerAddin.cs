@@ -58,6 +58,7 @@ namespace GlossaryManager
                     this._mainControl.selectedDomainChanged += this.selectedDomainChanged;
                     this._mainControl.newButtonClick += this._mainControl_newButtonClick;
                     this._mainControl.selectedTabChanged += this._mainControl_selectedTabChanged;
+                    this._mainControl.filterButtonClicked += this.filterButtonClicked;
                     this._mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage));
                     this._mainControl.setStatusses(statusses: this.model.getStatusses());
                     //TODO: add additional events
@@ -65,6 +66,9 @@ namespace GlossaryManager
                 return this._mainControl;
             }
         }
+
+
+
         public void test()
         {
             var testForm = new EDD_TestForm();
@@ -80,14 +84,18 @@ namespace GlossaryManager
         {
             this.mainControl.clear();
             if (!showing)
-                showItemsForDomain(this._mainControl.selectedDomain);
+                showItemsForDomain(this._mainControl.selectedDomain, this._mainControl.searchCriteria);
             showing = false;
         }
         private void _mainControl_selectedTabChanged(object sender, EventArgs e)
         {
-            showItemsForDomain(this._mainControl.selectedDomain);
+            showItemsForDomain(this._mainControl.selectedDomain, this._mainControl.searchCriteria);
         }
-        private void showItemsForDomain(Domain domain)
+        private void filterButtonClicked(object sender, EventArgs e)
+        {
+            showItemsForDomain(this.mainControl.selectedDomain, this.mainControl.searchCriteria);
+        }
+        private void showItemsForDomain(Domain domain, GlossaryItemSearchCriteria criteria)
         {
             switch (this.mainControl.selectedTab)
             {
@@ -95,20 +103,20 @@ namespace GlossaryManager
                     var package = domain != null
                                         ? (TSF_EA.Package)domain.businessItemsPackage
                                         : (TSF_EA.Package)this.settings.businessItemsPackage;
-                    this.showBusinessItems(package, domain);
+                    this.showBusinessItems(package, domain, criteria);
                     break;
                 case GlossaryTab.DataItems:
                     package = domain != null
                                         ? (TSF_EA.Package)domain.dataItemsPackage
                                         : (TSF_EA.Package)this.settings.dataItemsPackage;
-                    this.showDataItems(package, domain);
+                    this.showDataItems(package, domain, criteria);
                     break;
                 case GlossaryTab.Columns:
                     package = domain != null
                                         ? (TSF_EA.Package)domain.dataItemsPackage
                                         : (TSF_EA.Package)this.settings.dataItemsPackage;
                     var dataItems = this.mainControl.dataItems;
-                    if (!dataItems.Any()) dataItems = this.getDataItems(package, domain);
+                    if (!dataItems.Any()) dataItems = this.getDataItems(package, domain, criteria);
                     this.showColumns(dataItems,domain);
                     break;
             }
@@ -282,46 +290,27 @@ namespace GlossaryManager
         {
             if (this.model == null) { return; }
             this.managedPackage = (TSF_EA.Package)this.Model.selectedTreePackage;
-            if (this._mainControl != null)
-            {
-                switch (this.mainControl.selectedTab)
-                {
-                    case GlossaryTab.BusinessItems:
-                        this.showBusinessItems((TSF_EA.Package)this.Model.selectedTreePackage, null);
-                        break;
-                    case GlossaryTab.DataItems:
-                        this.showDataItems((TSF_EA.Package)this.Model.selectedTreePackage,null);
-                        break;
-                    case GlossaryTab.Columns:
-                        this.showColumns(this.getDataItems((TSF_EA.Package)this.model.selectedTreePackage, null), null);
-                        break;
-                }
-            }
-            else
-            {
-                //default show business items
-                this.showBusinessItems((TSF_EA.Package)this.Model.selectedTreePackage, null);
-            }
-            
+            this.mainControl.clear();
+            this.mainControl.selectedDomain = Domain.getDomain(this.managedPackage);
         }
 
-        private void showBusinessItems(TSF_EA.Package package, Domain domain)
+        private void showBusinessItems(TSF_EA.Package package, Domain domain, GlossaryItemSearchCriteria searchCriteria)
         {
             if (domain == null) domain = Domain.getDomain(package);
             if (domain?.businessItemsPackage != null) package = (TSF_EA.Package)domain.businessItemsPackage;
-            this.mainControl.setBusinessItems(this.list<BusinessItem>(package), domain);
+            this.mainControl.setBusinessItems(this.list<BusinessItem>(package, searchCriteria), domain);
         }
-        private void showDataItems(TSF_EA.Package package, Domain domain)
+        private void showDataItems(TSF_EA.Package package, Domain domain, GlossaryItemSearchCriteria searchCriteria)
         {
             if (domain == null) domain = Domain.getDomain(package);
             if (domain?.dataItemsPackage != null) package = (TSF_EA.Package)domain.dataItemsPackage;
-            this.mainControl.setDataItems(this.getDataItems(package, domain),domain);
+            this.mainControl.setDataItems(this.getDataItems(package, domain, searchCriteria),domain);
         }
-        private List<DataItem> getDataItems(TSF_EA.Package package, Domain domain)
+        private List<DataItem> getDataItems(TSF_EA.Package package, Domain domain, GlossaryItemSearchCriteria searchCriteria)
         {
             if (domain == null) domain = Domain.getDomain(package);
             if (domain?.dataItemsPackage != null) package = (TSF_EA.Package)domain.dataItemsPackage;
-            return this.list<DataItem>(package);
+            return this.list<DataItem>(package, searchCriteria);
         }
 
         private void showColumns(List<DataItem> dataItems, Domain domain)
@@ -384,34 +373,6 @@ namespace GlossaryManager
             return foundDatabases;
         }
 
-        public void refresh()
-        {
-            List<DataItem> dataItems = this.list<DataItem>(this.managedPackage);
-
-            // add all Logical DataTypes from this package and optionally others
-            // from the dataItems
-
-            if (this.managedPackage != null)
-            {
-                foreach (TSF_EA.Class clazz in
-                        this.managedPackage.ownedElements.OfType<TSF_EA.Class>())
-                {
-                    if (clazz.stereotypes.Count == 1)
-                    {
-                        if (clazz.stereotypes.ToList()[0].name == "LogicalDataType")
-                        {
-
-                        }
-                    }
-                }
-            }
-            foreach (DataItem item in dataItems)
-            {
-                TSF_EA.Class element = this.model.getElementByGUID(item.datatypeDisplayName) as TSF_EA.Class;
-            }
-            this.model.activateTab(appTitle);
-        }
-
         private void import<T>() where T : GlossaryItem, new()
         {
             this.import<T>((TSF_EA.Package)this.model.selectedElement);
@@ -455,12 +416,12 @@ namespace GlossaryManager
                     }
                 }
             }
-            this.refresh();
+            //this.refresh();
         }
 
         private void export<T>() where T : GlossaryItem, new()
         {
-            this.export<T>(this.list<T>());
+           // this.export<T>(this.list<T>());
         }
 
         internal void export<T>(List<T> exported) where T : GlossaryItem
@@ -492,15 +453,11 @@ namespace GlossaryManager
 
         // support for listing and indexing a/the selected package
 
-        private List<T> list<T>() where T : GlossaryItem, new()
-        {
-            return this.list<T>((TSF_EA.Package)this.model.selectedElement);
-        }
 
-        private List<T> list<T>(TSF_EA.Package package) where T : GlossaryItem, new()
+        private List<T> list<T>(TSF_EA.Package package, GlossaryItemSearchCriteria criteria) where T : GlossaryItem, new()
         {
             if (package == null) return new List<T>();
-            return this.factory.getGlossaryItemsFromPackage<T>(package);
+            return this.factory.getGlossaryItemsFromPackage<T>(package, criteria);
         }
 
         private Dictionary<string, TSF_EA.Class> index<T>() where T : GlossaryItem, new()
