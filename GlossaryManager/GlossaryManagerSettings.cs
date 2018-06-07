@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Reflection;
 using UML = TSF.UmlToolingFramework.UML;
+using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace GlossaryManager
 {
@@ -10,6 +12,7 @@ namespace GlossaryManager
     : EAAddinFramework.Utilities.AddinSettings
     {
         private UML.Extended.UMLModel model { get; set; }
+        private TSF_EA.Model EAModel => (TSF_EA.Model)this.model;
         public GlossaryManagerSettings(UML.Extended.UMLModel model)
         {
             this.model = model;
@@ -33,48 +36,71 @@ namespace GlossaryManager
             get { return this.getValue("outputName"); }
             set { this.setValue("outputName", value); }
         }
-        private string businessItemsPackageGUID
+        public Dictionary<string, string> businessItemsPackages
         {
-            get { return this.getValue("businessItemsPackageGUID"); }
-            set { this.setValue("businessItemsPackageGUID", value); }
+            get
+            {
+                return getDictionaryValue("businessItemsPackages");
+            }
+            set
+            {
+                this.setDictionaryValue("businessItemsPackages", value);
+            }
         }
         private UML.Classes.Kernel.Package _businessItemsPackage;
         public UML.Classes.Kernel.Package businessItemsPackage
         {
             get
             {
-                if (_businessItemsPackage == null)
+                string businessItemsPackageGUID;
+                if (_businessItemsPackage == null
+                    && this.businessItemsPackages.TryGetValue(this.EAModel.projectGUID, out businessItemsPackageGUID))
                 {
-                    _businessItemsPackage = this.model.getItemFromGUID(this.businessItemsPackageGUID) as UML.Classes.Kernel.Package;
+                    _businessItemsPackage = this.model.getItemFromGUID(businessItemsPackageGUID) as UML.Classes.Kernel.Package;
                 }
                 return _businessItemsPackage;
             }
             set
             {
                 _businessItemsPackage = value;
-                this.businessItemsPackageGUID = value != null ? value.uniqueID : string.Empty;
+                Dictionary<string, string> businessItemPackageDictionary = this.businessItemsPackages;
+                businessItemPackageDictionary[this.EAModel.projectGUID] = value?.uniqueID;
+                //set the dictionary so it can be saved
+                this.businessItemsPackages = businessItemPackageDictionary;
             }
         }
-        private string dataItemsPackageGUID
+
+        public Dictionary<string, string> dataItemsPackages
         {
-            get { return this.getValue("dataItemsPackageGUID"); }
-            set { this.setValue("dataItemsPackageGUID", value); }
+            get
+            {
+                return getDictionaryValue("dataItemsPackages");
+            }
+            set
+            {
+                this.setDictionaryValue("dataItemsPackages", value);
+            }
         }
         private UML.Classes.Kernel.Package _dataItemsPackage;
         public UML.Classes.Kernel.Package dataItemsPackage
         {
             get
             {
-                if (_dataItemsPackage == null)
+                string dataItemsPackageGUID;
+                if (_dataItemsPackage == null
+                    && this.dataItemsPackages.TryGetValue(this.EAModel.projectGUID, out dataItemsPackageGUID))
                 {
-                    _dataItemsPackage = this.model.getItemFromGUID(this.dataItemsPackageGUID) as UML.Classes.Kernel.Package;
+                    _dataItemsPackage = this.model.getItemFromGUID(dataItemsPackageGUID) as UML.Classes.Kernel.Package;
                 }
                 return _dataItemsPackage;
             }
             set
             {
                 _dataItemsPackage = value;
-                this.dataItemsPackageGUID = value != null ? value.uniqueID : string.Empty;
+                Dictionary<string, string> dataItemPackageDictionary = this.dataItemsPackages;
+                dataItemPackageDictionary[this.EAModel.projectGUID] = value?.uniqueID;
+                //set the dictionary so it can be saved
+                this.dataItemsPackages = dataItemPackageDictionary;
             }
         }
 
