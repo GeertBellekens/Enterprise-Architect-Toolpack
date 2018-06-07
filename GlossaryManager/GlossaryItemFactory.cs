@@ -36,7 +36,8 @@ namespace GlossaryManager
         {
             T dummy = new T(); // needed to get the stereotype
             //build a search string
-            string sqlGetGlossaryItems = string.Format(@"select top 50 o.[Object_ID] from t_object o
+            var sqlTop = criteria.showAll ? string.Empty : "top 50";
+            string sqlGetGlossaryItems = string.Format(@"select " + sqlTop + @" o.[Object_ID] from t_object o
                                                         where o.[Name] like '%{0}%'
                                                         and o.[Note] like '%{1}%'
                                                         and o.[Stereotype] = '{2}'

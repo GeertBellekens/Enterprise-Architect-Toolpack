@@ -60,7 +60,8 @@ namespace GlossaryManager.GUI
         {
             get { return new GlossaryItemSearchCriteria() {
                             nameSearchTerm = this.nameFilter,
-                            descriptionSearchTerm = this.descriptionFilter }; }
+                            descriptionSearchTerm = this.descriptionFilter,
+                            showAll = this.showAllCheckBox.Checked}; }
         }
         private void setColumnsListViewDelegates()
         {

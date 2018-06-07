@@ -153,6 +153,7 @@ namespace GlossaryManager.GUI
             this.FilterPanel = new System.Windows.Forms.Panel();
             this.descriptionFilterTextBox = new System.Windows.Forms.TextBox();
             this.nameFilterTextBox = new System.Windows.Forms.TextBox();
+            this.showAllCheckBox = new System.Windows.Forms.CheckBox();
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
@@ -1305,6 +1306,7 @@ namespace GlossaryManager.GUI
             // 
             this.FilterPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.FilterPanel.Controls.Add(this.showAllCheckBox);
             this.FilterPanel.Controls.Add(this.filterButton);
             this.FilterPanel.Controls.Add(this.descriptionFilterTextBox);
             this.FilterPanel.Controls.Add(this.nameFilterTextBox);
@@ -1333,6 +1335,16 @@ namespace GlossaryManager.GUI
             this.nameFilterTextBox.TextChanged += new System.EventHandler(this.nameFilterTextBox_TextChanged);
             this.nameFilterTextBox.Enter += new System.EventHandler(this.nameFilterTextBox_Enter);
             this.nameFilterTextBox.Leave += new System.EventHandler(this.nameFilterTextBox_Leave);
+            // 
+            // showAllCheckBox
+            // 
+            this.showAllCheckBox.AutoSize = true;
+            this.showAllCheckBox.Location = new System.Drawing.Point(423, 11);
+            this.showAllCheckBox.Name = "showAllCheckBox";
+            this.showAllCheckBox.Size = new System.Drawing.Size(66, 17);
+            this.showAllCheckBox.TabIndex = 21;
+            this.showAllCheckBox.Text = "Show all";
+            this.showAllCheckBox.UseVisualStyleBackColor = true;
             // 
             // EDD_MainControl
             // 
@@ -1463,5 +1475,6 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.Button filterButton;
         private System.Windows.Forms.TextBox descriptionFilterTextBox;
         private System.Windows.Forms.TextBox nameFilterTextBox;
+        private System.Windows.Forms.CheckBox showAllCheckBox;
     }
 }

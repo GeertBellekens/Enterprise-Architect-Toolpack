@@ -10,5 +10,6 @@ namespace GlossaryManager
     {
         public string nameSearchTerm { get; set; }
         public string descriptionSearchTerm { get; set; }
+        public bool showAll { get; set; }
     }
 }
