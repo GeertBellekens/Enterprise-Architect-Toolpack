@@ -58,10 +58,15 @@ namespace GlossaryManager.GUI
         private string descriptionFilter { get; set; }
         public GlossaryItemSearchCriteria searchCriteria
         {
-            get { return new GlossaryItemSearchCriteria() {
-                            nameSearchTerm = this.nameFilter,
-                            descriptionSearchTerm = this.descriptionFilter,
-                            showAll = this.showAllCheckBox.Checked}; }
+            get
+            {
+                return new GlossaryItemSearchCriteria()
+                {
+                    nameSearchTerm = this.nameFilter,
+                    descriptionSearchTerm = this.descriptionFilter,
+                    showAll = this.showAllCheckBox.Checked
+                };
+            }
         }
         private void setColumnsListViewDelegates()
         {
@@ -183,6 +188,13 @@ namespace GlossaryManager.GUI
             this.statusses = statusses;
             BU_StatusCombobox.DataSource = this.statusses;
             DI_StatusComboBox.DataSource = this.statusses;
+        }
+        private IEnumerable<LogicalDatatype> logicalDatatypes { get; set; }
+        public void setLogicalDatatypes(IEnumerable<LogicalDatatype> logicalDatatypes)
+        {
+            this.logicalDatatypes = logicalDatatypes;
+            this.DI_DatatypeDropDown.DataSource = this.logicalDatatypes;
+            this.DI_DatatypeDropDown.DisplayMember = "name";
         }
         public void setDomains(List<Domain> domains)
         {
@@ -330,7 +342,7 @@ namespace GlossaryManager.GUI
                     || string.Join(",", dataItem.Keywords) != this.DI_KeywordsTextBox.Text
                     || dataItem.businessItem?.GUID != ((BusinessItem)DI_BusinessItemTextBox.Tag)?.GUID
                     || dataItem.Label != this.DI_LabelTextBox.Text
-                    || dataItem.logicalDatatype?.GUID != ((LogicalDatatype)DI_DatatypeTextBox.Tag)?.GUID
+                    || dataItem.logicalDatatype?.GUID != ((LogicalDatatype)DI_DatatypeDropDown.SelectedItem)?.GUID
                     || !dataItem.Size.HasValue && !string.IsNullOrEmpty(DI_SizeNumericUpDown.Text)
                     || dataItem.Size.HasValue && string.IsNullOrEmpty(DI_SizeNumericUpDown.Text)
                     || dataItem.Size.HasValue && dataItem.Size.Value != decimal.ToInt32(DI_SizeNumericUpDown.Value)
@@ -379,8 +391,7 @@ namespace GlossaryManager.GUI
                     this.DI_BusinessItemTextBox.Text = selectedDataItem.businessItem?.Name;
                     this.DI_BusinessItemTextBox.Tag = selectedDataItem.businessItem;
                     this.DI_LabelTextBox.Text = selectedDataItem.Label;
-                    this.DI_DatatypeTextBox.Text = this.selectedDataItem.logicalDatatype?.name;
-                    this.DI_DatatypeTextBox.Tag = this.selectedDataItem.logicalDatatype;
+                    this.DI_DatatypeDropDown.SelectedItem = this.logicalDatatypes.FirstOrDefault(x => x.GUID == this.selectedDataItem.logicalDatatype?.GUID);
                     this.DI_SizeNumericUpDown.Value = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.Value : 0;
                     this.DI_SizeNumericUpDown.Text = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.ToString() : string.Empty;
                     this.DI_PrecisionUpDown.Value = this.selectedDataItem.Precision.HasValue ? this.selectedDataItem.Precision.Value : 0;
@@ -492,7 +503,7 @@ namespace GlossaryManager.GUI
             item.Description = this.DI_DescriptionTextBox.Text;
             item.domain = (Domain)this.DI_DomainComboBox.SelectedItem;
             item.Label = this.DI_LabelTextBox.Text;
-            item.logicalDatatype = (LogicalDatatype)this.DI_DatatypeTextBox.Tag;
+            item.logicalDatatype = (LogicalDatatype)this.DI_DatatypeDropDown.SelectedItem;
             if (string.IsNullOrEmpty(this.DI_SizeNumericUpDown.Text))
                 item.Size = null;
             else
@@ -660,8 +671,8 @@ namespace GlossaryManager.GUI
             if (this.selectedDataItem != null)
             {
                 var dataType = this.selectedDataItem.selectLogicalDataType();
-                this.DI_DatatypeTextBox.Text = dataType?.name;
-                this.DI_DatatypeTextBox.Tag = dataType;
+                //get the appropriate datatype
+                this.DI_DatatypeDropDown.SelectedItem = this.logicalDatatypes.FirstOrDefault(x => x.GUID == dataType?.GUID);
             }
         }
 
@@ -737,7 +748,7 @@ namespace GlossaryManager.GUI
                 this.columnsListView.RefreshObject(this.selectedTable);
             }
         }
-        
+
         private void nameFilterTextBox_TextChanged(object sender, EventArgs e)
         {
             if (settingDefaults) return; //not while setting the defaults
@@ -749,7 +760,7 @@ namespace GlossaryManager.GUI
         {
             if (settingDefaults) return; //not while setting the defaults
             this.descriptionFilter = descriptionFilterTextBox.Text;
-            
+
         }
         public event EventHandler filterButtonClicked;
         private void filterButton_Click(object sender, EventArgs e)
@@ -786,14 +797,15 @@ namespace GlossaryManager.GUI
         private void descriptionFilterTextBox_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(this.descriptionFilterTextBox.Text))
-                    this.setFilterDefaults();
+                this.setFilterDefaults();
         }
 
         private void nameFilterTextBox_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(this.nameFilterTextBox.Text))
-                     this.setFilterDefaults();
+                this.setFilterDefaults();
         }
+
     }
 
     public enum GlossaryTab

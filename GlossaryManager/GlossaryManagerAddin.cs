@@ -61,13 +61,14 @@ namespace GlossaryManager
                     this._mainControl.filterButtonClicked += this.filterButtonClicked;
                     this._mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage));
                     this._mainControl.setStatusses(statusses: this.model.getStatusses());
+                    this._mainControl.setLogicalDatatypes(LogicalDatatype.getAllLogicalDatatypes(this.model));
                     //TODO: add additional events
                 }
                 return this._mainControl;
             }
         }
 
-
+        
 
         public void test()
         {

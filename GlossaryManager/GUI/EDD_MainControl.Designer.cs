@@ -85,7 +85,7 @@ namespace GlossaryManager.GUI
             this.DI_PrecisionLabel = new System.Windows.Forms.Label();
             this.DI_SizeLabel = new System.Windows.Forms.Label();
             this.DI_DatatypeSelectButton = new System.Windows.Forms.Button();
-            this.DI_DatatypeTextBox = new System.Windows.Forms.TextBox();
+            this.DI_DatatypeDropDown = new System.Windows.Forms.ComboBox();
             this.DI_DatatypeLabel = new System.Windows.Forms.Label();
             this.DI_DomainComboBox = new System.Windows.Forms.ComboBox();
             this.DI_DomainLabel = new System.Windows.Forms.Label();
@@ -151,9 +151,9 @@ namespace GlossaryManager.GUI
             this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.filterButton = new System.Windows.Forms.Button();
             this.FilterPanel = new System.Windows.Forms.Panel();
+            this.showAllCheckBox = new System.Windows.Forms.CheckBox();
             this.descriptionFilterTextBox = new System.Windows.Forms.TextBox();
             this.nameFilterTextBox = new System.Windows.Forms.TextBox();
-            this.showAllCheckBox = new System.Windows.Forms.CheckBox();
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
@@ -492,7 +492,7 @@ namespace GlossaryManager.GUI
             this.DataItemsTabPage.Controls.Add(this.DI_PrecisionLabel);
             this.DataItemsTabPage.Controls.Add(this.DI_SizeLabel);
             this.DataItemsTabPage.Controls.Add(this.DI_DatatypeSelectButton);
-            this.DataItemsTabPage.Controls.Add(this.DI_DatatypeTextBox);
+            this.DataItemsTabPage.Controls.Add(this.DI_DatatypeDropDown);
             this.DataItemsTabPage.Controls.Add(this.DI_DatatypeLabel);
             this.DataItemsTabPage.Controls.Add(this.DI_DomainComboBox);
             this.DataItemsTabPage.Controls.Add(this.DI_DomainLabel);
@@ -633,14 +633,14 @@ namespace GlossaryManager.GUI
             this.DI_DatatypeSelectButton.UseVisualStyleBackColor = true;
             this.DI_DatatypeSelectButton.Click += new System.EventHandler(this.DI_DatatypeSelectButton_Click);
             // 
-            // DI_DatatypeTextBox
+            // DI_DatatypeDropDown
             // 
-            this.DI_DatatypeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_DatatypeTextBox.Location = new System.Drawing.Point(422, 255);
-            this.DI_DatatypeTextBox.Name = "DI_DatatypeTextBox";
-            this.DI_DatatypeTextBox.ReadOnly = true;
-            this.DI_DatatypeTextBox.Size = new System.Drawing.Size(152, 20);
-            this.DI_DatatypeTextBox.TabIndex = 7;
+            this.DI_DatatypeDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_DatatypeDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DI_DatatypeDropDown.Location = new System.Drawing.Point(422, 255);
+            this.DI_DatatypeDropDown.Name = "DI_DatatypeDropDown";
+            this.DI_DatatypeDropDown.Size = new System.Drawing.Size(152, 21);
+            this.DI_DatatypeDropDown.TabIndex = 7;
             // 
             // DI_DatatypeLabel
             // 
@@ -1315,6 +1315,16 @@ namespace GlossaryManager.GUI
             this.FilterPanel.Size = new System.Drawing.Size(937, 37);
             this.FilterPanel.TabIndex = 3;
             // 
+            // showAllCheckBox
+            // 
+            this.showAllCheckBox.AutoSize = true;
+            this.showAllCheckBox.Location = new System.Drawing.Point(423, 11);
+            this.showAllCheckBox.Name = "showAllCheckBox";
+            this.showAllCheckBox.Size = new System.Drawing.Size(66, 17);
+            this.showAllCheckBox.TabIndex = 21;
+            this.showAllCheckBox.Text = "Show all";
+            this.showAllCheckBox.UseVisualStyleBackColor = true;
+            // 
             // descriptionFilterTextBox
             // 
             this.descriptionFilterTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1335,16 +1345,6 @@ namespace GlossaryManager.GUI
             this.nameFilterTextBox.TextChanged += new System.EventHandler(this.nameFilterTextBox_TextChanged);
             this.nameFilterTextBox.Enter += new System.EventHandler(this.nameFilterTextBox_Enter);
             this.nameFilterTextBox.Leave += new System.EventHandler(this.nameFilterTextBox_Leave);
-            // 
-            // showAllCheckBox
-            // 
-            this.showAllCheckBox.AutoSize = true;
-            this.showAllCheckBox.Location = new System.Drawing.Point(423, 11);
-            this.showAllCheckBox.Name = "showAllCheckBox";
-            this.showAllCheckBox.Size = new System.Drawing.Size(66, 17);
-            this.showAllCheckBox.TabIndex = 21;
-            this.showAllCheckBox.Text = "Show all";
-            this.showAllCheckBox.UseVisualStyleBackColor = true;
             // 
             // EDD_MainControl
             // 
@@ -1434,7 +1434,7 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.ComboBox DI_DomainComboBox;
         private System.Windows.Forms.Label DI_DomainLabel;
         private System.Windows.Forms.Button DI_DatatypeSelectButton;
-        private System.Windows.Forms.TextBox DI_DatatypeTextBox;
+        private System.Windows.Forms.ComboBox DI_DatatypeDropDown;
         private System.Windows.Forms.Label DI_DatatypeLabel;
         private System.Windows.Forms.TextBox DI_LabelTextBox;
         private System.Windows.Forms.Label DI_LabelLabel;

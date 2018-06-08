@@ -41,5 +41,22 @@ namespace GlossaryManager
             else
                 return null;
         }
+        /// <summary>
+        /// gets all the logical datatype in the model
+        /// </summary>
+        /// <param name="model">the model</param>
+        /// <returns>a list of logical datatypes found in the model</returns>
+        public static IEnumerable<LogicalDatatype> getAllLogicalDatatypes(TSF_EA.Model model)
+        {
+            var logicalDatatypes = new List<LogicalDatatype>();
+            var sqlGetLogicalDatatypes = @"select o.[Object_ID] from t_object o
+                                           where o.Stereotype = 'EDD_LogicalDatatype'
+                                           order by o.name";
+            foreach (var datatype in model.getElementWrappersByQuery(sqlGetLogicalDatatypes).OfType<UML.Classes.Kernel.DataType>())
+            {
+                logicalDatatypes.Add(new LogicalDatatype(datatype));
+            }
+            return logicalDatatypes;
+        }
     }
 }
