@@ -636,7 +636,7 @@ namespace GlossaryManager.GUI
             //make the specific columns button invisible
             this.showAllColumnsButton.Visible = this.selectedTab == GlossaryTab.Columns;
             //execute event
-            this.selectedTabChanged?.Invoke(sender, e);
+            //this.selectedTabChanged?.Invoke(sender, e); No longer needed with the filter button?
             Cursor.Current = Cursors.Default;
         }
         public GlossaryTab selectedTab
