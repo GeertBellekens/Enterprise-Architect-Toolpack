@@ -74,48 +74,71 @@ namespace GlossaryManager.GUI
             this.BU_NameTextBox = new System.Windows.Forms.TextBox();
             this.BU_NameLabel = new System.Windows.Forms.Label();
             this.DataItemsTabPage = new System.Windows.Forms.TabPage();
-            this.DI_PrecisionUpDown = new System.Windows.Forms.NumericUpDown();
-            this.DI_SizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.DI_FormatTextBox = new System.Windows.Forms.TextBox();
-            this.DI_FormatLabel = new System.Windows.Forms.Label();
-            this.DI_LabelTextBox = new System.Windows.Forms.TextBox();
-            this.DI_LabelLabel = new System.Windows.Forms.Label();
-            this.DI_InitialValueTextBox = new System.Windows.Forms.TextBox();
-            this.DI_InitialValueLabel = new System.Windows.Forms.Label();
-            this.DI_PrecisionLabel = new System.Windows.Forms.Label();
-            this.DI_SizeLabel = new System.Windows.Forms.Label();
-            this.DI_DatatypeSelectButton = new System.Windows.Forms.Button();
-            this.DI_DatatypeDropDown = new System.Windows.Forms.ComboBox();
-            this.DI_DatatypeLabel = new System.Windows.Forms.Label();
-            this.DI_DomainComboBox = new System.Windows.Forms.ComboBox();
-            this.DI_DomainLabel = new System.Windows.Forms.Label();
-            this.DI_BusinessItemSelectButton = new System.Windows.Forms.Button();
-            this.DI_BusinessItemTextBox = new System.Windows.Forms.TextBox();
-            this.DI_ModifiedUserTextBox = new System.Windows.Forms.TextBox();
-            this.DI_ModifieUserLabel = new System.Windows.Forms.Label();
-            this.DI_ModifiedDateTextBox = new System.Windows.Forms.TextBox();
-            this.DI_ModifiedDateLabel = new System.Windows.Forms.Label();
-            this.DI_CreatedUserTextBox = new System.Windows.Forms.TextBox();
-            this.DI_CreatedUserLabel = new System.Windows.Forms.Label();
-            this.DI_CreationDateTextBox = new System.Windows.Forms.TextBox();
-            this.DI_CreationDateLabel = new System.Windows.Forms.Label();
-            this.DI_KeywordsTextBox = new System.Windows.Forms.TextBox();
-            this.DI_KeywordsLabel = new System.Windows.Forms.Label();
-            this.DI_StatusComboBox = new System.Windows.Forms.ComboBox();
-            this.DI_StatusLabel = new System.Windows.Forms.Label();
-            this.DI_VersionTextBox = new System.Windows.Forms.TextBox();
-            this.DI_VersionLabel = new System.Windows.Forms.Label();
-            this.DI_DescriptionTextBox = new System.Windows.Forms.TextBox();
-            this.DI_DescriptionLabel = new System.Windows.Forms.Label();
-            this.DI_BusinessItemLabel = new System.Windows.Forms.Label();
-            this.DI_NameTextBox = new System.Windows.Forms.TextBox();
-            this.DI_NameLabel = new System.Windows.Forms.Label();
+            this.dataItemsSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.showHideTablesButton = new System.Windows.Forms.Button();
             this.dataItemsListView = new BrightIdeasSoftware.ObjectListView();
             this.DI_NameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.DI_LabelColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.DI_DatatypeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.DI_DomainColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.DI_BusinessItem = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.DI_PrecisionUpDown = new System.Windows.Forms.NumericUpDown();
+            this.DI_LabelTextBox = new System.Windows.Forms.TextBox();
+            this.DI_SizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.DI_NameLabel = new System.Windows.Forms.Label();
+            this.DI_FormatTextBox = new System.Windows.Forms.TextBox();
+            this.DI_NameTextBox = new System.Windows.Forms.TextBox();
+            this.DI_FormatLabel = new System.Windows.Forms.Label();
+            this.DI_DescriptionLabel = new System.Windows.Forms.Label();
+            this.DI_InitialValueTextBox = new System.Windows.Forms.TextBox();
+            this.DI_DescriptionTextBox = new System.Windows.Forms.TextBox();
+            this.DI_InitialValueLabel = new System.Windows.Forms.Label();
+            this.DI_LabelLabel = new System.Windows.Forms.Label();
+            this.DI_PrecisionLabel = new System.Windows.Forms.Label();
+            this.DI_VersionLabel = new System.Windows.Forms.Label();
+            this.DI_SizeLabel = new System.Windows.Forms.Label();
+            this.DI_VersionTextBox = new System.Windows.Forms.TextBox();
+            this.DI_StatusLabel = new System.Windows.Forms.Label();
+            this.DI_StatusComboBox = new System.Windows.Forms.ComboBox();
+            this.DI_BusinessItemSelectButton = new System.Windows.Forms.Button();
+            this.DI_DatatypeLabel = new System.Windows.Forms.Label();
+            this.DI_ModifiedDateTextBox = new System.Windows.Forms.TextBox();
+            this.DI_BusinessItemTextBox = new System.Windows.Forms.TextBox();
+            this.DI_ModifiedDateLabel = new System.Windows.Forms.Label();
+            this.DI_DatatypeSelectButton = new System.Windows.Forms.Button();
+            this.DI_CreatedUserTextBox = new System.Windows.Forms.TextBox();
+            this.DI_DatatypeDropDown = new System.Windows.Forms.ComboBox();
+            this.DI_CreatedUserLabel = new System.Windows.Forms.Label();
+            this.DI_BusinessItemLabel = new System.Windows.Forms.Label();
+            this.DI_CreationDateTextBox = new System.Windows.Forms.TextBox();
+            this.DI_KeywordsLabel = new System.Windows.Forms.Label();
+            this.DI_CreationDateLabel = new System.Windows.Forms.Label();
+            this.DI_KeywordsTextBox = new System.Windows.Forms.TextBox();
+            this.dC_NotNullLabel = new System.Windows.Forms.Label();
+            this.dC_NotNullcheckBox = new System.Windows.Forms.CheckBox();
+            this.dC_PrecisionUpDown = new System.Windows.Forms.NumericUpDown();
+            this.dC_SizeUpDown = new System.Windows.Forms.NumericUpDown();
+            this.dC_DefaultValueTextBox = new System.Windows.Forms.TextBox();
+            this.dC_DefaultValueLabel = new System.Windows.Forms.Label();
+            this.dC_PrecisionLabel = new System.Windows.Forms.Label();
+            this.dC_SizeLabel = new System.Windows.Forms.Label();
+            this.dC_DataItemSelectButton = new System.Windows.Forms.Button();
+            this.dC_DataItemTextBox = new System.Windows.Forms.TextBox();
+            this.dC_DatatypeCombobox = new System.Windows.Forms.ComboBox();
+            this.dC_DatatypeLabel = new System.Windows.Forms.Label();
+            this.dC_DataItemLabel = new System.Windows.Forms.Label();
+            this.dC_NameTextBox = new System.Windows.Forms.TextBox();
+            this.dC_NameLabel = new System.Windows.Forms.Label();
+            this.dColumnsListView = new BrightIdeasSoftware.TreeListView();
+            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.columnsListViewImageList = new System.Windows.Forms.ImageList(this.components);
+            this.DI_DomainComboBox = new System.Windows.Forms.ComboBox();
+            this.DI_DomainLabel = new System.Windows.Forms.Label();
+            this.DI_ModifiedUserTextBox = new System.Windows.Forms.TextBox();
+            this.DI_ModifieUserLabel = new System.Windows.Forms.Label();
             this.ColumnsTabPage = new System.Windows.Forms.TabPage();
             this.C_NotNullLabel = new System.Windows.Forms.Label();
             this.C_NotNullCheckBox = new System.Windows.Forms.CheckBox();
@@ -137,7 +160,6 @@ namespace GlossaryManager.GUI
             this.C_PropertiesColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.C_DataItem = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.C_DatabaseColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.columnsListViewImageList = new System.Windows.Forms.ImageList(this.components);
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
@@ -160,9 +182,16 @@ namespace GlossaryManager.GUI
             this.BusinessItemsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BusinessItemsListView)).BeginInit();
             this.DataItemsTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataItemsSplitContainer)).BeginInit();
+            this.dataItemsSplitContainer.Panel1.SuspendLayout();
+            this.dataItemsSplitContainer.Panel2.SuspendLayout();
+            this.dataItemsSplitContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataItemsListView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DI_PrecisionUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DI_SizeNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataItemsListView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dC_PrecisionUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dC_SizeUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dColumnsListView)).BeginInit();
             this.ColumnsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.C_PrecisionUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.C_SizeUpDown)).BeginInit();
@@ -178,7 +207,7 @@ namespace GlossaryManager.GUI
             this.DomainPanel.Controls.Add(this.domainBreadCrumb);
             this.DomainPanel.Location = new System.Drawing.Point(0, 0);
             this.DomainPanel.Name = "DomainPanel";
-            this.DomainPanel.Size = new System.Drawing.Size(937, 28);
+            this.DomainPanel.Size = new System.Drawing.Size(1033, 28);
             this.DomainPanel.TabIndex = 0;
             // 
             // domainBreadCrumb
@@ -194,7 +223,7 @@ namespace GlossaryManager.GUI
             // 
             this.domainBreadCrumb.RootItem.ShortText = "Domains";
             this.domainBreadCrumb.SelectedItem = this.domainBreadCrumb.RootItem;
-            this.domainBreadCrumb.Size = new System.Drawing.Size(937, 28);
+            this.domainBreadCrumb.Size = new System.Drawing.Size(1033, 28);
             this.domainBreadCrumb.TabIndex = 0;
             this.domainBreadCrumb.SelectedItemChanged += new System.EventHandler(this.domainBreadCrumb_SelectedItemChanged);
             // 
@@ -209,7 +238,7 @@ namespace GlossaryManager.GUI
             this.DetailsTabControl.Location = new System.Drawing.Point(0, 72);
             this.DetailsTabControl.Name = "DetailsTabControl";
             this.DetailsTabControl.SelectedIndex = 0;
-            this.DetailsTabControl.Size = new System.Drawing.Size(931, 407);
+            this.DetailsTabControl.Size = new System.Drawing.Size(1033, 407);
             this.DetailsTabControl.TabIndex = 1;
             this.DetailsTabControl.SelectedIndexChanged += new System.EventHandler(this.DetailsTabControl_SelectedIndexChanged);
             // 
@@ -240,7 +269,7 @@ namespace GlossaryManager.GUI
             this.BusinessItemsTabPage.Location = new System.Drawing.Point(4, 22);
             this.BusinessItemsTabPage.Name = "BusinessItemsTabPage";
             this.BusinessItemsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.BusinessItemsTabPage.Size = new System.Drawing.Size(923, 381);
+            this.BusinessItemsTabPage.Size = new System.Drawing.Size(1025, 381);
             this.BusinessItemsTabPage.TabIndex = 0;
             this.BusinessItemsTabPage.Text = "Business Items";
             // 
@@ -267,7 +296,7 @@ namespace GlossaryManager.GUI
             this.BusinessItemsListView.Name = "BusinessItemsListView";
             this.BusinessItemsListView.ShowCommandMenuOnRightClick = true;
             this.BusinessItemsListView.ShowGroups = false;
-            this.BusinessItemsListView.Size = new System.Drawing.Size(914, 243);
+            this.BusinessItemsListView.Size = new System.Drawing.Size(1016, 243);
             this.BusinessItemsListView.TabIndex = 0;
             this.BusinessItemsListView.TintSortColumn = true;
             this.BusinessItemsListView.UseCompatibleStateImageBehavior = false;
@@ -481,383 +510,97 @@ namespace GlossaryManager.GUI
             // DataItemsTabPage
             // 
             this.DataItemsTabPage.BackColor = System.Drawing.SystemColors.Control;
-            this.DataItemsTabPage.Controls.Add(this.DI_PrecisionUpDown);
-            this.DataItemsTabPage.Controls.Add(this.DI_SizeNumericUpDown);
-            this.DataItemsTabPage.Controls.Add(this.DI_FormatTextBox);
-            this.DataItemsTabPage.Controls.Add(this.DI_FormatLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_LabelTextBox);
-            this.DataItemsTabPage.Controls.Add(this.DI_LabelLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_InitialValueTextBox);
-            this.DataItemsTabPage.Controls.Add(this.DI_InitialValueLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_PrecisionLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_SizeLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_DatatypeSelectButton);
-            this.DataItemsTabPage.Controls.Add(this.DI_DatatypeDropDown);
-            this.DataItemsTabPage.Controls.Add(this.DI_DatatypeLabel);
+            this.DataItemsTabPage.Controls.Add(this.dataItemsSplitContainer);
             this.DataItemsTabPage.Controls.Add(this.DI_DomainComboBox);
             this.DataItemsTabPage.Controls.Add(this.DI_DomainLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_BusinessItemSelectButton);
-            this.DataItemsTabPage.Controls.Add(this.DI_BusinessItemTextBox);
             this.DataItemsTabPage.Controls.Add(this.DI_ModifiedUserTextBox);
             this.DataItemsTabPage.Controls.Add(this.DI_ModifieUserLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_ModifiedDateTextBox);
-            this.DataItemsTabPage.Controls.Add(this.DI_ModifiedDateLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_CreatedUserTextBox);
-            this.DataItemsTabPage.Controls.Add(this.DI_CreatedUserLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_CreationDateTextBox);
-            this.DataItemsTabPage.Controls.Add(this.DI_CreationDateLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_KeywordsTextBox);
-            this.DataItemsTabPage.Controls.Add(this.DI_KeywordsLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_StatusComboBox);
-            this.DataItemsTabPage.Controls.Add(this.DI_StatusLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_VersionTextBox);
-            this.DataItemsTabPage.Controls.Add(this.DI_VersionLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_DescriptionTextBox);
-            this.DataItemsTabPage.Controls.Add(this.DI_DescriptionLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_BusinessItemLabel);
-            this.DataItemsTabPage.Controls.Add(this.DI_NameTextBox);
-            this.DataItemsTabPage.Controls.Add(this.DI_NameLabel);
-            this.DataItemsTabPage.Controls.Add(this.dataItemsListView);
             this.DataItemsTabPage.Location = new System.Drawing.Point(4, 22);
             this.DataItemsTabPage.Name = "DataItemsTabPage";
             this.DataItemsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.DataItemsTabPage.Size = new System.Drawing.Size(923, 381);
+            this.DataItemsTabPage.Size = new System.Drawing.Size(1025, 381);
             this.DataItemsTabPage.TabIndex = 1;
             this.DataItemsTabPage.Text = "Data Items";
             // 
-            // DI_PrecisionUpDown
-            // 
-            this.DI_PrecisionUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_PrecisionUpDown.Location = new System.Drawing.Point(422, 309);
-            this.DI_PrecisionUpDown.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.DI_PrecisionUpDown.Name = "DI_PrecisionUpDown";
-            this.DI_PrecisionUpDown.Size = new System.Drawing.Size(120, 20);
-            this.DI_PrecisionUpDown.TabIndex = 10;
-            this.DI_PrecisionUpDown.ThousandsSeparator = true;
-            // 
-            // DI_SizeNumericUpDown
-            // 
-            this.DI_SizeNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_SizeNumericUpDown.Location = new System.Drawing.Point(422, 282);
-            this.DI_SizeNumericUpDown.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.DI_SizeNumericUpDown.Name = "DI_SizeNumericUpDown";
-            this.DI_SizeNumericUpDown.Size = new System.Drawing.Size(120, 20);
-            this.DI_SizeNumericUpDown.TabIndex = 9;
-            this.DI_SizeNumericUpDown.ThousandsSeparator = true;
-            // 
-            // DI_FormatTextBox
-            // 
-            this.DI_FormatTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_FormatTextBox.Location = new System.Drawing.Point(422, 334);
-            this.DI_FormatTextBox.Name = "DI_FormatTextBox";
-            this.DI_FormatTextBox.Size = new System.Drawing.Size(184, 20);
-            this.DI_FormatTextBox.TabIndex = 11;
-            // 
-            // DI_FormatLabel
-            // 
-            this.DI_FormatLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_FormatLabel.Location = new System.Drawing.Point(316, 337);
-            this.DI_FormatLabel.Name = "DI_FormatLabel";
-            this.DI_FormatLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_FormatLabel.TabIndex = 58;
-            this.DI_FormatLabel.Text = "Format";
-            // 
-            // DI_LabelTextBox
-            // 
-            this.DI_LabelTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_LabelTextBox.Location = new System.Drawing.Point(422, 229);
-            this.DI_LabelTextBox.Name = "DI_LabelTextBox";
-            this.DI_LabelTextBox.Size = new System.Drawing.Size(184, 20);
-            this.DI_LabelTextBox.TabIndex = 6;
-            // 
-            // DI_LabelLabel
-            // 
-            this.DI_LabelLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_LabelLabel.Location = new System.Drawing.Point(316, 232);
-            this.DI_LabelLabel.Name = "DI_LabelLabel";
-            this.DI_LabelLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_LabelLabel.TabIndex = 56;
-            this.DI_LabelLabel.Text = "Label";
-            // 
-            // DI_InitialValueTextBox
-            // 
-            this.DI_InitialValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_InitialValueTextBox.Location = new System.Drawing.Point(422, 361);
-            this.DI_InitialValueTextBox.Name = "DI_InitialValueTextBox";
-            this.DI_InitialValueTextBox.Size = new System.Drawing.Size(184, 20);
-            this.DI_InitialValueTextBox.TabIndex = 12;
-            // 
-            // DI_InitialValueLabel
-            // 
-            this.DI_InitialValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_InitialValueLabel.Location = new System.Drawing.Point(316, 364);
-            this.DI_InitialValueLabel.Name = "DI_InitialValueLabel";
-            this.DI_InitialValueLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_InitialValueLabel.TabIndex = 54;
-            this.DI_InitialValueLabel.Text = "Initial Value";
-            // 
-            // DI_PrecisionLabel
-            // 
-            this.DI_PrecisionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_PrecisionLabel.Location = new System.Drawing.Point(316, 311);
-            this.DI_PrecisionLabel.Name = "DI_PrecisionLabel";
-            this.DI_PrecisionLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_PrecisionLabel.TabIndex = 52;
-            this.DI_PrecisionLabel.Text = "Precision";
-            // 
-            // DI_SizeLabel
-            // 
-            this.DI_SizeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_SizeLabel.Location = new System.Drawing.Point(316, 284);
-            this.DI_SizeLabel.Name = "DI_SizeLabel";
-            this.DI_SizeLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_SizeLabel.TabIndex = 50;
-            this.DI_SizeLabel.Text = "Size";
-            // 
-            // DI_DatatypeSelectButton
-            // 
-            this.DI_DatatypeSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_DatatypeSelectButton.Location = new System.Drawing.Point(580, 253);
-            this.DI_DatatypeSelectButton.Name = "DI_DatatypeSelectButton";
-            this.DI_DatatypeSelectButton.Size = new System.Drawing.Size(26, 23);
-            this.DI_DatatypeSelectButton.TabIndex = 8;
-            this.DI_DatatypeSelectButton.Text = "...";
-            this.DI_DatatypeSelectButton.UseVisualStyleBackColor = true;
-            this.DI_DatatypeSelectButton.Click += new System.EventHandler(this.DI_DatatypeSelectButton_Click);
-            // 
-            // DI_DatatypeDropDown
-            // 
-            this.DI_DatatypeDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_DatatypeDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.DI_DatatypeDropDown.Location = new System.Drawing.Point(422, 255);
-            this.DI_DatatypeDropDown.Name = "DI_DatatypeDropDown";
-            this.DI_DatatypeDropDown.Size = new System.Drawing.Size(152, 21);
-            this.DI_DatatypeDropDown.TabIndex = 7;
-            // 
-            // DI_DatatypeLabel
-            // 
-            this.DI_DatatypeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_DatatypeLabel.Location = new System.Drawing.Point(316, 258);
-            this.DI_DatatypeLabel.Name = "DI_DatatypeLabel";
-            this.DI_DatatypeLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_DatatypeLabel.TabIndex = 47;
-            this.DI_DatatypeLabel.Text = "Datatype";
-            // 
-            // DI_DomainComboBox
-            // 
-            this.DI_DomainComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_DomainComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.DI_DomainComboBox.FormattingEnabled = true;
-            this.DI_DomainComboBox.Location = new System.Drawing.Point(112, 383);
-            this.DI_DomainComboBox.Name = "DI_DomainComboBox";
-            this.DI_DomainComboBox.Size = new System.Drawing.Size(184, 21);
-            this.DI_DomainComboBox.TabIndex = 5;
-            // 
-            // DI_DomainLabel
-            // 
-            this.DI_DomainLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_DomainLabel.Location = new System.Drawing.Point(6, 386);
-            this.DI_DomainLabel.Name = "DI_DomainLabel";
-            this.DI_DomainLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_DomainLabel.TabIndex = 45;
-            this.DI_DomainLabel.Text = "Domain";
-            // 
-            // DI_BusinessItemSelectButton
-            // 
-            this.DI_BusinessItemSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_BusinessItemSelectButton.Location = new System.Drawing.Point(270, 355);
-            this.DI_BusinessItemSelectButton.Name = "DI_BusinessItemSelectButton";
-            this.DI_BusinessItemSelectButton.Size = new System.Drawing.Size(26, 23);
-            this.DI_BusinessItemSelectButton.TabIndex = 4;
-            this.DI_BusinessItemSelectButton.Text = "...";
-            this.DI_BusinessItemSelectButton.UseVisualStyleBackColor = true;
-            this.DI_BusinessItemSelectButton.Click += new System.EventHandler(this.DI_BusinessItemSelectButton_Click);
-            // 
-            // DI_BusinessItemTextBox
-            // 
-            this.DI_BusinessItemTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_BusinessItemTextBox.Location = new System.Drawing.Point(112, 357);
-            this.DI_BusinessItemTextBox.Name = "DI_BusinessItemTextBox";
-            this.DI_BusinessItemTextBox.ReadOnly = true;
-            this.DI_BusinessItemTextBox.Size = new System.Drawing.Size(152, 20);
-            this.DI_BusinessItemTextBox.TabIndex = 3;
-            // 
-            // DI_ModifiedUserTextBox
-            // 
-            this.DI_ModifiedUserTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_ModifiedUserTextBox.Location = new System.Drawing.Point(728, 387);
-            this.DI_ModifiedUserTextBox.Name = "DI_ModifiedUserTextBox";
-            this.DI_ModifiedUserTextBox.ReadOnly = true;
-            this.DI_ModifiedUserTextBox.Size = new System.Drawing.Size(184, 20);
-            this.DI_ModifiedUserTextBox.TabIndex = 19;
-            // 
-            // DI_ModifieUserLabel
-            // 
-            this.DI_ModifieUserLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_ModifieUserLabel.Location = new System.Drawing.Point(622, 390);
-            this.DI_ModifieUserLabel.Name = "DI_ModifieUserLabel";
-            this.DI_ModifieUserLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_ModifieUserLabel.TabIndex = 41;
-            this.DI_ModifieUserLabel.Text = "Modified by";
-            // 
-            // DI_ModifiedDateTextBox
-            // 
-            this.DI_ModifiedDateTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_ModifiedDateTextBox.Location = new System.Drawing.Point(728, 361);
-            this.DI_ModifiedDateTextBox.Name = "DI_ModifiedDateTextBox";
-            this.DI_ModifiedDateTextBox.ReadOnly = true;
-            this.DI_ModifiedDateTextBox.Size = new System.Drawing.Size(184, 20);
-            this.DI_ModifiedDateTextBox.TabIndex = 18;
-            // 
-            // DI_ModifiedDateLabel
-            // 
-            this.DI_ModifiedDateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_ModifiedDateLabel.Location = new System.Drawing.Point(622, 364);
-            this.DI_ModifiedDateLabel.Name = "DI_ModifiedDateLabel";
-            this.DI_ModifiedDateLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_ModifiedDateLabel.TabIndex = 39;
-            this.DI_ModifiedDateLabel.Text = "Modified date";
-            // 
-            // DI_CreatedUserTextBox
-            // 
-            this.DI_CreatedUserTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_CreatedUserTextBox.Location = new System.Drawing.Point(728, 334);
-            this.DI_CreatedUserTextBox.Name = "DI_CreatedUserTextBox";
-            this.DI_CreatedUserTextBox.ReadOnly = true;
-            this.DI_CreatedUserTextBox.Size = new System.Drawing.Size(184, 20);
-            this.DI_CreatedUserTextBox.TabIndex = 17;
-            // 
-            // DI_CreatedUserLabel
-            // 
-            this.DI_CreatedUserLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_CreatedUserLabel.Location = new System.Drawing.Point(622, 337);
-            this.DI_CreatedUserLabel.Name = "DI_CreatedUserLabel";
-            this.DI_CreatedUserLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_CreatedUserLabel.TabIndex = 37;
-            this.DI_CreatedUserLabel.Text = "Created by";
-            // 
-            // DI_CreationDateTextBox
-            // 
-            this.DI_CreationDateTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_CreationDateTextBox.Location = new System.Drawing.Point(728, 308);
-            this.DI_CreationDateTextBox.Name = "DI_CreationDateTextBox";
-            this.DI_CreationDateTextBox.ReadOnly = true;
-            this.DI_CreationDateTextBox.Size = new System.Drawing.Size(184, 20);
-            this.DI_CreationDateTextBox.TabIndex = 16;
-            // 
-            // DI_CreationDateLabel
-            // 
-            this.DI_CreationDateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_CreationDateLabel.Location = new System.Drawing.Point(622, 311);
-            this.DI_CreationDateLabel.Name = "DI_CreationDateLabel";
-            this.DI_CreationDateLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_CreationDateLabel.TabIndex = 35;
-            this.DI_CreationDateLabel.Text = "Creation date";
-            // 
-            // DI_KeywordsTextBox
-            // 
-            this.DI_KeywordsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_KeywordsTextBox.Location = new System.Drawing.Point(728, 282);
-            this.DI_KeywordsTextBox.Name = "DI_KeywordsTextBox";
-            this.DI_KeywordsTextBox.Size = new System.Drawing.Size(184, 20);
-            this.DI_KeywordsTextBox.TabIndex = 15;
-            // 
-            // DI_KeywordsLabel
-            // 
-            this.DI_KeywordsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_KeywordsLabel.Location = new System.Drawing.Point(622, 285);
-            this.DI_KeywordsLabel.Name = "DI_KeywordsLabel";
-            this.DI_KeywordsLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_KeywordsLabel.TabIndex = 33;
-            this.DI_KeywordsLabel.Text = "Keywords";
-            // 
-            // DI_StatusComboBox
-            // 
-            this.DI_StatusComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_StatusComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.DI_StatusComboBox.FormattingEnabled = true;
-            this.DI_StatusComboBox.Location = new System.Drawing.Point(728, 255);
-            this.DI_StatusComboBox.Name = "DI_StatusComboBox";
-            this.DI_StatusComboBox.Size = new System.Drawing.Size(184, 21);
-            this.DI_StatusComboBox.TabIndex = 14;
-            // 
-            // DI_StatusLabel
-            // 
-            this.DI_StatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_StatusLabel.Location = new System.Drawing.Point(622, 258);
-            this.DI_StatusLabel.Name = "DI_StatusLabel";
-            this.DI_StatusLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_StatusLabel.TabIndex = 31;
-            this.DI_StatusLabel.Text = "Status";
-            // 
-            // DI_VersionTextBox
-            // 
-            this.DI_VersionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_VersionTextBox.Location = new System.Drawing.Point(728, 229);
-            this.DI_VersionTextBox.Name = "DI_VersionTextBox";
-            this.DI_VersionTextBox.Size = new System.Drawing.Size(184, 20);
-            this.DI_VersionTextBox.TabIndex = 13;
-            // 
-            // DI_VersionLabel
-            // 
-            this.DI_VersionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_VersionLabel.Location = new System.Drawing.Point(622, 232);
-            this.DI_VersionLabel.Name = "DI_VersionLabel";
-            this.DI_VersionLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_VersionLabel.TabIndex = 29;
-            this.DI_VersionLabel.Text = "Version";
-            // 
-            // DI_DescriptionTextBox
-            // 
-            this.DI_DescriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_DescriptionTextBox.Location = new System.Drawing.Point(112, 255);
-            this.DI_DescriptionTextBox.Multiline = true;
-            this.DI_DescriptionTextBox.Name = "DI_DescriptionTextBox";
-            this.DI_DescriptionTextBox.Size = new System.Drawing.Size(184, 96);
-            this.DI_DescriptionTextBox.TabIndex = 2;
-            // 
-            // DI_DescriptionLabel
-            // 
-            this.DI_DescriptionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_DescriptionLabel.Location = new System.Drawing.Point(6, 258);
-            this.DI_DescriptionLabel.Name = "DI_DescriptionLabel";
-            this.DI_DescriptionLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_DescriptionLabel.TabIndex = 26;
-            this.DI_DescriptionLabel.Text = "Description";
-            // 
-            // DI_BusinessItemLabel
-            // 
-            this.DI_BusinessItemLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_BusinessItemLabel.Location = new System.Drawing.Point(6, 360);
-            this.DI_BusinessItemLabel.Name = "DI_BusinessItemLabel";
-            this.DI_BusinessItemLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_BusinessItemLabel.TabIndex = 25;
-            this.DI_BusinessItemLabel.Text = "Business Item";
-            // 
-            // DI_NameTextBox
-            // 
-            this.DI_NameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_NameTextBox.Location = new System.Drawing.Point(112, 229);
-            this.DI_NameTextBox.Name = "DI_NameTextBox";
-            this.DI_NameTextBox.Size = new System.Drawing.Size(184, 20);
-            this.DI_NameTextBox.TabIndex = 1;
-            // 
-            // DI_NameLabel
-            // 
-            this.DI_NameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DI_NameLabel.Location = new System.Drawing.Point(6, 232);
-            this.DI_NameLabel.Name = "DI_NameLabel";
-            this.DI_NameLabel.Size = new System.Drawing.Size(100, 23);
-            this.DI_NameLabel.TabIndex = 23;
-            this.DI_NameLabel.Text = "Name";
+            // dataItemsSplitContainer
+            // 
+            this.dataItemsSplitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataItemsSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.dataItemsSplitContainer.Location = new System.Drawing.Point(-1, 0);
+            this.dataItemsSplitContainer.Name = "dataItemsSplitContainer";
+            // 
+            // dataItemsSplitContainer.Panel1
+            // 
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.showHideTablesButton);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.dataItemsListView);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_PrecisionUpDown);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_LabelTextBox);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_SizeNumericUpDown);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_NameLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_FormatTextBox);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_NameTextBox);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_FormatLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_DescriptionLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_InitialValueTextBox);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_DescriptionTextBox);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_InitialValueLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_LabelLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_PrecisionLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_VersionLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_SizeLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_VersionTextBox);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_StatusLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_StatusComboBox);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_BusinessItemSelectButton);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_DatatypeLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_ModifiedDateTextBox);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_BusinessItemTextBox);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_ModifiedDateLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_DatatypeSelectButton);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_CreatedUserTextBox);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_DatatypeDropDown);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_CreatedUserLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_BusinessItemLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_CreationDateTextBox);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_KeywordsLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_CreationDateLabel);
+            this.dataItemsSplitContainer.Panel1.Controls.Add(this.DI_KeywordsTextBox);
+            // 
+            // dataItemsSplitContainer.Panel2
+            // 
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_NotNullLabel);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_NotNullcheckBox);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_PrecisionUpDown);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_SizeUpDown);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_DefaultValueTextBox);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_DefaultValueLabel);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_PrecisionLabel);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_SizeLabel);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_DataItemSelectButton);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_DataItemTextBox);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_DatatypeCombobox);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_DatatypeLabel);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_DataItemLabel);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_NameTextBox);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_NameLabel);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dColumnsListView);
+            this.dataItemsSplitContainer.Size = new System.Drawing.Size(1023, 381);
+            this.dataItemsSplitContainer.SplitterDistance = 571;
+            this.dataItemsSplitContainer.TabIndex = 59;
+            // 
+            // showHideTablesButton
+            // 
+            this.showHideTablesButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.showHideTablesButton.Image = ((System.Drawing.Image)(resources.GetObject("showHideTablesButton.Image")));
+            this.showHideTablesButton.Location = new System.Drawing.Point(558, 0);
+            this.showHideTablesButton.Name = "showHideTablesButton";
+            this.showHideTablesButton.Size = new System.Drawing.Size(17, 381);
+            this.showHideTablesButton.TabIndex = 59;
+            this.showHideTablesButton.UseVisualStyleBackColor = true;
+            this.showHideTablesButton.Click += new System.EventHandler(this.showHideTablesButton_Click);
             // 
             // dataItemsListView
             // 
@@ -881,12 +624,12 @@ namespace GlossaryManager.GUI
             this.dataItemsListView.FullRowSelect = true;
             this.dataItemsListView.GridLines = true;
             this.dataItemsListView.HideSelection = false;
-            this.dataItemsListView.Location = new System.Drawing.Point(3, 3);
+            this.dataItemsListView.Location = new System.Drawing.Point(1, 0);
             this.dataItemsListView.MultiSelect = false;
             this.dataItemsListView.Name = "dataItemsListView";
             this.dataItemsListView.ShowCommandMenuOnRightClick = true;
             this.dataItemsListView.ShowGroups = false;
-            this.dataItemsListView.Size = new System.Drawing.Size(914, 220);
+            this.dataItemsListView.Size = new System.Drawing.Size(564, 174);
             this.dataItemsListView.TabIndex = 0;
             this.dataItemsListView.TintSortColumn = true;
             this.dataItemsListView.UseCompatibleStateImageBehavior = false;
@@ -934,6 +677,566 @@ namespace GlossaryManager.GUI
             this.DI_BusinessItem.ToolTipText = "Business Item related to this Data Item";
             this.DI_BusinessItem.Width = 150;
             // 
+            // DI_PrecisionUpDown
+            // 
+            this.DI_PrecisionUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_PrecisionUpDown.Location = new System.Drawing.Point(423, 260);
+            this.DI_PrecisionUpDown.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.DI_PrecisionUpDown.Name = "DI_PrecisionUpDown";
+            this.DI_PrecisionUpDown.Size = new System.Drawing.Size(120, 20);
+            this.DI_PrecisionUpDown.TabIndex = 10;
+            this.DI_PrecisionUpDown.ThousandsSeparator = true;
+            // 
+            // DI_LabelTextBox
+            // 
+            this.DI_LabelTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_LabelTextBox.Location = new System.Drawing.Point(423, 180);
+            this.DI_LabelTextBox.Name = "DI_LabelTextBox";
+            this.DI_LabelTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_LabelTextBox.TabIndex = 6;
+            // 
+            // DI_SizeNumericUpDown
+            // 
+            this.DI_SizeNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_SizeNumericUpDown.Location = new System.Drawing.Point(423, 233);
+            this.DI_SizeNumericUpDown.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.DI_SizeNumericUpDown.Name = "DI_SizeNumericUpDown";
+            this.DI_SizeNumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.DI_SizeNumericUpDown.TabIndex = 9;
+            this.DI_SizeNumericUpDown.ThousandsSeparator = true;
+            // 
+            // DI_NameLabel
+            // 
+            this.DI_NameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_NameLabel.Location = new System.Drawing.Point(7, 183);
+            this.DI_NameLabel.Name = "DI_NameLabel";
+            this.DI_NameLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_NameLabel.TabIndex = 23;
+            this.DI_NameLabel.Text = "Name";
+            // 
+            // DI_FormatTextBox
+            // 
+            this.DI_FormatTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_FormatTextBox.Location = new System.Drawing.Point(423, 285);
+            this.DI_FormatTextBox.Name = "DI_FormatTextBox";
+            this.DI_FormatTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_FormatTextBox.TabIndex = 11;
+            // 
+            // DI_NameTextBox
+            // 
+            this.DI_NameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_NameTextBox.Location = new System.Drawing.Point(113, 180);
+            this.DI_NameTextBox.Name = "DI_NameTextBox";
+            this.DI_NameTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_NameTextBox.TabIndex = 1;
+            // 
+            // DI_FormatLabel
+            // 
+            this.DI_FormatLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_FormatLabel.Location = new System.Drawing.Point(317, 288);
+            this.DI_FormatLabel.Name = "DI_FormatLabel";
+            this.DI_FormatLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_FormatLabel.TabIndex = 58;
+            this.DI_FormatLabel.Text = "Format";
+            // 
+            // DI_DescriptionLabel
+            // 
+            this.DI_DescriptionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_DescriptionLabel.Location = new System.Drawing.Point(7, 209);
+            this.DI_DescriptionLabel.Name = "DI_DescriptionLabel";
+            this.DI_DescriptionLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_DescriptionLabel.TabIndex = 26;
+            this.DI_DescriptionLabel.Text = "Description";
+            // 
+            // DI_InitialValueTextBox
+            // 
+            this.DI_InitialValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_InitialValueTextBox.Location = new System.Drawing.Point(423, 311);
+            this.DI_InitialValueTextBox.Name = "DI_InitialValueTextBox";
+            this.DI_InitialValueTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_InitialValueTextBox.TabIndex = 12;
+            // 
+            // DI_DescriptionTextBox
+            // 
+            this.DI_DescriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_DescriptionTextBox.Location = new System.Drawing.Point(113, 206);
+            this.DI_DescriptionTextBox.Multiline = true;
+            this.DI_DescriptionTextBox.Name = "DI_DescriptionTextBox";
+            this.DI_DescriptionTextBox.Size = new System.Drawing.Size(184, 96);
+            this.DI_DescriptionTextBox.TabIndex = 2;
+            // 
+            // DI_InitialValueLabel
+            // 
+            this.DI_InitialValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_InitialValueLabel.Location = new System.Drawing.Point(317, 314);
+            this.DI_InitialValueLabel.Name = "DI_InitialValueLabel";
+            this.DI_InitialValueLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_InitialValueLabel.TabIndex = 54;
+            this.DI_InitialValueLabel.Text = "Initial Value";
+            // 
+            // DI_LabelLabel
+            // 
+            this.DI_LabelLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_LabelLabel.Location = new System.Drawing.Point(317, 183);
+            this.DI_LabelLabel.Name = "DI_LabelLabel";
+            this.DI_LabelLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_LabelLabel.TabIndex = 56;
+            this.DI_LabelLabel.Text = "Label";
+            // 
+            // DI_PrecisionLabel
+            // 
+            this.DI_PrecisionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_PrecisionLabel.Location = new System.Drawing.Point(317, 262);
+            this.DI_PrecisionLabel.Name = "DI_PrecisionLabel";
+            this.DI_PrecisionLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_PrecisionLabel.TabIndex = 52;
+            this.DI_PrecisionLabel.Text = "Precision";
+            // 
+            // DI_VersionLabel
+            // 
+            this.DI_VersionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_VersionLabel.Location = new System.Drawing.Point(623, 183);
+            this.DI_VersionLabel.Name = "DI_VersionLabel";
+            this.DI_VersionLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_VersionLabel.TabIndex = 29;
+            this.DI_VersionLabel.Text = "Version";
+            // 
+            // DI_SizeLabel
+            // 
+            this.DI_SizeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_SizeLabel.Location = new System.Drawing.Point(317, 235);
+            this.DI_SizeLabel.Name = "DI_SizeLabel";
+            this.DI_SizeLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_SizeLabel.TabIndex = 50;
+            this.DI_SizeLabel.Text = "Size";
+            // 
+            // DI_VersionTextBox
+            // 
+            this.DI_VersionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_VersionTextBox.Location = new System.Drawing.Point(729, 180);
+            this.DI_VersionTextBox.Name = "DI_VersionTextBox";
+            this.DI_VersionTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_VersionTextBox.TabIndex = 13;
+            // 
+            // DI_StatusLabel
+            // 
+            this.DI_StatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_StatusLabel.Location = new System.Drawing.Point(623, 209);
+            this.DI_StatusLabel.Name = "DI_StatusLabel";
+            this.DI_StatusLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_StatusLabel.TabIndex = 31;
+            this.DI_StatusLabel.Text = "Status";
+            // 
+            // DI_StatusComboBox
+            // 
+            this.DI_StatusComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_StatusComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DI_StatusComboBox.FormattingEnabled = true;
+            this.DI_StatusComboBox.Location = new System.Drawing.Point(729, 206);
+            this.DI_StatusComboBox.Name = "DI_StatusComboBox";
+            this.DI_StatusComboBox.Size = new System.Drawing.Size(184, 21);
+            this.DI_StatusComboBox.TabIndex = 14;
+            // 
+            // DI_BusinessItemSelectButton
+            // 
+            this.DI_BusinessItemSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_BusinessItemSelectButton.Location = new System.Drawing.Point(271, 309);
+            this.DI_BusinessItemSelectButton.Name = "DI_BusinessItemSelectButton";
+            this.DI_BusinessItemSelectButton.Size = new System.Drawing.Size(26, 23);
+            this.DI_BusinessItemSelectButton.TabIndex = 4;
+            this.DI_BusinessItemSelectButton.Text = "...";
+            this.DI_BusinessItemSelectButton.UseVisualStyleBackColor = true;
+            this.DI_BusinessItemSelectButton.Click += new System.EventHandler(this.DI_BusinessItemSelectButton_Click);
+            // 
+            // DI_DatatypeLabel
+            // 
+            this.DI_DatatypeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_DatatypeLabel.Location = new System.Drawing.Point(317, 209);
+            this.DI_DatatypeLabel.Name = "DI_DatatypeLabel";
+            this.DI_DatatypeLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_DatatypeLabel.TabIndex = 47;
+            this.DI_DatatypeLabel.Text = "Datatype";
+            // 
+            // DI_ModifiedDateTextBox
+            // 
+            this.DI_ModifiedDateTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_ModifiedDateTextBox.Location = new System.Drawing.Point(729, 311);
+            this.DI_ModifiedDateTextBox.Name = "DI_ModifiedDateTextBox";
+            this.DI_ModifiedDateTextBox.ReadOnly = true;
+            this.DI_ModifiedDateTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_ModifiedDateTextBox.TabIndex = 18;
+            // 
+            // DI_BusinessItemTextBox
+            // 
+            this.DI_BusinessItemTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_BusinessItemTextBox.Location = new System.Drawing.Point(113, 311);
+            this.DI_BusinessItemTextBox.Name = "DI_BusinessItemTextBox";
+            this.DI_BusinessItemTextBox.ReadOnly = true;
+            this.DI_BusinessItemTextBox.Size = new System.Drawing.Size(152, 20);
+            this.DI_BusinessItemTextBox.TabIndex = 3;
+            // 
+            // DI_ModifiedDateLabel
+            // 
+            this.DI_ModifiedDateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_ModifiedDateLabel.Location = new System.Drawing.Point(623, 314);
+            this.DI_ModifiedDateLabel.Name = "DI_ModifiedDateLabel";
+            this.DI_ModifiedDateLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_ModifiedDateLabel.TabIndex = 39;
+            this.DI_ModifiedDateLabel.Text = "Modified date";
+            // 
+            // DI_DatatypeSelectButton
+            // 
+            this.DI_DatatypeSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_DatatypeSelectButton.Location = new System.Drawing.Point(581, 204);
+            this.DI_DatatypeSelectButton.Name = "DI_DatatypeSelectButton";
+            this.DI_DatatypeSelectButton.Size = new System.Drawing.Size(26, 23);
+            this.DI_DatatypeSelectButton.TabIndex = 8;
+            this.DI_DatatypeSelectButton.Text = "...";
+            this.DI_DatatypeSelectButton.UseVisualStyleBackColor = true;
+            this.DI_DatatypeSelectButton.Click += new System.EventHandler(this.DI_DatatypeSelectButton_Click);
+            // 
+            // DI_CreatedUserTextBox
+            // 
+            this.DI_CreatedUserTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_CreatedUserTextBox.Location = new System.Drawing.Point(729, 285);
+            this.DI_CreatedUserTextBox.Name = "DI_CreatedUserTextBox";
+            this.DI_CreatedUserTextBox.ReadOnly = true;
+            this.DI_CreatedUserTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_CreatedUserTextBox.TabIndex = 17;
+            // 
+            // DI_DatatypeDropDown
+            // 
+            this.DI_DatatypeDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_DatatypeDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DI_DatatypeDropDown.Location = new System.Drawing.Point(423, 206);
+            this.DI_DatatypeDropDown.Name = "DI_DatatypeDropDown";
+            this.DI_DatatypeDropDown.Size = new System.Drawing.Size(152, 21);
+            this.DI_DatatypeDropDown.TabIndex = 7;
+            // 
+            // DI_CreatedUserLabel
+            // 
+            this.DI_CreatedUserLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_CreatedUserLabel.Location = new System.Drawing.Point(623, 288);
+            this.DI_CreatedUserLabel.Name = "DI_CreatedUserLabel";
+            this.DI_CreatedUserLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_CreatedUserLabel.TabIndex = 37;
+            this.DI_CreatedUserLabel.Text = "Created by";
+            // 
+            // DI_BusinessItemLabel
+            // 
+            this.DI_BusinessItemLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_BusinessItemLabel.Location = new System.Drawing.Point(7, 314);
+            this.DI_BusinessItemLabel.Name = "DI_BusinessItemLabel";
+            this.DI_BusinessItemLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_BusinessItemLabel.TabIndex = 25;
+            this.DI_BusinessItemLabel.Text = "Business Item";
+            // 
+            // DI_CreationDateTextBox
+            // 
+            this.DI_CreationDateTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_CreationDateTextBox.Location = new System.Drawing.Point(729, 259);
+            this.DI_CreationDateTextBox.Name = "DI_CreationDateTextBox";
+            this.DI_CreationDateTextBox.ReadOnly = true;
+            this.DI_CreationDateTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_CreationDateTextBox.TabIndex = 16;
+            // 
+            // DI_KeywordsLabel
+            // 
+            this.DI_KeywordsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_KeywordsLabel.Location = new System.Drawing.Point(623, 236);
+            this.DI_KeywordsLabel.Name = "DI_KeywordsLabel";
+            this.DI_KeywordsLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_KeywordsLabel.TabIndex = 33;
+            this.DI_KeywordsLabel.Text = "Keywords";
+            // 
+            // DI_CreationDateLabel
+            // 
+            this.DI_CreationDateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_CreationDateLabel.Location = new System.Drawing.Point(623, 262);
+            this.DI_CreationDateLabel.Name = "DI_CreationDateLabel";
+            this.DI_CreationDateLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_CreationDateLabel.TabIndex = 35;
+            this.DI_CreationDateLabel.Text = "Creation date";
+            // 
+            // DI_KeywordsTextBox
+            // 
+            this.DI_KeywordsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_KeywordsTextBox.Location = new System.Drawing.Point(729, 233);
+            this.DI_KeywordsTextBox.Name = "DI_KeywordsTextBox";
+            this.DI_KeywordsTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_KeywordsTextBox.TabIndex = 15;
+            // 
+            // dC_NotNullLabel
+            // 
+            this.dC_NotNullLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_NotNullLabel.Location = new System.Drawing.Point(6, 288);
+            this.dC_NotNullLabel.Name = "dC_NotNullLabel";
+            this.dC_NotNullLabel.Size = new System.Drawing.Size(100, 23);
+            this.dC_NotNullLabel.TabIndex = 109;
+            this.dC_NotNullLabel.Text = "Not Null";
+            // 
+            // dC_NotNullcheckBox
+            // 
+            this.dC_NotNullcheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_NotNullcheckBox.AutoSize = true;
+            this.dC_NotNullcheckBox.Enabled = false;
+            this.dC_NotNullcheckBox.Location = new System.Drawing.Point(112, 288);
+            this.dC_NotNullcheckBox.Name = "dC_NotNullcheckBox";
+            this.dC_NotNullcheckBox.Size = new System.Drawing.Size(15, 14);
+            this.dC_NotNullcheckBox.TabIndex = 108;
+            this.dC_NotNullcheckBox.UseVisualStyleBackColor = true;
+            // 
+            // dC_PrecisionUpDown
+            // 
+            this.dC_PrecisionUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_PrecisionUpDown.Location = new System.Drawing.Point(112, 260);
+            this.dC_PrecisionUpDown.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.dC_PrecisionUpDown.Name = "dC_PrecisionUpDown";
+            this.dC_PrecisionUpDown.ReadOnly = true;
+            this.dC_PrecisionUpDown.Size = new System.Drawing.Size(120, 20);
+            this.dC_PrecisionUpDown.TabIndex = 99;
+            this.dC_PrecisionUpDown.ThousandsSeparator = true;
+            // 
+            // dC_SizeUpDown
+            // 
+            this.dC_SizeUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_SizeUpDown.Location = new System.Drawing.Point(112, 233);
+            this.dC_SizeUpDown.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.dC_SizeUpDown.Name = "dC_SizeUpDown";
+            this.dC_SizeUpDown.ReadOnly = true;
+            this.dC_SizeUpDown.Size = new System.Drawing.Size(120, 20);
+            this.dC_SizeUpDown.TabIndex = 98;
+            this.dC_SizeUpDown.ThousandsSeparator = true;
+            // 
+            // dC_DefaultValueTextBox
+            // 
+            this.dC_DefaultValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_DefaultValueTextBox.Location = new System.Drawing.Point(112, 311);
+            this.dC_DefaultValueTextBox.Name = "dC_DefaultValueTextBox";
+            this.dC_DefaultValueTextBox.ReadOnly = true;
+            this.dC_DefaultValueTextBox.Size = new System.Drawing.Size(184, 20);
+            this.dC_DefaultValueTextBox.TabIndex = 100;
+            // 
+            // dC_DefaultValueLabel
+            // 
+            this.dC_DefaultValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_DefaultValueLabel.Location = new System.Drawing.Point(6, 314);
+            this.dC_DefaultValueLabel.Name = "dC_DefaultValueLabel";
+            this.dC_DefaultValueLabel.Size = new System.Drawing.Size(100, 23);
+            this.dC_DefaultValueLabel.TabIndex = 107;
+            this.dC_DefaultValueLabel.Text = "Default Value";
+            // 
+            // dC_PrecisionLabel
+            // 
+            this.dC_PrecisionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_PrecisionLabel.Location = new System.Drawing.Point(6, 260);
+            this.dC_PrecisionLabel.Name = "dC_PrecisionLabel";
+            this.dC_PrecisionLabel.Size = new System.Drawing.Size(100, 23);
+            this.dC_PrecisionLabel.TabIndex = 106;
+            this.dC_PrecisionLabel.Text = "Precision";
+            // 
+            // dC_SizeLabel
+            // 
+            this.dC_SizeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_SizeLabel.Location = new System.Drawing.Point(6, 235);
+            this.dC_SizeLabel.Name = "dC_SizeLabel";
+            this.dC_SizeLabel.Size = new System.Drawing.Size(100, 23);
+            this.dC_SizeLabel.TabIndex = 105;
+            this.dC_SizeLabel.Text = "Size";
+            // 
+            // dC_DataItemSelectButton
+            // 
+            this.dC_DataItemSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_DataItemSelectButton.Location = new System.Drawing.Point(270, 335);
+            this.dC_DataItemSelectButton.Name = "dC_DataItemSelectButton";
+            this.dC_DataItemSelectButton.Size = new System.Drawing.Size(26, 23);
+            this.dC_DataItemSelectButton.TabIndex = 97;
+            this.dC_DataItemSelectButton.Text = "...";
+            this.dC_DataItemSelectButton.UseVisualStyleBackColor = true;
+            // 
+            // dC_DataItemTextBox
+            // 
+            this.dC_DataItemTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_DataItemTextBox.Location = new System.Drawing.Point(112, 337);
+            this.dC_DataItemTextBox.Name = "dC_DataItemTextBox";
+            this.dC_DataItemTextBox.ReadOnly = true;
+            this.dC_DataItemTextBox.Size = new System.Drawing.Size(152, 20);
+            this.dC_DataItemTextBox.TabIndex = 96;
+            // 
+            // dC_DatatypeCombobox
+            // 
+            this.dC_DatatypeCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_DatatypeCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dC_DatatypeCombobox.Enabled = false;
+            this.dC_DatatypeCombobox.FormattingEnabled = true;
+            this.dC_DatatypeCombobox.Location = new System.Drawing.Point(112, 206);
+            this.dC_DatatypeCombobox.Name = "dC_DatatypeCombobox";
+            this.dC_DatatypeCombobox.Size = new System.Drawing.Size(184, 21);
+            this.dC_DatatypeCombobox.TabIndex = 101;
+            // 
+            // dC_DatatypeLabel
+            // 
+            this.dC_DatatypeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_DatatypeLabel.Location = new System.Drawing.Point(6, 209);
+            this.dC_DatatypeLabel.Name = "dC_DatatypeLabel";
+            this.dC_DatatypeLabel.Size = new System.Drawing.Size(100, 23);
+            this.dC_DatatypeLabel.TabIndex = 104;
+            this.dC_DatatypeLabel.Text = "Datatype";
+            // 
+            // dC_DataItemLabel
+            // 
+            this.dC_DataItemLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_DataItemLabel.Location = new System.Drawing.Point(6, 340);
+            this.dC_DataItemLabel.Name = "dC_DataItemLabel";
+            this.dC_DataItemLabel.Size = new System.Drawing.Size(100, 23);
+            this.dC_DataItemLabel.TabIndex = 103;
+            this.dC_DataItemLabel.Text = "Data Item";
+            // 
+            // dC_NameTextBox
+            // 
+            this.dC_NameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_NameTextBox.Location = new System.Drawing.Point(112, 180);
+            this.dC_NameTextBox.Name = "dC_NameTextBox";
+            this.dC_NameTextBox.ReadOnly = true;
+            this.dC_NameTextBox.Size = new System.Drawing.Size(184, 20);
+            this.dC_NameTextBox.TabIndex = 95;
+            // 
+            // dC_NameLabel
+            // 
+            this.dC_NameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_NameLabel.Location = new System.Drawing.Point(6, 183);
+            this.dC_NameLabel.Name = "dC_NameLabel";
+            this.dC_NameLabel.Size = new System.Drawing.Size(100, 23);
+            this.dC_NameLabel.TabIndex = 102;
+            this.dC_NameLabel.Text = "Name";
+            // 
+            // dColumnsListView
+            // 
+            this.dColumnsListView.AllColumns.Add(this.olvColumn1);
+            this.dColumnsListView.AllColumns.Add(this.olvColumn2);
+            this.dColumnsListView.AllColumns.Add(this.olvColumn3);
+            this.dColumnsListView.AllColumns.Add(this.olvColumn4);
+            this.dColumnsListView.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.dColumnsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dColumnsListView.CellEditUseWholeCell = false;
+            this.dColumnsListView.CheckedAspectName = "showAllColumns";
+            this.dColumnsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn1,
+            this.olvColumn2,
+            this.olvColumn3,
+            this.olvColumn4});
+            this.dColumnsListView.Cursor = System.Windows.Forms.Cursors.Default;
+            this.dColumnsListView.FullRowSelect = true;
+            this.dColumnsListView.GridLines = true;
+            this.dColumnsListView.GroupImageList = this.columnsListViewImageList;
+            this.dColumnsListView.HideSelection = false;
+            this.dColumnsListView.Location = new System.Drawing.Point(3, 0);
+            this.dColumnsListView.MultiSelect = false;
+            this.dColumnsListView.Name = "dColumnsListView";
+            this.dColumnsListView.ShowCommandMenuOnRightClick = true;
+            this.dColumnsListView.ShowGroups = false;
+            this.dColumnsListView.ShowItemCountOnGroups = true;
+            this.dColumnsListView.Size = new System.Drawing.Size(439, 174);
+            this.dColumnsListView.SmallImageList = this.columnsListViewImageList;
+            this.dColumnsListView.TabIndex = 2;
+            this.dColumnsListView.TintSortColumn = true;
+            this.dColumnsListView.UseCompatibleStateImageBehavior = false;
+            this.dColumnsListView.UseFilterIndicator = true;
+            this.dColumnsListView.UseFiltering = true;
+            this.dColumnsListView.UseHotItem = true;
+            this.dColumnsListView.View = System.Windows.Forms.View.Details;
+            this.dColumnsListView.VirtualMode = true;
+            // 
+            // olvColumn1
+            // 
+            this.olvColumn1.AspectName = "name";
+            this.olvColumn1.GroupWithItemCountFormat = "";
+            this.olvColumn1.GroupWithItemCountSingularFormat = "";
+            this.olvColumn1.Text = "Name";
+            this.olvColumn1.ToolTipText = "Name";
+            this.olvColumn1.Width = 150;
+            // 
+            // olvColumn2
+            // 
+            this.olvColumn2.AspectName = "properties";
+            this.olvColumn2.Text = "Datatype";
+            this.olvColumn2.ToolTipText = "Column Properties";
+            this.olvColumn2.Width = 200;
+            // 
+            // olvColumn3
+            // 
+            this.olvColumn3.AspectName = "dataItem.Name";
+            this.olvColumn3.Text = "DataItem";
+            this.olvColumn3.Width = 150;
+            // 
+            // olvColumn4
+            // 
+            this.olvColumn4.AspectName = "databaseName";
+            this.olvColumn4.Text = "Database";
+            this.olvColumn4.Width = 150;
+            // 
+            // columnsListViewImageList
+            // 
+            this.columnsListViewImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("columnsListViewImageList.ImageStream")));
+            this.columnsListViewImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.columnsListViewImageList.Images.SetKeyName(0, "table");
+            this.columnsListViewImageList.Images.SetKeyName(1, "column");
+            // 
+            // DI_DomainComboBox
+            // 
+            this.DI_DomainComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_DomainComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DI_DomainComboBox.FormattingEnabled = true;
+            this.DI_DomainComboBox.Location = new System.Drawing.Point(112, 383);
+            this.DI_DomainComboBox.Name = "DI_DomainComboBox";
+            this.DI_DomainComboBox.Size = new System.Drawing.Size(184, 21);
+            this.DI_DomainComboBox.TabIndex = 5;
+            // 
+            // DI_DomainLabel
+            // 
+            this.DI_DomainLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_DomainLabel.Location = new System.Drawing.Point(6, 386);
+            this.DI_DomainLabel.Name = "DI_DomainLabel";
+            this.DI_DomainLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_DomainLabel.TabIndex = 45;
+            this.DI_DomainLabel.Text = "Domain";
+            // 
+            // DI_ModifiedUserTextBox
+            // 
+            this.DI_ModifiedUserTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_ModifiedUserTextBox.Location = new System.Drawing.Point(728, 387);
+            this.DI_ModifiedUserTextBox.Name = "DI_ModifiedUserTextBox";
+            this.DI_ModifiedUserTextBox.ReadOnly = true;
+            this.DI_ModifiedUserTextBox.Size = new System.Drawing.Size(184, 20);
+            this.DI_ModifiedUserTextBox.TabIndex = 19;
+            // 
+            // DI_ModifieUserLabel
+            // 
+            this.DI_ModifieUserLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DI_ModifieUserLabel.Location = new System.Drawing.Point(622, 390);
+            this.DI_ModifieUserLabel.Name = "DI_ModifieUserLabel";
+            this.DI_ModifieUserLabel.Size = new System.Drawing.Size(100, 23);
+            this.DI_ModifieUserLabel.TabIndex = 41;
+            this.DI_ModifieUserLabel.Text = "Modified by";
+            // 
             // ColumnsTabPage
             // 
             this.ColumnsTabPage.BackColor = System.Drawing.SystemColors.Control;
@@ -956,7 +1259,7 @@ namespace GlossaryManager.GUI
             this.ColumnsTabPage.Location = new System.Drawing.Point(4, 22);
             this.ColumnsTabPage.Name = "ColumnsTabPage";
             this.ColumnsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ColumnsTabPage.Size = new System.Drawing.Size(923, 381);
+            this.ColumnsTabPage.Size = new System.Drawing.Size(1025, 381);
             this.ColumnsTabPage.TabIndex = 2;
             this.ColumnsTabPage.Text = "Columns";
             // 
@@ -973,6 +1276,7 @@ namespace GlossaryManager.GUI
             // 
             this.C_NotNullCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.C_NotNullCheckBox.AutoSize = true;
+            this.C_NotNullCheckBox.Enabled = false;
             this.C_NotNullCheckBox.Location = new System.Drawing.Point(109, 301);
             this.C_NotNullCheckBox.Name = "C_NotNullCheckBox";
             this.C_NotNullCheckBox.Size = new System.Drawing.Size(15, 14);
@@ -989,6 +1293,7 @@ namespace GlossaryManager.GUI
             0,
             0});
             this.C_PrecisionUpDown.Name = "C_PrecisionUpDown";
+            this.C_PrecisionUpDown.ReadOnly = true;
             this.C_PrecisionUpDown.Size = new System.Drawing.Size(120, 20);
             this.C_PrecisionUpDown.TabIndex = 68;
             this.C_PrecisionUpDown.ThousandsSeparator = true;
@@ -1003,6 +1308,7 @@ namespace GlossaryManager.GUI
             0,
             0});
             this.C_SizeUpDown.Name = "C_SizeUpDown";
+            this.C_SizeUpDown.ReadOnly = true;
             this.C_SizeUpDown.Size = new System.Drawing.Size(120, 20);
             this.C_SizeUpDown.TabIndex = 67;
             this.C_SizeUpDown.ThousandsSeparator = true;
@@ -1012,6 +1318,7 @@ namespace GlossaryManager.GUI
             this.C_DefaultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.C_DefaultTextBox.Location = new System.Drawing.Point(109, 321);
             this.C_DefaultTextBox.Name = "C_DefaultTextBox";
+            this.C_DefaultTextBox.ReadOnly = true;
             this.C_DefaultTextBox.Size = new System.Drawing.Size(184, 20);
             this.C_DefaultTextBox.TabIndex = 70;
             // 
@@ -1045,6 +1352,7 @@ namespace GlossaryManager.GUI
             // C_DataItemSelectButton
             // 
             this.C_DataItemSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.C_DataItemSelectButton.Enabled = false;
             this.C_DataItemSelectButton.Location = new System.Drawing.Point(267, 345);
             this.C_DataItemSelectButton.Name = "C_DataItemSelectButton";
             this.C_DataItemSelectButton.Size = new System.Drawing.Size(26, 23);
@@ -1066,6 +1374,7 @@ namespace GlossaryManager.GUI
             // 
             this.C_DatatypeDropdown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.C_DatatypeDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.C_DatatypeDropdown.Enabled = false;
             this.C_DatatypeDropdown.FormattingEnabled = true;
             this.C_DatatypeDropdown.Location = new System.Drawing.Point(109, 221);
             this.C_DatatypeDropdown.Name = "C_DatatypeDropdown";
@@ -1096,6 +1405,7 @@ namespace GlossaryManager.GUI
             this.C_NameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.C_NameTextBox.Location = new System.Drawing.Point(109, 196);
             this.C_NameTextBox.Name = "C_NameTextBox";
+            this.C_NameTextBox.ReadOnly = true;
             this.C_NameTextBox.Size = new System.Drawing.Size(184, 20);
             this.C_NameTextBox.TabIndex = 59;
             // 
@@ -1136,7 +1446,7 @@ namespace GlossaryManager.GUI
             this.columnsListView.ShowCommandMenuOnRightClick = true;
             this.columnsListView.ShowGroups = false;
             this.columnsListView.ShowItemCountOnGroups = true;
-            this.columnsListView.Size = new System.Drawing.Size(914, 187);
+            this.columnsListView.Size = new System.Drawing.Size(1016, 187);
             this.columnsListView.SmallImageList = this.columnsListViewImageList;
             this.columnsListView.TabIndex = 1;
             this.columnsListView.TintSortColumn = true;
@@ -1176,13 +1486,6 @@ namespace GlossaryManager.GUI
             this.C_DatabaseColumn.Text = "Database";
             this.C_DatabaseColumn.Width = 150;
             // 
-            // columnsListViewImageList
-            // 
-            this.columnsListViewImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("columnsListViewImageList.ImageStream")));
-            this.columnsListViewImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.columnsListViewImageList.Images.SetKeyName(0, "table");
-            this.columnsListViewImageList.Images.SetKeyName(1, "column");
-            // 
             // BU_Name
             // 
             this.BU_Name.AspectName = "Name";
@@ -1210,7 +1513,7 @@ namespace GlossaryManager.GUI
             this.ButtonPanel.Controls.Add(this.saveButton);
             this.ButtonPanel.Location = new System.Drawing.Point(3, 478);
             this.ButtonPanel.Name = "ButtonPanel";
-            this.ButtonPanel.Size = new System.Drawing.Size(937, 41);
+            this.ButtonPanel.Size = new System.Drawing.Size(1030, 41);
             this.ButtonPanel.TabIndex = 2;
             // 
             // showAllColumnsButton
@@ -1272,7 +1575,7 @@ namespace GlossaryManager.GUI
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.Location = new System.Drawing.Point(849, 7);
+            this.cancelButton.Location = new System.Drawing.Point(942, 7);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 28);
             this.cancelButton.TabIndex = 5;
@@ -1283,7 +1586,7 @@ namespace GlossaryManager.GUI
             // saveButton
             // 
             this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.Location = new System.Drawing.Point(768, 7);
+            this.saveButton.Location = new System.Drawing.Point(861, 7);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 28);
             this.saveButton.TabIndex = 4;
@@ -1312,7 +1615,7 @@ namespace GlossaryManager.GUI
             this.FilterPanel.Controls.Add(this.nameFilterTextBox);
             this.FilterPanel.Location = new System.Drawing.Point(0, 29);
             this.FilterPanel.Name = "FilterPanel";
-            this.FilterPanel.Size = new System.Drawing.Size(937, 37);
+            this.FilterPanel.Size = new System.Drawing.Size(1033, 37);
             this.FilterPanel.TabIndex = 3;
             // 
             // showAllCheckBox
@@ -1355,7 +1658,7 @@ namespace GlossaryManager.GUI
             this.Controls.Add(this.DomainPanel);
             this.Controls.Add(this.FilterPanel);
             this.Name = "EDD_MainControl";
-            this.Size = new System.Drawing.Size(937, 522);
+            this.Size = new System.Drawing.Size(1033, 522);
             this.DomainPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).EndInit();
             this.DetailsTabControl.ResumeLayout(false);
@@ -1364,9 +1667,18 @@ namespace GlossaryManager.GUI
             ((System.ComponentModel.ISupportInitialize)(this.BusinessItemsListView)).EndInit();
             this.DataItemsTabPage.ResumeLayout(false);
             this.DataItemsTabPage.PerformLayout();
+            this.dataItemsSplitContainer.Panel1.ResumeLayout(false);
+            this.dataItemsSplitContainer.Panel1.PerformLayout();
+            this.dataItemsSplitContainer.Panel2.ResumeLayout(false);
+            this.dataItemsSplitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataItemsSplitContainer)).EndInit();
+            this.dataItemsSplitContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataItemsListView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DI_PrecisionUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DI_SizeNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataItemsListView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dC_PrecisionUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dC_SizeUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dColumnsListView)).EndInit();
             this.ColumnsTabPage.ResumeLayout(false);
             this.ColumnsTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.C_PrecisionUpDown)).EndInit();
@@ -1449,6 +1761,42 @@ namespace GlossaryManager.GUI
         private OLVColumn DI_LabelColumn;
         private OLVColumn DI_DatatypeColumn;
         private OLVColumn DI_BusinessItem;
+        private TreeListView columnsListView;
+        private OLVColumn C_NameColumn;
+        private OLVColumn C_PropertiesColumn;
+        private OLVColumn C_DataItem;
+        private System.Windows.Forms.ImageList columnsListViewImageList;
+        private OLVColumn C_DatabaseColumn;
+        private System.Windows.Forms.Button showAllColumnsButton;
+        private System.Windows.Forms.Panel FilterPanel;
+        private System.Windows.Forms.Button filterButton;
+        private System.Windows.Forms.TextBox descriptionFilterTextBox;
+        private System.Windows.Forms.TextBox nameFilterTextBox;
+        private System.Windows.Forms.CheckBox showAllCheckBox;
+        private System.Windows.Forms.SplitContainer dataItemsSplitContainer;
+        private System.Windows.Forms.Label dC_NotNullLabel;
+        private System.Windows.Forms.CheckBox dC_NotNullcheckBox;
+        private System.Windows.Forms.NumericUpDown dC_PrecisionUpDown;
+        private System.Windows.Forms.NumericUpDown dC_SizeUpDown;
+        private System.Windows.Forms.TextBox dC_DefaultValueTextBox;
+        private System.Windows.Forms.Label dC_DefaultValueLabel;
+        private System.Windows.Forms.Label dC_PrecisionLabel;
+        private System.Windows.Forms.Label dC_SizeLabel;
+        private System.Windows.Forms.Button dC_DataItemSelectButton;
+        private System.Windows.Forms.TextBox dC_DataItemTextBox;
+        private System.Windows.Forms.ComboBox dC_DatatypeCombobox;
+        private System.Windows.Forms.Label dC_DatatypeLabel;
+        private System.Windows.Forms.Label dC_DataItemLabel;
+        private System.Windows.Forms.TextBox dC_NameTextBox;
+        private System.Windows.Forms.Label dC_NameLabel;
+        private TreeListView dColumnsListView;
+        private OLVColumn olvColumn1;
+        private OLVColumn olvColumn2;
+        private OLVColumn olvColumn3;
+        private OLVColumn olvColumn4;
+        private System.Windows.Forms.Button showHideTablesButton;
+        private System.Windows.Forms.Label C_NotNullLabel;
+        private System.Windows.Forms.CheckBox C_NotNullCheckBox;
         private System.Windows.Forms.NumericUpDown C_PrecisionUpDown;
         private System.Windows.Forms.NumericUpDown C_SizeUpDown;
         private System.Windows.Forms.TextBox C_DefaultTextBox;
@@ -1462,19 +1810,5 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.Label C_DataItemLabel;
         private System.Windows.Forms.TextBox C_NameTextBox;
         private System.Windows.Forms.Label C_NameLabel;
-        private TreeListView columnsListView;
-        private OLVColumn C_NameColumn;
-        private OLVColumn C_PropertiesColumn;
-        private OLVColumn C_DataItem;
-        private System.Windows.Forms.Label C_NotNullLabel;
-        private System.Windows.Forms.CheckBox C_NotNullCheckBox;
-        private System.Windows.Forms.ImageList columnsListViewImageList;
-        private OLVColumn C_DatabaseColumn;
-        private System.Windows.Forms.Button showAllColumnsButton;
-        private System.Windows.Forms.Panel FilterPanel;
-        private System.Windows.Forms.Button filterButton;
-        private System.Windows.Forms.TextBox descriptionFilterTextBox;
-        private System.Windows.Forms.TextBox nameFilterTextBox;
-        private System.Windows.Forms.CheckBox showAllCheckBox;
     }
 }

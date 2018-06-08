@@ -806,6 +806,10 @@ namespace GlossaryManager.GUI
                 this.setFilterDefaults();
         }
 
+        private void showHideTablesButton_Click(object sender, EventArgs e)
+        {
+            dataItemsSplitContainer.Panel2Collapsed = !dataItemsSplitContainer.Panel2Collapsed;
+        }
     }
 
     public enum GlossaryTab
