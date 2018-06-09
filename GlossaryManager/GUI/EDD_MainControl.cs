@@ -31,6 +31,7 @@ namespace GlossaryManager.GUI
             enableDisable();
             setColumnsListViewDelegates();
             setFilterDefaults();
+            this.dataItemsSplitContainer.Panel2Collapsed = true;
 
         }
         private bool settingDefaults { get; set; }
