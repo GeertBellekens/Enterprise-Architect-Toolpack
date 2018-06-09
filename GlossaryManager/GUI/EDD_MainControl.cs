@@ -809,6 +809,10 @@ namespace GlossaryManager.GUI
 
         private void showHideTablesButton_Click(object sender, EventArgs e)
         {
+            //set left or right image on button
+            this.showHideTablesButton.Image = dataItemsSplitContainer.Panel2Collapsed ?
+                                            Properties.Resources.moveRightArrow :
+                                            Properties.Resources.moveLeftArrow;
             dataItemsSplitContainer.Panel2Collapsed = !dataItemsSplitContainer.Panel2Collapsed;
         }
     }
