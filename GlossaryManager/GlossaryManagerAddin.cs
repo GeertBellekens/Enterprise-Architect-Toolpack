@@ -59,6 +59,7 @@ namespace GlossaryManager
                     this._mainControl.newButtonClick += this._mainControl_newButtonClick;
                     this._mainControl.selectedTabChanged += this._mainControl_selectedTabChanged;
                     this._mainControl.filterButtonClicked += this.filterButtonClicked;
+                    this._mainControl.getTableButtonClicked += this._mainControl_getTableButtonClicked;
                     this._mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage));
                     this._mainControl.setStatusses(statusses: this.model.getStatusses());
                     this._mainControl.setLogicalDatatypes(LogicalDatatype.getAllLogicalDatatypes(this.model));
@@ -68,7 +69,12 @@ namespace GlossaryManager
             }
         }
 
-        
+        private void _mainControl_getTableButtonClicked(object sender, EventArgs e)
+        {
+            var table = EDDTable.selectTable(this.model, this.settings);
+            table.loadAllColumns();
+            this._mainControl.setTable(table);
+        }
 
         public void test()
         {

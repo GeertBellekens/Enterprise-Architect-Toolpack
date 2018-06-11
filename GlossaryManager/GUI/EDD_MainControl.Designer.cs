@@ -129,10 +129,10 @@ namespace GlossaryManager.GUI
             this.dC_NameTextBox = new System.Windows.Forms.TextBox();
             this.dC_NameLabel = new System.Windows.Forms.Label();
             this.dColumnsListView = new BrightIdeasSoftware.TreeListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.dC_NameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.dC_PropertiesColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.dC_DataitemColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.dC_DatabaseColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.columnsListViewImageList = new System.Windows.Forms.ImageList(this.components);
             this.DI_DomainComboBox = new System.Windows.Forms.ComboBox();
             this.DI_DomainLabel = new System.Windows.Forms.Label();
@@ -175,6 +175,7 @@ namespace GlossaryManager.GUI
             this.openPropertiesButton = new System.Windows.Forms.Button();
             this.navigateProjectBrowserButton = new System.Windows.Forms.Button();
             this.showHideTablesButton = new System.Windows.Forms.Button();
+            this.getTableButton = new System.Windows.Forms.Button();
             this.filterButton = new System.Windows.Forms.Button();
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
@@ -234,7 +235,7 @@ namespace GlossaryManager.GUI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DetailsTabControl.Controls.Add(this.BusinessItemsTabPage);
             this.DetailsTabControl.Controls.Add(this.DataItemsTabPage);
-            this.DetailsTabControl.Controls.Add(this.ColumnsTabPage);
+            //this.DetailsTabControl.Controls.Add(this.ColumnsTabPage);
             this.DetailsTabControl.Location = new System.Drawing.Point(0, 72);
             this.DetailsTabControl.Name = "DetailsTabControl";
             this.DetailsTabControl.SelectedIndex = 0;
@@ -1116,10 +1117,10 @@ namespace GlossaryManager.GUI
             // 
             // dColumnsListView
             // 
-            this.dColumnsListView.AllColumns.Add(this.olvColumn1);
-            this.dColumnsListView.AllColumns.Add(this.olvColumn2);
-            this.dColumnsListView.AllColumns.Add(this.olvColumn3);
-            this.dColumnsListView.AllColumns.Add(this.olvColumn4);
+            this.dColumnsListView.AllColumns.Add(this.dC_NameColumn);
+            this.dColumnsListView.AllColumns.Add(this.dC_PropertiesColumn);
+            this.dColumnsListView.AllColumns.Add(this.dC_DataitemColumn);
+            this.dColumnsListView.AllColumns.Add(this.dC_DatabaseColumn);
             this.dColumnsListView.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
             this.dColumnsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -1127,10 +1128,10 @@ namespace GlossaryManager.GUI
             this.dColumnsListView.CellEditUseWholeCell = false;
             this.dColumnsListView.CheckedAspectName = "showAllColumns";
             this.dColumnsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn1,
-            this.olvColumn2,
-            this.olvColumn3,
-            this.olvColumn4});
+            this.dC_NameColumn,
+            this.dC_PropertiesColumn,
+            this.dC_DataitemColumn,
+            this.dC_DatabaseColumn});
             this.dColumnsListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.dColumnsListView.FullRowSelect = true;
             this.dColumnsListView.GridLines = true;
@@ -1152,34 +1153,35 @@ namespace GlossaryManager.GUI
             this.dColumnsListView.UseHotItem = true;
             this.dColumnsListView.View = System.Windows.Forms.View.Details;
             this.dColumnsListView.VirtualMode = true;
+            this.dColumnsListView.SelectedIndexChanged += new System.EventHandler(this.dColumnsListView_SelectedIndexChanged);
             // 
-            // olvColumn1
+            // dC_NameColumn
             // 
-            this.olvColumn1.AspectName = "name";
-            this.olvColumn1.GroupWithItemCountFormat = "";
-            this.olvColumn1.GroupWithItemCountSingularFormat = "";
-            this.olvColumn1.Text = "Name";
-            this.olvColumn1.ToolTipText = "Name";
-            this.olvColumn1.Width = 150;
+            this.dC_NameColumn.AspectName = "name";
+            this.dC_NameColumn.GroupWithItemCountFormat = "";
+            this.dC_NameColumn.GroupWithItemCountSingularFormat = "";
+            this.dC_NameColumn.Text = "Name";
+            this.dC_NameColumn.ToolTipText = "Name";
+            this.dC_NameColumn.Width = 150;
             // 
-            // olvColumn2
+            // dC_PropertiesColumn
             // 
-            this.olvColumn2.AspectName = "properties";
-            this.olvColumn2.Text = "Datatype";
-            this.olvColumn2.ToolTipText = "Column Properties";
-            this.olvColumn2.Width = 200;
+            this.dC_PropertiesColumn.AspectName = "properties";
+            this.dC_PropertiesColumn.Text = "Datatype";
+            this.dC_PropertiesColumn.ToolTipText = "Column Properties";
+            this.dC_PropertiesColumn.Width = 200;
             // 
-            // olvColumn3
+            // dC_DataitemColumn
             // 
-            this.olvColumn3.AspectName = "dataItem.Name";
-            this.olvColumn3.Text = "DataItem";
-            this.olvColumn3.Width = 150;
+            this.dC_DataitemColumn.AspectName = "dataItem.Name";
+            this.dC_DataitemColumn.Text = "DataItem";
+            this.dC_DataitemColumn.Width = 150;
             // 
-            // olvColumn4
+            // dC_DatabaseColumn
             // 
-            this.olvColumn4.AspectName = "databaseName";
-            this.olvColumn4.Text = "Database";
-            this.olvColumn4.Width = 150;
+            this.dC_DatabaseColumn.AspectName = "databaseName";
+            this.dC_DatabaseColumn.Text = "Database";
+            this.dC_DatabaseColumn.Width = 150;
             // 
             // columnsListViewImageList
             // 
@@ -1492,6 +1494,7 @@ namespace GlossaryManager.GUI
             // 
             this.ButtonPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonPanel.Controls.Add(this.getTableButton);
             this.ButtonPanel.Controls.Add(this.showAllColumnsButton);
             this.ButtonPanel.Controls.Add(this.deleteButton);
             this.ButtonPanel.Controls.Add(this.newButton);
@@ -1573,7 +1576,7 @@ namespace GlossaryManager.GUI
             // showAllColumnsButton
             // 
             this.showAllColumnsButton.Image = ((System.Drawing.Image)(resources.GetObject("showAllColumnsButton.Image")));
-            this.showAllColumnsButton.Location = new System.Drawing.Point(179, 7);
+            this.showAllColumnsButton.Location = new System.Drawing.Point(224, 7);
             this.showAllColumnsButton.Name = "showAllColumnsButton";
             this.showAllColumnsButton.Size = new System.Drawing.Size(29, 28);
             this.showAllColumnsButton.TabIndex = 6;
@@ -1631,12 +1634,22 @@ namespace GlossaryManager.GUI
             this.showHideTablesButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.showHideTablesButton.Image = global::GlossaryManager.Properties.Resources.moveLeftArrow;
-            this.showHideTablesButton.Location = new System.Drawing.Point(558, 0);
+            this.showHideTablesButton.Location = new System.Drawing.Point(555, 0);
             this.showHideTablesButton.Name = "showHideTablesButton";
             this.showHideTablesButton.Size = new System.Drawing.Size(17, 381);
             this.showHideTablesButton.TabIndex = 59;
             this.showHideTablesButton.UseVisualStyleBackColor = true;
             this.showHideTablesButton.Click += new System.EventHandler(this.showHideTablesButton_Click);
+            // 
+            // getTableButton
+            // 
+            this.getTableButton.Image = global::GlossaryManager.Properties.Resources.findTable;
+            this.getTableButton.Location = new System.Drawing.Point(189, 7);
+            this.getTableButton.Name = "getTableButton";
+            this.getTableButton.Size = new System.Drawing.Size(29, 28);
+            this.getTableButton.TabIndex = 110;
+            this.getTableButton.UseVisualStyleBackColor = true;
+            this.getTableButton.Click += new System.EventHandler(this.getTableButton_Click);
             // 
             // filterButton
             // 
@@ -1790,10 +1803,10 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.TextBox dC_NameTextBox;
         private System.Windows.Forms.Label dC_NameLabel;
         private TreeListView dColumnsListView;
-        private OLVColumn olvColumn1;
-        private OLVColumn olvColumn2;
-        private OLVColumn olvColumn3;
-        private OLVColumn olvColumn4;
+        private OLVColumn dC_NameColumn;
+        private OLVColumn dC_PropertiesColumn;
+        private OLVColumn dC_DataitemColumn;
+        private OLVColumn dC_DatabaseColumn;
         private System.Windows.Forms.Button showHideTablesButton;
         private System.Windows.Forms.Label C_NotNullLabel;
         private System.Windows.Forms.CheckBox C_NotNullCheckBox;
@@ -1810,5 +1823,6 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.Label C_DataItemLabel;
         private System.Windows.Forms.TextBox C_NameTextBox;
         private System.Windows.Forms.Label C_NameLabel;
+        private System.Windows.Forms.Button getTableButton;
     }
 }

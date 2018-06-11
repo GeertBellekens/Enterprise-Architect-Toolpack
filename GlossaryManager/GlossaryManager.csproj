@@ -190,7 +190,9 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Files\findTable.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LeftArrow.bmp" />
   </ItemGroup>

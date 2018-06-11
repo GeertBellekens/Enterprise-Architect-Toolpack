@@ -72,26 +72,35 @@ namespace GlossaryManager.GUI
         private void setColumnsListViewDelegates()
         {
             //tell the control who can expand (only tables)
-            this.columnsListView.CanExpandGetter = delegate (object x)
-            {
-                return (x is EDDTable);
-            };
+            TreeListView.CanExpandGetterDelegate canExpandGetter = delegate (object x)
+               {
+                   return (x is EDDTable);
+               };
+            this.columnsListView.CanExpandGetter = canExpandGetter;
+            this.dColumnsListView.CanExpandGetter = canExpandGetter;
             //tell the control how to expand
-            this.columnsListView.ChildrenGetter = delegate (object x)
-            {
-                var table = (EDDTable)x;
-                return table.columns;
-            };
+            TreeListView.ChildrenGetterDelegate childrenGetter = delegate (object x)
+               {
+                   var table = (EDDTable)x;
+                   return table.columns;
+               };
+            this.columnsListView.ChildrenGetter = childrenGetter;
+            this.dColumnsListView.ChildrenGetter = childrenGetter;
             //tell the control which image to show
-            this.C_NameColumn.ImageGetter = delegate (object rowObject)
-            {
-                if (rowObject is EDDTable) return "table";
-                if (rowObject is EDDColumn) return "column";
-                else return string.Empty;
-            };
+            ImageGetterDelegate imageGetter = delegate (object rowObject)
+               {
+                   if (rowObject is EDDTable) return "table";
+                   if (rowObject is EDDColumn) return "column";
+                   else return string.Empty;
+               };
+            this.C_NameColumn.ImageGetter = imageGetter;
+            this.dC_NameColumn.ImageGetter = imageGetter;
 
 
         }
+
+
+
         private void enableDisable()
         {
             this.openPropertiesButton.Enabled = this.selectedItem != null;
@@ -101,12 +110,21 @@ namespace GlossaryManager.GUI
             C_PrecisionUpDown.Enabled = ((BaseDataType)C_DatatypeDropdown.SelectedItem)?.hasPrecision == true;
             if (!C_PrecisionUpDown.Enabled) C_PrecisionUpDown.Text = string.Empty;
             this.newButton.Enabled = this.selectedDomain != null;
+            //make the specific columns button invisible
+            this.showAllColumnsButton.Visible = columnsVisible();
+            this.getTableButton.Visible = columnsVisible();
+        }
+        private bool columnsVisible()
+        {
+            return this.selectedTab == GlossaryTab.Columns
+                || (this.selectedTab == GlossaryTab.DataItems && !this.dataItemsSplitContainer.Panel2Collapsed);
         }
         public void clear()
         {
             this.BusinessItemsListView.ClearObjects();
             this.dataItemsListView.ClearObjects();
             this.columnsListView.ClearObjects();
+            this.dColumnsListView.ClearObjects();
         }
         public List<BusinessItem> getBusinessItems()
         {
@@ -144,6 +162,14 @@ namespace GlossaryManager.GUI
             this.columnsListView.ExpandAll();
             //select the first one
             this.columnsListView.SelectedObject = tables.FirstOrDefault()?.columns.FirstOrDefault();
+        }
+        internal void setTable(EDDTable table)
+        {
+            this.dColumnsListView.Objects = new List<EDDTable> { table };
+            //expand all
+            this.dColumnsListView.ExpandAll();
+            //select the first one
+            this.dColumnsListView.SelectedObject = table.columns.FirstOrDefault();
         }
         public List<DataItem> dataItems
         {
@@ -248,7 +274,15 @@ namespace GlossaryManager.GUI
         {
             get
             {
-                return this.selectedItem as EDDColumn;
+                switch (this.selectedTab)
+                {
+                    case GlossaryTab.DataItems:
+                        return this.dColumnsListView.SelectedObject as EDDColumn;
+                    case GlossaryTab.Columns:
+                        return this.columnsListView.SelectedObject as EDDColumn;
+                    default:
+                        return null;
+                }
             }
         }
         private IEDDItem selectedItem
@@ -634,10 +668,8 @@ namespace GlossaryManager.GUI
                     this.previousColumn = null;
                     break;
             }
-            //make the specific columns button invisible
-            this.showAllColumnsButton.Visible = this.selectedTab == GlossaryTab.Columns;
-            //execute event
-            //this.selectedTabChanged?.Invoke(sender, e); No longer needed with the filter button?
+            this.enableDisable();
+
             Cursor.Current = Cursors.Default;
         }
         public GlossaryTab selectedTab
@@ -814,6 +846,53 @@ namespace GlossaryManager.GUI
                                             Properties.Resources.moveRightArrow :
                                             Properties.Resources.moveLeftArrow;
             dataItemsSplitContainer.Panel2Collapsed = !dataItemsSplitContainer.Panel2Collapsed;
+            this.enableDisable();
+        }
+        public event EventHandler getTableButtonClicked;
+        private void getTableButton_Click(object sender, EventArgs e)
+        {
+            getTableButtonClicked?.Invoke(sender, e);
+        }
+
+        private void dColumnsListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //check if column data has been changed
+            //validate_DColumnChanges();
+            //then load the next item
+            load_DColumnSelectedItem();
+            enableDisable();
+            //set the previous business item
+            this.previousColumn = this.selectedColumn;
+        }
+        private void load_DColumnSelectedItem()
+        {
+            this.dC_NameTextBox.Text = this.selectedColumn?.name;
+            this.dC_SizeUpDown.Text = this.selectedColumn?.column.type?.length.ToString();
+            this.dC_SizeUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.length : 0;
+            this.dC_PrecisionUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.precision : 0;
+            this.dC_PrecisionUpDown.Text = this.selectedColumn?.column.type?.precision.ToString();
+            dC_DatatypeCombobox.Items.Clear();
+            if (this.selectedColumn != null)
+            {
+                foreach (var datatype in this.selectedColumn.column.factory.baseDataTypes)
+                {
+                    dC_DatatypeCombobox.Items.Add(datatype);
+                }
+            }
+            this.dC_DatatypeCombobox.DisplayMember = "name";
+            this.dC_DatatypeCombobox.Text = this.selectedColumn?.column.type?.name;
+            if (this.selectedColumn?.column.type != null
+                && this.dC_DatatypeCombobox.SelectedItem == null)
+            {
+                //find the datatype
+                this.dC_DatatypeCombobox.Items.Add(this.selectedColumn.column.type.type);
+                this.dC_DatatypeCombobox.SelectedItem = this.selectedColumn.column.type.type;
+            }
+            this.dC_NotNullcheckBox.Checked = this.selectedColumn != null ? this.selectedColumn.column.isNotNullable : false;
+            this.dC_DefaultValueTextBox.Text = this.selectedColumn?.column.initialValue;
+            this.dC_DataItemTextBox.Text = this.selectedColumn?.dataItem?.Name;
+            this.dC_DataItemTextBox.Tag = this.selectedColumn?.dataItem;
+
         }
     }
 

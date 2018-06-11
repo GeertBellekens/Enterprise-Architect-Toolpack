@@ -62,5 +62,15 @@ namespace GlossaryManager
         {
             this.wrappedTable.save();
         }
+        //let the user select a table from the model
+        public static EDDTable selectTable(TSF_EA.Model model, GlossaryManagerSettings settings)
+        {
+            var tableElement = model.getUserSelectedElement(new List<string> { "Class" }, new List<string> { "table" }) as TSF_EA.Class;
+            if (tableElement == null) return null;
+            var table = DB_EA.DatabaseFactory.createTable(tableElement);
+            if (table == null) return null;
+            return new EDDTable(table, settings);
+        }
+
     }
 }
