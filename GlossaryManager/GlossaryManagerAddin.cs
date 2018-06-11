@@ -190,6 +190,9 @@ namespace GlossaryManager
         public override void EA_FileOpen(EA.Repository repository)
         {
             this.model = new TSF_EA.Model(repository);
+            //close the tab if still open
+            this._mainControl?.clear();
+            this._mainControl = null;
             this.settings = new GlossaryManagerSettings(this.model);
             this.factory = new GlossaryItemFactory(this.settings);
             Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage);

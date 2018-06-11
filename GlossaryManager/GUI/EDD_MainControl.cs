@@ -22,6 +22,8 @@ namespace GlossaryManager.GUI
         bool nameFilterDefaultActive;
         const string descriptionFilterDefault = "Description";
         bool descriptionFilterDefaultActive;
+        bool businessItemsShowing = false;
+        bool dataItemsShowing = false;
         public EDD_MainControl()
         {
             //
@@ -125,6 +127,7 @@ namespace GlossaryManager.GUI
             this.dataItemsListView.ClearObjects();
             this.columnsListView.ClearObjects();
             this.dColumnsListView.ClearObjects();
+            this.loadSelectedItemData();
         }
         public List<BusinessItem> getBusinessItems()
         {
@@ -132,6 +135,7 @@ namespace GlossaryManager.GUI
         }
         public void setBusinessItems(IEnumerable<BusinessItem> businessItems, Domain domain)
         {
+            this.businessItemsShowing = true;
             this.BusinessItemsListView.Objects = businessItems;
             if (domain != null)
             {
@@ -142,6 +146,7 @@ namespace GlossaryManager.GUI
         }
         public void setDataItems(IEnumerable<DataItem> dataItems, Domain domain)
         {
+            this.dataItemsShowing = true;
             this.dataItemsListView.Objects = dataItems;
             if (domain != null)
             {
@@ -391,55 +396,82 @@ namespace GlossaryManager.GUI
         private bool hasColumnChanged(EDDColumn column)
         {
             //TODO
-            return column.name != this.C_NameTextBox.Text
-                || column.column.type?.type.name != ((BaseDataType)this.C_DatatypeDropdown.SelectedItem)?.name
-                || column.column.type?.length != decimal.ToInt32(this.C_SizeUpDown.Value)
-                || column.column.type?.precision != decimal.ToInt32(this.C_PrecisionUpDown.Value)
-                || column.column.isNotNullable != this.C_NotNullCheckBox.Checked
-                || column.dataItem?.GUID != ((DataItem)this.C_DataItemTextBox.Tag)?.GUID
-                || column.column.initialValue != this.C_DefaultTextBox.Text;
+            return column.name != this.dC_NameTextBox.Text
+                || column.column.type?.type.name != ((BaseDataType)this.dC_DatatypeCombobox.SelectedItem)?.name
+                || column.column.type?.length != decimal.ToInt32(this.dC_SizeUpDown.Value)
+                || column.column.type?.precision != decimal.ToInt32(this.dC_PrecisionUpDown.Value)
+                || column.column.isNotNullable != this.dC_NotNullcheckBox.Checked
+                || column.dataItem?.GUID != ((DataItem)this.dC_DataItemTextBox.Tag)?.GUID
+                || column.column.initialValue != this.dC_DefaultValueTextBox.Text;
 
         }
 
         private void loadSelectedItemData()
         {
-            // if nothing selected then do nothing
-            if (this.selectedItem == null) return;
             switch (this.selectedTab)
             {
                 case GlossaryTab.BusinessItems:
-                    this.BU_NameTextBox.Text = selectedBusinessItem.Name;
-                    this.BU_DomainComboBox.SelectedItem = selectedBusinessItem.domain;
-                    this.BU_DescriptionTextBox.Text = selectedBusinessItem.Description;
-                    this.BU_StatusCombobox.Text = selectedBusinessItem.Status;
-                    this.BU_VersionTextBox.Text = selectedBusinessItem.Version;
-                    this.BU_KeywordsTextBox.Text = string.Join(",", selectedBusinessItem.Keywords);
-                    this.BU_CreatedTextBox.Text = selectedBusinessItem.CreateDate.ToString("G");
-                    this.BU_CreatedByTextBox.Text = selectedBusinessItem.Author;
-                    this.BU_ModifiedDateTextBox.Text = selectedBusinessItem.UpdateDate.ToString("G");
-                    this.BU_ModifiedByTextBox.Text = selectedBusinessItem.UpdatedBy;
+                    this.BU_NameTextBox.Text = selectedBusinessItem?.Name;
+                    this.BU_DomainComboBox.SelectedItem = selectedBusinessItem?.domain;
+                    this.BU_DescriptionTextBox.Text = selectedBusinessItem?.Description;
+                    this.BU_StatusCombobox.Text = selectedBusinessItem?.Status;
+                    this.BU_VersionTextBox.Text = selectedBusinessItem?.Version;
+                    this.BU_KeywordsTextBox.Text = selectedBusinessItem != null ? string.Join(",", selectedBusinessItem.Keywords) : string.Empty;
+                    this.BU_CreatedTextBox.Text = selectedBusinessItem?.CreateDate.ToString("G");
+                    this.BU_CreatedByTextBox.Text = selectedBusinessItem?.Author;
+                    this.BU_ModifiedDateTextBox.Text = selectedBusinessItem?.UpdateDate.ToString("G");
+                    this.BU_ModifiedByTextBox.Text = selectedBusinessItem?.UpdatedBy;
                     break;
                 case GlossaryTab.DataItems:
-                    this.DI_NameTextBox.Text = selectedDataItem.Name;
-                    this.DI_DescriptionTextBox.Text = selectedDataItem.Description;
-                    this.DI_DomainComboBox.SelectedItem = selectedDataItem.domain;
-                    this.DI_BusinessItemTextBox.Text = selectedDataItem.businessItem?.Name;
-                    this.DI_BusinessItemTextBox.Tag = selectedDataItem.businessItem;
-                    this.DI_LabelTextBox.Text = selectedDataItem.Label;
-                    this.DI_DatatypeDropDown.SelectedItem = this.logicalDatatypes.FirstOrDefault(x => x.GUID == this.selectedDataItem.logicalDatatype?.GUID);
-                    this.DI_SizeNumericUpDown.Value = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.Value : 0;
-                    this.DI_SizeNumericUpDown.Text = this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.ToString() : string.Empty;
-                    this.DI_PrecisionUpDown.Value = this.selectedDataItem.Precision.HasValue ? this.selectedDataItem.Precision.Value : 0;
-                    this.DI_PrecisionUpDown.Text = this.selectedDataItem.Precision.HasValue ? this.selectedDataItem.Precision.ToString() : string.Empty;
-                    this.DI_FormatTextBox.Text = this.selectedDataItem.Format;
-                    this.DI_InitialValueTextBox.Text = this.selectedDataItem.InitialValue;
-                    this.DI_StatusComboBox.Text = selectedDataItem.Status;
-                    this.DI_VersionTextBox.Text = selectedDataItem.Version;
-                    this.DI_KeywordsTextBox.Text = string.Join(",", selectedDataItem.Keywords);
-                    this.DI_CreationDateTextBox.Text = selectedDataItem.CreateDate.ToString("G");
-                    this.DI_CreatedUserTextBox.Text = selectedDataItem.Author;
-                    this.DI_ModifiedDateTextBox.Text = selectedDataItem.UpdateDate.ToString("G");
-                    this.DI_ModifiedUserTextBox.Text = selectedDataItem.UpdatedBy;
+                    this.DI_NameTextBox.Text = selectedDataItem?.Name;
+                    this.DI_DescriptionTextBox.Text = selectedDataItem?.Description;
+                    this.DI_DomainComboBox.SelectedItem = selectedDataItem?.domain;
+                    this.DI_BusinessItemTextBox.Text = selectedDataItem?.businessItem?.Name;
+                    this.DI_BusinessItemTextBox.Tag = selectedDataItem?.businessItem;
+                    this.DI_LabelTextBox.Text = selectedDataItem?.Label;
+                    this.DI_DatatypeDropDown.SelectedItem = this.logicalDatatypes.FirstOrDefault(x => x.GUID == this.selectedDataItem?.logicalDatatype?.GUID);
+                    this.DI_SizeNumericUpDown.Value =  this.selectedDataItem != null && this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.Value : 0;
+                    this.DI_SizeNumericUpDown.Text = this.selectedDataItem != null && this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.ToString() : string.Empty;
+                    this.DI_PrecisionUpDown.Value = this.selectedDataItem != null && this.selectedDataItem.Precision.HasValue ? this.selectedDataItem.Precision.Value : 0;
+                    this.DI_PrecisionUpDown.Text = this.selectedDataItem != null && this.selectedDataItem.Precision.HasValue ? this.selectedDataItem.Precision.ToString() : string.Empty;
+                    this.DI_FormatTextBox.Text = this.selectedDataItem?.Format;
+                    this.DI_InitialValueTextBox.Text = this.selectedDataItem?.InitialValue;
+                    this.DI_StatusComboBox.Text = selectedDataItem?.Status;
+                    this.DI_VersionTextBox.Text = selectedDataItem?.Version;
+                    this.DI_KeywordsTextBox.Text = string.Join(",", selectedDataItem?.Keywords);
+                    this.DI_CreationDateTextBox.Text = selectedDataItem?.CreateDate.ToString("G");
+                    this.DI_CreatedUserTextBox.Text = selectedDataItem?.Author;
+                    this.DI_ModifiedDateTextBox.Text = selectedDataItem?.UpdateDate.ToString("G");
+                    this.DI_ModifiedUserTextBox.Text = selectedDataItem?.UpdatedBy;
+                    if (! this.dataItemsSplitContainer.Panel2Collapsed)
+                    {
+                        this.dC_NameTextBox.Text = this.selectedColumn?.name;
+                        this.dC_SizeUpDown.Text = this.selectedColumn?.column.type?.length.ToString();
+                        this.dC_SizeUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.length : 0;
+                        this.dC_PrecisionUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.precision : 0;
+                        this.dC_PrecisionUpDown.Text = this.selectedColumn?.column.type?.precision.ToString();
+                        dC_DatatypeCombobox.Items.Clear();
+                        if (this.selectedColumn != null)
+                        {
+                            foreach (var datatype in this.selectedColumn.column.factory.baseDataTypes)
+                            {
+                                dC_DatatypeCombobox.Items.Add(datatype);
+                            }
+                        }
+                        this.dC_DatatypeCombobox.DisplayMember = "name";
+                        this.dC_DatatypeCombobox.Text = this.selectedColumn?.column.type?.name;
+                        if (this.selectedColumn?.column.type != null
+                            && this.dC_DatatypeCombobox.SelectedItem == null)
+                        {
+                            //find the datatype
+                            this.dC_DatatypeCombobox.Items.Add(this.selectedColumn.column.type.type);
+                            this.dC_DatatypeCombobox.SelectedItem = this.selectedColumn.column.type.type;
+                        }
+                        this.dC_NotNullcheckBox.Checked = this.selectedColumn != null ? this.selectedColumn.column.isNotNullable : false;
+                        this.dC_DefaultValueTextBox.Text = this.selectedColumn?.column.initialValue;
+                        this.dC_DataItemTextBox.Text = this.selectedColumn?.dataItem?.Name;
+                        this.dC_DataItemTextBox.Tag = this.selectedColumn?.dataItem;
+                    }
                     break;
                 case GlossaryTab.Columns:
                     this.C_NameTextBox.Text = this.selectedColumn?.name;
@@ -587,7 +619,9 @@ namespace GlossaryManager.GUI
         public event EventHandler selectedDomainChanged;
         private void domainBreadCrumb_SelectedItemChanged(object sender, EventArgs e)
         {
-            this.selectedDomainChanged?.Invoke(this.selectedDomain, e);
+            if (this.selectedTab == GlossaryTab.BusinessItems && businessItemsShowing
+               || this.selectedTab == GlossaryTab.DataItems && dataItemsShowing)
+                    this.selectedDomainChanged?.Invoke(this.selectedDomain, e);
         }
 
         private void navigateProjectBrowserButton_Click(object sender, EventArgs e)
@@ -798,7 +832,9 @@ namespace GlossaryManager.GUI
         public event EventHandler filterButtonClicked;
         private void filterButton_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             this.filterButtonClicked?.Invoke(sender, e);
+            Cursor.Current = Cursors.Default;
         }
 
         private void nameFilterTextBox_Enter(object sender, EventArgs e)
@@ -857,42 +893,36 @@ namespace GlossaryManager.GUI
         private void dColumnsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             //check if column data has been changed
-            //validate_DColumnChanges();
+            validateColumnChanges();
             //then load the next item
-            load_DColumnSelectedItem();
+            loadSelectedItemData();
             enableDisable();
             //set the previous business item
             this.previousColumn = this.selectedColumn;
         }
-        private void load_DColumnSelectedItem()
+
+
+        private void dC_DataItemSelectButton_Click(object sender, EventArgs e)
         {
-            this.dC_NameTextBox.Text = this.selectedColumn?.name;
-            this.dC_SizeUpDown.Text = this.selectedColumn?.column.type?.length.ToString();
-            this.dC_SizeUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.length : 0;
-            this.dC_PrecisionUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.precision : 0;
-            this.dC_PrecisionUpDown.Text = this.selectedColumn?.column.type?.precision.ToString();
-            dC_DatatypeCombobox.Items.Clear();
             if (this.selectedColumn != null)
             {
-                foreach (var datatype in this.selectedColumn.column.factory.baseDataTypes)
+                var dataItem = this.selectedColumn.selectDataItem();
+                this.dC_DataItemTextBox.Text = dataItem?.Name;
+                this.dC_DataItemTextBox.Tag = dataItem;
+
+                if (dataItem != null &&
+                    this.selectedColumn.dataItem?.GUID != dataItem.GUID)
                 {
-                    dC_DatatypeCombobox.Items.Add(datatype);
+                    //reset to defaults based on the logical datatype and its technical mapping
+                    this.dC_NameTextBox.Text = dataItem.Label;
+                    this.dC_SizeUpDown.Value = dataItem.Size.HasValue ? dataItem.Size.Value : 0;
+                    this.dC_SizeUpDown.Text = dataItem.Size.HasValue ? dataItem.Size.Value.ToString() : string.Empty;
+                    this.dC_PrecisionUpDown.Value = dataItem.Precision.HasValue ? dataItem.Precision.Value : 0;
+                    this.dC_PrecisionUpDown.Text = dataItem.Precision.HasValue ? dataItem.Precision.Value.ToString() : string.Empty;
+                    this.dC_DatatypeCombobox.Text = dataItem.logicalDatatype?.getBaseDatatype(this.selectedColumn.column.factory.databaseName)?.name;
+                    this.dC_DefaultValueTextBox.Text = dataItem.InitialValue;
                 }
             }
-            this.dC_DatatypeCombobox.DisplayMember = "name";
-            this.dC_DatatypeCombobox.Text = this.selectedColumn?.column.type?.name;
-            if (this.selectedColumn?.column.type != null
-                && this.dC_DatatypeCombobox.SelectedItem == null)
-            {
-                //find the datatype
-                this.dC_DatatypeCombobox.Items.Add(this.selectedColumn.column.type.type);
-                this.dC_DatatypeCombobox.SelectedItem = this.selectedColumn.column.type.type;
-            }
-            this.dC_NotNullcheckBox.Checked = this.selectedColumn != null ? this.selectedColumn.column.isNotNullable : false;
-            this.dC_DefaultValueTextBox.Text = this.selectedColumn?.column.initialValue;
-            this.dC_DataItemTextBox.Text = this.selectedColumn?.dataItem?.Name;
-            this.dC_DataItemTextBox.Tag = this.selectedColumn?.dataItem;
-
         }
     }
 
