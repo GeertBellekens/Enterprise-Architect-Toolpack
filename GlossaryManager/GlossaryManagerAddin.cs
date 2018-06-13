@@ -56,10 +56,11 @@ namespace GlossaryManager
                     this._mainControl = this.model.addTab(appTitle, guiFQN) as EDD_MainControl;
                     this._mainControl.HandleDestroyed += this.handleHandleDestroyed;
                     this._mainControl.selectedDomainChanged += this.selectedDomainChanged;
-                    this._mainControl.newButtonClick += this._mainControl_newButtonClick;
-                    this._mainControl.selectedTabChanged += this._mainControl_selectedTabChanged;
+                    this._mainControl.newButtonClicked += this.newButtonClicked;
+                    //this._mainControl.selectedTabChanged += this.selectedTabChanged;
                     this._mainControl.filterButtonClicked += this.filterButtonClicked;
-                    this._mainControl.getTableButtonClicked += this._mainControl_getTableButtonClicked;
+                    this._mainControl.getTableButtonClicked += this.getTableButtonClicked;
+                    //this._mainControl.showLinkedColumnsButtonClicked += this.showLinkedColumnsButtonClicked;
                     this._mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage));
                     this._mainControl.setStatusses(statusses: this.model.getStatusses());
                     this._mainControl.setLogicalDatatypes(LogicalDatatype.getAllLogicalDatatypes(this.model));
@@ -69,7 +70,9 @@ namespace GlossaryManager
             }
         }
 
-        private void _mainControl_getTableButtonClicked(object sender, EventArgs e)
+
+
+        private void getTableButtonClicked(object sender, EventArgs e)
         {
             var table = EDDTable.selectTable(this.model, this.settings);
             table.loadAllColumns();
@@ -80,8 +83,8 @@ namespace GlossaryManager
         {
             var testForm = new EDD_TestForm();
             testForm.mainControl.selectedDomainChanged += this.selectedDomainChanged;
-            testForm.mainControl.newButtonClick += this._mainControl_newButtonClick;
-            testForm.mainControl.selectedTabChanged += this._mainControl_selectedTabChanged;
+            testForm.mainControl.newButtonClicked += this.newButtonClicked;
+            //testForm.mainControl.selectedTabChanged += this.selectedTabChanged;
             testForm.mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage));
             testForm.mainControl.setStatusses(statusses: this.model.getStatusses());
             this._mainControl = testForm.mainControl;
@@ -94,7 +97,7 @@ namespace GlossaryManager
                 showItemsForDomain(this._mainControl.selectedDomain, this._mainControl.searchCriteria);
             showing = false;
         }
-        private void _mainControl_selectedTabChanged(object sender, EventArgs e)
+        private void selectedTabChanged(object sender, EventArgs e)
         {
             showItemsForDomain(this._mainControl.selectedDomain, this._mainControl.searchCriteria);
         }
@@ -129,7 +132,7 @@ namespace GlossaryManager
             }
         }
 
-        private void _mainControl_newButtonClick(object sender, EventArgs e)
+        private void newButtonClicked(object sender, EventArgs e)
         {
             switch (this.mainControl.selectedTab)
             {

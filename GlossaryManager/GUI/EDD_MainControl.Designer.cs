@@ -163,6 +163,7 @@ namespace GlossaryManager.GUI
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
+            this.showLinkedColumnsButton = new System.Windows.Forms.Button();
             this.getTableButton = new System.Windows.Forms.Button();
             this.showAllColumnsButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
@@ -214,7 +215,6 @@ namespace GlossaryManager.GUI
             // domainBreadCrumb
             // 
             this.domainBreadCrumb.AutoSize = false;
-            this.domainBreadCrumb.ControlBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlClient;
             this.domainBreadCrumb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.domainBreadCrumb.Location = new System.Drawing.Point(0, 0);
             this.domainBreadCrumb.Name = "domainBreadCrumb";
@@ -1506,6 +1506,7 @@ namespace GlossaryManager.GUI
             // 
             this.ButtonPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonPanel.Controls.Add(this.showLinkedColumnsButton);
             this.ButtonPanel.Controls.Add(this.getTableButton);
             this.ButtonPanel.Controls.Add(this.showAllColumnsButton);
             this.ButtonPanel.Controls.Add(this.deleteButton);
@@ -1519,10 +1520,21 @@ namespace GlossaryManager.GUI
             this.ButtonPanel.Size = new System.Drawing.Size(1030, 41);
             this.ButtonPanel.TabIndex = 2;
             // 
+            // showLinkedColumnsButton
+            // 
+            this.showLinkedColumnsButton.Image = global::GlossaryManager.Properties.Resources.linkedColums;
+            this.showLinkedColumnsButton.Location = new System.Drawing.Point(248, 7);
+            this.showLinkedColumnsButton.Name = "showLinkedColumnsButton";
+            this.showLinkedColumnsButton.Size = new System.Drawing.Size(29, 28);
+            this.showLinkedColumnsButton.TabIndex = 111;
+            this.myToolTip.SetToolTip(this.showLinkedColumnsButton, "Show linked columns");
+            this.showLinkedColumnsButton.UseVisualStyleBackColor = true;
+            this.showLinkedColumnsButton.Click += new System.EventHandler(this.showLinkedColumnsButton_Click);
+            // 
             // getTableButton
             // 
             this.getTableButton.Image = global::GlossaryManager.Properties.Resources.findTable;
-            this.getTableButton.Location = new System.Drawing.Point(189, 7);
+            this.getTableButton.Location = new System.Drawing.Point(294, 7);
             this.getTableButton.Name = "getTableButton";
             this.getTableButton.Size = new System.Drawing.Size(29, 28);
             this.getTableButton.TabIndex = 110;
@@ -1533,7 +1545,7 @@ namespace GlossaryManager.GUI
             // showAllColumnsButton
             // 
             this.showAllColumnsButton.Image = ((System.Drawing.Image)(resources.GetObject("showAllColumnsButton.Image")));
-            this.showAllColumnsButton.Location = new System.Drawing.Point(224, 7);
+            this.showAllColumnsButton.Location = new System.Drawing.Point(329, 7);
             this.showAllColumnsButton.Name = "showAllColumnsButton";
             this.showAllColumnsButton.Size = new System.Drawing.Size(29, 28);
             this.showAllColumnsButton.TabIndex = 6;
@@ -1562,7 +1574,7 @@ namespace GlossaryManager.GUI
             this.newButton.TabIndex = 2;
             this.myToolTip.SetToolTip(this.newButton, "Add New Element");
             this.newButton.UseVisualStyleBackColor = true;
-            this.newButton.Click += new System.EventHandler(this.newButton_Click);
+            this.newButton.Click += new System.EventHandler(this.newButton_Clicked);
             // 
             // openPropertiesButton
             // 
@@ -1825,5 +1837,6 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.TextBox C_NameTextBox;
         private System.Windows.Forms.Label C_NameLabel;
         private System.Windows.Forms.Button getTableButton;
+        private System.Windows.Forms.Button showLinkedColumnsButton;
     }
 }

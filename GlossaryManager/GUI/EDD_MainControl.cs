@@ -97,11 +97,7 @@ namespace GlossaryManager.GUI
                };
             this.C_NameColumn.ImageGetter = imageGetter;
             this.dC_NameColumn.ImageGetter = imageGetter;
-
-
         }
-
-
 
         private void enableDisable()
         {
@@ -112,15 +108,18 @@ namespace GlossaryManager.GUI
             C_PrecisionUpDown.Enabled = ((BaseDataType)C_DatatypeDropdown.SelectedItem)?.hasPrecision == true;
             if (!C_PrecisionUpDown.Enabled) C_PrecisionUpDown.Text = string.Empty;
             this.newButton.Enabled = this.selectedDomain != null;
+            this.showLinkedColumnsButton.Enabled = this.selectedDataItem != null;
             //make the specific columns button invisible
             this.showAllColumnsButton.Visible = columnsVisible();
             this.getTableButton.Visible = columnsVisible();
         }
+
         private bool columnsVisible()
         {
             return this.selectedTab == GlossaryTab.Columns
                 || (this.selectedTab == GlossaryTab.DataItems && !this.dataItemsSplitContainer.Panel2Collapsed);
         }
+
         public void clear()
         {
             this.BusinessItemsListView.ClearObjects();
@@ -170,11 +169,20 @@ namespace GlossaryManager.GUI
         }
         internal void setTable(EDDTable table)
         {
+            this.setTables(new List<EDDTable> { table });
             this.dColumnsListView.Objects = new List<EDDTable> { table };
             //expand all
             this.dColumnsListView.ExpandAll();
             //select the first one
             this.dColumnsListView.SelectedObject = table.columns.FirstOrDefault();
+        }
+        private void setTables(IEnumerable<EDDTable> tables)
+        {
+            this.dColumnsListView.Objects = tables;
+            //expand all
+            this.dColumnsListView.ExpandAll();
+            //select the first one
+            this.dColumnsListView.SelectedObject = tables.FirstOrDefault()?.columns.FirstOrDefault();
         }
         public List<DataItem> dataItems
         {
@@ -246,8 +254,6 @@ namespace GlossaryManager.GUI
             }
         }
 
-
-
         public KryptonBreadCrumbItem createDomainBreadCrumbItem(Domain domain)
         {
             var breadCrumbItem = new KryptonBreadCrumbItem(domain.name);
@@ -259,7 +265,7 @@ namespace GlossaryManager.GUI
             return breadCrumbItem;
         }
         private BusinessItem previousBusinessItem { get; set; }
-        private BusinessItem selectedBusinessItem
+        public BusinessItem selectedBusinessItem
         {
             get
             {
@@ -267,7 +273,7 @@ namespace GlossaryManager.GUI
             }
         }
         private DataItem previousDataItem { get; set; }
-        private DataItem selectedDataItem
+        public DataItem selectedDataItem
         {
             get
             {
@@ -275,7 +281,7 @@ namespace GlossaryManager.GUI
             }
         }
         private EDDColumn previousColumn { get; set; }
-        private EDDColumn selectedColumn
+        public EDDColumn selectedColumn
         {
             get
             {
@@ -438,7 +444,7 @@ namespace GlossaryManager.GUI
                     this.DI_InitialValueTextBox.Text = this.selectedDataItem?.InitialValue;
                     this.DI_StatusComboBox.Text = selectedDataItem?.Status;
                     this.DI_VersionTextBox.Text = selectedDataItem?.Version;
-                    this.DI_KeywordsTextBox.Text = string.Join(",", selectedDataItem?.Keywords);
+                    this.DI_KeywordsTextBox.Text = selectedDataItem != null ? string.Join(",", selectedDataItem.Keywords) : string.Empty ;
                     this.DI_CreationDateTextBox.Text = selectedDataItem?.CreateDate.ToString("G");
                     this.DI_CreatedUserTextBox.Text = selectedDataItem?.Author;
                     this.DI_ModifiedDateTextBox.Text = selectedDataItem?.UpdateDate.ToString("G");
@@ -638,10 +644,10 @@ namespace GlossaryManager.GUI
         {
             this.selectedBusinessItem?.openProperties();
         }
-        public event EventHandler newButtonClick;
-        private void newButton_Click(object sender, EventArgs e)
+        public event EventHandler newButtonClicked;
+        private void newButton_Clicked(object sender, EventArgs e)
         {
-            this.newButtonClick?.Invoke(sender, e);
+            this.newButtonClicked?.Invoke(sender, e);
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -669,7 +675,6 @@ namespace GlossaryManager.GUI
                 }
             }
         }
-        public event EventHandler selectedTabChanged;
         private void DetailsTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             //set mousecursor
@@ -877,6 +882,14 @@ namespace GlossaryManager.GUI
 
         private void showHideTablesButton_Click(object sender, EventArgs e)
         {
+            this.toggleTablesVisible();
+        }
+        private void setTablesVisible()
+        {
+            if (dataItemsSplitContainer.Panel2Collapsed) this.toggleTablesVisible();
+        }
+        private void toggleTablesVisible()
+        {
             //set left or right image on button
             this.showHideTablesButton.Image = dataItemsSplitContainer.Panel2Collapsed ?
                                             Properties.Resources.moveRightArrow :
@@ -923,6 +936,15 @@ namespace GlossaryManager.GUI
                     this.dC_DefaultValueTextBox.Text = dataItem.InitialValue;
                 }
             }
+        }
+        private void showLinkedColumnsButton_Click(object sender, EventArgs e)
+        {
+            //set mousecursor
+            Cursor.Current = Cursors.WaitCursor;
+            this.setTablesVisible();
+            this.setTables(this.selectedDataItem.getLinkedColumns());
+            //set mousecursor back to normal
+            Cursor.Current = Cursors.Default;
         }
     }
 

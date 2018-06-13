@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -243,6 +244,11 @@ namespace GlossaryManager
                 return new LogicalDatatype(dataType);
             else
                 return null;
+        }
+
+        internal IEnumerable<EDDTable> getLinkedColumns()
+        {
+            return EDDColumn.createColumns(this.origin.EAModel, new List<DataItem> { this }, this.settings);
         }
     }
 }

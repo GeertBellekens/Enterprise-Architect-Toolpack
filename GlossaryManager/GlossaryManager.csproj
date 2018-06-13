@@ -202,5 +202,8 @@
   <ItemGroup>
     <None Include="Files\moveRightArrow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\linkedColums.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
