@@ -946,6 +946,39 @@ namespace GlossaryManager.GUI
             //set mousecursor back to normal
             Cursor.Current = Cursors.Default;
         }
+
+        private void dColumnsListView_ModelCanDrop(object sender, ModelDropEventArgs e)
+        {
+            var targetTable = e.TargetModel as EDDTable;
+            var targetColumn = e.TargetModel as EDDColumn;
+            if (e.SourceModels.Cast<Object>().All(x => x is DataItem))
+            {
+                if (targetTable != null)
+                {
+                    e.Effect = DragDropEffects.Link;
+                    e.InfoMessage = "Create new column";
+                }
+                else if (targetColumn != null)
+                {
+                    e.Effect = DragDropEffects.Link;
+                    e.InfoMessage = "Link dataitem to column";
+                }
+                else
+                {
+                    e.Effect = DragDropEffects.None;
+                }
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+                e.InfoMessage = "You can only drop DataItems";
+            }
+        }
+
+        private void dColumnsListView_ModelDropped(object sender, ModelDropEventArgs e)
+        {
+
+        }
     }
 
     public enum GlossaryTab

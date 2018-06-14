@@ -624,6 +624,8 @@ namespace GlossaryManager.GUI
             this.dataItemsListView.FullRowSelect = true;
             this.dataItemsListView.GridLines = true;
             this.dataItemsListView.HideSelection = false;
+            this.dataItemsListView.IsSimpleDragSource = true;
+            this.dataItemsListView.IsSimpleDropSink = true;
             this.dataItemsListView.Location = new System.Drawing.Point(1, 0);
             this.dataItemsListView.MultiSelect = false;
             this.dataItemsListView.Name = "dataItemsListView";
@@ -1149,6 +1151,8 @@ namespace GlossaryManager.GUI
             this.dColumnsListView.GridLines = true;
             this.dColumnsListView.GroupImageList = this.columnsListViewImageList;
             this.dColumnsListView.HideSelection = false;
+            this.dColumnsListView.IsSimpleDragSource = true;
+            this.dColumnsListView.IsSimpleDropSink = true;
             this.dColumnsListView.Location = new System.Drawing.Point(3, 0);
             this.dColumnsListView.MultiSelect = false;
             this.dColumnsListView.Name = "dColumnsListView";
@@ -1165,6 +1169,8 @@ namespace GlossaryManager.GUI
             this.dColumnsListView.UseHotItem = true;
             this.dColumnsListView.View = System.Windows.Forms.View.Details;
             this.dColumnsListView.VirtualMode = true;
+            this.dColumnsListView.ModelCanDrop += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.dColumnsListView_ModelCanDrop);
+            this.dColumnsListView.ModelDropped += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.dColumnsListView_ModelDropped);
             this.dColumnsListView.SelectedIndexChanged += new System.EventHandler(this.dColumnsListView_SelectedIndexChanged);
             // 
             // dC_NameColumn
