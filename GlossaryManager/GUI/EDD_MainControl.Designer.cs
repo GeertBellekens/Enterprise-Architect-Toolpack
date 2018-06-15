@@ -115,7 +115,7 @@ namespace GlossaryManager.GUI
             this.DI_CreationDateLabel = new System.Windows.Forms.Label();
             this.DI_KeywordsTextBox = new System.Windows.Forms.TextBox();
             this.dC_NotNullLabel = new System.Windows.Forms.Label();
-            this.dC_NotNullcheckBox = new System.Windows.Forms.CheckBox();
+            this.dC_NotNullCheckBox = new System.Windows.Forms.CheckBox();
             this.dC_PrecisionUpDown = new System.Windows.Forms.NumericUpDown();
             this.dC_SizeUpDown = new System.Windows.Forms.NumericUpDown();
             this.dC_DefaultValueTextBox = new System.Windows.Forms.TextBox();
@@ -571,7 +571,7 @@ namespace GlossaryManager.GUI
             // dataItemsSplitContainer.Panel2
             // 
             this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_NotNullLabel);
-            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_NotNullcheckBox);
+            this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_NotNullCheckBox);
             this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_PrecisionUpDown);
             this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_SizeUpDown);
             this.dataItemsSplitContainer.Panel2.Controls.Add(this.dC_DefaultValueTextBox);
@@ -987,14 +987,14 @@ namespace GlossaryManager.GUI
             // 
             // dC_NotNullcheckBox
             // 
-            this.dC_NotNullcheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.dC_NotNullcheckBox.AutoSize = true;
-            this.dC_NotNullcheckBox.Enabled = false;
-            this.dC_NotNullcheckBox.Location = new System.Drawing.Point(112, 288);
-            this.dC_NotNullcheckBox.Name = "dC_NotNullcheckBox";
-            this.dC_NotNullcheckBox.Size = new System.Drawing.Size(15, 14);
-            this.dC_NotNullcheckBox.TabIndex = 108;
-            this.dC_NotNullcheckBox.UseVisualStyleBackColor = true;
+            this.dC_NotNullCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dC_NotNullCheckBox.AutoSize = true;
+            this.dC_NotNullCheckBox.Enabled = false;
+            this.dC_NotNullCheckBox.Location = new System.Drawing.Point(112, 288);
+            this.dC_NotNullCheckBox.Name = "dC_NotNullcheckBox";
+            this.dC_NotNullCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.dC_NotNullCheckBox.TabIndex = 108;
+            this.dC_NotNullCheckBox.UseVisualStyleBackColor = true;
             // 
             // dC_PrecisionUpDown
             // 
@@ -1807,7 +1807,7 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.CheckBox showAllCheckBox;
         private System.Windows.Forms.SplitContainer dataItemsSplitContainer;
         private System.Windows.Forms.Label dC_NotNullLabel;
-        private System.Windows.Forms.CheckBox dC_NotNullcheckBox;
+        private System.Windows.Forms.CheckBox dC_NotNullCheckBox;
         private System.Windows.Forms.NumericUpDown dC_PrecisionUpDown;
         private System.Windows.Forms.NumericUpDown dC_SizeUpDown;
         private System.Windows.Forms.TextBox dC_DefaultValueTextBox;

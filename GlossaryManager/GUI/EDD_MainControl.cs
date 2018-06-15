@@ -406,7 +406,7 @@ namespace GlossaryManager.GUI
                 || column.column.type?.type.name != ((BaseDataType)this.dC_DatatypeCombobox.SelectedItem)?.name
                 || column.column.type?.length != decimal.ToInt32(this.dC_SizeUpDown.Value)
                 || column.column.type?.precision != decimal.ToInt32(this.dC_PrecisionUpDown.Value)
-                || column.column.isNotNullable != this.dC_NotNullcheckBox.Checked
+                || column.column.isNotNullable != this.dC_NotNullCheckBox.Checked
                 || column.dataItem?.GUID != ((DataItem)this.dC_DataItemTextBox.Tag)?.GUID
                 || column.column.initialValue != this.dC_DefaultValueTextBox.Text;
 
@@ -473,7 +473,7 @@ namespace GlossaryManager.GUI
                             this.dC_DatatypeCombobox.Items.Add(this.selectedColumn.column.type.type);
                             this.dC_DatatypeCombobox.SelectedItem = this.selectedColumn.column.type.type;
                         }
-                        this.dC_NotNullcheckBox.Checked = this.selectedColumn != null ? this.selectedColumn.column.isNotNullable : false;
+                        this.dC_NotNullCheckBox.Checked = this.selectedColumn != null ? this.selectedColumn.column.isNotNullable : false;
                         this.dC_DefaultValueTextBox.Text = this.selectedColumn?.column.initialValue;
                         this.dC_DataItemTextBox.Text = this.selectedColumn?.dataItem?.Name;
                         this.dC_DataItemTextBox.Tag = this.selectedColumn?.dataItem;
@@ -596,11 +596,11 @@ namespace GlossaryManager.GUI
         }
         private void unloadColumnData(EDDColumn column)
         {
-            column.column.name = this.C_NameTextBox.Text;
-            column.column.type = new DB_EA.DataType((DB_EA.BaseDataType)C_DatatypeDropdown.SelectedItem, decimal.ToInt32(C_SizeUpDown.Value), decimal.ToInt32(C_PrecisionUpDown.Value));
-            column.column.isNotNullable = this.C_NotNullCheckBox.Checked;
-            column.column.initialValue = this.C_DefaultTextBox.Text;
-            column.dataItem = (DataItem)this.C_DataItemTextBox.Tag;
+            column.column.name = this.dC_NameTextBox.Text;
+            column.column.type = new DB_EA.DataType((DB_EA.BaseDataType)dC_DatatypeCombobox.SelectedItem, decimal.ToInt32(C_SizeUpDown.Value), decimal.ToInt32(C_PrecisionUpDown.Value));
+            column.column.isNotNullable = this.dC_NotNullCheckBox.Checked;
+            column.column.initialValue = this.dC_DefaultValueTextBox.Text;
+            column.dataItem = (DataItem)this.dC_DataItemTextBox.Tag;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -920,21 +920,25 @@ namespace GlossaryManager.GUI
             if (this.selectedColumn != null)
             {
                 var dataItem = this.selectedColumn.selectDataItem();
-                this.dC_DataItemTextBox.Text = dataItem?.Name;
-                this.dC_DataItemTextBox.Tag = dataItem;
+                this.setLinkedDataItemData(this.selectedColumn, dataItem);
+            }
+        }
+        private void setLinkedDataItemData(EDDColumn column, DataItem dataItem)
+        {
+            this.dC_DataItemTextBox.Text = dataItem?.Name;
+            this.dC_DataItemTextBox.Tag = dataItem;
 
-                if (dataItem != null &&
-                    this.selectedColumn.dataItem?.GUID != dataItem.GUID)
-                {
-                    //reset to defaults based on the logical datatype and its technical mapping
-                    this.dC_NameTextBox.Text = dataItem.Label;
-                    this.dC_SizeUpDown.Value = dataItem.Size.HasValue ? dataItem.Size.Value : 0;
-                    this.dC_SizeUpDown.Text = dataItem.Size.HasValue ? dataItem.Size.Value.ToString() : string.Empty;
-                    this.dC_PrecisionUpDown.Value = dataItem.Precision.HasValue ? dataItem.Precision.Value : 0;
-                    this.dC_PrecisionUpDown.Text = dataItem.Precision.HasValue ? dataItem.Precision.Value.ToString() : string.Empty;
-                    this.dC_DatatypeCombobox.Text = dataItem.logicalDatatype?.getBaseDatatype(this.selectedColumn.column.factory.databaseName)?.name;
-                    this.dC_DefaultValueTextBox.Text = dataItem.InitialValue;
-                }
+            if (dataItem != null &&
+                this.selectedColumn.dataItem?.GUID != dataItem.GUID)
+            {
+                //reset to defaults based on the logical datatype and its technical mapping
+                this.dC_NameTextBox.Text = dataItem.Label;
+                this.dC_SizeUpDown.Value = dataItem.Size.HasValue ? dataItem.Size.Value : 0;
+                this.dC_SizeUpDown.Text = dataItem.Size.HasValue ? dataItem.Size.Value.ToString() : string.Empty;
+                this.dC_PrecisionUpDown.Value = dataItem.Precision.HasValue ? dataItem.Precision.Value : 0;
+                this.dC_PrecisionUpDown.Text = dataItem.Precision.HasValue ? dataItem.Precision.Value.ToString() : string.Empty;
+                this.dC_DatatypeCombobox.Text = dataItem.logicalDatatype?.getBaseDatatype(this.selectedColumn.column.factory.databaseName)?.name;
+                this.dC_DefaultValueTextBox.Text = dataItem.InitialValue;
             }
         }
         private void showLinkedColumnsButton_Click(object sender, EventArgs e)
@@ -951,7 +955,8 @@ namespace GlossaryManager.GUI
         {
             var targetTable = e.TargetModel as EDDTable;
             var targetColumn = e.TargetModel as EDDColumn;
-            if (e.SourceModels.Cast<Object>().All(x => x is DataItem))
+            var dataItem = e.SourceModels.Cast<Object>().FirstOrDefault() as DataItem;
+            if (dataItem != null)
             {
                 if (targetTable != null)
                 {
@@ -977,7 +982,23 @@ namespace GlossaryManager.GUI
 
         private void dColumnsListView_ModelDropped(object sender, ModelDropEventArgs e)
         {
-
+            var targetTable = e.TargetModel as EDDTable;
+            var targetColumn = e.TargetModel as EDDColumn;
+            var dataItem = e.SourceModels.Cast<Object>().FirstOrDefault() as DataItem;
+            if (dataItem != null)
+            {
+                if (targetTable != null)
+                {
+                    //create new column
+                }
+                else if (targetColumn != null)
+                {
+                    //select the target column
+                    this.dColumnsListView.SelectedObject = targetColumn;
+                    //set the data field
+                    this.setLinkedDataItemData(targetColumn, dataItem);
+                }
+            }
         }
     }
 
