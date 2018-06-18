@@ -144,6 +144,16 @@ namespace GlossaryManager
             this.origin.addTaggedValue("business item", this.businessItem?.GUID);
         }
 
+        internal int getPrecision()
+        {
+            return this.Precision.HasValue ? this.Precision.Value : 0;
+        }
+
+        internal int getSize()
+        {
+            return this.Size.HasValue ? this.Size.Value : 0;
+        }
+
         protected override void reloadData()
         {
             this._label = null;

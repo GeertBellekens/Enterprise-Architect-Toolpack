@@ -402,14 +402,7 @@ namespace GlossaryManager.GUI
         private bool hasColumnChanged(EDDColumn column)
         {
             //TODO
-            return column.name != this.dC_NameTextBox.Text
-                || column.column.type?.type.name != ((BaseDataType)this.dC_DatatypeCombobox.SelectedItem)?.name
-                || column.column.type?.length != decimal.ToInt32(this.dC_SizeUpDown.Value)
-                || column.column.type?.precision != decimal.ToInt32(this.dC_PrecisionUpDown.Value)
-                || column.column.isNotNullable != this.dC_NotNullCheckBox.Checked
-                || column.dataItem?.GUID != ((DataItem)this.dC_DataItemTextBox.Tag)?.GUID
-                || column.column.initialValue != this.dC_DefaultValueTextBox.Text;
-
+            return column.dataItem?.GUID != ((DataItem)this.dC_DataItemTextBox.Tag)?.GUID;
         }
 
         private void loadSelectedItemData()
@@ -451,30 +444,6 @@ namespace GlossaryManager.GUI
                     this.DI_ModifiedUserTextBox.Text = selectedDataItem?.UpdatedBy;
                     if (! this.dataItemsSplitContainer.Panel2Collapsed)
                     {
-                        this.dC_NameTextBox.Text = this.selectedColumn?.name;
-                        this.dC_SizeUpDown.Text = this.selectedColumn?.column.type?.length.ToString();
-                        this.dC_SizeUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.length : 0;
-                        this.dC_PrecisionUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.precision : 0;
-                        this.dC_PrecisionUpDown.Text = this.selectedColumn?.column.type?.precision.ToString();
-                        dC_DatatypeCombobox.Items.Clear();
-                        if (this.selectedColumn != null)
-                        {
-                            foreach (var datatype in this.selectedColumn.column.factory.baseDataTypes)
-                            {
-                                dC_DatatypeCombobox.Items.Add(datatype);
-                            }
-                        }
-                        this.dC_DatatypeCombobox.DisplayMember = "name";
-                        this.dC_DatatypeCombobox.Text = this.selectedColumn?.column.type?.name;
-                        if (this.selectedColumn?.column.type != null
-                            && this.dC_DatatypeCombobox.SelectedItem == null)
-                        {
-                            //find the datatype
-                            this.dC_DatatypeCombobox.Items.Add(this.selectedColumn.column.type.type);
-                            this.dC_DatatypeCombobox.SelectedItem = this.selectedColumn.column.type.type;
-                        }
-                        this.dC_NotNullCheckBox.Checked = this.selectedColumn != null ? this.selectedColumn.column.isNotNullable : false;
-                        this.dC_DefaultValueTextBox.Text = this.selectedColumn?.column.initialValue;
                         this.dC_DataItemTextBox.Text = this.selectedColumn?.dataItem?.Name;
                         this.dC_DataItemTextBox.Tag = this.selectedColumn?.dataItem;
                     }
@@ -592,11 +561,7 @@ namespace GlossaryManager.GUI
         }
         private void unloadColumnData(EDDColumn column)
         {
-            column.column.name = this.dC_NameTextBox.Text;
-            column.column.type = new DB_EA.DataType((DB_EA.BaseDataType)dC_DatatypeCombobox.SelectedItem, decimal.ToInt32(C_SizeUpDown.Value), decimal.ToInt32(C_PrecisionUpDown.Value));
-            column.column.isNotNullable = this.dC_NotNullCheckBox.Checked;
-            column.column.initialValue = this.dC_DefaultValueTextBox.Text;
-            column.dataItem = (DataItem)this.dC_DataItemTextBox.Tag;
+            column.dataItem = this.dC_DataItemTextBox.Tag as DataItem;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -923,19 +888,8 @@ namespace GlossaryManager.GUI
         {
             this.dC_DataItemTextBox.Text = dataItem?.Name;
             this.dC_DataItemTextBox.Tag = dataItem;
-
-            if (dataItem != null &&
-                column.dataItem?.GUID != dataItem.GUID)
-            {
-                //reset to defaults based on the logical datatype and its technical mapping
-                this.dC_NameTextBox.Text = dataItem.Label;
-                this.dC_SizeUpDown.Value = dataItem.Size.HasValue ? dataItem.Size.Value : 0;
-                this.dC_SizeUpDown.Text = dataItem.Size.HasValue ? dataItem.Size.Value.ToString() : string.Empty;
-                this.dC_PrecisionUpDown.Value = dataItem.Precision.HasValue ? dataItem.Precision.Value : 0;
-                this.dC_PrecisionUpDown.Text = dataItem.Precision.HasValue ? dataItem.Precision.Value.ToString() : string.Empty;
-                this.dC_DatatypeCombobox.Text = dataItem.logicalDatatype?.getBaseDatatype(column.column.factory.databaseName)?.name;
-                this.dC_DefaultValueTextBox.Text = dataItem.InitialValue;
-            }
+            //set the dataitem
+            column.dataItem = dataItem;
         }
         private void showLinkedColumnsButton_Click(object sender, EventArgs e)
         {
@@ -1000,6 +954,17 @@ namespace GlossaryManager.GUI
                     
                 }
             }
+        }
+
+        private void saveColumnButton_Click(object sender, EventArgs e)
+        {
+            this.selectedColumn?.save();
+        }
+
+        private void cancelColumnButton_Click(object sender, EventArgs e)
+        {
+            this.selectedColumn?.reload();
+            this.dColumnsListView.RefreshSelectedObjects();
         }
     }
 

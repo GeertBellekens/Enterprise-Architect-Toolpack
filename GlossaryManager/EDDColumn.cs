@@ -80,8 +80,17 @@ namespace GlossaryManager
             }
             set
             {
-                this._dataItem = value;
+                var newdataItem = value;
+                this._dataItem = newdataItem;
                 this.dataItemLoaded = true;
+                if ( newdataItem != null )
+                {
+
+                }
+                this.column.name = newdataItem.Label;
+                this.column.type = new DB_EA.DataType((DB_EA.BaseDataType)newdataItem.logicalDatatype.getBaseDatatype(this.column.factory.databaseName)
+                                        , newdataItem.getSize(), newdataItem.getPrecision());
+                this.column.initialValue = newdataItem.InitialValue;
             }
         }
 
@@ -92,12 +101,18 @@ namespace GlossaryManager
 
         public void openProperties()
         {
-            ((DB_EA.Column)this.column).wrappedattribute.openProperties();
+            this._wrappedColumn?.wrappedattribute?.openProperties();
         }
         public void save()
         {
             this.column.save();
             this._wrappedColumn.wrappedattribute.addTaggedValue("EDD::dataitem", this.dataItem?.GUID);
+        }
+        public void reload()
+        {
+            this._wrappedColumn?.reload();
+            this._dataItem = null;
+            this.dataItemLoaded = false;
         }
 
         public DataItem selectDataItem()
