@@ -38,8 +38,8 @@ namespace GlossaryManager
             //build a search string
             var sqlTop = criteria.showAll ? string.Empty : "top 50";
             string sqlGetGlossaryItems = string.Format(@"select " + sqlTop + @" o.[Object_ID] from t_object o
-                                                        where o.[Name] like '%{0}%'
-                                                        and o.[Note] like '%{1}%'
+                                                        where ( o.[Name] like '%{0}%' or o.[Name] is null )
+                                                        and ( o.[Note] like '%{1}%' or o.[Note] is null )
                                                         and o.[Stereotype] = '{2}'
                                                         and o.[Package_ID] in ({3})",
                                                         criteria.nameSearchTerm,

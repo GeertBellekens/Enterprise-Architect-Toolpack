@@ -122,6 +122,17 @@ namespace GlossaryManager.GUI
 
         public void clear()
         {
+            //validate changes first
+            switch (this.selectedTab)
+            {
+                case GlossaryTab.BusinessItems:
+                    this.validateBusinessItemChanges();
+                    break;
+                case GlossaryTab.DataItems:
+                    this.validateDataItemsChanges();
+                    this.validateColumnChanges();
+                    break;
+            }           
             this.BusinessItemsListView.ClearObjects();
             this.dataItemsListView.ClearObjects();
             this.columnsListView.ClearObjects();
@@ -306,8 +317,6 @@ namespace GlossaryManager.GUI
                         return this.selectedBusinessItem;
                     case GlossaryTab.DataItems:
                         return this.selectedDataItem;
-                    case GlossaryTab.Columns:
-                        return this.columnsListView.SelectedObject as IEDDItem;
                     default:
                         //should never happen
                         return this.selectedBusinessItem;
@@ -340,6 +349,8 @@ namespace GlossaryManager.GUI
                         this.saveBusinessItem(this.previousBusinessItem);
                     }
                 }
+                //reset
+                this.previousBusinessItem = null;
             }
         }
         private void dataItemsListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -367,6 +378,8 @@ namespace GlossaryManager.GUI
                         this.saveDataItem(this.previousDataItem);
                     }
                 }
+                //reset
+                this.previousDataItem = null;
             }
         }
         private bool hasBusinessitemChanged(BusinessItem businessItem)
@@ -589,6 +602,7 @@ namespace GlossaryManager.GUI
             if (this.selectedTab == GlossaryTab.BusinessItems && businessItemsShowing
                || this.selectedTab == GlossaryTab.DataItems && dataItemsShowing)
                     this.selectedDomainChanged?.Invoke(this.selectedDomain, e);
+            this.enableDisable();
         }
 
         private void navigateProjectBrowserButton_Click(object sender, EventArgs e)
@@ -756,6 +770,8 @@ namespace GlossaryManager.GUI
                         this.saveColumn(this.previousColumn);
                     }
                 }
+                //reset
+                this.previousColumn = null;
             }
         }
 
@@ -767,10 +783,8 @@ namespace GlossaryManager.GUI
         {
             get
             {
-                if (this.selectedItem == null)
-                    return null;
-                var table = this.selectedItem as EDDTable;
-                return table != null ? table : this.selectedColumn.table;
+                var table = this.dColumnsListView.SelectedObject as EDDTable;
+                return table != null ? table : this.selectedColumn?.table;
             }
         }
         private void showAllColumnsButton_Click(object sender, EventArgs e)
@@ -778,7 +792,7 @@ namespace GlossaryManager.GUI
             if (this.selectedTable != null)
             {
                 this.selectedTable.loadAllColumns();
-                this.columnsListView.RefreshObject(this.selectedTable);
+                this.dColumnsListView.RefreshObject(this.selectedTable);
             }
         }
 

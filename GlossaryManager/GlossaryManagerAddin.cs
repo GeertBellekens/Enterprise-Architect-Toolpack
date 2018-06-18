@@ -116,18 +116,8 @@ namespace GlossaryManager
                     this.showBusinessItems(package, domain, criteria);
                     break;
                 case GlossaryTab.DataItems:
-                    package = domain != null
-                                        ? (TSF_EA.Package)domain.dataItemsPackage
-                                        : (TSF_EA.Package)this.settings.dataItemsPackage;
-                    this.showDataItems(package, domain, criteria);
-                    break;
-                case GlossaryTab.Columns:
-                    package = domain != null
-                                        ? (TSF_EA.Package)domain.dataItemsPackage
-                                        : (TSF_EA.Package)this.settings.dataItemsPackage;
-                    var dataItems = this.mainControl.dataItems;
-                    if (!dataItems.Any()) dataItems = this.getDataItems(package, domain, criteria);
-                    this.showColumns(dataItems,domain);
+                    
+                    this.showDataItems(domain, criteria);
                     break;
             }
         }
@@ -313,17 +303,11 @@ namespace GlossaryManager
             if (domain?.businessItemsPackage != null) package = (TSF_EA.Package)domain.businessItemsPackage;
             this.mainControl.setBusinessItems(this.list<BusinessItem>(package, searchCriteria), domain);
         }
-        private void showDataItems(TSF_EA.Package package, Domain domain, GlossaryItemSearchCriteria searchCriteria)
+        private void showDataItems( Domain domain, GlossaryItemSearchCriteria searchCriteria)
         {
-            if (domain == null) domain = Domain.getDomain(package);
-            if (domain?.dataItemsPackage != null) package = (TSF_EA.Package)domain.dataItemsPackage;
-            this.mainControl.setDataItems(this.getDataItems(package, domain, searchCriteria),domain);
-        }
-        private List<DataItem> getDataItems(TSF_EA.Package package, Domain domain, GlossaryItemSearchCriteria searchCriteria)
-        {
-            if (domain == null) domain = Domain.getDomain(package);
-            if (domain?.dataItemsPackage != null) package = (TSF_EA.Package)domain.dataItemsPackage;
-            return this.list<DataItem>(package, searchCriteria);
+            var package = (TSF_EA.Package)domain?.dataItemsPackage;
+            if (package == null) package = (TSF_EA.Package)this.settings.dataItemsPackage;
+            this.mainControl.setDataItems(this.list<DataItem>(package, searchCriteria),domain);
         }
 
         private void showColumns(List<DataItem> dataItems, Domain domain)

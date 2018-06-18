@@ -1405,7 +1405,7 @@ namespace GlossaryManager.GUI
             // showLinkedColumnsButton
             // 
             this.showLinkedColumnsButton.Image = global::GlossaryManager.Properties.Resources.linkedColums;
-            this.showLinkedColumnsButton.Location = new System.Drawing.Point(248, 7);
+            this.showLinkedColumnsButton.Location = new System.Drawing.Point(177, 7);
             this.showLinkedColumnsButton.Name = "showLinkedColumnsButton";
             this.showLinkedColumnsButton.Size = new System.Drawing.Size(29, 28);
             this.showLinkedColumnsButton.TabIndex = 111;
@@ -1416,7 +1416,7 @@ namespace GlossaryManager.GUI
             // getTableButton
             // 
             this.getTableButton.Image = global::GlossaryManager.Properties.Resources.findTable;
-            this.getTableButton.Location = new System.Drawing.Point(294, 7);
+            this.getTableButton.Location = new System.Drawing.Point(223, 7);
             this.getTableButton.Name = "getTableButton";
             this.getTableButton.Size = new System.Drawing.Size(29, 28);
             this.getTableButton.TabIndex = 110;
@@ -1427,7 +1427,7 @@ namespace GlossaryManager.GUI
             // showAllColumnsButton
             // 
             this.showAllColumnsButton.Image = ((System.Drawing.Image)(resources.GetObject("showAllColumnsButton.Image")));
-            this.showAllColumnsButton.Location = new System.Drawing.Point(329, 7);
+            this.showAllColumnsButton.Location = new System.Drawing.Point(258, 7);
             this.showAllColumnsButton.Name = "showAllColumnsButton";
             this.showAllColumnsButton.Size = new System.Drawing.Size(29, 28);
             this.showAllColumnsButton.TabIndex = 6;
