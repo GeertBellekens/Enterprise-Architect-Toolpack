@@ -33,6 +33,13 @@ namespace GlossaryManager
         {
             this.columns.Add(column);
         }
+        public EDDColumn addNewColumn(string name)
+        {
+            var newWrappedColumn = this.wrappedTable.addNewColumn(name);
+            var newColumn = new EDDColumn(newWrappedColumn, this, this.settings);
+            this.addColumn(newColumn);
+            return newColumn;
+        }
         public void loadAllColumns()
         {
             this.columns.Clear();

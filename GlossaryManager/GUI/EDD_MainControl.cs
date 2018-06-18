@@ -510,8 +510,6 @@ namespace GlossaryManager.GUI
             }
         }
 
-
-
         private void saveButton_Click(object sender, EventArgs e)
         {
             switch (this.selectedTab)
@@ -531,13 +529,11 @@ namespace GlossaryManager.GUI
                         //refresh listview
                         this.dataItemsListView.RefreshSelectedObjects();
                     }
-                    break;
-                case GlossaryTab.Columns:
                     if (this.selectedColumn != null)
                     {
                         this.saveColumn(this.selectedColumn);
                         //refresh listview
-                        this.columnsListView.RefreshSelectedObjects();
+                        this.dColumnsListView.RefreshSelectedObjects();
                     }
                     break;
             }
@@ -929,7 +925,7 @@ namespace GlossaryManager.GUI
             this.dC_DataItemTextBox.Tag = dataItem;
 
             if (dataItem != null &&
-                this.selectedColumn.dataItem?.GUID != dataItem.GUID)
+                column.dataItem?.GUID != dataItem.GUID)
             {
                 //reset to defaults based on the logical datatype and its technical mapping
                 this.dC_NameTextBox.Text = dataItem.Label;
@@ -937,7 +933,7 @@ namespace GlossaryManager.GUI
                 this.dC_SizeUpDown.Text = dataItem.Size.HasValue ? dataItem.Size.Value.ToString() : string.Empty;
                 this.dC_PrecisionUpDown.Value = dataItem.Precision.HasValue ? dataItem.Precision.Value : 0;
                 this.dC_PrecisionUpDown.Text = dataItem.Precision.HasValue ? dataItem.Precision.Value.ToString() : string.Empty;
-                this.dC_DatatypeCombobox.Text = dataItem.logicalDatatype?.getBaseDatatype(this.selectedColumn.column.factory.databaseName)?.name;
+                this.dC_DatatypeCombobox.Text = dataItem.logicalDatatype?.getBaseDatatype(column.column.factory.databaseName)?.name;
                 this.dC_DefaultValueTextBox.Text = dataItem.InitialValue;
             }
         }
@@ -990,13 +986,18 @@ namespace GlossaryManager.GUI
                 if (targetTable != null)
                 {
                     //create new column
+                    targetColumn = targetTable.addNewColumn(dataItem.Label);
+                    targetColumn.dataItem = dataItem;
                 }
-                else if (targetColumn != null)
+                if (targetColumn != null)
                 {
+                    //refresh
+                    dColumnsListView.RefreshObject(targetTable);
                     //select the target column
                     this.dColumnsListView.SelectedObject = targetColumn;
                     //set the data field
                     this.setLinkedDataItemData(targetColumn, dataItem);
+                    
                 }
             }
         }
