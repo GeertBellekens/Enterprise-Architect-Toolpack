@@ -233,7 +233,7 @@ namespace GlossaryManager
             var businessItemOrigin = this.origin.model.getUserSelectedElement(new List<string>() { "Class" }
                                     , new List<string>() { new BusinessItem().Stereotype }
                                     , this.businessItem?.GUID) as UML.Classes.Kernel.Class;
-            return new GlossaryItemFactory(this.settings).FromClass<BusinessItem>(businessItemOrigin);
+            return GlossaryItemFactory.getFactory(this.origin.EAModel, this.settings).FromClass<BusinessItem>(businessItemOrigin);
         }
         protected override void setOwningPackage()
         {

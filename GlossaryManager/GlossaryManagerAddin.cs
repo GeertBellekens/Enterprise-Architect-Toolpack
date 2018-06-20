@@ -187,7 +187,7 @@ namespace GlossaryManager
             this._mainControl?.clear();
             this._mainControl = null;
             this.settings = new GlossaryManagerSettings(this.model);
-            this.factory = new GlossaryItemFactory(this.settings);
+            this.factory = GlossaryItemFactory.getFactory(this.model, this.settings);
             Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage);
             this.fullyLoaded = true;
         }

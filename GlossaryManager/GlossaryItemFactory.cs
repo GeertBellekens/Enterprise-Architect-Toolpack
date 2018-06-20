@@ -10,10 +10,23 @@ namespace GlossaryManager
 
     public class GlossaryItemFactory
     {
+        static Dictionary<string, GlossaryItemFactory> factories = new Dictionary<string, GlossaryItemFactory>();
         GlossaryManagerSettings settings { get; set; }
-        public GlossaryItemFactory(GlossaryManagerSettings settings)
+        public TSF_EA.Model model { get; private set; }
+        public static GlossaryItemFactory getFactory(TSF_EA.Model model, GlossaryManagerSettings settings)
+        {
+            GlossaryItemFactory factory;
+            if (! factories.TryGetValue(model.projectGUID, out factory))
+            {
+                factory = new GlossaryItemFactory(model, settings);
+                factories.Add(model.projectGUID, factory);
+            }
+            return factory;
+        }
+        private GlossaryItemFactory(TSF_EA.Model model, GlossaryManagerSettings settings)
         {
             this.settings = settings;
+            this.model = model;
         }
 
         public bool IsA<T>(UML.Classes.Kernel.Class clazz) where T : GlossaryItem, new()
@@ -46,12 +59,16 @@ namespace GlossaryManager
                                                         criteria.descriptionSearchTerm,
                                                         dummy.Stereotype,
                                                         package.getPackageTreeIDString());
-             
-            
+
+
+            return this.getGlossaryItemsFromQuery<T>(sqlGetGlossaryItems);
+        }
+        public List<T> getGlossaryItemsFromQuery<T>(string query) where T : GlossaryItem, new()
+        {
             var glossaryItems = new List<T>();
-            if (package != null)
+            if (model != null)
             {
-                foreach (var classElement in package.EAModel.getElementWrappersByQuery(sqlGetGlossaryItems).OfType<UML.Classes.Kernel.Class>())
+                foreach (var classElement in this.model.getElementWrappersByQuery(query).OfType<UML.Classes.Kernel.Class>())
                 {
                     var item = this.CreateFrom<T>(classElement);
                     if (item != null) glossaryItems.Add(item);

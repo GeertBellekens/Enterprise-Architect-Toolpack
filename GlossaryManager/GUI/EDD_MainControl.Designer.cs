@@ -52,6 +52,7 @@ namespace GlossaryManager.GUI
             this.BusinessItemsListView = new BrightIdeasSoftware.ObjectListView();
             this.BU_NameCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_DomainCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.BU_DataitemsCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_DescriptionCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_ModifiedByTextBox = new System.Windows.Forms.TextBox();
             this.BU_ModifiedByLabel = new System.Windows.Forms.Label();
@@ -265,6 +266,7 @@ namespace GlossaryManager.GUI
             // 
             this.BusinessItemsListView.AllColumns.Add(this.BU_NameCol);
             this.BusinessItemsListView.AllColumns.Add(this.BU_DomainCol);
+            this.BusinessItemsListView.AllColumns.Add(this.BU_DataitemsCol);
             this.BusinessItemsListView.AllColumns.Add(this.BU_DescriptionCol);
             this.BusinessItemsListView.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
             this.BusinessItemsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -274,6 +276,7 @@ namespace GlossaryManager.GUI
             this.BusinessItemsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.BU_NameCol,
             this.BU_DomainCol,
+            this.BU_DataitemsCol,
             this.BU_DescriptionCol});
             this.BusinessItemsListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.BusinessItemsListView.FullRowSelect = true;
@@ -1557,6 +1560,13 @@ namespace GlossaryManager.GUI
             this.nameFilterTextBox.Enter += new System.EventHandler(this.nameFilterTextBox_Enter);
             this.nameFilterTextBox.Leave += new System.EventHandler(this.nameFilterTextBox_Leave);
             // 
+            // BU_DataitemsCol
+            // 
+            this.BU_DataitemsCol.AspectName = "linkedDataItemsDisplayString";
+            this.BU_DataitemsCol.Text = "Data Item(s)";
+            this.BU_DataitemsCol.ToolTipText = "Linked Dataitems";
+            this.BU_DataitemsCol.Width = 200;
+            // 
             // EDD_MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1708,5 +1718,6 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.Button showLinkedColumnsButton;
         private System.Windows.Forms.Button cancelColumnButton;
         private System.Windows.Forms.Button saveColumnButton;
+        private OLVColumn BU_DataitemsCol;
     }
 }

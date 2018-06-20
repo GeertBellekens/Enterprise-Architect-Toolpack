@@ -122,7 +122,7 @@ namespace GlossaryManager
                 ,new List<string>() {new DataItem().Stereotype }
                 , this.dataItem?.GUID) as UML.Classes.Kernel.Class;
             if (dataItemclass != null)
-                return new GlossaryItemFactory(this.settings).FromClass<DataItem>(dataItemclass);
+                return GlossaryItemFactory.getFactory(this._wrappedColumn.wrappedattribute.EAModel, this.settings).FromClass<DataItem>(dataItemclass);
             else
                 return null;
         }

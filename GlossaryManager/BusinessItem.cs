@@ -13,16 +13,11 @@ namespace GlossaryManager
     public class BusinessItem : GlossaryItem
     {
 
-
         public string Description
         {
             get { return this.origin.notes; }
             set { this.origin.notes = value; }
         }
-
-
-
-
 
         public override string ToString()
         {
@@ -34,9 +29,36 @@ namespace GlossaryManager
             ")";
         }
 
+        private IEnumerable<DataItem> _linkedDataItems;
+        public IEnumerable<DataItem> linkedDataItems
+        {
+            get
+            {
+                if (this._linkedDataItems == null)
+                {
+                    this._linkedDataItems = getLinkedDataItems();
+                }
+                return _linkedDataItems;
+            }
+        }
+        public string linkedDataItemsDisplayString
+        {
+            get
+            {
+                return string.Join(", ", this.linkedDataItems.Select(x => x.Name));
+            }
+        }
 
+        private IEnumerable<DataItem> getLinkedDataItems()
+        {
+            var foundDataItems = new List<DataItem>();
+            //get the EA elements
+            var sqlGetLinkedDataItems = $@"select tv.[Object_ID] from t_objectproperties tv
+                                        where tv.[Property] = 'business item'
+                                        and tv.VALUE like '{this.origin.guid}'";
 
-        // EA support
+            return GlossaryItemFactory.getFactory(this.origin.EAModel, this.settings).getGlossaryItemsFromQuery<DataItem>(sqlGetLinkedDataItems);
+        }
 
         public override string Stereotype { get { return "EDD_BusinessItem"; } }
 
