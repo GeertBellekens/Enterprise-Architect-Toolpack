@@ -154,6 +154,7 @@ namespace GlossaryManager.GUI
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
+            this.newLinkedButton = new System.Windows.Forms.Button();
             this.showLinkedColumnsButton = new System.Windows.Forms.Button();
             this.getTableButton = new System.Windows.Forms.Button();
             this.showAllColumnsButton = new System.Windows.Forms.Button();
@@ -311,6 +312,13 @@ namespace GlossaryManager.GUI
             this.BU_DomainCol.Text = "Domain";
             this.BU_DomainCol.ToolTipText = "The domain of the Business Item";
             this.BU_DomainCol.Width = 200;
+            // 
+            // BU_DataitemsCol
+            // 
+            this.BU_DataitemsCol.AspectName = "linkedDataItemsDisplayString";
+            this.BU_DataitemsCol.Text = "Data Item(s)";
+            this.BU_DataitemsCol.ToolTipText = "Linked Dataitems";
+            this.BU_DataitemsCol.Width = 200;
             // 
             // BU_DescriptionCol
             // 
@@ -655,7 +663,7 @@ namespace GlossaryManager.GUI
             // 
             // DI_BusinessItem
             // 
-            this.DI_BusinessItem.AspectName = "businessItem.Name";
+            this.DI_BusinessItem.AspectName = "businessItemName";
             this.DI_BusinessItem.Text = "Business Item";
             this.DI_BusinessItem.ToolTipText = "Business Item related to this Data Item";
             this.DI_BusinessItem.Width = 150;
@@ -1391,6 +1399,7 @@ namespace GlossaryManager.GUI
             // 
             this.ButtonPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonPanel.Controls.Add(this.newLinkedButton);
             this.ButtonPanel.Controls.Add(this.showLinkedColumnsButton);
             this.ButtonPanel.Controls.Add(this.getTableButton);
             this.ButtonPanel.Controls.Add(this.showAllColumnsButton);
@@ -1405,10 +1414,21 @@ namespace GlossaryManager.GUI
             this.ButtonPanel.Size = new System.Drawing.Size(1030, 41);
             this.ButtonPanel.TabIndex = 2;
             // 
+            // newLinkedButton
+            // 
+            this.newLinkedButton.Image = global::GlossaryManager.Properties.Resources.newLeft;
+            this.newLinkedButton.Location = new System.Drawing.Point(131, 7);
+            this.newLinkedButton.Name = "newLinkedButton";
+            this.newLinkedButton.Size = new System.Drawing.Size(29, 28);
+            this.newLinkedButton.TabIndex = 112;
+            this.myToolTip.SetToolTip(this.newLinkedButton, "Add new linked Business Item");
+            this.newLinkedButton.UseVisualStyleBackColor = true;
+            this.newLinkedButton.Click += new System.EventHandler(this.newLinkedButton_Click);
+            // 
             // showLinkedColumnsButton
             // 
             this.showLinkedColumnsButton.Image = global::GlossaryManager.Properties.Resources.linkedColums;
-            this.showLinkedColumnsButton.Location = new System.Drawing.Point(177, 7);
+            this.showLinkedColumnsButton.Location = new System.Drawing.Point(259, 7);
             this.showLinkedColumnsButton.Name = "showLinkedColumnsButton";
             this.showLinkedColumnsButton.Size = new System.Drawing.Size(29, 28);
             this.showLinkedColumnsButton.TabIndex = 111;
@@ -1419,7 +1439,7 @@ namespace GlossaryManager.GUI
             // getTableButton
             // 
             this.getTableButton.Image = global::GlossaryManager.Properties.Resources.findTable;
-            this.getTableButton.Location = new System.Drawing.Point(223, 7);
+            this.getTableButton.Location = new System.Drawing.Point(294, 7);
             this.getTableButton.Name = "getTableButton";
             this.getTableButton.Size = new System.Drawing.Size(29, 28);
             this.getTableButton.TabIndex = 110;
@@ -1430,7 +1450,7 @@ namespace GlossaryManager.GUI
             // showAllColumnsButton
             // 
             this.showAllColumnsButton.Image = ((System.Drawing.Image)(resources.GetObject("showAllColumnsButton.Image")));
-            this.showAllColumnsButton.Location = new System.Drawing.Point(258, 7);
+            this.showAllColumnsButton.Location = new System.Drawing.Point(329, 7);
             this.showAllColumnsButton.Name = "showAllColumnsButton";
             this.showAllColumnsButton.Size = new System.Drawing.Size(29, 28);
             this.showAllColumnsButton.TabIndex = 6;
@@ -1442,7 +1462,7 @@ namespace GlossaryManager.GUI
             // deleteButton
             // 
             this.deleteButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteButton.Image")));
-            this.deleteButton.Location = new System.Drawing.Point(131, 7);
+            this.deleteButton.Location = new System.Drawing.Point(201, 7);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(29, 28);
             this.deleteButton.TabIndex = 3;
@@ -1453,7 +1473,7 @@ namespace GlossaryManager.GUI
             // newButton
             // 
             this.newButton.Image = ((System.Drawing.Image)(resources.GetObject("newButton.Image")));
-            this.newButton.Location = new System.Drawing.Point(96, 7);
+            this.newButton.Location = new System.Drawing.Point(166, 7);
             this.newButton.Name = "newButton";
             this.newButton.Size = new System.Drawing.Size(29, 28);
             this.newButton.TabIndex = 2;
@@ -1559,13 +1579,6 @@ namespace GlossaryManager.GUI
             this.nameFilterTextBox.TextChanged += new System.EventHandler(this.nameFilterTextBox_TextChanged);
             this.nameFilterTextBox.Enter += new System.EventHandler(this.nameFilterTextBox_Enter);
             this.nameFilterTextBox.Leave += new System.EventHandler(this.nameFilterTextBox_Leave);
-            // 
-            // BU_DataitemsCol
-            // 
-            this.BU_DataitemsCol.AspectName = "linkedDataItemsDisplayString";
-            this.BU_DataitemsCol.Text = "Data Item(s)";
-            this.BU_DataitemsCol.ToolTipText = "Linked Dataitems";
-            this.BU_DataitemsCol.Width = 200;
             // 
             // EDD_MainControl
             // 
@@ -1719,5 +1732,6 @@ namespace GlossaryManager.GUI
         private System.Windows.Forms.Button cancelColumnButton;
         private System.Windows.Forms.Button saveColumnButton;
         private OLVColumn BU_DataitemsCol;
+        private System.Windows.Forms.Button newLinkedButton;
     }
 }

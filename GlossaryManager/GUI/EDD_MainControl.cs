@@ -112,12 +112,16 @@ namespace GlossaryManager.GUI
             //make the specific columns button invisible
             this.showAllColumnsButton.Visible = columnsVisible();
             this.getTableButton.Visible = columnsVisible();
+            this.newLinkedButton.Image = this.selectedTab == GlossaryTab.DataItems ?
+                                        Properties.Resources.newLeft :
+                                        Properties.Resources.newRight;
+            this.newLinkedButton.Enabled = this.selectedTab == GlossaryTab.DataItems && this.selectedDataItem != null && this.selectedDataItem.businessItem == null
+                                           || this.selectedTab == GlossaryTab.BusinessItems && this.selectedBusinessItem != null;
         }
 
         private bool columnsVisible()
         {
-            return this.selectedTab == GlossaryTab.Columns
-                || (this.selectedTab == GlossaryTab.DataItems && !this.dataItemsSplitContainer.Panel2Collapsed);
+            return this.selectedTab == GlossaryTab.DataItems && !this.dataItemsSplitContainer.Panel2Collapsed;
         }
 
         public void clear()
@@ -145,7 +149,10 @@ namespace GlossaryManager.GUI
         }
         public void setBusinessItems(IEnumerable<BusinessItem> businessItems, Domain domain)
         {
-            this.businessItemsShowing = true;
+            //turn showing off
+            this.businessItemsShowing = false;
+            //set selected tab
+            this.selectedTab = GlossaryTab.BusinessItems;
             this.BusinessItemsListView.Objects = businessItems;
             if (domain != null)
             {
@@ -153,10 +160,15 @@ namespace GlossaryManager.GUI
                 this.domainBreadCrumb.SelectedItem = getBreadCrumbSubItem(this.domainBreadCrumb.RootItem, domain) ?? this.domainBreadCrumb.RootItem;
             }
             this.BusinessItemsListView.SelectedObject = businessItems.FirstOrDefault();
+            //turn back on
+            this.businessItemsShowing = true;
         }
         public void setDataItems(IEnumerable<DataItem> dataItems, Domain domain)
         {
-            this.dataItemsShowing = true;
+            //turn showing off
+            this.dataItemsShowing = false;
+            //set selected tab
+            this.selectedTab = GlossaryTab.DataItems;
             this.dataItemsListView.Objects = dataItems;
             if (domain != null)
             {
@@ -164,6 +176,8 @@ namespace GlossaryManager.GUI
                 this.domainBreadCrumb.SelectedItem = getBreadCrumbSubItem(this.domainBreadCrumb.RootItem, domain) ?? this.domainBreadCrumb.RootItem;
             }
             this.dataItemsListView.SelectedObject = dataItems.FirstOrDefault();
+            //turn showing back on
+            this.dataItemsShowing = false;
         }
         internal void setColumns(List<EDDTable> tables, Domain domain)
         {
@@ -300,8 +314,6 @@ namespace GlossaryManager.GUI
                 {
                     case GlossaryTab.DataItems:
                         return this.dColumnsListView.SelectedObject as EDDColumn;
-                    case GlossaryTab.Columns:
-                        return this.columnsListView.SelectedObject as EDDColumn;
                     default:
                         return null;
                 }
@@ -460,34 +472,6 @@ namespace GlossaryManager.GUI
                         this.dC_DataItemTextBox.Text = this.selectedColumn?.dataItem?.Name;
                         this.dC_DataItemTextBox.Tag = this.selectedColumn?.dataItem;
                     }
-                    break;
-                case GlossaryTab.Columns:
-                    this.C_NameTextBox.Text = this.selectedColumn?.name;
-                    this.C_SizeUpDown.Text = this.selectedColumn?.column.type?.length.ToString();
-                    this.C_SizeUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.length : 0;
-                    this.C_PrecisionUpDown.Value = this.selectedColumn?.column.type != null ? this.selectedColumn.column.type.precision : 0;
-                    this.C_PrecisionUpDown.Text = this.selectedColumn?.column.type?.precision.ToString();
-                    C_DatatypeDropdown.Items.Clear();
-                    if (this.selectedColumn != null)
-                    {
-                        foreach (var datatype in this.selectedColumn.column.factory.baseDataTypes)
-                        {
-                            C_DatatypeDropdown.Items.Add(datatype);
-                        }
-                    }
-                    this.C_DatatypeDropdown.DisplayMember = "name";
-                    this.C_DatatypeDropdown.Text = this.selectedColumn?.column.type?.name;
-                    if (this.selectedColumn?.column.type != null
-                        && this.C_DatatypeDropdown.SelectedItem == null)
-                    {
-                        //find the datatype
-                        this.C_DatatypeDropdown.Items.Add(this.selectedColumn.column.type.type);
-                        this.C_DatatypeDropdown.SelectedItem = this.selectedColumn.column.type.type;
-                    }
-                    this.C_NotNullCheckBox.Checked = this.selectedColumn != null ? this.selectedColumn.column.isNotNullable : false;
-                    this.C_DefaultTextBox.Text = this.selectedColumn?.column.initialValue;
-                    this.C_DataItemTextBox.Text = this.selectedColumn?.dataItem?.Name;
-                    this.C_DataItemTextBox.Tag = this.selectedColumn?.dataItem;
                     break;
             }
         }
@@ -663,9 +647,6 @@ namespace GlossaryManager.GUI
                 case GlossaryTab.DataItems:
                     this.validateDataItemsChanges();
                     break;
-                case GlossaryTab.Columns:
-                    this.validateColumnChanges();
-                    break;
             }
             //set previous tab
             this.previousTab = this.selectedTab;
@@ -678,9 +659,6 @@ namespace GlossaryManager.GUI
                 case GlossaryTab.DataItems:
                     this.previousDataItem = null;
                     break;
-                case GlossaryTab.Columns:
-                    this.previousColumn = null;
-                    break;
             }
             this.enableDisable();
 
@@ -691,8 +669,20 @@ namespace GlossaryManager.GUI
             get
             {
                 if (this.DetailsTabControl.SelectedTab == this.BusinessItemsTabPage) return GlossaryTab.BusinessItems;
-                if (this.DetailsTabControl.SelectedTab == this.DataItemsTabPage) return GlossaryTab.DataItems;
-                else return GlossaryTab.Columns;
+                //default dataitems
+                return GlossaryTab.DataItems;
+            }
+            set
+            {
+                switch(value)
+                {
+                    case GlossaryTab.BusinessItems:
+                        this.DetailsTabControl.SelectedTab = this.BusinessItemsTabPage;
+                        break;
+                    case GlossaryTab.DataItems:
+                        this.DetailsTabControl.SelectedTab = this.DataItemsTabPage;
+                        break;
+                }
             }
         }
         public GlossaryTab previousTab { get; set; }
@@ -980,12 +970,31 @@ namespace GlossaryManager.GUI
             this.selectedColumn?.reload();
             this.dColumnsListView.RefreshSelectedObjects();
         }
+
+        public event EventHandler newLinkedButtonClicked;
+        private void newLinkedButton_Click(object sender, EventArgs e)
+        {
+            this.newLinkedButtonClicked?.Invoke(sender, e);
+        }
+        public void refreshObject(IEDDItem item)
+        {
+            var dataItem = item as DataItem;
+            if (dataItem != null) this.dataItemsListView.RefreshObject(dataItem);
+            var businessItem = item as BusinessItem;
+            if (businessItem != null) this.BusinessItemsListView.RefreshObject(dataItem);
+            var table = item as EDDTable;
+            if (table != null) this.dColumnsListView.RefreshObject(table);
+        }
+
+        private void newRightButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public enum GlossaryTab
     {
         BusinessItems,
-        DataItems,
-        Columns
+        DataItems
     }
 }

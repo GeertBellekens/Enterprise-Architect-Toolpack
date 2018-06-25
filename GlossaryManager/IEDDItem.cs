@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GlossaryManager
 {
-    interface IEDDItem
+    public interface IEDDItem
     {
         void selectInProjectBrowser();
         void openProperties();

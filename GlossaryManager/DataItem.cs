@@ -220,7 +220,15 @@ namespace GlossaryManager
                 this.businessItemLoaded = true;
             }
         }
-
+        public string businessItemName
+        {
+            get
+            {
+                return this.businessItem != null && String.IsNullOrWhiteSpace(this.businessItem.Name) ?
+                 "<empty>" :
+                 this.businessItem?.Name;
+            }
+        }
         public override string Stereotype { get { return "EDD_DataItem"; } }
 
         /// <summary>

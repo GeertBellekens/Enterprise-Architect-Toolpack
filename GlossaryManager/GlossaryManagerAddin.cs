@@ -51,26 +51,72 @@ namespace GlossaryManager
         {
             get
             {
-                if (this._mainControl == null && this.model != null)
-                {
-                    this._mainControl = this.model.addTab(appTitle, guiFQN) as EDD_MainControl;
-                    this._mainControl.HandleDestroyed += this.handleHandleDestroyed;
-                    this._mainControl.selectedDomainChanged += this.selectedDomainChanged;
-                    this._mainControl.newButtonClicked += this.newButtonClicked;
-                    //this._mainControl.selectedTabChanged += this.selectedTabChanged;
-                    this._mainControl.filterButtonClicked += this.filterButtonClicked;
-                    this._mainControl.getTableButtonClicked += this.getTableButtonClicked;
-                    //this._mainControl.showLinkedColumnsButtonClicked += this.showLinkedColumnsButtonClicked;
-                    this._mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage));
-                    this._mainControl.setStatusses(statusses: this.model.getStatusses());
-                    this._mainControl.setLogicalDatatypes(LogicalDatatype.getAllLogicalDatatypes(this.model));
-                    //TODO: add additional events
-                }
+                this.initialiseMainControl();
                 return this._mainControl;
             }
         }
+        private void initialiseMainControl()
+        {
+            if (this._mainControl == null && this.model != null)
+            {
+                this._mainControl = this.model.addTab(appTitle, guiFQN) as EDD_MainControl;
+                this._mainControl.HandleDestroyed += this.handleHandleDestroyed;
+                this._mainControl.selectedDomainChanged += this.selectedDomainChanged;
+                this._mainControl.newButtonClicked += this.newButtonClicked;
+                this._mainControl.filterButtonClicked += this.filterButtonClicked;
+                this._mainControl.getTableButtonClicked += this.getTableButtonClicked;
+                this._mainControl.newLinkedButtonClicked += this.newLinkedButtonClicked;
+                this._mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage));
+                this._mainControl.setStatusses(statusses: this.model.getStatusses());
+                this._mainControl.setLogicalDatatypes(LogicalDatatype.getAllLogicalDatatypes(this.model));
+            }
+        }
 
-
+        private void newLinkedButtonClicked(object sender, EventArgs e)
+        {
+            if (this._mainControl.selectedTab == GlossaryTab.DataItems)
+            {
+                //get selected dataitem
+                var dataItem = this._mainControl.selectedDataItem;
+                if (dataItem == null) return;
+                //switch to business item tab
+                this._mainControl.selectedTab = GlossaryTab.BusinessItems;
+                //create new Business Item
+                var newBusinessItem = this.addNewBusinessItem();
+                //set fields
+                newBusinessItem.Name = dataItem.Name;
+                newBusinessItem.Description = dataItem.Description;
+                newBusinessItem.Keywords = dataItem.Keywords;
+                newBusinessItem.domain = dataItem.domain;
+                //link the dataItem to the businessItem
+                dataItem.businessItem = newBusinessItem;
+                dataItem.save();
+                //move to the BusinessItemsTab
+                this._mainControl.setBusinessItems(new List<BusinessItem> { newBusinessItem }, newBusinessItem.domain);
+                //refresh the dataItem
+                this._mainControl.refreshObject(dataItem);
+            }
+            if (this._mainControl.selectedTab == GlossaryTab.BusinessItems)
+            {
+                //get selected businessItem
+                var businessItem = this._mainControl.selectedBusinessItem;
+                if (businessItem == null) return;
+                //switch to data item tab
+                this._mainControl.selectedTab = GlossaryTab.DataItems;
+                //create new DataItem
+                var newDataItem = this.addNewDataItem();
+                //set fields
+                newDataItem.Name = businessItem.Name;
+                newDataItem.Description = businessItem.Description;
+                newDataItem.Keywords = businessItem.Keywords;
+                newDataItem.domain = businessItem.domain;
+                newDataItem.businessItem = businessItem;
+                //move to the BusinessItemsTab
+                this._mainControl.setDataItems(new List<DataItem> { newDataItem }, newDataItem.domain);
+                //refresh the dataItem
+                this._mainControl.refreshObject(businessItem);
+            }
+        }
 
         private void getTableButtonClicked(object sender, EventArgs e)
         {
@@ -127,37 +173,41 @@ namespace GlossaryManager
             switch (this.mainControl.selectedTab)
             {
                 case GlossaryTab.BusinessItems:
-                    UML.Classes.Kernel.Package package = this.mainControl.selectedDomain != null
-                                        ? this.mainControl.selectedDomain.businessItemsPackage
-                                        : this.settings.businessItemsPackage;
-                    if (package == null
-                    && this.mainControl.selectedDomain != null)
-                    {
-                        //add the missing package
-                        this.mainControl.selectedDomain.createMissingPackage();
-                        package = this.mainControl.selectedDomain.businessItemsPackage;
-                    }
-                    var newBusinessItem = this.factory.addNew<BusinessItem>(package);
-                    this.mainControl.addItem(newBusinessItem);
+                    this.mainControl.addItem(addNewBusinessItem());
                     break;
                 case GlossaryTab.DataItems:
-                    package = this.mainControl.selectedDomain != null
-                                        ? this.mainControl.selectedDomain.dataItemsPackage
-                                        : this.settings.dataItemsPackage;
-                    if (package == null 
-                        && this.mainControl.selectedDomain != null)
-                    {
-                        //add the missing package
-                        this.mainControl.selectedDomain.createMissingPackage();
-                        package = this.mainControl.selectedDomain.dataItemsPackage;
-                    }
-                    var newDataItem = this.factory.addNew<DataItem>(package);
-                    this.mainControl.addItem(newDataItem);
-                    break;
-                case GlossaryTab.Columns:
-                    //TODO
+                    this.mainControl.addItem(addNewDataItem());
                     break;
             }
+        }
+        private DataItem addNewDataItem()
+        {
+            var package = this.mainControl.selectedDomain != null
+                    ? this.mainControl.selectedDomain.dataItemsPackage
+                    : this.settings.dataItemsPackage;
+            if (package == null
+                && this.mainControl.selectedDomain != null)
+            {
+                //add the missing package
+                this.mainControl.selectedDomain.createMissingPackage();
+                package = this.mainControl.selectedDomain.dataItemsPackage;
+            }
+            return this.factory.addNew<DataItem>(package);
+        }
+        private BusinessItem addNewBusinessItem()
+        {
+            UML.Classes.Kernel.Package package = this.mainControl.selectedDomain != null
+                                                    ? this.mainControl.selectedDomain.businessItemsPackage
+                                                    : this.settings.businessItemsPackage;
+            if (package == null
+            && this.mainControl.selectedDomain != null)
+            {
+                //add the missing package
+                this.mainControl.selectedDomain.createMissingPackage();
+                package = this.mainControl.selectedDomain.businessItemsPackage;
+            }
+            var newBusinessItem = this.factory.addNew<BusinessItem>(package);
+            return newBusinessItem;
         }
 
         public GlossaryManagerAddin() : base()
@@ -184,11 +234,13 @@ namespace GlossaryManager
         {
             this.model = new TSF_EA.Model(repository);
             //close the tab if still open
-            this._mainControl?.clear();
+            this.model.closeTab(appTitle);
             this._mainControl = null;
+            //get settings
             this.settings = new GlossaryManagerSettings(this.model);
+            //(re)-initialize
+            this.initialiseMainControl();
             this.factory = GlossaryItemFactory.getFactory(this.model, this.settings);
-            Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage);
             this.fullyLoaded = true;
         }
 
