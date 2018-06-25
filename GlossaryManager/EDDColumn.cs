@@ -64,7 +64,7 @@ namespace GlossaryManager
             {
                 if (!this.dataItemLoaded)
                 {
-                    var tv = this._wrappedColumn.wrappedattribute.getTaggedValue("EDD::dataitem");
+                    var tv = this._wrappedColumn.wrappedattribute?.getTaggedValue("EDD::dataitem");
                     if (tv != null)
                     {
                         var dataItemClass = tv.tagValue as TSF_EA.ElementWrapper;

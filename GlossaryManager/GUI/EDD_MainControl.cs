@@ -108,8 +108,6 @@ namespace GlossaryManager.GUI
             C_PrecisionUpDown.Enabled = ((BaseDataType)C_DatatypeDropdown.SelectedItem)?.hasPrecision == true;
             if (!C_PrecisionUpDown.Enabled) C_PrecisionUpDown.Text = string.Empty;
             this.newButton.Enabled = this.selectedDomain != null;
-            this.showLinkedColumnsButton.Enabled = this.selectedTab == GlossaryTab.DataItems 
-                                                    && this.selectedDataItem != null;
             //make the specific columns button invisible
             this.showAllColumnsButton.Visible = columnsVisible();
             this.getTableButton.Visible = columnsVisible();
@@ -118,6 +116,33 @@ namespace GlossaryManager.GUI
                                         Properties.Resources.newRight;
             this.newLinkedButton.Enabled = this.selectedTab == GlossaryTab.DataItems && this.selectedDataItem != null && this.selectedDataItem.businessItem == null
                                            || this.selectedTab == GlossaryTab.BusinessItems && this.selectedBusinessItem != null;
+            if (this.isColumnsFocussed)
+            {
+                this.linkedLeftButton.Image = Properties.Resources.linkedDataItemsLeft;
+                this.myToolTip.SetToolTip(this.linkedLeftButton, "Show linked Data Items");
+            }
+            else
+            {
+                this.linkedLeftButton.Image = Properties.Resources.linkedBusinessItems;
+                this.myToolTip.SetToolTip(this.linkedLeftButton, "Show linked Business Items");
+            }
+            this.linkedLeftButton.Enabled = this.selectedItem is EDDColumn
+                                            || this.selectedItem is DataItem;
+            this.linkedRightButton.Image = this.selectedTab == GlossaryTab.BusinessItems ?
+                                            Properties.Resources.linkedDataItemsRight :
+                                            Properties.Resources.linkedColums;
+            if (this.selectedTab == GlossaryTab.BusinessItems)
+            {
+                this.linkedRightButton.Image = Properties.Resources.linkedDataItemsRight;
+                this.myToolTip.SetToolTip(this.linkedRightButton, "Show linked Data Items");
+            }
+            else
+            {
+                this.linkedRightButton.Image = Properties.Resources.linkedColums;
+                this.myToolTip.SetToolTip(this.linkedRightButton, "Show linked Columns");
+            }
+
+
         }
 
         private bool columnsVisible()
@@ -137,7 +162,7 @@ namespace GlossaryManager.GUI
                     this.validateDataItemsChanges();
                     this.validateColumnChanges();
                     break;
-            }           
+            }
             this.BusinessItemsListView.ClearObjects();
             this.dataItemsListView.ClearObjects();
             this.columnsListView.ClearObjects();
@@ -329,6 +354,13 @@ namespace GlossaryManager.GUI
                     case GlossaryTab.BusinessItems:
                         return this.selectedBusinessItem;
                     case GlossaryTab.DataItems:
+                        if (this.isColumnsFocussed)
+                        {
+                            if (this.selectedColumn != null)
+                                return selectedColumn;
+                            if (this.selectedTable != null)
+                                return selectedTable;
+                        }
                         return this.selectedDataItem;
                     default:
                         //should never happen
@@ -455,7 +487,7 @@ namespace GlossaryManager.GUI
                     this.DI_BusinessItemTextBox.Tag = selectedDataItem?.businessItem;
                     this.DI_LabelTextBox.Text = selectedDataItem?.Label;
                     this.DI_DatatypeDropDown.SelectedItem = this.logicalDatatypes.FirstOrDefault(x => x.GUID == this.selectedDataItem?.logicalDatatype?.GUID);
-                    this.DI_SizeNumericUpDown.Value =  this.selectedDataItem != null && this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.Value : 0;
+                    this.DI_SizeNumericUpDown.Value = this.selectedDataItem != null && this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.Value : 0;
                     this.DI_SizeNumericUpDown.Text = this.selectedDataItem != null && this.selectedDataItem.Size.HasValue ? this.selectedDataItem.Size.ToString() : string.Empty;
                     this.DI_PrecisionUpDown.Value = this.selectedDataItem != null && this.selectedDataItem.Precision.HasValue ? this.selectedDataItem.Precision.Value : 0;
                     this.DI_PrecisionUpDown.Text = this.selectedDataItem != null && this.selectedDataItem.Precision.HasValue ? this.selectedDataItem.Precision.ToString() : string.Empty;
@@ -463,12 +495,12 @@ namespace GlossaryManager.GUI
                     this.DI_InitialValueTextBox.Text = this.selectedDataItem?.InitialValue;
                     this.DI_StatusComboBox.Text = selectedDataItem?.Status;
                     this.DI_VersionTextBox.Text = selectedDataItem?.Version;
-                    this.DI_KeywordsTextBox.Text = selectedDataItem != null ? string.Join(",", selectedDataItem.Keywords) : string.Empty ;
+                    this.DI_KeywordsTextBox.Text = selectedDataItem != null ? string.Join(",", selectedDataItem.Keywords) : string.Empty;
                     this.DI_CreationDateTextBox.Text = selectedDataItem?.CreateDate.ToString("G");
                     this.DI_CreatedUserTextBox.Text = selectedDataItem?.Author;
                     this.DI_ModifiedDateTextBox.Text = selectedDataItem?.UpdateDate.ToString("G");
                     this.DI_ModifiedUserTextBox.Text = selectedDataItem?.UpdatedBy;
-                    if (! this.dataItemsSplitContainer.Panel2Collapsed)
+                    if (!this.dataItemsSplitContainer.Panel2Collapsed)
                     {
                         this.dC_DataItemTextBox.Text = this.selectedColumn?.dataItem?.Name;
                         this.dC_DataItemTextBox.Tag = this.selectedColumn?.dataItem;
@@ -495,12 +527,6 @@ namespace GlossaryManager.GUI
                         this.saveDataItem(this.selectedDataItem);
                         //refresh listview
                         this.dataItemsListView.RefreshSelectedObjects();
-                    }
-                    if (this.selectedColumn != null)
-                    {
-                        this.saveColumn(this.selectedColumn);
-                        //refresh listview
-                        this.dColumnsListView.RefreshSelectedObjects();
                     }
                     break;
             }
@@ -586,7 +612,7 @@ namespace GlossaryManager.GUI
         {
             if (this.selectedTab == GlossaryTab.BusinessItems && businessItemsShowing
                || this.selectedTab == GlossaryTab.DataItems && dataItemsShowing)
-                    this.selectedDomainChanged?.Invoke(this.selectedDomain, e);
+                this.selectedDomainChanged?.Invoke(this.selectedDomain, e);
             this.enableDisable();
         }
 
@@ -656,6 +682,7 @@ namespace GlossaryManager.GUI
             {
                 case GlossaryTab.BusinessItems:
                     this.previousBusinessItem = null;
+                    this.isColumnsFocussed = false;
                     break;
                 case GlossaryTab.DataItems:
                     this.previousDataItem = null;
@@ -675,7 +702,7 @@ namespace GlossaryManager.GUI
             }
             set
             {
-                switch(value)
+                switch (value)
                 {
                     case GlossaryTab.BusinessItems:
                         this.DetailsTabControl.SelectedTab = this.BusinessItemsTabPage;
@@ -896,12 +923,35 @@ namespace GlossaryManager.GUI
             //set the dataitem
             column.dataItem = dataItem;
         }
-        private void showLinkedColumnsButton_Click(object sender, EventArgs e)
+        private void linkedRightButton_Click(object sender, EventArgs e)
         {
             //set mousecursor
             Cursor.Current = Cursors.WaitCursor;
-            this.setTablesVisible();
-            this.setTables(this.selectedDataItem.getLinkedColumns());
+            if (this.selectedItem is DataItem)
+            {
+                this.setTablesVisible();
+                this.setTables(this.selectedDataItem.getLinkedColumns());
+            }
+            else if (this.selectedItem is BusinessItem)
+            {
+                this.setDataItems(this.selectedBusinessItem.linkedDataItems, this.selectedBusinessItem.domain);
+            }
+            //set mousecursor back to normal
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void linkedLeftButton_Click(object sender, EventArgs e)
+        {
+            //set mousecursor
+            Cursor.Current = Cursors.WaitCursor;
+            if (this.isColumnsFocussed && this.selectedColumn != null)
+            {
+                this.setDataItems(new List<DataItem> { this.selectedColumn.dataItem }, this.selectedColumn.dataItem?.domain);
+            }
+            else if (this.selectedItem is DataItem)
+            {
+                this.setBusinessItems(new List<BusinessItem> { this.selectedDataItem.businessItem }, this.selectedDataItem.domain);
+            }
             //set mousecursor back to normal
             Cursor.Current = Cursors.Default;
         }
@@ -956,7 +1006,7 @@ namespace GlossaryManager.GUI
                     this.dColumnsListView.SelectedObject = targetColumn;
                     //set the data field
                     this.setLinkedDataItemData(targetColumn, dataItem);
-                    
+
                 }
             }
         }
@@ -986,10 +1036,17 @@ namespace GlossaryManager.GUI
             var table = item as EDDTable;
             if (table != null) this.dColumnsListView.RefreshObject(table);
         }
-
-        private void newRightButton_Click(object sender, EventArgs e)
+        bool isColumnsFocussed;
+        private void dataItemsSplitContainer_Panel2_Enter(object sender, EventArgs e)
         {
+            this.isColumnsFocussed = true;
+            enableDisable();
+        }
 
+        private void dataItemsSplitContainer_Panel1_Enter(object sender, EventArgs e)
+        {
+            this.isColumnsFocussed = false;
+            enableDisable();
         }
     }
 

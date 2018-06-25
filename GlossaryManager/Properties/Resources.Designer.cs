@@ -73,9 +73,39 @@ namespace GlossaryManager.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap linkedBusinessItems {
+            get {
+                object obj = ResourceManager.GetObject("linkedBusinessItems", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap linkedColums {
             get {
                 object obj = ResourceManager.GetObject("linkedColums", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap linkedDataItemsLeft {
+            get {
+                object obj = ResourceManager.GetObject("linkedDataItemsLeft", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap linkedDataItemsRight {
+            get {
+                object obj = ResourceManager.GetObject("linkedDataItemsRight", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
