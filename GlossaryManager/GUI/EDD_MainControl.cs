@@ -108,7 +108,8 @@ namespace GlossaryManager.GUI
             C_PrecisionUpDown.Enabled = ((BaseDataType)C_DatatypeDropdown.SelectedItem)?.hasPrecision == true;
             if (!C_PrecisionUpDown.Enabled) C_PrecisionUpDown.Text = string.Empty;
             this.newButton.Enabled = this.selectedDomain != null;
-            this.showLinkedColumnsButton.Enabled = this.selectedDataItem != null;
+            this.showLinkedColumnsButton.Enabled = this.selectedTab == GlossaryTab.DataItems 
+                                                    && this.selectedDataItem != null;
             //make the specific columns button invisible
             this.showAllColumnsButton.Visible = columnsVisible();
             this.getTableButton.Visible = columnsVisible();
@@ -177,7 +178,7 @@ namespace GlossaryManager.GUI
             }
             this.dataItemsListView.SelectedObject = dataItems.FirstOrDefault();
             //turn showing back on
-            this.dataItemsShowing = false;
+            this.dataItemsShowing = true;
         }
         internal void setColumns(List<EDDTable> tables, Domain domain)
         {
