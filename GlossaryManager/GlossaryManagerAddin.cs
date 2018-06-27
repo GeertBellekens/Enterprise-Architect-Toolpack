@@ -239,7 +239,7 @@ namespace GlossaryManager
             //get settings
             this.settings = new GlossaryManagerSettings(this.model);
             //(re)-initialize
-            this.initialiseMainControl();
+            if (this.settings.showWindowAtStartup) this.initialiseMainControl();
             this.factory = GlossaryItemFactory.getFactory(this.model, this.settings);
             this.fullyLoaded = true;
         }

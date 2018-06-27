@@ -27,9 +27,11 @@ namespace GlossaryManager.GUI
             this.dataItemsPackageTextBox.Text = this.settings.dataItemsPackage != null
                                                     ? this.settings.dataItemsPackage.name
                                                     : string.Empty;
+            this.showWindowCheckbox.Checked = this.settings.showWindowAtStartup;
         }
         private void saveData()
         {
+            this.settings.showWindowAtStartup = this.showWindowCheckbox.Checked;
             this.settings.save();
         }
 

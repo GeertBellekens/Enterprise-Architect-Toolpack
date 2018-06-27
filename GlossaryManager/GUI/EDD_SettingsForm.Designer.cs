@@ -38,6 +38,7 @@
             this.applyButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
+            this.showWindowCheckbox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // browseBusinessItemsPackageButton
@@ -103,7 +104,7 @@
             // applyButton
             // 
             this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.applyButton.Location = new System.Drawing.Point(272, 74);
+            this.applyButton.Location = new System.Drawing.Point(272, 112);
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(75, 23);
             this.applyButton.TabIndex = 19;
@@ -115,7 +116,7 @@
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(191, 74);
+            this.cancelButton.Location = new System.Drawing.Point(191, 112);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 18;
@@ -126,7 +127,7 @@
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(110, 74);
+            this.okButton.Location = new System.Drawing.Point(110, 112);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 17;
@@ -134,13 +135,26 @@
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
+            // showWindowCheckbox
+            // 
+            this.showWindowCheckbox.AutoSize = true;
+            this.showWindowCheckbox.Checked = true;
+            this.showWindowCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showWindowCheckbox.Location = new System.Drawing.Point(15, 72);
+            this.showWindowCheckbox.Name = "showWindowCheckbox";
+            this.showWindowCheckbox.Size = new System.Drawing.Size(142, 17);
+            this.showWindowCheckbox.TabIndex = 20;
+            this.showWindowCheckbox.Text = "Show window at start-up";
+            this.showWindowCheckbox.UseVisualStyleBackColor = true;
+            // 
             // EDD_SettingsForm
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(359, 109);
+            this.ClientSize = new System.Drawing.Size(359, 147);
+            this.Controls.Add(this.showWindowCheckbox);
             this.Controls.Add(this.applyButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
@@ -173,5 +187,6 @@
         private System.Windows.Forms.Button applyButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button okButton;
+        private System.Windows.Forms.CheckBox showWindowCheckbox;
     }
 }

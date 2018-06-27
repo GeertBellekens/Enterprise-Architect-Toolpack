@@ -103,6 +103,17 @@ namespace GlossaryManager
                 this.dataItemsPackages = dataItemPackageDictionary;
             }
         }
+        public bool showWindowAtStartup
+        {
+            get
+            {
+                return this.getBooleanValue("showWindowAtStartup");
+            }
+            set
+            {
+                this.setBooleanValue("showWindowAtStartup", value);
+            }
+        }
 
     }
 }
