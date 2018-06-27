@@ -1048,6 +1048,11 @@ namespace GlossaryManager.GUI
             this.isColumnsFocussed = false;
             enableDisable();
         }
+
+        private void dColumnsListView_DoubleClick(object sender, EventArgs e)
+        {
+            this.selectedItem?.openProperties();
+        }
     }
 
     public enum GlossaryTab

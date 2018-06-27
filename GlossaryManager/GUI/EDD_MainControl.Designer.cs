@@ -1062,6 +1062,7 @@ namespace GlossaryManager.GUI
             this.dColumnsListView.ModelCanDrop += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.dColumnsListView_ModelCanDrop);
             this.dColumnsListView.ModelDropped += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.dColumnsListView_ModelDropped);
             this.dColumnsListView.SelectedIndexChanged += new System.EventHandler(this.dColumnsListView_SelectedIndexChanged);
+            this.dColumnsListView.DoubleClick += new System.EventHandler(this.dColumnsListView_DoubleClick);
             // 
             // dC_NameColumn
             // 
