@@ -54,6 +54,11 @@ namespace GlossaryManager.GUI
             this.BU_DomainCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_DataitemsCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_DescriptionCol = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.itemsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.findInProjectBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showLeftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BU_ModifiedByTextBox = new System.Windows.Forms.TextBox();
             this.BU_ModifiedByLabel = new System.Windows.Forms.Label();
             this.BU_ModifiedDateTextBox = new System.Windows.Forms.TextBox();
@@ -176,6 +181,7 @@ namespace GlossaryManager.GUI
             this.DetailsTabControl.SuspendLayout();
             this.BusinessItemsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BusinessItemsListView)).BeginInit();
+            this.itemsContextMenu.SuspendLayout();
             this.DataItemsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataItemsSplitContainer)).BeginInit();
             this.dataItemsSplitContainer.Panel1.SuspendLayout();
@@ -280,6 +286,7 @@ namespace GlossaryManager.GUI
             this.BU_DomainCol,
             this.BU_DataitemsCol,
             this.BU_DescriptionCol});
+            this.BusinessItemsListView.ContextMenuStrip = this.itemsContextMenu;
             this.BusinessItemsListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.BusinessItemsListView.FullRowSelect = true;
             this.BusinessItemsListView.GridLines = true;
@@ -327,6 +334,49 @@ namespace GlossaryManager.GUI
             this.BU_DescriptionCol.FillsFreeSpace = true;
             this.BU_DescriptionCol.Text = "Description";
             this.BU_DescriptionCol.ToolTipText = "Description of this Business Item";
+            // 
+            // itemsContextMenu
+            // 
+            this.itemsContextMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.itemsContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.findInProjectBrowserToolStripMenuItem,
+            this.openPropertiesToolStripMenuItem,
+            this.showLeftToolStripMenuItem,
+            this.showRightToolStripMenuItem});
+            this.itemsContextMenu.Name = "itemsContextMenu";
+            this.itemsContextMenu.Size = new System.Drawing.Size(196, 92);
+            // 
+            // findInProjectBrowserToolStripMenuItem
+            // 
+            this.findInProjectBrowserToolStripMenuItem.Name = "findInProjectBrowserToolStripMenuItem";
+            this.findInProjectBrowserToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.findInProjectBrowserToolStripMenuItem.Text = "Find in Project Browser";
+            this.findInProjectBrowserToolStripMenuItem.ToolTipText = "Select the item in the Project Browser";
+            this.findInProjectBrowserToolStripMenuItem.Click += new System.EventHandler(this.findInProjectBrowserToolStripMenuItem_Click);
+            // 
+            // openPropertiesToolStripMenuItem
+            // 
+            this.openPropertiesToolStripMenuItem.Name = "openPropertiesToolStripMenuItem";
+            this.openPropertiesToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.openPropertiesToolStripMenuItem.Text = "Open Properties";
+            this.openPropertiesToolStripMenuItem.ToolTipText = "Open the properties dialog for this item";
+            this.openPropertiesToolStripMenuItem.Click += new System.EventHandler(this.openPropertiesToolStripMenuItem_Click);
+            // 
+            // showLeftToolStripMenuItem
+            // 
+            this.showLeftToolStripMenuItem.Name = "showLeftToolStripMenuItem";
+            this.showLeftToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.showLeftToolStripMenuItem.Text = "Show Left";
+            this.showLeftToolStripMenuItem.ToolTipText = "Show the linked items to the left";
+            this.showLeftToolStripMenuItem.Click += new System.EventHandler(this.showLeftToolStripMenuItem_Click);
+            // 
+            // showRightToolStripMenuItem
+            // 
+            this.showRightToolStripMenuItem.Name = "showRightToolStripMenuItem";
+            this.showRightToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.showRightToolStripMenuItem.Text = "Show Right";
+            this.showRightToolStripMenuItem.ToolTipText = "Show the linked items to the right";
+            this.showRightToolStripMenuItem.Click += new System.EventHandler(this.showRightToolStripMenuItem_Click);
             // 
             // BU_ModifiedByTextBox
             // 
@@ -612,6 +662,7 @@ namespace GlossaryManager.GUI
             this.DI_DatatypeColumn,
             this.DI_DomainColumn,
             this.DI_BusinessItem});
+            this.dataItemsListView.ContextMenuStrip = this.itemsContextMenu;
             this.dataItemsListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.dataItemsListView.FullRowSelect = true;
             this.dataItemsListView.GridLines = true;
@@ -1036,6 +1087,7 @@ namespace GlossaryManager.GUI
             this.dC_PropertiesColumn,
             this.dC_DataitemColumn,
             this.dC_DatabaseColumn});
+            this.dColumnsListView.ContextMenuStrip = this.itemsContextMenu;
             this.dColumnsListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.dColumnsListView.FullRowSelect = true;
             this.dColumnsListView.GridLines = true;
@@ -1612,6 +1664,7 @@ namespace GlossaryManager.GUI
             this.BusinessItemsTabPage.ResumeLayout(false);
             this.BusinessItemsTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BusinessItemsListView)).EndInit();
+            this.itemsContextMenu.ResumeLayout(false);
             this.DataItemsTabPage.ResumeLayout(false);
             this.DataItemsTabPage.PerformLayout();
             this.dataItemsSplitContainer.Panel1.ResumeLayout(false);
@@ -1750,5 +1803,10 @@ namespace GlossaryManager.GUI
         private OLVColumn BU_DataitemsCol;
         private System.Windows.Forms.Button newLinkedButton;
         private System.Windows.Forms.Button linkedLeftButton;
+        private System.Windows.Forms.ContextMenuStrip itemsContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem findInProjectBrowserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openPropertiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showLeftToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showRightToolStripMenuItem;
     }
 }

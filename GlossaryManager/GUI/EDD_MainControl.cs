@@ -119,29 +119,46 @@ namespace GlossaryManager.GUI
             if (this.isColumnsFocussed)
             {
                 this.linkedLeftButton.Image = Properties.Resources.linkedDataItemsLeft;
-                this.myToolTip.SetToolTip(this.linkedLeftButton, "Show linked Data Items");
+                this.linkedLeftButton.Tag = "Show linked Data Items";
+                
             }
             else
             {
                 this.linkedLeftButton.Image = Properties.Resources.linkedBusinessItems;
-                this.myToolTip.SetToolTip(this.linkedLeftButton, "Show linked Business Items");
+                this.linkedLeftButton.Tag = "Show linked Business Items";
             }
+            this.myToolTip.SetToolTip(this.linkedLeftButton, this.linkedLeftButton.Tag.ToString());
             this.linkedLeftButton.Enabled = this.selectedItem is EDDColumn
                                             || this.selectedItem is DataItem;
-            this.linkedRightButton.Image = this.selectedTab == GlossaryTab.BusinessItems ?
-                                            Properties.Resources.linkedDataItemsRight :
-                                            Properties.Resources.linkedColums;
+            //takeover properties from linkedLeftButton to context menu item
+            this.showLeftToolStripMenuItem.Image = this.linkedLeftButton.Image;
+            this.showLeftToolStripMenuItem.Text = this.linkedLeftButton.Tag.ToString();
+            this.showLeftToolStripMenuItem.Enabled = this.linkedLeftButton.Enabled;
+            
+            
             if (this.selectedTab == GlossaryTab.BusinessItems)
             {
                 this.linkedRightButton.Image = Properties.Resources.linkedDataItemsRight;
-                this.myToolTip.SetToolTip(this.linkedRightButton, "Show linked Data Items");
+                this.linkedRightButton.Tag = "Show linked Data Items";
             }
             else
             {
                 this.linkedRightButton.Image = Properties.Resources.linkedColums;
-                this.myToolTip.SetToolTip(this.linkedRightButton, "Show linked Columns");
+                this.linkedRightButton.Tag = "Show linked Columns";
             }
-
+            this.myToolTip.SetToolTip(this.linkedRightButton, this.linkedRightButton.Tag.ToString());
+            this.linkedRightButton.Enabled = this.selectedItem is DataItem
+                                            || this.selectedItem is BusinessItem;
+            //take over properties from linkedRightButton
+            this.showRightToolStripMenuItem.Image = this.linkedRightButton.Image;
+            this.showRightToolStripMenuItem.Text = this.linkedRightButton.Tag.ToString();
+            this.showRightToolStripMenuItem.Enabled = this.linkedRightButton.Enabled;
+            //takeover properties from openProperties Button
+            this.openPropertiesToolStripMenuItem.Enabled = this.openPropertiesButton.Enabled;
+            this.openPropertiesToolStripMenuItem.Image = this.openPropertiesButton.Image;
+            //takeover properties from navigateProjectBrowserbutton
+            this.findInProjectBrowserToolStripMenuItem.Enabled = this.navigateProjectBrowserButton.Enabled;
+            this.findInProjectBrowserToolStripMenuItem.Image = this.navigateProjectBrowserButton.Image;
 
         }
 
@@ -925,6 +942,10 @@ namespace GlossaryManager.GUI
         }
         private void linkedRightButton_Click(object sender, EventArgs e)
         {
+            this.navigateRight();
+        }
+        private void navigateRight()
+        {
             //set mousecursor
             Cursor.Current = Cursors.WaitCursor;
             if (this.selectedItem is DataItem)
@@ -941,6 +962,10 @@ namespace GlossaryManager.GUI
         }
 
         private void linkedLeftButton_Click(object sender, EventArgs e)
+        {
+            navigateleft();
+        }
+        private void navigateleft()
         {
             //set mousecursor
             Cursor.Current = Cursors.WaitCursor;
@@ -1052,6 +1077,26 @@ namespace GlossaryManager.GUI
         private void dColumnsListView_DoubleClick(object sender, EventArgs e)
         {
             this.selectedItem?.openProperties();
+        }
+
+        private void findInProjectBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.selectedItem?.selectInProjectBrowser();
+        }
+
+        private void openPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.selectedItem?.openProperties();
+        }
+
+        private void showLeftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.navigateleft();
+        }
+
+        private void showRightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.navigateRight();
         }
     }
 
