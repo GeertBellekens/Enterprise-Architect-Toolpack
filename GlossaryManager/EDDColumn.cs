@@ -85,12 +85,12 @@ namespace GlossaryManager
                 this.dataItemLoaded = true;
                 if ( newdataItem != null )
                 {
-
+                    this.column.name = newdataItem.Label;
+                    this.column.type = new DB_EA.DataType((DB_EA.BaseDataType)newdataItem.logicalDatatype.getBaseDatatype(this.column.factory.databaseName)
+                                            , newdataItem.getSize(), newdataItem.getPrecision());
+                    this.column.initialValue = newdataItem.InitialValue;
                 }
-                this.column.name = newdataItem.Label;
-                this.column.type = new DB_EA.DataType((DB_EA.BaseDataType)newdataItem.logicalDatatype.getBaseDatatype(this.column.factory.databaseName)
-                                        , newdataItem.getSize(), newdataItem.getPrecision());
-                this.column.initialValue = newdataItem.InitialValue;
+                
             }
         }
 

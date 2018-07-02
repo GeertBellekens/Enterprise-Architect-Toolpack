@@ -128,7 +128,8 @@ namespace GlossaryManager
             set
             {
                 _domain = value;
-                setOwningPackage();
+                if (_domain != null)
+                    setOwningPackage();
             }
         }
         public string domainPath

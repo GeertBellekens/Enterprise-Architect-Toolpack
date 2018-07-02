@@ -111,9 +111,25 @@ namespace GlossaryManager.GUI
             //make the specific columns button invisible
             this.showAllColumnsButton.Visible = columnsVisible();
             this.getTableButton.Visible = columnsVisible();
-            this.newLinkedButton.Image = this.selectedTab == GlossaryTab.DataItems || this.selectedItem is EDDColumn ?
-                                        Properties.Resources.newLeft :
-                                        Properties.Resources.newRight;
+            if (this.selectedTab == GlossaryTab.DataItems || this.selectedItem is EDDColumn)
+            {
+                this.newLinkedButton.Image = Properties.Resources.newLeft;
+                if (this.selectedItem is EDDColumn)
+                {
+                    this.newLinkedButton.Tag = "Create new linked Data Item";
+                }
+                else
+                {
+                    this.newLinkedButton.Tag = "Create new linked Business Item";
+                }
+            }
+            else
+            {
+                this.newLinkedButton.Image= Properties.Resources.newRight;
+                this.newLinkedButton.Tag = "Create new linked Data Item";
+            }
+            //set tooltip
+            this.myToolTip.SetToolTip(this.newLinkedButton, this.newLinkedButton.Tag.ToString());
             this.newLinkedButton.Enabled = this.selectedTab == GlossaryTab.DataItems && this.selectedDataItem != null && this.selectedDataItem.businessItem == null
                                         || this.selectedItem is EDDColumn   
                                         || this.selectedTab == GlossaryTab.BusinessItems && this.selectedBusinessItem != null;
@@ -364,7 +380,7 @@ namespace GlossaryManager.GUI
                 }
             }
         }
-        private IEDDItem selectedItem
+        public IEDDItem selectedItem
         {
             get
             {
@@ -376,9 +392,9 @@ namespace GlossaryManager.GUI
                         if (this.isColumnsFocussed)
                         {
                             if (this.selectedColumn != null)
-                                return selectedColumn;
+                                return this.selectedColumn;
                             if (this.selectedTable != null)
-                                return selectedTable;
+                                return this.selectedTable;
                         }
                         return this.selectedDataItem;
                     default:
@@ -741,14 +757,13 @@ namespace GlossaryManager.GUI
                 var businessItem = this.selectedDataItem.selectBusinessItem();
                 this.DI_BusinessItemTextBox.Text = businessItem?.Name;
                 this.DI_BusinessItemTextBox.Tag = businessItem;
+                this.enableDisable();
             }
         }
         private void dataItemsListView_DoubleClick(object sender, EventArgs e)
         {
             this.selectedDataItem?.openProperties();
         }
-
-
 
         private void DI_DatatypeSelectButton_Click(object sender, EventArgs e)
         {

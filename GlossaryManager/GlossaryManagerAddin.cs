@@ -44,6 +44,7 @@ namespace GlossaryManager
 
         private GlossaryManagerSettings settings = null;
         private GlossaryItemFactory factory = null;
+        private IEnumerable<LogicalDatatype> logicalDatatypes;
 
 
         private EDD_MainControl _mainControl;
@@ -68,7 +69,7 @@ namespace GlossaryManager
                 this._mainControl.newLinkedButtonClicked += this.newLinkedButtonClicked;
                 this._mainControl.setDomains(Domain.getAllDomains(this.settings.businessItemsPackage, this.settings.dataItemsPackage));
                 this._mainControl.setStatusses(statusses: this.model.getStatusses());
-                this._mainControl.setLogicalDatatypes(LogicalDatatype.getAllLogicalDatatypes(this.model));
+                this._mainControl.setLogicalDatatypes(this.logicalDatatypes);
             }
         }
 
@@ -76,7 +77,7 @@ namespace GlossaryManager
         {
             if (this._mainControl.selectedTab == GlossaryTab.DataItems)
             {
-                var column = this._mainControl.selectedColumn;
+                var column = this._mainControl.selectedItem as EDDColumn;
                 if (column != null)
                 {
                     //create new DataItem
@@ -87,37 +88,47 @@ namespace GlossaryManager
                     newDataItem.Size = column.column?.type?.length;
                     newDataItem.Precision = column.column?.type?.precision;
                     newDataItem.domain = this._mainControl.selectedDomain;
-                    //TODO: logicaldatatype
+                    //find the logical datatype corresponding to the datatype of the column
+                    if (column?.column?.type?.type != null
+                        && column.table?.wrappedTable?.databaseOwner != null)
+                    {
+                        newDataItem.logicalDatatype = this.logicalDatatypes.FirstOrDefault(x =>
+                            x.getBaseDatatype(column.table.wrappedTable.databaseOwner.type)?.name
+                                == column.column.type.type.name);
+                    }
                     //set dataitem on column
                     column.dataItem = newDataItem;
                     column.save();
-                    //move to the BusinessItemsTab
+                    //move to the DataItems tab
                     this._mainControl.setDataItems(new List<DataItem> { newDataItem }, newDataItem.domain);
                 }
-                //get selected dataitem
-                var dataItem = this._mainControl.selectedDataItem;
-                if (dataItem == null) return;
-                //switch to business item tab
-                this._mainControl.selectedTab = GlossaryTab.BusinessItems;
-                //create new Business Item
-                var newBusinessItem = this.addNewBusinessItem();
-                //set fields
-                newBusinessItem.Name = dataItem.Name;
-                newBusinessItem.Description = dataItem.Description;
-                newBusinessItem.Keywords = dataItem.Keywords;
-                newBusinessItem.domain = dataItem.domain;
-                //link the dataItem to the businessItem
-                dataItem.businessItem = newBusinessItem;
-                dataItem.save();
-                //move to the BusinessItemsTab
-                this._mainControl.setBusinessItems(new List<BusinessItem> { newBusinessItem }, newBusinessItem.domain);
-                //refresh the dataItem
-                this._mainControl.refreshObject(dataItem);
+                else
+                {
+                    //get selected dataitem
+                    var dataItem = this._mainControl.selectedItem as DataItem;
+                    if (dataItem == null) return;
+                    //switch to business item tab
+                    this._mainControl.selectedTab = GlossaryTab.BusinessItems;
+                    //create new Business Item
+                    var newBusinessItem = this.addNewBusinessItem();
+                    //set fields
+                    newBusinessItem.Name = dataItem.Name;
+                    newBusinessItem.Description = dataItem.Description;
+                    newBusinessItem.Keywords = dataItem.Keywords;
+                    newBusinessItem.domain = dataItem.domain;
+                    //link the dataItem to the businessItem
+                    dataItem.businessItem = newBusinessItem;
+                    dataItem.save();
+                    //move to the BusinessItemsTab
+                    this._mainControl.setBusinessItems(new List<BusinessItem> { newBusinessItem }, newBusinessItem.domain);
+                    //refresh the dataItem
+                    this._mainControl.refreshObject(dataItem);
+                }
             }
-            if (this._mainControl.selectedTab == GlossaryTab.BusinessItems)
+            else if (this._mainControl.selectedTab == GlossaryTab.BusinessItems)
             {
                 //get selected businessItem
-                var businessItem = this._mainControl.selectedBusinessItem;
+                var businessItem = this._mainControl.selectedItem as BusinessItem;
                 if (businessItem == null) return;
                 //switch to data item tab
                 this._mainControl.selectedTab = GlossaryTab.DataItems;
@@ -256,6 +267,8 @@ namespace GlossaryManager
             this._mainControl = null;
             //get settings
             this.settings = new GlossaryManagerSettings(this.model);
+            //get the logical datatypes
+            this.logicalDatatypes = LogicalDatatype.getAllLogicalDatatypes(this.model);
             //(re)-initialize
             if (this.settings.showWindowAtStartup) this.initialiseMainControl();
             this.factory = GlossaryItemFactory.getFactory(this.model, this.settings);
