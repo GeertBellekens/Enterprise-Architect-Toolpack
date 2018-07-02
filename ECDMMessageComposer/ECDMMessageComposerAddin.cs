@@ -368,6 +368,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
         /// <returns>true if this element is now completely writable</returns>
         private bool checkCompletelyWritable(UML.Classes.Kernel.Element element)
         {
+            if (element == null) return true;
             if (element.isReadOnly) return false;
             foreach (var subElement in element.ownedElements)
             {
