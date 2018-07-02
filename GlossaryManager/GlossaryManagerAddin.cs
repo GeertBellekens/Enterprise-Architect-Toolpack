@@ -76,6 +76,24 @@ namespace GlossaryManager
         {
             if (this._mainControl.selectedTab == GlossaryTab.DataItems)
             {
+                var column = this._mainControl.selectedColumn;
+                if (column != null)
+                {
+                    //create new DataItem
+                    var newDataItem = this.addNewDataItem();
+                    //set fields
+                    newDataItem.Name = column.name;
+                    newDataItem.Label = column.name;
+                    newDataItem.Size = column.column?.type?.length;
+                    newDataItem.Precision = column.column?.type?.precision;
+                    newDataItem.domain = this._mainControl.selectedDomain;
+                    //TODO: logicaldatatype
+                    //set dataitem on column
+                    column.dataItem = newDataItem;
+                    column.save();
+                    //move to the BusinessItemsTab
+                    this._mainControl.setDataItems(new List<DataItem> { newDataItem }, newDataItem.domain);
+                }
                 //get selected dataitem
                 var dataItem = this._mainControl.selectedDataItem;
                 if (dataItem == null) return;

@@ -111,11 +111,13 @@ namespace GlossaryManager.GUI
             //make the specific columns button invisible
             this.showAllColumnsButton.Visible = columnsVisible();
             this.getTableButton.Visible = columnsVisible();
-            this.newLinkedButton.Image = this.selectedTab == GlossaryTab.DataItems ?
+            this.newLinkedButton.Image = this.selectedTab == GlossaryTab.DataItems || this.selectedItem is EDDColumn ?
                                         Properties.Resources.newLeft :
                                         Properties.Resources.newRight;
             this.newLinkedButton.Enabled = this.selectedTab == GlossaryTab.DataItems && this.selectedDataItem != null && this.selectedDataItem.businessItem == null
-                                           || this.selectedTab == GlossaryTab.BusinessItems && this.selectedBusinessItem != null;
+                                        || this.selectedItem is EDDColumn   
+                                        || this.selectedTab == GlossaryTab.BusinessItems && this.selectedBusinessItem != null;
+                                            
             if (this.isColumnsFocussed)
             {
                 this.linkedLeftButton.Image = Properties.Resources.linkedDataItemsLeft;
