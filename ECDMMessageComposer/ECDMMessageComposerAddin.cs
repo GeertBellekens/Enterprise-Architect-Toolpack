@@ -177,15 +177,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                 UML.Classes.Kernel.Package targetPackage = null;
                 if (this.settings.generateToArtifactPackage)
                 {
-                    string sqlGetSchemaArtifact = "select o.Object_ID from t_object o " 
-                                                  + " inner join t_document d on d.ElementID = o.ea_guid "
-                                                  + $"where d.StrContent like '%<description name=\"{composer.SchemaName}\"%'";
-                    var schemaArtifacts = this.EAModel.getElementWrappersByQuery(sqlGetSchemaArtifact);
-                    //only use if only one artifact was found
-                    if (schemaArtifacts.Count == 1)
-                    {
-                        targetPackage = schemaArtifacts.First().owningPackage;
-                    }
+                    targetPackage = schema.containerElement?.owningPackage;
                 }
                 if (targetPackage == null)
                 {
