@@ -174,46 +174,58 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
             try
             {
                 Schema schema = this.schemaFactory.createSchema(composer, this.settings);
-                UML.Classes.Kernel.Element selectedElement = this.model.getUserSelectedElement(new List<string> { "Package" });
-                if (selectedElement != null)
+                UML.Classes.Kernel.Package targetPackage = null;
+                if (this.settings.generateToArtifactPackage)
                 {
-                    var targetPackage = selectedElement as UML.Classes.Kernel.Package;
-                    if (targetPackage != null)
+                    string sqlGetSchemaArtifact = "select o.Object_ID from t_object o " 
+                                                  + " inner join t_document d on d.ElementID = o.ea_guid "
+                                                  + $"where d.StrContent like '%<description name=\"{composer.SchemaName}\"%'";
+                    var schemaArtifacts = this.EAModel.getElementWrappersByQuery(sqlGetSchemaArtifact);
+                    //only use if only one artifact was found
+                    if (schemaArtifacts.Count == 1)
                     {
-                        Cursor.Current = Cursors.WaitCursor;
-                        bool writable = true;
-                        //check if package is writable
-                        if (this.settings.checkSecurity)
+                        targetPackage = schemaArtifacts.First().owningPackage;
+                    }
+                }
+                if (targetPackage == null)
+                {
+                    targetPackage = this.model.getUserSelectedPackage() as UML.Classes.Kernel.Package;
+                }
+                if (targetPackage != null)
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    bool writable = true;
+                    //check if package is writable
+                    if (this.settings.checkSecurity)
+                    {
+                        writable = checkCompletelyWritable(targetPackage);
+                        if (!writable)
                         {
-                            writable = checkCompletelyWritable(targetPackage);
-                            if (!writable)
+                            DialogResult lockPackageResponse = MessageBox.Show("Package is read-only" + Environment.NewLine + "Would you like to lock the package?"
+                                            , "Lock target Package?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            //lock the elements immediately
+                            if (lockPackageResponse == DialogResult.Yes)
                             {
-                                DialogResult lockPackageResponse = MessageBox.Show("Package is read-only" + Environment.NewLine + "Would you like to lock the package?"
-                                                , "Lock target Package?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                //lock the elements immediately
-                                if (lockPackageResponse == DialogResult.Yes)
+                                writable = makeCompletelyWritable(targetPackage);
+                                if (!writable)
                                 {
-                                    writable = makeCompletelyWritable(targetPackage);
-                                    if (!writable)
-                                    {
-                                        //if not writable then inform user and stop further processing;
-                                        MessageBox.Show("Target package could not be locked", "Target Read-Only", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    }
+                                    //if not writable then inform user and stop further processing;
+                                    MessageBox.Show("Target package could not be locked", "Target Read-Only", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                         }
-                        //only proceed if target package is writable
-                        if (writable)
-                        {
-                            //check if the already contains classes
-                            DialogResult response = DialogResult.No;
-                            response = MessageBox.Show($"Are you sure you want to generate the subset to package '{targetPackage.name}'?"
-                                                       , "Generate Subset?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    }
+                    //only proceed if target package is writable
+                    if (writable)
+                    {
+                        //check if the already contains classes
+                        DialogResult response = DialogResult.No;
+                        response = MessageBox.Show($"Are you sure you want to generate the subset to package '{targetPackage.name}'?"
+                                                   , "Generate Subset?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                            if (response == DialogResult.Yes)
-                            {
-                                this.updateMessageSubset(schema, targetPackage);
-                            }
+                        if (response == DialogResult.Yes)
+                        {
+                            this.updateMessageSubset(schema, targetPackage);
                         }
                     }
                     Cursor.Current = Cursors.Default;

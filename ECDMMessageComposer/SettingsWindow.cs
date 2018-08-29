@@ -44,8 +44,10 @@ namespace ECDMMessageComposer
 			this.generalCopyGeneralizationsCheckbox.Checked = settings.copyGeneralizations;
             //keep original attribute order
             this.KeepAttributeOrder.Checked = settings.keepOriginalAttributeOrder;
-			//addDataTypes checkbox
-			this.addDataTypesCheckBox.Checked = this.settings.addDataTypes;
+            //Generate to artifact package
+            this.generateToArtifactPackageCheckBox.Checked = settings.generateToArtifactPackage;
+            //addDataTypes checkbox
+            this.addDataTypesCheckBox.Checked = this.settings.addDataTypes;
 			//addSourceElements checkbox
 			this.addSourceElementCheckBox.Checked = this.settings.addSourceElements;
             //copySourceElements checkbox
@@ -101,6 +103,7 @@ namespace ECDMMessageComposer
 		    this.settings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
 		    this.settings.usePackageSchemasOnly = this.usePackageSubsetsOnlyCheckBox.Checked;
             this.settings.keepOriginalAttributeOrder = this.KeepAttributeOrder.Checked;
+            this.settings.generateToArtifactPackage = this.generateToArtifactPackageCheckBox.Checked ;
             //diagram options
             this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
 			this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;

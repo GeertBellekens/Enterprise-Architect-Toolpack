@@ -143,10 +143,24 @@ namespace ECDMMessageComposer
 				this.setBooleanValue("copyDataTypes",value);
 			}
 	    }
-		/// <summary>
-		/// indicates if the data types should be added to the diagram
-		/// </summary>
-		public bool addSourceElements
+        /// <summary>
+        /// Copy Datatypes to subset
+        /// </summary>
+        public bool generateToArtifactPackage
+        {
+            get
+            {
+                return this.getBooleanValue("generateToArtifactPackage");
+            }
+            set
+            {
+                this.setBooleanValue("generateToArtifactPackage", value);
+            }
+        }
+        /// <summary>
+        /// indicates if the data types should be added to the diagram
+        /// </summary>
+        public bool addSourceElements
 		{
         	get
 			{
