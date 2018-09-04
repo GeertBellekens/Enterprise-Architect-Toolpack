@@ -312,7 +312,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                 {
                     datatypesToCopy = this.settings.dataTypesToCopy;
                 }
-                schema.createSubsetModel(targetPackage);
+                schema.createSubsetModel(targetPackage, schema.elements);
                 createNewSubsetDiagram(schema, targetPackage);
             }
             //log progress
