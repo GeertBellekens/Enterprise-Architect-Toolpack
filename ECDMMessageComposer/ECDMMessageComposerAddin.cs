@@ -236,12 +236,10 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
         private void updateMessageSubset(Schema schema, UML.Classes.Kernel.Package targetPackage)
         {
             //log progress
+            var startTime = DateTime.Now;
             EAOutputLogger.clearLog(this.EAModel, this.settings.outputName);
             EAOutputLogger.log(this.EAModel, this.settings.outputName
-                               , string.Format("{0} Starting update of existing subset for schema '{1}' in package '{2}'"
-                                              , DateTime.Now.ToLongTimeString()
-                                              , schema.name
-                                              , targetPackage.name)
+                               , $"{startTime.ToLongTimeString()} Starting update of existing subset for schema '{schema.name}' in package '{targetPackage.name}'"
                                , ((UTF_EA.ElementWrapper)targetPackage).id
                               , LogTypeEnum.log);
 
@@ -278,11 +276,10 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                 createNewSubsetDiagram(schema, targetPackage);
             }
             //log progress
+            var endTime = DateTime.Now;
+            var processingTime = (endTime - startTime).TotalSeconds;
             EAOutputLogger.log(this.EAModel, this.settings.outputName
-                               , string.Format("{0} Finished update of existing subset for schema '{1}' in package '{2}'"
-                                              , DateTime.Now.ToLongTimeString()
-                                              , schema.name
-                                              , targetPackage.name)
+                               , $"{endTime.ToLongTimeString()} Finished update of existing subset for schema '{schema.name}' in package '{targetPackage.name}' in {processingTime.ToString("N0")} seconds"
                                , ((UTF_EA.Package)targetPackage).id
                               , LogTypeEnum.log);
         }
