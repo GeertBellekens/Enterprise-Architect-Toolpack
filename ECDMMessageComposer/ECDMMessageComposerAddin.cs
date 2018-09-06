@@ -190,7 +190,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                     //check if package is writable
                     if (this.settings.checkSecurity)
                     {
-                        writable = checkCompletelyWritable(targetPackage);
+                        writable = targetPackage.isCompletelyWritable;
                         if (!writable)
                         {
                             DialogResult lockPackageResponse = MessageBox.Show("Package is read-only" + Environment.NewLine + "Would you like to lock the package?"
@@ -365,29 +365,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                     && !settings.hiddenElementTypes.Any(x => x.Equals(element.GetType().Name, StringComparison.InvariantCulture))
                     && !settings.hiddenElementTypes.Intersect(element.stereotypes.Select(x => x.name)).Any();
         }
-        /// <summary>
-        /// try to make this element is completely writable, including all its owned elements recursively
-        /// </summary>
-        /// <param name="element">the element to make writable</param>
-        /// <returns>true if this element is now completely writable</returns>
-        private bool checkCompletelyWritable(UML.Classes.Kernel.Element element)
-        {
-            if (element == null) return true;
-            if (element.isReadOnly) return false;
-            foreach (var subElement in element.ownedElements)
-            {
-                if (!checkCompletelyWritable(subElement)) return false;
-            }
-            var diagramOwner = element as UML.Classes.Kernel.Namespace;
-            if (diagramOwner != null)
-            {
-                foreach (var diagram in diagramOwner.ownedDiagrams)
-                {
-                    if (diagram.isReadOnly) return false;
-                }
-            }
-            return true;
-        }
+
         /// <summary>
         /// try to make this element is completely writable, including all its owned elements recursively
         /// </summary>
