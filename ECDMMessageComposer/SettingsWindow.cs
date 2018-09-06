@@ -46,6 +46,8 @@ namespace ECDMMessageComposer
             this.KeepAttributeOrder.Checked = settings.keepOriginalAttributeOrder;
             //Generate to artifact package
             this.generateToArtifactPackageCheckBox.Checked = settings.generateToArtifactPackage;
+            //generate diagram checkbox
+            this.generateDiagramCheckbox.Checked = settings.generateDiagram;
             //addDataTypes checkbox
             this.addDataTypesCheckBox.Checked = this.settings.addDataTypes;
 			//addSourceElements checkbox
@@ -105,6 +107,7 @@ namespace ECDMMessageComposer
             this.settings.keepOriginalAttributeOrder = this.KeepAttributeOrder.Checked;
             this.settings.generateToArtifactPackage = this.generateToArtifactPackageCheckBox.Checked ;
             //diagram options
+            this.settings.generateDiagram = this.generateDiagramCheckbox.Checked;
             this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
 			this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;
 			//datatype options

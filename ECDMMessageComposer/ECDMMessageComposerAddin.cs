@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Xml.Schema;
 using UML = TSF.UmlToolingFramework.UML;
 using SchemaBuilderFramework;
-using UTF_EA = TSF.UmlToolingFramework.Wrappers.EA;
+using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using EAAddinFramework.SchemaBuilder;
 using System.Linq;
 using EAAddinFramework.Utilities;
@@ -25,7 +25,7 @@ namespace ECDMMessageComposer
 
 
         private UML.Extended.UMLModel model;
-        private UTF_EA.Model EAModel { get { return this.model as UTF_EA.Model; } }
+        private TSF_EA.Model EAModel { get { return this.model as TSF_EA.Model; } }
         private SchemaBuilderFactory schemaFactory;
         private ECDMMessageComposerSettings settings = new ECDMMessageComposerSettings();
         public ECDMMessageComposerAddin() : base()
@@ -50,7 +50,7 @@ namespace ECDMMessageComposer
         private void initialize(EA.Repository Repository)
         {
             //initialize the model
-            this.model = new UTF_EA.Model(Repository);
+            this.model = new TSF_EA.Model(Repository);
             this.schemaFactory = EASchemaBuilderFactory.getInstance(this.model);
         }
 
@@ -240,7 +240,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
             EAOutputLogger.clearLog(this.EAModel, this.settings.outputName);
             EAOutputLogger.log(this.EAModel, this.settings.outputName
                                , $"{startTime.ToLongTimeString()} Starting update of existing subset for schema '{schema.name}' in package '{targetPackage.name}'"
-                               , ((UTF_EA.ElementWrapper)targetPackage).id
+                               , ((TSF_EA.ElementWrapper)targetPackage).id
                               , LogTypeEnum.log);
 
             bool copyDataType = this.settings.copyDataTypes;
@@ -264,23 +264,26 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
             {
                 schema.updateSubsetModel(targetPackage);
             }
-            var subsetDiagrams = targetPackage.ownedDiagrams;
-            if (subsetDiagrams.Count > 0)
+            if (this.settings.generateDiagram)
             {
-                //if there are existing diagram then we update the existing diagrams
-                updateExistingDiagrams(schema, subsetDiagrams);
-            }
-            else
-            {
-                //if not we create a new diagram
-                createNewSubsetDiagram(schema, targetPackage);
+                var subsetDiagrams = targetPackage.ownedDiagrams;
+                if (subsetDiagrams.Count > 0)
+                {
+                    //if there are existing diagram then we update the existing diagrams
+                    updateExistingDiagrams(schema, subsetDiagrams);
+                }
+                else
+                {
+                    //if not we create a new diagram
+                    createNewSubsetDiagram(schema, targetPackage);
+                }
             }
             //log progress
             var endTime = DateTime.Now;
             var processingTime = (endTime - startTime).TotalSeconds;
             EAOutputLogger.log(this.EAModel, this.settings.outputName
                                , $"{endTime.ToLongTimeString()} Finished update of existing subset for schema '{schema.name}' in package '{targetPackage.name}' in {processingTime.ToString("N0")} seconds"
-                               , ((UTF_EA.Package)targetPackage).id
+                               , ((TSF_EA.Package)targetPackage).id
                               , LogTypeEnum.log);
         }
         /// <summary>
@@ -297,7 +300,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                                               , DateTime.Now.ToLongTimeString()
                                               , schema.name
                                               , targetPackage.name)
-                               , ((UTF_EA.ElementWrapper)targetPackage).id
+                               , ((TSF_EA.ElementWrapper)targetPackage).id
                               , LogTypeEnum.log);
             if (targetPackage != null)
             {
@@ -318,7 +321,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                                               , DateTime.Now.ToLongTimeString()
                                               , schema.name
                                               , targetPackage.name)
-                               , ((UTF_EA.ElementWrapper)targetPackage).id
+                               , ((TSF_EA.ElementWrapper)targetPackage).id
                               , LogTypeEnum.log);
         }
         /// <summary>

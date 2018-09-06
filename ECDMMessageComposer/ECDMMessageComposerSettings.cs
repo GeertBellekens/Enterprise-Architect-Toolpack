@@ -375,6 +375,21 @@ namespace ECDMMessageComposer
                 this.setBooleanValue("keepOriginalAttributeOrder", value);
             }
         }
+        /// <summary>
+        /// Indicates whether or not to create/update a diagram
+        /// </summary>
+        public bool generateDiagram
+        {
+            get
+            {
+                return this.getBooleanValue("generateDiagram");
+            }
+            set
+            {
+                this.setBooleanValue("generateDiagram", value);
+            }
+        }
+        
     }
 }
 

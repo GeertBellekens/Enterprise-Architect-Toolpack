@@ -108,6 +108,7 @@ namespace ECDMMessageComposer
             this.attributeTagLabel = new System.Windows.Forms.Label();
             this.attributeTagTextBox = new System.Windows.Forms.TextBox();
             this.GeneralGroupBox = new System.Windows.Forms.GroupBox();
+            this.generateToArtifactPackageCheckBox = new System.Windows.Forms.CheckBox();
             this.KeepAttributeOrder = new System.Windows.Forms.CheckBox();
             this.usePackageSubsetsOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.deleteUnusedElementsCheckBox = new System.Windows.Forms.CheckBox();
@@ -123,7 +124,7 @@ namespace ECDMMessageComposer
             this.orderAssociationsAmongstAttributesCheckbox = new System.Windows.Forms.CheckBox();
             this.orderAssociationsCheckbox = new System.Windows.Forms.CheckBox();
             this.noAttributeDependenciesCheckbox = new System.Windows.Forms.CheckBox();
-            this.generateToArtifactPackageCheckBox = new System.Windows.Forms.CheckBox();
+            this.generateDiagramCheckbox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -257,6 +258,7 @@ namespace ECDMMessageComposer
             // diagramOptionsGroupBox
             // 
             this.diagramOptionsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.diagramOptionsGroupBox.Controls.Add(this.generateDiagramCheckbox);
             this.diagramOptionsGroupBox.Controls.Add(this.deleteHiddenElementButton);
             this.diagramOptionsGroupBox.Controls.Add(this.hiddenElementGrid);
             this.diagramOptionsGroupBox.Controls.Add(this.addSourceElementCheckBox);
@@ -302,7 +304,7 @@ namespace ECDMMessageComposer
             // 
             // addSourceElementCheckBox
             // 
-            this.addSourceElementCheckBox.Location = new System.Drawing.Point(7, 49);
+            this.addSourceElementCheckBox.Location = new System.Drawing.Point(6, 79);
             this.addSourceElementCheckBox.Name = "addSourceElementCheckBox";
             this.addSourceElementCheckBox.Size = new System.Drawing.Size(143, 24);
             this.addSourceElementCheckBox.TabIndex = 1;
@@ -311,7 +313,7 @@ namespace ECDMMessageComposer
             // 
             // addDataTypesCheckBox
             // 
-            this.addDataTypesCheckBox.Location = new System.Drawing.Point(7, 19);
+            this.addDataTypesCheckBox.Location = new System.Drawing.Point(6, 49);
             this.addDataTypesCheckBox.Name = "addDataTypesCheckBox";
             this.addDataTypesCheckBox.Size = new System.Drawing.Size(104, 24);
             this.addDataTypesCheckBox.TabIndex = 0;
@@ -462,6 +464,15 @@ namespace ECDMMessageComposer
             this.GeneralGroupBox.TabStop = false;
             this.GeneralGroupBox.Text = "General Options";
             // 
+            // generateToArtifactPackageCheckBox
+            // 
+            this.generateToArtifactPackageCheckBox.Location = new System.Drawing.Point(6, 227);
+            this.generateToArtifactPackageCheckBox.Name = "generateToArtifactPackageCheckBox";
+            this.generateToArtifactPackageCheckBox.Size = new System.Drawing.Size(276, 24);
+            this.generateToArtifactPackageCheckBox.TabIndex = 9;
+            this.generateToArtifactPackageCheckBox.Text = "Generate to profile package only";
+            this.generateToArtifactPackageCheckBox.UseVisualStyleBackColor = true;
+            // 
             // KeepAttributeOrder
             // 
             this.KeepAttributeOrder.Location = new System.Drawing.Point(6, 197);
@@ -602,14 +613,14 @@ namespace ECDMMessageComposer
             this.noAttributeDependenciesCheckbox.Text = "Do not create Attribute dependencies";
             this.noAttributeDependenciesCheckbox.UseVisualStyleBackColor = true;
             // 
-            // generateToArtifactPackageCheckBox
+            // generateDiagramCheckbox
             // 
-            this.generateToArtifactPackageCheckBox.Location = new System.Drawing.Point(6, 227);
-            this.generateToArtifactPackageCheckBox.Name = "generateToArtifactPackageCheckBox";
-            this.generateToArtifactPackageCheckBox.Size = new System.Drawing.Size(276, 24);
-            this.generateToArtifactPackageCheckBox.TabIndex = 9;
-            this.generateToArtifactPackageCheckBox.Text = "Generate to profile package only";
-            this.generateToArtifactPackageCheckBox.UseVisualStyleBackColor = true;
+            this.generateDiagramCheckbox.Location = new System.Drawing.Point(6, 19);
+            this.generateDiagramCheckbox.Name = "generateDiagramCheckbox";
+            this.generateDiagramCheckbox.Size = new System.Drawing.Size(143, 24);
+            this.generateDiagramCheckbox.TabIndex = 10;
+            this.generateDiagramCheckbox.Text = "Generate Diagram";
+            this.generateDiagramCheckbox.UseVisualStyleBackColor = true;
             // 
             // SettingsWindow
             // 
@@ -658,6 +669,7 @@ namespace ECDMMessageComposer
 
         private System.Windows.Forms.CheckBox KeepAttributeOrder;
         private System.Windows.Forms.CheckBox generateToArtifactPackageCheckBox;
+        private System.Windows.Forms.CheckBox generateDiagramCheckbox;
         //this.ResumeLayout(false);
     }
 }
