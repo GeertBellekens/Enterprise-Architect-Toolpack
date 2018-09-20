@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using MappingFramework;
+using BrightIdeasSoftware;
 
 namespace EAMapping
 {
@@ -18,15 +19,7 @@ namespace EAMapping
     	public List<LinkedTreeNode> leftNodes  { get; set; }
    		public List<LinkedTreeNode> rightNodes { get; set; }
 
-		public Mapping SelectedMapping 
-		{
-			get	
-			{
-		        LinkedTreeNodes link = this.trees.SelectedLink;
-		        if(link == null) { return null; }
-		        return link.Mapping;
-			}
-		}
+
         
 		public MappingControlGUI() 
 		{
@@ -35,17 +28,54 @@ namespace EAMapping
 			InitializeComponent();
 
       		// bubble LinkedTreeViews events via our own events
-      		this.trees.CreateMapping    += this.handleCreateMapping;
-      		this.trees.EditMappingLogic += this.handleEditMappingLogic;
+      		//this.trees.CreateMapping    += this.handleCreateMapping;
+      		//this.trees.EditMappingLogic += this.handleEditMappingLogic;
 		}
+        private void setDelegates()
+        {
+            //tell the control who can expand (only tables)
+            TreeListView.CanExpandGetterDelegate canExpandGetter = delegate (object x)
+            {
+                return ((MappingNode)x).childNodes.Any();
+            };
+            this.sourceTreeView.CanExpandGetter = canExpandGetter;
+            this.targetTreeView.CanExpandGetter = canExpandGetter;
+            //tell the control how to expand
+            TreeListView.ChildrenGetterDelegate childrenGetter = delegate (object x)
+            {
+                return ((MappingNode)x).childNodes;
+            };
+            this.sourceTreeView.ChildrenGetter = childrenGetter;
+            this.targetTreeView.ChildrenGetter = childrenGetter;
+            //tell the control which image to show
+            //ImageGetterDelegate imageGetter = delegate (object rowObject)
+            //{
+            //    if (rowObject is EDDTable) return "table";
+            //    if (rowObject is EDDColumn) return "column";
+            //    else return string.Empty;
+            //};
+            //this.C_NameColumn.ImageGetter = imageGetter;
+            //this.dC_NameColumn.ImageGetter = imageGetter;
+        }
 
-		public void loadMappingSet(MappingSet mappingSet) 
+        public Mapping SelectedMapping
+        {
+            get
+            {
+                //LinkedTreeNodes link = this.trees.SelectedLink;
+                //if(link == null) { return null; }
+                //return link.Mapping;
+                return null;
+            }
+        }
+
+        public void loadMappingSet(MappingSet mappingSet) 
 		{
 			//first clear the existing mappings
 			this.clear();
 			//then add the new mappingSet
-      		this.trees.Mappings = mappingSet.mappings;
-     		this.trees.ExpandAll();
+      	//	this.trees.Mappings = mappingSet.mappings;
+     		//this.trees.ExpandAll();
     	}
 
 		public void addNode(MappingEnd mappedEnd, bool source)
@@ -53,18 +83,18 @@ namespace EAMapping
 			var path =  mappedEnd.fullMappingPath.Split('.').ToList();
 			if (source) 
 			{
-				this.trees.SourceTree.addNode(mappedEnd,path);
+				//this.trees.SourceTree.addNode(mappedEnd,path);
 			}
 			else
 			{
-				this.trees.TargetTree.addNode(mappedEnd,path);
+				//this.trees.TargetTree.addNode(mappedEnd,path);
 			}
 			//make sure the new node is visible?
-			this.trees.ExpandAll();
+			//this.trees.ExpandAll();
 		}
 		void clear()
 		{
-			this.trees.Clear();
+			//this.trees.Clear();
 		}
     	// EVENTS
 
@@ -92,16 +122,16 @@ namespace EAMapping
 
 		public void CreateMappingButtonClick(object sender, EventArgs e) 
 		{
-			var source = this.trees.SourceTree.SelectedNode as LinkedTreeNode;
-			var target = this.trees.TargetTree.SelectedNode as LinkedTreeNode;
-			if(source != null && target != null) 
-			{
-				this.trees.Link(source, target);
-			}
-			else
-			{
-				MessageBox.Show("Please select a source and target to map.");
-			}
+			//var source = this.trees.SourceTree.SelectedNode as LinkedTreeNode;
+			//var target = this.trees.TargetTree.SelectedNode as LinkedTreeNode;
+			//if(source != null && target != null) 
+			//{
+			//	this.trees.Link(source, target);
+			//}
+			//else
+			//{
+			//	MessageBox.Show("Please select a source and target to map.");
+			//}
 		}
 		
 		public event Action<Mapping> DeleteMapping = delegate {};
@@ -110,7 +140,7 @@ namespace EAMapping
 			if (this.SelectedMapping != null) 
 			{
 				Mapping mapping = this.SelectedMapping;
-				this.trees.DeleteMapping(mapping);
+				//this.trees.DeleteMapping(mapping);
 				this.DeleteMapping(mapping);
 			}
 		}
@@ -134,11 +164,11 @@ namespace EAMapping
 		
 		public void DeleteMappingLogicButtonClick(object sender, EventArgs e) 
 		{
-			if(this.trees.SelectedLink != null) 
-			{
-				this.DeleteMappingLogic(this.SelectedMapping);
-				this.trees.Invalidate();
-			}
+			//if(this.trees.SelectedLink != null) 
+			//{
+			//	this.DeleteMappingLogic(this.SelectedMapping);
+			//	this.trees.Invalidate();
+			//}
 		}
 		
     	// export

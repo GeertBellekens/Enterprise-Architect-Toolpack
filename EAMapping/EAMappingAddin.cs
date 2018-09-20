@@ -81,9 +81,9 @@ namespace EAMapping
 			var selectedMapping = sender as Mapping;
 			if (selectedMapping != null
 			    && selectedMapping.source != null
-			    && selectedMapping.source.mappedEnd != null)
+			    && selectedMapping.source.source != null)
 			{
-				selectedMapping.source.mappedEnd.select();
+				selectedMapping.source.source.select();
 			}
 		}
 
@@ -92,9 +92,9 @@ namespace EAMapping
 			var selectedMapping = sender as Mapping;
 			if (selectedMapping != null
 			    && selectedMapping.target != null
-			    && selectedMapping.target.mappedEnd != null)
+			    && selectedMapping.target.source != null)
 			{
-				selectedMapping.target.mappedEnd.select();
+				selectedMapping.target.source.select();
 			}
 		}
 
