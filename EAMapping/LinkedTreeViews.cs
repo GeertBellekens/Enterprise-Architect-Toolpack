@@ -29,11 +29,11 @@ namespace EAMapping {
         this.Clear();
         foreach(Mapping mapping in value) {
           // TODO ?
-          if (mapping.source.fullMappingPath.Contains("Target")) {
-            MessageBox.Show("target spotted");
-          } else {
-            this.addMapping(mapping);
-          }
+          //if (mapping.source.fullMappingPath.Contains("Target")) {
+          //  MessageBox.Show("target spotted");
+          //} else {
+          //  this.addMapping(mapping);
+          //}
         }
       }
     }
@@ -68,13 +68,13 @@ namespace EAMapping {
 
     public LinkedTreeNodes Link(LinkedTreeNode source, LinkedTreeNode target) {
       // create new mapping from link information
-      var mapping = new AM.TaggedValueMapping(
-        (AM.MappingEnd)source.MappedEnd, (AM.MappingEnd)target.MappedEnd
-      );
-      this.addMapping(mapping);
+      //var mapping = new AM.TaggedValueMapping(
+      //  (AM.MappingEnd)source.MappedEnd, (AM.MappingEnd)target.MappedEnd
+      //);
+      //this.addMapping(mapping);
 
       // raise Event
-      this.CreateMapping(mapping);
+      //this.CreateMapping(mapping);
 
       // TODO? invalidated to re-render new links ?
       this.Invalidate();

@@ -46,7 +46,7 @@ namespace EAMapping {
       this.Nodes.Clear();
     }
 	
-    public void addNode(MappingEnd end, List<string> path)
+    public void addNode(MappingNode end, List<string> path)
     {
     	var linkedNode = this.AddNode(path);
     	linkedNode.MappedEnd = end;

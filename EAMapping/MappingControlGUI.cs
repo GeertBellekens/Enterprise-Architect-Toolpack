@@ -78,9 +78,9 @@ namespace EAMapping
      		//this.trees.ExpandAll();
     	}
 
-		public void addNode(MappingEnd mappedEnd, bool source)
+		public void addNode(MappingNode mappedEnd, bool source)
 		{
-			var path =  mappedEnd.fullMappingPath.Split('.').ToList();
+			//var path =  mappedEnd.fullMappingPath.Split('.').ToList();
 			if (source) 
 			{
 				//this.trees.SourceTree.addNode(mappedEnd,path);
