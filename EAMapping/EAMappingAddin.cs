@@ -11,6 +11,7 @@ using EA_MP = EAAddinFramework.Mapping;
 using System.Linq;
 using MappingFramework;
 using Cobol_Object_Mapper;
+using EA;
 
 namespace EAMapping
 {
@@ -182,7 +183,6 @@ namespace EAMapping
             }
         }
 
-
         /// <summary>
         /// Called when user makes a selection in the menu.
         /// This is your main exit point to the rest of your Add-in
@@ -296,7 +296,7 @@ namespace EAMapping
         private MappingFramework.MappingSet getCurrentMappingSet()
         {
             var selectedElement = model.selectedItem as TSF_EA.ElementWrapper;
-            return selectedElement != null ? EA_MP.MappingFactory.createMappingSet(selectedElement) : null;
+            return selectedElement != null ? EA_MP.MappingFactory.createMappingSet(selectedElement, this.settings) : null;
         }
 
         // Cobol Copybook support
