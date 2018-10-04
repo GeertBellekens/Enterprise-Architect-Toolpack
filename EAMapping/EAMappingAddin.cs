@@ -70,10 +70,32 @@ namespace EAMapping
                     _mappingControl.DeleteMappingLogic += mappingControl_DeleteMappingLogic;
                     _mappingControl.selectSource += mappingControl_SelectSource;
                     _mappingControl.selectTarget += mappingControl_SelectTarget;
+                    _mappingControl.selectNewMappingTarget += mappingControl_SelectNewMappingTarget;
+                    _mappingControl.selectNewMappingSource += mappingControl_SelectNewMappingSource;
                     _mappingControl.exportMappingSet += mappingControl_ExportMappingSet;
                 }
                 return _mappingControl;
             }
+        }
+
+        private void mappingControl_SelectNewMappingSource(object sender, EventArgs e)
+        {
+            //let the user select a new root
+            var newSourceElement = this.model.getUserSelectedElement(new List<string>() { "Class", "Package" }) as TSF_EA.ElementWrapper;
+            //create the mapping set
+            var mappingSet =  EA_MP.MappingFactory.createMappingSet(newSourceElement, this.settings);
+            //load the mapping set
+            this.loadMapping(mappingSet);
+        }
+
+        private void mappingControl_SelectNewMappingTarget(object sender, EventArgs e)
+        {
+            var mappingSet = sender as EA_MP.MappingSet;
+            //let the user select a new element
+            var newTargetElement = this.model.getUserSelectedElement(new List<string>() { "Class", "Package" }) as TSF_EA.ElementWrapper;
+            //create mapping node for target element and set it as target of the mapping set
+            if (newTargetElement != null)
+                mappingSet.target = EA_MP.MappingFactory.createNewRootNode(newTargetElement,  mappingSet.settings);
         }
 
         void mappingControl_SelectSource(object sender, EventArgs e)

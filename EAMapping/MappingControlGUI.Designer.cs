@@ -49,14 +49,20 @@ namespace EAMapping
             this.mainPanel = new System.Windows.Forms.Panel();
             this.targetTreeView = new BrightIdeasSoftware.TreeListView();
             this.targetColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.targetMappingsColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.targetExpandedColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.MappingContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectInProjectBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectNewMappingRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mappingNodeImageList = new System.Windows.Forms.ImageList(this.components);
             this.sourceTreeView = new BrightIdeasSoftware.TreeListView();
             this.sourceColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.isMapped = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.expandTargetButton = new System.Windows.Forms.Button();
-            this.expandSourceButton = new System.Windows.Forms.Button();
+            this.sourceExpandColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.targetTreeView)).BeginInit();
+            this.MappingContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sourceTreeView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -150,11 +156,16 @@ namespace EAMapping
             // targetTreeView
             // 
             this.targetTreeView.AllColumns.Add(this.targetColumn);
+            this.targetTreeView.AllColumns.Add(this.targetMappingsColumn);
+            this.targetTreeView.AllColumns.Add(this.targetExpandedColumn);
             this.targetTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.targetTreeView.CellEditUseWholeCell = false;
             this.targetTreeView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.targetColumn});
+            this.targetColumn,
+            this.targetMappingsColumn,
+            this.targetExpandedColumn});
+            this.targetTreeView.ContextMenuStrip = this.MappingContextMenu;
             this.targetTreeView.Cursor = System.Windows.Forms.Cursors.Default;
             this.targetTreeView.FullRowSelect = true;
             this.targetTreeView.GridLines = true;
@@ -168,12 +179,58 @@ namespace EAMapping
             this.targetTreeView.UseCompatibleStateImageBehavior = false;
             this.targetTreeView.View = System.Windows.Forms.View.Details;
             this.targetTreeView.VirtualMode = true;
+            this.targetTreeView.CellRightClick += new System.EventHandler<BrightIdeasSoftware.CellRightClickEventArgs>(this.targetTreeView_CellRightClick);
+            this.targetTreeView.SubItemChecking += new System.EventHandler<BrightIdeasSoftware.SubItemCheckingEventArgs>(this.targetTreeView_SubItemChecking);
+            this.targetTreeView.ItemActivate += new System.EventHandler(this.targetTreeView_ItemActivate);
             // 
             // targetColumn
             // 
             this.targetColumn.AspectName = "name";
+            this.targetColumn.FillsFreeSpace = true;
             this.targetColumn.Text = "Target";
             this.targetColumn.Width = 290;
+            // 
+            // targetMappingsColumn
+            // 
+            this.targetMappingsColumn.AspectName = "mappings.Count";
+            this.targetMappingsColumn.Text = "Mappings";
+            // 
+            // targetExpandedColumn
+            // 
+            this.targetExpandedColumn.AspectName = "showAll";
+            this.targetExpandedColumn.CheckBoxes = true;
+            this.targetExpandedColumn.Text = "Expanded";
+            // 
+            // MappingContextMenu
+            // 
+            this.MappingContextMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.MappingContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectInProjectBrowserToolStripMenuItem,
+            this.openPropertiesToolStripMenuItem,
+            this.selectNewMappingRootToolStripMenuItem});
+            this.MappingContextMenu.Name = "mappingContextMenu";
+            this.MappingContextMenu.Size = new System.Drawing.Size(207, 70);
+            // 
+            // selectInProjectBrowserToolStripMenuItem
+            // 
+            this.selectInProjectBrowserToolStripMenuItem.Name = "selectInProjectBrowserToolStripMenuItem";
+            this.selectInProjectBrowserToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.selectInProjectBrowserToolStripMenuItem.Text = "Select in Project Browser";
+            this.selectInProjectBrowserToolStripMenuItem.Click += new System.EventHandler(this.selectInProjectBrowserToolStripMenuItem_Click);
+            // 
+            // openPropertiesToolStripMenuItem
+            // 
+            this.openPropertiesToolStripMenuItem.Name = "openPropertiesToolStripMenuItem";
+            this.openPropertiesToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.openPropertiesToolStripMenuItem.Text = "Open Properties";
+            this.openPropertiesToolStripMenuItem.Click += new System.EventHandler(this.openPropertiesToolStripMenuItem_Click);
+            // 
+            // selectNewMappingRootToolStripMenuItem
+            // 
+            this.selectNewMappingRootToolStripMenuItem.Name = "selectNewMappingRootToolStripMenuItem";
+            this.selectNewMappingRootToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.selectNewMappingRootToolStripMenuItem.Text = "Select new mapping root";
+            this.selectNewMappingRootToolStripMenuItem.Click += new System.EventHandler(this.selectNewMappingRootToolStripMenuItem_Click);
             // 
             // mappingNodeImageList
             // 
@@ -188,12 +245,16 @@ namespace EAMapping
             // 
             this.sourceTreeView.AllColumns.Add(this.sourceColumn);
             this.sourceTreeView.AllColumns.Add(this.isMapped);
+            this.sourceTreeView.AllColumns.Add(this.sourceExpandColumn);
             this.sourceTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.sourceTreeView.CellEditUseWholeCell = false;
+            this.sourceTreeView.CheckedAspectName = "";
             this.sourceTreeView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.sourceColumn,
-            this.isMapped});
+            this.isMapped,
+            this.sourceExpandColumn});
+            this.sourceTreeView.ContextMenuStrip = this.MappingContextMenu;
             this.sourceTreeView.Cursor = System.Windows.Forms.Cursors.Default;
             this.sourceTreeView.FullRowSelect = true;
             this.sourceTreeView.GridLines = true;
@@ -201,53 +262,39 @@ namespace EAMapping
             this.sourceTreeView.Location = new System.Drawing.Point(3, 3);
             this.sourceTreeView.Name = "sourceTreeView";
             this.sourceTreeView.ShowGroups = false;
+            this.sourceTreeView.ShowImagesOnSubItems = true;
             this.sourceTreeView.Size = new System.Drawing.Size(409, 546);
             this.sourceTreeView.SmallImageList = this.mappingNodeImageList;
             this.sourceTreeView.TabIndex = 0;
             this.sourceTreeView.UseCompatibleStateImageBehavior = false;
+            this.sourceTreeView.UseSubItemCheckBoxes = true;
             this.sourceTreeView.View = System.Windows.Forms.View.Details;
             this.sourceTreeView.VirtualMode = true;
+            this.sourceTreeView.ItemActivate += new System.EventHandler(this.sourceTreeView_ItemActivate);
             this.sourceTreeView.SelectedIndexChanged += new System.EventHandler(this.sourceTreeView_SelectedIndexChanged);
             // 
             // sourceColumn
             // 
             this.sourceColumn.AspectName = "name";
+            this.sourceColumn.FillsFreeSpace = true;
             this.sourceColumn.Text = "Source";
             this.sourceColumn.Width = 260;
             // 
             // isMapped
             // 
             this.isMapped.AspectName = "mappings.Count";
-            this.isMapped.Text = "MappingCount";
+            this.isMapped.Text = "Mappings";
             // 
-            // expandTargetButton
+            // sourceExpandColumn
             // 
-            this.expandTargetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.expandTargetButton.Image = ((System.Drawing.Image)(resources.GetObject("expandTargetButton.Image")));
-            this.expandTargetButton.Location = new System.Drawing.Point(579, 555);
-            this.expandTargetButton.Name = "expandTargetButton";
-            this.expandTargetButton.Size = new System.Drawing.Size(24, 23);
-            this.expandTargetButton.TabIndex = 13;
-            this.expandTargetButton.UseVisualStyleBackColor = true;
-            this.expandTargetButton.Click += new System.EventHandler(this.expandTargetButton_Click);
-            // 
-            // expandSourceButton
-            // 
-            this.expandSourceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.expandSourceButton.Image = ((System.Drawing.Image)(resources.GetObject("expandSourceButton.Image")));
-            this.expandSourceButton.Location = new System.Drawing.Point(183, 558);
-            this.expandSourceButton.Name = "expandSourceButton";
-            this.expandSourceButton.Size = new System.Drawing.Size(24, 23);
-            this.expandSourceButton.TabIndex = 14;
-            this.expandSourceButton.UseVisualStyleBackColor = true;
-            this.expandSourceButton.Click += new System.EventHandler(this.expandSourceButton_Click);
+            this.sourceExpandColumn.AspectName = "showAll";
+            this.sourceExpandColumn.CheckBoxes = true;
+            this.sourceExpandColumn.Text = "Expanded";
             // 
             // MappingControlGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.expandSourceButton);
-            this.Controls.Add(this.expandTargetButton);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.goToTargetButton);
@@ -260,6 +307,7 @@ namespace EAMapping
             this.Size = new System.Drawing.Size(994, 584);
             this.mainPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.targetTreeView)).EndInit();
+            this.MappingContextMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.sourceTreeView)).EndInit();
             this.ResumeLayout(false);
 
@@ -272,7 +320,12 @@ namespace EAMapping
         private BrightIdeasSoftware.OLVColumn targetColumn;
         private BrightIdeasSoftware.OLVColumn isMapped;
         private System.Windows.Forms.ImageList mappingNodeImageList;
-        private System.Windows.Forms.Button expandTargetButton;
-        private System.Windows.Forms.Button expandSourceButton;
+        private BrightIdeasSoftware.OLVColumn sourceExpandColumn;
+        private BrightIdeasSoftware.OLVColumn targetMappingsColumn;
+        private BrightIdeasSoftware.OLVColumn targetExpandedColumn;
+        private System.Windows.Forms.ContextMenuStrip MappingContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem selectInProjectBrowserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openPropertiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectNewMappingRootToolStripMenuItem;
     }
 }

@@ -204,6 +204,11 @@ namespace EAMapping
 
         private void expandSourceButton_Click(object sender, EventArgs e)
         {
+            toggeSourceExpand();
+        }
+
+        private void toggeSourceExpand()
+        {
             var mappingNode = this.selectedSourceNode;
             if (mappingNode != null)
             {
@@ -212,14 +217,7 @@ namespace EAMapping
                 this.sourceTreeView.RefreshObject(mappingNode);
                 this.sourceTreeView.Expand(mappingNode);
             }
-
         }
-
-        private void expandTargetButton_Click(object sender, EventArgs e)
-        {
-
-        }
-
 
         private void sourceTreeView_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -231,6 +229,80 @@ namespace EAMapping
                 }
             }
 
+        }
+
+        private void targetTreeView_CellRightClick(object sender, CellRightClickEventArgs e)
+        {
+            //TODO: enableDisable context menu options
+        }
+
+        private void selectInProjectBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var parent = ((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl;
+            if (parent == this.sourceTreeView)
+                selectMappingNode(selectedSourceNode);
+            else
+                selectMappingNode(selectedTargetNode);
+        }
+        private void selectMappingNode(MP.MappingNode node)
+        {
+            if (node?.source != null)
+            {
+                node.source.select();
+            }
+        }
+
+        private void openPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var parent = ((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl;
+            if (parent == this.sourceTreeView)
+                openMappingNodeProperties(selectedSourceNode);
+            else
+                openMappingNodeProperties(selectedTargetNode);
+        }
+        private void openMappingNodeProperties (MP.MappingNode node)
+        {
+            if (node?.source != null)
+            {
+                node.source.openProperties();
+            }
+        }
+
+        public event EventHandler selectNewMappingTarget;
+        public event EventHandler selectNewMappingSource;
+        private void selectNewMappingRootToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var parent = ((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl;
+            if (parent == this.targetTreeView)
+            {
+                this.selectNewMappingTarget?.Invoke(this.mappingSet, e);
+                //reload the target view
+                this.targetTreeView.Objects = new List<MP.MappingNode>() { mappingSet.target };
+                this.targetTreeView.RefreshObject(mappingSet.target);
+                this.targetTreeView.ExpandAll();
+            }
+            else
+            {
+                this.selectNewMappingSource?.Invoke(this.mappingSet, e);
+            }
+        }
+
+        private void targetTreeView_SubItemChecking(object sender, SubItemCheckingEventArgs e)
+        {
+            var node = e.RowObject as MappingNode;
+            //make sure the childeNodes are set on target nodes and they don't automatically get all child nodes
+            if (node != null)
+                node.setChildNodes();
+        }
+
+        private void sourceTreeView_ItemActivate(object sender, EventArgs e)
+        {
+            this.selectMappingNode(this.selectedSourceNode);
+        }
+
+        private void targetTreeView_ItemActivate(object sender, EventArgs e)
+        {
+            this.selectMappingNode(this.selectedTargetNode);
         }
     }
 }
