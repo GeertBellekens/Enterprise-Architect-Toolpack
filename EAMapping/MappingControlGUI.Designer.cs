@@ -9,12 +9,6 @@ namespace EAMapping
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.Button exportButton;
-		private System.Windows.Forms.Button goToTargetButton;
-		private System.Windows.Forms.Button goToSourceButton;
-		private System.Windows.Forms.Button createMappingButton;
-		private System.Windows.Forms.Button deleteMappingButton;
-		private System.Windows.Forms.Button editMappingLogicButton;
-		private System.Windows.Forms.Button deleteMappingLogicButton;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -40,13 +34,8 @@ namespace EAMapping
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MappingControlGUI));
             this.exportButton = new System.Windows.Forms.Button();
-            this.goToTargetButton = new System.Windows.Forms.Button();
-            this.goToSourceButton = new System.Windows.Forms.Button();
-            this.createMappingButton = new System.Windows.Forms.Button();
-            this.deleteMappingButton = new System.Windows.Forms.Button();
-            this.editMappingLogicButton = new System.Windows.Forms.Button();
-            this.deleteMappingLogicButton = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.mappingPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.targetTreeView = new BrightIdeasSoftware.TreeListView();
             this.targetColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.targetMappingsColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -55,6 +44,7 @@ namespace EAMapping
             this.selectInProjectBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNewMappingRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mappingHotItemStyle = new BrightIdeasSoftware.HotItemStyle();
             this.mappingNodeImageList = new System.Windows.Forms.ImageList(this.components);
             this.sourceTreeView = new BrightIdeasSoftware.TreeListView();
             this.sourceColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -77,81 +67,31 @@ namespace EAMapping
             this.exportButton.UseVisualStyleBackColor = true;
             this.exportButton.Click += new System.EventHandler(this.ExportButtonClick);
             // 
-            // goToTargetButton
-            // 
-            this.goToTargetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.goToTargetButton.Image = ((System.Drawing.Image)(resources.GetObject("goToTargetButton.Image")));
-            this.goToTargetButton.Location = new System.Drawing.Point(33, 558);
-            this.goToTargetButton.Name = "goToTargetButton";
-            this.goToTargetButton.Size = new System.Drawing.Size(24, 23);
-            this.goToTargetButton.TabIndex = 7;
-            this.goToTargetButton.UseVisualStyleBackColor = true;
-            // 
-            // goToSourceButton
-            // 
-            this.goToSourceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.goToSourceButton.Image = ((System.Drawing.Image)(resources.GetObject("goToSourceButton.Image")));
-            this.goToSourceButton.Location = new System.Drawing.Point(3, 558);
-            this.goToSourceButton.Name = "goToSourceButton";
-            this.goToSourceButton.Size = new System.Drawing.Size(24, 23);
-            this.goToSourceButton.TabIndex = 6;
-            this.goToSourceButton.UseVisualStyleBackColor = true;
-            // 
-            // createMappingButton
-            // 
-            this.createMappingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.createMappingButton.Image = ((System.Drawing.Image)(resources.GetObject("createMappingButton.Image")));
-            this.createMappingButton.Location = new System.Drawing.Point(63, 558);
-            this.createMappingButton.Name = "createMappingButton";
-            this.createMappingButton.Size = new System.Drawing.Size(24, 23);
-            this.createMappingButton.TabIndex = 8;
-            this.createMappingButton.UseVisualStyleBackColor = true;
-            this.createMappingButton.Click += new System.EventHandler(this.CreateMappingButtonClick);
-            // 
-            // deleteMappingButton
-            // 
-            this.deleteMappingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.deleteMappingButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteMappingButton.Image")));
-            this.deleteMappingButton.Location = new System.Drawing.Point(93, 558);
-            this.deleteMappingButton.Name = "deleteMappingButton";
-            this.deleteMappingButton.Size = new System.Drawing.Size(24, 23);
-            this.deleteMappingButton.TabIndex = 9;
-            this.deleteMappingButton.UseVisualStyleBackColor = true;
-            this.deleteMappingButton.Click += new System.EventHandler(this.DeleteMappingButtonClick);
-            // 
-            // editMappingLogicButton
-            // 
-            this.editMappingLogicButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.editMappingLogicButton.Image = ((System.Drawing.Image)(resources.GetObject("editMappingLogicButton.Image")));
-            this.editMappingLogicButton.Location = new System.Drawing.Point(123, 558);
-            this.editMappingLogicButton.Name = "editMappingLogicButton";
-            this.editMappingLogicButton.Size = new System.Drawing.Size(24, 23);
-            this.editMappingLogicButton.TabIndex = 8;
-            this.editMappingLogicButton.UseVisualStyleBackColor = true;
-            this.editMappingLogicButton.Click += new System.EventHandler(this.EditMappingLogicButtonClick);
-            // 
-            // deleteMappingLogicButton
-            // 
-            this.deleteMappingLogicButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.deleteMappingLogicButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteMappingLogicButton.Image")));
-            this.deleteMappingLogicButton.Location = new System.Drawing.Point(153, 558);
-            this.deleteMappingLogicButton.Name = "deleteMappingLogicButton";
-            this.deleteMappingLogicButton.Size = new System.Drawing.Size(24, 23);
-            this.deleteMappingLogicButton.TabIndex = 9;
-            this.deleteMappingLogicButton.UseVisualStyleBackColor = true;
-            this.deleteMappingLogicButton.Click += new System.EventHandler(this.DeleteMappingLogicButtonClick);
-            // 
             // mainPanel
             // 
             this.mainPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainPanel.Controls.Add(this.mappingPanel);
             this.mainPanel.Controls.Add(this.targetTreeView);
             this.mainPanel.Controls.Add(this.sourceTreeView);
             this.mainPanel.Location = new System.Drawing.Point(0, 0);
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(991, 552);
             this.mainPanel.TabIndex = 12;
+            // 
+            // mappingPanel
+            // 
+            this.mappingPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mappingPanel.AutoScroll = true;
+            this.mappingPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.mappingPanel.Location = new System.Drawing.Point(365, 4);
+            this.mappingPanel.MinimumSize = new System.Drawing.Size(224, 0);
+            this.mappingPanel.Name = "mappingPanel";
+            this.mappingPanel.Size = new System.Drawing.Size(234, 545);
+            this.mappingPanel.TabIndex = 2;
+            this.mappingPanel.WrapContents = false;
             // 
             // targetTreeView
             // 
@@ -170,18 +110,26 @@ namespace EAMapping
             this.targetTreeView.FullRowSelect = true;
             this.targetTreeView.GridLines = true;
             this.targetTreeView.HideSelection = false;
-            this.targetTreeView.Location = new System.Drawing.Point(579, 3);
+            this.targetTreeView.HotItemStyle = this.mappingHotItemStyle;
+            this.targetTreeView.IsSimpleDropSink = true;
+            this.targetTreeView.Location = new System.Drawing.Point(603, 3);
             this.targetTreeView.Name = "targetTreeView";
             this.targetTreeView.ShowGroups = false;
-            this.targetTreeView.Size = new System.Drawing.Size(409, 546);
+            this.targetTreeView.Size = new System.Drawing.Size(385, 546);
             this.targetTreeView.SmallImageList = this.mappingNodeImageList;
             this.targetTreeView.TabIndex = 1;
+            this.targetTreeView.UseCellFormatEvents = true;
             this.targetTreeView.UseCompatibleStateImageBehavior = false;
+            this.targetTreeView.UseHotItem = true;
             this.targetTreeView.View = System.Windows.Forms.View.Details;
             this.targetTreeView.VirtualMode = true;
             this.targetTreeView.CellRightClick += new System.EventHandler<BrightIdeasSoftware.CellRightClickEventArgs>(this.targetTreeView_CellRightClick);
             this.targetTreeView.SubItemChecking += new System.EventHandler<BrightIdeasSoftware.SubItemCheckingEventArgs>(this.targetTreeView_SubItemChecking);
+            this.targetTreeView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.targetTreeView_FormatRow);
+            this.targetTreeView.ModelCanDrop += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.targetTreeView_ModelCanDrop);
+            this.targetTreeView.ModelDropped += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.targetTreeView_ModelDropped);
             this.targetTreeView.ItemActivate += new System.EventHandler(this.targetTreeView_ItemActivate);
+            this.targetTreeView.SelectedIndexChanged += new System.EventHandler(this.targetTreeView_SelectedIndexChanged);
             // 
             // targetColumn
             // 
@@ -232,6 +180,11 @@ namespace EAMapping
             this.selectNewMappingRootToolStripMenuItem.Text = "Select new mapping root";
             this.selectNewMappingRootToolStripMenuItem.Click += new System.EventHandler(this.selectNewMappingRootToolStripMenuItem_Click);
             // 
+            // mappingHotItemStyle
+            // 
+            this.mappingHotItemStyle.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.mappingHotItemStyle.ForeColor = System.Drawing.Color.White;
+            // 
             // mappingNodeImageList
             // 
             this.mappingNodeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("mappingNodeImageList.ImageStream")));
@@ -246,8 +199,9 @@ namespace EAMapping
             this.sourceTreeView.AllColumns.Add(this.sourceColumn);
             this.sourceTreeView.AllColumns.Add(this.isMapped);
             this.sourceTreeView.AllColumns.Add(this.sourceExpandColumn);
-            this.sourceTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.sourceTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.sourceTreeView.CellEditUseWholeCell = false;
             this.sourceTreeView.CheckedAspectName = "";
             this.sourceTreeView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -259,17 +213,21 @@ namespace EAMapping
             this.sourceTreeView.FullRowSelect = true;
             this.sourceTreeView.GridLines = true;
             this.sourceTreeView.HideSelection = false;
+            this.sourceTreeView.HotItemStyle = this.mappingHotItemStyle;
+            this.sourceTreeView.IsSimpleDragSource = true;
             this.sourceTreeView.Location = new System.Drawing.Point(3, 3);
             this.sourceTreeView.Name = "sourceTreeView";
             this.sourceTreeView.ShowGroups = false;
             this.sourceTreeView.ShowImagesOnSubItems = true;
-            this.sourceTreeView.Size = new System.Drawing.Size(409, 546);
+            this.sourceTreeView.Size = new System.Drawing.Size(356, 546);
             this.sourceTreeView.SmallImageList = this.mappingNodeImageList;
             this.sourceTreeView.TabIndex = 0;
+            this.sourceTreeView.UseCellFormatEvents = true;
             this.sourceTreeView.UseCompatibleStateImageBehavior = false;
-            this.sourceTreeView.UseSubItemCheckBoxes = true;
+            this.sourceTreeView.UseHotItem = true;
             this.sourceTreeView.View = System.Windows.Forms.View.Details;
             this.sourceTreeView.VirtualMode = true;
+            this.sourceTreeView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.sourceTreeView_FormatRow);
             this.sourceTreeView.ItemActivate += new System.EventHandler(this.sourceTreeView_ItemActivate);
             this.sourceTreeView.SelectedIndexChanged += new System.EventHandler(this.sourceTreeView_SelectedIndexChanged);
             // 
@@ -297,12 +255,6 @@ namespace EAMapping
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.exportButton);
-            this.Controls.Add(this.goToTargetButton);
-            this.Controls.Add(this.goToSourceButton);
-            this.Controls.Add(this.createMappingButton);
-            this.Controls.Add(this.deleteMappingButton);
-            this.Controls.Add(this.editMappingLogicButton);
-            this.Controls.Add(this.deleteMappingLogicButton);
             this.Name = "MappingControlGUI";
             this.Size = new System.Drawing.Size(994, 584);
             this.mainPanel.ResumeLayout(false);
@@ -327,5 +279,7 @@ namespace EAMapping
         private System.Windows.Forms.ToolStripMenuItem selectInProjectBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openPropertiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectNewMappingRootToolStripMenuItem;
+        private System.Windows.Forms.FlowLayoutPanel mappingPanel;
+        private BrightIdeasSoftware.HotItemStyle mappingHotItemStyle;
     }
 }

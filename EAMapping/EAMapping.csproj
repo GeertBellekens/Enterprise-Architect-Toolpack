@@ -57,6 +57,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -109,6 +110,12 @@
     <Compile Include="MappingControlGUI.Designer.cs">
       <DependentUpon>MappingControlGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="MappingDetailsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MappingDetailsControl.Designer.cs">
+      <DependentUpon>MappingDetailsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="MappingSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -152,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MappingControlGUI.resx">
       <DependentUpon>MappingControlGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MappingDetailsControl.resx">
+      <DependentUpon>MappingDetailsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MappingSettingsForm.resx">
       <DependentUpon>MappingSettingsForm.cs</DependentUpon>

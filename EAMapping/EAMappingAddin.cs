@@ -12,6 +12,7 @@ using System.Linq;
 using MappingFramework;
 using Cobol_Object_Mapper;
 using EA;
+using BrightIdeasSoftware;
 
 namespace EAMapping
 {
@@ -64,17 +65,22 @@ namespace EAMapping
                 {
                     _mappingControl = this.model.addTab(mappingControlName, "EAMapping.MappingControlGUI") as MappingControlGUI;
                     _mappingControl.HandleDestroyed += mappingControl_HandleDestroyed;
-                    _mappingControl.CreateMapping += mappingControl_CreateMapping;
-                    _mappingControl.DeleteMapping += mappingControl_DeleteMapping;
-                    _mappingControl.EditMappingLogic += mappingControl_EditMappingLogic;
-                    _mappingControl.DeleteMappingLogic += mappingControl_DeleteMappingLogic;
-                    _mappingControl.selectSource += mappingControl_SelectSource;
-                    _mappingControl.selectTarget += mappingControl_SelectTarget;
                     _mappingControl.selectNewMappingTarget += mappingControl_SelectNewMappingTarget;
                     _mappingControl.selectNewMappingSource += mappingControl_SelectNewMappingSource;
                     _mappingControl.exportMappingSet += mappingControl_ExportMappingSet;
+                    _mappingControl.createNewMapping += mappingControl_CreateNewMapping;
                 }
                 return _mappingControl;
+            }
+        }
+
+        private void mappingControl_CreateNewMapping(object sender, ModelDropEventArgs e)
+        {
+            var targetNode = e.TargetModel as MappingNode;
+            var sourceNode = e.SourceModels.Cast<Object>().FirstOrDefault() as MappingNode;
+            if (targetNode != null && sourceNode != null)
+            {
+                targetNode.mapTo(sourceNode);
             }
         }
 
