@@ -1,37 +1,66 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using BrightIdeasSoftware;
+using EAAddinFramework.Mapping;
 using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using MP = MappingFramework;
-using BrightIdeasSoftware;
-using EAAddinFramework.Mapping;
 using UML = TSF.UmlToolingFramework.UML;
 
 namespace EAMapping
 {
-	/// <summary>
-	/// Description of MappingControlGUI.
-	/// </summary>
-	public partial class MappingControlGUI : UserControl 
-	{
+    /// <summary>
+    /// Description of MappingControlGUI.
+    /// </summary>
+    public partial class MappingControlGUI : UserControl
+    {
 
-        private IEnumerable<MP.Mapping> selectedMappings { get; set; } = new List<MP.Mapping>();
+        private List<MP.Mapping> selectedMappings { get; set; } = new List<MP.Mapping>();
         private MP.MappingSet mappingSet { get; set; }
+        private List<MappingDetailsControl> mappingDetailControls { get; } = new List<MappingDetailsControl>();
 
 
-        
-		public MappingControlGUI() 
-		{
-			// The InitializeComponent() call is required for Windows Forms designer
-			// support.
-			InitializeComponent();
-            setDelegates();
-            // bubble LinkedTreeViews events via our own events
-            //this.trees.CreateMapping    += this.handleCreateMapping;
-            //this.trees.EditMappingLogic += this.handleEditMappingLogic;
+        public MappingControlGUI()
+        {
+            // The InitializeComponent() call is required for Windows Forms designer
+            // support.
+            this.InitializeComponent();
+            this.setDelegates();
         }
+
+
+        private void addMappingDetailControl()
+        {
+            var detailsControl = new MappingDetailsControl();
+            detailsControl.Hide();
+            this.mappingDetailControls.Add(detailsControl);
+            this.mappingPanel.Controls.Add(detailsControl);
+        }
+
+        private void clearMappingDetails()
+        {
+            foreach (var detailsControl in this.mappingDetailControls)
+            {
+                detailsControl.mapping = null;
+                detailsControl.Hide();
+            }
+        }
+        private void showMappings(List<MP.Mapping> mappings)
+        {
+            for (int i = 0; i < mappings.Count(); i++)
+            {
+                //make sure there are enough mappingDetailControls
+                while (i >= this.mappingDetailControls.Count)
+                {
+                    this.addMappingDetailControl();
+                }
+                //set details and show
+                this.mappingDetailControls[i].mapping = mappings[i];
+                this.mappingDetailControls[i].Show();
+            }
+        }
+
         private void setDelegates()
         {
             //tell the control who can expand 
@@ -56,41 +85,44 @@ namespace EAMapping
                 if (rowObject is ClassifierMappingNode)
                 {
                     if (((ClassifierMappingNode)rowObject).source is UML.Classes.Kernel.Package)
+                    {
                         return "packageNode";
+                    }
                     else
+                    {
                         return "classifierNode";
+                    }
                 }
-                if (rowObject is AttributeMappingNode) return "attributeNode";
-                if (rowObject is AssociationMappingNode) return "associationNode";
-                else return string.Empty;
+                if (rowObject is AttributeMappingNode)
+                {
+                    return "attributeNode";
+                }
+
+                if (rowObject is AssociationMappingNode)
+                {
+                    return "associationNode";
+                }
+                else
+                {
+                    return string.Empty;
+                }
             };
             this.sourceColumn.ImageGetter = imageGetter;
             this.targetColumn.ImageGetter = imageGetter;
         }
 
-        public Mapping SelectedMapping
-        {
-            get
-            {
+        public Mapping SelectedMapping =>
                 //LinkedTreeNodes link = this.trees.SelectedLink;
                 //if(link == null) { return null; }
                 //return link.Mapping;
-                return null;
-            }
-        }
-        private MP.MappingNode selectedSourceNode
-        {
-            get { return this.sourceTreeView.SelectedObject as MP.MappingNode; }
-        }
-        private MP.MappingNode selectedTargetNode
-        {
-            get { return this.targetTreeView.SelectedObject as MP.MappingNode; }
-        }
+                null;
+        private MP.MappingNode selectedSourceNode => this.sourceTreeView.SelectedObject as MP.MappingNode;
+        private MP.MappingNode selectedTargetNode => this.targetTreeView.SelectedObject as MP.MappingNode;
 
-        public void loadMappingSet(MP.MappingSet mappingSet) 
-		{
-			//first clear the existing mappings
-			this.clear();
+        public void loadMappingSet(MP.MappingSet mappingSet)
+        {
+            //first clear the existing mappings
+            this.clear();
             //then add the new mappingSet
             this.mappingSet = mappingSet;
             this.sourceTreeView.Objects = new List<MP.MappingNode>() { mappingSet.source };
@@ -101,63 +133,51 @@ namespace EAMapping
         }
         private void clear()
         {
-            this.mappingPanel.Controls.Clear();
+            this.clearMappingDetails();
         }
 
-		
-    	// export
 
-		public event EventHandler exportMappingSet = delegate { }; 
-		void ExportButtonClick(object sender, EventArgs e) 
-		{
-			exportMappingSet(this.mappingSet,e);
-		}
+        // export
+
+        public event EventHandler exportMappingSet = delegate { };
+        void ExportButtonClick(object sender, EventArgs e)
+        {
+            exportMappingSet(this.mappingSet, e);
+        }
 
 
         private void sourceTreeView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            showSourceMappings();
+            this.showSourceMappings();
         }
 
         private void showSourceMappings()
         {
-            //remove any mappings controls
-            this.mappingPanel.Controls.Clear();
+            // remove any mappings currently showing
+            this.clearMappingDetails();
             if (this.selectedSourceNode != null)
             {
-                this.selectedMappings = this.selectedSourceNode.mappings;
-                foreach (var mapping in this.selectedSourceNode.mappings)
+                this.selectedMappings = this.selectedSourceNode.mappings.ToList();
+                this.showMappings(this.selectedMappings);
+                foreach (var mapping in this.selectedMappings)
                 {
-                    targetTreeView.Reveal(mapping.target, false);
-                    var olvi = targetTreeView.ModelToItem(mapping.target);
-                    if (olvi != null)
-                        olvi.BackColor = Color.Yellow;
-                        //targetTreeView.ApplyRowStyle(olvi, targetTreeView.HotItemStyle);
-                    //show the mappings
-                    var detailsControl = new MappingDetailsControl();
-                    detailsControl.mapping = mapping;
-                    this.mappingPanel.Controls.Add(detailsControl);
+                    this.targetTreeView.Reveal(mapping.target, false);
                 }
+
             }
         }
 
         private void targetTreeView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //remove any mappings controls
-            this.mappingPanel.Controls.Clear();
+            // remove any mappings currently showing
+            this.clearMappingDetails(); ;
             if (this.selectedTargetNode != null)
             {
-                this.selectedMappings = this.selectedTargetNode.mappings;
-                foreach (var mapping in this.selectedTargetNode.mappings)
+                this.selectedMappings = this.selectedTargetNode.mappings.ToList();
+                this.showMappings(this.selectedMappings);
+                foreach (var mapping in this.selectedMappings)
                 {
-                    sourceTreeView.Reveal(mapping.source, false);
-                    var olvi = sourceTreeView.ModelToItem(mapping.source);
-                    if (olvi != null)
-                        sourceTreeView.ApplyRowStyle(olvi, sourceTreeView.HotItemStyle);
-                    //show the mappings
-                    var detailsControl = new MappingDetailsControl();
-                    detailsControl.mapping = mapping;
-                    this.mappingPanel.Controls.Add(detailsControl);
+                    this.sourceTreeView.Reveal(mapping.source, false);
                 }
             }
         }
@@ -171,9 +191,13 @@ namespace EAMapping
         {
             var parent = ((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl;
             if (parent == this.sourceTreeView)
-                selectMappingNode(selectedSourceNode);
+            {
+                this.selectMappingNode(this.selectedSourceNode);
+            }
             else
-                selectMappingNode(selectedTargetNode);
+            {
+                this.selectMappingNode(this.selectedTargetNode);
+            }
         }
         private void selectMappingNode(MP.MappingNode node)
         {
@@ -187,11 +211,15 @@ namespace EAMapping
         {
             var parent = ((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl;
             if (parent == this.sourceTreeView)
-                openMappingNodeProperties(selectedSourceNode);
+            {
+                this.openMappingNodeProperties(this.selectedSourceNode);
+            }
             else
-                openMappingNodeProperties(selectedTargetNode);
+            {
+                this.openMappingNodeProperties(this.selectedTargetNode);
+            }
         }
-        private void openMappingNodeProperties (MP.MappingNode node)
+        private void openMappingNodeProperties(MP.MappingNode node)
         {
             if (node?.source != null)
             {
@@ -206,15 +234,15 @@ namespace EAMapping
             var parent = ((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl;
             if (parent == this.targetTreeView)
             {
-                this.selectNewMappingTarget?.Invoke(this.mappingSet, e);
+                selectNewMappingTarget?.Invoke(this.mappingSet, e);
                 //reload the target view
-                this.targetTreeView.Objects = new List<MP.MappingNode>() { mappingSet.target };
-                this.targetTreeView.RefreshObject(mappingSet.target);
+                this.targetTreeView.Objects = new List<MP.MappingNode>() { this.mappingSet.target };
+                this.targetTreeView.RefreshObject(this.mappingSet.target);
                 this.targetTreeView.ExpandAll();
             }
             else
             {
-                this.selectNewMappingSource?.Invoke(this.mappingSet, e);
+                selectNewMappingSource?.Invoke(this.mappingSet, e);
             }
         }
 
@@ -223,7 +251,9 @@ namespace EAMapping
             var node = e.RowObject as MappingNode;
             //make sure the childeNodes are set on target nodes and they don't automatically get all child nodes
             if (node != null)
+            {
                 node.setChildNodes();
+            }
         }
 
         private void sourceTreeView_ItemActivate(object sender, EventArgs e)
@@ -250,14 +280,15 @@ namespace EAMapping
         private void targetTreeView_ModelDropped(object sender, ModelDropEventArgs e)
         {
             createNewMapping?.Invoke(sender, e);
-            showSourceMappings();
+            this.showSourceMappings();
         }
 
         private void targetTreeView_FormatRow(object sender, FormatRowEventArgs e)
         {
             if (this.selectedMappings.Any(x => x.target == e.Model))
             {
-                e.Item.BackColor = Color.LightGoldenrodYellow; 
+                e.Item.BackColor = Color.LightYellow;
+                //e.Item.Font = new Font(e.Item.Font, FontStyle.Bold);
             }
         }
 
@@ -265,7 +296,8 @@ namespace EAMapping
         {
             if (this.selectedMappings.Any(x => x.source == e.Model))
             {
-                e.Item.BackColor = Color.LightGoldenrodYellow;
+                e.Item.BackColor = Color.LightYellow;
+                //e.Item.Font = new Font(e.Item.Font, FontStyle.Bold);
             }
         }
     }

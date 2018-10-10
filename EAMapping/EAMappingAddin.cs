@@ -80,7 +80,7 @@ namespace EAMapping
             var sourceNode = e.SourceModels.Cast<Object>().FirstOrDefault() as MappingNode;
             if (targetNode != null && sourceNode != null)
             {
-                targetNode.mapTo(sourceNode);
+                sourceNode.mapTo(targetNode);
             }
         }
 
