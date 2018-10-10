@@ -89,7 +89,7 @@
       <Name>EAAddinFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UML-Tooling-Framework\SchemaBuilderFramework\SchemaBuilderFramework.csproj">
-      <Project>{5C63DAE8-2567-4270-8F7C-CEB8396B73D3}</Project>
+      <Project>{5c63dae8-2567-4270-8f7c-ceb8396b73d3}</Project>
       <Name>SchemaBuilderFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UML-Tooling-Framework\UMLToolingFramework\UMLToolingFramework.csproj">
