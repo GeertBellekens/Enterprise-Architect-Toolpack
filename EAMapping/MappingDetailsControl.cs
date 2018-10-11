@@ -21,14 +21,9 @@ namespace EAMapping
         {
             this.fromTextBox.Text = this._mapping?.source?.name;
             this.toTextBox.Text = this._mapping?.target?.name;
-            this.mappingLogicTextBox.Text = this._mapping?.mappingLogic?.description;
+            this.mappingLogicTextBox.Text = this._mapping?.mappingLogicDescription;
         }
-        private void unloadContent()
-        {
-            if (this._mapping?.mappingLogic != null)
-                this._mapping.mappingLogic.description = this.mappingLogicTextBox.Text; 
-            //TODO: create mapping logic if not present?
-        }
+
         private MP.Mapping _mapping;
         public MP.Mapping mapping
         {
@@ -41,6 +36,12 @@ namespace EAMapping
                 this._mapping = value;
                 this.loadContent();
             }
+        }
+
+        private void mappingLogicTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (this.mapping != null)
+                this.mapping.mappingLogicDescription = mappingLogicTextBox.Text;
         }
     }
 }

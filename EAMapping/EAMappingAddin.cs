@@ -101,7 +101,10 @@ namespace EAMapping
             var newTargetElement = this.model.getUserSelectedElement(new List<string>() { "Class", "Package" }) as TSF_EA.ElementWrapper;
             //create mapping node for target element and set it as target of the mapping set
             if (newTargetElement != null)
-                mappingSet.target = EA_MP.MappingFactory.createNewRootNode(newTargetElement,  mappingSet.settings);
+            {
+                mappingSet.target = EA_MP.MappingFactory.createNewRootNode(newTargetElement, mappingSet.settings);
+                mappingSet.source.mapTo(mappingSet.target);
+            }
         }
 
         void mappingControl_SelectSource(object sender, EventArgs e)
@@ -321,7 +324,7 @@ namespace EAMapping
         {
             return this.model.getUserSelectedElement(new List<string> { "Class", "Package" }) as TSF_EA.Element;
         }
-        private MappingFramework.MappingSet getCurrentMappingSet()
+        private MappingSet getCurrentMappingSet()
         {
             var selectedElement = model.selectedItem as TSF_EA.ElementWrapper;
             return selectedElement != null ? EA_MP.MappingFactory.createMappingSet(selectedElement, this.settings) : null;

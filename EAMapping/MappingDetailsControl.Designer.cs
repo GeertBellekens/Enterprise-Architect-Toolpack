@@ -76,6 +76,7 @@
             this.mappingLogicTextBox.Name = "mappingLogicTextBox";
             this.mappingLogicTextBox.Size = new System.Drawing.Size(212, 91);
             this.mappingLogicTextBox.TabIndex = 4;
+            this.mappingLogicTextBox.TextChanged += new System.EventHandler(this.mappingLogicTextBox_TextChanged);
             // 
             // MappingDetailsControl
             // 

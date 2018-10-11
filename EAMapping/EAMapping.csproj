@@ -90,14 +90,6 @@
     <Compile Include="Custom User Controls\TreeItem.cs" />
     <Compile Include="EAMappingAddin.cs" />
     <Compile Include="EAMappingSettings.cs" />
-    <Compile Include="LinkedTreeNode.cs" />
-    <Compile Include="LinkedTreeView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="LinkedTreeViews.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="LinkedTreeNodes.cs" />
     <Compile Include="ImportMappingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,9 +145,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImportMappingForm.resx">
       <DependentUpon>ImportMappingForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LinkedTreeViews.resx">
-      <DependentUpon>LinkedTreeViews.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MappingControlGUI.resx">
       <DependentUpon>MappingControlGUI.cs</DependentUpon>
