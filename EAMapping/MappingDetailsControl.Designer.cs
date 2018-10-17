@@ -34,8 +34,8 @@
             this.toTextBox = new System.Windows.Forms.TextBox();
             this.toLabel = new System.Windows.Forms.Label();
             this.mappingLogicTextBox = new System.Windows.Forms.TextBox();
-            this.deleteButton = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.deleteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // fromLabel
@@ -84,9 +84,9 @@
             // deleteButton
             // 
             this.deleteButton.Image = global::EAMapping.Properties.Resources.delete;
-            this.deleteButton.Location = new System.Drawing.Point(6, 123);
+            this.deleteButton.Location = new System.Drawing.Point(6, 116);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(23, 25);
+            this.deleteButton.Size = new System.Drawing.Size(27, 32);
             this.deleteButton.TabIndex = 5;
             this.toolTip.SetToolTip(this.deleteButton, "Delete mapping");
             this.deleteButton.UseVisualStyleBackColor = true;
