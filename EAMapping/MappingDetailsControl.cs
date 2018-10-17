@@ -43,5 +43,10 @@ namespace EAMapping
             if (this.mapping != null)
                 this.mapping.mappingLogicDescription = mappingLogicTextBox.Text;
         }
+        public event EventHandler mappingDeleted;
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            this.mappingDeleted?.Invoke(this, e);
+        }
     }
 }

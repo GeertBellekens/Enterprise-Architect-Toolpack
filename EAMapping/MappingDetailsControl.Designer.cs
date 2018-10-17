@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.fromLabel = new System.Windows.Forms.Label();
             this.fromTextBox = new System.Windows.Forms.TextBox();
             this.toTextBox = new System.Windows.Forms.TextBox();
             this.toLabel = new System.Windows.Forms.Label();
             this.mappingLogicTextBox = new System.Windows.Forms.TextBox();
+            this.deleteButton = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // fromLabel
@@ -71,24 +74,37 @@
             // 
             // mappingLogicTextBox
             // 
-            this.mappingLogicTextBox.Location = new System.Drawing.Point(3, 57);
+            this.mappingLogicTextBox.Location = new System.Drawing.Point(38, 57);
             this.mappingLogicTextBox.Multiline = true;
             this.mappingLogicTextBox.Name = "mappingLogicTextBox";
-            this.mappingLogicTextBox.Size = new System.Drawing.Size(212, 91);
+            this.mappingLogicTextBox.Size = new System.Drawing.Size(177, 91);
             this.mappingLogicTextBox.TabIndex = 4;
             this.mappingLogicTextBox.TextChanged += new System.EventHandler(this.mappingLogicTextBox_TextChanged);
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Image = global::EAMapping.Properties.Resources.delete;
+            this.deleteButton.Location = new System.Drawing.Point(6, 123);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(23, 25);
+            this.deleteButton.TabIndex = 5;
+            this.toolTip.SetToolTip(this.deleteButton, "Delete mapping");
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // MappingDetailsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.mappingLogicTextBox);
             this.Controls.Add(this.toTextBox);
             this.Controls.Add(this.toLabel);
             this.Controls.Add(this.fromTextBox);
             this.Controls.Add(this.fromLabel);
             this.Name = "MappingDetailsControl";
-            this.Size = new System.Drawing.Size(219, 151);
+            this.Size = new System.Drawing.Size(221, 153);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -101,5 +117,7 @@
         private System.Windows.Forms.TextBox toTextBox;
         private System.Windows.Forms.Label toLabel;
         private System.Windows.Forms.TextBox mappingLogicTextBox;
+        private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

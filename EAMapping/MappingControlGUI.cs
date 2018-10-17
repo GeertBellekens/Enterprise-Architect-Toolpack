@@ -16,7 +16,9 @@ namespace EAMapping
     public partial class MappingControlGUI : UserControl
     {
 
-        private List<MP.Mapping> selectedMappings { get; set; } = new List<MP.Mapping>();
+        private List<MP.Mapping> selectedMappings => this.selectedNode != null ?
+                                                    this.selectedNode?.mappings.ToList() : 
+                                                    new List<MP.Mapping>();
         private MP.MappingSet mappingSet { get; set; }
         private List<MappingDetailsControl> mappingDetailControls { get; } = new List<MappingDetailsControl>();
 
@@ -33,10 +35,32 @@ namespace EAMapping
         private void addMappingDetailControl()
         {
             var detailsControl = new MappingDetailsControl();
+            detailsControl.mappingDeleted += this.mappingDeleted;
             detailsControl.Hide();
             this.mappingDetailControls.Add(detailsControl);
             this.mappingPanel.Controls.Add(detailsControl);
         }
+
+        private void mappingDeleted(object sender, EventArgs e)
+        {
+            var detailsControl = sender as MappingDetailsControl;
+            var mapping = detailsControl.mapping;
+            //get source and target
+            var source = mapping?.source;
+            var target = mapping?.target;
+            //delete the mapping
+            detailsControl.mapping?.delete();
+            //clear the GUI
+            this.clearMappingDetails();
+            //show the mappings again
+            this.showMappings(this.selectedMappings);
+            //refresh source and target nodes
+            this.sourceTreeView.RefreshObject(source);
+            this.targetTreeView.RefreshObject(target);
+
+        }
+
+
 
         private void clearMappingDetails()
         {
@@ -118,6 +142,7 @@ namespace EAMapping
                 null;
         private MP.MappingNode selectedSourceNode => this.sourceTreeView.SelectedObject as MP.MappingNode;
         private MP.MappingNode selectedTargetNode => this.targetTreeView.SelectedObject as MP.MappingNode;
+        private MP.MappingNode selectedNode { get; set; }
 
         public void loadMappingSet(MP.MappingSet mappingSet)
         {
@@ -148,6 +173,9 @@ namespace EAMapping
 
         private void sourceTreeView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //set the selected node
+            this.selectedNode = this.selectedSourceNode;
+            //show the mappings
             this.showSourceMappings();
         }
 
@@ -157,7 +185,6 @@ namespace EAMapping
             this.clearMappingDetails();
             if (this.selectedSourceNode != null)
             {
-                this.selectedMappings = this.selectedSourceNode.mappings.ToList();
                 this.showMappings(this.selectedMappings);
                 foreach (var mapping in this.selectedMappings)
                 {
@@ -169,11 +196,12 @@ namespace EAMapping
 
         private void targetTreeView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //set the selected node
+            this.selectedNode = this.selectedTargetNode;
             // remove any mappings currently showing
             this.clearMappingDetails(); ;
             if (this.selectedTargetNode != null)
             {
-                this.selectedMappings = this.selectedTargetNode.mappings.ToList();
                 this.showMappings(this.selectedMappings);
                 foreach (var mapping in this.selectedMappings)
                 {
