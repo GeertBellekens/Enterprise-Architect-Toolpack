@@ -306,14 +306,7 @@ namespace EAMapping
 
         private void targetTreeView_ModelCanDrop(object sender, ModelDropEventArgs e)
         {
-            var targetNode = e.TargetModel as MP.MappingNode;
-            var sourceNode = e.SourceModels.Cast<Object>().FirstOrDefault() as MP.MappingNode;
-            if (targetNode != null && sourceNode != null
-                && ! targetTreeView.Objects.OfType<MP.MappingNode>().Any(x => x == sourceNode))
-            {
-                e.Effect = DragDropEffects.Link;
-                e.InfoMessage = "Create new Mapping";
-            }
+            this.canDrop(e, targetTreeView);
         }
         public event EventHandler<BrightIdeasSoftware.ModelDropEventArgs> sourceToTargetDropped;
         private void targetTreeView_ModelDropped(object sender, ModelDropEventArgs e)
@@ -324,13 +317,23 @@ namespace EAMapping
 
         private void sourceTreeView_ModelCanDrop(object sender, ModelDropEventArgs e)
         {
+            this.canDrop(e, sourceTreeView);
+        }
+        private void canDrop(ModelDropEventArgs e, TreeListView treeListView)
+        {
             var targetNode = e.TargetModel as MP.MappingNode;
-            var sourceNode = e.SourceModels.Cast<Object>().FirstOrDefault() as MP.MappingNode;
+            var sourceNode = e.SourceModels.Cast<MP.MappingNode>().FirstOrDefault();
+            var topNode = treeListView.Objects.Cast<MP.MappingNode>().FirstOrDefault();
+            //
             if (targetNode != null && sourceNode != null
-                && !sourceTreeView.Objects.OfType<MP.MappingNode>().Any(x => x == sourceNode))
+                && !sourceNode.isChildOf(topNode))
             {
                 e.Effect = DragDropEffects.Link;
                 e.InfoMessage = "Create new Mapping";
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
             }
         }
         public event EventHandler<BrightIdeasSoftware.ModelDropEventArgs> targetToSourceDropped;
