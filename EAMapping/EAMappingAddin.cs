@@ -23,10 +23,7 @@ namespace EAMapping
     {
         // define menu constants
         const string menuName = "-&EA Mapping";
-        const string menuMapAsSource = "&Map as Source";
-        const string menuAddNode = "-&Add Node";
-        const string menuAddToSource = "To &Source";
-        const string menuAddToTarget = "To &Target";
+        const string menuMapAsSource = "&Map";
         const string menuImportMapping = "&Import Mapping";
         const string menuImportCopybook = "&Import Copybook";
         const string menuSettings = "&Settings";
@@ -48,13 +45,11 @@ namespace EAMapping
             this.menuOptions = new string[]
             {
             menuMapAsSource,
-            menuAddNode,
             menuImportMapping,
             menuImportCopybook,
             menuSettings,
             menuAbout
             };
-            this.menuSubAddNodeOptions = new string[] { menuAddToSource, menuAddToTarget };
         }
         private MappingControlGUI mappingControl
         {
@@ -187,8 +182,6 @@ namespace EAMapping
                     return this.menuHeader;
                 case menuName:
                     return this.menuOptions;
-                case menuAddNode:
-                    return this.menuSubAddNodeOptions;
                 default:
                     return string.Empty;
             }
@@ -204,13 +197,6 @@ namespace EAMapping
                 default:
                     IsEnabled = true;
                     break;
-            }
-            if (MenuName == menuAddNode)
-            {
-                var selectedAttribute = this.fullyLoaded ? this.model.selectedElement as TSF_EA.Attribute : null;
-                IsEnabled = selectedAttribute != null
-                    && this._mappingControl != null
-                    && this.model.isTabOpen(mappingControlName);
             }
         }
 
@@ -229,12 +215,6 @@ namespace EAMapping
                 case menuMapAsSource:
                     loadMapping(this.getCurrentMappingSet());
                     break;
-                case menuAddToSource:
-                    addNodeToTree(true);
-                    break;
-                case menuAddToTarget:
-                    addNodeToTree(false);
-                    break;
                 case menuAbout:
                     new AboutWindow().ShowDialog(this.model.mainEAWindow);
                     break;
@@ -250,23 +230,13 @@ namespace EAMapping
             }
         }
 
-        void addNodeToTree(bool source)
-        {
-            //get the selected items
-            var selectedElement = this.model.selectedElement as TSF_EA.Element;
-            if (selectedElement != null)
-            {
-                //var mappedEnd = new EA_MP.MappingEnd(selectedElement, selectedElement.fqn);
-                ////add the selected node to the source or target tree.
-                //this.mappingControl.addNode(mappedEnd, source);
-            }
-        }
 
         void loadMapping(MappingFramework.MappingSet mappingSet)
         {
             this.mappingControl.loadMappingSet(mappingSet);
             model.activateTab(mappingControlName);
         }
+
         void startImportMapping()
         {
             var importDialog = new ImportMappingForm();
@@ -282,6 +252,7 @@ namespace EAMapping
             importDialog.TargetPathBrowseButtonClicked += browseTargetPath;
             importDialog.ShowDialog(this.model.mainEAWindow);
         }
+
         TSF_EA.Element findTarget(TSF_EA.Element sourceElement)
         {
             var trace = sourceElement.getRelationships<UML.Classes.Dependencies.Abstraction>().FirstOrDefault(x => x.stereotypes.Any(y => y.name.Equals("trace", StringComparison.InvariantCultureIgnoreCase))

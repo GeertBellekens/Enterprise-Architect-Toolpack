@@ -32,13 +32,17 @@ namespace EAMapping
         }
 
 
-        private void addMappingDetailControl()
+        private void addMappingDetailControl(int i)
         {
             var detailsControl = new MappingDetailsControl();
             detailsControl.mappingDeleted += this.mappingDeleted;
+            detailsControl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            detailsControl.BorderStyle = BorderStyle.FixedSingle;
+            detailsControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            detailsControl.TabIndex = i;
             detailsControl.Hide();
             this.mappingDetailControls.Add(detailsControl);
-            this.mappingPanel.Controls.Add(detailsControl);
+            this.mappingPanel.Controls.Add(detailsControl,0,i );
         }
 
         private void mappingDeleted(object sender, EventArgs e)
@@ -77,7 +81,7 @@ namespace EAMapping
                 //make sure there are enough mappingDetailControls
                 while (i >= this.mappingDetailControls.Count)
                 {
-                    this.addMappingDetailControl();
+                    this.addMappingDetailControl(i);
                 }
                 //set details and show
                 this.mappingDetailControls[i].mapping = mappings[i];

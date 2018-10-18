@@ -49,6 +49,8 @@
             // 
             // fromTextBox
             // 
+            this.fromTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.fromTextBox.Location = new System.Drawing.Point(39, 5);
             this.fromTextBox.Name = "fromTextBox";
             this.fromTextBox.ReadOnly = true;
@@ -57,6 +59,8 @@
             // 
             // toTextBox
             // 
+            this.toTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.toTextBox.Location = new System.Drawing.Point(38, 31);
             this.toTextBox.Name = "toTextBox";
             this.toTextBox.ReadOnly = true;
@@ -74,6 +78,9 @@
             // 
             // mappingLogicTextBox
             // 
+            this.mappingLogicTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mappingLogicTextBox.Location = new System.Drawing.Point(38, 57);
             this.mappingLogicTextBox.Multiline = true;
             this.mappingLogicTextBox.Name = "mappingLogicTextBox";
@@ -83,6 +90,7 @@
             // 
             // deleteButton
             // 
+            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.deleteButton.Image = global::EAMapping.Properties.Resources.delete;
             this.deleteButton.Location = new System.Drawing.Point(6, 116);
             this.deleteButton.Name = "deleteButton";
@@ -96,6 +104,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.mappingLogicTextBox);
