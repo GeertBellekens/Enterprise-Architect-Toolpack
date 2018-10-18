@@ -1,18 +1,17 @@
 ﻿
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using EAAddinFramework.Utilities;
-using UML = TSF.UmlToolingFramework.UML;
-using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
-using EAAddinFramework;
-using EA_MP = EAAddinFramework.Mapping;
-using System.Linq;
-using MappingFramework;
-using Cobol_Object_Mapper;
-using EA;
 using BrightIdeasSoftware;
+using Cobol_Object_Mapper;
+using EAAddinFramework;
+using EAAddinFramework.Utilities;
+using MappingFramework;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using EA_MP = EAAddinFramework.Mapping;
+using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
+using UML = TSF.UmlToolingFramework.UML;
 
 namespace EAMapping
 {
@@ -55,24 +54,34 @@ namespace EAMapping
         {
             get
             {
-                if (_mappingControl == null
+                if (this._mappingControl == null
                    && this.model != null)
                 {
-                    _mappingControl = this.model.addTab(mappingControlName, "EAMapping.MappingControlGUI") as MappingControlGUI;
-                    _mappingControl.HandleDestroyed += mappingControl_HandleDestroyed;
-                    _mappingControl.selectNewMappingTarget += mappingControl_SelectNewMappingTarget;
-                    _mappingControl.selectNewMappingSource += mappingControl_SelectNewMappingSource;
-                    _mappingControl.exportMappingSet += mappingControl_ExportMappingSet;
-                    _mappingControl.createNewMapping += mappingControl_CreateNewMapping;
+                    this._mappingControl = this.model.addTab(mappingControlName, "EAMapping.MappingControlGUI") as MappingControlGUI;
+                    this._mappingControl.HandleDestroyed += this.mappingControl_HandleDestroyed;
+                    this._mappingControl.selectNewMappingTarget += this.mappingControl_SelectNewMappingTarget;
+                    this._mappingControl.selectNewMappingSource += this.mappingControl_SelectNewMappingSource;
+                    this._mappingControl.exportMappingSet += this.mappingControl_ExportMappingSet;
+                    this._mappingControl.sourceToTargetDropped += this.mappingControl_sourceToTargetDropped;
+                    this._mappingControl.targetToSourceDropped += this.mappingControl_targetToSourceDropped;
                 }
-                return _mappingControl;
+                return this._mappingControl;
             }
         }
 
-        private void mappingControl_CreateNewMapping(object sender, ModelDropEventArgs e)
+        private void mappingControl_sourceToTargetDropped(object sender, ModelDropEventArgs e)
         {
             var targetNode = e.TargetModel as MappingNode;
-            var sourceNode = e.SourceModels.Cast<Object>().FirstOrDefault() as MappingNode;
+            var sourceNode = e.SourceModels.Cast<object>().FirstOrDefault() as MappingNode;
+            if (targetNode != null && sourceNode != null)
+            {
+                sourceNode.mapTo(targetNode);
+            }
+        }
+        private void mappingControl_targetToSourceDropped(object sender, ModelDropEventArgs e)
+        {
+            var sourceNode = e.TargetModel as MappingNode;
+            var targetNode = e.SourceModels.Cast<object>().FirstOrDefault() as MappingNode;
             if (targetNode != null && sourceNode != null)
             {
                 sourceNode.mapTo(targetNode);
@@ -84,7 +93,7 @@ namespace EAMapping
             //let the user select a new root
             var newSourceElement = this.model.getUserSelectedElement(new List<string>() { "Class", "Package" }) as TSF_EA.ElementWrapper;
             //create the mapping set
-            var mappingSet =  EA_MP.MappingFactory.createMappingSet(newSourceElement, this.settings);
+            var mappingSet = EA_MP.MappingFactory.createMappingSet(newSourceElement, this.settings);
             //load the mapping set
             this.loadMapping(mappingSet);
         }
@@ -164,7 +173,7 @@ namespace EAMapping
 
         void mappingControl_HandleDestroyed(object sender, EventArgs e)
         {
-            _mappingControl = null;
+            this._mappingControl = null;
         }
         public override void EA_FileOpen(EA.Repository Repository)
         {
@@ -213,7 +222,7 @@ namespace EAMapping
             switch (ItemName)
             {
                 case menuMapAsSource:
-                    loadMapping(this.getCurrentMappingSet());
+                    this.loadMapping(this.getCurrentMappingSet());
                     break;
                 case menuAbout:
                     new AboutWindow().ShowDialog(this.model.mainEAWindow);
@@ -234,22 +243,22 @@ namespace EAMapping
         void loadMapping(MappingFramework.MappingSet mappingSet)
         {
             this.mappingControl.loadMappingSet(mappingSet);
-            model.activateTab(mappingControlName);
+            this.model.activateTab(mappingControlName);
         }
 
         void startImportMapping()
         {
             var importDialog = new ImportMappingForm();
-            var selectedElement = model.selectedElement as TSF_EA.Element;
+            var selectedElement = this.model.selectedElement as TSF_EA.Element;
             if (selectedElement is UML.Classes.Kernel.Class
                 || selectedElement is UML.Classes.Kernel.Package)
             {
                 importDialog.sourcePathElement = selectedElement;
-                importDialog.targetPathElement = findTarget(selectedElement);
+                importDialog.targetPathElement = this.findTarget(selectedElement);
             }
-            importDialog.ImportButtonClicked += importMapping;
-            importDialog.SourcePathBrowseButtonClicked += browseSourcePath;
-            importDialog.TargetPathBrowseButtonClicked += browseTargetPath;
+            importDialog.ImportButtonClicked += this.importMapping;
+            importDialog.SourcePathBrowseButtonClicked += this.browseSourcePath;
+            importDialog.TargetPathBrowseButtonClicked += this.browseTargetPath;
             importDialog.ShowDialog(this.model.mainEAWindow);
         }
 
@@ -257,14 +266,17 @@ namespace EAMapping
         {
             var trace = sourceElement.getRelationships<UML.Classes.Dependencies.Abstraction>().FirstOrDefault(x => x.stereotypes.Any(y => y.name.Equals("trace", StringComparison.InvariantCultureIgnoreCase))
                                                                                         && (x.target is UML.Classes.Kernel.Package || x.target is UML.Classes.Kernel.Class));
-            if (trace != null) return trace.target as TSF_EA.Element;
+            if (trace != null)
+            {
+                return trace.target as TSF_EA.Element;
+            }
             //if nothing found then return null
             return null;
         }
 
         void importMapping(object sender, EventArgs e)
         {
-            clearOutput();
+            this.clearOutput();
             var importDialog = sender as ImportMappingForm;
             if (importDialog != null)
             {
@@ -272,7 +284,7 @@ namespace EAMapping
                                                       , importDialog.sourcePathElement, importDialog.targetPathElement);
                 if (mappingSet != null)
                 {
-                    loadMapping(mappingSet);
+                    this.loadMapping(mappingSet);
                 }
             }
         }
@@ -283,13 +295,13 @@ namespace EAMapping
         void browseSourcePath(object sender, EventArgs e)
         {
             var importDialog = (ImportMappingForm)sender;
-            importDialog.sourcePathElement = getuserSelectedClassOrPackage();
+            importDialog.sourcePathElement = this.getuserSelectedClassOrPackage();
         }
 
         void browseTargetPath(object sender, EventArgs e)
         {
             var importDialog = (ImportMappingForm)sender;
-            importDialog.targetPathElement = getuserSelectedClassOrPackage();
+            importDialog.targetPathElement = this.getuserSelectedClassOrPackage();
         }
         private TSF_EA.Element getuserSelectedClassOrPackage()
         {
@@ -297,7 +309,7 @@ namespace EAMapping
         }
         private MappingSet getCurrentMappingSet()
         {
-            var selectedElement = model.selectedItem as TSF_EA.ElementWrapper;
+            var selectedElement = this.model.selectedItem as TSF_EA.ElementWrapper;
             return selectedElement != null ? EA_MP.MappingFactory.createMappingSet(selectedElement, this.settings) : null;
         }
 
@@ -454,7 +466,11 @@ namespace EAMapping
             association.addRelatedElement(target);
             //set source multiplicity and aggregationkind
             ((TSF_EA.Association)association).sourceEnd.aggregation = UML.Classes.Kernel.AggregationKind.composite;
-            if (targetMultiplicity == null) targetMultiplicity = "1"; //default target multiplicity
+            if (targetMultiplicity == null)
+            {
+                targetMultiplicity = "1"; //default target multiplicity
+            }
+
             if (targetMultiplicity != null)
             {
                 ((TSF_EA.Association)association).targetEnd.EAMultiplicity =

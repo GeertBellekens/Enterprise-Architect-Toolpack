@@ -158,6 +158,7 @@ namespace EAMapping
             this.sourceTreeView.HideSelection = false;
             this.sourceTreeView.HotItemStyle = this.mappingHotItemStyle;
             this.sourceTreeView.IsSimpleDragSource = true;
+            this.sourceTreeView.IsSimpleDropSink = true;
             this.sourceTreeView.Location = new System.Drawing.Point(0, 0);
             this.sourceTreeView.Name = "sourceTreeView";
             this.sourceTreeView.ShowGroups = false;
@@ -171,6 +172,8 @@ namespace EAMapping
             this.sourceTreeView.View = System.Windows.Forms.View.Details;
             this.sourceTreeView.VirtualMode = true;
             this.sourceTreeView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.sourceTreeView_FormatRow);
+            this.sourceTreeView.ModelCanDrop += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.sourceTreeView_ModelCanDrop);
+            this.sourceTreeView.ModelDropped += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.sourceTreeView_ModelDropped);
             this.sourceTreeView.ItemActivate += new System.EventHandler(this.sourceTreeView_ItemActivate);
             this.sourceTreeView.SelectedIndexChanged += new System.EventHandler(this.sourceTreeView_SelectedIndexChanged);
             // 
@@ -178,7 +181,7 @@ namespace EAMapping
             // 
             this.sourceColumn.AspectName = "name";
             this.sourceColumn.FillsFreeSpace = true;
-            this.sourceColumn.Text = "Source";
+            this.sourceColumn.Text = "Source Model";
             this.sourceColumn.Width = 260;
             // 
             // isMapped
@@ -240,6 +243,7 @@ namespace EAMapping
             this.targetTreeView.GridLines = true;
             this.targetTreeView.HideSelection = false;
             this.targetTreeView.HotItemStyle = this.mappingHotItemStyle;
+            this.targetTreeView.IsSimpleDragSource = true;
             this.targetTreeView.IsSimpleDropSink = true;
             this.targetTreeView.Location = new System.Drawing.Point(0, 0);
             this.targetTreeView.Name = "targetTreeView";
@@ -264,7 +268,7 @@ namespace EAMapping
             // 
             this.targetColumn.AspectName = "name";
             this.targetColumn.FillsFreeSpace = true;
-            this.targetColumn.Text = "Target";
+            this.targetColumn.Text = "Target Model";
             this.targetColumn.Width = 290;
             // 
             // targetMappingsColumn

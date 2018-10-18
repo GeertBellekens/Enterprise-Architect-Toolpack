@@ -202,6 +202,12 @@ namespace EAMapping
         {
             //set the selected node
             this.selectedNode = this.selectedTargetNode;
+            //show the mappings
+            showTargetMappings();
+
+        }
+        private void showTargetMappings()
+        {
             // remove any mappings currently showing
             this.clearMappingDetails(); ;
             if (this.selectedTargetNode != null)
@@ -302,17 +308,36 @@ namespace EAMapping
         {
             var targetNode = e.TargetModel as MP.MappingNode;
             var sourceNode = e.SourceModels.Cast<Object>().FirstOrDefault() as MP.MappingNode;
-            if (targetNode != null && sourceNode != null)
+            if (targetNode != null && sourceNode != null
+                && ! targetTreeView.Objects.OfType<MP.MappingNode>().Any(x => x == sourceNode))
             {
                 e.Effect = DragDropEffects.Link;
                 e.InfoMessage = "Create new Mapping";
             }
         }
-        public event EventHandler<BrightIdeasSoftware.ModelDropEventArgs> createNewMapping;
+        public event EventHandler<BrightIdeasSoftware.ModelDropEventArgs> sourceToTargetDropped;
         private void targetTreeView_ModelDropped(object sender, ModelDropEventArgs e)
         {
-            createNewMapping?.Invoke(sender, e);
+            sourceToTargetDropped?.Invoke(sender, e);
             this.showSourceMappings();
+        }
+
+        private void sourceTreeView_ModelCanDrop(object sender, ModelDropEventArgs e)
+        {
+            var targetNode = e.TargetModel as MP.MappingNode;
+            var sourceNode = e.SourceModels.Cast<Object>().FirstOrDefault() as MP.MappingNode;
+            if (targetNode != null && sourceNode != null
+                && !sourceTreeView.Objects.OfType<MP.MappingNode>().Any(x => x == sourceNode))
+            {
+                e.Effect = DragDropEffects.Link;
+                e.InfoMessage = "Create new Mapping";
+            }
+        }
+        public event EventHandler<BrightIdeasSoftware.ModelDropEventArgs> targetToSourceDropped;
+        private void sourceTreeView_ModelDropped(object sender, ModelDropEventArgs e)
+        {
+            targetToSourceDropped?.Invoke(sender, e);
+            this.showTargetMappings();
         }
 
         private void targetTreeView_FormatRow(object sender, FormatRowEventArgs e)
@@ -332,5 +357,7 @@ namespace EAMapping
                 //e.Item.Font = new Font(e.Item.Font, FontStyle.Bold);
             }
         }
+
+
     }
 }
