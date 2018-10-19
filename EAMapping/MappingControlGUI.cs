@@ -58,10 +58,9 @@ namespace EAMapping
             this.clearMappingDetails();
             //show the mappings again
             this.showMappings(this.selectedMappings);
-            //refresh source and target nodes
-            this.sourceTreeView.RefreshObject(source);
-            this.targetTreeView.RefreshObject(target);
-
+            //refresh to show the updated data
+            this.sourceTreeView.RefreshObject(this.sourceTreeView.Objects.Cast<MappingNode>().FirstOrDefault());
+            this.targetTreeView.RefreshObject(this.sourceTreeView.Objects.Cast<MappingNode>().FirstOrDefault());
         }
 
 

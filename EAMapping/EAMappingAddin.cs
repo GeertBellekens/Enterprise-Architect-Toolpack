@@ -70,21 +70,33 @@ namespace EAMapping
         }
 
         private void mappingControl_sourceToTargetDropped(object sender, ModelDropEventArgs e)
-        {
-            var targetNode = e.TargetModel as MappingNode;
-            var sourceNode = e.SourceModels.Cast<object>().FirstOrDefault() as MappingNode;
-            if (targetNode != null && sourceNode != null)
-            {
-                sourceNode.mapTo(targetNode);
-            }
+        {            
+            handleNodeDropped(e, false);
         }
         private void mappingControl_targetToSourceDropped(object sender, ModelDropEventArgs e)
         {
-            var sourceNode = e.TargetModel as MappingNode;
-            var targetNode = e.SourceModels.Cast<object>().FirstOrDefault() as MappingNode;
-            if (targetNode != null && sourceNode != null)
+            handleNodeDropped(e, true);
+        }
+
+        private static void handleNodeDropped(ModelDropEventArgs e,bool reverse)
+        {
+            //handle exceptions as otherwise the treeview will swallow them
+            try
             {
-                sourceNode.mapTo(targetNode);
+                var sourceNode = reverse ? 
+                    e.TargetModel as MappingNode : 
+                    e.SourceModels.Cast<object>().FirstOrDefault() as MappingNode;
+                var targetNode = reverse ?
+                    e.SourceModels.Cast<object>().FirstOrDefault() as MappingNode :
+                    e.TargetModel as MappingNode; 
+                if (targetNode != null && sourceNode != null)
+                {
+                    sourceNode.mapTo(targetNode);
+                }
+            }
+            catch (Exception exc)
+            {
+                processException(exc);
             }
         }
 
