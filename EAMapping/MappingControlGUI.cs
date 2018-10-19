@@ -325,10 +325,22 @@ namespace EAMapping
             var topNode = treeListView.Objects.Cast<MP.MappingNode>().FirstOrDefault();
             //
             if (targetNode != null && sourceNode != null
+                //do not allow to drop on same treeView
                 && !sourceNode.isChildOf(topNode))
             {
-                e.Effect = DragDropEffects.Link;
-                e.InfoMessage = "Create new Mapping";
+                //make sure that they are not already mapped
+                if  ( sourceNode.mappings.Any (x => x.target == targetNode && x.source == sourceNode
+                                                || x.target == sourceNode && x.source == targetNode))
+                {
+                    e.Effect = DragDropEffects.None;
+                    e.InfoMessage = "Items are already mapped!";
+                }
+                else
+                {
+                    //OK we can create the mapping
+                    e.Effect = DragDropEffects.Link;
+                    e.InfoMessage = "Create new Mapping";
+                }
             }
             else
             {

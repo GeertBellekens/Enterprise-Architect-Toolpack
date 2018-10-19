@@ -254,8 +254,11 @@ namespace EAMapping
 
         void loadMapping(MappingFramework.MappingSet mappingSet)
         {
-            this.mappingControl.loadMappingSet(mappingSet);
-            this.model.activateTab(mappingControlName);
+            if (mappingSet != null)
+            {
+                this.mappingControl.loadMappingSet(mappingSet);
+                this.model.activateTab(mappingControlName);
+            }
         }
 
         void startImportMapping()
@@ -321,7 +324,7 @@ namespace EAMapping
         }
         private MappingSet getCurrentMappingSet()
         {
-            var selectedElement = this.model.selectedItem as TSF_EA.ElementWrapper;
+            var selectedElement = this.model.selectedElement as TSF_EA.ElementWrapper;
             return selectedElement != null ? EA_MP.MappingFactory.createMappingSet(selectedElement, this.settings) : null;
         }
 
