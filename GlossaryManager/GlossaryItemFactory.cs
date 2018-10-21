@@ -50,17 +50,17 @@ namespace GlossaryManager
             T dummy = new T(); // needed to get the stereotype
             //build a search string
             var sqlTop = criteria.showAll ? string.Empty : "top 50";
-            string sqlGetGlossaryItems = string.Format(@"select " + sqlTop + @" o.[Object_ID] from t_object o
-                                                        where ( o.[Name] like '%{0}%' or o.[Name] is null )
-                                                        and ( o.[Note] like '%{1}%' or o.[Note] is null )
-                                                        and o.[Stereotype] = '{2}'
-                                                        and o.[Package_ID] in ({3})",
-                                                        criteria.nameSearchTerm,
-                                                        criteria.descriptionSearchTerm,
-                                                        dummy.Stereotype,
-                                                        package.getPackageTreeIDString());
-
-
+            var nameClause = string.IsNullOrEmpty(criteria.nameSearchTerm) ? 
+                $"(o.[Name] like '%{criteria.nameSearchTerm}%' or o.[Name] is null )"
+                : $"o.[Name] like '%{criteria.nameSearchTerm}%'";
+            var descriptionClause = string.IsNullOrEmpty(criteria.descriptionSearchTerm) ?
+                $"(o.[Note] like '%{criteria.descriptionSearchTerm}%' or o.[Note] is null )"
+                : $"o.[Note] like '%{criteria.descriptionSearchTerm}%'";
+            string sqlGetGlossaryItems = $"select {sqlTop} o.[Object_ID] from t_object o"
+                                        + $" where {nameClause} "
+                                        + $" and {descriptionClause} "
+                                        + $" and o.[Stereotype] = '{dummy.Stereotype}' "
+                                        + $" and o.[Package_ID] in ({ package.getPackageTreeIDString()})";
             return this.getGlossaryItemsFromQuery<T>(sqlGetGlossaryItems);
         }
         public List<T> getGlossaryItemsFromQuery<T>(string query) where T : GlossaryItem, new()

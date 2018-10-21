@@ -111,6 +111,7 @@ namespace GlossaryManager.GUI
             //make the specific columns button invisible
             this.showAllColumnsButton.Visible = columnsVisible();
             this.getTableButton.Visible = columnsVisible();
+            this.label1.Visible = columnsVisible();
             this.showHideTablesButton.Visible = this.selectedTab == GlossaryTab.DataItems;
             if (this.selectedTab == GlossaryTab.DataItems || this.selectedItem is EDDColumn)
             {
@@ -486,6 +487,10 @@ namespace GlossaryManager.GUI
         private void dataItemsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             reloadDataItems();
+            //if (this.tablesVisible)
+            //{
+            //    this.navigateRight();
+            //}
         }
 
         private void reloadDataItems()
@@ -967,9 +972,10 @@ namespace GlossaryManager.GUI
         {
             this.toggleTablesVisible();
         }
+        private bool tablesVisible => !dataItemsSplitContainer.Panel2Collapsed;
         private void setTablesVisible()
         {
-            if (dataItemsSplitContainer.Panel2Collapsed) this.toggleTablesVisible();
+            if (!tablesVisible) this.toggleTablesVisible();
         }
         private void toggleTablesVisible()
         {
@@ -1081,28 +1087,35 @@ namespace GlossaryManager.GUI
 
         private void dColumnsListView_ModelDropped(object sender, ModelDropEventArgs e)
         {
-            var targetTable = e.TargetModel as EDDTable;
-            var targetColumn = e.TargetModel as EDDColumn;
-            var dataItem = e.SourceModels.Cast<Object>().FirstOrDefault() as DataItem;
-            if (dataItem != null)
+            try
             {
-                if (targetTable != null)
+                var targetTable = e.TargetModel as EDDTable;
+                var targetColumn = e.TargetModel as EDDColumn;
+                var dataItem = e.SourceModels.Cast<Object>().FirstOrDefault() as DataItem;
+                if (dataItem != null)
                 {
-                    //create new column
-                    targetColumn = targetTable.addNewColumn(dataItem.Label);
-                    targetColumn.dataItem = dataItem;
-                }
-                if (targetColumn != null)
-                {
-                    //refresh
-                    dColumnsListView.RefreshObject(targetTable);
-                    //select the target column
-                    this.dColumnsListView.SelectedObject = targetColumn;
-                    //set the data field
-                    this.setLinkedDataItemData(targetColumn, dataItem);
-
+                    if (targetTable != null)
+                    {
+                        //create new column
+                        targetColumn = targetTable.addNewColumn(dataItem.Label);
+                        targetColumn.dataItem = dataItem;
+                    }
+                    if (targetColumn != null)
+                    {
+                        //refresh
+                        dColumnsListView.RefreshObject(targetTable);
+                        //select the target column
+                        this.dColumnsListView.SelectedObject = targetColumn;
+                        //set the data field
+                        this.setLinkedDataItemData(targetColumn, dataItem);
+                    }
                 }
             }
+            catch(Exception exc)
+            {
+                EAAddinFramework.EAAddinBase.processException(exc);
+            }
+
         }
 
         private void saveColumnButton_Click(object sender, EventArgs e)
@@ -1166,6 +1179,27 @@ namespace GlossaryManager.GUI
         private void showRightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.navigateRight();
+        }
+
+        private void descriptionFilterTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                this.filterButtonClicked?.Invoke(sender, e);
+                Cursor.Current = Cursors.Default;
+            }
+                
+        }
+
+        private void nameFilterTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                this.filterButtonClicked?.Invoke(sender, e);
+                Cursor.Current = Cursors.Default;
+            }
         }
     }
 

@@ -150,8 +150,11 @@ namespace GlossaryManager
         private void getTableButtonClicked(object sender, EventArgs e)
         {
             var table = EDDTable.selectTable(this.model, this.settings);
-            table.loadAllColumns();
-            this._mainControl.setTable(table);
+            if (table != null)
+            {
+                table.loadAllColumns();
+                this._mainControl.setTable(table);
+            }
         }
 
         public void test()
