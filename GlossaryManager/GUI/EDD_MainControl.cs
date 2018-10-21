@@ -111,6 +111,7 @@ namespace GlossaryManager.GUI
             //make the specific columns button invisible
             this.showAllColumnsButton.Visible = columnsVisible();
             this.getTableButton.Visible = columnsVisible();
+            this.showHideTablesButton.Visible = this.selectedTab == GlossaryTab.DataItems;
             if (this.selectedTab == GlossaryTab.DataItems || this.selectedItem is EDDColumn)
             {
                 this.newLinkedButton.Image = Properties.Resources.newLeft;
@@ -221,6 +222,8 @@ namespace GlossaryManager.GUI
                 this.domainBreadCrumb.SelectedItem = getBreadCrumbSubItem(this.domainBreadCrumb.RootItem, domain) ?? this.domainBreadCrumb.RootItem;
             }
             this.BusinessItemsListView.SelectedObject = businessItems.FirstOrDefault();
+            //make sure we are showing the correct data
+            reloadBusinessItems();
             //turn back on
             this.businessItemsShowing = true;
         }
@@ -237,6 +240,7 @@ namespace GlossaryManager.GUI
                 this.domainBreadCrumb.SelectedItem = getBreadCrumbSubItem(this.domainBreadCrumb.RootItem, domain) ?? this.domainBreadCrumb.RootItem;
             }
             this.dataItemsListView.SelectedObject = dataItems.FirstOrDefault();
+            reloadDataItems();
             //turn showing back on
             this.dataItemsShowing = true;
         }
@@ -406,6 +410,11 @@ namespace GlossaryManager.GUI
 
         private void BusinessItemsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            reloadBusinessItems();
+        }
+
+        private void reloadBusinessItems()
+        {
             //check if the business item data has been changed
             validateBusinessItemChanges();
             //then load the next item
@@ -414,6 +423,7 @@ namespace GlossaryManager.GUI
             //set the previous business item
             this.previousBusinessItem = this.selectedBusinessItem;
         }
+
         private void validateBusinessItemChanges()
         {
             //check if the previous item has been changed
@@ -435,6 +445,11 @@ namespace GlossaryManager.GUI
         }
         private void dataItemsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            reloadDataItems();
+        }
+
+        private void reloadDataItems()
+        {
             //validate the possible changes
             validateDataItemsChanges();
             //then load the next item
@@ -443,6 +458,7 @@ namespace GlossaryManager.GUI
             //set the previous business item
             this.previousDataItem = this.selectedDataItem;
         }
+
         private void validateDataItemsChanges()
         {
             //check if the previous item has been changed
@@ -917,11 +933,20 @@ namespace GlossaryManager.GUI
         }
         private void toggleTablesVisible()
         {
-            //set left or right image on button
-            this.showHideTablesButton.Image = dataItemsSplitContainer.Panel2Collapsed ?
-                                            Properties.Resources.moveRightArrow :
-                                            Properties.Resources.moveLeftArrow;
-            dataItemsSplitContainer.Panel2Collapsed = !dataItemsSplitContainer.Panel2Collapsed;
+            if (dataItemsSplitContainer.Panel2Collapsed)
+            {
+                //set left or right image on button
+                this.showHideTablesButton.Image = Properties.Resources.moveLeftArrow;
+                this.myToolTip.SetToolTip(this.showHideTablesButton, "Show Tables");
+                dataItemsSplitContainer.Panel2Collapsed = false;
+            }
+            else
+            {
+                //set left or right image on button
+                this.showHideTablesButton.Image = Properties.Resources.moveRightArrow;
+                this.myToolTip.SetToolTip(this.showHideTablesButton, "Hide Tables");
+                dataItemsSplitContainer.Panel2Collapsed = true;
+            }
             this.enableDisable();
         }
         public event EventHandler getTableButtonClicked;
