@@ -178,6 +178,18 @@ namespace GlossaryManager.GUI
             //takeover properties from navigateProjectBrowserbutton
             this.findInProjectBrowserToolStripMenuItem.Enabled = this.navigateProjectBrowserButton.Enabled;
             this.findInProjectBrowserToolStripMenuItem.Image = this.navigateProjectBrowserButton.Image;
+            if (dataItemsSplitContainer.Panel2Collapsed)
+            {
+                //set left or right image on button
+                this.showHideTablesButton.Image = Properties.Resources.moveLeftArrow;
+                this.myToolTip.SetToolTip(this.showHideTablesButton, "Show Tables");
+            }
+            else
+            {
+                //set left or right image on button
+                this.showHideTablesButton.Image = Properties.Resources.moveRightArrow;
+                this.myToolTip.SetToolTip(this.showHideTablesButton, "Hide Tables");
+            }
 
         }
 
@@ -933,20 +945,7 @@ namespace GlossaryManager.GUI
         }
         private void toggleTablesVisible()
         {
-            if (dataItemsSplitContainer.Panel2Collapsed)
-            {
-                //set left or right image on button
-                this.showHideTablesButton.Image = Properties.Resources.moveLeftArrow;
-                this.myToolTip.SetToolTip(this.showHideTablesButton, "Show Tables");
-                dataItemsSplitContainer.Panel2Collapsed = false;
-            }
-            else
-            {
-                //set left or right image on button
-                this.showHideTablesButton.Image = Properties.Resources.moveRightArrow;
-                this.myToolTip.SetToolTip(this.showHideTablesButton, "Hide Tables");
-                dataItemsSplitContainer.Panel2Collapsed = true;
-            }
+            dataItemsSplitContainer.Panel2Collapsed = !dataItemsSplitContainer.Panel2Collapsed;
             this.enableDisable();
         }
         public event EventHandler getTableButtonClicked;
