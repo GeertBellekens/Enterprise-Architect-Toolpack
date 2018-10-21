@@ -190,7 +190,35 @@ namespace GlossaryManager.GUI
                 this.showHideTablesButton.Image = Properties.Resources.moveRightArrow;
                 this.myToolTip.SetToolTip(this.showHideTablesButton, "Hide Tables");
             }
+            //Enable/Disable fields on Business Items pane
+            enableDisableBusinessItemFields();
+            //Enable/Disable fields on the data items pane
+            enableDisableDataItemFields();
 
+        }
+        private void enableDisableBusinessItemFields()
+        {
+            this.BU_NameTextBox.Enabled = this.selectedBusinessItem != null;
+            this.BU_DescriptionTextBox.Enabled = this.selectedBusinessItem != null;
+            this.BU_DomainComboBox.Enabled = this.selectedBusinessItem != null;
+            this.BU_VersionTextBox.Enabled = this.selectedBusinessItem != null;
+            this.BU_StatusCombobox.Enabled = this.selectedBusinessItem != null;
+            this.BU_KeywordsTextBox.Enabled = this.selectedBusinessItem != null;
+        }
+        private void enableDisableDataItemFields()
+        {
+            this.DI_NameTextBox.Enabled = this.selectedDataItem != null;
+            this.DI_DescriptionTextBox.Enabled = this.selectedDataItem != null;
+            this.DI_DomainComboBox.Enabled = this.selectedDataItem != null;
+            this.DI_LabelTextBox.Enabled = this.selectedDataItem != null;
+            this.DI_DatatypeDropDown.Enabled = this.selectedDataItem != null;
+            this.DI_SizeNumericUpDown.Enabled = this.selectedDataItem != null;
+            this.DI_PrecisionUpDown.Enabled = this.selectedDataItem != null;
+            this.DI_FormatTextBox.Enabled = this.selectedDataItem != null;
+            this.DI_InitialValueTextBox.Enabled = this.selectedDataItem != null;
+            this.DI_VersionTextBox.Enabled = this.selectedDataItem != null;
+            this.DI_StatusComboBox.Enabled = this.selectedDataItem != null;
+            this.DI_KeywordsTextBox.Enabled = this.selectedDataItem != null;
         }
 
         private bool columnsVisible()
