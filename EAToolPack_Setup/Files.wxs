@@ -33,103 +33,523 @@
             <File Id="ComponentFactory.Krypton.Toolkit.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ComponentFactory.Krypton.Toolkit.dll" />
             <File Id="ComponentFactory.Krypton.Workspace.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ComponentFactory.Krypton.Workspace.dll" />
             <File Id="ObjectListView.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ObjectListView.dll" />
-            <Class Id="{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.Model" ThreadingModel="both" ForeignServer="mscoree.dll">
+            <Class Id="{04A16D01-9A34-3907-BEBB-77C09DD977F6}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Attributes" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Attributes" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Attributes" />
+            </Class>
+            <Class Id="{0CD4B02F-239F-34A1-9D7C-E31781E69952}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse" Description="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse" />
+            </Class>
+            <Class Id="{0E11CF24-B889-37E7-9C1D-AAE1CD2DB171}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Value" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Value" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Value" />
+            </Class>
+            <Class Id="{15BA8D42-6061-386F-A450-CE27980A226F}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.Model" ThreadingModel="both" ForeignServer="mscoree.dll">
               <ProgId Id="TSF.UmlToolingFramework.Wrappers.EA.Model" Description="TSF.UmlToolingFramework.Wrappers.EA.Model" />
             </Class>
-            <Class Id="{180BA927-71A5-3C71-BD05-6CF94D75637B}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.VBScriptLanguage" ThreadingModel="both" ForeignServer="mscoree.dll">
-              <ProgId Id="EAAddinFramework.EASpecific.VBScriptLanguage" Description="EAAddinFramework.EASpecific.VBScriptLanguage" />
+            <Class Id="{16E638EC-B990-3BEB-865C-6A98D7623184}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemField" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemField" Description="EAAddinFramework.WorkTracking.TFS.WorkItemField" />
             </Class>
-            <Class Id="{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.JavaScriptLanguage" ThreadingModel="both" ForeignServer="mscoree.dll">
+            <Class Id="{25ECDB66-83C9-3162-BE48-43B151A30689}" Context="InprocServer32" Description="EAAddinFramework.Requirements.Project" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.Requirements.Project" Description="EAAddinFramework.Requirements.Project" />
+            </Class>
+            <Class Id="{268DE28D-F848-3814-BAB4-B6A3594FDC33}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.ValueSpecification" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="TSF.UmlToolingFramework.Wrappers.EA.ValueSpecification" Description="TSF.UmlToolingFramework.Wrappers.EA.ValueSpecification" />
+            </Class>
+            <Class Id="{2984B4DE-0B6E-3B2A-93DC-F315708AB65C}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Field" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Field" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Field" />
+            </Class>
+            <Class Id="{38A83FD7-D603-365A-9C57-994F908E080A}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.AttachmentReference" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.AttachmentReference" Description="EAAddinFramework.WorkTracking.TFS.AttachmentReference" />
+            </Class>
+            <Class Id="{39EE9FD6-5D40-34C4-8DB4-93A81DDA5DD2}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+Value" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+Value" Description="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+Value" />
+            </Class>
+            <Class Id="{40977233-FD4E-3713-8C2A-AA0F58DD3649}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.JavaScriptLanguage" ThreadingModel="both" ForeignServer="mscoree.dll">
               <ProgId Id="EAAddinFramework.EASpecific.JavaScriptLanguage" Description="EAAddinFramework.EASpecific.JavaScriptLanguage" />
             </Class>
-            <Class Id="{68C0423C-BE87-3FC0-867F-3B3AD8899F75}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" ThreadingModel="both" ForeignServer="mscoree.dll">
-              <ProgId Id="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" Description="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" />
+            <Class Id="{4551509B-ABDC-348A-A5C5-057FEBA8AD30}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.Column" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.Column" Description="EAAddinFramework.WorkTracking.TFS.Column" />
             </Class>
-            <Class Id="{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}" Context="InprocServer32" Description="EAAddinFramework.Utilities.AbortableBackgroundWorker" ThreadingModel="both" ForeignServer="mscoree.dll">
-              <ProgId Id="EAAddinFramework.Utilities.AbortableBackgroundWorker" Description="EAAddinFramework.Utilities.AbortableBackgroundWorker" />
+            <Class Id="{4A1580B2-C011-334F-81A9-0A06C4675D95}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemQueryResult" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemQueryResult" Description="EAAddinFramework.WorkTracking.TFS.WorkItemQueryResult" />
             </Class>
-            <Class Id="{850B8C4A-DF5B-3131-94D0-E1B66A985760}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" ThreadingModel="both" ForeignServer="mscoree.dll">
+            <Class Id="{4A90E969-4158-3771-8F8C-A81A7461E16B}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.VBScriptLanguage" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.EASpecific.VBScriptLanguage" Description="EAAddinFramework.EASpecific.VBScriptLanguage" />
+            </Class>
+            <Class Id="{52F5E9BF-8F57-3861-898D-DC8FAB652D76}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.QueryResult" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.QueryResult" Description="EAAddinFramework.WorkTracking.TFS.QueryResult" />
+            </Class>
+            <Class Id="{656A7BDD-6C6D-301B-A4AD-A6646EFF7CC7}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemtype" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemtype" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemtype" />
+            </Class>
+            <Class Id="{72FA5CF6-2654-3F67-8A9C-6FF35AF7AF26}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Fields1" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Fields1" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Fields1" />
+            </Class>
+            <Class Id="{76314492-31ED-3D0C-9C54-1518B096846A}" Context="InprocServer32" Description="EAAddinFramework.Mapping.CSVMappingRecord" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.Mapping.CSVMappingRecord" Description="EAAddinFramework.Mapping.CSVMappingRecord" />
+            </Class>
+            <Class Id="{790BCC40-BAA9-3DB2-81DA-B5839F88FC9E}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatch" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatch" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatch" />
+            </Class>
+            <Class Id="{88880511-1691-35E8-989F-8922FBA3614C}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+WorkItems" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+WorkItems" Description="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+WorkItems" />
+            </Class>
+            <Class Id="{8E8A2A82-4C6B-35A3-8EAA-D07E64331A3E}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Self" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Self" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Self" />
+            </Class>
+            <Class Id="{8FD2C94D-5636-3524-8B80-CE6D3DA07A46}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.TFSWorkitem" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.TFSWorkitem" Description="EAAddinFramework.WorkTracking.TFS.TFSWorkitem" />
+            </Class>
+            <Class Id="{956F5CD4-89FF-3AB2-81F8-1FED52C99E4D}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" ThreadingModel="both" ForeignServer="mscoree.dll">
               <ProgId Id="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" Description="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" />
             </Class>
-            <Class Id="{94A27A87-240D-3FCC-A2D5-722259FC3AD8}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.JScriptLanguage" ThreadingModel="both" ForeignServer="mscoree.dll">
+            <Class Id="{9A84850B-48D5-3B65-A050-1E8A66E7FD64}" Context="InprocServer32" Description="EAAddinFramework.Databases.Strategy.StrategyFactory" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.Databases.Strategy.StrategyFactory" Description="EAAddinFramework.Databases.Strategy.StrategyFactory" />
+            </Class>
+            <Class Id="{A0E5F59A-4975-3E37-8F5A-D531BB74357E}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Html" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Html" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Html" />
+            </Class>
+            <Class Id="{A702A18A-2EF6-3694-B155-175B6F7BBB42}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+Fields" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+Fields" Description="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+Fields" />
+            </Class>
+            <Class Id="{ABCA4AA1-4C4B-3ADF-8983-899D841D438C}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.GetAuthorizationForm" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.GetAuthorizationForm" Description="EAAddinFramework.WorkTracking.TFS.GetAuthorizationForm" />
+            </Class>
+            <Class Id="{B4B70294-D7ED-3E13-8C40-A864C81B5E3F}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+_Links" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+_Links" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+_Links" />
+            </Class>
+            <Class Id="{C59C8465-58C4-34FE-B5F1-6AAD7E1241BC}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.JScriptLanguage" ThreadingModel="both" ForeignServer="mscoree.dll">
               <ProgId Id="EAAddinFramework.EASpecific.JScriptLanguage" Description="EAAddinFramework.EASpecific.JScriptLanguage" />
             </Class>
+            <Class Id="{C7C06EFF-1BBD-35C5-98E5-8F277E1ABCF2}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Fields" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Fields" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Fields" />
+            </Class>
+            <Class Id="{C84078E1-2B3B-36C4-A865-09E5A3A09E51}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemrevisions" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemrevisions" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemrevisions" />
+            </Class>
+            <Class Id="{CA1E5DD2-31CC-3211-AD33-9BB1E6A26854}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemFields" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemFields" Description="EAAddinFramework.WorkTracking.TFS.WorkItemFields" />
+            </Class>
+            <Class Id="{CBF53ECC-4E48-3911-8C86-427FD28B93AF}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" Description="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" />
+            </Class>
+            <Class Id="{CD597D84-7CC6-36BB-A335-8DBE93640E1E}" Context="InprocServer32" Description="EAAddinFramework.Utilities.AbortableBackgroundWorker" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.Utilities.AbortableBackgroundWorker" Description="EAAddinFramework.Utilities.AbortableBackgroundWorker" />
+            </Class>
+            <Class Id="{CFD9BC1E-9363-305E-8BAD-4810E37951A4}" Context="InprocServer32" Description="TSF.UmlToolingFramework.Wrappers.EA.LiteralNull" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="TSF.UmlToolingFramework.Wrappers.EA.LiteralNull" Description="TSF.UmlToolingFramework.Wrappers.EA.LiteralNull" />
+            </Class>
+            <Class Id="{D2B52748-8A06-3221-932B-DC5535C7B05B}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemhistory" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemhistory" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemhistory" />
+            </Class>
+            <Class Id="{D4051ADC-FC52-3C21-883A-071256854F4B}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse" />
+            </Class>
+            <Class Id="{D90920C1-16C4-3BE7-BCBC-87B9123688B1}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Relation" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Relation" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Relation" />
+            </Class>
+            <Class Id="{E7D0AC07-6929-367C-82B6-096B0A9C199A}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemupdates" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemupdates" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemupdates" />
+            </Class>
+            <Class Id="{ED4F7F8A-3967-3D36-9911-01BB879C1057}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Attributes" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Attributes" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Attributes" />
+            </Class>
+            <Class Id="{EE8E5C7E-8AD3-3834-AD25-FE770349EA32}" Context="InprocServer32" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+WorkItem" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+WorkItem" Description="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+WorkItem" />
+            </Class>
             <ProgId Id="Record" />
-            <RegistryValue Root="HKCR" Key="CLSID\{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}\InprocServer32\1.0.5877.37850" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.Model" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}\InprocServer32\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}\InprocServer32\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}\InprocServer32\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.Model" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{083BA8E1-9FA7-3876-A81E-EBB4C30B7822}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{180BA927-71A5-3C71-BD05-6CF94D75637B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{180BA927-71A5-3C71-BD05-6CF94D75637B}\InprocServer32\1.0.5877.37850" Name="Class" Value="EAAddinFramework.EASpecific.VBScriptLanguage" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{180BA927-71A5-3C71-BD05-6CF94D75637B}\InprocServer32\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{180BA927-71A5-3C71-BD05-6CF94D75637B}\InprocServer32\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{180BA927-71A5-3C71-BD05-6CF94D75637B}\InprocServer32\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{180BA927-71A5-3C71-BD05-6CF94D75637B}\InprocServer32" Name="Class" Value="EAAddinFramework.EASpecific.VBScriptLanguage" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{180BA927-71A5-3C71-BD05-6CF94D75637B}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{180BA927-71A5-3C71-BD05-6CF94D75637B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{180BA927-71A5-3C71-BD05-6CF94D75637B}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}\InprocServer32\1.0.5877.37850" Name="Class" Value="EAAddinFramework.EASpecific.JavaScriptLanguage" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}\InprocServer32\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}\InprocServer32\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}\InprocServer32\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}\InprocServer32" Name="Class" Value="EAAddinFramework.EASpecific.JavaScriptLanguage" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{5DE9E8AF-C63E-3EDE-9056-59EECF55D383}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{68C0423C-BE87-3FC0-867F-3B3AD8899F75}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{68C0423C-BE87-3FC0-867F-3B3AD8899F75}\InprocServer32\1.0.5877.37850" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{68C0423C-BE87-3FC0-867F-3B3AD8899F75}\InprocServer32\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{68C0423C-BE87-3FC0-867F-3B3AD8899F75}\InprocServer32\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{68C0423C-BE87-3FC0-867F-3B3AD8899F75}\InprocServer32\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{68C0423C-BE87-3FC0-867F-3B3AD8899F75}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{68C0423C-BE87-3FC0-867F-3B3AD8899F75}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{68C0423C-BE87-3FC0-867F-3B3AD8899F75}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{68C0423C-BE87-3FC0-867F-3B3AD8899F75}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32\1.0.5877.37850" Name="Class" Value="EAAddinFramework.Utilities.AbortableBackgroundWorker" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-}\InprocServer32\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32" Name="Class" Value="EAAddinFramework.Utilities.AbortableBackgroundWorker" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{82AD0742-6BE8-3D41-BD38-09492EC7ACFD}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{850B8C4A-DF5B-3131-94D0-E1B66A985760}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{850B8C4A-DF5B-3131-94D0-E1B66A985760}\InprocServer32\1.0.5877.37850" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{850B8C4A-DF5B-3131-94D0-E1B66A985760}\InprocServer32\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{850B8C4A-DF5B-3131-94D0-E1B66A985760}\InprocServer32\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{850B8C4A-DF5B-3131-94D0-E1B66A985760}\InprocServer32\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{850B8C4A-DF5B-3131-94D0-E1B66A985760}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{850B8C4A-DF5B-3131-94D0-E1B66A985760}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{850B8C4A-DF5B-3131-94D0-E1B66A985760}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{850B8C4A-DF5B-3131-94D0-E1B66A985760}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{94A27A87-240D-3FCC-A2D5-722259FC3AD8}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{94A27A87-240D-3FCC-A2D5-722259FC3AD8}\InprocServer32\1.0.5877.37850" Name="Class" Value="EAAddinFramework.EASpecific.JScriptLanguage" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{94A27A87-240D-3FCC-A2D5-722259FC3AD8}\InprocServer32\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{94A27A87-240D-3FCC-A2D5-722259FC3AD8}\InprocServer32\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{94A27A87-240D-3FCC-A2D5-722259FC3AD8}\InprocServer32\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{94A27A87-240D-3FCC-A2D5-722259FC3AD8}\InprocServer32" Name="Class" Value="EAAddinFramework.EASpecific.JScriptLanguage" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{94A27A87-240D-3FCC-A2D5-722259FC3AD8}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{94A27A87-240D-3FCC-A2D5-722259FC3AD8}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="CLSID\{94A27A87-240D-3FCC-A2D5-722259FC3AD8}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{3F5C7F78-6EB7-31AB-B6A0-D57AB54BA097}\1.0.5877.37850" Name="Class" Value="EAAddinFramework.Utilities.ConnectorType" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{3F5C7F78-6EB7-31AB-B6A0-D57AB54BA097}\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{3F5C7F78-6EB7-31AB-B6A0-D57AB54BA097}\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{3F5C7F78-6EB7-31AB-B6A0-D57AB54BA097}\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{69615064-607A-3C24-95D9-CDFE0C378D21}\1.0.5877.37850" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.RepositoryType" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{69615064-607A-3C24-95D9-CDFE0C378D21}\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{69615064-607A-3C24-95D9-CDFE0C378D21}\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{69615064-607A-3C24-95D9-CDFE0C378D21}\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{A0F592E8-6AE0-3469-BB01-1E6F4CF80613}\1.0.5877.37850" Name="Class" Value="EAAddinFramework.EASpecific.ScriptType" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{A0F592E8-6AE0-3469-BB01-1E6F4CF80613}\1.0.5877.37850" Name="Assembly" Value="EAAddinFramework, Version=1.0.5877.37850, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{A0F592E8-6AE0-3469-BB01-1E6F4CF80613}\1.0.5877.37850" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-            <RegistryValue Root="HKCR" Key="Record\{A0F592E8-6AE0-3469-BB01-1E6F4CF80613}\1.0.5877.37850" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{04A16D01-9A34-3907-BEBB-77C09DD977F6}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{04A16D01-9A34-3907-BEBB-77C09DD977F6}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Attributes" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{04A16D01-9A34-3907-BEBB-77C09DD977F6}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{04A16D01-9A34-3907-BEBB-77C09DD977F6}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{04A16D01-9A34-3907-BEBB-77C09DD977F6}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{04A16D01-9A34-3907-BEBB-77C09DD977F6}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Attributes" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{04A16D01-9A34-3907-BEBB-77C09DD977F6}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{04A16D01-9A34-3907-BEBB-77C09DD977F6}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{04A16D01-9A34-3907-BEBB-77C09DD977F6}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0CD4B02F-239F-34A1-9D7C-E31781E69952}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0CD4B02F-239F-34A1-9D7C-E31781E69952}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0CD4B02F-239F-34A1-9D7C-E31781E69952}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0CD4B02F-239F-34A1-9D7C-E31781E69952}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0CD4B02F-239F-34A1-9D7C-E31781E69952}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0CD4B02F-239F-34A1-9D7C-E31781E69952}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0CD4B02F-239F-34A1-9D7C-E31781E69952}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0CD4B02F-239F-34A1-9D7C-E31781E69952}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0CD4B02F-239F-34A1-9D7C-E31781E69952}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0E11CF24-B889-37E7-9C1D-AAE1CD2DB171}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0E11CF24-B889-37E7-9C1D-AAE1CD2DB171}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Value" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0E11CF24-B889-37E7-9C1D-AAE1CD2DB171}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0E11CF24-B889-37E7-9C1D-AAE1CD2DB171}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0E11CF24-B889-37E7-9C1D-AAE1CD2DB171}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0E11CF24-B889-37E7-9C1D-AAE1CD2DB171}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Value" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0E11CF24-B889-37E7-9C1D-AAE1CD2DB171}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0E11CF24-B889-37E7-9C1D-AAE1CD2DB171}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{0E11CF24-B889-37E7-9C1D-AAE1CD2DB171}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{15BA8D42-6061-386F-A450-CE27980A226F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{15BA8D42-6061-386F-A450-CE27980A226F}\InprocServer32\1.0.6866.29204" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.Model" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{15BA8D42-6061-386F-A450-CE27980A226F}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{15BA8D42-6061-386F-A450-CE27980A226F}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{15BA8D42-6061-386F-A450-CE27980A226F}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{15BA8D42-6061-386F-A450-CE27980A226F}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.Model" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{15BA8D42-6061-386F-A450-CE27980A226F}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{15BA8D42-6061-386F-A450-CE27980A226F}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{15BA8D42-6061-386F-A450-CE27980A226F}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{16E638EC-B990-3BEB-865C-6A98D7623184}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{16E638EC-B990-3BEB-865C-6A98D7623184}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemField" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{16E638EC-B990-3BEB-865C-6A98D7623184}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{16E638EC-B990-3BEB-865C-6A98D7623184}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{16E638EC-B990-3BEB-865C-6A98D7623184}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{16E638EC-B990-3BEB-865C-6A98D7623184}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemField" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{16E638EC-B990-3BEB-865C-6A98D7623184}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{16E638EC-B990-3BEB-865C-6A98D7623184}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{16E638EC-B990-3BEB-865C-6A98D7623184}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{25ECDB66-83C9-3162-BE48-43B151A30689}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{25ECDB66-83C9-3162-BE48-43B151A30689}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.Requirements.Project" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{25ECDB66-83C9-3162-BE48-43B151A30689}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{25ECDB66-83C9-3162-BE48-43B151A30689}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{25ECDB66-83C9-3162-BE48-43B151A30689}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{25ECDB66-83C9-3162-BE48-43B151A30689}\InprocServer32" Name="Class" Value="EAAddinFramework.Requirements.Project" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{25ECDB66-83C9-3162-BE48-43B151A30689}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{25ECDB66-83C9-3162-BE48-43B151A30689}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{25ECDB66-83C9-3162-BE48-43B151A30689}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{268DE28D-F848-3814-BAB4-B6A3594FDC33}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{268DE28D-F848-3814-BAB4-B6A3594FDC33}\InprocServer32\1.0.6866.29204" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.ValueSpecification" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{268DE28D-F848-3814-BAB4-B6A3594FDC33}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{268DE28D-F848-3814-BAB4-B6A3594FDC33}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{268DE28D-F848-3814-BAB4-B6A3594FDC33}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{268DE28D-F848-3814-BAB4-B6A3594FDC33}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.ValueSpecification" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{268DE28D-F848-3814-BAB4-B6A3594FDC33}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{268DE28D-F848-3814-BAB4-B6A3594FDC33}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{268DE28D-F848-3814-BAB4-B6A3594FDC33}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{2984B4DE-0B6E-3B2A-93DC-F315708AB65C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{2984B4DE-0B6E-3B2A-93DC-F315708AB65C}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Field" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{2984B4DE-0B6E-3B2A-93DC-F315708AB65C}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{2984B4DE-0B6E-3B2A-93DC-F315708AB65C}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{2984B4DE-0B6E-3B2A-93DC-F315708AB65C}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{2984B4DE-0B6E-3B2A-93DC-F315708AB65C}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatch+Field" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{2984B4DE-0B6E-3B2A-93DC-F315708AB65C}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{2984B4DE-0B6E-3B2A-93DC-F315708AB65C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{2984B4DE-0B6E-3B2A-93DC-F315708AB65C}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{38A83FD7-D603-365A-9C57-994F908E080A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{38A83FD7-D603-365A-9C57-994F908E080A}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.AttachmentReference" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{38A83FD7-D603-365A-9C57-994F908E080A}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{38A83FD7-D603-365A-9C57-994F908E080A}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{38A83FD7-D603-365A-9C57-994F908E080A}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{38A83FD7-D603-365A-9C57-994F908E080A}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.AttachmentReference" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{38A83FD7-D603-365A-9C57-994F908E080A}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{38A83FD7-D603-365A-9C57-994F908E080A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{38A83FD7-D603-365A-9C57-994F908E080A}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{39EE9FD6-5D40-34C4-8DB4-93A81DDA5DD2}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{39EE9FD6-5D40-34C4-8DB4-93A81DDA5DD2}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+Value" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{39EE9FD6-5D40-34C4-8DB4-93A81DDA5DD2}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{39EE9FD6-5D40-34C4-8DB4-93A81DDA5DD2}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{39EE9FD6-5D40-34C4-8DB4-93A81DDA5DD2}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{39EE9FD6-5D40-34C4-8DB4-93A81DDA5DD2}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+Value" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{39EE9FD6-5D40-34C4-8DB4-93A81DDA5DD2}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{39EE9FD6-5D40-34C4-8DB4-93A81DDA5DD2}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{39EE9FD6-5D40-34C4-8DB4-93A81DDA5DD2}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{40977233-FD4E-3713-8C2A-AA0F58DD3649}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{40977233-FD4E-3713-8C2A-AA0F58DD3649}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.EASpecific.JavaScriptLanguage" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{40977233-FD4E-3713-8C2A-AA0F58DD3649}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{40977233-FD4E-3713-8C2A-AA0F58DD3649}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{40977233-FD4E-3713-8C2A-AA0F58DD3649}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{40977233-FD4E-3713-8C2A-AA0F58DD3649}\InprocServer32" Name="Class" Value="EAAddinFramework.EASpecific.JavaScriptLanguage" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{40977233-FD4E-3713-8C2A-AA0F58DD3649}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{40977233-FD4E-3713-8C2A-AA0F58DD3649}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{40977233-FD4E-3713-8C2A-AA0F58DD3649}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4551509B-ABDC-348A-A5C5-057FEBA8AD30}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4551509B-ABDC-348A-A5C5-057FEBA8AD30}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.Column" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4551509B-ABDC-348A-A5C5-057FEBA8AD30}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4551509B-ABDC-348A-A5C5-057FEBA8AD30}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4551509B-ABDC-348A-A5C5-057FEBA8AD30}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4551509B-ABDC-348A-A5C5-057FEBA8AD30}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.Column" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4551509B-ABDC-348A-A5C5-057FEBA8AD30}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4551509B-ABDC-348A-A5C5-057FEBA8AD30}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4551509B-ABDC-348A-A5C5-057FEBA8AD30}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A1580B2-C011-334F-81A9-0A06C4675D95}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A1580B2-C011-334F-81A9-0A06C4675D95}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemQueryResult" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A1580B2-C011-334F-81A9-0A06C4675D95}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A1580B2-C011-334F-81A9-0A06C4675D95}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A1580B2-C011-334F-81A9-0A06C4675D95}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A1580B2-C011-334F-81A9-0A06C4675D95}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemQueryResult" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A1580B2-C011-334F-81A9-0A06C4675D95}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A1580B2-C011-334F-81A9-0A06C4675D95}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A1580B2-C011-334F-81A9-0A06C4675D95}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A90E969-4158-3771-8F8C-A81A7461E16B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A90E969-4158-3771-8F8C-A81A7461E16B}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.EASpecific.VBScriptLanguage" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A90E969-4158-3771-8F8C-A81A7461E16B}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A90E969-4158-3771-8F8C-A81A7461E16B}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A90E969-4158-3771-8F8C-A81A7461E16B}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A90E969-4158-3771-8F8C-A81A7461E16B}\InprocServer32" Name="Class" Value="EAAddinFramework.EASpecific.VBScriptLanguage" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A90E969-4158-3771-8F8C-A81A7461E16B}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A90E969-4158-3771-8F8C-A81A7461E16B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{4A90E969-4158-3771-8F8C-A81A7461E16B}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{52F5E9BF-8F57-3861-898D-DC8FAB652D76}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{52F5E9BF-8F57-3861-898D-DC8FAB652D76}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.QueryResult" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{52F5E9BF-8F57-3861-898D-DC8FAB652D76}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{52F5E9BF-8F57-3861-898D-DC8FAB652D76}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{52F5E9BF-8F57-3861-898D-DC8FAB652D76}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{52F5E9BF-8F57-3861-898D-DC8FAB652D76}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.QueryResult" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{52F5E9BF-8F57-3861-898D-DC8FAB652D76}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{52F5E9BF-8F57-3861-898D-DC8FAB652D76}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{52F5E9BF-8F57-3861-898D-DC8FAB652D76}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{656A7BDD-6C6D-301B-A4AD-A6646EFF7CC7}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{656A7BDD-6C6D-301B-A4AD-A6646EFF7CC7}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemtype" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{656A7BDD-6C6D-301B-A4AD-A6646EFF7CC7}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{656A7BDD-6C6D-301B-A4AD-A6646EFF7CC7}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{656A7BDD-6C6D-301B-A4AD-A6646EFF7CC7}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{656A7BDD-6C6D-301B-A4AD-A6646EFF7CC7}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemtype" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{656A7BDD-6C6D-301B-A4AD-A6646EFF7CC7}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{656A7BDD-6C6D-301B-A4AD-A6646EFF7CC7}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{656A7BDD-6C6D-301B-A4AD-A6646EFF7CC7}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{72FA5CF6-2654-3F67-8A9C-6FF35AF7AF26}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{72FA5CF6-2654-3F67-8A9C-6FF35AF7AF26}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Fields1" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{72FA5CF6-2654-3F67-8A9C-6FF35AF7AF26}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{72FA5CF6-2654-3F67-8A9C-6FF35AF7AF26}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{72FA5CF6-2654-3F67-8A9C-6FF35AF7AF26}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{72FA5CF6-2654-3F67-8A9C-6FF35AF7AF26}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Fields1" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{72FA5CF6-2654-3F67-8A9C-6FF35AF7AF26}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{72FA5CF6-2654-3F67-8A9C-6FF35AF7AF26}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{72FA5CF6-2654-3F67-8A9C-6FF35AF7AF26}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{76314492-31ED-3D0C-9C54-1518B096846A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{76314492-31ED-3D0C-9C54-1518B096846A}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.Mapping.CSVMappingRecord" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{76314492-31ED-3D0C-9C54-1518B096846A}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{76314492-31ED-3D0C-9C54-1518B096846A}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{76314492-31ED-3D0C-9C54-1518B096846A}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{76314492-31ED-3D0C-9C54-1518B096846A}\InprocServer32" Name="Class" Value="EAAddinFramework.Mapping.CSVMappingRecord" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{76314492-31ED-3D0C-9C54-1518B096846A}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{76314492-31ED-3D0C-9C54-1518B096846A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{76314492-31ED-3D0C-9C54-1518B096846A}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{790BCC40-BAA9-3DB2-81DA-B5839F88FC9E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{790BCC40-BAA9-3DB2-81DA-B5839F88FC9E}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatch" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{790BCC40-BAA9-3DB2-81DA-B5839F88FC9E}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{790BCC40-BAA9-3DB2-81DA-B5839F88FC9E}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{790BCC40-BAA9-3DB2-81DA-B5839F88FC9E}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{790BCC40-BAA9-3DB2-81DA-B5839F88FC9E}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatch" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{790BCC40-BAA9-3DB2-81DA-B5839F88FC9E}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{790BCC40-BAA9-3DB2-81DA-B5839F88FC9E}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{790BCC40-BAA9-3DB2-81DA-B5839F88FC9E}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{88880511-1691-35E8-989F-8922FBA3614C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{88880511-1691-35E8-989F-8922FBA3614C}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+WorkItems" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{88880511-1691-35E8-989F-8922FBA3614C}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{88880511-1691-35E8-989F-8922FBA3614C}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{88880511-1691-35E8-989F-8922FBA3614C}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{88880511-1691-35E8-989F-8922FBA3614C}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+WorkItems" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{88880511-1691-35E8-989F-8922FBA3614C}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{88880511-1691-35E8-989F-8922FBA3614C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{88880511-1691-35E8-989F-8922FBA3614C}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8E8A2A82-4C6B-35A3-8EAA-D07E64331A3E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8E8A2A82-4C6B-35A3-8EAA-D07E64331A3E}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Self" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8E8A2A82-4C6B-35A3-8EAA-D07E64331A3E}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8E8A2A82-4C6B-35A3-8EAA-D07E64331A3E}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8E8A2A82-4C6B-35A3-8EAA-D07E64331A3E}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8E8A2A82-4C6B-35A3-8EAA-D07E64331A3E}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Self" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8E8A2A82-4C6B-35A3-8EAA-D07E64331A3E}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8E8A2A82-4C6B-35A3-8EAA-D07E64331A3E}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8E8A2A82-4C6B-35A3-8EAA-D07E64331A3E}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8FD2C94D-5636-3524-8B80-CE6D3DA07A46}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8FD2C94D-5636-3524-8B80-CE6D3DA07A46}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.TFSWorkitem" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8FD2C94D-5636-3524-8B80-CE6D3DA07A46}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8FD2C94D-5636-3524-8B80-CE6D3DA07A46}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8FD2C94D-5636-3524-8B80-CE6D3DA07A46}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8FD2C94D-5636-3524-8B80-CE6D3DA07A46}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.TFSWorkitem" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8FD2C94D-5636-3524-8B80-CE6D3DA07A46}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8FD2C94D-5636-3524-8B80-CE6D3DA07A46}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{8FD2C94D-5636-3524-8B80-CE6D3DA07A46}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{956F5CD4-89FF-3AB2-81F8-1FED52C99E4D}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{956F5CD4-89FF-3AB2-81F8-1FED52C99E4D}\InprocServer32\1.0.6866.29204" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{956F5CD4-89FF-3AB2-81F8-1FED52C99E4D}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{956F5CD4-89FF-3AB2-81F8-1FED52C99E4D}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{956F5CD4-89FF-3AB2-81F8-1FED52C99E4D}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{956F5CD4-89FF-3AB2-81F8-1FED52C99E4D}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.ParameterDirectionKind" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{956F5CD4-89FF-3AB2-81F8-1FED52C99E4D}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{956F5CD4-89FF-3AB2-81F8-1FED52C99E4D}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{956F5CD4-89FF-3AB2-81F8-1FED52C99E4D}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9A84850B-48D5-3B65-A050-1E8A66E7FD64}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9A84850B-48D5-3B65-A050-1E8A66E7FD64}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.Databases.Strategy.StrategyFactory" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9A84850B-48D5-3B65-A050-1E8A66E7FD64}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9A84850B-48D5-3B65-A050-1E8A66E7FD64}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9A84850B-48D5-3B65-A050-1E8A66E7FD64}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9A84850B-48D5-3B65-A050-1E8A66E7FD64}\InprocServer32" Name="Class" Value="EAAddinFramework.Databases.Strategy.StrategyFactory" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9A84850B-48D5-3B65-A050-1E8A66E7FD64}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9A84850B-48D5-3B65-A050-1E8A66E7FD64}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9A84850B-48D5-3B65-A050-1E8A66E7FD64}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A0E5F59A-4975-3E37-8F5A-D531BB74357E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A0E5F59A-4975-3E37-8F5A-D531BB74357E}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Html" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A0E5F59A-4975-3E37-8F5A-D531BB74357E}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A0E5F59A-4975-3E37-8F5A-D531BB74357E}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A0E5F59A-4975-3E37-8F5A-D531BB74357E}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A0E5F59A-4975-3E37-8F5A-D531BB74357E}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Html" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A0E5F59A-4975-3E37-8F5A-D531BB74357E}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A0E5F59A-4975-3E37-8F5A-D531BB74357E}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A0E5F59A-4975-3E37-8F5A-D531BB74357E}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A702A18A-2EF6-3694-B155-175B6F7BBB42}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A702A18A-2EF6-3694-B155-175B6F7BBB42}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+Fields" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A702A18A-2EF6-3694-B155-175B6F7BBB42}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A702A18A-2EF6-3694-B155-175B6F7BBB42}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A702A18A-2EF6-3694-B155-175B6F7BBB42}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A702A18A-2EF6-3694-B155-175B6F7BBB42}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.ListofWorkItemsResponse+Fields" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A702A18A-2EF6-3694-B155-175B6F7BBB42}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A702A18A-2EF6-3694-B155-175B6F7BBB42}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{A702A18A-2EF6-3694-B155-175B6F7BBB42}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ABCA4AA1-4C4B-3ADF-8983-899D841D438C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ABCA4AA1-4C4B-3ADF-8983-899D841D438C}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.GetAuthorizationForm" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ABCA4AA1-4C4B-3ADF-8983-899D841D438C}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ABCA4AA1-4C4B-3ADF-8983-899D841D438C}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ABCA4AA1-4C4B-3ADF-8983-899D841D438C}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ABCA4AA1-4C4B-3ADF-8983-899D841D438C}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.GetAuthorizationForm" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ABCA4AA1-4C4B-3ADF-8983-899D841D438C}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ABCA4AA1-4C4B-3ADF-8983-899D841D438C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ABCA4AA1-4C4B-3ADF-8983-899D841D438C}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{B4B70294-D7ED-3E13-8C40-A864C81B5E3F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{B4B70294-D7ED-3E13-8C40-A864C81B5E3F}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+_Links" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{B4B70294-D7ED-3E13-8C40-A864C81B5E3F}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{B4B70294-D7ED-3E13-8C40-A864C81B5E3F}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{B4B70294-D7ED-3E13-8C40-A864C81B5E3F}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{B4B70294-D7ED-3E13-8C40-A864C81B5E3F}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+_Links" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{B4B70294-D7ED-3E13-8C40-A864C81B5E3F}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{B4B70294-D7ED-3E13-8C40-A864C81B5E3F}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{B4B70294-D7ED-3E13-8C40-A864C81B5E3F}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C59C8465-58C4-34FE-B5F1-6AAD7E1241BC}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C59C8465-58C4-34FE-B5F1-6AAD7E1241BC}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.EASpecific.JScriptLanguage" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C59C8465-58C4-34FE-B5F1-6AAD7E1241BC}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C59C8465-58C4-34FE-B5F1-6AAD7E1241BC}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C59C8465-58C4-34FE-B5F1-6AAD7E1241BC}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C59C8465-58C4-34FE-B5F1-6AAD7E1241BC}\InprocServer32" Name="Class" Value="EAAddinFramework.EASpecific.JScriptLanguage" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C59C8465-58C4-34FE-B5F1-6AAD7E1241BC}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C59C8465-58C4-34FE-B5F1-6AAD7E1241BC}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C59C8465-58C4-34FE-B5F1-6AAD7E1241BC}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C7C06EFF-1BBD-35C5-98E5-8F277E1ABCF2}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C7C06EFF-1BBD-35C5-98E5-8F277E1ABCF2}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Fields" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C7C06EFF-1BBD-35C5-98E5-8F277E1ABCF2}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C7C06EFF-1BBD-35C5-98E5-8F277E1ABCF2}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C7C06EFF-1BBD-35C5-98E5-8F277E1ABCF2}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C7C06EFF-1BBD-35C5-98E5-8F277E1ABCF2}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Fields" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C7C06EFF-1BBD-35C5-98E5-8F277E1ABCF2}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C7C06EFF-1BBD-35C5-98E5-8F277E1ABCF2}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C7C06EFF-1BBD-35C5-98E5-8F277E1ABCF2}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C84078E1-2B3B-36C4-A865-09E5A3A09E51}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C84078E1-2B3B-36C4-A865-09E5A3A09E51}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemrevisions" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C84078E1-2B3B-36C4-A865-09E5A3A09E51}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C84078E1-2B3B-36C4-A865-09E5A3A09E51}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C84078E1-2B3B-36C4-A865-09E5A3A09E51}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C84078E1-2B3B-36C4-A865-09E5A3A09E51}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemrevisions" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C84078E1-2B3B-36C4-A865-09E5A3A09E51}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C84078E1-2B3B-36C4-A865-09E5A3A09E51}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{C84078E1-2B3B-36C4-A865-09E5A3A09E51}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CA1E5DD2-31CC-3211-AD33-9BB1E6A26854}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CA1E5DD2-31CC-3211-AD33-9BB1E6A26854}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemFields" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CA1E5DD2-31CC-3211-AD33-9BB1E6A26854}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CA1E5DD2-31CC-3211-AD33-9BB1E6A26854}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CA1E5DD2-31CC-3211-AD33-9BB1E6A26854}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CA1E5DD2-31CC-3211-AD33-9BB1E6A26854}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemFields" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CA1E5DD2-31CC-3211-AD33-9BB1E6A26854}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CA1E5DD2-31CC-3211-AD33-9BB1E6A26854}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CA1E5DD2-31CC-3211-AD33-9BB1E6A26854}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CBF53ECC-4E48-3911-8C86-427FD28B93AF}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CBF53ECC-4E48-3911-8C86-427FD28B93AF}\InprocServer32\1.0.6866.29204" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CBF53ECC-4E48-3911-8C86-427FD28B93AF}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CBF53ECC-4E48-3911-8C86-427FD28B93AF}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CBF53ECC-4E48-3911-8C86-427FD28B93AF}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CBF53ECC-4E48-3911-8C86-427FD28B93AF}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.AggregationKind" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CBF53ECC-4E48-3911-8C86-427FD28B93AF}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CBF53ECC-4E48-3911-8C86-427FD28B93AF}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CBF53ECC-4E48-3911-8C86-427FD28B93AF}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CD597D84-7CC6-36BB-A335-8DBE93640E1E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CD597D84-7CC6-36BB-A335-8DBE93640E1E}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.Utilities.AbortableBackgroundWorker" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CD597D84-7CC6-36BB-A335-8DBE93640E1E}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CD597D84-7CC6-36BB-A335-8DBE93640E1E}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CD597D84-7CC6-36BB-A335-8DBE93640E1E}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CD597D84-7CC6-36BB-A335-8DBE93640E1E}\InprocServer32" Name="Class" Value="EAAddinFramework.Utilities.AbortableBackgroundWorker" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CD597D84-7CC6-36BB-A335-8DBE93640E1E}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CD597D84-7CC6-36BB-A335-8DBE93640E1E}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CD597D84-7CC6-36BB-A335-8DBE93640E1E}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CFD9BC1E-9363-305E-8BAD-4810E37951A4}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CFD9BC1E-9363-305E-8BAD-4810E37951A4}\InprocServer32\1.0.6866.29204" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.LiteralNull" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CFD9BC1E-9363-305E-8BAD-4810E37951A4}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CFD9BC1E-9363-305E-8BAD-4810E37951A4}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CFD9BC1E-9363-305E-8BAD-4810E37951A4}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CFD9BC1E-9363-305E-8BAD-4810E37951A4}\InprocServer32" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.LiteralNull" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CFD9BC1E-9363-305E-8BAD-4810E37951A4}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CFD9BC1E-9363-305E-8BAD-4810E37951A4}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{CFD9BC1E-9363-305E-8BAD-4810E37951A4}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D2B52748-8A06-3221-932B-DC5535C7B05B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D2B52748-8A06-3221-932B-DC5535C7B05B}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemhistory" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D2B52748-8A06-3221-932B-DC5535C7B05B}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D2B52748-8A06-3221-932B-DC5535C7B05B}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D2B52748-8A06-3221-932B-DC5535C7B05B}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D2B52748-8A06-3221-932B-DC5535C7B05B}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemhistory" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D2B52748-8A06-3221-932B-DC5535C7B05B}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D2B52748-8A06-3221-932B-DC5535C7B05B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D2B52748-8A06-3221-932B-DC5535C7B05B}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D4051ADC-FC52-3C21-883A-071256854F4B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D4051ADC-FC52-3C21-883A-071256854F4B}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D4051ADC-FC52-3C21-883A-071256854F4B}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D4051ADC-FC52-3C21-883A-071256854F4B}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D4051ADC-FC52-3C21-883A-071256854F4B}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D4051ADC-FC52-3C21-883A-071256854F4B}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D4051ADC-FC52-3C21-883A-071256854F4B}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D4051ADC-FC52-3C21-883A-071256854F4B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D4051ADC-FC52-3C21-883A-071256854F4B}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D90920C1-16C4-3BE7-BCBC-87B9123688B1}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D90920C1-16C4-3BE7-BCBC-87B9123688B1}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Relation" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D90920C1-16C4-3BE7-BCBC-87B9123688B1}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D90920C1-16C4-3BE7-BCBC-87B9123688B1}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D90920C1-16C4-3BE7-BCBC-87B9123688B1}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D90920C1-16C4-3BE7-BCBC-87B9123688B1}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Relation" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D90920C1-16C4-3BE7-BCBC-87B9123688B1}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D90920C1-16C4-3BE7-BCBC-87B9123688B1}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{D90920C1-16C4-3BE7-BCBC-87B9123688B1}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{E7D0AC07-6929-367C-82B6-096B0A9C199A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{E7D0AC07-6929-367C-82B6-096B0A9C199A}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemupdates" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{E7D0AC07-6929-367C-82B6-096B0A9C199A}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{E7D0AC07-6929-367C-82B6-096B0A9C199A}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{E7D0AC07-6929-367C-82B6-096B0A9C199A}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{E7D0AC07-6929-367C-82B6-096B0A9C199A}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Workitemupdates" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{E7D0AC07-6929-367C-82B6-096B0A9C199A}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{E7D0AC07-6929-367C-82B6-096B0A9C199A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{E7D0AC07-6929-367C-82B6-096B0A9C199A}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ED4F7F8A-3967-3D36-9911-01BB879C1057}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ED4F7F8A-3967-3D36-9911-01BB879C1057}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Attributes" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ED4F7F8A-3967-3D36-9911-01BB879C1057}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ED4F7F8A-3967-3D36-9911-01BB879C1057}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ED4F7F8A-3967-3D36-9911-01BB879C1057}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ED4F7F8A-3967-3D36-9911-01BB879C1057}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+Attributes" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ED4F7F8A-3967-3D36-9911-01BB879C1057}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ED4F7F8A-3967-3D36-9911-01BB879C1057}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{ED4F7F8A-3967-3D36-9911-01BB879C1057}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{EE8E5C7E-8AD3-3834-AD25-FE770349EA32}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{EE8E5C7E-8AD3-3834-AD25-FE770349EA32}\InprocServer32\1.0.6866.29204" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+WorkItem" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{EE8E5C7E-8AD3-3834-AD25-FE770349EA32}\InprocServer32\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{EE8E5C7E-8AD3-3834-AD25-FE770349EA32}\InprocServer32\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{EE8E5C7E-8AD3-3834-AD25-FE770349EA32}\InprocServer32\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{EE8E5C7E-8AD3-3834-AD25-FE770349EA32}\InprocServer32" Name="Class" Value="EAAddinFramework.WorkTracking.TFS.WorkItemPatchResponse+WorkItem" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{EE8E5C7E-8AD3-3834-AD25-FE770349EA32}\InprocServer32" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{EE8E5C7E-8AD3-3834-AD25-FE770349EA32}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{EE8E5C7E-8AD3-3834-AD25-FE770349EA32}\InprocServer32" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{6235BFBE-41A7-33F0-99C7-C96D3EE1F55A}\1.0.6866.29204" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.LinkStyle" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{6235BFBE-41A7-33F0-99C7-C96D3EE1F55A}\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{6235BFBE-41A7-33F0-99C7-C96D3EE1F55A}\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{6235BFBE-41A7-33F0-99C7-C96D3EE1F55A}\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{773CD2E1-C9CC-35B2-9B4C-4B88E083D890}\1.0.6866.29204" Name="Class" Value="EAAddinFramework.EASpecific.ScriptType" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{773CD2E1-C9CC-35B2-9B4C-4B88E083D890}\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{773CD2E1-C9CC-35B2-9B4C-4B88E083D890}\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{773CD2E1-C9CC-35B2-9B4C-4B88E083D890}\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{8B3F07A2-CCDB-33D0-A1D9-FD41E6FA7854}\1.0.6866.29204" Name="Class" Value="EAAddinFramework.Utilities.ConnectorType" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{8B3F07A2-CCDB-33D0-A1D9-FD41E6FA7854}\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{8B3F07A2-CCDB-33D0-A1D9-FD41E6FA7854}\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{8B3F07A2-CCDB-33D0-A1D9-FD41E6FA7854}\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{C82C5D3D-2A63-3E3E-A5FC-BA32BCEC2364}\1.0.6866.29204" Name="Class" Value="EAAddinFramework.Utilities.LogTypeEnum" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{C82C5D3D-2A63-3E3E-A5FC-BA32BCEC2364}\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{C82C5D3D-2A63-3E3E-A5FC-BA32BCEC2364}\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{C82C5D3D-2A63-3E3E-A5FC-BA32BCEC2364}\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{D55FB5D7-B63A-37D7-BF12-04DFEEBA940C}\1.0.6866.29204" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.RepositoryType" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{D55FB5D7-B63A-37D7-BF12-04DFEEBA940C}\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{D55FB5D7-B63A-37D7-BF12-04DFEEBA940C}\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{D55FB5D7-B63A-37D7-BF12-04DFEEBA940C}\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{FD141013-03A0-3A12-8A74-8B4C776D2142}\1.0.6866.29204" Name="Class" Value="TSF.UmlToolingFramework.Wrappers.EA.ActionKind" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{FD141013-03A0-3A12-8A74-8B4C776D2142}\1.0.6866.29204" Name="Assembly" Value="EAAddinFramework, Version=1.0.6866.29204, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{FD141013-03A0-3A12-8A74-8B4C776D2142}\1.0.6866.29204" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="Record\{FD141013-03A0-3A12-8A74-8B4C776D2142}\1.0.6866.29204" Name="CodeBase" Value="file:///[#EAAddinFramework.dll]" Type="string" Action="write" />
             <Class Id="{1402C8E8-F55F-3CB9-ABA1-9DECB7FE7772}" Context="InprocServer32" Description="TSF.UmlToolingFramework.UML.Classes.Kernel.UnlimitedNatural" ThreadingModel="both" ForeignServer="mscoree.dll">
               <ProgId Id="TSF.UmlToolingFramework.UML.Classes.Kernel.UnlimitedNatural" Description="TSF.UmlToolingFramework.UML.Classes.Kernel.UnlimitedNatural" />
             </Class>
@@ -574,7 +994,7 @@
             <Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
           </Component>
           <Component Id="EDD_AddinFiles" Guid="70503033-ed87-4f03-acb6-ef4420e154b8">
-            
+
             <File Id="GlossaryManager.pdb" Source="..\GlossaryManager\bin\Debug\GlossaryManager.pdb" />
             <File Id="GlossaryManager.tlb" Source="..\GlossaryManager\bin\Debug\GlossaryManager.tlb" />
             <File Id="GlossaryManager.dll.config" Source="..\GlossaryManager\bin\Debug\GlossaryManager.dll.config" />
@@ -713,7 +1133,7 @@
             <File Id="EAValidator.dll.config" Source="..\EAValidator\bin\Debug\EAValidator.dll.config" />
             <File Id="EAValidator.pdb"  Source="..\EAValidator\bin\Debug\EAValidator.pdb" />
             <File Id="EAValidator.tlb" Source="..\EAValidator\bin\Debug\EAValidator.tlb" />
-            
+
             <File Id="fil904F58FF7F62609D844E592FCE998D3A" KeyPath="yes" Source="..\EAValidator\bin\Debug\EAValidator.dll" />
             <RegistryValue Root="HKCR" Key="CLSID\{1A625E81-64AA-3984-860D-A9D782426696}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
             <RegistryValue Root="HKCR" Key="CLSID\{1A625E81-64AA-3984-860D-A9D782426696}\InprocServer32\1.5.7.19102" Name="Class" Value="EAValidator.EAValidatorAddin" Type="string" Action="write" />
