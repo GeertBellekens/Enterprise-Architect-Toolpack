@@ -29,7 +29,8 @@ namespace EAMapping
 			inlineMappingLogicRadio.Checked = settings.useInlineMappingLogic;
 			attributeTagTextBox.Text = settings.linkedAttributeTagName;
 			associationTagTextBox.Text = settings.linkedAssociationTagName;
-		}
+            elementTagTextBox.Text = settings.linkedElementTagName;
+        }
 		private void saveChanges()
 		{
 			settings.useTaggedValues = taggedValuesRadio.Checked ;
@@ -39,7 +40,8 @@ namespace EAMapping
 			settings.useInlineMappingLogic = inlineMappingLogicRadio.Checked ;
 			settings.linkedAttributeTagName = attributeTagTextBox.Text ;
 			settings.linkedAssociationTagName = associationTagTextBox.Text ;
-			this.settings.save();
+            settings.linkedElementTagName = elementTagTextBox.Text;
+            this.settings.save();
 		}
 		private void enableDisable()
 		{
