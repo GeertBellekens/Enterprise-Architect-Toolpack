@@ -35,19 +35,25 @@ namespace EAMapping
         private MappingControlGUI _mappingControl;
         private EAMappingSettings settings = new EAMappingSettings();
         private string[] menuSubAddNodeOptions = { string.Empty };
+        private string[] mainMenuOptions;
+        private string[] otherMenuOptions;
         /// <summary>
         /// constructor, set menu names
         /// </summary>
         public EAMappingAddin() : base()
         {
             this.menuHeader = menuName;
-            this.menuOptions = new string[]
+            this.mainMenuOptions = new string[]
+                                {
+                                menuMapAsSource,
+                                menuImportMapping,
+                                menuImportCopybook,
+                                menuSettings,
+                                menuAbout
+                                };
+            this.otherMenuOptions = new string[]
             {
-            menuMapAsSource,
-            menuImportMapping,
-            menuImportCopybook,
-            menuSettings,
-            menuAbout
+                menuMapAsSource,
             };
         }
         private MappingControlGUI mappingControl
@@ -177,7 +183,6 @@ namespace EAMapping
             var dialogResult = browseExportFileDialog.ShowDialog(this.model.mainEAWindow);
             if (dialogResult == DialogResult.OK)
             {
-                //if the user selected the file then put the filename in the abbreviationsfileTextBox
                 EA_MP.MappingFactory.exportMappingSet((EA_MP.MappingSet)mappingSet, browseExportFileDialog.FileName);
             }
 
@@ -197,15 +202,16 @@ namespace EAMapping
 
         public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
         {
-            switch (MenuName)
+            switch (MenuLocation)
             {
-                case "":
-                    return this.menuHeader;
-                case menuName:
-                    return this.menuOptions;
+                case "MainMenu":
+                    this.menuOptions = this.mainMenuOptions;
+                    break;
                 default:
-                    return string.Empty;
+                    this.menuOptions = this.otherMenuOptions;
+                    break;
             }
+            return base.EA_GetMenuItems(Repository, MenuLocation, MenuName);
         }
         public override void EA_GetMenuState(EA.Repository Repository, string Location, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
         {

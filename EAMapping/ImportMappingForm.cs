@@ -39,10 +39,10 @@ namespace EAMapping
                 this.importFileTextBox.Text = browseImportFileDialog.FileName;
             }
 		}
-		public event EventHandler ImportButtonClicked = delegate { }; 
+		public event EventHandler ImportButtonClicked; 
 		void ImportButtonClick(object sender, EventArgs e)
 		{
-			ImportButtonClicked(this, e);
+			this.ImportButtonClicked?.Invoke(this, e);
 			this.Close();
 		}
 		void CancelButtonClick(object sender, EventArgs e)

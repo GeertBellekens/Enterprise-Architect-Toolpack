@@ -167,10 +167,10 @@ namespace EAMapping
 
         // export
 
-        public event EventHandler exportMappingSet = delegate { };
+        public event EventHandler exportMappingSet;
         void ExportButtonClick(object sender, EventArgs e)
         {
-            exportMappingSet(this.mappingSet, e);
+           this.exportMappingSet?.Invoke(this.mappingSet, e);
         }
 
 
