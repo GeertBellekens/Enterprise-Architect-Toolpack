@@ -325,8 +325,12 @@ namespace EAMapping
             var topNode = treeListView.Objects.Cast<MP.MappingNode>().FirstOrDefault();
             //
             if (targetNode != null && sourceNode != null
+                //do not allow mapping to self
+                && targetNode != sourceNode
+                //make sure the nodes are not empty
                 && targetNode.source != null && sourceNode.source != null
                 //do not allow to drop on same treeView
+                && sourceNode != topNode
                 && !sourceNode.isChildOf(topNode))
             {
                 //make sure that they are not already mapped
