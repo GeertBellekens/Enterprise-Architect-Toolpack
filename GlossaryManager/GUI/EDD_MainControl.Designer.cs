@@ -160,6 +160,7 @@ namespace GlossaryManager.GUI
             this.BU_Name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.linkedLeftButton = new System.Windows.Forms.Button();
             this.newLinkedButton = new System.Windows.Forms.Button();
             this.linkedRightButton = new System.Windows.Forms.Button();
@@ -177,7 +178,6 @@ namespace GlossaryManager.GUI
             this.showAllCheckBox = new System.Windows.Forms.CheckBox();
             this.descriptionFilterTextBox = new System.Windows.Forms.TextBox();
             this.nameFilterTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
@@ -1003,6 +1003,7 @@ namespace GlossaryManager.GUI
             this.DI_DatatypeDropDown.Name = "DI_DatatypeDropDown";
             this.DI_DatatypeDropDown.Size = new System.Drawing.Size(152, 21);
             this.DI_DatatypeDropDown.TabIndex = 7;
+            this.DI_DatatypeDropDown.SelectedIndexChanged += new System.EventHandler(this.DI_DatatypeDropDown_SelectedIndexChanged);
             // 
             // DI_CreatedUserLabel
             // 
@@ -1486,6 +1487,15 @@ namespace GlossaryManager.GUI
             this.ButtonPanel.Size = new System.Drawing.Size(1272, 41);
             this.ButtonPanel.TabIndex = 2;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(457, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(189, 13);
+            this.label1.TabIndex = 114;
+            this.label1.Text = "Drag DataItem to Table/Column to link";
+            // 
             // linkedLeftButton
             // 
             this.linkedLeftButton.Image = global::GlossaryManager.Properties.Resources.linkedBusinessItems;
@@ -1664,15 +1674,6 @@ namespace GlossaryManager.GUI
             this.nameFilterTextBox.Enter += new System.EventHandler(this.nameFilterTextBox_Enter);
             this.nameFilterTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nameFilterTextBox_KeyPress);
             this.nameFilterTextBox.Leave += new System.EventHandler(this.nameFilterTextBox_Leave);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(457, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(189, 13);
-            this.label1.TabIndex = 114;
-            this.label1.Text = "Drag DataItem to Table/Column to link";
             // 
             // EDD_MainControl
             // 

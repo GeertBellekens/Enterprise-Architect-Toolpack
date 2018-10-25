@@ -1201,6 +1201,21 @@ namespace GlossaryManager.GUI
                 Cursor.Current = Cursors.Default;
             }
         }
+
+        private void DI_DatatypeDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var logicalDatatype = (LogicalDatatype)DI_DatatypeDropDown.SelectedItem;
+            if (logicalDatatype == null) return;
+            //set the defaults for size, precision, initial value and format
+            this.DI_SizeNumericUpDown.Value = logicalDatatype.defaultSize.HasValue ?
+                                              logicalDatatype.defaultSize.Value
+                                              : 0;
+            this.DI_PrecisionUpDown.Value = logicalDatatype.defaultPrecision.HasValue ?
+                                            logicalDatatype.defaultPrecision.Value
+                                             : 0;
+            this.DI_InitialValueTextBox.Text = logicalDatatype.defaultInitialValue;
+            this.DI_FormatTextBox.Text = logicalDatatype.defaultFormat;
+        }
     }
 
     public enum GlossaryTab

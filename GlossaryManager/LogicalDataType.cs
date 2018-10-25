@@ -1,16 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using EAAddinFramework.Databases;
+using System.Collections.Generic;
 using System.Linq;
-using System;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
-using EAAddinFramework.Databases.Strategy;
-using EAAddinFramework.Databases;
 
 namespace GlossaryManager
 {
-    /// <summary>
-    /// Description of Class1.
-    /// </summary>
     public class LogicalDatatype
     {
         internal UML.Classes.Kernel.DataType wrappedDatatype { get; set; }
@@ -18,15 +13,44 @@ namespace GlossaryManager
         {
             this.wrappedDatatype = wrappedDatatype;
         }
-        public static string stereoType { get { return "EDD_LogicalDatatype"; } }
-        public string GUID
+        public static string stereoType => "EDD_LogicalDatatype";
+        public string GUID => this.wrappedDatatype.uniqueID;
+        public string name => this.wrappedDatatype.name;
+        public int? defaultSize
         {
-            get { return this.wrappedDatatype.uniqueID; }
+            get
+            {
+                var defaultSizeTag = ((TSF_EA.ElementWrapper)this.wrappedDatatype).getTaggedValue("default size");
+                int foundDefault;
+                if (defaultSizeTag != null && int.TryParse(defaultSizeTag.eaStringValue, out foundDefault))
+                {
+                    return foundDefault;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
-        public string name
+        public int? defaultPrecision
         {
-            get { return this.wrappedDatatype.name; }
+            get
+            {
+                var defaultPrecisionTag = ((TSF_EA.ElementWrapper)this.wrappedDatatype).getTaggedValue("default precision");
+                int foundDefault;
+                if (defaultPrecisionTag != null && int.TryParse(defaultPrecisionTag.eaStringValue, out foundDefault))
+                {
+                    return foundDefault;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
+        public string defaultInitialValue => ((TSF_EA.ElementWrapper)this.wrappedDatatype).getTaggedValue("default initial value")?.eaStringValue;
+        public string defaultFormat => ((TSF_EA.ElementWrapper)this.wrappedDatatype).getTaggedValue("default format")?.eaStringValue;
+
         public DatabaseFramework.BaseDataType getBaseDatatype(string databaseType)
         {
             //check if multiple technical mappings are defined.
@@ -34,12 +58,19 @@ namespace GlossaryManager
             string baseDataTypeName = EAAddinFramework.Utilities.KeyValuePairsHelper.getValueForKey(databaseType, technicalMapping);
             //technical mapping can be either "databasetype1=datatype;databasetype2=datatype" or simply "datatype" (in case this is valid for all database types)
             if (string.IsNullOrEmpty(baseDataTypeName))
+            {
                 baseDataTypeName = technicalMapping;
+            }
+
             var baseDatatypes = DatabaseFactory.getBaseDataTypes(databaseType, (TSF_EA.Model)this.wrappedDatatype.model);
             if (baseDatatypes.ContainsKey(baseDataTypeName))
+            {
                 return baseDatatypes[baseDataTypeName];
+            }
             else
+            {
                 return null;
+            }
         }
         /// <summary>
         /// gets all the logical datatype in the model
