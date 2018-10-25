@@ -302,7 +302,7 @@ namespace EAMapping
             if (importDialog != null)
             {
                 var mappingSet = EA_MP.MappingFactory.createMappingSet(this.model, importDialog.importFilePath, this.settings
-                                                      , importDialog.sourcePathElement, importDialog.targetPathElement);
+                                                      , (TSF_EA.ElementWrapper)importDialog.sourcePathElement, (TSF_EA.ElementWrapper)importDialog.targetPathElement);
                 if (mappingSet != null)
                 {
                     this.loadMapping(mappingSet);

@@ -35,7 +35,6 @@ namespace EAMapping
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MappingControlGUI));
             this.exportButton = new System.Windows.Forms.Button();
             this.MappingContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.selectInProjectBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNewMappingRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mappingHotItemStyle = new BrightIdeasSoftware.HotItemStyle();
@@ -52,6 +51,7 @@ namespace EAMapping
             this.targetMappingsColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.targetExpandedColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.selectInProjectBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MappingContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.leftSplitContainer)).BeginInit();
             this.leftSplitContainer.Panel1.SuspendLayout();
@@ -87,15 +87,9 @@ namespace EAMapping
             this.MappingContextMenu.Name = "mappingContextMenu";
             this.MappingContextMenu.Size = new System.Drawing.Size(207, 70);
             // 
-            // selectInProjectBrowserToolStripMenuItem
-            // 
-            this.selectInProjectBrowserToolStripMenuItem.Name = "selectInProjectBrowserToolStripMenuItem";
-            this.selectInProjectBrowserToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.selectInProjectBrowserToolStripMenuItem.Text = "Select in Project Browser";
-            this.selectInProjectBrowserToolStripMenuItem.Click += new System.EventHandler(this.selectInProjectBrowserToolStripMenuItem_Click);
-            // 
             // openPropertiesToolStripMenuItem
             // 
+            this.openPropertiesToolStripMenuItem.Image = global::EAMapping.Properties.Resources.OpenProperties;
             this.openPropertiesToolStripMenuItem.Name = "openPropertiesToolStripMenuItem";
             this.openPropertiesToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.openPropertiesToolStripMenuItem.Text = "Open Properties";
@@ -168,10 +162,12 @@ namespace EAMapping
             this.sourceTreeView.TabIndex = 0;
             this.sourceTreeView.UseCellFormatEvents = true;
             this.sourceTreeView.UseCompatibleStateImageBehavior = false;
+            this.sourceTreeView.UseFiltering = true;
             this.sourceTreeView.UseHotItem = true;
             this.sourceTreeView.View = System.Windows.Forms.View.Details;
             this.sourceTreeView.VirtualMode = true;
             this.sourceTreeView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.sourceTreeView_FormatRow);
+            this.sourceTreeView.HeaderCheckBoxChanging += new System.EventHandler<BrightIdeasSoftware.HeaderCheckBoxChangingEventArgs>(this.sourceTreeView_HeaderCheckBoxChanging);
             this.sourceTreeView.ModelCanDrop += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.sourceTreeView_ModelCanDrop);
             this.sourceTreeView.ModelDropped += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.sourceTreeView_ModelDropped);
             this.sourceTreeView.ItemActivate += new System.EventHandler(this.sourceTreeView_ItemActivate);
@@ -181,6 +177,7 @@ namespace EAMapping
             // 
             this.sourceColumn.AspectName = "name";
             this.sourceColumn.FillsFreeSpace = true;
+            this.sourceColumn.Hideable = false;
             this.sourceColumn.Text = "Source Model";
             this.sourceColumn.Width = 260;
             // 
@@ -193,7 +190,10 @@ namespace EAMapping
             // 
             this.sourceExpandColumn.AspectName = "showAll";
             this.sourceExpandColumn.CheckBoxes = true;
-            this.sourceExpandColumn.Text = "Expanded";
+            this.sourceExpandColumn.HeaderCheckBox = true;
+            this.sourceExpandColumn.HeaderCheckBoxUpdatesRowCheckBoxes = false;
+            this.sourceExpandColumn.Text = "Expand";
+            this.sourceExpandColumn.Width = 80;
             // 
             // rightSplitContainer
             // 
@@ -259,6 +259,7 @@ namespace EAMapping
             this.targetTreeView.CellRightClick += new System.EventHandler<BrightIdeasSoftware.CellRightClickEventArgs>(this.targetTreeView_CellRightClick);
             this.targetTreeView.SubItemChecking += new System.EventHandler<BrightIdeasSoftware.SubItemCheckingEventArgs>(this.targetTreeView_SubItemChecking);
             this.targetTreeView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.targetTreeView_FormatRow);
+            this.targetTreeView.HeaderCheckBoxChanging += new System.EventHandler<BrightIdeasSoftware.HeaderCheckBoxChangingEventArgs>(this.targetTreeView_HeaderCheckBoxChanging);
             this.targetTreeView.ModelCanDrop += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.targetTreeView_ModelCanDrop);
             this.targetTreeView.ModelDropped += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.targetTreeView_ModelDropped);
             this.targetTreeView.ItemActivate += new System.EventHandler(this.targetTreeView_ItemActivate);
@@ -280,7 +281,10 @@ namespace EAMapping
             // 
             this.targetExpandedColumn.AspectName = "showAll";
             this.targetExpandedColumn.CheckBoxes = true;
-            this.targetExpandedColumn.Text = "Expanded";
+            this.targetExpandedColumn.HeaderCheckBox = true;
+            this.targetExpandedColumn.HeaderCheckBoxUpdatesRowCheckBoxes = false;
+            this.targetExpandedColumn.Text = "Expand";
+            this.targetExpandedColumn.Width = 80;
             // 
             // mainPanel
             // 
@@ -292,6 +296,14 @@ namespace EAMapping
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(1106, 533);
             this.mainPanel.TabIndex = 12;
+            // 
+            // selectInProjectBrowserToolStripMenuItem
+            // 
+            this.selectInProjectBrowserToolStripMenuItem.Image = global::EAMapping.Properties.Resources.SelectInProjectBrowser;
+            this.selectInProjectBrowserToolStripMenuItem.Name = "selectInProjectBrowserToolStripMenuItem";
+            this.selectInProjectBrowserToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.selectInProjectBrowserToolStripMenuItem.Text = "Select in Project Browser";
+            this.selectInProjectBrowserToolStripMenuItem.Click += new System.EventHandler(this.selectInProjectBrowserToolStripMenuItem_Click);
             // 
             // MappingControlGUI
             // 

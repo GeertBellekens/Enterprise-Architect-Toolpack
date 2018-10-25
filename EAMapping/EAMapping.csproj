@@ -156,5 +156,11 @@
   <ItemGroup>
     <None Include="Files\delete.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\SelectInProjectBrowser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\OpenProperties.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

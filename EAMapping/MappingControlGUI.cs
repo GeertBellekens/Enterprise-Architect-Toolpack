@@ -286,11 +286,13 @@ namespace EAMapping
         private void targetTreeView_SubItemChecking(object sender, SubItemCheckingEventArgs e)
         {
             var node = e.RowObject as MappingNode;
-            //make sure the childeNodes are set on target nodes and they don't automatically get all child nodes
+            //make sure the childeNodes are set on target nodes as they don't automatically get all child nodes
             if (node != null)
             {
                 node.setChildNodes();
+                this.targetTreeView.Expand(node);
             }
+            
         }
 
         private void sourceTreeView_ItemActivate(object sender, EventArgs e)
@@ -377,6 +379,36 @@ namespace EAMapping
             }
         }
 
-
+        private void sourceTreeView_HeaderCheckBoxChanging(object sender, HeaderCheckBoxChangingEventArgs e)
+        {
+            setAllExpanded(this.sourceTreeView, e.NewCheckState == CheckState.Checked, false);
+        }
+        private void targetTreeView_HeaderCheckBoxChanging(object sender, HeaderCheckBoxChangingEventArgs e)
+        {
+            setAllExpanded(this.targetTreeView, e.NewCheckState == CheckState.Checked, true);
+        }
+        private void setAllExpanded(TreeListView treeView, bool expand, bool isTarget)
+        {
+            //set expanded property on all nodes
+            var root = treeView.Objects.Cast<MappingNode>().FirstOrDefault();
+            setExpanded(root,expand, isTarget);
+            treeView.RefreshObject(root);
+            //expand all
+            treeView.ExpandAll();
+        }
+        private void setExpanded(MappingNode node, bool expand, bool isTarget)
+        {
+            //don't do anything if null
+            if (node == null) return;
+            //set expanded property
+            if (!node.showAll && isTarget)
+                node.setChildNodes();
+            node.showAll = expand;
+            //do the same for the childnodes
+            foreach (MappingNode subNode in node.childNodes)
+            {
+                setExpanded(subNode, expand, isTarget);
+            }
+        }
     }
 }
