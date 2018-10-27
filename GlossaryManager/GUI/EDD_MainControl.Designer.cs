@@ -135,7 +135,6 @@ namespace GlossaryManager.GUI
             this.dC_DataitemColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.dC_DatabaseColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.columnsListViewImageList = new System.Windows.Forms.ImageList(this.components);
-            this.showHideTablesButton = new System.Windows.Forms.Button();
             this.ColumnsTabPage = new System.Windows.Forms.TabPage();
             this.C_NotNullLabel = new System.Windows.Forms.Label();
             this.C_NotNullCheckBox = new System.Windows.Forms.CheckBox();
@@ -161,6 +160,14 @@ namespace GlossaryManager.GUI
             this.BU_Domain = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ButtonPanel = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.FilterPanel = new System.Windows.Forms.Panel();
+            this.showAllCheckBox = new System.Windows.Forms.CheckBox();
+            this.descriptionFilterTextBox = new System.Windows.Forms.TextBox();
+            this.nameFilterTextBox = new System.Windows.Forms.TextBox();
+            this.showHideTablesButton = new System.Windows.Forms.Button();
             this.linkedLeftButton = new System.Windows.Forms.Button();
             this.newLinkedButton = new System.Windows.Forms.Button();
             this.linkedRightButton = new System.Windows.Forms.Button();
@@ -170,14 +177,7 @@ namespace GlossaryManager.GUI
             this.newButton = new System.Windows.Forms.Button();
             this.openPropertiesButton = new System.Windows.Forms.Button();
             this.navigateProjectBrowserButton = new System.Windows.Forms.Button();
-            this.cancelButton = new System.Windows.Forms.Button();
-            this.saveButton = new System.Windows.Forms.Button();
-            this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.filterButton = new System.Windows.Forms.Button();
-            this.FilterPanel = new System.Windows.Forms.Panel();
-            this.showAllCheckBox = new System.Windows.Forms.CheckBox();
-            this.descriptionFilterTextBox = new System.Windows.Forms.TextBox();
-            this.nameFilterTextBox = new System.Windows.Forms.TextBox();
             this.DomainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.domainBreadCrumb)).BeginInit();
             this.DetailsTabControl.SuspendLayout();
@@ -719,6 +719,8 @@ namespace GlossaryManager.GUI
             this.dataItemsListView.UseFiltering = true;
             this.dataItemsListView.UseHotItem = true;
             this.dataItemsListView.View = System.Windows.Forms.View.Details;
+            this.dataItemsListView.ModelCanDrop += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.dataItemsListView_ModelCanDrop);
+            this.dataItemsListView.ModelDropped += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.dataItemsListView_ModelDropped);
             this.dataItemsListView.SelectedIndexChanged += new System.EventHandler(this.dataItemsListView_SelectedIndexChanged);
             this.dataItemsListView.DoubleClick += new System.EventHandler(this.dataItemsListView_DoubleClick);
             // 
@@ -1192,16 +1194,6 @@ namespace GlossaryManager.GUI
             this.columnsListViewImageList.Images.SetKeyName(0, "table");
             this.columnsListViewImageList.Images.SetKeyName(1, "column");
             // 
-            // showHideTablesButton
-            // 
-            this.showHideTablesButton.Image = global::GlossaryManager.Properties.Resources.moveLeftArrow;
-            this.showHideTablesButton.Location = new System.Drawing.Point(352, 7);
-            this.showHideTablesButton.Name = "showHideTablesButton";
-            this.showHideTablesButton.Size = new System.Drawing.Size(29, 28);
-            this.showHideTablesButton.TabIndex = 59;
-            this.showHideTablesButton.UseVisualStyleBackColor = true;
-            this.showHideTablesButton.Click += new System.EventHandler(this.showHideTablesButton_Click);
-            // 
             // ColumnsTabPage
             // 
             this.ColumnsTabPage.BackColor = System.Drawing.SystemColors.Control;
@@ -1496,6 +1488,84 @@ namespace GlossaryManager.GUI
             this.label1.TabIndex = 114;
             this.label1.Text = "Drag DataItem to Table/Column to link";
             // 
+            // cancelButton
+            // 
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelButton.Location = new System.Drawing.Point(1184, 7);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 28);
+            this.cancelButton.TabIndex = 5;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
+            // saveButton
+            // 
+            this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveButton.Location = new System.Drawing.Point(1103, 7);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 28);
+            this.saveButton.TabIndex = 4;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // FilterPanel
+            // 
+            this.FilterPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FilterPanel.Controls.Add(this.showAllCheckBox);
+            this.FilterPanel.Controls.Add(this.filterButton);
+            this.FilterPanel.Controls.Add(this.descriptionFilterTextBox);
+            this.FilterPanel.Controls.Add(this.nameFilterTextBox);
+            this.FilterPanel.Location = new System.Drawing.Point(0, 29);
+            this.FilterPanel.Name = "FilterPanel";
+            this.FilterPanel.Size = new System.Drawing.Size(1275, 37);
+            this.FilterPanel.TabIndex = 3;
+            // 
+            // showAllCheckBox
+            // 
+            this.showAllCheckBox.AutoSize = true;
+            this.showAllCheckBox.Location = new System.Drawing.Point(423, 11);
+            this.showAllCheckBox.Name = "showAllCheckBox";
+            this.showAllCheckBox.Size = new System.Drawing.Size(66, 17);
+            this.showAllCheckBox.TabIndex = 21;
+            this.showAllCheckBox.Text = "Show all";
+            this.showAllCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // descriptionFilterTextBox
+            // 
+            this.descriptionFilterTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.descriptionFilterTextBox.Location = new System.Drawing.Point(197, 8);
+            this.descriptionFilterTextBox.Name = "descriptionFilterTextBox";
+            this.descriptionFilterTextBox.Size = new System.Drawing.Size(184, 20);
+            this.descriptionFilterTextBox.TabIndex = 61;
+            this.descriptionFilterTextBox.TextChanged += new System.EventHandler(this.descriptionFilterTextBox_TextChanged);
+            this.descriptionFilterTextBox.Enter += new System.EventHandler(this.descriptionFilterTextBox_Enter);
+            this.descriptionFilterTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.descriptionFilterTextBox_KeyPress);
+            this.descriptionFilterTextBox.Leave += new System.EventHandler(this.descriptionFilterTextBox_Leave);
+            // 
+            // nameFilterTextBox
+            // 
+            this.nameFilterTextBox.Location = new System.Drawing.Point(7, 8);
+            this.nameFilterTextBox.Name = "nameFilterTextBox";
+            this.nameFilterTextBox.Size = new System.Drawing.Size(184, 20);
+            this.nameFilterTextBox.TabIndex = 60;
+            this.nameFilterTextBox.TextChanged += new System.EventHandler(this.nameFilterTextBox_TextChanged);
+            this.nameFilterTextBox.Enter += new System.EventHandler(this.nameFilterTextBox_Enter);
+            this.nameFilterTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nameFilterTextBox_KeyPress);
+            this.nameFilterTextBox.Leave += new System.EventHandler(this.nameFilterTextBox_Leave);
+            // 
+            // showHideTablesButton
+            // 
+            this.showHideTablesButton.Image = global::GlossaryManager.Properties.Resources.moveLeftArrow;
+            this.showHideTablesButton.Location = new System.Drawing.Point(352, 7);
+            this.showHideTablesButton.Name = "showHideTablesButton";
+            this.showHideTablesButton.Size = new System.Drawing.Size(29, 28);
+            this.showHideTablesButton.TabIndex = 59;
+            this.showHideTablesButton.UseVisualStyleBackColor = true;
+            this.showHideTablesButton.Click += new System.EventHandler(this.showHideTablesButton_Click);
+            // 
             // linkedLeftButton
             // 
             this.linkedLeftButton.Image = global::GlossaryManager.Properties.Resources.linkedBusinessItems;
@@ -1596,28 +1666,6 @@ namespace GlossaryManager.GUI
             this.navigateProjectBrowserButton.UseVisualStyleBackColor = true;
             this.navigateProjectBrowserButton.Click += new System.EventHandler(this.navigateProjectBrowserButton_Click);
             // 
-            // cancelButton
-            // 
-            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.Location = new System.Drawing.Point(1184, 7);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 28);
-            this.cancelButton.TabIndex = 5;
-            this.cancelButton.Text = "Cancel";
-            this.cancelButton.UseVisualStyleBackColor = true;
-            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-            // 
-            // saveButton
-            // 
-            this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.Location = new System.Drawing.Point(1103, 7);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(75, 28);
-            this.saveButton.TabIndex = 4;
-            this.saveButton.Text = "Save";
-            this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            // 
             // filterButton
             // 
             this.filterButton.Image = ((System.Drawing.Image)(resources.GetObject("filterButton.Image")));
@@ -1628,52 +1676,6 @@ namespace GlossaryManager.GUI
             this.myToolTip.SetToolTip(this.filterButton, "Add New Element");
             this.filterButton.UseVisualStyleBackColor = true;
             this.filterButton.Click += new System.EventHandler(this.filterButton_Click);
-            // 
-            // FilterPanel
-            // 
-            this.FilterPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FilterPanel.Controls.Add(this.showAllCheckBox);
-            this.FilterPanel.Controls.Add(this.filterButton);
-            this.FilterPanel.Controls.Add(this.descriptionFilterTextBox);
-            this.FilterPanel.Controls.Add(this.nameFilterTextBox);
-            this.FilterPanel.Location = new System.Drawing.Point(0, 29);
-            this.FilterPanel.Name = "FilterPanel";
-            this.FilterPanel.Size = new System.Drawing.Size(1275, 37);
-            this.FilterPanel.TabIndex = 3;
-            // 
-            // showAllCheckBox
-            // 
-            this.showAllCheckBox.AutoSize = true;
-            this.showAllCheckBox.Location = new System.Drawing.Point(423, 11);
-            this.showAllCheckBox.Name = "showAllCheckBox";
-            this.showAllCheckBox.Size = new System.Drawing.Size(66, 17);
-            this.showAllCheckBox.TabIndex = 21;
-            this.showAllCheckBox.Text = "Show all";
-            this.showAllCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // descriptionFilterTextBox
-            // 
-            this.descriptionFilterTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.descriptionFilterTextBox.Location = new System.Drawing.Point(197, 8);
-            this.descriptionFilterTextBox.Name = "descriptionFilterTextBox";
-            this.descriptionFilterTextBox.Size = new System.Drawing.Size(184, 20);
-            this.descriptionFilterTextBox.TabIndex = 61;
-            this.descriptionFilterTextBox.TextChanged += new System.EventHandler(this.descriptionFilterTextBox_TextChanged);
-            this.descriptionFilterTextBox.Enter += new System.EventHandler(this.descriptionFilterTextBox_Enter);
-            this.descriptionFilterTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.descriptionFilterTextBox_KeyPress);
-            this.descriptionFilterTextBox.Leave += new System.EventHandler(this.descriptionFilterTextBox_Leave);
-            // 
-            // nameFilterTextBox
-            // 
-            this.nameFilterTextBox.Location = new System.Drawing.Point(7, 8);
-            this.nameFilterTextBox.Name = "nameFilterTextBox";
-            this.nameFilterTextBox.Size = new System.Drawing.Size(184, 20);
-            this.nameFilterTextBox.TabIndex = 60;
-            this.nameFilterTextBox.TextChanged += new System.EventHandler(this.nameFilterTextBox_TextChanged);
-            this.nameFilterTextBox.Enter += new System.EventHandler(this.nameFilterTextBox_Enter);
-            this.nameFilterTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nameFilterTextBox_KeyPress);
-            this.nameFilterTextBox.Leave += new System.EventHandler(this.nameFilterTextBox_Leave);
             // 
             // EDD_MainControl
             // 
