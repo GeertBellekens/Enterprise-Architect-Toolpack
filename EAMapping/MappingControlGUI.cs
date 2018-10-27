@@ -282,6 +282,14 @@ namespace EAMapping
                 selectNewMappingSource?.Invoke(this.mappingSet, e);
             }
         }
+        private void newEmptyMappingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var parent = ((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl;
+            if (parent == this.sourceTreeView)
+            {
+                this.selectedSourceNode.createEmptyMapping(this.targetTreeView.Objects.Cast<MappingNode>().FirstOrDefault());
+            }
+        }
 
         private void targetTreeView_SubItemChecking(object sender, SubItemCheckingEventArgs e)
         {
@@ -410,5 +418,7 @@ namespace EAMapping
                 setExpanded(subNode, expand, isTarget);
             }
         }
+
+
     }
 }

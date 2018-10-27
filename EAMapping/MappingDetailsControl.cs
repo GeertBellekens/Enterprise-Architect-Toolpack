@@ -20,7 +20,9 @@ namespace EAMapping
         private void loadContent()
         {
             this.fromTextBox.Text = this._mapping?.source?.name;
-            this.toTextBox.Text = this._mapping?.target?.name;
+            this.toTextBox.Text = this.mapping != null && this.mapping.isEmpty ? 
+                                    "<none>" 
+                                    : this._mapping?.target?.name;
             this.mappingLogicTextBox.Text = this._mapping?.mappingLogicDescription;
         }
 

@@ -35,7 +35,6 @@ namespace EAMapping
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MappingControlGUI));
             this.exportButton = new System.Windows.Forms.Button();
             this.MappingContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNewMappingRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mappingHotItemStyle = new BrightIdeasSoftware.HotItemStyle();
             this.mappingNodeImageList = new System.Windows.Forms.ImageList(this.components);
@@ -52,6 +51,8 @@ namespace EAMapping
             this.targetExpandedColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.mainPanel = new System.Windows.Forms.Panel();
             this.selectInProjectBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newEmptyMappingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MappingContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.leftSplitContainer)).BeginInit();
             this.leftSplitContainer.Panel1.SuspendLayout();
@@ -83,17 +84,10 @@ namespace EAMapping
             this.MappingContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectInProjectBrowserToolStripMenuItem,
             this.openPropertiesToolStripMenuItem,
-            this.selectNewMappingRootToolStripMenuItem});
+            this.selectNewMappingRootToolStripMenuItem,
+            this.newEmptyMappingToolStripMenuItem});
             this.MappingContextMenu.Name = "mappingContextMenu";
-            this.MappingContextMenu.Size = new System.Drawing.Size(207, 70);
-            // 
-            // openPropertiesToolStripMenuItem
-            // 
-            this.openPropertiesToolStripMenuItem.Image = global::EAMapping.Properties.Resources.OpenProperties;
-            this.openPropertiesToolStripMenuItem.Name = "openPropertiesToolStripMenuItem";
-            this.openPropertiesToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.openPropertiesToolStripMenuItem.Text = "Open Properties";
-            this.openPropertiesToolStripMenuItem.Click += new System.EventHandler(this.openPropertiesToolStripMenuItem_Click);
+            this.MappingContextMenu.Size = new System.Drawing.Size(207, 114);
             // 
             // selectNewMappingRootToolStripMenuItem
             // 
@@ -305,6 +299,21 @@ namespace EAMapping
             this.selectInProjectBrowserToolStripMenuItem.Text = "Select in Project Browser";
             this.selectInProjectBrowserToolStripMenuItem.Click += new System.EventHandler(this.selectInProjectBrowserToolStripMenuItem_Click);
             // 
+            // openPropertiesToolStripMenuItem
+            // 
+            this.openPropertiesToolStripMenuItem.Image = global::EAMapping.Properties.Resources.OpenProperties;
+            this.openPropertiesToolStripMenuItem.Name = "openPropertiesToolStripMenuItem";
+            this.openPropertiesToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.openPropertiesToolStripMenuItem.Text = "Open Properties";
+            this.openPropertiesToolStripMenuItem.Click += new System.EventHandler(this.openPropertiesToolStripMenuItem_Click);
+            // 
+            // newEmptyMappingToolStripMenuItem
+            // 
+            this.newEmptyMappingToolStripMenuItem.Name = "newEmptyMappingToolStripMenuItem";
+            this.newEmptyMappingToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.newEmptyMappingToolStripMenuItem.Text = "New Empty Mapping";
+            this.newEmptyMappingToolStripMenuItem.Click += new System.EventHandler(this.newEmptyMappingToolStripMenuItem_Click);
+            // 
             // MappingControlGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -346,5 +355,6 @@ namespace EAMapping
         private BrightIdeasSoftware.OLVColumn targetColumn;
         private BrightIdeasSoftware.OLVColumn targetMappingsColumn;
         private BrightIdeasSoftware.OLVColumn targetExpandedColumn;
+        private System.Windows.Forms.ToolStripMenuItem newEmptyMappingToolStripMenuItem;
     }
 }
