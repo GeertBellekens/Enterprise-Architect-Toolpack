@@ -13,7 +13,8 @@ namespace GlossaryManager
     {
         public DB_EA.Table wrappedTable { get { return this._wrappedTable; } }
         private DB_EA.Table _wrappedTable;
-        private GlossaryManagerSettings settings;   
+        private GlossaryManagerSettings settings;
+        public TSF_EA.Model model => this._wrappedTable.wrappedClass.EAModel;
         public EDDTable(DB_EA.Table wrappedTable, GlossaryManagerSettings settings)
         {
             this._wrappedTable = wrappedTable;

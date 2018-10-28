@@ -83,14 +83,16 @@ namespace GlossaryManager
                 var newdataItem = value;
                 this._dataItem = newdataItem;
                 this.dataItemLoaded = true;
-                if ( newdataItem != null )
-                {
-                    this.column.name = newdataItem.Label;
-                    this.column.type = new DB_EA.DataType((DB_EA.BaseDataType)newdataItem.logicalDatatype.getBaseDatatype(this.column.factory.databaseName)
-                                            , newdataItem.getSize(), newdataItem.getPrecision());
-                    this.column.initialValue = newdataItem.InitialValue;
-                }
-                
+            }
+        }
+        public void setDataItemDefaults()
+        {
+            if (this._dataItem != null)
+            {
+                this.column.name = this._dataItem.Label;
+                this.column.type = new DB_EA.DataType((DB_EA.BaseDataType)this._dataItem.logicalDatatype.getBaseDatatype(this.column.factory.databaseName)
+                                        , this._dataItem.getSize(), this._dataItem.getPrecision());
+                this.column.initialValue = this._dataItem.InitialValue;
             }
         }
 
@@ -118,11 +120,14 @@ namespace GlossaryManager
         public DataItem selectDataItem()
         {
             //let the user select a logical datatype
-            var dataItemclass = this._wrappedColumn.wrappedattribute.model.getUserSelectedElement(new List<string>() { "Class" }
+            var defaultSelectionID = this.dataItem == null ?
+                                   this.settings.dataItemsPackage.uniqueID :
+                                   this.dataItem.GUID;
+            var dataItemclass = this.table.model.getUserSelectedElement(new List<string>() { "Class" }
                 ,new List<string>() {new DataItem().Stereotype }
-                , this.dataItem?.GUID) as UML.Classes.Kernel.Class;
+                , defaultSelectionID) as UML.Classes.Kernel.Class;
             if (dataItemclass != null)
-                return GlossaryItemFactory.getFactory(this._wrappedColumn.wrappedattribute.EAModel, this.settings).FromClass<DataItem>(dataItemclass);
+                return GlossaryItemFactory.getFactory(this.table.model, this.settings).FromClass<DataItem>(dataItemclass);
             else
                 return null;
         }

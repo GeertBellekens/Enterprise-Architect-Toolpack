@@ -1131,6 +1131,7 @@ namespace GlossaryManager.GUI
                         //create new column
                         targetColumn = targetTable.addNewColumn(dataItem.Label);
                         targetColumn.dataItem = dataItem;
+                        targetColumn.setDataItemDefaults();
                     }
                     if (targetColumn != null)
                     {
