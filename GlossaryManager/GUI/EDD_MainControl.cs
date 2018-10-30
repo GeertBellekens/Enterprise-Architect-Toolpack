@@ -556,7 +556,6 @@ namespace GlossaryManager.GUI
         }
         private bool hasColumnChanged(EDDColumn column)
         {
-            //TODO
             return column.dataItem?.GUID != ((DataItem)this.dC_DataItemTextBox.Tag)?.GUID;
         }
 
@@ -860,19 +859,6 @@ namespace GlossaryManager.GUI
                 var dataItem = this.selectedColumn.selectDataItem();
                 this.C_DataItemTextBox.Text = dataItem?.Name;
                 this.C_DataItemTextBox.Tag = dataItem;
-
-                if (dataItem != null &&
-                    this.selectedColumn.dataItem.GUID != dataItem.GUID)
-                {
-                    //reset to defaults based on the logical datatype and its technical mapping
-                    this.C_NameTextBox.Text = dataItem.Label;
-                    this.C_SizeUpDown.Value = dataItem.Size.HasValue ? dataItem.Size.Value : 0;
-                    this.C_SizeUpDown.Text = dataItem.Size.HasValue ? dataItem.Size.Value.ToString() : string.Empty;
-                    this.C_PrecisionUpDown.Value = dataItem.Precision.HasValue ? dataItem.Precision.Value : 0;
-                    this.C_PrecisionUpDown.Text = dataItem.Precision.HasValue ? dataItem.Precision.Value.ToString() : string.Empty;
-                    this.C_DatatypeDropdown.Text = dataItem.logicalDatatype?.getBaseDatatype(this.selectedColumn.column.factory.databaseName)?.name;
-                    this.C_DefaultTextBox.Text = dataItem.InitialValue;
-                }
             }
         }
         private void columnsListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -1044,8 +1030,6 @@ namespace GlossaryManager.GUI
         {
             this.dC_DataItemTextBox.Text = dataItem?.Name;
             this.dC_DataItemTextBox.Tag = dataItem;
-            //set the dataitem
-            column.dataItem = dataItem;
         }
         private void linkedRightButton_Click(object sender, EventArgs e)
         {
