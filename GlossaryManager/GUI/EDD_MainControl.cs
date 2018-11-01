@@ -1293,6 +1293,8 @@ namespace GlossaryManager.GUI
                 EAAddinFramework.EAAddinBase.processException(exc);
             }
         }
+
+
     }
 
     public enum GlossaryTab
