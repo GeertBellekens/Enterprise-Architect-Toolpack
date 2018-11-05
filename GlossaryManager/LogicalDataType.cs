@@ -50,28 +50,51 @@ namespace GlossaryManager
         }
         public string defaultInitialValue => ((TSF_EA.ElementWrapper)this.wrappedDatatype).getTaggedValue("default initial value")?.eaStringValue;
         public string defaultFormat => ((TSF_EA.ElementWrapper)this.wrappedDatatype).getTaggedValue("default format")?.eaStringValue;
+        public bool hasLength => this.baseDataTypes.Any(x => x.hasLength);
+        public bool hasPrecision => this.baseDataTypes.Any(x => x.hasPrecision);
 
         public DatabaseFramework.BaseDataType getBaseDatatype(string databaseType)
         {
-            //check if multiple technical mappings are defined.
-            string technicalMapping = ((TSF_EA.ElementWrapper)this.wrappedDatatype).getTaggedValue("technical mapping")?.eaStringValue;
-            string baseDataTypeName = EAAddinFramework.Utilities.KeyValuePairsHelper.getValueForKey(databaseType, technicalMapping);
-            //technical mapping can be either "databasetype1=datatype;databasetype2=datatype" or simply "datatype" (in case this is valid for all database types)
-            if (string.IsNullOrEmpty(baseDataTypeName))
+            //get the baseDatatype for the given databaseType
+            return this.baseDataTypes.FirstOrDefault(x => x.databaseProduct.Equals(databaseType, System.StringComparison.InvariantCultureIgnoreCase));
+        }
+        private List<BaseDataType> _baseDataTypes;
+        private List<BaseDataType> baseDataTypes
+        {
+            get
             {
-                baseDataTypeName = technicalMapping;
-            }
-
-            var baseDatatypes = DatabaseFactory.getBaseDataTypes(databaseType, (TSF_EA.Model)this.wrappedDatatype.model);
-            if (baseDatatypes.ContainsKey(baseDataTypeName))
-            {
-                return baseDatatypes[baseDataTypeName];
-            }
-            else
-            {
-                return null;
+                if (this._baseDataTypes == null)
+                {
+                    this._baseDataTypes = new List<BaseDataType>();
+                    //check if multiple technical mappings are defined.
+                    string technicalMapping = ((TSF_EA.ElementWrapper)this.wrappedDatatype).getTaggedValue("technical mapping")?.eaStringValue;
+                    if (! string.IsNullOrEmpty(technicalMapping))
+                    {
+                        //get the keyValuePairs
+                        var keyValuePairs = EAAddinFramework.Utilities.KeyValuePairsHelper.GetKeyValuePairs(technicalMapping);
+                        if (keyValuePairs.Count > 0 )
+                        {
+                            //get all the specific datatypes
+                            foreach (var databaseType in keyValuePairs.Keys)
+                            {
+                                var baseDatatypes = DatabaseFactory.getBaseDataTypes(databaseType, (TSF_EA.Model)this.wrappedDatatype.model);
+                                if (baseDatatypes.ContainsKey(keyValuePairs[databaseType]))
+                                {
+                                    this._baseDataTypes.Add(baseDatatypes[keyValuePairs[databaseType]]);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //only one generic name. Get all the base datatypes with the given name
+                            this._baseDataTypes = DatabaseFactory.getBaseDatatypesByName(technicalMapping, (TSF_EA.Model)this.wrappedDatatype.model);
+                        }
+                    }
+                }
+                return this._baseDataTypes;
             }
         }
+
         /// <summary>
         /// gets all the logical datatype in the model
         /// </summary>

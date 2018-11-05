@@ -223,8 +223,12 @@ namespace GlossaryManager.GUI
             this.DI_DomainComboBox.Enabled = this.selectedDataItem != null;
             this.DI_LabelTextBox.Enabled = this.selectedDataItem != null;
             this.DI_DatatypeDropDown.Enabled = this.selectedDataItem != null;
-            this.DI_SizeNumericUpDown.Enabled = this.selectedDataItem != null;
-            this.DI_PrecisionUpDown.Enabled = this.selectedDataItem != null;
+            this.DI_SizeNumericUpDown.Enabled = this.selectedDataItem != null
+                                                && this.DI_DatatypeDropDown.SelectedItem is LogicalDatatype
+                                                && ((LogicalDatatype)this.DI_DatatypeDropDown.SelectedItem).hasLength;
+            this.DI_PrecisionUpDown.Enabled = this.selectedDataItem != null
+                                               && this.DI_DatatypeDropDown.SelectedItem is LogicalDatatype
+                                               && ((LogicalDatatype)this.DI_DatatypeDropDown.SelectedItem).hasPrecision;
             this.DI_FormatTextBox.Enabled = this.selectedDataItem != null;
             this.DI_InitialValueTextBox.Enabled = this.selectedDataItem != null;
             this.DI_VersionTextBox.Enabled = this.selectedDataItem != null;
@@ -1232,16 +1236,19 @@ namespace GlossaryManager.GUI
 
         private void DI_DatatypeDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //enableDisable
+            this.enableDisableDataItemFields();
+            //get defaults
             var logicalDatatype = (LogicalDatatype)this.DI_DatatypeDropDown.SelectedItem;
             if (logicalDatatype == null)
             {
                 return;
             }
             //set the defaults for size, precision, initial value and format
-            this.DI_SizeNumericUpDown.Value = logicalDatatype.defaultSize.HasValue ?
+            this.DI_SizeNumericUpDown.Value = logicalDatatype.defaultSize.HasValue && logicalDatatype.hasLength ?
                                               logicalDatatype.defaultSize.Value
                                               : 0;
-            this.DI_PrecisionUpDown.Value = logicalDatatype.defaultPrecision.HasValue ?
+            this.DI_PrecisionUpDown.Value = logicalDatatype.defaultPrecision.HasValue && logicalDatatype.hasPrecision ?
                                             logicalDatatype.defaultPrecision.Value
                                              : 0;
             this.DI_InitialValueTextBox.Text = logicalDatatype.defaultInitialValue;
