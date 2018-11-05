@@ -1085,8 +1085,29 @@ namespace GlossaryManager.GUI
             {
                 if (targetTable != null)
                 {
-                    e.Effect = DragDropEffects.Link;
-                    e.InfoMessage = "Create new column";
+                    //check if the dataItem has a valid logical datatype
+                    if (dataItem.logicalDatatype == null)
+                    {
+                        e.Effect = DragDropEffects.None;
+                        e.InfoMessage = "Data Item has no logical data type";
+                    }
+                    else if(dataItem.logicalDatatype.getBaseDatatype(targetTable.wrappedTable.factory.databaseName) == null)
+                    {
+                        //check if base datatype found
+                        e.Effect = DragDropEffects.None;
+                        e.InfoMessage = $"No technical datatype found for {targetTable.wrappedTable.factory.databaseName}";
+                    }
+                    else if (string.IsNullOrEmpty(dataItem.Label))
+                    {
+                        //check if data item has label
+                        e.Effect = DragDropEffects.None;
+                        e.InfoMessage = "Data Item has no label";
+                    }
+                    else
+                    {
+                        e.Effect = DragDropEffects.Link;
+                        e.InfoMessage = "Create new column";
+                    }
                 }
                 else if (targetColumn != null)
                 {
