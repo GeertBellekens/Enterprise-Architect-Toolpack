@@ -195,7 +195,7 @@ namespace EAMapping
         public override void EA_FileOpen(EA.Repository Repository)
         {
             // initialize the model
-            this.model = new TSF_EA.Model(Repository);
+            this.model = new TSF_EA.Model(Repository, true);
             // indicate that we are now fully loaded
             this.fullyLoaded = true;
         }
