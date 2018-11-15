@@ -12,6 +12,7 @@ using DB_EA = EAAddinFramework.Databases;
 
 using EAAddinFramework;
 using EAAddinFramework.Utilities;
+using EA;
 
 namespace GlossaryManager
 {
@@ -333,7 +334,15 @@ namespace GlossaryManager
                 //    break;
             }
         }
-
+        /// <summary>
+        /// return the MDG content for the EDD MDG (so it doesn't have to be loaded separately
+        /// </summary>
+        /// <param name="Repository"></param>
+        /// <returns>the MDG file contents</returns>
+        public override object EA_OnInitializeTechnologies(Repository Repository)
+        {
+            return Properties.Resources.EDD_MDG;
+        }
 
         /// <summary>
         /// open the settign form

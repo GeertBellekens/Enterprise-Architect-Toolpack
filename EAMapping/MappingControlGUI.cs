@@ -36,6 +36,7 @@ namespace EAMapping
         {
             var detailsControl = new MappingDetailsControl();
             detailsControl.mappingDeleted += this.mappingDeleted;
+            detailsControl.mapping_Enter += this.mappingEnter;
             detailsControl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             detailsControl.BorderStyle = BorderStyle.FixedSingle;
             detailsControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -43,6 +44,14 @@ namespace EAMapping
             detailsControl.Hide();
             this.mappingDetailControls.Add(detailsControl);
             this.mappingPanel.Controls.Add(detailsControl,0,i );
+        }
+
+        private void mappingEnter(object sender, EventArgs e)
+        {
+            var detailsControl = sender as MappingDetailsControl;
+            var mapping = detailsControl.mapping;
+            this.sourceTreeView.Reveal(mapping.source, false);
+            this.targetTreeView.Reveal(mapping.target, false);
         }
 
         private void mappingDeleted(object sender, EventArgs e)

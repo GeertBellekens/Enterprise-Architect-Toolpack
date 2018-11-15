@@ -114,6 +114,7 @@
             this.Controls.Add(this.fromLabel);
             this.Name = "MappingDetailsControl";
             this.Size = new System.Drawing.Size(221, 153);
+            this.Enter += new System.EventHandler(this.MappingDetailsControl_Enter);
             this.ResumeLayout(false);
             this.PerformLayout();
 

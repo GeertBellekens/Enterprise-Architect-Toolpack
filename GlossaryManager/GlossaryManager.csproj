@@ -220,5 +220,8 @@
   <ItemGroup>
     <None Include="Files\linkedDataItemsLeft.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Files\EDD MDG.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

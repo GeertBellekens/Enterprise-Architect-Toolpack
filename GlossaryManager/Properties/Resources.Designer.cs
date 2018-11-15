@@ -61,6 +61,17 @@ namespace GlossaryManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;windows-1252&quot;?&gt;
+        ///&lt;MDG.Technology version=&quot;1.0&quot;&gt;&lt;Documentation id=&quot;EDD&quot; name=&quot;EDD&quot; version=&quot;1&quot; notes=&quot;Elements for defining an Enterprise Data Dictionary&quot; infoURI=&quot;https://bellekens.com/enterprise-data-dictionary&quot; supportURI=&quot;https://bellekens.com&quot;/&gt;&lt;Logo&gt;&lt;Image type=&quot;bitmap&quot; xmlns:dt=&quot;urn:schemas-microsoft-com:datatypes&quot; dt:dt=&quot;bin.base64&quot;&gt;Qk0+uwAAAAAAADYAAAAoAAAAfgAAAH4AAAABABgAAAAAAAi7AADEDgAAxA4AAAAAAAAAAAAA
+        ///////////////////////////////////////////////////////////////////// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EDD_MDG {
+            get {
+                return ResourceManager.GetString("EDD_MDG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap findTable {

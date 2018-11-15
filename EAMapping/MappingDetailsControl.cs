@@ -55,5 +55,10 @@ namespace EAMapping
         {
             this.mappingDeleted?.Invoke(this, e);
         }
+        public event EventHandler mapping_Enter;
+        private void MappingDetailsControl_Enter(object sender, EventArgs e)
+        {
+            this.mapping_Enter?.Invoke(this, e);
+        }
     }
 }
