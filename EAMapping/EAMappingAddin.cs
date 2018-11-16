@@ -56,27 +56,42 @@ namespace EAMapping
                 menuMapAsSource,
             };
         }
-        private MappingControlGUI mappingControl
+        public MappingControlGUI mappingControl
         {
             get
             {
                 if (this._mappingControl == null
                    && this.model != null)
                 {
-                    this._mappingControl = this.model.addTab(mappingControlName, "EAMapping.MappingControlGUI") as MappingControlGUI;
-                    this._mappingControl.HandleDestroyed += this.mappingControl_HandleDestroyed;
-                    this._mappingControl.selectNewMappingTarget += this.mappingControl_SelectNewMappingTarget;
-                    this._mappingControl.selectNewMappingSource += this.mappingControl_SelectNewMappingSource;
-                    this._mappingControl.exportMappingSet += this.mappingControl_ExportMappingSet;
-                    this._mappingControl.sourceToTargetDropped += this.mappingControl_sourceToTargetDropped;
-                    this._mappingControl.targetToSourceDropped += this.mappingControl_targetToSourceDropped;
+                    this._mappingControl = this.GetMappingControl();
+                    this.setupMappingControlEvents();
                 }
                 return this._mappingControl;
             }
+            set
+            {
+                this._mappingControl = value;
+                this.setupMappingControlEvents();
+            }
+        }
+
+        private void setupMappingControlEvents()
+        {
+            this._mappingControl.HandleDestroyed += this.mappingControl_HandleDestroyed;
+            this._mappingControl.selectNewMappingTarget += this.mappingControl_SelectNewMappingTarget;
+            this._mappingControl.selectNewMappingSource += this.mappingControl_SelectNewMappingSource;
+            this._mappingControl.exportMappingSet += this.mappingControl_ExportMappingSet;
+            this._mappingControl.sourceToTargetDropped += this.mappingControl_sourceToTargetDropped;
+            this._mappingControl.targetToSourceDropped += this.mappingControl_targetToSourceDropped;
+        }
+
+        protected MappingControlGUI GetMappingControl()
+        {
+            return this.model.addTab(mappingControlName, "EAMapping.MappingControlGUI") as MappingControlGUI;
         }
 
         private void mappingControl_sourceToTargetDropped(object sender, ModelDropEventArgs e)
-        {            
+        {
             handleNodeDropped(e, false);
         }
         private void mappingControl_targetToSourceDropped(object sender, ModelDropEventArgs e)
@@ -84,17 +99,17 @@ namespace EAMapping
             handleNodeDropped(e, true);
         }
 
-        private static void handleNodeDropped(ModelDropEventArgs e,bool reverse)
+        private static void handleNodeDropped(ModelDropEventArgs e, bool reverse)
         {
             //handle exceptions as otherwise the treeview will swallow them
             try
             {
-                var sourceNode = reverse ? 
-                    e.TargetModel as MappingNode : 
+                var sourceNode = reverse ?
+                    e.TargetModel as MappingNode :
                     e.SourceModels.Cast<object>().FirstOrDefault() as MappingNode;
                 var targetNode = reverse ?
                     e.SourceModels.Cast<object>().FirstOrDefault() as MappingNode :
-                    e.TargetModel as MappingNode; 
+                    e.TargetModel as MappingNode;
                 if (targetNode != null && sourceNode != null)
                 {
                     sourceNode.mapTo(targetNode);
@@ -108,12 +123,16 @@ namespace EAMapping
 
         private void mappingControl_SelectNewMappingSource(object sender, EventArgs e)
         {
+            this.selectAndLoadNewMappingSource(true);
+        }
+        public void selectAndLoadNewMappingSource(bool activateTab)
+        {
             //let the user select a new root
             var newSourceElement = this.model.getUserSelectedElement(new List<string>() { "Class", "Package" }) as TSF_EA.ElementWrapper;
             //create the mapping set
             var mappingSet = EA_MP.MappingFactory.createMappingSet(newSourceElement, this.settings);
             //load the mapping set
-            this.loadMapping(mappingSet);
+            this.loadMapping(mappingSet, activateTab);
         }
 
         private void mappingControl_SelectNewMappingTarget(object sender, EventArgs e)
@@ -258,12 +277,17 @@ namespace EAMapping
         }
 
 
-        void loadMapping(MappingFramework.MappingSet mappingSet)
+        void loadMapping(MappingFramework.MappingSet mappingSet, bool activateTab = true)
         {
             if (mappingSet != null)
             {
+                //load mappingSet in control
                 this.mappingControl.loadMappingSet(mappingSet);
-                this.model.activateTab(mappingControlName);
+                //make sure the tab is visible
+                if (activateTab)
+                {
+                    this.model.activateTab(mappingControlName);
+                }
             }
         }
 

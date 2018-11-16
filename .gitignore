@@ -5,3 +5,5 @@ EANavigator_Setup/bin/Debug/EANavigator_Setup.wixpdb
 *.psess
 *.vspx
 *.vsp
+bin
+obj
