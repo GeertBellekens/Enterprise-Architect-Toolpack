@@ -279,6 +279,8 @@ namespace EAMapping
 
         void loadMapping(MappingFramework.MappingSet mappingSet, bool activateTab = true)
         {
+            //debug
+            Logger.log("Starting LoadMapping");
             if (mappingSet != null)
             {
                 //load mappingSet in control
@@ -289,6 +291,8 @@ namespace EAMapping
                     this.model.activateTab(mappingControlName);
                 }
             }
+            //debug
+            Logger.log("Finished LoadMapping");
         }
 
         void startImportMapping()
@@ -355,6 +359,7 @@ namespace EAMapping
         private MappingSet getCurrentMappingSet()
         {
             var selectedElement = this.model.selectedElement as TSF_EA.ElementWrapper;
+
             return selectedElement != null ? EA_MP.MappingFactory.createMappingSet(selectedElement, this.settings) : null;
         }
 
