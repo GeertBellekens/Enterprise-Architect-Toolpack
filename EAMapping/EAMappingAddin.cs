@@ -129,10 +129,20 @@ namespace EAMapping
         {
             //let the user select a new root
             var newSourceElement = this.model.getUserSelectedElement(new List<string>() { "Class", "Package" }) as TSF_EA.ElementWrapper;
+            //stop if nothing was selected
+            if (newSourceElement == null)
+            {
+                return;
+            }
+            //log progress
+            this.clearOutput();
+            EAOutputLogger.log(this.model, this.settings.outputName, $"Start Loading Mapping for {newSourceElement.name}", newSourceElement.id);
             //create the mapping set
             var mappingSet = EA_MP.MappingFactory.createMappingSet(newSourceElement, this.settings);
             //load the mapping set
             this.loadMapping(mappingSet, activateTab);
+            //log progress
+            EAOutputLogger.log($"Finished Loading Mapping for {newSourceElement.name}", newSourceElement.id);
         }
 
         private void mappingControl_SelectNewMappingTarget(object sender, EventArgs e)
@@ -170,30 +180,9 @@ namespace EAMapping
             }
         }
 
-        void mappingControl_CreateMapping(Mapping mapping)
-        {
-            MessageBox.Show("TODO EAMappingAddin::CreateMapping: " + mapping);
-        }
-
-        void mappingControl_DeleteMapping(Mapping mapping)
-        {
-            MessageBox.Show("TODO EAMappingAddin::DeleteMapping: " + mapping);
-        }
-
-        void mappingControl_EditMappingLogic(Mapping mapping)
-        {
-            MessageBox.Show("TODO EAMappingAddin::EditMappingLogic: " + mapping);
-        }
-
-        void mappingControl_DeleteMappingLogic(Mapping mapping)
-        {
-            MessageBox.Show("TODO EAMappingAddin::DeleteMappingLogic: " + mapping);
-        }
-
-
         void mappingControl_ExportMappingSet(object sender, EventArgs e)
         {
-            MappingSet mappingSet = sender as MappingSet;
+            var mappingSet = sender as MappingSet;
             //let the user select a file
             var browseExportFileDialog = new SaveFileDialog();
             browseExportFileDialog.Title = "Save export file";
@@ -202,9 +191,12 @@ namespace EAMapping
             var dialogResult = browseExportFileDialog.ShowDialog(this.model.mainEAWindow);
             if (dialogResult == DialogResult.OK)
             {
-                EA_MP.MappingFactory.exportMappingSet((EA_MP.MappingSet)mappingSet, browseExportFileDialog.FileName);
+                var filePath = browseExportFileDialog.FileName;
+                //export to file
+                EA_MP.MappingFactory.exportMappingSet((EA_MP.MappingSet)mappingSet, filePath);
+                //open the exported file
+                System.Diagnostics.Process.Start(filePath);
             }
-
         }
 
         void mappingControl_HandleDestroyed(object sender, EventArgs e)
@@ -277,10 +269,8 @@ namespace EAMapping
         }
 
 
-        void loadMapping(MappingFramework.MappingSet mappingSet, bool activateTab = true)
+        void loadMapping(MappingSet mappingSet, bool activateTab = true)
         {
-            //debug
-            Logger.log("Starting LoadMapping");
             if (mappingSet != null)
             {
                 //load mappingSet in control
@@ -291,8 +281,6 @@ namespace EAMapping
                     this.model.activateTab(mappingControlName);
                 }
             }
-            //debug
-            Logger.log("Finished LoadMapping");
         }
 
         void startImportMapping()
@@ -359,8 +347,17 @@ namespace EAMapping
         private MappingSet getCurrentMappingSet()
         {
             var selectedElement = this.model.selectedElement as TSF_EA.ElementWrapper;
-
-            return selectedElement != null ? EA_MP.MappingFactory.createMappingSet(selectedElement, this.settings) : null;
+            if (selectedElement == null)
+            {
+                return null;
+            }
+            //log progress
+            this.clearOutput();
+            EAOutputLogger.log(this.model, this.settings.outputName, $"Start Loading Mapping for {selectedElement.name}", selectedElement.id);
+            var mappingSet = EA_MP.MappingFactory.createMappingSet(selectedElement, this.settings);
+            //log progress
+            EAOutputLogger.log($"Finished Loading Mapping for {selectedElement.name}", selectedElement.id);
+            return mappingSet;
         }
 
         // Cobol Copybook support

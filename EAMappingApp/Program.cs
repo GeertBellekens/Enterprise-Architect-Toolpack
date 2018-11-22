@@ -25,7 +25,6 @@ namespace EAMappingApp
             mappingAddin.mappingControl = mappingForm.mappingControlGUI;
             mappingAddin.selectAndLoadNewMappingSource(false);
 
-
             Application.Run(mappingForm);
         }
     }
