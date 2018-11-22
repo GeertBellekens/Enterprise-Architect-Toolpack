@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using FileHelpers;
+
 
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
@@ -82,17 +82,13 @@ namespace GlossaryManager
         public static List<T> Load<T>(string file)
         where T : GlossaryItem
         {
-            var engine = new FileHelperEngine<T>();
-            engine.HeaderText = engine.GetFileHeader();
-            return engine.ReadFile(file).ToList();
+            throw new NotImplementedException();
         }
 
         public static void Save<T>(string file, List<T> items)
           where T : GlossaryItem
         {
-            var engine = new FileHelperEngine<T>();
-            engine.HeaderText = engine.GetFileHeader();
-            engine.WriteFile(file, items);
+            throw new NotImplementedException();
         }
 
         public override string ToString()
@@ -203,40 +199,4 @@ namespace GlossaryManager
     }
 }
 
-public class StringListConverter : ConverterBase
-{
-    public override object StringToField(string from)
-    {
-        if (from == null)
-        {
-            return new List<string>();
-        }
-        return from.Split(',').ToList();
-    }
 
-    public override string FieldToString(object fieldValue)
-    {
-        return string.Join(",", (List<string>)fieldValue);
-    }
-
-    // we want to handle null values
-    protected override bool CustomNullHandling { get { return true; } }
-}
-
-// anything except nothing is true ;-)
-public class BoolConverter : ConverterBase
-{
-    public override object StringToField(string delete)
-    {
-        if (delete != null && delete.Length > 0) { return true; }
-        return false;
-    }
-
-    public override string FieldToString(object fieldValue)
-    {
-        return "";
-    }
-
-    // we want to handle null values
-    protected override bool CustomNullHandling { get { return true; } }
-}
