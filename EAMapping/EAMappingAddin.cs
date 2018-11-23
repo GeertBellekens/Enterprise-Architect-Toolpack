@@ -125,25 +125,7 @@ namespace EAMapping
         {
             this.selectAndLoadNewMappingSource(true);
         }
-        public void selectAndLoadNewMappingSource(bool activateTab)
-        {
-            //let the user select a new root
-            var newSourceElement = this.model.getUserSelectedElement(new List<string>() { "Class", "Package" }) as TSF_EA.ElementWrapper;
-            //stop if nothing was selected
-            if (newSourceElement == null)
-            {
-                return;
-            }
-            //log progress
-            this.clearOutput();
-            EAOutputLogger.log(this.model, this.settings.outputName, $"Start Loading Mapping for {newSourceElement.name}", newSourceElement.id);
-            //create the mapping set
-            var mappingSet = EA_MP.MappingFactory.createMappingSet(newSourceElement, this.settings);
-            //load the mapping set
-            this.loadMapping(mappingSet, activateTab);
-            //log progress
-            EAOutputLogger.log($"Finished Loading Mapping for {newSourceElement.name}", newSourceElement.id);
-        }
+
 
         private void mappingControl_SelectNewMappingTarget(object sender, EventArgs e)
         {
@@ -251,7 +233,7 @@ namespace EAMapping
             switch (ItemName)
             {
                 case menuMapAsSource:
-                    this.loadMapping(this.getCurrentMappingSet());
+                    this.loadMapping(this.getMappingSet(this.model.selectedElement as TSF_EA.ElementWrapper));
                     break;
                 case menuAbout:
                     new AboutWindow().ShowDialog(this.model.mainEAWindow);
@@ -317,8 +299,25 @@ namespace EAMapping
             var importDialog = sender as ImportMappingForm;
             if (importDialog != null)
             {
-                var mappingSet = EA_MP.MappingFactory.createMappingSet(this.model, importDialog.importFilePath, this.settings
-                                                      , (TSF_EA.ElementWrapper)importDialog.sourcePathElement, (TSF_EA.ElementWrapper)importDialog.targetPathElement);
+                //first get the existing mappingSet for the selected source and target
+                var mappingSet = EA_MP.MappingFactory.createMappingSet((TSF_EA.ElementWrapper)importDialog.sourcePathElement
+                                                , (TSF_EA.ElementWrapper)importDialog.targetPathElement, this.settings);
+                if (mappingSet.mappings.Any())
+                {
+                    var result = MessageBox.Show(model.mainEAWindow
+                        , $"Found {mappingSet.mappings.Count()} existing mappings.{Environment.NewLine}" +
+                        $"Are you sure you want to remove all mappings and continue the import?"
+                        ,"Existing Mappings"
+                        , MessageBoxButtons.YesNo
+                        ,MessageBoxIcon.Warning);
+                    if (result == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+                //import the mappings
+                EA_MP.MappingFactory.importMappings(mappingSet, importDialog.importFilePath);
+                //load the mappings
                 if (mappingSet != null)
                 {
                     this.loadMapping(mappingSet);
@@ -344,19 +343,60 @@ namespace EAMapping
         {
             return this.model.getUserSelectedElement(new List<string> { "Class", "Package" }) as TSF_EA.Element;
         }
-        private MappingSet getCurrentMappingSet()
+        public void selectAndLoadNewMappingSource(bool activateTab)
         {
-            var selectedElement = this.model.selectedElement as TSF_EA.ElementWrapper;
-            if (selectedElement == null)
+            //let the user select a new root
+            var newSourceElement = this.model.getUserSelectedElement(new List<string>() { "Class", "Package" }) as TSF_EA.ElementWrapper;
+            //stop if nothing was selected
+            if (newSourceElement == null)
+            {
+                return;
+            }
+            //create the mapping set
+            var mappingSet = getMappingSet(newSourceElement);
+            //load the mapping set
+            this.loadMapping(mappingSet, activateTab);
+        }
+        private MappingSet getMappingSet(TSF_EA.ElementWrapper sourceRoot)
+        {
+            if (sourceRoot == null)
             {
                 return null;
             }
+            //get target mapping root
+            TSF_EA.ElementWrapper targetRootElement = null;
+            var traces = sourceRoot.getRelationships<TSF_EA.Abstraction>().Where(x => x.source.uniqueID == sourceRoot.uniqueID
+                                                                                        && (x.target is TSF_EA.Class || x.target is TSF_EA.Package)
+                                                                                       && x.stereotypes.Any(y => y.name == "trace"));
+            if (traces.Count() == 1)
+            {
+                targetRootElement = traces.First().target as TSF_EA.ElementWrapper;
+            }
+            else if (traces.Count() > 1)
+            {
+                //let the user select the trace element
+                var selectTargetForm = new SelectTargetForm();
+                //set items
+                selectTargetForm.setItems(traces.Select(x => x.target));
+                //show form
+                var dialogResult = selectTargetForm.ShowDialog(this.model.mainEAWindow);
+                if (dialogResult == DialogResult.Cancel)
+                {
+                    return null;
+                }
+                targetRootElement = selectTargetForm.selectedItem as TSF_EA.ElementWrapper;
+            }
             //log progress
             this.clearOutput();
-            EAOutputLogger.log(this.model, this.settings.outputName, $"Start Loading Mapping for {selectedElement.name}", selectedElement.id);
-            var mappingSet = EA_MP.MappingFactory.createMappingSet(selectedElement, this.settings);
             //log progress
-            EAOutputLogger.log($"Finished Loading Mapping for {selectedElement.name}", selectedElement.id);
+            var startTime = DateTime.Now;
+            EAOutputLogger.log($"Start loading mapping for {sourceRoot.name}", sourceRoot.id);
+            //create the mapping set
+            var mappingSet = EA_MP.MappingFactory.createMappingSet(sourceRoot, targetRootElement, this.settings);
+            //log progress
+            var endTime = DateTime.Now;
+            var processingTime = (endTime - startTime).TotalSeconds;
+            EAOutputLogger.log($"Finished loading mapping for {sourceRoot.name} in {processingTime.ToString("N0")} seconds", sourceRoot.id);
             return mappingSet;
         }
 
