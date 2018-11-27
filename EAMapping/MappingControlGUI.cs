@@ -352,8 +352,13 @@ namespace EAMapping
                 && sourceNode != topNode
                 && !sourceNode.isChildOf(topNode))
             {
+                if (sourceNode.isReadOnly)
+                {
+                    e.Effect = DragDropEffects.None;
+                    e.InfoMessage = "Source item is read-only!";
+                }
                 //make sure that they are not already mapped
-                if  ( sourceNode.mappings.Any (x => x.target == targetNode && x.source == sourceNode
+                else if( sourceNode.mappings.Any (x => x.target == targetNode && x.source == sourceNode
                                                 || x.target == sourceNode && x.source == targetNode))
                 {
                     e.Effect = DragDropEffects.None;

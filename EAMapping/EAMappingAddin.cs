@@ -365,8 +365,7 @@ namespace EAMapping
             }
             //get target mapping root
             TSF_EA.ElementWrapper targetRootElement = null;
-            var traces = sourceRoot.getRelationships<TSF_EA.Abstraction>().Where(x => x.source.uniqueID == sourceRoot.uniqueID
-                                                                                        && (x.target is TSF_EA.Class || x.target is TSF_EA.Package)
+            var traces = sourceRoot.getRelationships<TSF_EA.Abstraction>(true, false).Where(x => (x.target is TSF_EA.Class || x.target is TSF_EA.Package)
                                                                                        && x.stereotypes.Any(y => y.name == "trace"));
             if (traces.Count() == 1)
             {

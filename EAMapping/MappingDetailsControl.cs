@@ -24,6 +24,12 @@ namespace EAMapping
                                     "<none>" 
                                     : this._mapping?.target?.name;
             this.mappingLogicTextBox.Text = this._mapping?.mappingLogicDescription;
+            enableDisable();
+        }
+        private void enableDisable()
+        {
+            //disable delete button when mapping is readonly
+            this.deleteButton.Enabled = this.mapping != null && !this._mapping.isReadOnly;
         }
 
         private MP.Mapping _mapping;
