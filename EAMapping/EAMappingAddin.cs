@@ -189,6 +189,8 @@ namespace EAMapping
         {
             // initialize the model
             this.model = new TSF_EA.Model(Repository, true);
+            //close any existing tabs
+            this.model.closeTab(mappingControlName);
             // indicate that we are now fully loaded
             this.fullyLoaded = true;
         }
@@ -297,32 +299,38 @@ namespace EAMapping
         {
             this.clearOutput();
             var importDialog = sender as ImportMappingForm;
-            if (importDialog != null)
+            var sourceElement = (TSF_EA.ElementWrapper)importDialog.sourcePathElement;
+            var targetElement = (TSF_EA.ElementWrapper)importDialog.targetPathElement;
+            if (sourceElement == null
+                || targetElement == null
+                || importDialog == null)
             {
-                //first get the existing mappingSet for the selected source and target
-                var mappingSet = EA_MP.MappingFactory.createMappingSet((TSF_EA.ElementWrapper)importDialog.sourcePathElement
-                                                , (TSF_EA.ElementWrapper)importDialog.targetPathElement, this.settings);
-                if (mappingSet.mappings.Any())
+                return;
+            }
+
+            //first get the existing mappingSet for the selected source and target
+            var mappingSet = EA_MP.MappingFactory.createMappingSet(sourceElement, targetElement, this.settings);
+            if (mappingSet.mappings.Any())
+            {
+                var result = MessageBox.Show(this.model.mainEAWindow
+                    , $"Found {mappingSet.mappings.Count()} existing mappings.{Environment.NewLine}" +
+                    $"Are you sure you want to remove all mappings and continue the import?"
+                    , "Existing Mappings"
+                    , MessageBoxButtons.YesNo
+                    , MessageBoxIcon.Warning);
+                if (result == DialogResult.No)
                 {
-                    var result = MessageBox.Show(model.mainEAWindow
-                        , $"Found {mappingSet.mappings.Count()} existing mappings.{Environment.NewLine}" +
-                        $"Are you sure you want to remove all mappings and continue the import?"
-                        ,"Existing Mappings"
-                        , MessageBoxButtons.YesNo
-                        ,MessageBoxIcon.Warning);
-                    if (result == DialogResult.No)
-                    {
-                        return;
-                    }
-                }
-                //import the mappings
-                EA_MP.MappingFactory.importMappings(mappingSet, importDialog.importFilePath);
-                //load the mappings
-                if (mappingSet != null)
-                {
-                    this.loadMapping(mappingSet);
+                    return;
                 }
             }
+            //import the mappings
+            EA_MP.MappingFactory.importMappings(mappingSet, importDialog.importFilePath);
+            //load the mappings
+            if (mappingSet != null)
+            {
+                this.loadMapping(mappingSet);
+            }
+
         }
         private void clearOutput()
         {
@@ -353,7 +361,7 @@ namespace EAMapping
                 return;
             }
             //create the mapping set
-            var mappingSet = getMappingSet(newSourceElement);
+            var mappingSet = this.getMappingSet(newSourceElement);
             //load the mapping set
             this.loadMapping(mappingSet, activateTab);
         }
