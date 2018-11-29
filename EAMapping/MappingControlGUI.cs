@@ -118,9 +118,9 @@ namespace EAMapping
             //tell the control which image to show
             ImageGetterDelegate imageGetter = delegate (object rowObject)
             {
-                if (rowObject is ClassifierMappingNode)
+                if (rowObject is ElementMappingNode)
                 {
-                    if (((ClassifierMappingNode)rowObject).source is UML.Classes.Kernel.Package)
+                    if (((ElementMappingNode)rowObject).source is UML.Classes.Kernel.Package)
                     {
                         return "packageNode";
                     }
