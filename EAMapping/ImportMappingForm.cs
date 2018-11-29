@@ -49,15 +49,15 @@ namespace EAMapping
         {
             this.Close();
         }
-        public event EventHandler SourcePathBrowseButtonClicked = delegate { };
+        public event EventHandler SourcePathBrowseButtonClicked;
         void SourcePathBrowseButtonClick(object sender, EventArgs e)
         {
-            SourcePathBrowseButtonClicked(this, e);
+            SourcePathBrowseButtonClicked?.Invoke(this, e);
         }
-        public event EventHandler TargetPathBrowseButtonClicked = delegate { };
+        public event EventHandler TargetPathBrowseButtonClicked;
         void TargetPathBrowseButtonClick(object sender, EventArgs e)
         {
-            TargetPathBrowseButtonClicked(this, e);
+            TargetPathBrowseButtonClicked?.Invoke(this, e);
         }
         void ImportFileTextBoxTextChanged(object sender, EventArgs e)
         {

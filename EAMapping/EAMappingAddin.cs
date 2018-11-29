@@ -38,6 +38,10 @@ namespace EAMapping
         private string[] mainMenuOptions;
         private string[] otherMenuOptions;
         /// <summary>
+        /// indicated whether or not the add-in is running embedded in EA
+        /// </summary>
+        public bool embedded { get; set; } = true;
+        /// <summary>
         /// constructor, set menu names
         /// </summary>
         public EAMappingAddin() : base()
@@ -123,7 +127,7 @@ namespace EAMapping
 
         private void mappingControl_SelectNewMappingSource(object sender, EventArgs e)
         {
-            this.selectAndLoadNewMappingSource(true);
+            this.selectAndLoadNewMappingSource();
         }
 
 
@@ -253,21 +257,24 @@ namespace EAMapping
         }
 
 
-        void loadMapping(MappingSet mappingSet, bool activateTab = true)
+        void loadMapping(MappingSet mappingSet)
         {
             if (mappingSet != null)
             {
                 //load mappingSet in control
                 this.mappingControl.loadMappingSet(mappingSet);
                 //make sure the tab is visible
-                if (activateTab)
+                if (this.embedded)
                 {
                     this.model.activateTab(mappingControlName);
                 }
             }
         }
-
-        void startImportMapping()
+        public void startImportMapping(object sender, EventArgs e)
+        {
+            startImportMapping();
+        }
+        private void startImportMapping()
         {
             var importDialog = new ImportMappingForm();
             var selectedElement = this.model.selectedElement as TSF_EA.Element;
@@ -295,7 +302,7 @@ namespace EAMapping
             return null;
         }
 
-        void importMapping(object sender, EventArgs e)
+        public void importMapping(object sender, EventArgs e)
         {
             this.clearOutput();
             var importDialog = sender as ImportMappingForm;
@@ -351,7 +358,7 @@ namespace EAMapping
         {
             return this.model.getUserSelectedElement(new List<string> { "Class", "Package" }) as TSF_EA.Element;
         }
-        public void selectAndLoadNewMappingSource(bool activateTab)
+        public void selectAndLoadNewMappingSource()
         {
             //let the user select a new root
             var newSourceElement = this.model.getUserSelectedElement(new List<string>() { "Class", "Package" }) as TSF_EA.ElementWrapper;
@@ -363,7 +370,7 @@ namespace EAMapping
             //create the mapping set
             var mappingSet = this.getMappingSet(newSourceElement);
             //load the mapping set
-            this.loadMapping(mappingSet, activateTab);
+            this.loadMapping(mappingSet);
         }
         private MappingSet getMappingSet(TSF_EA.ElementWrapper sourceRoot)
         {

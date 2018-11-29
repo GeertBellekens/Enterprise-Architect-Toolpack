@@ -18,5 +18,11 @@ namespace EAMappingApp
             InitializeComponent();
         }
         public MappingControlGUI mappingControlGUI => this._mappingControlGUI;
+
+        public event EventHandler importMappingClicked;
+        private void importMappingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            importMappingClicked?.Invoke(sender, e);
+        }
     }
 }

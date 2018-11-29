@@ -20,12 +20,15 @@ namespace EAMappingApp
 
             var model = new TSF_EA.Model();
             var mappingAddin = new EAMapping.EAMappingAddin();
+            mappingAddin.embedded = false;
             mappingAddin.EA_FileOpen(model.wrappedModel);
             var mappingForm = new MappingForm();
+            mappingForm.importMappingClicked += mappingAddin.startImportMapping;
             mappingAddin.mappingControl = mappingForm.mappingControlGUI;
-            mappingAddin.selectAndLoadNewMappingSource(false);
+            mappingAddin.selectAndLoadNewMappingSource();
 
             Application.Run(mappingForm);
         }
+
     }
 }

@@ -32,9 +32,9 @@
             this.elementsListView = new BrightIdeasSoftware.ObjectListView();
             this.nameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.ownerColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.fqnColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.fqnColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.elementsListView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,7 +66,6 @@
             // nameColumn
             // 
             this.nameColumn.AspectName = "name";
-            this.nameColumn.FillsFreeSpace = true;
             this.nameColumn.Text = "Name";
             this.nameColumn.Width = 200;
             // 
@@ -75,6 +74,12 @@
             this.ownerColumn.AspectName = "owner.name";
             this.ownerColumn.Text = "Owner";
             this.ownerColumn.Width = 200;
+            // 
+            // fqnColumn
+            // 
+            this.fqnColumn.AspectName = "fqn";
+            this.fqnColumn.FillsFreeSpace = true;
+            this.fqnColumn.Text = "FQN";
             // 
             // okButton
             // 
@@ -100,11 +105,6 @@
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-            // 
-            // fqnColumn
-            // 
-            this.fqnColumn.AspectName = "fqn";
-            this.fqnColumn.Text = "FQN";
             // 
             // SelectTargetForm
             // 
