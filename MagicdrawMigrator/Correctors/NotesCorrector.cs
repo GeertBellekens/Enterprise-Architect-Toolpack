@@ -17,7 +17,7 @@ namespace MagicdrawMigrator
 		string packageTreeIDString;
 		public NotesCorrector(MagicDrawReader magicDrawReader, TSF_EA.Model model, TSF_EA.Package mdPackage):base(magicDrawReader,model,mdPackage)
 		{
-			packageTreeIDString = mdPackage.getPackageTreeIDString();
+			packageTreeIDString = mdPackage.packageTreeIDString;
 		}
 		
 		

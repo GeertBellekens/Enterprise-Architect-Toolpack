@@ -193,7 +193,6 @@ namespace EAMapping
             // sourceColumn
             // 
             this.sourceColumn.AspectName = "displayName";
-            this.sourceColumn.FillsFreeSpace = true;
             this.sourceColumn.Hideable = false;
             this.sourceColumn.Text = "Source Model";
             this.sourceColumn.Width = 260;
@@ -207,6 +206,7 @@ namespace EAMapping
             // 
             this.sourceExpandColumn.AspectName = "showAll";
             this.sourceExpandColumn.CheckBoxes = true;
+            this.sourceExpandColumn.FillsFreeSpace = true;
             this.sourceExpandColumn.HeaderCheckBox = true;
             this.sourceExpandColumn.HeaderCheckBoxUpdatesRowCheckBoxes = false;
             this.sourceExpandColumn.Text = "Expand";
@@ -286,7 +286,6 @@ namespace EAMapping
             // targetColumn
             // 
             this.targetColumn.AspectName = "displayName";
-            this.targetColumn.FillsFreeSpace = true;
             this.targetColumn.Text = "Target Model";
             this.targetColumn.Width = 290;
             // 
@@ -299,6 +298,7 @@ namespace EAMapping
             // 
             this.targetExpandedColumn.AspectName = "showAll";
             this.targetExpandedColumn.CheckBoxes = true;
+            this.targetExpandedColumn.FillsFreeSpace = true;
             this.targetExpandedColumn.HeaderCheckBox = true;
             this.targetExpandedColumn.HeaderCheckBoxUpdatesRowCheckBoxes = false;
             this.targetExpandedColumn.Text = "Expand";

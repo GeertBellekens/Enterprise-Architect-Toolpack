@@ -27,7 +27,7 @@ namespace MagicdrawMigrator
 	                  ,LogTypeEnum.log);
 			
 
-			string packageString = mdPackage.getPackageTreeIDString();
+			string packageString = mdPackage.packageTreeIDString;
 			this.model.executeSQL(@"delete from t_xref
 			                      where [XrefID] in
 									(select x.[XrefID] from (t_xref x 

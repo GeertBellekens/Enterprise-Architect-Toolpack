@@ -30,7 +30,7 @@ namespace MagicdrawMigrator
 			string getMessageAssembliesSQL = "select o.Object_ID from t_object o"
 											+ " where o.Stereotype = 'MA'"
 											+ " and o.Object_Type = 'Class'"
-				+ " and o.Package_ID in (" + mdPackage.getPackageTreeIDString() + ")";
+				+ " and o.Package_ID in (" + mdPackage.packageTreeIDString + ")";
 			var messageAssemblies = this.model.getElementWrappersByQuery(getMessageAssembliesSQL);
 			foreach (var messageAssembly in messageAssemblies) 
 			{

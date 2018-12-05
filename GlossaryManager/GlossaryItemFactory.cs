@@ -60,7 +60,7 @@ namespace GlossaryManager
                                         + $" where {nameClause} "
                                         + $" and {descriptionClause} "
                                         + $" and o.[Stereotype] = '{dummy.Stereotype}' "
-                                        + $" and o.[Package_ID] in ({ package.getPackageTreeIDString()})";
+                                        + $" and o.[Package_ID] in ({ package.packageTreeIDString})";
             return this.getGlossaryItemsFromQuery<T>(sqlGetGlossaryItems);
         }
         public List<T> getGlossaryItemsFromQuery<T>(string query) where T : GlossaryItem, new()
