@@ -84,6 +84,7 @@
             this.mappingLogicTextBox.Location = new System.Drawing.Point(38, 57);
             this.mappingLogicTextBox.Multiline = true;
             this.mappingLogicTextBox.Name = "mappingLogicTextBox";
+            this.mappingLogicTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.mappingLogicTextBox.Size = new System.Drawing.Size(177, 91);
             this.mappingLogicTextBox.TabIndex = 4;
             this.mappingLogicTextBox.TextChanged += new System.EventHandler(this.mappingLogicTextBox_TextChanged);
