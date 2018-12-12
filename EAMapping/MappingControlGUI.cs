@@ -296,7 +296,7 @@ namespace EAMapping
             var parent = ((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl;
             if (parent == this.sourceTreeView)
             {
-                this.selectedSourceNode.createEmptyMapping(this.targetTreeView.Objects.Cast<MappingNode>().FirstOrDefault());
+                this.selectedSourceNode.createEmptyMapping();
             }
         }
 

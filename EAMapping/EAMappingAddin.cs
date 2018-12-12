@@ -330,13 +330,18 @@ namespace EAMapping
                     return;
                 }
             }
+            var filePath = importDialog.importFilePath;
+            //let the user know
+            EAOutputLogger.log($"Start importing mappings from file: {filePath}");
             //import the mappings
-            EA_MP.MappingFactory.importMappings(mappingSet, importDialog.importFilePath);
+            EA_MP.MappingFactory.importMappings(mappingSet,filePath);
             //load the mappings
             if (mappingSet != null)
             {
                 this.loadMapping(mappingSet);
             }
+            //let the user know
+            EAOutputLogger.log($"Finished importing mappings from file: {filePath}");
 
         }
         private void clearOutput()
