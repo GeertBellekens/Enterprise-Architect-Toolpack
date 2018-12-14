@@ -57,21 +57,24 @@ namespace EAMapping
             this.inlineMappingLogicRadio = new System.Windows.Forms.RadioButton();
             this.mappingLogicElementRadio = new System.Windows.Forms.RadioButton();
             this.linkTagNamesGroupBox = new System.Windows.Forms.GroupBox();
+            this.elementTagLabel = new System.Windows.Forms.Label();
+            this.elementTagTextBox = new System.Windows.Forms.TextBox();
             this.associationTagLabel = new System.Windows.Forms.Label();
             this.associationTagTextBox = new System.Windows.Forms.TextBox();
             this.attributeTagLabel = new System.Windows.Forms.Label();
             this.attributeTagTextBox = new System.Windows.Forms.TextBox();
-            this.elementTagLabel = new System.Windows.Forms.Label();
-            this.elementTagTextBox = new System.Windows.Forms.TextBox();
+            this.contextGroupBox = new System.Windows.Forms.GroupBox();
+            this.contextQueryTextBox = new System.Windows.Forms.TextBox();
             this.linkTypeGroupBox.SuspendLayout();
             this.mappingLogicGroupBox.SuspendLayout();
             this.linkTagNamesGroupBox.SuspendLayout();
+            this.contextGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // applyButton
             // 
             this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.applyButton.Location = new System.Drawing.Point(408, 225);
+            this.applyButton.Location = new System.Drawing.Point(408, 377);
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(75, 23);
             this.applyButton.TabIndex = 12;
@@ -83,7 +86,7 @@ namespace EAMapping
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(327, 225);
+            this.cancelButton.Location = new System.Drawing.Point(327, 377);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 11;
@@ -94,7 +97,7 @@ namespace EAMapping
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(246, 225);
+            this.okButton.Location = new System.Drawing.Point(246, 377);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 10;
@@ -190,10 +193,25 @@ namespace EAMapping
             this.linkTagNamesGroupBox.Controls.Add(this.attributeTagTextBox);
             this.linkTagNamesGroupBox.Location = new System.Drawing.Point(251, 12);
             this.linkTagNamesGroupBox.Name = "linkTagNamesGroupBox";
-            this.linkTagNamesGroupBox.Size = new System.Drawing.Size(233, 176);
+            this.linkTagNamesGroupBox.Size = new System.Drawing.Size(233, 204);
             this.linkTagNamesGroupBox.TabIndex = 15;
             this.linkTagNamesGroupBox.TabStop = false;
             this.linkTagNamesGroupBox.Text = "Link Tag Names";
+            // 
+            // elementTagLabel
+            // 
+            this.elementTagLabel.Location = new System.Drawing.Point(5, 116);
+            this.elementTagLabel.Name = "elementTagLabel";
+            this.elementTagLabel.Size = new System.Drawing.Size(100, 17);
+            this.elementTagLabel.TabIndex = 5;
+            this.elementTagLabel.Text = "Element Tag";
+            // 
+            // elementTagTextBox
+            // 
+            this.elementTagTextBox.Location = new System.Drawing.Point(5, 136);
+            this.elementTagTextBox.Name = "elementTagTextBox";
+            this.elementTagTextBox.Size = new System.Drawing.Size(222, 20);
+            this.elementTagTextBox.TabIndex = 4;
             // 
             // associationTagLabel
             // 
@@ -225,26 +243,37 @@ namespace EAMapping
             this.attributeTagTextBox.Size = new System.Drawing.Size(222, 20);
             this.attributeTagTextBox.TabIndex = 0;
             // 
-            // elementTagLabel
+            // contextGroupBox
             // 
-            this.elementTagLabel.Location = new System.Drawing.Point(5, 116);
-            this.elementTagLabel.Name = "elementTagLabel";
-            this.elementTagLabel.Size = new System.Drawing.Size(100, 17);
-            this.elementTagLabel.TabIndex = 5;
-            this.elementTagLabel.Text = "Element Tag";
+            this.contextGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.contextGroupBox.Controls.Add(this.contextQueryTextBox);
+            this.contextGroupBox.Location = new System.Drawing.Point(12, 225);
+            this.contextGroupBox.Name = "contextGroupBox";
+            this.contextGroupBox.Size = new System.Drawing.Size(472, 146);
+            this.contextGroupBox.TabIndex = 16;
+            this.contextGroupBox.TabStop = false;
+            this.contextGroupBox.Text = "Context Query";
             // 
-            // elementTagTextBox
+            // contextQueryTextBox
             // 
-            this.elementTagTextBox.Location = new System.Drawing.Point(5, 136);
-            this.elementTagTextBox.Name = "elementTagTextBox";
-            this.elementTagTextBox.Size = new System.Drawing.Size(222, 20);
-            this.elementTagTextBox.TabIndex = 4;
+            this.contextQueryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.contextQueryTextBox.Location = new System.Drawing.Point(6, 19);
+            this.contextQueryTextBox.Multiline = true;
+            this.contextQueryTextBox.Name = "contextQueryTextBox";
+            this.contextQueryTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.contextQueryTextBox.Size = new System.Drawing.Size(460, 121);
+            this.contextQueryTextBox.TabIndex = 0;
             // 
             // MappingSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(495, 260);
+            this.ClientSize = new System.Drawing.Size(495, 412);
+            this.Controls.Add(this.contextGroupBox);
             this.Controls.Add(this.linkTagNamesGroupBox);
             this.Controls.Add(this.mappingLogicGroupBox);
             this.Controls.Add(this.linkTypeGroupBox);
@@ -253,7 +282,6 @@ namespace EAMapping
             this.Controls.Add(this.okButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(511, 299);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(511, 299);
             this.Name = "MappingSettingsForm";
@@ -266,11 +294,15 @@ namespace EAMapping
             this.mappingLogicGroupBox.PerformLayout();
             this.linkTagNamesGroupBox.ResumeLayout(false);
             this.linkTagNamesGroupBox.PerformLayout();
+            this.contextGroupBox.ResumeLayout(false);
+            this.contextGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
 		}
 
         private System.Windows.Forms.Label elementTagLabel;
         private System.Windows.Forms.TextBox elementTagTextBox;
+        private System.Windows.Forms.GroupBox contextGroupBox;
+        private System.Windows.Forms.TextBox contextQueryTextBox;
     }
 }

@@ -95,6 +95,12 @@
     <Compile Include="MappingDetailsControl.Designer.cs">
       <DependentUpon>MappingDetailsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="MappingLogicControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MappingLogicControl.Designer.cs">
+      <DependentUpon>MappingLogicControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="MappingSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,9 @@
     <EmbeddedResource Include="MappingDetailsControl.resx">
       <DependentUpon>MappingDetailsControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MappingLogicControl.resx">
+      <DependentUpon>MappingLogicControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MappingSettingsForm.resx">
       <DependentUpon>MappingSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -159,6 +168,7 @@
   <ItemGroup>
     <None Include="EAMapping.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

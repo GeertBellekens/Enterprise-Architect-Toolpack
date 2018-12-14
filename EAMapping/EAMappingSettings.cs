@@ -69,6 +69,15 @@
             get => this.getValue("outputName");
             set => this.setValue("outputName", value);
         }
+        /// <summary>
+		/// the query to use when searching for context items
+		/// </summary>
+        public string contextQuery
+        {
+            get => this.getValue("contextQuery");
+            set => this.setValue("contextQuery", value);
+        }
+        
 
     }
 }

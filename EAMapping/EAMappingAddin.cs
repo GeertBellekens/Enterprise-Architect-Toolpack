@@ -334,7 +334,7 @@ namespace EAMapping
             //let the user know
             EAOutputLogger.log($"Start importing mappings from file: {filePath}");
             //import the mappings
-            EA_MP.MappingFactory.importMappings(mappingSet,filePath);
+            EA_MP.MappingFactory.importMappings(mappingSet,filePath, this.model);
             //load the mappings
             if (mappingSet != null)
             {

@@ -14,9 +14,12 @@ namespace EAMapping
 {
     public partial class MappingDetailsControl : UserControl
     {
+        private List<MappingLogicControl> mappingLogicControls = new List<MappingLogicControl>();
         public MappingDetailsControl()
         {
             InitializeComponent();
+            this.defaultMappingLogicControl.isDefault = true;
+            this.mappingLogicControls.Add(defaultMappingLogicControl);
         }
         private void loadContent()
         {
@@ -26,7 +29,12 @@ namespace EAMapping
                                     "<none>" 
                                     : this._mapping?.target?.name;
             this.toolTip.SetToolTip(this.toTextBox, ((MappingNode)this._mapping?.target)?.getMappingPathExportString());
-            this.mappingLogicTextBox.Text = this._mapping?.mappingLogicDescription;
+            if (this.mapping != null && this.mapping.mappingLogics.Any())
+            {
+                //TODO, add controls for each mapping
+                this.defaultMappingLogicControl.setContexts(((MappingSet)this.mapping.source.mappingSet).contexts);
+                this.defaultMappingLogicControl.mappingLogic = (MappingLogic)this.mapping.mappingLogics.First();
+            }
 
             enableDisable();
         }
@@ -35,7 +43,7 @@ namespace EAMapping
             //disable delete button when mapping is readonly
             var enable = this.mapping != null && !this._mapping.isReadOnly;
             this.deleteButton.Enabled = enable;
-            this.mappingLogicTextBox.ReadOnly = !enable;
+            //this.mappingLogicTextBox.ReadOnly = !enable;
         }
 
         private MP.Mapping _mapping;
@@ -54,12 +62,12 @@ namespace EAMapping
 
         private void mappingLogicTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (this.mapping != null
-                && this.mapping.mappingLogicDescription != mappingLogicTextBox.Text)
-            {
-                this.mapping.mappingLogicDescription = mappingLogicTextBox.Text;
-                this.mapping.save();
-            }
+            //if (this.mapping != null
+            //    && this.mapping.mappingLogicDescription != mappingLogicTextBox.Text)
+            //{
+            //    this.mapping.mappingLogicDescription = mappingLogicTextBox.Text;
+            //    this.mapping.save();
+            //}
         }
         public event EventHandler mappingDeleted;
         private void deleteButton_Click(object sender, EventArgs e)
@@ -70,6 +78,14 @@ namespace EAMapping
         private void MappingDetailsControl_Enter(object sender, EventArgs e)
         {
             this.mapping_Enter?.Invoke(this, e);
+        }
+
+        private void addLogicButton_Click(object sender, EventArgs e)
+        {
+            var mappingLogicControl = new MappingLogicControl();
+            this.mappingLogicControls.Add(mappingLogicControl);
+            this.mappingLogicPanel.Controls.Add(mappingLogicControl, 0, mappingLogicPanel.Controls.Count);
+            this.Height = this.Height + mappingLogicControl.Height;
         }
     }
 }

@@ -30,6 +30,7 @@ namespace EAMapping
 			attributeTagTextBox.Text = settings.linkedAttributeTagName;
 			associationTagTextBox.Text = settings.linkedAssociationTagName;
             elementTagTextBox.Text = settings.linkedElementTagName;
+            contextQueryTextBox.Text = settings.contextQuery;
         }
 		private void saveChanges()
 		{
@@ -41,6 +42,7 @@ namespace EAMapping
 			settings.linkedAttributeTagName = attributeTagTextBox.Text ;
 			settings.linkedAssociationTagName = associationTagTextBox.Text ;
             settings.linkedElementTagName = elementTagTextBox.Text;
+            settings.contextQuery = contextQueryTextBox.Text;
             this.settings.save();
 		}
 		private void enableDisable()
