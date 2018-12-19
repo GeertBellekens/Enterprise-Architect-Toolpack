@@ -226,7 +226,7 @@ namespace EAMapping
             // 
             this.rightSplitContainer.Panel2.Controls.Add(this.targetTreeView);
             this.rightSplitContainer.Size = new System.Drawing.Size(672, 533);
-            this.rightSplitContainer.SplitterDistance = 252;
+            this.rightSplitContainer.SplitterDistance = 265;
             this.rightSplitContainer.TabIndex = 0;
             // 
             // mappingPanel
@@ -240,7 +240,7 @@ namespace EAMapping
             this.mappingPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mappingPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mappingPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.mappingPanel.Size = new System.Drawing.Size(252, 533);
+            this.mappingPanel.Size = new System.Drawing.Size(265, 533);
             this.mappingPanel.TabIndex = 2;
             // 
             // targetTreeView
@@ -265,7 +265,7 @@ namespace EAMapping
             this.targetTreeView.Location = new System.Drawing.Point(0, 0);
             this.targetTreeView.Name = "targetTreeView";
             this.targetTreeView.ShowGroups = false;
-            this.targetTreeView.Size = new System.Drawing.Size(416, 533);
+            this.targetTreeView.Size = new System.Drawing.Size(403, 533);
             this.targetTreeView.SmallImageList = this.mappingNodeImageList;
             this.targetTreeView.TabIndex = 1;
             this.targetTreeView.UseCellFormatEvents = true;

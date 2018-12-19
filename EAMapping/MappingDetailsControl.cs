@@ -9,20 +9,22 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MP = MappingFramework;
 using EAAddinFramework.Mapping;
+using TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EAMapping
 {
     public partial class MappingDetailsControl : UserControl
     {
-        private List<MappingLogicControl> mappingLogicControls = new List<MappingLogicControl>();
+        public MappingLogicControl defaultMappingLogicControl { get; set; }
+        private List<ElementWrapper> contexts => ((MappingSet)this.mapping?.source.mappingSet).contexts ?? new List<ElementWrapper>();
+        private const int padding = 6;
         public MappingDetailsControl()
         {
             InitializeComponent();
-            this.defaultMappingLogicControl.isDefault = true;
-            this.mappingLogicControls.Add(defaultMappingLogicControl);
         }
         private void loadContent()
         {
+            this.clearContents();
             this.fromTextBox.Text = this._mapping?.source?.name;
             this.toolTip.SetToolTip(this.fromTextBox, ((MappingNode)this._mapping?.source)?.getMappingPathExportString());
             this.toTextBox.Text = this.mapping != null && this.mapping.isEmpty ? 
@@ -32,17 +34,34 @@ namespace EAMapping
             if (this.mapping != null && this.mapping.mappingLogics.Any())
             {
                 //TODO, add controls for each mapping
-                this.defaultMappingLogicControl.setContexts(((MappingSet)this.mapping.source.mappingSet).contexts);
-                this.defaultMappingLogicControl.mappingLogic = (MappingLogic)this.mapping.mappingLogics.First();
+                foreach (var mappingLogic in this.mapping.mappingLogics)
+                {
+                    var mappingLogicControl = this.addMappingLogicControl((MappingLogic)mappingLogic);
+                }
             }
+            else
+            {
+                //add empty mapping logic control
+                this.addEmptyMappingLogicControl();
 
+            }
             enableDisable();
+        }
+        private void clearContents()
+        {
+            this.fromTextBox.Text = string.Empty;
+            this.toolTip.SetToolTip(this.fromTextBox, string.Empty);
+            this.toTextBox.Text = string.Empty;
+            this.toolTip.SetToolTip(this.toTextBox, string.Empty);
+            this.mappingLogicPanel.Controls.Clear();
+            this.Height = 169; //default height
         }
         private void enableDisable()
         {
             //disable delete button when mapping is readonly
             var enable = this.mapping != null && !this._mapping.isReadOnly;
             this.deleteButton.Enabled = enable;
+            this.addLogicButton.Enabled = enable && this.contexts.Any();
             //this.mappingLogicTextBox.ReadOnly = !enable;
         }
 
@@ -60,14 +79,9 @@ namespace EAMapping
             }
         }
 
-        private void mappingLogicTextBox_TextChanged(object sender, EventArgs e)
+        private void mappingLogicTextChanged(object sender, EventArgs e)
         {
-            //if (this.mapping != null
-            //    && this.mapping.mappingLogicDescription != mappingLogicTextBox.Text)
-            //{
-            //    this.mapping.mappingLogicDescription = mappingLogicTextBox.Text;
-            //    this.mapping.save();
-            //}
+            this.mapping?.save();
         }
         public event EventHandler mappingDeleted;
         private void deleteButton_Click(object sender, EventArgs e)
@@ -82,10 +96,54 @@ namespace EAMapping
 
         private void addLogicButton_Click(object sender, EventArgs e)
         {
+            this.addEmptyMappingLogicControl();
+        }
+
+        private void addEmptyMappingLogicControl()
+        {
+            if (this.mapping != null)
+            {
+                var mappingLogic = new MappingLogic(string.Empty);
+                this.mapping.addMappingLogic(mappingLogic);
+                this.addMappingLogicControl(mappingLogic);
+            }
+        }
+
+        private MappingLogicControl addMappingLogicControl(MappingLogic logic )
+        {
             var mappingLogicControl = new MappingLogicControl();
-            this.mappingLogicControls.Add(mappingLogicControl);
+            mappingLogicControl.deleteButtonClicked += mappingLogicDeleteButtonClicked;
+            mappingLogicControl.mappingLogicTextChanged += mappingLogicTextChanged;
+            mappingLogicControl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            mappingLogicControl.BorderStyle = BorderStyle.FixedSingle;
+            mappingLogicControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            mappingLogicControl.TabIndex = mappingLogicPanel.Controls.Count;
+            mappingLogicControl.mappingLogic = logic;
+            mappingLogicControl.setContexts(this.contexts);
+            mappingLogicControl.Show();
+            if (mappingLogicPanel.Controls.Count >= 1)
+            {
+                this.Height = this.Height + mappingLogicControl.Height + padding;
+            }
             this.mappingLogicPanel.Controls.Add(mappingLogicControl, 0, mappingLogicPanel.Controls.Count);
-            this.Height = this.Height + mappingLogicControl.Height;
+            return mappingLogicControl;
+        }
+
+        private void mappingLogicDeleteButtonClicked(object sender, EventArgs e)
+        {
+            var control = (MappingLogicControl)sender;
+            this.mapping.removeMappingLogic(control.mappingLogic);
+            this.mapping.save();
+            this.removeMappingLogicControl(control);
+        }
+
+        private void removeMappingLogicControl(MappingLogicControl control)
+        {
+            if (this.mappingLogicPanel.Controls.Count > 1)
+            {
+                this.mappingLogicPanel.Controls.Remove(control);
+                this.Height = this.Height - (control.Height + padding);
+            }
         }
     }
 }

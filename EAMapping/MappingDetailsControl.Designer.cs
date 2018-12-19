@@ -37,8 +37,6 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.addLogicButton = new System.Windows.Forms.Button();
             this.mappingLogicPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.defaultMappingLogicControl = new EAMapping.MappingLogicControl();
-            this.mappingLogicPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // fromLabel
@@ -57,7 +55,7 @@
             this.fromTextBox.Location = new System.Drawing.Point(39, 5);
             this.fromTextBox.Name = "fromTextBox";
             this.fromTextBox.ReadOnly = true;
-            this.fromTextBox.Size = new System.Drawing.Size(176, 20);
+            this.fromTextBox.Size = new System.Drawing.Size(180, 20);
             this.fromTextBox.TabIndex = 1;
             // 
             // toTextBox
@@ -67,7 +65,7 @@
             this.toTextBox.Location = new System.Drawing.Point(38, 31);
             this.toTextBox.Name = "toTextBox";
             this.toTextBox.ReadOnly = true;
-            this.toTextBox.Size = new System.Drawing.Size(177, 20);
+            this.toTextBox.Size = new System.Drawing.Size(181, 20);
             this.toTextBox.TabIndex = 3;
             // 
             // toLabel
@@ -83,7 +81,7 @@
             // 
             this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.deleteButton.Image = global::EAMapping.Properties.Resources.delete;
-            this.deleteButton.Location = new System.Drawing.Point(6, 116);
+            this.deleteButton.Location = new System.Drawing.Point(6, 132);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(27, 32);
             this.deleteButton.TabIndex = 5;
@@ -94,7 +92,7 @@
             // addLogicButton
             // 
             this.addLogicButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addLogicButton.Location = new System.Drawing.Point(6, 81);
+            this.addLogicButton.Location = new System.Drawing.Point(6, 97);
             this.addLogicButton.Name = "addLogicButton";
             this.addLogicButton.Size = new System.Drawing.Size(27, 32);
             this.addLogicButton.TabIndex = 6;
@@ -107,26 +105,17 @@
             this.mappingLogicPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.mappingLogicPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.mappingLogicPanel.ColumnCount = 1;
-            this.mappingLogicPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.mappingLogicPanel.Controls.Add(this.defaultMappingLogicControl, 0, 0);
-            this.mappingLogicPanel.Location = new System.Drawing.Point(39, 54);
+            this.mappingLogicPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mappingLogicPanel.Location = new System.Drawing.Point(38, 54);
             this.mappingLogicPanel.Name = "mappingLogicPanel";
-            this.mappingLogicPanel.RowCount = 1;
-            this.mappingLogicPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.mappingLogicPanel.Size = new System.Drawing.Size(179, 94);
+            this.mappingLogicPanel.RowCount = 3;
+            this.mappingLogicPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mappingLogicPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mappingLogicPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mappingLogicPanel.Size = new System.Drawing.Size(184, 110);
             this.mappingLogicPanel.TabIndex = 7;
-            // 
-            // defaultMappingLogicControl
-            // 
-            this.defaultMappingLogicControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.defaultMappingLogicControl.isDefault = true;
-            this.defaultMappingLogicControl.Location = new System.Drawing.Point(3, 3);
-            this.defaultMappingLogicControl.mappingLogic = null;
-            this.defaultMappingLogicControl.Name = "defaultMappingLogicControl";
-            this.defaultMappingLogicControl.Size = new System.Drawing.Size(173, 88);
-            this.defaultMappingLogicControl.TabIndex = 0;
             // 
             // MappingDetailsControl
             // 
@@ -142,9 +131,8 @@
             this.Controls.Add(this.fromTextBox);
             this.Controls.Add(this.fromLabel);
             this.Name = "MappingDetailsControl";
-            this.Size = new System.Drawing.Size(221, 153);
+            this.Size = new System.Drawing.Size(225, 169);
             this.Enter += new System.EventHandler(this.MappingDetailsControl_Enter);
-            this.mappingLogicPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -160,6 +148,5 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button addLogicButton;
         private System.Windows.Forms.TableLayoutPanel mappingLogicPanel;
-        private MappingLogicControl defaultMappingLogicControl;
     }
 }
