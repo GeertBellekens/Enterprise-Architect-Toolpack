@@ -42,8 +42,7 @@ namespace EAMapping
         {
             if (this.mappingLogic?.context != null)
             {
-                this.contextDropdown.Text = this.mappingLogic.context.name;
-                //TODO: set tooltip
+                this.contextDropdown.SelectedItem = this.mappingLogic.context;
             }
             else
             {
@@ -53,7 +52,7 @@ namespace EAMapping
         }
         private void enableDisable()
         {
-            
+
         }
         public bool isDefault
         {
@@ -73,8 +72,11 @@ namespace EAMapping
         public event EventHandler mappingLogicTextChanged;
         private void mappingLogicTextBox_TextChanged(object sender, EventArgs e)
         {
-            this.mappingLogic.description = this.mappingLogicTextBox.Text;
-            mappingLogicTextChanged?.Invoke(this, e);
+            if (!this.mappingLogicTextBox.Text.Equals(this.mappingLogic.description, StringComparison.InvariantCulture))
+            {
+                this.mappingLogic.description = this.mappingLogicTextBox.Text;
+                mappingLogicTextChanged?.Invoke(this, e);
+            }
         }
         private class DefaultSelection
         {
@@ -84,6 +86,22 @@ namespace EAMapping
         private void deleteButton_Click(object sender, EventArgs e)
         {
             deleteButtonClicked?.Invoke(this, e);
+        }
+        public event EventHandler selectedContextChanged;
+        private void contextDropdown_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            var context = this.contextDropdown.SelectedItem as ElementWrapper;
+            if (context != null && !context.Equals(this.mappingLogic.context)
+                || context == null && this.mappingLogic.context != null)
+            {
+                this.mappingLogic.context = context;
+                selectedContextChanged?.Invoke(this, e);
+            }
+        }
+
+        private void contextDropdown_Resize(object sender, EventArgs e)
+        {
+            ((ComboBox)sender).Select(0, 0);
         }
     }
 }

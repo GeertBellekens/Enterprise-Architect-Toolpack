@@ -79,7 +79,7 @@ namespace EAMapping
             }
         }
 
-        private void mappingLogicTextChanged(object sender, EventArgs e)
+        private void mappingLogicChanged(object sender, EventArgs e)
         {
             this.mapping?.save();
         }
@@ -113,13 +113,14 @@ namespace EAMapping
         {
             var mappingLogicControl = new MappingLogicControl();
             mappingLogicControl.deleteButtonClicked += mappingLogicDeleteButtonClicked;
-            mappingLogicControl.mappingLogicTextChanged += mappingLogicTextChanged;
+            mappingLogicControl.mappingLogicTextChanged += mappingLogicChanged;
+            mappingLogicControl.selectedContextChanged += mappingLogicChanged;
             mappingLogicControl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             mappingLogicControl.BorderStyle = BorderStyle.FixedSingle;
             mappingLogicControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             mappingLogicControl.TabIndex = mappingLogicPanel.Controls.Count;
-            mappingLogicControl.mappingLogic = logic;
             mappingLogicControl.setContexts(this.contexts);
+            mappingLogicControl.mappingLogic = logic;
             mappingLogicControl.Show();
             if (mappingLogicPanel.Controls.Count >= 1)
             {

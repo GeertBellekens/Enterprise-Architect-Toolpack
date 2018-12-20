@@ -41,6 +41,8 @@
             this.contextDropdown.Name = "contextDropdown";
             this.contextDropdown.Size = new System.Drawing.Size(159, 21);
             this.contextDropdown.TabIndex = 0;
+            this.contextDropdown.SelectionChangeCommitted += new System.EventHandler(this.contextDropdown_SelectionChangeCommitted);
+            this.contextDropdown.Resize += new System.EventHandler(this.contextDropdown_Resize);
             // 
             // mappingLogicTextBox
             // 
