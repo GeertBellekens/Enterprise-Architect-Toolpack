@@ -16,7 +16,7 @@ namespace EAMapping
     public partial class MappingDetailsControl : UserControl
     {
         public MappingLogicControl defaultMappingLogicControl { get; set; }
-        private List<ElementWrapper> contexts => ((MappingSet)this.mapping?.source.mappingSet).contexts ?? new List<ElementWrapper>();
+        private List<ElementWrapper> contexts => ((MappingSet)this.mapping?.source.mappingSet).EAContexts ?? new List<ElementWrapper>();
         private const int padding = 6;
         public MappingDetailsControl()
         {
@@ -61,7 +61,7 @@ namespace EAMapping
             //disable delete button when mapping is readonly
             var enable = this.mapping != null && !this._mapping.isReadOnly;
             this.deleteButton.Enabled = enable;
-            this.addLogicButton.Enabled = enable && this.contexts.Any();
+            this.addLogicButton.Enabled = enable && this.mappingLogicPanel.Controls.Count <  this.contexts.Count;
             //this.mappingLogicTextBox.ReadOnly = !enable;
         }
 
@@ -127,6 +127,7 @@ namespace EAMapping
                 this.Height = this.Height + mappingLogicControl.Height + padding;
             }
             this.mappingLogicPanel.Controls.Add(mappingLogicControl, 0, mappingLogicPanel.Controls.Count);
+            this.enableDisable();
             return mappingLogicControl;
         }
 
@@ -145,6 +146,7 @@ namespace EAMapping
                 this.mappingLogicPanel.Controls.Remove(control);
                 this.Height = this.Height - (control.Height + padding);
             }
+            this.enableDisable();
         }
     }
 }

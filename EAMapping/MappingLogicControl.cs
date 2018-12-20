@@ -9,7 +9,6 @@ namespace EAMapping
 {
     public partial class MappingLogicControl : UserControl
     {
-        private bool _isDefault = false;
         private MappingLogic _mappingLogic;
         public MappingLogic mappingLogic
         {
@@ -24,17 +23,20 @@ namespace EAMapping
         {
             this.InitializeComponent();
             this.setContexts(null);
-            this.enableDisable();
         }
         public void setContexts(List<ElementWrapper> contexts)
         {
-            //add the "default" to the list of contexts
-            var dropDownItems = new List<object> { new DefaultSelection() };
+            //add the "default" to the list of contexts (if there are more or less then 1 contexts)
+            var dropDownItems = new List<object>();
+            if (contexts == null || contexts.Count() != 1)
+            {
+                dropDownItems.Add(new DefaultSelection());
+            }
             if (contexts != null)
             {
                 dropDownItems.AddRange(contexts);
             }
-            this.contextDropdown.Enabled = contexts?.Any() == true;
+            this.contextDropdown.Enabled = dropDownItems.Count() > 1;
             this.contextDropdown.DataSource = dropDownItems;
             this.contextDropdown.DisplayMember = "name";
         }
@@ -44,31 +46,15 @@ namespace EAMapping
             {
                 this.contextDropdown.SelectedItem = this.mappingLogic.context;
             }
-            else
-            {
-                this.isDefault = true;
-            }
             this.mappingLogicTextBox.Text = this.mappingLogic?.description;
         }
-        private void enableDisable()
-        {
 
-        }
-        public bool isDefault
-        {
-            get => this._isDefault;
-            set
-            {
-                this._isDefault = value;
-                this.enableDisable();
-            }
-        }
         public event EventHandler browseButtonClicked;
-
         private void browseButton_Click(object sender, EventArgs e)
         {
             browseButtonClicked?.Invoke(this, e);
         }
+
         public event EventHandler mappingLogicTextChanged;
         private void mappingLogicTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -78,10 +64,7 @@ namespace EAMapping
                 mappingLogicTextChanged?.Invoke(this, e);
             }
         }
-        private class DefaultSelection
-        {
-            public string name => "Default";
-        }
+
         public event EventHandler deleteButtonClicked;
         private void deleteButton_Click(object sender, EventArgs e)
         {
@@ -91,8 +74,10 @@ namespace EAMapping
         private void contextDropdown_SelectionChangeCommitted(object sender, EventArgs e)
         {
             var context = this.contextDropdown.SelectedItem as ElementWrapper;
-            if (context != null && !context.Equals(this.mappingLogic.context)
-                || context == null && this.mappingLogic.context != null)
+            if (contextDropdown.Items.Count > 1
+                &&
+                (context != null && !context.Equals(this.mappingLogic.context)
+                || context == null && this.mappingLogic.context != null))
             {
                 this.mappingLogic.context = context;
                 selectedContextChanged?.Invoke(this, e);
@@ -115,6 +100,11 @@ namespace EAMapping
             {
                 this.toolTip1.SetToolTip(this.contextDropdown, context.fqn);
             }
+        }
+        //dummy class to set default selection
+        private class DefaultSelection
+        {
+            public string name => "Default";
         }
     }
 }
