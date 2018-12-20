@@ -28,20 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.contextDropdown = new System.Windows.Forms.ComboBox();
             this.mappingLogicTextBox = new System.Windows.Forms.TextBox();
             this.deleteButton = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // contextDropdown
             // 
             this.contextDropdown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.contextDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.contextDropdown.Location = new System.Drawing.Point(3, 3);
             this.contextDropdown.Name = "contextDropdown";
             this.contextDropdown.Size = new System.Drawing.Size(159, 21);
             this.contextDropdown.TabIndex = 0;
+            this.toolTip1.SetToolTip(this.contextDropdown, "Default");
             this.contextDropdown.SelectionChangeCommitted += new System.EventHandler(this.contextDropdown_SelectionChangeCommitted);
+            this.contextDropdown.SelectedValueChanged += new System.EventHandler(this.contextDropdown_SelectedValueChanged);
             this.contextDropdown.Resize += new System.EventHandler(this.contextDropdown_Resize);
             // 
             // mappingLogicTextBox
@@ -87,5 +92,6 @@
         private System.Windows.Forms.ComboBox contextDropdown;
         private System.Windows.Forms.TextBox mappingLogicTextBox;
         private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

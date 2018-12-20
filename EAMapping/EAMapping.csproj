@@ -184,5 +184,8 @@
   <ItemGroup>
     <None Include="Files\delete_cross.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\Add_plus.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

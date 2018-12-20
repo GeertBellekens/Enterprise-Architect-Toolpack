@@ -28,15 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.fromLabel = new System.Windows.Forms.Label();
             this.fromTextBox = new System.Windows.Forms.TextBox();
             this.toTextBox = new System.Windows.Forms.TextBox();
             this.toLabel = new System.Windows.Forms.Label();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.deleteButton = new System.Windows.Forms.Button();
-            this.addLogicButton = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip();
             this.mappingLogicPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.addLogicButton = new System.Windows.Forms.Button();
+            this.deleteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // fromLabel
@@ -77,29 +76,6 @@
             this.toLabel.TabIndex = 2;
             this.toLabel.Text = "To";
             // 
-            // deleteButton
-            // 
-            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.deleteButton.Image = global::EAMapping.Properties.Resources.delete;
-            this.deleteButton.Location = new System.Drawing.Point(6, 132);
-            this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(27, 32);
-            this.deleteButton.TabIndex = 5;
-            this.toolTip.SetToolTip(this.deleteButton, "Delete mapping");
-            this.deleteButton.UseVisualStyleBackColor = true;
-            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
-            // 
-            // addLogicButton
-            // 
-            this.addLogicButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addLogicButton.Location = new System.Drawing.Point(6, 97);
-            this.addLogicButton.Name = "addLogicButton";
-            this.addLogicButton.Size = new System.Drawing.Size(27, 32);
-            this.addLogicButton.TabIndex = 6;
-            this.addLogicButton.Text = "+";
-            this.addLogicButton.UseVisualStyleBackColor = true;
-            this.addLogicButton.Click += new System.EventHandler(this.addLogicButton_Click);
-            // 
             // mappingLogicPanel
             // 
             this.mappingLogicPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -116,6 +92,30 @@
             this.mappingLogicPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mappingLogicPanel.Size = new System.Drawing.Size(184, 110);
             this.mappingLogicPanel.TabIndex = 7;
+            // 
+            // addLogicButton
+            // 
+            this.addLogicButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addLogicButton.Image = global::EAMapping.Properties.Resources.Add_plus;
+            this.addLogicButton.Location = new System.Drawing.Point(6, 97);
+            this.addLogicButton.Name = "addLogicButton";
+            this.addLogicButton.Size = new System.Drawing.Size(27, 32);
+            this.addLogicButton.TabIndex = 6;
+            this.toolTip.SetToolTip(this.addLogicButton, "Add New Mapping Logic");
+            this.addLogicButton.UseVisualStyleBackColor = true;
+            this.addLogicButton.Click += new System.EventHandler(this.addLogicButton_Click);
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.deleteButton.Image = global::EAMapping.Properties.Resources.delete;
+            this.deleteButton.Location = new System.Drawing.Point(6, 132);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(27, 32);
+            this.deleteButton.TabIndex = 5;
+            this.toolTip.SetToolTip(this.deleteButton, "Delete Mapping");
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // MappingDetailsControl
             // 

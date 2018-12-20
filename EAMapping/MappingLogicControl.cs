@@ -98,10 +98,23 @@ namespace EAMapping
                 selectedContextChanged?.Invoke(this, e);
             }
         }
-
+        /// <summary>
+        /// required to avoid having the value selected (blue) when the item changes of the context dropdown.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void contextDropdown_Resize(object sender, EventArgs e)
         {
             ((ComboBox)sender).Select(0, 0);
+        }
+
+        private void contextDropdown_SelectedValueChanged(object sender, EventArgs e)
+        {
+            var context = this.contextDropdown.SelectedItem as ElementWrapper;
+            if (context != null)
+            {
+                this.toolTip1.SetToolTip(this.contextDropdown, context.fqn);
+            }
         }
     }
 }
