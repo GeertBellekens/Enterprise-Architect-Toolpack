@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using EAValidator;
+using TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EAValidatorApp
 {
@@ -21,7 +22,7 @@ namespace EAValidatorApp
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                var controller = new EAValidatorController();
+                var controller = new EAValidatorController(new Model(eaRepository), new EAValidatorSettings());
                 Application.Run(new frmEAValidator(controller));
             }
         }

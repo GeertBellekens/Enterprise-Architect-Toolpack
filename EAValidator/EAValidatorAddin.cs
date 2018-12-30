@@ -15,6 +15,7 @@ namespace EAValidator
         // menu constants
         const string menuName = "-&EA Validator";
         const string menuOpen = "&Open EA Validator...";
+        const string menuSettings = "&Settings";
         const string menuAbout = "&About EA Validator";
 
         const string appTitle = "EA Validator";
@@ -23,13 +24,15 @@ namespace EAValidator
         private bool fullyLoaded = false;
 
         private ucEAValidator _ucEAValidator;
+        private EAValidatorSettings settings { get; set; } = new EAValidatorSettings();
 
         public EAValidatorAddin() : base()
         {
             // Add menu's to the Add-in in EA
             this.menuHeader = menuName;
             this.menuOptions = new string[] {
-                                menuOpen, 
+                                menuOpen,
+                                menuSettings,
                                 menuAbout
                               };
         }
@@ -70,6 +73,9 @@ namespace EAValidator
                 case menuOpen:
                     this.openEAValidator();
                     break;
+                case menuSettings:
+                    new SettingsForm(this.settings).ShowDialog(this.Model.mainEAWindow);
+                    break;
                 case menuAbout:
                     new AboutWindow().ShowDialog(this.Model.mainEAWindow);
                     break;
@@ -80,7 +86,7 @@ namespace EAValidator
         {
             // Open the EA Validator (user control)
             if (this.Model == null) { return; }
-            var controller = new EAValidatorController(this.Model);
+            var controller = new EAValidatorController(this.Model, this.settings);
             this.ucEAValidator.setController(controller);
 
         }

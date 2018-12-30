@@ -22,10 +22,6 @@ namespace EAValidator
         {
             InitializeComponent();  // needed for Windows Form
 
-            txtDirectoryValidationChecks.ReadOnly = true;
-
-            chkExcludeArchivePackages.Checked = true;
-
             progressBar1.Enabled = false;
             progressBar1.UseWaitCursor = true;
 
@@ -63,9 +59,7 @@ namespace EAValidator
             olvColCheckNumberOfValidationResults.Sortable = false;
 
             txtElementName.ReadOnly = true;
-            txtElementType.ReadOnly = true;
             txtDiagramName.ReadOnly = true;
-            txtDiagramType.ReadOnly = true;
 
             olvValidations.EmptyListMsg = "";
             olvValidations.CheckBoxes = false;
@@ -93,9 +87,6 @@ namespace EAValidator
             progressBar1.Value = 0;
             progressBar1.Maximum = 100;
 
-            // Default directory
-            txtDirectoryValidationChecks.Text = this.controller.settings.ValidationChecks_Directory;
-
             // Clear lists
             clearLists();
 
@@ -118,10 +109,6 @@ namespace EAValidator
             this.controller.validations.Clear();
         }
 
-        public bool getExcludeArchivedPackagesState()
-        {
-            return chkExcludeArchivePackages.Checked;
-        }
 
         public void InitProgressbar(int max)
         {
@@ -190,12 +177,10 @@ namespace EAValidator
         private void ClearScopeFields()
         {
             txtElementName.Text = "";
-            txtElementType.Text = "";
-            EA_element = null as TSF_EA.Element;
+            EA_element = null;
 
             txtDiagramName.Text = "";
-            txtDiagramType.Text = "";
-            EA_diagram = null as TSF_EA.Diagram;
+            EA_diagram = null;
         }
 
         private void btnSelectElement_Click(object sender, EventArgs e)
@@ -223,7 +208,6 @@ namespace EAValidator
 
                 // Show element details on screen
                 txtElementName.Text = EA_element.name;
-                txtElementType.Text = filterType;
             }
             // (Re-)Initialize screen fields
             Initiate();
@@ -242,7 +226,6 @@ namespace EAValidator
                 if (diagramtype == "UseCaseDiagram")
                 {
                     txtDiagramName.Text = EA_diagram.name;
-                    txtDiagramType.Text = diagramtype;
                 }
                 else
                 {
@@ -350,6 +333,11 @@ namespace EAValidator
                     this.olvValidations.EnsureModelVisible(validation);
                 }
             }
+        }
+
+        private void txtDirectoryValidationChecks_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

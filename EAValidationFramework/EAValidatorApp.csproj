@@ -81,6 +81,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj">
+      <Project>{4161DD26-375F-4744-BA96-B70366E19A78}</Project>
+      <Name>EAAddinFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EAValidator\EAValidator.csproj">
       <Project>{3382d99a-b4a1-4e20-8745-8c283772909d}</Project>
       <Name>EAValidator</Name>

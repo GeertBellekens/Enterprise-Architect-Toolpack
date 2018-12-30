@@ -20,14 +20,12 @@ namespace EAValidator
         public List<Check> checks { get; set; }
         public EAValidatorSettings settings { get; set; }
 
-        public EAValidatorController():this(new TSF_EA.Model()) {  }
-
-        public EAValidatorController(TSF_EA.Model model)
+                public EAValidatorController(TSF_EA.Model model, EAValidatorSettings settings)
         {
             _model = model;
             validations = new List<Validation>();
             checks = new List<Check>();
-            this.settings = new EAValidatorSettings();
+            this.settings = settings;
             this.outputName = this.settings.outputName;
         }
 
@@ -171,7 +169,7 @@ namespace EAValidator
                 {
                     addLineToEAOutput("Validating check: ", check.CheckDescription);
 
-                    validations.AddRange(check.Validate(this, EA_element, EA_diagram, uc.getExcludeArchivedPackagesState()));
+                    validations.AddRange(check.Validate(this, EA_element, EA_diagram, this.settings.excludeArchivedPackages));
                     var obj = checks.FirstOrDefault(x => x.CheckId == check.CheckId);
                     if (obj != null) obj.SetStatus(check.Status);
 

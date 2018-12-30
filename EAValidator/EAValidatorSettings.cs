@@ -80,6 +80,11 @@ namespace EAValidator
             get => this.getBooleanValue("logToSystemOutput");
             set => this.setBooleanValue("logToSystemOutput", value);
         }
+        public bool excludeArchivedPackages
+        {
+            get => this.getBooleanValue("excludeArchivedPackages");
+            set => this.setBooleanValue("excludeArchivedPackages", value);
+        }
 
         #endregion
     }
