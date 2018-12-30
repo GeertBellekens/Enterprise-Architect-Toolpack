@@ -385,18 +385,19 @@ namespace EAMapping
             }
             //get target mapping root
             TSF_EA.ElementWrapper targetRootElement = null;
-            var traces = sourceRoot.getRelationships<TSF_EA.Abstraction>(true, false).Where(x => (x.target is TSF_EA.Class || x.target is TSF_EA.Package)
-                                                                                       && x.stereotypes.Any(y => y.name == "trace"));
-            if (traces.Count() == 1)
+            var targets = sourceRoot.taggedValues.Where(x => x.name == this.settings.linkedElementTagName)
+                                            .Select(x => x.tagValue)
+                                            .OfType<TSF_EA.ElementWrapper>();
+            if (targets.Count() == 1)
             {
-                targetRootElement = traces.First().target as TSF_EA.ElementWrapper;
+                targetRootElement = targets.First();
             }
-            else if (traces.Count() > 1)
+            else if (targets.Count() > 1)
             {
                 //let the user select the trace element
                 var selectTargetForm = new SelectTargetForm();
                 //set items
-                selectTargetForm.setItems(traces.Select(x => x.target));
+                selectTargetForm.setItems(targets);
                 //show form
                 var dialogResult = selectTargetForm.ShowDialog(this.model.mainEAWindow);
                 if (dialogResult == DialogResult.Cancel)

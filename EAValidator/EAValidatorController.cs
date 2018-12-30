@@ -132,7 +132,10 @@ namespace EAValidator
 
         public void addLineToEAOutput(string outputline, string parameter)
         {
-            EAOutputLogger.log(this._model, this.outputName, string.Format("{0} {1} {2}", DateTime.Now.ToLongTimeString(), outputline, parameter), 0, LogTypeEnum.log);
+            if (this.settings.logToSystemOutput)
+            {
+                EAOutputLogger.log(this._model, this.outputName, string.Format("{0} {1} {2}", DateTime.Now.ToLongTimeString(), outputline, parameter), 0, LogTypeEnum.log);
+            }
         }
 
         public bool ValidateChecks(ucEAValidator uc, List<Check> selectedchecks, TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram)

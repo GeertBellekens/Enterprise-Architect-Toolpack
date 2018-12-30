@@ -26,9 +26,9 @@ namespace EAValidator
 			// Set the assembly Date
 			this.AssemblyDate.Text = System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToShortDateString();
 			// Set the home page
-			//this.HomePage.Links.Add(0,this.HomePage.Text.Length,"http://bellekens.com/ea-navigator/");
+			this.HomePage.Links.Add(0,this.HomePage.Text.Length,"https://bellekens.com/ea-validator/");
 			// Set the author email adress
-			//this.AuthorEmail.Links.Add(0,this.AuthorEmail.Text.Length,"mailto:geert@bellekens.com");
+			this.AuthorEmail.Links.Add(0,this.AuthorEmail.Text.Length,"mailto:geert@bellekens.com");
 		}
 		/// <summary>
 		/// Close the about window
@@ -40,14 +40,14 @@ namespace EAValidator
 			this.Close();
 		}
 		
-		void AuthorEmailLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		void AuthorEmail_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
 		}
 		
-		void HomePageLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		void HomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
 		}
-	}
+    }
 }

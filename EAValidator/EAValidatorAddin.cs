@@ -15,13 +15,11 @@ namespace EAValidator
         // menu constants
         const string menuName = "-&EA Validator";
         const string menuOpen = "&Open EA Validator...";
+        const string menuAbout = "&About EA Validator";
 
         const string appTitle = "EA Validator";
-        const string appFQN = "EAValidator.ucEAValidator";
         const string guiFQN = "EAValidator.ucEAValidator";
-
-        private TSF_EA.Model model = null;
-        public TSF_EA.Model Model { get { return this.model; } }
+        public TSF_EA.Model Model { get; private set; } = null;
         private bool fullyLoaded = false;
 
         private ucEAValidator _ucEAValidator;
@@ -31,7 +29,8 @@ namespace EAValidator
             // Add menu's to the Add-in in EA
             this.menuHeader = menuName;
             this.menuOptions = new string[] {
-                                menuOpen
+                                menuOpen, 
+                                menuAbout
                               };
         }
 
@@ -39,11 +38,10 @@ namespace EAValidator
         {
             get
             {
-                if (this._ucEAValidator == null && this.model != null)
+                if (this._ucEAValidator == null && this.Model != null)
                 {
-                    this._ucEAValidator = this.model.addTab(appTitle, guiFQN) as ucEAValidator;
+                    this._ucEAValidator = this.Model.addTab(appTitle, guiFQN) as ucEAValidator;
                     this._ucEAValidator.HandleDestroyed += this.handleHandleDestroyed;
-                    //TODO: add additional events
                 }
                 return this._ucEAValidator;
             }
@@ -58,7 +56,7 @@ namespace EAValidator
         public override void EA_FileOpen(EA.Repository repository)
         {
             // initialize the model
-            this.model = new TSF_EA.Model(repository);
+            this.Model = new TSF_EA.Model(repository);
             // indicate that we are now fully loaded
             this.fullyLoaded = true;
         }
@@ -72,14 +70,17 @@ namespace EAValidator
                 case menuOpen:
                     this.openEAValidator();
                     break;
+                case menuAbout:
+                    new AboutWindow().ShowDialog(this.Model.mainEAWindow);
+                    break;
             }
         }
 
         private void openEAValidator()
         {
             // Open the EA Validator (user control)
-            if (this.model == null) { return; }
-            var controller = new EAValidatorController(this.model);
+            if (this.Model == null) { return; }
+            var controller = new EAValidatorController(this.Model);
             this.ucEAValidator.setController(controller);
 
         }

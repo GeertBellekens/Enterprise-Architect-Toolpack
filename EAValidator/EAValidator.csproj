@@ -111,6 +111,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Files\EA Validator Logo.png" />
     <Content Include="Files\EAValidatorLogo.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
