@@ -36,13 +36,15 @@
             this.cancelButton = new System.Windows.Forms.Button();
             this.excludeArchivedPackagesCheckbox = new System.Windows.Forms.CheckBox();
             this.archivedPackagesQueryTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.archivedPackagesQueryLabel = new System.Windows.Forms.Label();
+            this.allowedRepositoryTypesListBox = new System.Windows.Forms.CheckedListBox();
+            this.allowedRepositoryTypesLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnSelectQueryDirectory
             // 
             this.btnSelectQueryDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectQueryDirectory.Location = new System.Drawing.Point(317, 23);
+            this.btnSelectQueryDirectory.Location = new System.Drawing.Point(332, 23);
             this.btnSelectQueryDirectory.Name = "btnSelectQueryDirectory";
             this.btnSelectQueryDirectory.Size = new System.Drawing.Size(25, 23);
             this.btnSelectQueryDirectory.TabIndex = 13;
@@ -56,13 +58,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDirectoryValidationChecks.Location = new System.Drawing.Point(12, 25);
             this.txtDirectoryValidationChecks.Name = "txtDirectoryValidationChecks";
-            this.txtDirectoryValidationChecks.Size = new System.Drawing.Size(299, 20);
+            this.txtDirectoryValidationChecks.Size = new System.Drawing.Size(314, 20);
             this.txtDirectoryValidationChecks.TabIndex = 12;
             // 
             // checksPathLabel
             // 
             this.checksPathLabel.AutoSize = true;
-            this.checksPathLabel.Location = new System.Drawing.Point(12, 8);
+            this.checksPathLabel.Location = new System.Drawing.Point(12, 9);
             this.checksPathLabel.Name = "checksPathLabel";
             this.checksPathLabel.Size = new System.Drawing.Size(86, 13);
             this.checksPathLabel.TabIndex = 14;
@@ -71,7 +73,7 @@
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(186, 207);
+            this.okButton.Location = new System.Drawing.Point(201, 300);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 15;
@@ -83,7 +85,7 @@
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(267, 207);
+            this.cancelButton.Location = new System.Drawing.Point(282, 300);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 16;
@@ -94,7 +96,7 @@
             // excludeArchivedPackagesCheckbox
             // 
             this.excludeArchivedPackagesCheckbox.AutoSize = true;
-            this.excludeArchivedPackagesCheckbox.Location = new System.Drawing.Point(12, 51);
+            this.excludeArchivedPackagesCheckbox.Location = new System.Drawing.Point(12, 56);
             this.excludeArchivedPackagesCheckbox.Name = "excludeArchivedPackagesCheckbox";
             this.excludeArchivedPackagesCheckbox.Size = new System.Drawing.Size(152, 17);
             this.excludeArchivedPackagesCheckbox.TabIndex = 17;
@@ -107,20 +109,37 @@
             this.archivedPackagesQueryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.archivedPackagesQueryTextBox.Location = new System.Drawing.Point(12, 87);
+            this.archivedPackagesQueryTextBox.Location = new System.Drawing.Point(12, 194);
             this.archivedPackagesQueryTextBox.Multiline = true;
             this.archivedPackagesQueryTextBox.Name = "archivedPackagesQueryTextBox";
-            this.archivedPackagesQueryTextBox.Size = new System.Drawing.Size(330, 114);
+            this.archivedPackagesQueryTextBox.Size = new System.Drawing.Size(345, 100);
             this.archivedPackagesQueryTextBox.TabIndex = 18;
             // 
-            // label1
+            // archivedPackagesQueryLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 70);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(122, 13);
-            this.label1.TabIndex = 19;
-            this.label1.Text = "Archive packages query";
+            this.archivedPackagesQueryLabel.AutoSize = true;
+            this.archivedPackagesQueryLabel.Location = new System.Drawing.Point(12, 178);
+            this.archivedPackagesQueryLabel.Name = "archivedPackagesQueryLabel";
+            this.archivedPackagesQueryLabel.Size = new System.Drawing.Size(122, 13);
+            this.archivedPackagesQueryLabel.TabIndex = 19;
+            this.archivedPackagesQueryLabel.Text = "Archive packages query";
+            // 
+            // allowedRepositoryTypesListBox
+            // 
+            this.allowedRepositoryTypesListBox.FormattingEnabled = true;
+            this.allowedRepositoryTypesListBox.Location = new System.Drawing.Point(12, 100);
+            this.allowedRepositoryTypesListBox.Name = "allowedRepositoryTypesListBox";
+            this.allowedRepositoryTypesListBox.Size = new System.Drawing.Size(153, 64);
+            this.allowedRepositoryTypesListBox.TabIndex = 20;
+            // 
+            // allowedRepositoryTypesLabel
+            // 
+            this.allowedRepositoryTypesLabel.AutoSize = true;
+            this.allowedRepositoryTypesLabel.Location = new System.Drawing.Point(12, 84);
+            this.allowedRepositoryTypesLabel.Name = "allowedRepositoryTypesLabel";
+            this.allowedRepositoryTypesLabel.Size = new System.Drawing.Size(120, 13);
+            this.allowedRepositoryTypesLabel.TabIndex = 21;
+            this.allowedRepositoryTypesLabel.Text = "Allowed repository types";
             // 
             // SettingsForm
             // 
@@ -128,15 +147,17 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(354, 242);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(369, 335);
+            this.Controls.Add(this.allowedRepositoryTypesListBox);
             this.Controls.Add(this.archivedPackagesQueryTextBox);
             this.Controls.Add(this.excludeArchivedPackagesCheckbox);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
-            this.Controls.Add(this.checksPathLabel);
             this.Controls.Add(this.btnSelectQueryDirectory);
             this.Controls.Add(this.txtDirectoryValidationChecks);
+            this.Controls.Add(this.archivedPackagesQueryLabel);
+            this.Controls.Add(this.checksPathLabel);
+            this.Controls.Add(this.allowedRepositoryTypesLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -158,6 +179,8 @@
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.CheckBox excludeArchivedPackagesCheckbox;
         private System.Windows.Forms.TextBox archivedPackagesQueryTextBox;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label archivedPackagesQueryLabel;
+        private System.Windows.Forms.CheckedListBox allowedRepositoryTypesListBox;
+        private System.Windows.Forms.Label allowedRepositoryTypesLabel;
     }
 }

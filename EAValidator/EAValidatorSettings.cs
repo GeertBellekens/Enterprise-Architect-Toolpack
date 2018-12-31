@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EAValidator
 {
@@ -58,10 +59,23 @@ namespace EAValidator
             set => this.setValue("XML_CheckMainNode", value);
         }
 
-        public string AllowedRepositoryTypes
+        public IEnumerable<RepositoryType> AllowedRepositoryTypes
         {
-            get => this.getValue("AllowedRepositoryTypes");
-            set => this.setValue("AllowedRepositoryTypes", value);
+            get
+            {
+                var repositoryTypes = new List<RepositoryType>();
+                foreach(var stringValue in this.getListValue("AllowedRepositoryTypes"))
+                {
+                    RepositoryType repositoryType;
+                    if (Enum.TryParse(stringValue, out repositoryType))
+                    {
+                        repositoryTypes.Add(repositoryType);
+                    }
+                }
+                return repositoryTypes;
+            }
+            
+            set => this.setListValue("AllowedRepositoryTypes", value.Select(x => x.ToString()).ToList());
         }
 
         public string SearchElementTypes

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
-using System.IO;
 
 namespace EAValidator
 {
@@ -14,30 +14,30 @@ namespace EAValidator
     /// </summary>
     public partial class ucEAValidator : UserControl
     {
-        private TSF_EA.Element EA_element { get; set; }
-        private TSF_EA.Diagram EA_diagram { get; set; }
+        private TSF_EA.Element scopeElement { get; set; }
+        private TSF_EA.Diagram scopeDiagram { get; set; }
         private EAValidatorController controller { get; set; }
 
         public ucEAValidator()
         {
-            InitializeComponent();  // needed for Windows Form
+            this.InitializeComponent();  // needed for Windows Form
 
-            progressBar1.Enabled = false;
-            progressBar1.UseWaitCursor = true;
+            this.progressBar1.Enabled = false;
+            this.progressBar1.UseWaitCursor = true;
 
-            olvChecks.EmptyListMsg = "No checks found to validate.";
-            olvChecks.CheckBoxes = true;
-            olvChecks.CheckedAspectName = "Selected";
-            olvChecks.Cursor = DefaultCursor;
-            olvChecks.FullRowSelect = true;
-            olvChecks.MultiSelect = true;
-            olvChecks.UseCellFormatEvents = true;  // necessary to use colours in cells
-            olvChecks.IncludeColumnHeadersInCopy = true;
-            olvChecks.CellEditUseWholeCell = false;
+            this.olvChecks.EmptyListMsg = "No checks found to validate.";
+            this.olvChecks.CheckBoxes = true;
+            this.olvChecks.CheckedAspectName = "Selected";
+            this.olvChecks.Cursor = this.DefaultCursor;
+            this.olvChecks.FullRowSelect = true;
+            this.olvChecks.MultiSelect = true;
+            this.olvChecks.UseCellFormatEvents = true;  // necessary to use colours in cells
+            this.olvChecks.IncludeColumnHeadersInCopy = true;
+            this.olvChecks.CellEditUseWholeCell = false;
 
-            olvColCheckDescription.HeaderCheckBox = true;
+            this.olvColCheckDescription.HeaderCheckBox = true;
 
-            olvChecks.ShowGroups = false;
+            this.olvChecks.ShowGroups = false;
             //olvColCheckDescription.Groupable = false;
             //olvColCheckId.Groupable = false;
             //olvColCheckStatus.Groupable = false;
@@ -46,55 +46,55 @@ namespace EAValidator
             //olvColCheckNumberOfValidationResults.Groupable = false;
             //olvColCheckGroup.Groupable = false;
 
-            olvColCheckDescription.IsEditable = false;
-            olvColCheckId.IsEditable = false;
-            olvColCheckStatus.IsEditable = false;
-            olvColCheckWarningType.IsEditable = false;
-            olvColCheckNumberOfElementsFound.IsEditable = false;
-            olvColCheckNumberOfValidationResults.IsEditable = false;
-            olvColCheckGroup.IsEditable = false;
-            olvColCheckRationale.IsEditable = false;
+            this.olvColCheckDescription.IsEditable = false;
+            this.olvColCheckId.IsEditable = false;
+            this.olvColCheckStatus.IsEditable = false;
+            this.olvColCheckWarningType.IsEditable = false;
+            this.olvColCheckNumberOfElementsFound.IsEditable = false;
+            this.olvColCheckNumberOfValidationResults.IsEditable = false;
+            this.olvColCheckGroup.IsEditable = false;
+            this.olvColCheckRationale.IsEditable = false;
 
-            olvColCheckNumberOfElementsFound.Sortable = false;
-            olvColCheckNumberOfValidationResults.Sortable = false;
+            this.olvColCheckNumberOfElementsFound.Sortable = false;
+            this.olvColCheckNumberOfValidationResults.Sortable = false;
 
-            txtElementName.ReadOnly = true;
-            txtDiagramName.ReadOnly = true;
+            this.txtElementName.ReadOnly = true;
+            this.txtDiagramName.ReadOnly = true;
 
-            olvValidations.EmptyListMsg = "";
-            olvValidations.CheckBoxes = false;
-            olvValidations.Cursor = DefaultCursor;
-            olvValidations.FullRowSelect = true;
-            olvValidations.MultiSelect = true;
-            olvValidations.IncludeColumnHeadersInCopy = true;
-            olvValidations.ShowItemCountOnGroups = true;
-            olvValidations.ShowCommandMenuOnRightClick = true;
-            olvValidations.UseFilterIndicator = true;
-            olvValidations.UseFiltering = true;
-            olvValidations.CellEditUseWholeCell = false;
+            this.olvValidations.EmptyListMsg = "";
+            this.olvValidations.CheckBoxes = false;
+            this.olvValidations.Cursor = this.DefaultCursor;
+            this.olvValidations.FullRowSelect = true;
+            this.olvValidations.MultiSelect = true;
+            this.olvValidations.IncludeColumnHeadersInCopy = true;
+            this.olvValidations.ShowItemCountOnGroups = true;
+            this.olvValidations.ShowCommandMenuOnRightClick = true;
+            this.olvValidations.UseFilterIndicator = true;
+            this.olvValidations.UseFiltering = true;
+            this.olvValidations.CellEditUseWholeCell = false;
         }
 
         public void setController(EAValidatorController controller)
         {
             this.controller = controller;
-            Initiate();
+            this.Initiate();
         }
 
         private void Initiate()
         {
             // Default settings
-            progressBar1.Minimum = 0;
-            progressBar1.Value = 0;
-            progressBar1.Maximum = 100;
+            this.progressBar1.Minimum = 0;
+            this.progressBar1.Value = 0;
+            this.progressBar1.Maximum = 100;
 
             // Clear lists
-            clearLists();
+            this.clearLists();
 
             // Load files from directory as checks
             this.controller.loadChecksFromDirectory(this.controller.settings.ValidationChecks_Directory);
 
             // Show checks/validations in objectListViews     
-            olvColCheckDescription.HeaderCheckState = CheckState.Checked;
+            this.olvColCheckDescription.HeaderCheckState = CheckState.Checked;
             this.olvChecks.SetObjects(this.controller.checks);
             this.olvValidations.SetObjects(this.controller.validations);
 
@@ -113,20 +113,20 @@ namespace EAValidator
         public void InitProgressbar(int max)
         {
             // Initialize the progressbar
-            progressBar1.Minimum = 0;
-            progressBar1.Maximum = max;
-            progressBar1.Value = 0;
+            this.progressBar1.Minimum = 0;
+            this.progressBar1.Maximum = max;
+            this.progressBar1.Value = 0;
         }
 
         public void IncrementProgressbar()
         {
-            progressBar1.Increment(1);
+            this.progressBar1.Increment(1);
         }
 
         private void btnDoValidation_Click(object sender, EventArgs e)
         {
             // Verify if any check is selected
-            var listOfChecksForValidation = olvChecks.CheckedObjects.Cast<Check>().ToList();
+            var listOfChecksForValidation = this.olvChecks.CheckedObjects.Cast<Check>().ToList();
             if (!listOfChecksForValidation.Any())
             {
                 MessageBox.Show("No checks selected. Please select at least one check.");
@@ -135,8 +135,10 @@ namespace EAValidator
             {
                 var msg = "";
                 // Confirm execution of validations
-                if (listOfChecksForValidation.Count() == olvChecks.GetItemCount())
+                if (listOfChecksForValidation.Count() == this.olvChecks.GetItemCount())
+                {
                     msg = "Validate all checks?";
+                }
                 else
                 {
                     msg = "Validate the selected checks?";
@@ -155,7 +157,7 @@ namespace EAValidator
                     bool successful = true;
 
                     // Validate alle checked checks
-                    successful = this.controller.ValidateChecks(this, listOfChecksForValidation, EA_element, EA_diagram);
+                    successful = this.controller.ValidateChecks(this, listOfChecksForValidation, this.scopeElement, this.scopeDiagram);
 
                     // Show validation results on screen
                     this.olvValidations.Objects = this.controller.validations;
@@ -166,9 +168,14 @@ namespace EAValidator
                     // Show user that validation is done.
                     string message;
                     if (successful)
+                    {
                         message = "Validation finished succesfully.";
+                    }
                     else
+                    {
                         message = "Validation finished with errors.";
+                    }
+
                     MessageBox.Show(message);
                 }
             }
@@ -176,61 +183,51 @@ namespace EAValidator
 
         private void ClearScopeFields()
         {
-            txtElementName.Text = "";
-            EA_element = null;
+            this.txtElementName.Text = "";
+            this.scopeElement = null;
 
-            txtDiagramName.Text = "";
-            EA_diagram = null;
+            this.txtDiagramName.Text = "";
+            this.scopeDiagram = null;
         }
 
         private void btnSelectElement_Click(object sender, EventArgs e)
         {
-            ClearScopeFields();
+            this.ClearScopeFields();
 
             // Select one element using EA Package Browser  (EA must be connected to a project)
             try
             {
-                EA_element = this.controller.getUserSelectedElement();
+                this.scopeElement = this.controller.getUserSelectedScopeElement();
             }
             catch (Exception) { }
 
-            if (EA_element != null)
+            if (this.scopeElement != null)
             {
-                string filterType;
-                if (EA_element is TSF_EA.Package)
-                {
-                    filterType = "Package";
-                }
-                else
-                {
-                    filterType = EA_element.stereotypeNames.FirstOrDefault();
-                }
-
                 // Show element details on screen
-                txtElementName.Text = EA_element.name;
+                this.txtElementName.Text = this.scopeElement.name;
             }
             // (Re-)Initialize screen fields
-            Initiate();
+            this.Initiate();
         }
 
         private void btnSelectDiagram_Click(object sender, EventArgs e)
         {
-            ClearScopeFields();
+            this.ClearScopeFields();
 
             // Select the diagram that is selected in the EA Package Browser
-            EA_diagram = this.controller.getSelectedDiagram();
-            if (EA_diagram != null)
+            this.scopeDiagram = this.controller.getSelectedDiagram();
+            if (this.scopeDiagram != null)
             {
-                string diagramtype = EA_diagram.GetType().ToString().Substring(EA_diagram.GetType().ToString().LastIndexOf(".") + 1);
+                string diagramtype = this.scopeDiagram.GetType().ToString().Substring(this.scopeDiagram.GetType().ToString().LastIndexOf(".") + 1);
                 // Only keep diagram if it is a Use Case diagram
                 if (diagramtype == "UseCaseDiagram")
                 {
-                    txtDiagramName.Text = EA_diagram.name;
+                    this.txtDiagramName.Text = this.scopeDiagram.name;
                 }
                 else
                 {
                     MessageBox.Show("Please select a Use Case-diagram in the Project Browser.");
-                    EA_diagram = null as TSF_EA.Diagram;
+                    this.scopeDiagram = null as TSF_EA.Diagram;
                 }
             }
             else
@@ -238,7 +235,7 @@ namespace EAValidator
                 MessageBox.Show("Please select a Use Case-diagram in the Project Browser.");
             }
 
-            Initiate();
+            this.Initiate();
         }
 
         private void btnSelectQueryDirectory_Click(object sender, EventArgs e)
@@ -248,7 +245,7 @@ namespace EAValidator
             this.controller.settings.save();
 
             // Refresh fields on screen
-            Initiate();
+            this.Initiate();
         }
 
         private void olvChecks_FormatCell(object sender, BrightIdeasSoftware.FormatCellEventArgs e)
@@ -301,7 +298,9 @@ namespace EAValidator
                 Validation validation = (Validation)e.Model;
                 Check check = this.controller.checks.FirstOrDefault(x => x.CheckId == validation.CheckId);
                 if (check != null)
+                {
                     e.Text = check.ProposedSolution;
+                }
             }
         }
 
@@ -313,7 +312,7 @@ namespace EAValidator
 
         private void btnClearScope_Click(object sender, EventArgs e)
         {
-            ClearScopeFields();
+            this.ClearScopeFields();
         }
 
         private void olvChecks_MouseDoubleClick(object sender, MouseEventArgs e)

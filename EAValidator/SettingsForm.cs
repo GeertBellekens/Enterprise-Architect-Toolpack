@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EAValidator
 {
@@ -17,6 +18,7 @@ namespace EAValidator
         {
             InitializeComponent();
             this.settings = settings;
+            this.allowedRepositoryTypesListBox.DataSource = Enum.GetValues(typeof(RepositoryType));
             this.loadSettings();
         }
         private void loadSettings()
@@ -24,6 +26,17 @@ namespace EAValidator
             this.txtDirectoryValidationChecks.Text = this.settings.ValidationChecks_Directory;
             this.excludeArchivedPackagesCheckbox.Checked = this.settings.excludeArchivedPackages;
             this.archivedPackagesQueryTextBox.Text = this.settings.QueryExcludeArchivedPackages;
+            //set allowed RepositoryTypes
+            foreach (var repositoryType in this.settings.AllowedRepositoryTypes)
+            {
+                for (int i = 0; i < allowedRepositoryTypesListBox.Items.Count; i++)
+                {
+                    if (repositoryType == (RepositoryType)allowedRepositoryTypesListBox.Items[i])
+                    {
+                        allowedRepositoryTypesListBox.SetItemChecked(i, true);
+                    }
+                }
+            }
             this.enableDisable();
         }
         private void unloadSettings()
@@ -31,6 +44,7 @@ namespace EAValidator
             this.settings.ValidationChecks_Directory = this.txtDirectoryValidationChecks.Text;
             this.settings.excludeArchivedPackages = this.excludeArchivedPackagesCheckbox.Checked;
             this.settings.QueryExcludeArchivedPackages = this.archivedPackagesQueryTextBox.Text ;
+            this.settings.AllowedRepositoryTypes = this.allowedRepositoryTypesListBox.CheckedItems.Cast<RepositoryType>().ToList();
         }
         private void save()
         {

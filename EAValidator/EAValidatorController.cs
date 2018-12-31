@@ -29,7 +29,7 @@ namespace EAValidator
             this.outputName = this.settings.outputName;
         }
 
-        public TSF_EA.Element getUserSelectedElement()
+        public TSF_EA.Element getUserSelectedScopeElement()
         {
             // Possible Types: see http://www.sparxsystems.com/enterprise_architect_user_guide/12.0/automation_and_scripting/element2.html
             return this._model.getUserSelectedElement(new List<string> { "Change", "Package" }) as TSF_EA.Element;
@@ -136,17 +136,17 @@ namespace EAValidator
             }
         }
 
-        public bool ValidateChecks(ucEAValidator uc, List<Check> selectedchecks, TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram)
+        public bool ValidateChecks(ucEAValidator uc, List<Check> selectedchecks, TSF_EA.Element scopeElement, TSF_EA.Diagram EA_diagram)
         {
             // Clear the log
             clearEAOutput();
 
-            // Check if the Enterprise Architect connection is sql
-            var repositoryType = this._model.repositoryType.ToString();
-            if (!(this.settings.AllowedRepositoryTypes.Contains(repositoryType)))
+            // Check if the Enterprise Architect repository type is allowed
+            if (!(this.settings.AllowedRepositoryTypes.Contains(this._model.repositoryType)))
             {
-                MessageBox.Show("Connectiontype of EA project not allowed: " + repositoryType + Environment.NewLine + "Please connect to another EA project.");
-                addLineToEAOutput("Connectiontype of EA project not allowed: ", repositoryType);
+                MessageBox.Show($"Connectiontype of EA project not allowed: {this._model.repositoryType.ToString()}"
+                    + $"{Environment.NewLine}Please connect to an EA project of an allowed repository type");
+                addLineToEAOutput("Connectiontype of EA project not allowed: ", this._model.repositoryType.ToString());
                 return false;
             }
             addLineToEAOutput("Connected to: ", _model.repositoryType.ToString());
@@ -169,7 +169,7 @@ namespace EAValidator
                 {
                     addLineToEAOutput("Validating check: ", check.CheckDescription);
 
-                    validations.AddRange(check.Validate(this, EA_element, EA_diagram, this.settings.excludeArchivedPackages));
+                    validations.AddRange(check.Validate(this, scopeElement, EA_diagram, this.settings.excludeArchivedPackages));
                     var obj = checks.FirstOrDefault(x => x.CheckId == check.CheckId);
                     if (obj != null) obj.SetStatus(check.Status);
 
