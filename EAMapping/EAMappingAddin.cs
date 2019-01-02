@@ -292,14 +292,7 @@ namespace EAMapping
 
         TSF_EA.Element findTarget(TSF_EA.Element sourceElement)
         {
-            var trace = sourceElement.getRelationships<UML.Classes.Dependencies.Abstraction>().FirstOrDefault(x => x.stereotypes.Any(y => y.name.Equals("trace", StringComparison.InvariantCultureIgnoreCase))
-                                                                                        && (x.target is UML.Classes.Kernel.Package || x.target is UML.Classes.Kernel.Class));
-            if (trace != null)
-            {
-                return trace.target as TSF_EA.Element;
-            }
-            //if nothing found then return null
-            return null;
+            return sourceElement.taggedValues.FirstOrDefault(x => x.name == this.settings.linkedElementTagName)?.tagValue as TSF_EA.Element;
         }
 
         public void importMapping(object sender, EventArgs e)
@@ -317,10 +310,10 @@ namespace EAMapping
 
             //first get the existing mappingSet for the selected source and target
             var mappingSet = EA_MP.MappingFactory.createMappingSet(sourceElement, targetElement, this.settings);
-            if (mappingSet.mappings.Any())
+            if (mappingSet.mappings.Count() > 1)
             {
                 var result = MessageBox.Show(this.model.mainEAWindow
-                    , $"Found {mappingSet.mappings.Count()} existing mappings.{Environment.NewLine}" +
+                    , $"Found {mappingSet.mappings.Count() -1 } existing mappings.{Environment.NewLine}" +
                     $"Are you sure you want to remove all mappings and continue the import?"
                     , "Existing Mappings"
                     , MessageBoxButtons.YesNo
