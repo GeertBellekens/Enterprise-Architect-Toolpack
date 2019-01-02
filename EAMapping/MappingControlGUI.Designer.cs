@@ -199,7 +199,7 @@ namespace EAMapping
             // 
             // isMapped
             // 
-            this.isMapped.AspectName = "mappings.Count()";
+            this.isMapped.AspectName = "mappingCount";
             this.isMapped.Text = "Mappings";
             // 
             // sourceExpandColumn
@@ -291,7 +291,7 @@ namespace EAMapping
             // 
             // targetMappingsColumn
             // 
-            this.targetMappingsColumn.AspectName = "mappings.Count()";
+            this.targetMappingsColumn.AspectName = "mappingCount";
             this.targetMappingsColumn.Text = "Mappings";
             // 
             // targetExpandedColumn

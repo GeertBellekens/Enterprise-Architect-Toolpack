@@ -130,7 +130,6 @@ namespace EAMapping
             this.selectAndLoadNewMappingSource();
         }
 
-
         private void mappingControl_SelectNewMappingTarget(object sender, EventArgs e)
         {
             var mappingSet = sender as EA_MP.MappingSet;
@@ -139,8 +138,9 @@ namespace EAMapping
             //create mapping node for target element and set it as target of the mapping set
             if (newTargetElement != null)
             {
-                mappingSet.target = EA_MP.MappingFactory.createNewRootNode(newTargetElement, mappingSet.settings);
-                mappingSet.source.mapTo(mappingSet.target);
+                //create the mapping set
+                mappingSet = EA_MP.MappingFactory.createMappingSet((TSF_EA.ElementWrapper)mappingSet.source.source, newTargetElement, this.settings);
+                this.loadMapping(mappingSet);
             }
         }
 
