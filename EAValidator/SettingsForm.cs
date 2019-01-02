@@ -19,6 +19,8 @@ namespace EAValidator
             InitializeComponent();
             this.settings = settings;
             this.allowedRepositoryTypesListBox.DataSource = Enum.GetValues(typeof(RepositoryType));
+            this.elementTypesCheckedList.DataSource = this.elementTypes;
+            this.diagramTypesCheckedList.DataSource = this.diagramTypes;
             this.loadSettings();
         }
         private void loadSettings()
@@ -37,6 +39,28 @@ namespace EAValidator
                     }
                 }
             }
+            //set element types
+            foreach (var elementType in this.settings.scopeElementTypes)
+            {
+                for (int i = 0; i < this.elementTypesCheckedList.Items.Count; i++)
+                {
+                    if (elementType.Equals((string)elementTypesCheckedList.Items[i],StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        elementTypesCheckedList.SetItemChecked(i, true);
+                    }
+                }
+            }
+            //set diagram types
+            foreach (var diagramType in this.settings.scopeDiagramTypes)
+            {
+                for (int i = 0; i < this.diagramTypesCheckedList.Items.Count; i++)
+                {
+                    if (diagramType.Equals((string)diagramTypesCheckedList.Items[i], StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        diagramTypesCheckedList.SetItemChecked(i, true);
+                    }
+                }
+            }
             this.enableDisable();
         }
         private void unloadSettings()
@@ -45,6 +69,8 @@ namespace EAValidator
             this.settings.excludeArchivedPackages = this.excludeArchivedPackagesCheckbox.Checked;
             this.settings.QueryExcludeArchivedPackages = this.archivedPackagesQueryTextBox.Text ;
             this.settings.AllowedRepositoryTypes = this.allowedRepositoryTypesListBox.CheckedItems.Cast<RepositoryType>().ToList();
+            this.settings.scopeElementTypes = this.elementTypesCheckedList.CheckedItems.Cast<string>().ToList();
+            this.settings.scopeDiagramTypes = this.diagramTypesCheckedList.CheckedItems.Cast<string>().ToList();
         }
         private void save()
         {
@@ -77,5 +103,72 @@ namespace EAValidator
         {
             this.archivedPackagesQueryTextBox.Enabled = this.excludeArchivedPackagesCheckbox.Checked;
         }
+        private List<string> diagramTypes = new List<string> {"Activity"
+                                                            ,"Analysis"
+                                                            ,"Collaboration"
+                                                            ,"Component"
+                                                            ,"CompositeStructure"
+                                                            ,"Custom"
+                                                            ,"Deployment"
+                                                            ,"InteractionOverview"
+                                                            ,"Logical"
+                                                            ,"Object"
+                                                            ,"Package"
+                                                            ,"Sequence"
+                                                            ,"Statechart"
+                                                            ,"Timing"
+                                                            ,"Use Case"};
+        private List<string> elementTypes = new List<string> { "Action"
+                                                            ,"Activity"
+                                                            ,"ActivityPartition"
+                                                            ,"ActivityRegion"
+                                                            ,"Actor"
+                                                            ,"Artifact"
+                                                            ,"Association"
+                                                            ,"Boundary"
+                                                            ,"Change"
+                                                            ,"Class"
+                                                            ,"Collaboration"
+                                                            ,"Component"
+                                                            ,"Constraint"
+                                                            ,"Decision"
+                                                            ,"DeploymentSpecification"
+                                                            ,"DiagramFrame"
+                                                            ,"EmbeddedElement"
+                                                            ,"Entity"
+                                                            ,"EntryPoint"
+                                                            ,"Event"
+                                                            ,"ExceptionHandler"
+                                                            ,"ExitPoint"
+                                                            ,"ExpansionNode"
+                                                            ,"ExpansionRegion"
+                                                            ,"Feature"
+                                                            ,"GUIElement"
+                                                            ,"InteractionFragment"
+                                                            ,"InteractionOccurrence"
+                                                            ,"InteractionState"
+                                                            ,"Interface"
+                                                            ,"InterruptibleActivityRegion"
+                                                            ,"Issue"
+                                                            ,"Node"
+                                                            ,"Note"
+                                                            ,"Object"
+                                                            ,"Package"
+                                                            ,"Parameter"
+                                                            ,"Part"
+                                                            ,"Port"
+                                                            ,"ProvidedInterface"
+                                                            ,"Report"
+                                                            ,"RequiredInterface"
+                                                            ,"Requirement"
+                                                            ,"Screen"
+                                                            ,"Sequence"
+                                                            ,"State"
+                                                            ,"StateNode"
+                                                            ,"Synchronization"
+                                                            ,"Text"
+                                                            ,"TimeLine"
+                                                            ,"UMLDiagram"
+                                                            ,"UseCase"};
     }
 }

@@ -213,28 +213,9 @@ namespace EAValidator
         private void btnSelectDiagram_Click(object sender, EventArgs e)
         {
             this.ClearScopeFields();
-
             // Select the diagram that is selected in the EA Package Browser
-            this.scopeDiagram = this.controller.getSelectedDiagram();
-            if (this.scopeDiagram != null)
-            {
-                string diagramtype = this.scopeDiagram.GetType().ToString().Substring(this.scopeDiagram.GetType().ToString().LastIndexOf(".") + 1);
-                // Only keep diagram if it is a Use Case diagram
-                if (diagramtype == "UseCaseDiagram")
-                {
-                    this.txtDiagramName.Text = this.scopeDiagram.name;
-                }
-                else
-                {
-                    MessageBox.Show("Please select a Use Case-diagram in the Project Browser.");
-                    this.scopeDiagram = null as TSF_EA.Diagram;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Please select a Use Case-diagram in the Project Browser.");
-            }
-
+            this.scopeDiagram = this.controller.getSelectedScopeDiagram();
+            this.txtDiagramName.Text = this.scopeDiagram?.name;
             this.Initiate();
         }
 

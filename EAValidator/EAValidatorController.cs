@@ -20,7 +20,7 @@ namespace EAValidator
         public List<Check> checks { get; set; }
         public EAValidatorSettings settings { get; set; }
 
-                public EAValidatorController(TSF_EA.Model model, EAValidatorSettings settings)
+        public EAValidatorController(TSF_EA.Model model, EAValidatorSettings settings)
         {
             _model = model;
             validations = new List<Validation>();
@@ -31,13 +31,22 @@ namespace EAValidator
 
         public TSF_EA.Element getUserSelectedScopeElement()
         {
-            // Possible Types: see http://www.sparxsystems.com/enterprise_architect_user_guide/12.0/automation_and_scripting/element2.html
-            return this._model.getUserSelectedElement(new List<string> { "Change", "Package" }) as TSF_EA.Element;
+            return this._model.getUserSelectedElement(this.settings.scopeElementTypes) as TSF_EA.Element;
         }
 
-        public TSF_EA.Diagram getSelectedDiagram()
+        public TSF_EA.Diagram getSelectedScopeDiagram()
         {
-            return this._model.selectedDiagram as TSF_EA.Diagram;
+            var scopeDiagram = this._model.selectedDiagram as TSF_EA.Diagram;
+            if (scopeDiagram != null
+                && this.settings.scopeDiagramTypes.Contains(scopeDiagram.diagramType))
+            {
+                return scopeDiagram;
+            }
+            else
+            {
+                MessageBox.Show("Please select a valid scope diagram in the project browser");
+                return null;
+            }
         }
 
         public void OpenInEA(Validation validation)

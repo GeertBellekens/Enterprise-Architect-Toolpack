@@ -74,14 +74,7 @@ namespace EAValidator
                 }
                 return repositoryTypes;
             }
-            
             set => this.setListValue("AllowedRepositoryTypes", value.Select(x => x.ToString()).ToList());
-        }
-
-        public string SearchElementTypes
-        {
-            get => this.getValue("SearchElementTypes");
-            set => this.setValue("SearchElementTypes", value);
         }
 
         public string QueryExcludeArchivedPackages
@@ -99,6 +92,17 @@ namespace EAValidator
             get => this.getBooleanValue("excludeArchivedPackages");
             set => this.setBooleanValue("excludeArchivedPackages", value);
         }
+        public List<string> scopeElementTypes
+        {
+            get => this.getListValue("scopeElementTypes");
+            set => this.setListValue("scopeElementTypes", value);
+        }
+        public List<string> scopeDiagramTypes
+        {
+            get => this.getListValue("scopeDiagramTypes");
+            set => this.setListValue("scopeDiagramTypes", value);
+        }
+
 
         #endregion
     }
