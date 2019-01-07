@@ -14,7 +14,7 @@ namespace EAValidator
     /// </summary>
     public class EAValidatorController
     {
-        TSF_EA.Model _model { get; set; }
+        public TSF_EA.Model model { get; private set; }
         public string outputName { get; private set; }
         public List<Validation> validations { get; set; }
         public List<Check> checks { get; set; }
@@ -22,7 +22,7 @@ namespace EAValidator
 
         public EAValidatorController(TSF_EA.Model model, EAValidatorSettings settings)
         {
-            _model = model;
+            this.model = model;
             validations = new List<Validation>();
             checks = new List<Check>();
             this.settings = settings;
@@ -31,12 +31,12 @@ namespace EAValidator
 
         public TSF_EA.Element getUserSelectedScopeElement()
         {
-            return this._model.getUserSelectedElement(this.settings.scopeElementTypes) as TSF_EA.Element;
+            return this.model.getUserSelectedElement(this.settings.scopeElementTypes) as TSF_EA.Element;
         }
 
         public TSF_EA.Diagram getSelectedScopeDiagram()
         {
-            var scopeDiagram = this._model.selectedDiagram as TSF_EA.Diagram;
+            var scopeDiagram = this.model.selectedDiagram as TSF_EA.Diagram;
             if (scopeDiagram != null
                 && this.settings.scopeDiagramTypes.Contains(scopeDiagram.diagramType))
             {
@@ -55,7 +55,7 @@ namespace EAValidator
             {
                 // First find the type of Item in EA
                 UMLItem item = null;
-                item = this._model.getItemFromGUID(validation.ItemGuid);
+                item = this.model.getItemFromGUID(validation.ItemGuid);
                 if (item != null)
                 {
                     // Select in EA Package Browser
@@ -98,7 +98,7 @@ namespace EAValidator
                     if (Utils.ValidToXSD(this, file))
                     {
                         // add new check
-                        Check check = new Check(file, extension, this, this._model);
+                        Check check = new Check(file, extension, this, this.model);
                         checks.Add(check);
                         this.addLineToEAOutput("Check added: ", check.CheckId + " - " + check.CheckDescription);
                     }
@@ -119,7 +119,7 @@ namespace EAValidator
                         // Verify that xml-doc is accepted by xsd
                         if (Utils.ValidToXSD(this, file))
                         {
-                            Check check = new Check(file, extension, this, this._model);
+                            Check check = new Check(file, extension, this, this.model);
                             checks.Add(check);
                             this.addLineToEAOutput("Check added: ", check.CheckId + " - " + check.CheckDescription);
                         }
@@ -134,14 +134,14 @@ namespace EAValidator
 
         public void clearEAOutput()
         {
-            EAOutputLogger.clearLog(this._model, this.outputName);
+            EAOutputLogger.clearLog(this.model, this.outputName);
         }
 
         public void addLineToEAOutput(string outputline, string parameter)
         {
             if (this.settings.logToSystemOutput)
             {
-                EAOutputLogger.log(this._model, this.outputName, string.Format("{0} {1} {2}", DateTime.Now.ToLongTimeString(), outputline, parameter), 0, LogTypeEnum.log);
+                EAOutputLogger.log(this.model, this.outputName, string.Format("{0} {1} {2}", DateTime.Now.ToLongTimeString(), outputline, parameter), 0, LogTypeEnum.log);
             }
         }
 
@@ -151,14 +151,14 @@ namespace EAValidator
             clearEAOutput();
 
             // Check if the Enterprise Architect repository type is allowed
-            if (!(this.settings.AllowedRepositoryTypes.Contains(this._model.repositoryType)))
+            if (!(this.settings.AllowedRepositoryTypes.Contains(this.model.repositoryType)))
             {
-                MessageBox.Show($"Connectiontype of EA project not allowed: {this._model.repositoryType.ToString()}"
+                MessageBox.Show($"Connectiontype of EA project not allowed: {this.model.repositoryType.ToString()}"
                     + $"{Environment.NewLine}Please connect to an EA project of an allowed repository type");
-                addLineToEAOutput("Connectiontype of EA project not allowed: ", this._model.repositoryType.ToString());
+                addLineToEAOutput("Connectiontype of EA project not allowed: ", this.model.repositoryType.ToString());
                 return false;
             }
-            addLineToEAOutput("Connected to: ", _model.repositoryType.ToString());
+            addLineToEAOutput("Connected to: ", model.repositoryType.ToString());
 
             // Check if any checks are selected
             int numberOfChecks = selectedchecks.Count();
