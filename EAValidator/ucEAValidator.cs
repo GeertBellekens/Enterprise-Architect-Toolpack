@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -95,7 +96,7 @@ namespace EAValidator
 
             // Show checks/validations in objectListViews     
             this.olvColCheckDescription.HeaderCheckState = CheckState.Checked;
-            this.olvChecks.SetObjects(this.controller.checks);
+            this.olvChecks.Objects = new List<CheckGroup>() { this.controller.rootGroup };
             this.olvValidations.SetObjects(this.controller.validations);
 
             // Set focus to "Start Validation"
@@ -105,7 +106,6 @@ namespace EAValidator
         private void clearLists()
         {
             // Clear the lists
-            this.controller.checks.Clear();
             this.controller.validations.Clear();
         }
 
@@ -163,7 +163,7 @@ namespace EAValidator
                     this.olvValidations.Objects = this.controller.validations;
 
                     // Update status of validated checks
-                    this.olvChecks.RefreshObjects(this.controller.checks);
+                    this.olvChecks.Refresh();
 
                     // Show user that validation is done.
                     string message;

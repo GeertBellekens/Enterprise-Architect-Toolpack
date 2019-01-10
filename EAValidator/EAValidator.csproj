@@ -59,6 +59,7 @@
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Check.cs" />
+    <Compile Include="CheckGroup.cs" />
     <Compile Include="EAValidatorSettings.cs" />
     <Compile Include="EAValidatorAddin.cs" />
     <Compile Include="EAValidatorController.cs" />

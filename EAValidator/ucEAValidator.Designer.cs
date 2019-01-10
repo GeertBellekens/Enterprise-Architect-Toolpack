@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnDoValidation = new System.Windows.Forms.Button();
             this.olvValidations = new BrightIdeasSoftware.ObjectListView();
             this.olvColCheck = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -43,7 +44,7 @@
             this.olvColPackageParentLvl5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColWarningType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColProposedSolution = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvChecks = new BrightIdeasSoftware.ObjectListView();
+            this.olvChecks = new BrightIdeasSoftware.TreeListView();
             this.olvColCheckDescription = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckStatus = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -220,6 +221,7 @@
             this.olvChecks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.olvChecks.CellEditUseWholeCell = false;
+            this.olvChecks.CheckBoxes = true;
             this.olvChecks.CheckedAspectName = "";
             this.olvChecks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColCheckDescription,
@@ -233,10 +235,12 @@
             this.olvChecks.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvChecks.Location = new System.Drawing.Point(14, 26);
             this.olvChecks.Name = "olvChecks";
+            this.olvChecks.ShowGroups = false;
             this.olvChecks.Size = new System.Drawing.Size(971, 207);
             this.olvChecks.TabIndex = 3;
             this.olvChecks.UseCompatibleStateImageBehavior = false;
             this.olvChecks.View = System.Windows.Forms.View.Details;
+            this.olvChecks.VirtualMode = true;
             this.olvChecks.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.olvChecks_CellToolTipShowing);
             this.olvChecks.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.olvChecks_FormatCell);
             this.olvChecks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvChecks_MouseDoubleClick);
@@ -472,7 +476,7 @@
         private BrightIdeasSoftware.OLVColumn olvColElementType;
         private BrightIdeasSoftware.OLVColumn olvColElementStereotype;
         private BrightIdeasSoftware.OLVColumn olvColPackageName;
-        private BrightIdeasSoftware.ObjectListView olvChecks;
+        private BrightIdeasSoftware.TreeListView olvChecks;
         private System.Windows.Forms.Label lblChecks;
         private System.Windows.Forms.Label lblResults;
         private BrightIdeasSoftware.OLVColumn olvColCheckDescription;

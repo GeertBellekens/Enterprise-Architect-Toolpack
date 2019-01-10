@@ -1,13 +1,15 @@
-﻿using System;
+﻿using EAAddinFramework.Utilities;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Xml;
+using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Schema;
 using TSF.UmlToolingFramework.UML.Extended;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
-using System.Windows.Forms;
-using EAAddinFramework.Utilities;
-using System.Data.SqlClient;
 
 namespace EAValidator
 {
@@ -24,7 +26,7 @@ namespace EAValidator
         public string CheckId { get; set; }                         // Unique Identifier of the check
         public string CheckDescription { get; set; }                // Title of the check
         public string Status { get; set; }                         // Status of the check  (Not validated / Passed / Failed)
-        public string Group { get; set; }                           // Group of the check
+        public string Group => this.group?.name;                          // Group of the check
 
         public string QueryToFindElements { get; set; }                                     // sql-query to search for elements that must be checked
         public Dictionary<string, string> QueryToFindElementsFilters { get; set; }          // sql-filters that can be applied to QueryToFindElements
@@ -37,32 +39,35 @@ namespace EAValidator
         public string WarningType { get; set; }                     // Severity of the impact when problems are found. i.e. error, warning, (information)
         public string Rationale { get; set; }                       // Explanation of the logic of the check
         public string ProposedSolution { get; set; }                // Proposed Solution of the check
+        private EAValidatorSettings settings { get; set; }
+        private CheckGroup group { get; set; }
 
-        public Check(string file, string extension, EAValidatorController controller, TSF_EA.Model model)
+        public Check(string file, CheckGroup group, EAValidatorSettings settings, TSF_EA.Model model)
         {
+
+            //validate the xml file
+            this.ValidToXSD(file);
             // Constructor
             this.model = model;
-
+            this.settings = settings;
+            this.group = group;
             // Initiate the Check
-            SetDefaultValues();
+            this.SetDefaultValues();
 
             // Load file contents into the Check class
-            switch (extension)
+            switch (Path.GetExtension(file))
             {
                 case "xml":
-                    // Checks are grouped per directory
-                    string path = Path.GetDirectoryName(file);
-                    this.Group = path.Substring(path.LastIndexOf("\\") + 1);
-
+                    
                     // Load xml-document
-                    XmlDocument xmldoc = new XmlDocument();
+                    var xmldoc = new XmlDocument();
                     xmldoc.Load(file);
 
                     // Interprete xml node and subnodes
-                    XmlNode node = xmldoc.DocumentElement.SelectSingleNode(controller.settings.XML_CheckMainNode);
+                    XmlNode node = xmldoc.DocumentElement.SelectSingleNode(this.settings.XML_CheckMainNode);
                     foreach (XmlNode subNode in node.ChildNodes)
                     {
-                        InterpreteCheckSubNode(subNode);
+                        this.InterpreteCheckSubNode(subNode);
                     }
                     break;
 
@@ -185,10 +190,26 @@ namespace EAValidator
         private bool HasMandatoryContent()
         {
             // Verify that the check has all mandatory content
-            if (string.IsNullOrEmpty(this.CheckDescription)) return false;
-            if (string.IsNullOrEmpty(this.QueryToFindElements)) return false;
-            if (string.IsNullOrEmpty(this.QueryToCheckFoundElements)) return false;
-            if (string.IsNullOrEmpty(this.WarningType)) return false;
+            if (string.IsNullOrEmpty(this.CheckDescription))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(this.QueryToFindElements))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(this.QueryToCheckFoundElements))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(this.WarningType))
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -202,7 +223,7 @@ namespace EAValidator
             this.NumberOfValidationResults = "";
 
             // Search elements that need to be checked depending on filters and give back their guids.
-            var foundelementguids = getElementGuids(controller, EA_element, EA_diagram, excludeArchivedPackages);
+            var foundelementguids = this.getElementGuids(controller, EA_element, EA_diagram, excludeArchivedPackages);
             if (this.Status == "ERROR")
             {
                 controller.addLineToEAOutput("- Error while searching elements.", "");
@@ -215,7 +236,7 @@ namespace EAValidator
 
                 foundelementguids = foundelementguids.Substring(1);   // remove first ","
                 // Perform the checks for the elements found (based on their guids)
-                validations = CheckFoundElements(controller, foundelementguids);
+                validations = this.CheckFoundElements(controller, foundelementguids);
                 if (this.Status == "ERROR")
                 {
                     controller.addLineToEAOutput("- Error while validating found elements.", "");
@@ -255,10 +276,14 @@ namespace EAValidator
                         {
                             // Replace Branch with package-guids of branch
                             if (whereclause.Contains(controller.settings.PackageBranch))
-                                whereclause = whereclause.Replace(controller.settings.PackageBranch, getBranchPackageIDsByGuid(EA_element.guid));
+                            {
+                                whereclause = whereclause.Replace(controller.settings.PackageBranch, this.getBranchPackageIDsByGuid(EA_element.guid));
+                            }
                             else
+                            {
                                 // Replace Search Term with Element guid
                                 whereclause = whereclause.Replace(controller.settings.SearchTermInQueryToFindElements, EA_element.guid);
+                            }
                         }
                     }
                     else
@@ -321,7 +346,9 @@ namespace EAValidator
                     foreach (XmlNode subNode in node.ChildNodes)
                     {
                         if (subNode.Name == "ItemGuid")
+                        {
                             foundelementguids += ",'" + subNode.InnerText + "'";
+                        }
                     }
                 }
                 this.NumberOfElementsFound = numberOfElementsFound.ToString();
@@ -445,6 +472,22 @@ namespace EAValidator
             }
 
             return validations;
+        }
+        public bool ValidToXSD(string file)
+        {
+            bool valid = true;
+            string schemaNamespace = "";
+            string schemaFileName = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + @"\Files\check.xsd";
+            if (!(Utils.FileOrDirectoryExists(schemaFileName)))
+            {
+                throw new FileNotFoundException("XSD schema not found: ", schemaFileName);
+            }
+            XmlSchemaSet schemas = new XmlSchemaSet();
+            schemas.Add(schemaNamespace, schemaFileName);
+            string filename = new FileInfo(file).Name;
+            XDocument doc = XDocument.Load(file);
+            doc.Validate(schemas, (o, e) => { throw new XmlSchemaValidationException($"Check {filename} is invalid: {e.Message}"); });
+            return valid;
         }
     }
 }

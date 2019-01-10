@@ -1,11 +1,12 @@
-﻿using System;
+﻿using EAAddinFramework.Utilities;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
-using EAAddinFramework.Utilities;
-using TSF.UmlToolingFramework.UML.Extended;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+using TSF.UmlToolingFramework.UML.Extended;
+using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EAValidator
 {
@@ -17,16 +18,28 @@ namespace EAValidator
         public TSF_EA.Model model { get; private set; }
         public string outputName { get; private set; }
         public List<Validation> validations { get; set; }
-        public List<Check> checks { get; set; }
-        public EAValidatorSettings settings { get; set; }
+        public EAValidatorSettings settings { get; private set; }
+        public CheckGroup rootGroup { get; private set; }
+
 
         public EAValidatorController(TSF_EA.Model model, EAValidatorSettings settings)
         {
             this.model = model;
-            validations = new List<Validation>();
-            checks = new List<Check>();
+            this.validations = new List<Validation>();
             this.settings = settings;
             this.outputName = this.settings.outputName;
+        }
+        private IEnumerable<Check> _checks;
+        public IEnumerable<Check> checks
+        {
+            get
+            {
+                if (this._checks == null)
+                {
+                    this._checks = this.rootGroup.GetAllChecks();
+                }
+                return this._checks;
+            }
         }
 
         public TSF_EA.Element getUserSelectedScopeElement()
@@ -66,70 +79,17 @@ namespace EAValidator
                         // Open the diagram
                         item.open();
                     }
-                    else
-                    {
-                        // Open the properties  => Do not open properties because item needs to be unlocked first.
-                        //item.openProperties();
-                    }
-
                 }
             }
         }
 
         public void loadChecksFromDirectory(string directory)
         {
-            //clear EA output
-            this.clearEAOutput();
-            this.addLineToEAOutput("Start loading checks ...", "");
-
-            var extension = this.settings.ValidationChecks_Documenttype;
-            string[] Files;
-
             // Check if directory exists
             if (Utils.FileOrDirectoryExists(directory))
             {
-                this.addLineToEAOutput("Directory: ", directory);
-
-                // Get files from given directory                
-                Files = Utils.getFilesFromDirectory(directory, extension);
-                foreach (string file in Files)
-                {
-                    // Verify that xml-doc is accepted by xsd
-                    if (Utils.ValidToXSD(this, file))
-                    {
-                        // add new check
-                        Check check = new Check(file, extension, this, this.model);
-                        checks.Add(check);
-                        this.addLineToEAOutput("Check added: ", check.CheckId + " - " + check.CheckDescription);
-                    }
-                }
-
-                // Get subdirectories for main directory
-                string[] subdirectories = Utils.getSubdirectoriesForDirectory(directory);
-
-                // Load files from subdirectories as checks
-                foreach (string subdir in subdirectories)
-                {
-                    this.addLineToEAOutput("Directory: ", subdir);
-
-                    // Get files from subdirectory                
-                    Files = Utils.getFilesFromDirectory(subdir, extension);
-                    foreach (string file in Files)
-                    {
-                        // Verify that xml-doc is accepted by xsd
-                        if (Utils.ValidToXSD(this, file))
-                        {
-                            Check check = new Check(file, extension, this, this.model);
-                            checks.Add(check);
-                            this.addLineToEAOutput("Check added: ", check.CheckId + " - " + check.CheckDescription);
-                        }
-                    }
-                }
+                this.rootGroup = new CheckGroup(new DirectoryInfo(directory), this.settings, this.model);
             }
-            this.addLineToEAOutput("Finished loading checks.", "");
-
-            // Sort list of checks
-            checks = checks.OrderBy(x => x.CheckDescription).ToList<Check>();
         }
 
         public void clearEAOutput()
@@ -148,53 +108,53 @@ namespace EAValidator
         public bool ValidateChecks(ucEAValidator uc, List<Check> selectedchecks, TSF_EA.Element scopeElement, TSF_EA.Diagram EA_diagram)
         {
             // Clear the log
-            clearEAOutput();
+            this.clearEAOutput();
 
             // Check if the Enterprise Architect repository type is allowed
             if (!(this.settings.AllowedRepositoryTypes.Contains(this.model.repositoryType)))
             {
                 MessageBox.Show($"Connectiontype of EA project not allowed: {this.model.repositoryType.ToString()}"
                     + $"{Environment.NewLine}Please connect to an EA project of an allowed repository type");
-                addLineToEAOutput("Connectiontype of EA project not allowed: ", this.model.repositoryType.ToString());
+                this.addLineToEAOutput("Connectiontype of EA project not allowed: ", this.model.repositoryType.ToString());
                 return false;
             }
-            addLineToEAOutput("Connected to: ", model.repositoryType.ToString());
+            this.addLineToEAOutput("Connected to: ", this.model.repositoryType.ToString());
 
             // Check if any checks are selected
             int numberOfChecks = selectedchecks.Count();
             uc.InitProgressbar(numberOfChecks);
             // Check if the Enterprise Architect connection is sql
-            addLineToEAOutput("Number of checks to validate: ", numberOfChecks.ToString());
+            this.addLineToEAOutput("Number of checks to validate: ", numberOfChecks.ToString());
             if (numberOfChecks > 0)
             {
                 // Clear list of validations
-                validations.Clear();
+                this.validations.Clear();
 
                 // Perform the selected checks and return the validation-results
-                addLineToEAOutput("START of Validations...", "");
+                this.addLineToEAOutput("START of Validations...", "");
 
                 // Validate all selected checks
                 foreach (var check in selectedchecks)
                 {
-                    addLineToEAOutput("Validating check: ", check.CheckDescription);
-
-                    validations.AddRange(check.Validate(this, scopeElement, EA_diagram, this.settings.excludeArchivedPackages));
-                    var obj = checks.FirstOrDefault(x => x.CheckId == check.CheckId);
-                    if (obj != null) obj.SetStatus(check.Status);
-
+                    this.addLineToEAOutput("Validating check: ", check.CheckDescription);
+                    this.validations.AddRange(check.Validate(this, scopeElement, EA_diagram, this.settings.excludeArchivedPackages));
                     uc.IncrementProgressbar();
                 }
 
-                addLineToEAOutput("END of Validations.", "");
-                addLineToEAOutput("Show list with validation results.", "");
+                this.addLineToEAOutput("END of Validations.", "");
+                this.addLineToEAOutput("Show list with validation results.", "");
             }
 
             // If one (or more) check gave an ERROR, then notify the user about it
-            var objWithError = checks.FirstOrDefault(x => x.Status == "ERROR");
+            var objWithError = selectedchecks.FirstOrDefault(x => x.Status == "ERROR");
             if (objWithError != null)
+            {
                 return false;
+            }
             else
+            {
                 return true;
+            }
         }
     }
 }
