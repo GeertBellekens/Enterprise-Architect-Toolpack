@@ -5,6 +5,7 @@ using EAAddinFramework;
 using EAAddinFramework.Utilities;
 using MappingFramework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -370,7 +371,7 @@ namespace EAMapping
             //load the mapping set
             this.loadMapping(mappingSet);
         }
-        private MappingSet getMappingSet(TSF_EA.ElementWrapper sourceRoot)
+        public MappingSet getMappingSet(TSF_EA.ElementWrapper sourceRoot)
         {
             if (sourceRoot == null)
             {
