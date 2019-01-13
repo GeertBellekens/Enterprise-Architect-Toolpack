@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BrightIdeasSoftware;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -22,57 +23,54 @@ namespace EAValidator
         public ucEAValidator()
         {
             this.InitializeComponent();  // needed for Windows Form
+            this.setDelegates();
+        }
+        private void setDelegates()
+        {
+            //tell the control who can expand 
+            TreeListView.CanExpandGetterDelegate canExpandGetter = delegate (object x)
+            {
+                var checkGroup = x as CheckGroup;
+                return checkGroup != null && checkGroup.subItems.Any();
+            };
+            this.olvChecks.CanExpandGetter = canExpandGetter;
+            //tell the control how to expand
+            TreeListView.ChildrenGetterDelegate childrenGetter = delegate (object x)
+            {
+                var checkGroup = x as CheckGroup;
+                return checkGroup?.subItems;
+            };
+            this.olvChecks.ChildrenGetter = childrenGetter;
+            //tell the control which image to show
+            //ImageGetterDelegate imageGetter = delegate (object rowObject)
+            //{
+            //    if (rowObject is ElementMappingNode)
+            //    {
+            //        if (((ElementMappingNode)rowObject).source is UML.Classes.Kernel.Package)
+            //        {
+            //            return "packageNode";
+            //        }
+            //        else
+            //        {
+            //            return "classifierNode";
+            //        }
+            //    }
+            //    if (rowObject is AttributeMappingNode)
+            //    {
+            //        return "attributeNode";
+            //    }
 
-            this.progressBar1.Enabled = false;
-            this.progressBar1.UseWaitCursor = true;
-
-            this.olvChecks.EmptyListMsg = "No checks found to validate.";
-            this.olvChecks.CheckBoxes = true;
-            this.olvChecks.CheckedAspectName = "Selected";
-            this.olvChecks.Cursor = this.DefaultCursor;
-            this.olvChecks.FullRowSelect = true;
-            this.olvChecks.MultiSelect = true;
-            this.olvChecks.UseCellFormatEvents = true;  // necessary to use colours in cells
-            this.olvChecks.IncludeColumnHeadersInCopy = true;
-            this.olvChecks.CellEditUseWholeCell = false;
-
-            this.olvColCheckDescription.HeaderCheckBox = true;
-
-            this.olvChecks.ShowGroups = false;
-            //olvColCheckDescription.Groupable = false;
-            //olvColCheckId.Groupable = false;
-            //olvColCheckStatus.Groupable = false;
-            //olvColCheckWarningType.Groupable = false;
-            //olvColCheckNumberOfElementsFound.Groupable = false;
-            //olvColCheckNumberOfValidationResults.Groupable = false;
-            //olvColCheckGroup.Groupable = false;
-
-            this.olvColCheckDescription.IsEditable = false;
-            this.olvColCheckId.IsEditable = false;
-            this.olvColCheckStatus.IsEditable = false;
-            this.olvColCheckWarningType.IsEditable = false;
-            this.olvColCheckNumberOfElementsFound.IsEditable = false;
-            this.olvColCheckNumberOfValidationResults.IsEditable = false;
-            this.olvColCheckGroup.IsEditable = false;
-            this.olvColCheckRationale.IsEditable = false;
-
-            this.olvColCheckNumberOfElementsFound.Sortable = false;
-            this.olvColCheckNumberOfValidationResults.Sortable = false;
-
-            this.txtElementName.ReadOnly = true;
-            this.txtDiagramName.ReadOnly = true;
-
-            this.olvValidations.EmptyListMsg = "";
-            this.olvValidations.CheckBoxes = false;
-            this.olvValidations.Cursor = this.DefaultCursor;
-            this.olvValidations.FullRowSelect = true;
-            this.olvValidations.MultiSelect = true;
-            this.olvValidations.IncludeColumnHeadersInCopy = true;
-            this.olvValidations.ShowItemCountOnGroups = true;
-            this.olvValidations.ShowCommandMenuOnRightClick = true;
-            this.olvValidations.UseFilterIndicator = true;
-            this.olvValidations.UseFiltering = true;
-            this.olvValidations.CellEditUseWholeCell = false;
+            //    if (rowObject is AssociationMappingNode)
+            //    {
+            //        return "associationNode";
+            //    }
+            //    else
+            //    {
+            //        return string.Empty;
+            //    }
+            //};
+            //this.sourceColumn.ImageGetter = imageGetter;
+            //this.targetColumn.ImageGetter = imageGetter;
         }
 
         public void setController(EAValidatorController controller)
@@ -90,14 +88,13 @@ namespace EAValidator
 
             // Clear lists
             this.clearLists();
-
+            
             // Load files from directory as checks
             this.controller.loadChecksFromDirectory(this.controller.settings.ValidationChecks_Directory);
 
             // Show checks/validations in objectListViews     
-            this.olvColCheckDescription.HeaderCheckState = CheckState.Checked;
-            this.olvChecks.Objects = new List<CheckGroup>() { this.controller.rootGroup };
-            this.olvValidations.SetObjects(this.controller.validations);
+            //this.olvColCheckDescription.HeaderCheckState = CheckState.Checked;
+            this.olvChecks.Objects = new List<object>() { this.controller.rootGroup };
 
             // Set focus to "Start Validation"
             this.btnDoValidation.Select();
@@ -232,20 +229,24 @@ namespace EAValidator
         private void olvChecks_FormatCell(object sender, BrightIdeasSoftware.FormatCellEventArgs e)
         {
             // Colour (only) the column Status depending on its value
+
             if (e.ColumnIndex == this.olvColCheckStatus.Index)
             {
-                Check check = (Check)e.Model;
-                switch (check.Status)
+                var check = e.Model as Check;
+                if (check != null)
                 {
-                    case "Passed":
-                        e.SubItem.ForeColor = Color.Green;
-                        break;
-                    case "Failed":
-                        e.SubItem.ForeColor = Color.Red;
-                        break;
-                    default:  // Not Validated, ...
-                        e.SubItem.ForeColor = Color.Black;
-                        break;
+                    switch (check.Status)
+                    {
+                        case "Passed":
+                            e.SubItem.ForeColor = Color.Green;
+                            break;
+                        case "Failed":
+                            e.SubItem.ForeColor = Color.Red;
+                            break;
+                        default:  // Not Validated, ...
+                            e.SubItem.ForeColor = Color.Black;
+                            break;
+                    }
                 }
             }
         }
@@ -266,8 +267,11 @@ namespace EAValidator
             // Show Rationale as tooltip for column Description
             if (e.ColumnIndex == this.olvColCheckDescription.Index)
             {
-                Check check = (Check)e.Model;
-                e.Text = check.Rationale;
+                var check = e.Model as Check;
+                if (check != null)
+                {
+                    e.Text = check.Rationale;
+                }
             }
         }
 

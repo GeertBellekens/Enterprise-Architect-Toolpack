@@ -57,7 +57,7 @@ namespace EAValidator
             // Load file contents into the Check class
             switch (Path.GetExtension(file))
             {
-                case "xml":
+                case ".xml":
                     
                     // Load xml-document
                     var xmldoc = new XmlDocument();
@@ -78,7 +78,8 @@ namespace EAValidator
             // Verify that the check has all mandatory content
             if (!this.HasMandatoryContent())
             {
-                MessageBox.Show("XML file does not have all mandatory content." + " - " + file);
+                EAOutputLogger.log($"XML file does not have all mandatory content. - {file}", 0, LogTypeEnum.error);
+                //MessageBox.Show("XML file does not have all mandatory content." + " - " + file);
             }
         }
 

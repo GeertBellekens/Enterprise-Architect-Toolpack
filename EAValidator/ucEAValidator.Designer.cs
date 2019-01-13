@@ -116,11 +116,17 @@
             this.olvColWarningType,
             this.olvColProposedSolution});
             this.olvValidations.Cursor = System.Windows.Forms.Cursors.Default;
+            this.olvValidations.FullRowSelect = true;
+            this.olvValidations.IncludeColumnHeadersInCopy = true;
             this.olvValidations.Location = new System.Drawing.Point(14, 367);
             this.olvValidations.Name = "olvValidations";
+            this.olvValidations.ShowCommandMenuOnRightClick = true;
+            this.olvValidations.ShowItemCountOnGroups = true;
             this.olvValidations.Size = new System.Drawing.Size(971, 317);
             this.olvValidations.TabIndex = 2;
             this.olvValidations.UseCompatibleStateImageBehavior = false;
+            this.olvValidations.UseFilterIndicator = true;
+            this.olvValidations.UseFiltering = true;
             this.olvValidations.View = System.Windows.Forms.View.Details;
             this.olvValidations.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.olvValidations_CellToolTipShowing);
             this.olvValidations.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvValidations_MouseDoubleClick);
@@ -233,11 +239,16 @@
             this.olvColCheckGroup,
             this.olvColCheckRationale});
             this.olvChecks.Cursor = System.Windows.Forms.Cursors.Default;
+            this.olvChecks.EmptyListMsg = "No checks found to validate";
+            this.olvChecks.FullRowSelect = true;
+            this.olvChecks.IncludeColumnHeadersInCopy = true;
             this.olvChecks.Location = new System.Drawing.Point(14, 26);
             this.olvChecks.Name = "olvChecks";
             this.olvChecks.ShowGroups = false;
+            this.olvChecks.ShowImagesOnSubItems = true;
             this.olvChecks.Size = new System.Drawing.Size(971, 207);
             this.olvChecks.TabIndex = 3;
+            this.olvChecks.UseCellFormatEvents = true;
             this.olvChecks.UseCompatibleStateImageBehavior = false;
             this.olvChecks.View = System.Windows.Forms.View.Details;
             this.olvChecks.VirtualMode = true;
@@ -355,11 +366,13 @@
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Enabled = false;
             this.progressBar1.Location = new System.Drawing.Point(14, 324);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(874, 22);
             this.progressBar1.Step = 1;
             this.progressBar1.TabIndex = 12;
+            this.progressBar1.UseWaitCursor = true;
             // 
             // lblElementName
             // 

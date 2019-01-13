@@ -40,6 +40,20 @@ namespace EAValidator
                 return _subGroups;
             }
         }
+        private List<object> _subItems;
+        public IEnumerable<object> subItems
+        {
+            get
+            {
+                if (_subItems == null)
+                {
+                    _subItems = new List<object>();
+                    _subItems.AddRange(this.checks);
+                    _subItems.AddRange(this.subGroups);
+                }
+                return _subItems;
+            }
+        }
         private List<Check> _checks;
         public IEnumerable<Check> checks
         {
