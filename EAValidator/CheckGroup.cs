@@ -10,7 +10,7 @@ using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EAValidator
 {
-    public class CheckGroup
+    public class CheckGroup : CheckItem
     {
         private DirectoryInfo directory { get; set; }
         private EAValidatorSettings settings { get; set; }
@@ -24,6 +24,34 @@ namespace EAValidator
             this.model = model;
         }
         public string name => this.directory.Name;
+        public bool? selected
+        {
+            get
+            {
+                if (this.subItems.Any())
+                {
+                    if (this.subItems.All(x => x.selected == true))
+                    {
+                        return true;
+                    }
+                    if (this.subItems.All(x => x.selected == false))
+                    {
+                        return false;
+                    }
+                }
+                //not all selected and not all not selected
+                return null;
+                
+            }
+            set
+            {
+                if (value != null)
+                {
+                    this.subItems.ToList().ForEach(x => x.selected = value);
+                }
+            }
+        }
+
         public List<CheckGroup> _subGroups;
         public IEnumerable<CheckGroup> subGroups
         {
@@ -40,14 +68,14 @@ namespace EAValidator
                 return _subGroups;
             }
         }
-        private List<object> _subItems;
-        public IEnumerable<object> subItems
+        private List<CheckItem> _subItems;
+        public IEnumerable<CheckItem> subItems
         {
             get
             {
                 if (_subItems == null)
                 {
-                    _subItems = new List<object>();
+                    _subItems = new List<CheckItem>();
                     _subItems.AddRange(this.checks);
                     _subItems.AddRange(this.subGroups);
                 }
@@ -80,6 +108,9 @@ namespace EAValidator
                 return this._checks;
             }
         }
+
+        
+
         public IEnumerable<Check> GetAllChecks()
         {
             var allChecks = new List<Check>();

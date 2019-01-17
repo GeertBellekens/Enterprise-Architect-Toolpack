@@ -16,7 +16,7 @@ namespace EAValidator
     /// <summary>
     /// Class Validation defined to show in objectListView.
     /// </summary>
-    public class Check
+    public class Check : CheckItem
     {
         private TSF_EA.Model model { get; set; }
 
@@ -41,6 +41,25 @@ namespace EAValidator
         public string ProposedSolution { get; set; }                // Proposed Solution of the check
         private EAValidatorSettings settings { get; set; }
         private CheckGroup group { get; set; }
+        public string name => this.CheckDescription;
+
+        private bool _selected;
+        public bool? selected
+        {
+            get => this._selected;
+            set
+            {
+                if (!value.HasValue)
+                {
+                    //toggle
+                    this._selected = !this._selected;
+                }
+                else
+                {
+                    this._selected = value.Value;
+                }
+            }
+        }
 
         public Check(string file, CheckGroup group, EAValidatorSettings settings, TSF_EA.Model model)
         {
@@ -58,7 +77,7 @@ namespace EAValidator
             switch (Path.GetExtension(file))
             {
                 case ".xml":
-                    
+
                     // Load xml-document
                     var xmldoc = new XmlDocument();
                     xmldoc.Load(file);

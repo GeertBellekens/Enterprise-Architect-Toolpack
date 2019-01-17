@@ -95,6 +95,8 @@ namespace EAValidator
             // Show checks/validations in objectListViews     
             //this.olvColCheckDescription.HeaderCheckState = CheckState.Checked;
             this.olvChecks.Objects = new List<object>() { this.controller.rootGroup };
+            this.olvChecks.ExpandAll();
+            this.olvChecks.CheckAll();
 
             // Set focus to "Start Validation"
             this.btnDoValidation.Select();
@@ -265,7 +267,7 @@ namespace EAValidator
         private void olvChecks_CellToolTipShowing(object sender, BrightIdeasSoftware.ToolTipShowingEventArgs e)
         {
             // Show Rationale as tooltip for column Description
-            if (e.ColumnIndex == this.olvColCheckDescription.Index)
+            if (e.ColumnIndex == this.olvColName.Index)
             {
                 var check = e.Model as Check;
                 if (check != null)

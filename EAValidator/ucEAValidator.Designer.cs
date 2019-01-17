@@ -45,7 +45,7 @@
             this.olvColWarningType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColProposedSolution = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvChecks = new BrightIdeasSoftware.TreeListView();
-            this.olvColCheckDescription = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckStatus = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckNumberOfElementsFound = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -216,7 +216,7 @@
             // 
             // olvChecks
             // 
-            this.olvChecks.AllColumns.Add(this.olvColCheckDescription);
+            this.olvChecks.AllColumns.Add(this.olvColName);
             this.olvChecks.AllColumns.Add(this.olvColCheckId);
             this.olvChecks.AllColumns.Add(this.olvColCheckStatus);
             this.olvChecks.AllColumns.Add(this.olvColCheckNumberOfElementsFound);
@@ -228,9 +228,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.olvChecks.CellEditUseWholeCell = false;
             this.olvChecks.CheckBoxes = true;
-            this.olvChecks.CheckedAspectName = "";
+            this.olvChecks.CheckedAspectName = "selected";
             this.olvChecks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColCheckDescription,
+            this.olvColName,
             this.olvColCheckId,
             this.olvColCheckStatus,
             this.olvColCheckNumberOfElementsFound,
@@ -248,6 +248,7 @@
             this.olvChecks.ShowImagesOnSubItems = true;
             this.olvChecks.Size = new System.Drawing.Size(971, 207);
             this.olvChecks.TabIndex = 3;
+            this.olvChecks.TriStateCheckBoxes = true;
             this.olvChecks.UseCellFormatEvents = true;
             this.olvChecks.UseCompatibleStateImageBehavior = false;
             this.olvChecks.View = System.Windows.Forms.View.Details;
@@ -256,15 +257,13 @@
             this.olvChecks.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.olvChecks_FormatCell);
             this.olvChecks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvChecks_MouseDoubleClick);
             // 
-            // olvColCheckDescription
+            // olvColName
             // 
-            this.olvColCheckDescription.AspectName = "CheckDescription";
-            this.olvColCheckDescription.HeaderCheckBox = true;
-            this.olvColCheckDescription.HeaderCheckState = System.Windows.Forms.CheckState.Checked;
-            this.olvColCheckDescription.MaximumWidth = 800;
-            this.olvColCheckDescription.MinimumWidth = 50;
-            this.olvColCheckDescription.Text = "Description";
-            this.olvColCheckDescription.Width = 411;
+            this.olvColName.AspectName = "name";
+            this.olvColName.MaximumWidth = 800;
+            this.olvColName.MinimumWidth = 50;
+            this.olvColName.Text = "Name";
+            this.olvColName.Width = 411;
             // 
             // olvColCheckId
             // 
@@ -492,7 +491,7 @@
         private BrightIdeasSoftware.TreeListView olvChecks;
         private System.Windows.Forms.Label lblChecks;
         private System.Windows.Forms.Label lblResults;
-        private BrightIdeasSoftware.OLVColumn olvColCheckDescription;
+        private BrightIdeasSoftware.OLVColumn olvColName;
         private System.Windows.Forms.TextBox txtElementName;
         private System.Windows.Forms.Button btnSelectElement;
         private BrightIdeasSoftware.OLVColumn olvColCheckStatus;
