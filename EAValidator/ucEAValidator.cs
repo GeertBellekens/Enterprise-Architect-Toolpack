@@ -125,8 +125,11 @@ namespace EAValidator
         private void btnDoValidation_Click(object sender, EventArgs e)
         {
             // Verify if any check is selected
-            var listOfChecksForValidation = this.olvChecks.CheckedObjects.Cast<Check>().ToList();
-            if (!listOfChecksForValidation.Any())
+
+            var listOfChecksForValidation = this.olvChecks.Objects.OfType<CheckGroup>().FirstOrDefault()?
+                .GetAllChecks().Where(x => x.selected == true).ToList();
+ 
+            if (listOfChecksForValidation == null || !listOfChecksForValidation.Any())
             {
                 MessageBox.Show("No checks selected. Please select at least one check.");
             }
@@ -321,9 +324,9 @@ namespace EAValidator
             }
         }
 
-        private void txtDirectoryValidationChecks_TextChanged(object sender, EventArgs e)
+        private void olvChecks_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-
+            this.olvChecks.RefreshObject(((OLVListItem)e.Item).RowObject);
         }
     }
 }

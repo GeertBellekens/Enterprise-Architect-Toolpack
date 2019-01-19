@@ -255,6 +255,7 @@
             this.olvChecks.VirtualMode = true;
             this.olvChecks.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.olvChecks_CellToolTipShowing);
             this.olvChecks.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.olvChecks_FormatCell);
+            this.olvChecks.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.olvChecks_ItemChecked);
             this.olvChecks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvChecks_MouseDoubleClick);
             // 
             // olvColName

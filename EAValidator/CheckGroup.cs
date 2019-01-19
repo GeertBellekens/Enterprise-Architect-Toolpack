@@ -45,9 +45,15 @@ namespace EAValidator
             }
             set
             {
+                
                 if (value != null)
                 {
                     this.subItems.ToList().ForEach(x => x.selected = value);
+                }
+                else
+                {
+                    var currentValue = this.selected;
+                    this.subItems.ToList().ForEach(x => x.selected = ! currentValue);
                 }
             }
         }
@@ -62,7 +68,11 @@ namespace EAValidator
                     _subGroups = new List<CheckGroup>();
                     foreach (var subdirectory in this.directory.GetDirectories())
                     {
-                        _subGroups.Add(new CheckGroup(subdirectory, this.settings, this.model));
+                        var newSubGroup = new CheckGroup(subdirectory, this.settings, this.model);
+                        if (newSubGroup.subItems.Any())
+                        {
+                            _subGroups.Add(newSubGroup);
+                        }
                     }
                 }
                 return _subGroups;
