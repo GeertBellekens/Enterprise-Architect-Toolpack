@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Check>
+	<CheckId>011</CheckId>
+	<CheckDescription>Use Cases without Basic Path-scenario</CheckDescription>
+	<QueryToFindElements>
+		<Main>
+			SELECT o.ea_guid AS ItemGuid
+			FROM ((((((t_object o
+			INNER JOIN t_package p ON p.Package_ID = o.Package_ID)
+			LEFT JOIN t_package Package_p1 ON Package_p1.Package_id = p.parent_id)
+			LEFT JOIN t_package Package_p2 ON Package_p2.Package_id = Package_p1.parent_id)
+			LEFT JOIN t_package Package_p3 ON Package_p3.Package_id = Package_p2.parent_id)
+			LEFT JOIN t_package Package_p4 ON Package_p4.Package_id = Package_p3.parent_id)
+			LEFT JOIN t_package Package_p5 ON Package_p5.Package_id = Package_p4.parent_id)
+			WHERE o.Object_Type = 'UseCase'
+			AND (o.StereoType IS NULL OR (o.Stereotype &lt;&gt; 'bProcessUC' AND o.Stereotype  &lt;&gt; 'Business Transaction'))
+		</Main>
+		<Filters>
+			<Change>
+				AND o.ea_guid in (
+					SELECT oChange.ea_guid 
+					FROM t_object oChange
+					INNER JOIN t_objectproperties opChange ON oChange.Object_ID = opChange.Object_ID
+					WHERE opChange.Property = 'CR'
+					AND opChange.Value = '#SearchTerm#'
+				)
+			</Change>
+			<Release>
+				AND o.ea_guid in (
+					SELECT o2.ea_guid 
+					FROM (t_object o2
+					INNER JOIN t_objectproperties op2 ON o2.Object_ID = op2.Object_ID)
+					WHERE op2.Property = 'CR'
+					AND op2.Value in (
+						SELECT oChange.ea_guid
+						FROM ((t_object oRelease						
+						INNER JOIN t_connector con ON oRelease.Object_ID = con.End_Object_ID)
+						INNER JOIN t_object oChange ON con.Start_Object_ID = oChange.Object_ID)						
+						WHERE oRelease.ea_guid = '#SearchTerm#'
+					)
+				)					
+			</Release>
+			<Package>
+				AND p.Package_ID in (#Branch#)
+			</Package>
+			<FunctionalDesign>
+				AND o.ea_guid in (
+					SELECT o1.ea_guid
+					FROM t_object o1
+					INNER JOIN t_diagramobjects do1 ON do1.Object_ID = o1.Object_ID
+					INNER JOIN t_diagram d1 ON d1.Diagram_ID = do1.Diagram_ID
+					WHERE d1.ea_guid = '#SearchTerm#'
+				)
+			</FunctionalDesign>
+		</Filters>
+	</QueryToFindElements>
+	<QueryToCheckFoundElements>
+		<Main>
+			SELECT o.Name AS ItemName
+			, 'object' as ItemType
+			, o.ea_guid AS ItemGuid
+			, o.Object_Type AS ElementType
+			, o.StereoType AS ElementStereotype
+			, p.name AS PackageName
+			, package_p1.name AS PackageParentLevel1
+			, package_p2.name AS PackageParentLevel2 
+			, package_p3.name AS PackageParentLevel3
+			, package_p4.name AS PackageParentLevel4
+			, package_p5.name AS PackageParentLevel5
+			FROM ((((((t_object o
+			INNER JOIN t_package p ON p.Package_ID = o.Package_ID)
+			LEFT JOIN t_package Package_p1 ON Package_p1.Package_id = p.parent_id)
+			LEFT JOIN t_package Package_p2 ON Package_p2.Package_id = Package_p1.parent_id)
+			LEFT JOIN t_package Package_p3 ON Package_p3.Package_id = Package_p2.parent_id)
+			LEFT JOIN t_package Package_p4 ON Package_p4.Package_id = Package_p3.parent_id)
+			LEFT JOIN t_package Package_p5 ON Package_p5.Package_id = Package_p4.parent_id)
+			WHERE o.ea_guid in (#ElementGuids#)
+			AND o.ea_guid NOT IN 
+			(
+				SELECT o.ea_guid FROM t_object o 
+				INNER JOIN t_objectscenarios os ON o.Object_ID = os.Object_ID
+				WHERE os.ScenarioType = 'Basic Path'
+			)
+		</Main>
+		<Parameters></Parameters>
+	</QueryToCheckFoundElements>
+	<WarningType>Error</WarningType>
+	<Rationale>A UseCase must contain exactly 1 Basic Path-scenario.</Rationale>
+	<ProposedSolution>Add a Basic Path-scenario to the UseCase.</ProposedSolution>
+</Check>

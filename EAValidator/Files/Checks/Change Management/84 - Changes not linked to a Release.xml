@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Check>
+	<CheckId>084</CheckId>
+	<CheckDescription>Changes not linked to a Release</CheckDescription>
+	<QueryToFindElements>
+		<Main>
+			SELECT o.ea_guid AS ItemGuid
+			FROM ((((((t_object o
+			INNER JOIN t_package p ON p.Package_ID = o.Package_ID)
+			LEFT JOIN t_package Package_p1 ON Package_p1.Package_id = p.parent_id)
+			LEFT JOIN t_package Package_p2 ON Package_p2.Package_id = Package_p1.parent_id)
+			LEFT JOIN t_package Package_p3 ON Package_p3.Package_id = Package_p2.parent_id)
+			LEFT JOIN t_package Package_p4 ON Package_p4.Package_id = Package_p3.parent_id)
+			LEFT JOIN t_package Package_p5 ON Package_p5.Package_id = Package_p4.parent_id)
+			WHERE o.Object_Type = 'Change'
+			AND o.StereoType IN ('Change')
+		</Main>
+		<Filters>
+			<Change>
+				AND o.ea_guid = '#SearchTerm#'
+			</Change>
+			<Release>				
+			</Release>
+			<Package>
+				AND p.Package_ID in (#Branch#)
+			</Package>
+			<FunctionalDesign>
+				AND o.ea_guid in (
+					SELECT op1.Value 
+					FROM t_object o1
+					INNER JOIN t_diagramobjects do1 ON do1.Object_ID = o1.Object_ID
+					INNER JOIN t_diagram d1 ON d1.Diagram_ID = do1.Diagram_ID
+					INNER JOIN t_objectproperties op1 ON op1.Object_ID = o1.Object_ID
+					WHERE d1.ea_guid = '#SearchTerm#' 
+					AND op1.Property = 'CR'
+					UNION ALL
+					SELECT op2.Value 
+					FROM t_object o1
+					INNER JOIN t_diagramobjects do1 ON do1.Object_ID = o1.Object_ID
+					INNER JOIN t_diagram d1 ON d1.Diagram_ID = do1.Diagram_ID
+					INNER JOIN t_connector con1 ON con1.Start_Object_ID = o1.Object_ID
+					INNER JOIN t_object o2 ON o2.Object_ID = con1.End_Object_ID
+					INNER JOIN t_objectproperties op2 ON op2.Object_ID = o2.Object_ID
+					WHERE d1.ea_guid = '#SearchTerm#' 
+					AND op2.Property = 'CR'
+				)
+			</FunctionalDesign>
+		</Filters>
+	</QueryToFindElements>
+	<QueryToCheckFoundElements>
+		<Main>
+			SELECT o.Name AS ItemName
+			, 'object' as ItemType
+			, o.ea_guid AS ItemGuid
+			, o.Object_Type AS ElementType
+			, o.StereoType AS ElementStereotype
+			, p.name AS PackageName
+			, package_p1.name AS PackageParentLevel1
+			, package_p2.name AS PackageParentLevel2 
+			, package_p3.name AS PackageParentLevel3
+			, package_p4.name AS PackageParentLevel4
+			, package_p5.name AS PackageParentLevel5
+			FROM ((((((t_object o
+			INNER JOIN t_package p ON p.Package_ID = o.Package_ID)
+			LEFT JOIN t_package Package_p1 ON Package_p1.Package_id = p.parent_id)
+			LEFT JOIN t_package Package_p2 ON Package_p2.Package_id = Package_p1.parent_id)
+			LEFT JOIN t_package Package_p3 ON Package_p3.Package_id = Package_p2.parent_id)
+			LEFT JOIN t_package Package_p4 ON Package_p4.Package_id = Package_p3.parent_id)
+			LEFT JOIN t_package Package_p5 ON Package_p5.Package_id = Package_p4.parent_id)
+			WHERE o.Object_Type = 'Change'
+			AND o.ea_guid in (#ElementGuids#)
+			AND o.Object_ID NOT IN
+			(
+				SELECT obj1.Object_ID
+				FROM t_object obj1 
+				INNER JOIN t_connector con ON (obj1.Object_ID = con.Start_Object_ID)
+				INNER JOIN t_object obj2 ON (obj2.Object_ID = con.End_Object_ID)
+				WHERE obj1.Object_Type = 'Change'
+				AND obj1.Stereotype in ('Change')
+				AND obj2.Object_Type = 'Change'
+				AND obj2.Stereotype in ('Release')
+			)
+		</Main>
+		<Parameters></Parameters>
+	</QueryToCheckFoundElements>
+	<WarningType>Warning</WarningType>
+	<Rationale>A Change must be linked to a Release</Rationale>
+	<ProposedSolution>Add a Trace-relationship between Change and Release</ProposedSolution>
+</Check>

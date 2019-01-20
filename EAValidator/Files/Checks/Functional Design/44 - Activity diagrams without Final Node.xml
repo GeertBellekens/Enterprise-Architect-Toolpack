@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Check>
+	<CheckId>044</CheckId>
+	<CheckDescription>Activity diagrams without Final Node</CheckDescription>
+	<QueryToFindElements>
+		<Main>
+			SELECT d.ea_guid AS ItemGuid
+			FROM ((((((t_diagram d
+			INNER JOIN t_package p on p.Package_ID = d.Package_ID)
+			LEFT JOIN t_package package_p1 on package_p1.package_id = p.parent_id)
+			LEFT JOIN t_package package_p2 on package_p2.package_id = package_p1.parent_id)
+			LEFT JOIN t_package package_p3 on package_p3.package_id = package_p2.parent_id)
+			LEFT JOIN t_package package_p4 on package_p4.package_id = package_p3.parent_id)
+			LEFT JOIN t_package package_p5 on package_p5.package_id = package_p4.parent_id)
+			WHERE d.Diagram_Type = 'Activity'
+			AND d.ea_guid not in (
+				SELECT d2.ea_guid
+				FROM t_diagram d2
+				INNER JOIN t_diagramobjects do ON d.Diagram_ID=do.Diagram_ID
+				INNER JOIN t_object o ON do.Object_ID = o.Object_ID
+				WHERE d2.Diagram_Type='Activity'
+				AND o.Stereotype like 'BAM%'
+			)
+		</Main>
+		<Filters>
+			<Change>
+				AND d.ea_guid in (
+					SELECT d1.ea_guid
+					FROM t_diagram d1
+					INNER JOIN t_object o1 ON d1.ParentID = o1.Object_ID
+					INNER JOIN t_object o2 ON o1.ParentID = o2.Object_ID
+					WHERE o1.Object_Type = 'Activity'
+					AND o2.Object_Type = 'UseCase'
+					and o1.Package_ID = o2.Package_ID
+				)
+			</Change>
+			<Release>
+			</Release>
+			<Package>
+				AND p.Package_ID in (#Branch#)
+			</Package>
+			<FunctionalDesign>
+				AND d.ea_guid in (
+					SELECT dAct.ea_guid
+					FROM t_diagram dUCMD
+					INNER JOIN t_diagramobjects doUC ON doUC.Diagram_ID = dUCMD.Diagram_ID
+					INNER JOIN t_object oUC ON oUC.Object_ID = doUC.Object_ID
+					INNER JOIN t_object oAct ON oAct.ParentID = oUC.Object_ID
+					INNER JOIN t_diagram dAct ON dAct.ParentID = oAct.Object_ID
+					WHERE dUCMD.ea_guid = '#SearchTerm#'
+					AND oUC.Object_Type = 'UseCase'
+					
+				)
+			</FunctionalDesign>
+		</Filters>
+	</QueryToFindElements>
+	<QueryToCheckFoundElements>
+		<Main>
+			SELECT d.Name AS ItemName
+			, 'diagram' as ItemType
+			, d.ea_guid AS ItemGuid
+			, d.Diagram_Type AS ElementType
+			, d.StereoType AS ElementStereotype
+			, p.name AS PackageName
+			, package_p1.name AS PackageParentLevel1
+			, package_p2.name AS PackageParentLevel2 
+			, package_p3.name AS PackageParentLevel3
+			, package_p4.name AS PackageParentLevel4
+			, package_p5.name AS PackageParentLevel5
+			FROM ((((((t_diagram d
+			INNER JOIN t_package p on p.Package_ID = d.Package_ID)
+			LEFT JOIN t_package package_p1 on package_p1.package_id = p.parent_id)
+			LEFT JOIN t_package package_p2 on package_p2.package_id = package_p1.parent_id)
+			LEFT JOIN t_package package_p3 on package_p3.package_id = package_p2.parent_id)
+			LEFT JOIN t_package package_p4 on package_p4.package_id = package_p3.parent_id)
+			LEFT JOIN t_package package_p5 on package_p5.package_id = package_p4.parent_id)
+			WHERE d.ea_guid in (#ElementGuids#)
+			AND d.ea_guid not in (
+				SELECT d2.ea_guid
+				FROM t_diagram d2
+				INNER JOIN t_diagramobjects do ON d2.Diagram_ID=do.Diagram_ID
+				INNER JOIN t_object o ON do.Object_ID = o.Object_ID
+				WHERE d2.Diagram_Type='Activity'
+				AND o.Object_Type = 'StateNode'
+				AND o.NType in (101, 102)
+				GROUP BY d2.ea_guid
+				HAVING COUNT(o.Object_ID) >= 1
+			)
+		</Main>
+		<Parameters></Parameters>
+	</QueryToCheckFoundElements>
+	<WarningType>Error</WarningType>
+	<Rationale>An Activity diagram (without BAM-artefacts) must have at least one Final Node.</Rationale>
+	<ProposedSolution>Add a Final Node to the Activity-diagram</ProposedSolution>
+</Check>

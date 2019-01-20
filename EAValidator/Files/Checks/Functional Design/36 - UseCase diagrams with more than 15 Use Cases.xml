@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Check>
+	<CheckId>036</CheckId>
+	<CheckDescription>UseCase diagrams with more than 15 Use Cases</CheckDescription>
+	<QueryToFindElements>
+		<Main>
+			SELECT d.ea_guid AS ItemGuid
+			FROM ((((((t_diagram d
+			INNER JOIN t_package p on p.Package_ID = d.Package_ID)
+			LEFT JOIN t_package package_p1 on package_p1.package_id = p.parent_id)
+			LEFT JOIN t_package package_p2 on package_p2.package_id = package_p1.parent_id)
+			LEFT JOIN t_package package_p3 on package_p3.package_id = package_p2.parent_id)
+			LEFT JOIN t_Package Package_p4 ON Package_p4.Package_id = Package_p3.parent_id)
+			LEFT JOIN t_Package Package_p5 ON Package_p5.Package_id = Package_p4.parent_id)
+			WHERE d.Diagram_Type = 'Use Case'
+		</Main>
+		<Filters>
+			<Change>
+				AND d.ea_guid in (
+					SELECT d.ea_guid 
+					FROM t_diagram d
+					INNER JOIN t_diagramobjects do ON d.Diagram_ID = do.Diagram_ID
+					INNER JOIN t_object oUC ON oUC.Object_ID = do.Object_ID
+					INNER JOIN t_objectproperties opUC ON oUC.Object_ID = opUC.Object_ID
+					WHERE opUC.Property = 'CR'
+					AND opUC.Value = '#SearchTerm#'
+				)
+			</Change>
+			<Release>
+				AND d.ea_guid in (
+					SELECT d.ea_guid 
+					FROM t_diagram d
+					INNER JOIN t_diagramobjects do ON d.Diagram_ID = do.Diagram_ID
+					INNER JOIN t_object oUC ON oUC.Object_ID = do.Object_ID
+					INNER JOIN t_objectproperties opUC ON oUC.Object_ID = opUC.Object_ID
+					WHERE opUC.Property = 'CR'
+					AND opUC.Value in (
+						SELECT oChange.ea_guid
+						FROM t_object oRelease
+						INNER JOIN t_connector con ON oRelease.Object_ID = con.End_Object_ID
+						INNER JOIN t_object oChange ON con.Start_Object_ID = oChange.Object_ID
+						WHERE oRelease.ea_guid = '#SearchTerm#'
+					)
+				)
+			</Release>
+			<Package>
+				AND p.Package_ID in (#Branch#)
+			</Package>
+			<FunctionalDesign>
+				AND d.ea_guid = '#SearchTerm#'
+			</FunctionalDesign>
+		</Filters>
+	</QueryToFindElements>
+	<QueryToCheckFoundElements>
+		<Main>
+			SELECT d.Name AS ItemName
+			, 'diagram' as ItemType
+			, d.ea_guid AS ItemGuid
+			, d.Diagram_Type AS ElementType
+			, d.StereoType AS ElementStereotype
+			, p.name AS PackageName
+			, package_p1.name AS PackageParentLevel1
+			, package_p2.name AS PackageParentLevel2 
+			, package_p3.name AS PackageParentLevel3
+			, package_p4.name AS PackageParentLevel4
+			, package_p5.name AS PackageParentLevel5
+			FROM ((((((t_diagram d
+			INNER JOIN t_package p on p.Package_ID = d.Package_ID)
+			LEFT JOIN t_package package_p1 on package_p1.package_id = p.parent_id)
+			LEFT JOIN t_package package_p2 on package_p2.package_id = package_p1.parent_id)
+			LEFT JOIN t_package package_p3 on package_p3.package_id = package_p2.parent_id)
+			LEFT JOIN t_package package_p4 on package_p4.package_id = package_p3.parent_id)
+			LEFT JOIN t_package package_p5 on package_p5.package_id = package_p4.parent_id)
+			WHERE d.ea_guid in (#ElementGuids#)
+			AND d.ea_guid in (
+				SELECT d.ea_guid 
+				FROM dbo.t_diagram d
+				INNER JOIN t_diagramobjects do ON d.Diagram_ID=do.Diagram_ID
+				INNER JOIN t_object o ON do.Object_ID = o.Object_ID
+				WHERE d.Diagram_Type='Use Case'
+				AND o.Object_Type='UseCase'
+				GROUP BY d.ea_guid
+				HAVING COUNT(o.ea_guid) > '15'
+			)
+		</Main>
+		<Parameters></Parameters>
+	</QueryToCheckFoundElements>
+	<WarningType>Warning</WarningType>
+	<Rationale>A Use Case diagram should have max. 15 Use Cases.</Rationale>
+	<ProposedSolution>Split up the UseCase diagram into multiple UseCase diagrams</ProposedSolution>
+</Check>

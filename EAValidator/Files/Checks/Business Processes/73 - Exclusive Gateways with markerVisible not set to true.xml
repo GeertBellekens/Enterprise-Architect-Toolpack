@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Check>
+	<CheckId>073</CheckId>
+	<CheckDescription>Exclusive Gateways with markerVisible not set to true</CheckDescription>
+	<QueryToFindElements>
+		<Main>
+			SELECT o.ea_guid AS ItemGuid
+			FROM (((((((t_object o
+			INNER JOIN t_package p ON p.Package_ID = o.Package_ID)
+			INNER JOIN t_objectproperties op ON op.Object_ID = o.Object_ID)
+			LEFT JOIN t_package Package_p1 ON Package_p1.Package_id = p.parent_id)
+			LEFT JOIN t_package Package_p2 ON Package_p2.Package_id = Package_p1.parent_id)
+			LEFT JOIN t_package Package_p3 ON Package_p3.Package_id = Package_p2.parent_id)
+			LEFT JOIN t_package Package_p4 ON Package_p4.Package_id = Package_p3.parent_id)
+			LEFT JOIN t_package Package_p5 ON Package_p5.Package_id = Package_p4.parent_id)
+			WHERE o.Object_Type = 'Decision'
+			AND o.Stereotype = 'Gateway'
+			AND op.Property = 'gatewayType'
+			AND op.Value = 'Exclusive'
+		</Main>
+		<Filters>
+			<Change>
+			</Change>
+			<Release>				
+			</Release>
+			<Package>
+				AND p.Package_ID in (#Branch#)
+			</Package>
+			<FunctionalDesign>
+			</FunctionalDesign>
+		</Filters>
+	</QueryToFindElements>
+	<QueryToCheckFoundElements>
+		<Main>
+			SELECT o.Name AS ItemName
+			, 'object' as ItemType
+			, o.ea_guid AS ItemGuid
+			, o.Object_Type AS ElementType
+			, o.StereoType AS ElementStereotype
+			, p.name AS PackageName
+			, package_p1.name AS PackageParentLevel1
+			, package_p2.name AS PackageParentLevel2 
+			, package_p3.name AS PackageParentLevel3
+			, package_p4.name AS PackageParentLevel4
+			, package_p5.name AS PackageParentLevel5
+			FROM ((((((t_object o
+			INNER JOIN t_package p ON p.Package_ID = o.Package_ID)
+			LEFT JOIN t_package Package_p1 ON Package_p1.Package_id = p.parent_id)
+			LEFT JOIN t_package Package_p2 ON Package_p2.Package_id = Package_p1.parent_id)
+			LEFT JOIN t_package Package_p3 ON Package_p3.Package_id = Package_p2.parent_id)
+			LEFT JOIN t_package Package_p4 ON Package_p4.Package_id = Package_p3.parent_id)
+			LEFT JOIN t_package Package_p5 ON Package_p5.Package_id = Package_p4.parent_id)
+			WHERE o.ea_guid in (#ElementGuids#)
+			AND o.ea_guid not in (
+				SELECT o1.ea_guid
+				FROM t_object o1
+				INNER JOIN t_objectproperties op1 ON o.Object_ID = op1.Object_ID
+				WHERE op1.Property = 'markerVisible'
+				AND op1.Value = 'true'
+			)
+		</Main>
+		<Parameters></Parameters>
+	</QueryToCheckFoundElements>
+	<WarningType>Warning</WarningType>
+	<Rationale>Field "markerVisible" must be set to true on all Exclusive Gateways.</Rationale>
+	<ProposedSolution>Set the Field "markerVisible" to true on the Exclusive Gateways.</ProposedSolution>
+</Check>

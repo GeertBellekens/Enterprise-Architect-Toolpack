@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Check>
+	<CheckId>094</CheckId>
+	<CheckDescription>Business Process diagrams without objects</CheckDescription>
+	<QueryToFindElements>
+		<Main>
+			SELECT d.ea_guid AS ItemGuid
+			FROM (((((((t_diagram d
+			INNER JOIN t_package p on p.Package_ID = d.Package_ID)
+			INNER JOIN t_object o on (o.Object_ID = d.ParentID and o.Stereotype in ('BusinessProcess', 'Activity')))
+			LEFT JOIN t_package package_p1 on package_p1.package_id = p.parent_id)
+			LEFT JOIN t_package package_p2 on package_p2.package_id = package_p1.parent_id)
+			LEFT JOIN t_package package_p3 on package_p3.package_id = package_p2.parent_id)
+			LEFT JOIN t_Package Package_p4 on Package_p4.Package_id = Package_p3.parent_id)
+			LEFT JOIN t_Package Package_p5 on Package_p5.Package_id = Package_p4.parent_id)
+			WHERE d.Diagram_Type = 'Analysis'
+		</Main>
+		<Filters>
+			<Change>
+			</Change>
+			<Release>				
+			</Release>
+			<Package>
+				AND p.Package_ID in (#Branch#)
+			</Package>
+			<FunctionalDesign>
+			</FunctionalDesign>
+		</Filters>
+	</QueryToFindElements>
+	<QueryToCheckFoundElements>
+		<Main>
+			SELECT d.Name AS ItemName
+			, 'diagram' as ItemType
+			, d.ea_guid AS ItemGuid
+			, d.Diagram_Type AS ElementType
+			, d.StereoType AS ElementStereotype
+			, p.name AS PackageName
+			, package_p1.name AS PackageParentLevel1
+			, package_p2.name AS PackageParentLevel2 
+			, package_p3.name AS PackageParentLevel3
+			, package_p4.name AS PackageParentLevel4
+			, package_p5.name AS PackageParentLevel5
+			FROM ((((((t_diagram d
+			INNER JOIN t_package p on p.Package_ID = d.Package_ID)
+			LEFT JOIN t_package package_p1 on package_p1.package_id = p.parent_id)
+			LEFT JOIN t_package package_p2 on package_p2.package_id = package_p1.parent_id)
+			LEFT JOIN t_package package_p3 on package_p3.package_id = package_p2.parent_id)
+			LEFT JOIN t_package package_p4 on package_p4.package_id = package_p3.parent_id)
+			LEFT JOIN t_package package_p5 on package_p5.package_id = package_p4.parent_id)
+			WHERE d.ea_guid in (#ElementGuids#)
+			AND not exists (
+				SELECT do.Diagram_ID 
+				FROM t_diagramobjects do
+				WHERE d.Diagram_ID = d.Diagram_ID
+			)
+		</Main>
+		<Parameters></Parameters>
+	</QueryToCheckFoundElements>
+	<WarningType>Error</WarningType>
+	<Rationale></Rationale>
+	<ProposedSolution></ProposedSolution>
+</Check>
