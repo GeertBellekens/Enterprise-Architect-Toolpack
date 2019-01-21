@@ -17,6 +17,8 @@ namespace EAValidatorApp
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new SettingsForm(this.controller.settings).ShowDialog(this);
+            //re-initialize
+            this.ucEAValidator.setController(this.controller);
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

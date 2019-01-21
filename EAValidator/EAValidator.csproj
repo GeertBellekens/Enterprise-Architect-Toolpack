@@ -118,11 +118,92 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Files\EA Validator Logo.pdn" />
     <None Include="Files\license.rtf" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Files\EA Validator Logo.png" />
+    <Content Include="Files\Checks\Business Processes\73 - Exclusive Gateways with markerVisible not set to true.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Business Processes\94 - Business Process diagrams without objects.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Change Management\104 - Objects with tag CR without link.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Change Management\84 - Changes not linked to a Release.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\10 - Use Cases without Post-Condition.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\11 - Use Cases without Basic Path-Scenario.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\14 - Use Cases without Name.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\15 - Use Cases with Name not conform naming convention.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\18 - Use Cases without Description.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\19 - UseCase diagrams with no Boundary or more than one.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\20 - Use Cases that are not in exactly one Boundary.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\32 - Use Cases with wrong direction on relationship from Primary Actor.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\33 - Use Cases with wrong direction on relationship to Secondary Actor.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\35 - Use Cases with included child Use Cases but not used in the Scenarios.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\36 - UseCase diagrams with more than 15 Use Cases.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\42 - UseCase diagrams with Name not conform naming convention.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\44 - Activity diagrams without Final Node.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\45 - Activity diagrams with no Start Node or more than one Start Node.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\57 - Use Cases with unauthorized trace-relationship to other Use Cases.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\81 - Use Cases without primary Actor or incoming include-relationship.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Functional Design\97 - Use Cases with inconsistent naming on subelements.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Logical Data Model\01 - Unreferenced Enumerations.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Logical Data Model\02 - Unreferenced Datatypes.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Logical Data Model\03 - Enumerations without values.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Logical Data Model\04 - LDM-Classes containing Attributes without datatype.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Logical Data Model\90 - Associations without Direction.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\EA Validator Logo.ico" />
+    <Content Include="Files\EA Validator Logo_transparent.png" />
     <Content Include="Files\EAValidatorLogo.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

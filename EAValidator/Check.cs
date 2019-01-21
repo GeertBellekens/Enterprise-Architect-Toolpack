@@ -297,7 +297,7 @@ namespace EAValidator
                             // Replace Branch with package-guids of branch
                             if (whereclause.Contains(controller.settings.PackageBranch))
                             {
-                                whereclause = whereclause.Replace(controller.settings.PackageBranch, this.getBranchPackageIDsByGuid(EA_element.guid));
+                                whereclause = whereclause.Replace(controller.settings.PackageBranch, controller.scopePackageIDs);
                             }
                             else
                             {
@@ -379,76 +379,6 @@ namespace EAValidator
                 this.SetStatus("ERROR");
             }
             return foundelementguids;
-        }
-
-        private string getBranchPackageIDsByGuid(string packageguid)
-        {
-            // Get query to select Package guids 9 levels deep of selected package
-            string qrybranchselectids = "SELECT p1.Package_ID" +
-                                       " FROM t_package AS p1" +
-                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
-                                       " UNION ALL" +
-                                       " SELECT p2.Package_ID FROM (t_package AS p1 " +
-                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
-                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
-                                       " UNION ALL" +
-                                       " SELECT p3.Package_ID FROM ((t_package AS p1 " +
-                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
-                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
-                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
-                                       " UNION ALL" +
-                                       " SELECT p4.Package_ID FROM (((t_package AS p1 " +
-                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
-                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
-                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
-                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
-                                       " UNION ALL" +
-                                       " SELECT p5.Package_ID FROM ((((t_package AS p1 " +
-                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
-                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
-                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
-                                       " LEFT JOIN t_package p5 ON p5.Parent_ID = p4.Package_ID)" +
-                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
-                                       " UNION ALL" +
-                                       " SELECT p6.Package_ID FROM (((((t_package AS p1 " +
-                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
-                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
-                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
-                                       " LEFT JOIN t_package p5 ON p5.Parent_ID = p4.Package_ID)" +
-                                       " LEFT JOIN t_package p6 ON p6.Parent_ID = p5.Package_ID)" +
-                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
-                                       " UNION ALL" +
-                                       " SELECT p7.Package_ID FROM ((((((t_package AS p1 " +
-                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
-                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
-                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
-                                       " LEFT JOIN t_package p5 ON p5.Parent_ID = p4.Package_ID)" +
-                                       " LEFT JOIN t_package p6 ON p6.Parent_ID = p5.Package_ID)" +
-                                       " LEFT JOIN t_package p7 ON p7.Parent_ID = p6.Package_ID)" +
-                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
-                                       " UNION ALL" +
-                                       " SELECT p8.Package_ID FROM (((((((t_package AS p1 " +
-                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
-                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
-                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
-                                       " LEFT JOIN t_package p5 ON p5.Parent_ID = p4.Package_ID)" +
-                                       " LEFT JOIN t_package p6 ON p6.Parent_ID = p5.Package_ID)" +
-                                       " LEFT JOIN t_package p7 ON p7.Parent_ID = p6.Package_ID)" +
-                                       " LEFT JOIN t_package p8 ON p8.Parent_ID = p7.Package_ID)" +
-                                       " WHERE p1.ea_guid = '" + packageguid + "'" +
-                                       " UNION ALL" +
-                                       " SELECT p9.Package_ID FROM ((((((((t_package AS p1 " +
-                                       " LEFT JOIN t_package p2 ON p2.Parent_ID = p1.Package_ID)" +
-                                       " LEFT JOIN t_package p3 ON p3.Parent_ID = p2.Package_ID)" +
-                                       " LEFT JOIN t_package p4 ON p4.Parent_ID = p3.Package_ID)" +
-                                       " LEFT JOIN t_package p5 ON p5.Parent_ID = p4.Package_ID)" +
-                                       " LEFT JOIN t_package p6 ON p6.Parent_ID = p5.Package_ID)" +
-                                       " LEFT JOIN t_package p7 ON p7.Parent_ID = p6.Package_ID)" +
-                                       " LEFT JOIN t_package p8 ON p8.Parent_ID = p7.Package_ID)" +
-                                       " LEFT JOIN t_package p9 ON p9.Parent_ID = p8.Package_ID)" +
-                                       " WHERE p1.ea_guid = '" + packageguid + "'";
-
-            return qrybranchselectids;
         }
 
         private List<Validation> CheckFoundElements(EAValidatorController controller, string foundelementguids)

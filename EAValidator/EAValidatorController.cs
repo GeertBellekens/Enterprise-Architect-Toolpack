@@ -20,6 +20,8 @@ namespace EAValidator
         public List<Validation> validations { get; set; }
         public EAValidatorSettings settings { get; private set; }
         public CheckGroup rootGroup { get; private set; }
+        public string scopePackageIDs { get; private set; }
+
 
 
         public EAValidatorController(TSF_EA.Model model, EAValidatorSettings settings)
@@ -90,6 +92,13 @@ namespace EAValidator
             {
                 this.rootGroup = new CheckGroup(new DirectoryInfo(directory), this.settings, this.model);
             }
+            else
+            {
+                //try the default directory, which is the directory of the dll + \Files\Checks\
+                var checksDirectory = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
+                    ,@"Files\Checks\") ;
+                this.rootGroup = new CheckGroup(new DirectoryInfo(checksDirectory), this.settings, this.model);
+            }
         }
 
         public void clearEAOutput()
@@ -133,6 +142,18 @@ namespace EAValidator
                 // Perform the selected checks and return the validation-results
                 this.addLineToEAOutput("START of Validations...", "");
 
+                //get the ID's of the scope package tree
+                var scopePackage = scopeElement as TSF_EA.Package;
+                if (scopePackage != null)
+                {
+                    this.scopePackageIDs = scopePackage.packageTreeIDString;
+                }
+                else
+                {
+                    //make sure it won't hurt if used in a query anyway
+                    this.scopePackageIDs = "0";
+                }
+                
                 // Validate all selected checks
                 foreach (var check in selectedchecks)
                 {

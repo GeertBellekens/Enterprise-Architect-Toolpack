@@ -76,6 +76,21 @@ namespace EAValidator
         public void setController(EAValidatorController controller)
         {
             this.controller = controller;
+            // Load files from directory as checks
+            this.controller.loadChecksFromDirectory(this.controller.settings.ValidationChecks_Directory);
+
+            // Show checks/validations in objectListViews     
+            //this.olvColCheckDescription.HeaderCheckState = CheckState.Checked;
+            if (this.controller.rootGroup != null)
+            {
+                this.olvChecks.Objects = new List<object>() { this.controller.rootGroup };
+                this.olvChecks.ExpandAll();
+                this.olvChecks.CheckAll();
+            }
+            else
+            {
+                this.olvChecks.ClearObjects();
+            }
             this.Initiate();
         }
 
@@ -89,15 +104,6 @@ namespace EAValidator
             // Clear lists
             this.clearLists();
             
-            // Load files from directory as checks
-            this.controller.loadChecksFromDirectory(this.controller.settings.ValidationChecks_Directory);
-
-            // Show checks/validations in objectListViews     
-            //this.olvColCheckDescription.HeaderCheckState = CheckState.Checked;
-            this.olvChecks.Objects = new List<object>() { this.controller.rootGroup };
-            this.olvChecks.ExpandAll();
-            this.olvChecks.CheckAll();
-
             // Set focus to "Start Validation"
             this.btnDoValidation.Select();
         }
@@ -221,15 +227,6 @@ namespace EAValidator
             this.Initiate();
         }
 
-        private void btnSelectQueryDirectory_Click(object sender, EventArgs e)
-        {
-            // Change the setting to the selected directory
-            this.controller.settings.ValidationChecks_Directory = Utils.selectDirectory(this.controller.settings.ValidationChecks_Directory);
-            this.controller.settings.save();
-
-            // Refresh fields on screen
-            this.Initiate();
-        }
 
         private void olvChecks_FormatCell(object sender, BrightIdeasSoftware.FormatCellEventArgs e)
         {
