@@ -199,9 +199,6 @@
     <Content Include="Files\Checks\Logical Data Model\04 - LDM-Classes containing Attributes without datatype.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\Checks\Logical Data Model\90 - Associations without Direction.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Files\EA Validator Logo.ico" />
     <Content Include="Files\EA Validator Logo_transparent.png" />
     <Content Include="Files\EAValidatorLogo.gif">

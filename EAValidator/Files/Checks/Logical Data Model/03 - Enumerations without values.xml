@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Check>
 	<CheckId>003</CheckId>
-	<CheckDescription>LDM-Enumerations without values</CheckDescription>
+	<CheckDescription>Enumerations without values</CheckDescription>
 	<QueryToFindElements>
 		<Main>
 			SELECT o.ea_guid AS ItemGuid

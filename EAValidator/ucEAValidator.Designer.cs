@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ucEAValidator));
             this.btnDoValidation = new System.Windows.Forms.Button();
             this.olvValidations = new BrightIdeasSoftware.ObjectListView();
             this.olvColCheck = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -53,6 +54,7 @@
             this.olvColCheckWarningType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckGroup = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckRationale = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.checksImageList = new System.Windows.Forms.ImageList(this.components);
             this.lblChecks = new System.Windows.Forms.Label();
             this.lblResults = new System.Windows.Forms.Label();
             this.txtElementName = new System.Windows.Forms.TextBox();
@@ -136,7 +138,7 @@
             this.olvColCheck.AspectName = "CheckDescription";
             this.olvColCheck.IsEditable = false;
             this.olvColCheck.Text = "Check Description";
-            this.olvColCheck.Width = 64;
+            this.olvColCheck.Width = 200;
             // 
             // olvColEAItemType
             // 
@@ -247,6 +249,7 @@
             this.olvChecks.ShowGroups = false;
             this.olvChecks.ShowImagesOnSubItems = true;
             this.olvChecks.Size = new System.Drawing.Size(971, 207);
+            this.olvChecks.SmallImageList = this.checksImageList;
             this.olvChecks.TabIndex = 3;
             this.olvChecks.TriStateCheckBoxes = true;
             this.olvChecks.UseCellFormatEvents = true;
@@ -320,6 +323,13 @@
             this.olvColCheckRationale.MinimumWidth = 5;
             this.olvColCheckRationale.Text = "Rationale";
             this.olvColCheckRationale.Width = 500;
+            // 
+            // checksImageList
+            // 
+            this.checksImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("checksImageList.ImageStream")));
+            this.checksImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.checksImageList.Images.SetKeyName(0, "Check");
+            this.checksImageList.Images.SetKeyName(1, "package");
             // 
             // lblChecks
             // 
@@ -518,5 +528,6 @@
         private BrightIdeasSoftware.OLVColumn olvColCheckRationale;
         private BrightIdeasSoftware.OLVColumn olvColProposedSolution;
         private System.Windows.Forms.PictureBox logoBox;
+        private System.Windows.Forms.ImageList checksImageList;
     }
 }

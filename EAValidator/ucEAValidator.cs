@@ -42,35 +42,18 @@ namespace EAValidator
             };
             this.olvChecks.ChildrenGetter = childrenGetter;
             //tell the control which image to show
-            //ImageGetterDelegate imageGetter = delegate (object rowObject)
-            //{
-            //    if (rowObject is ElementMappingNode)
-            //    {
-            //        if (((ElementMappingNode)rowObject).source is UML.Classes.Kernel.Package)
-            //        {
-            //            return "packageNode";
-            //        }
-            //        else
-            //        {
-            //            return "classifierNode";
-            //        }
-            //    }
-            //    if (rowObject is AttributeMappingNode)
-            //    {
-            //        return "attributeNode";
-            //    }
-
-            //    if (rowObject is AssociationMappingNode)
-            //    {
-            //        return "associationNode";
-            //    }
-            //    else
-            //    {
-            //        return string.Empty;
-            //    }
-            //};
-            //this.sourceColumn.ImageGetter = imageGetter;
-            //this.targetColumn.ImageGetter = imageGetter;
+            ImageGetterDelegate imageGetter = delegate (object rowObject)
+            {
+                if (rowObject is Check)
+                {
+                    return "Check";
+                }
+                else
+                {
+                    return "package";
+                }
+            };
+            this.olvColName.ImageGetter = imageGetter;
         }
 
         public void setController(EAValidatorController controller)
@@ -131,7 +114,6 @@ namespace EAValidator
         private void btnDoValidation_Click(object sender, EventArgs e)
         {
             // Verify if any check is selected
-
             var listOfChecksForValidation = this.olvChecks.Objects.OfType<CheckGroup>().FirstOrDefault()?
                 .GetAllChecks().Where(x => x.selected == true).ToList();
  
@@ -141,51 +123,19 @@ namespace EAValidator
             }
             else
             {
-                var msg = "";
-                // Confirm execution of validations
-                if (listOfChecksForValidation.Count() == this.olvChecks.GetItemCount())
-                {
-                    msg = "Validate all checks?";
-                }
-                else
-                {
-                    msg = "Validate the selected checks?";
-                    // Set status to default "Not Validated"
-                    foreach (Check check in this.controller.checks)
-                    {
-                        check.SetStatus("Not Validated");
-                        check.NumberOfElementsFound = "";
-                        check.NumberOfValidationResults = "";
-                    }
-                }
+                //set cursor
+                Cursor.Current = Cursors.WaitCursor;
+                bool successful = true;
+                // Validate alle checked checks
+                successful = this.controller.ValidateChecks(this, listOfChecksForValidation, this.scopeElement, this.scopeDiagram);
 
-                DialogResult result = MessageBox.Show(msg, "Warning!", MessageBoxButtons.YesNo);
-                if (result == System.Windows.Forms.DialogResult.Yes)
-                {
-                    bool successful = true;
+                // Show validation results on screen
+                this.olvValidations.Objects = this.controller.validations;
 
-                    // Validate alle checked checks
-                    successful = this.controller.ValidateChecks(this, listOfChecksForValidation, this.scopeElement, this.scopeDiagram);
-
-                    // Show validation results on screen
-                    this.olvValidations.Objects = this.controller.validations;
-
-                    // Update status of validated checks
-                    this.olvChecks.Refresh();
-
-                    // Show user that validation is done.
-                    string message;
-                    if (successful)
-                    {
-                        message = "Validation finished succesfully.";
-                    }
-                    else
-                    {
-                        message = "Validation finished with errors.";
-                    }
-
-                    MessageBox.Show(message);
-                }
+                // Update status of validated checks
+                this.olvChecks.Refresh();
+                //set cursor back
+                Cursor.Current = Cursors.Default;
             }
         }
 
