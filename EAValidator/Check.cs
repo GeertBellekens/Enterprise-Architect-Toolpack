@@ -123,14 +123,17 @@ namespace EAValidator
                     break;
             }
         }
-
-        private void SetDefaultValues()
+        public void resetStatus()
         {
-            // Defaults
-            this.Selected = true;
             this.SetStatus("Not Validated");
             this.NumberOfElementsFound = "";
             this.NumberOfValidationResults = "";
+        }
+        private void SetDefaultValues()
+        {
+            this.resetStatus();
+            // Defaults
+            this.Selected = true;
             this.CheckId = "0";
             this.CheckDescription = "";
             this.QueryToFindElements = "";

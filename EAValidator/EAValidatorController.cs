@@ -153,12 +153,14 @@ namespace EAValidator
                     //make sure it won't hurt if used in a query anyway
                     this.scopePackageIDs = "0";
                 }
-                
+                //reset status for all checks
+                this.checks.ToList().ForEach(x => x.resetStatus());
                 // Validate all selected checks
                 foreach (var check in selectedchecks)
                 {
                     this.addLineToEAOutput("Validating check: ", check.CheckDescription);
                     this.validations.AddRange(check.Validate(this, scopeElement, EA_diagram, this.settings.excludeArchivedPackages));
+                    uc.refreshCheck(check);
                     uc.IncrementProgressbar();
                 }
 

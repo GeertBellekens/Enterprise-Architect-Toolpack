@@ -110,6 +110,11 @@ namespace EAValidator
         {
             this.progressBar1.Increment(1);
         }
+        public void refreshCheck(Check check)
+        {
+            this.olvChecks.RefreshObject(check);
+            this.olvChecks.EnsureModelVisible(check);
+        }
 
         private void btnDoValidation_Click(object sender, EventArgs e)
         {
@@ -126,14 +131,15 @@ namespace EAValidator
                 //set cursor
                 Cursor.Current = Cursors.WaitCursor;
                 bool successful = true;
+                //clear validations
+                this.olvValidations.ClearObjects();
+
                 // Validate alle checked checks
                 successful = this.controller.ValidateChecks(this, listOfChecksForValidation, this.scopeElement, this.scopeDiagram);
 
                 // Show validation results on screen
                 this.olvValidations.Objects = this.controller.validations;
 
-                // Update status of validated checks
-                this.olvChecks.Refresh();
                 //set cursor back
                 Cursor.Current = Cursors.Default;
             }
