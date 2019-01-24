@@ -1289,12 +1289,101 @@
 
           <Directory Id="Files" Name="Files">
             <Component Id="EAValidator_ExtraFiles" Guid="29085904-c1d1-4348-b872-d7e42c472b27" DiskId="1">
-              <File Id="EAValidatorLogo.gif" Source="..\EAValidator\bin\Debug\Files\EAValidatorLogo.gif" />
               <File Id="check.xsd" Source="..\EAValidator\bin\Debug\Files\check.xsd" />
             </Component>
+            <Directory Id="dirChecks" Name="Checks">
+              
+            </Directory>
           </Directory>
         </Directory>
       </Directory>
     </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="dirChecks" >
+      <Directory Id="dirBusinessProcesses" Name="Business Processes" />
+      <Directory Id="dirChangeManagement" Name="Change Management" />
+      <Directory Id="dirFunctionalDesign" Name="Functional Design" />
+      <Directory Id="dirLogicalDataModel" Name="Logical Data Model" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="EAValidator_Checks">
+      <Component Id="cmpE2E2F90F13A0779BA1194812F2267A4B" Directory="dirBusinessProcesses" Guid="{6E249B04-B36F-4E23-9E86-C125C7926545}">
+        <File Id="fil602177936EE60795547BD199971897C5" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Business Processes\73 - Exclusive Gateways with markerVisible not set to true.xml" />
+      </Component>
+      <Component Id="cmp9F0E01DDCE96B486BAF4816C6F08142F" Directory="dirBusinessProcesses" Guid="{0FB0E255-DAB5-45E0-95D3-7DC39EFC21AB}">
+        <File Id="fil463AE8BEDB64A93EA8B1EDEC643DEF3F" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Business Processes\94 - Business Process diagrams without objects.xml" />
+      </Component>
+      <Component Id="cmp1A94C57FD670050964FE6243241E29B6" Directory="dirChangeManagement" Guid="{69C74787-F7D2-4BDD-9CB8-3BBC3A96810E}">
+        <File Id="filA3984307EE53B53AE746629161BA071F" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Change Management\104 - Objects with tag CR without link.xml" />
+      </Component>
+      <Component Id="cmp31B9D24F8E7B3D6A8687F7FE30908C6A" Directory="dirChangeManagement" Guid="{81A64FDD-3CE3-437F-9A99-3AADF3E423C7}">
+        <File Id="filEDD20F66634F62061A9248E82929DC13" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Change Management\84 - Changes not linked to a Release.xml" />
+      </Component>
+      <Component Id="cmp93DD66B9F507C286C1C335FBADA3CD60" Directory="dirFunctionalDesign" Guid="{34E4A397-9C07-4E01-BB65-2FB8F87242E6}">
+        <File Id="fil3316B1A252F3A6498A6DB82181A4C3B5" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\10 - Use Cases without Post-Condition.xml" />
+      </Component>
+      <Component Id="cmpC8FC4A5DC30520D762A7D1C41019ED9F" Directory="dirFunctionalDesign" Guid="{E4207A65-1C24-438A-9061-6DDFC1D76687}">
+        <File Id="filA914FD7A72E24A55255F35FA0A94F1F7" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\11 - Use Cases without Basic Path-Scenario.xml" />
+      </Component>
+      <Component Id="cmp40A1EB85842C58AF2D3EFD62B602460B" Directory="dirFunctionalDesign" Guid="{80BB6058-9378-41FA-9966-94DFF950C2F3}">
+        <File Id="fil8B8A01AF2DD8237B2D3E449A20435C70" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\14 - Use Cases without Name.xml" />
+      </Component>
+      <Component Id="cmpE59AB83C9774F6215B55E0B27E2C72C2" Directory="dirFunctionalDesign" Guid="{99A6E985-FF37-4272-8737-0187AD0686C9}">
+        <File Id="filD55A1971AED359915C3D8B654EDFC946" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\15 - Use Cases with Name not conform naming convention.xml" />
+      </Component>
+      <Component Id="cmp13EC6210D25DEE1C091126E35346C244" Directory="dirFunctionalDesign" Guid="{2DFA6285-C48A-4D85-A927-3825339FCEA3}">
+        <File Id="fil69F91F8841B26FD9684D88C6DD2247A9" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\18 - Use Cases without Description.xml" />
+      </Component>
+      <Component Id="cmpA6C20281E36B288BA78DC7810A851ED3" Directory="dirFunctionalDesign" Guid="{3758F4B8-C84D-47A9-A3A8-D549E3B39444}">
+        <File Id="filC84D7B77B041CC39C428BDBB134C39C3" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\19 - UseCase diagrams with no Boundary or more than one.xml" />
+      </Component>
+      <Component Id="cmpA3CA05CFCAC480DCA66BB385AF564DAD" Directory="dirFunctionalDesign" Guid="{FDDBD851-6847-4628-A0AD-E26B2A824E7F}">
+        <File Id="fil359B706A5B029840C6CF73E4B2807136" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\20 - Use Cases that are not in exactly one Boundary.xml" />
+      </Component>
+      <Component Id="cmp8D5A5CA604A67EAFBFE537A073DE7826" Directory="dirFunctionalDesign" Guid="{DAC82006-BC5E-4121-AB3C-C11B3F5B5891}">
+        <File Id="fil7842971AC64BD767AE5321951F424DC0" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\32 - Use Cases with wrong direction on relationship from Primary Actor.xml" />
+      </Component>
+      <Component Id="cmpBA89634E009B2F2F0088415B15E2B691" Directory="dirFunctionalDesign" Guid="{781E9253-A97D-4125-8273-A5D912098292}">
+        <File Id="filBD761B9D310321E4312A19FA6F491B44" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\33 - Use Cases with wrong direction on relationship to Secondary Actor.xml" />
+      </Component>
+      <Component Id="cmp577C63A96DD9EE358E14A46EA60CF2F9" Directory="dirFunctionalDesign" Guid="{388F62A0-2AE4-4A52-8AFA-5A8DD58EEA56}">
+        <File Id="fil712EB6607D5A0D06EF9B8B13F3EFC073" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\35 - Use Cases with included child Use Cases but not used in the Scenarios.xml" />
+      </Component>
+      <Component Id="cmpD3F2B5D27DC2F8557CE3021B84F58B0B" Directory="dirFunctionalDesign" Guid="{EFD149D0-36FF-4C31-A0FB-6D68F3F8EEFE}">
+        <File Id="filDFD02174344B73E5E1FEF09BD72FB71B" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\36 - UseCase diagrams with more than 15 Use Cases.xml" />
+      </Component>
+      <Component Id="cmp5FD8F133E05D8E690C12E5ACEB05CF49" Directory="dirFunctionalDesign" Guid="{64D74BDC-8E7F-41E9-B3C3-2D67A985DE36}">
+        <File Id="fil79135C598D43DDDB4FD6B7ADFFD570DC" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\42 - UseCase diagrams with Name not conform naming convention.xml" />
+      </Component>
+      <Component Id="cmpCB8E30031CD0AC7A75062A94B970C27F" Directory="dirFunctionalDesign" Guid="{A8D12799-7FEF-4A53-BA3E-76D7C50506B3}">
+        <File Id="fil9A89FDA57F804FD4EA9727F4EC38E849" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\44 - Activity diagrams without Final Node.xml" />
+      </Component>
+      <Component Id="cmpBFA88D83D01DEB58896CB9D2784BF91C" Directory="dirFunctionalDesign" Guid="{FD0D1D21-1826-465D-94E2-DC592EBF0B00}">
+        <File Id="filE574983616FB20EC43B6FFE73C37EC0D" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\45 - Activity diagrams with no Start Node or more than one Start Node.xml" />
+      </Component>
+      <Component Id="cmp4A802641ACFD612C64467F234700E0F2" Directory="dirFunctionalDesign" Guid="{96C27123-1DF7-47A4-A64C-E744FD83D4CF}">
+        <File Id="fil5D71F4DF4BA1DC40CA5E82B5DDEC0DC3" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\57 - Use Cases with unauthorized trace-relationship to other Use Cases.xml" />
+      </Component>
+      <Component Id="cmp26F88CC4D199281ECE01348B2FF94C3B" Directory="dirFunctionalDesign" Guid="{CF7CAA04-56CD-4AC8-9D52-64D2C60AC1F6}">
+        <File Id="filBE045696F2B23AAE41C47B882EDC7560" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\81 - Use Cases without primary Actor or incoming include-relationship.xml" />
+      </Component>
+      <Component Id="cmpF3393CE4584418E43DA266C00873E054" Directory="dirFunctionalDesign" Guid="{82213A4A-3C26-4361-A9AF-531E8BBDB7D6}">
+        <File Id="filC05DE9CFB4F702A461315C6617DB1405" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Functional Design\97 - Use Cases with inconsistent naming on subelements.xml" />
+      </Component>
+      <Component Id="cmpF2121F80871B8A91FF97920901215A48" Directory="dirLogicalDataModel" Guid="{B318BCAA-C91F-42F5-A9DE-5F690974D005}">
+        <File Id="filCA1545A7533EFA2C3A52746A4B326B37" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Logical Data Model\01 - Unreferenced Enumerations.xml" />
+      </Component>
+      <Component Id="cmp9FBB19BACBB2A30AB5BF0EBF0B6EF5C1" Directory="dirLogicalDataModel" Guid="{725654A1-C3F5-4181-B718-CE1318EAD865}">
+        <File Id="fil68219D9DA7531E468CB76EFA619C40DC" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Logical Data Model\02 - Unreferenced Datatypes.xml" />
+      </Component>
+      <Component Id="cmpAD1751F8C0BCBCFB9788F5A4342E85FC" Directory="dirLogicalDataModel" Guid="{640FFC2D-ECDB-4978-B161-BC08A0F1F1F1}">
+        <File Id="filA277356AF11BAD7B1EB390403D55CB1B" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Logical Data Model\03 - Enumerations without values.xml" />
+      </Component>
+      <Component Id="cmpE47CC5FFBD73C1C76723CDB2EB02B352" Directory="dirLogicalDataModel" Guid="{B3108FA0-C788-4370-8F9F-2FCFF84486B2}">
+        <File Id="filE0A505117393D9343E893015D2EEB119" KeyPath="yes" Source="..\EAValidator\bin\Debug\Files\Checks\Logical Data Model\04 - LDM-Classes containing Attributes without datatype.xml" />
+      </Component>
+    </ComponentGroup>
   </Fragment>
 </Wix>
