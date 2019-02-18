@@ -376,6 +376,20 @@ namespace ECDMMessageComposer
             }
         }
         /// <summary>
+        /// Indicates that the attribute order for all attributes in the subset will be set to 0
+        /// </summary>
+        public bool setAttributeOrderZero
+        {
+            get
+            {
+                return this.getBooleanValue("setAttributeOrderZero");
+            }
+            set
+            {
+                this.setBooleanValue("setAttributeOrderZero", value);
+            }
+        }
+        /// <summary>
         /// Indicates whether or not to create/update a diagram
         /// </summary>
         public bool generateDiagram

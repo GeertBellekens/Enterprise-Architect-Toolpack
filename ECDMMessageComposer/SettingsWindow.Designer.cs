@@ -90,6 +90,7 @@ namespace ECDMMessageComposer
             this.deleteTaggedValueButton = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.diagramOptionsGroupBox = new System.Windows.Forms.GroupBox();
+            this.generateDiagramCheckbox = new System.Windows.Forms.CheckBox();
             this.deleteHiddenElementButton = new System.Windows.Forms.Button();
             this.hiddenElementGrid = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -109,7 +110,6 @@ namespace ECDMMessageComposer
             this.attributeTagTextBox = new System.Windows.Forms.TextBox();
             this.GeneralGroupBox = new System.Windows.Forms.GroupBox();
             this.generateToArtifactPackageCheckBox = new System.Windows.Forms.CheckBox();
-            this.KeepAttributeOrder = new System.Windows.Forms.CheckBox();
             this.usePackageSubsetsOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.deleteUnusedElementsCheckBox = new System.Windows.Forms.CheckBox();
             this.generalCopyGeneralizationsCheckbox = new System.Windows.Forms.CheckBox();
@@ -117,6 +117,7 @@ namespace ECDMMessageComposer
             this.notesPrefixTextBox = new System.Windows.Forms.TextBox();
             this.prefixNotesCheckBox = new System.Windows.Forms.CheckBox();
             this.RedirectGeneralizationsCheckBox = new System.Windows.Forms.CheckBox();
+            this.keepAttributeOrderRadio = new System.Windows.Forms.RadioButton();
             this.xmlSchemaGroup = new System.Windows.Forms.GroupBox();
             this.elementTagLabel = new System.Windows.Forms.Label();
             this.elementTagTextBox = new System.Windows.Forms.TextBox();
@@ -124,7 +125,9 @@ namespace ECDMMessageComposer
             this.orderAssociationsAmongstAttributesCheckbox = new System.Windows.Forms.CheckBox();
             this.orderAssociationsCheckbox = new System.Windows.Forms.CheckBox();
             this.noAttributeDependenciesCheckbox = new System.Windows.Forms.CheckBox();
-            this.generateDiagramCheckbox = new System.Windows.Forms.CheckBox();
+            this.attributeOptionsGroupBox = new System.Windows.Forms.GroupBox();
+            this.setAttributesOrderZeroRadio = new System.Windows.Forms.RadioButton();
+            this.addNewAttributesLastRadio = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -138,6 +141,7 @@ namespace ECDMMessageComposer
             this.traceabilityGroupBox.SuspendLayout();
             this.GeneralGroupBox.SuspendLayout();
             this.xmlSchemaGroup.SuspendLayout();
+            this.attributeOptionsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // ignoredStereoTypesGrid
@@ -263,18 +267,27 @@ namespace ECDMMessageComposer
             this.diagramOptionsGroupBox.Controls.Add(this.hiddenElementGrid);
             this.diagramOptionsGroupBox.Controls.Add(this.addSourceElementCheckBox);
             this.diagramOptionsGroupBox.Controls.Add(this.addDataTypesCheckBox);
-            this.diagramOptionsGroupBox.Location = new System.Drawing.Point(14, 453);
+            this.diagramOptionsGroupBox.Location = new System.Drawing.Point(15, 419);
             this.diagramOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 75);
             this.diagramOptionsGroupBox.Name = "diagramOptionsGroupBox";
-            this.diagramOptionsGroupBox.Size = new System.Drawing.Size(357, 158);
+            this.diagramOptionsGroupBox.Size = new System.Drawing.Size(350, 158);
             this.diagramOptionsGroupBox.TabIndex = 8;
             this.diagramOptionsGroupBox.TabStop = false;
             this.diagramOptionsGroupBox.Text = "Diagram Options";
             // 
+            // generateDiagramCheckbox
+            // 
+            this.generateDiagramCheckbox.Location = new System.Drawing.Point(6, 19);
+            this.generateDiagramCheckbox.Name = "generateDiagramCheckbox";
+            this.generateDiagramCheckbox.Size = new System.Drawing.Size(143, 24);
+            this.generateDiagramCheckbox.TabIndex = 10;
+            this.generateDiagramCheckbox.Text = "Generate Diagram";
+            this.generateDiagramCheckbox.UseVisualStyleBackColor = true;
+            // 
             // deleteHiddenElementButton
             // 
             this.deleteHiddenElementButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteHiddenElementButton.Location = new System.Drawing.Point(276, 130);
+            this.deleteHiddenElementButton.Location = new System.Drawing.Point(269, 130);
             this.deleteHiddenElementButton.Name = "deleteHiddenElementButton";
             this.deleteHiddenElementButton.Size = new System.Drawing.Size(75, 23);
             this.deleteHiddenElementButton.TabIndex = 9;
@@ -288,7 +301,7 @@ namespace ECDMMessageComposer
             this.hiddenElementGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.hiddenElementGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn3});
-            this.hiddenElementGrid.Location = new System.Drawing.Point(175, 19);
+            this.hiddenElementGrid.Location = new System.Drawing.Point(168, 19);
             this.hiddenElementGrid.Name = "hiddenElementGrid";
             this.hiddenElementGrid.RowHeadersVisible = false;
             this.hiddenElementGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -338,7 +351,7 @@ namespace ECDMMessageComposer
             this.dataTypeOptionsGroupBox.Controls.Add(this.deleteDataTypeButton);
             this.dataTypeOptionsGroupBox.Controls.Add(this.dataTypesGridView);
             this.dataTypeOptionsGroupBox.Controls.Add(this.copyDatatypesCheckbox);
-            this.dataTypeOptionsGroupBox.Location = new System.Drawing.Point(14, 285);
+            this.dataTypeOptionsGroupBox.Location = new System.Drawing.Point(14, 251);
             this.dataTypeOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 45);
             this.dataTypeOptionsGroupBox.Name = "dataTypeOptionsGroupBox";
             this.dataTypeOptionsGroupBox.Size = new System.Drawing.Size(351, 162);
@@ -407,7 +420,7 @@ namespace ECDMMessageComposer
             this.traceabilityGroupBox.Controls.Add(this.associationTagTextBox);
             this.traceabilityGroupBox.Controls.Add(this.attributeTagLabel);
             this.traceabilityGroupBox.Controls.Add(this.attributeTagTextBox);
-            this.traceabilityGroupBox.Location = new System.Drawing.Point(383, 210);
+            this.traceabilityGroupBox.Location = new System.Drawing.Point(378, 312);
             this.traceabilityGroupBox.Name = "traceabilityGroupBox";
             this.traceabilityGroupBox.Size = new System.Drawing.Size(357, 76);
             this.traceabilityGroupBox.TabIndex = 10;
@@ -448,7 +461,6 @@ namespace ECDMMessageComposer
             // 
             this.GeneralGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.GeneralGroupBox.Controls.Add(this.generateToArtifactPackageCheckBox);
-            this.GeneralGroupBox.Controls.Add(this.KeepAttributeOrder);
             this.GeneralGroupBox.Controls.Add(this.usePackageSubsetsOnlyCheckBox);
             this.GeneralGroupBox.Controls.Add(this.deleteUnusedElementsCheckBox);
             this.GeneralGroupBox.Controls.Add(this.generalCopyGeneralizationsCheckbox);
@@ -459,28 +471,19 @@ namespace ECDMMessageComposer
             this.GeneralGroupBox.Location = new System.Drawing.Point(14, 12);
             this.GeneralGroupBox.MinimumSize = new System.Drawing.Size(0, 20);
             this.GeneralGroupBox.Name = "GeneralGroupBox";
-            this.GeneralGroupBox.Size = new System.Drawing.Size(349, 258);
+            this.GeneralGroupBox.Size = new System.Drawing.Size(349, 233);
             this.GeneralGroupBox.TabIndex = 11;
             this.GeneralGroupBox.TabStop = false;
             this.GeneralGroupBox.Text = "General Options";
             // 
             // generateToArtifactPackageCheckBox
             // 
-            this.generateToArtifactPackageCheckBox.Location = new System.Drawing.Point(6, 227);
+            this.generateToArtifactPackageCheckBox.Location = new System.Drawing.Point(6, 197);
             this.generateToArtifactPackageCheckBox.Name = "generateToArtifactPackageCheckBox";
             this.generateToArtifactPackageCheckBox.Size = new System.Drawing.Size(276, 24);
             this.generateToArtifactPackageCheckBox.TabIndex = 9;
             this.generateToArtifactPackageCheckBox.Text = "Generate to profile package only";
             this.generateToArtifactPackageCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // KeepAttributeOrder
-            // 
-            this.KeepAttributeOrder.Location = new System.Drawing.Point(6, 197);
-            this.KeepAttributeOrder.Name = "KeepAttributeOrder";
-            this.KeepAttributeOrder.Size = new System.Drawing.Size(276, 24);
-            this.KeepAttributeOrder.TabIndex = 8;
-            this.KeepAttributeOrder.Text = "Keep original attribute order";
-            this.KeepAttributeOrder.UseVisualStyleBackColor = true;
             // 
             // usePackageSubsetsOnlyCheckBox
             // 
@@ -544,6 +547,15 @@ namespace ECDMMessageComposer
             this.RedirectGeneralizationsCheckBox.Text = "Redirect Generalizations to subset";
             this.RedirectGeneralizationsCheckBox.UseVisualStyleBackColor = true;
             // 
+            // keepAttributeOrderRadio
+            // 
+            this.keepAttributeOrderRadio.Location = new System.Drawing.Point(6, 42);
+            this.keepAttributeOrderRadio.Name = "keepAttributeOrderRadio";
+            this.keepAttributeOrderRadio.Size = new System.Drawing.Size(276, 24);
+            this.keepAttributeOrderRadio.TabIndex = 8;
+            this.keepAttributeOrderRadio.Text = "Keep original attribute order";
+            this.keepAttributeOrderRadio.UseVisualStyleBackColor = true;
+            // 
             // xmlSchemaGroup
             // 
             this.xmlSchemaGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -553,7 +565,7 @@ namespace ECDMMessageComposer
             this.xmlSchemaGroup.Controls.Add(this.orderAssociationsAmongstAttributesCheckbox);
             this.xmlSchemaGroup.Controls.Add(this.orderAssociationsCheckbox);
             this.xmlSchemaGroup.Controls.Add(this.noAttributeDependenciesCheckbox);
-            this.xmlSchemaGroup.Location = new System.Drawing.Point(383, 296);
+            this.xmlSchemaGroup.Location = new System.Drawing.Point(378, 396);
             this.xmlSchemaGroup.Name = "xmlSchemaGroup";
             this.xmlSchemaGroup.Size = new System.Drawing.Size(357, 193);
             this.xmlSchemaGroup.TabIndex = 12;
@@ -613,14 +625,39 @@ namespace ECDMMessageComposer
             this.noAttributeDependenciesCheckbox.Text = "Do not create Attribute dependencies";
             this.noAttributeDependenciesCheckbox.UseVisualStyleBackColor = true;
             // 
-            // generateDiagramCheckbox
+            // attributeOptionsGroupBox
             // 
-            this.generateDiagramCheckbox.Location = new System.Drawing.Point(6, 19);
-            this.generateDiagramCheckbox.Name = "generateDiagramCheckbox";
-            this.generateDiagramCheckbox.Size = new System.Drawing.Size(143, 24);
-            this.generateDiagramCheckbox.TabIndex = 10;
-            this.generateDiagramCheckbox.Text = "Generate Diagram";
-            this.generateDiagramCheckbox.UseVisualStyleBackColor = true;
+            this.attributeOptionsGroupBox.Controls.Add(this.setAttributesOrderZeroRadio);
+            this.attributeOptionsGroupBox.Controls.Add(this.addNewAttributesLastRadio);
+            this.attributeOptionsGroupBox.Controls.Add(this.keepAttributeOrderRadio);
+            this.attributeOptionsGroupBox.Location = new System.Drawing.Point(378, 201);
+            this.attributeOptionsGroupBox.Name = "attributeOptionsGroupBox";
+            this.attributeOptionsGroupBox.Size = new System.Drawing.Size(355, 97);
+            this.attributeOptionsGroupBox.TabIndex = 13;
+            this.attributeOptionsGroupBox.TabStop = false;
+            this.attributeOptionsGroupBox.Text = "Attribute options";
+            // 
+            // setAttributesOrderZeroRadio
+            // 
+            this.setAttributesOrderZeroRadio.AutoSize = true;
+            this.setAttributesOrderZeroRadio.Location = new System.Drawing.Point(6, 72);
+            this.setAttributesOrderZeroRadio.Name = "setAttributesOrderZeroRadio";
+            this.setAttributesOrderZeroRadio.Size = new System.Drawing.Size(130, 17);
+            this.setAttributesOrderZeroRadio.TabIndex = 9;
+            this.setAttributesOrderZeroRadio.TabStop = true;
+            this.setAttributesOrderZeroRadio.Text = "Set attribute order to 0";
+            this.setAttributesOrderZeroRadio.UseVisualStyleBackColor = true;
+            // 
+            // addNewAttributesLastRadio
+            // 
+            this.addNewAttributesLastRadio.AutoSize = true;
+            this.addNewAttributesLastRadio.Location = new System.Drawing.Point(6, 19);
+            this.addNewAttributesLastRadio.Name = "addNewAttributesLastRadio";
+            this.addNewAttributesLastRadio.Size = new System.Drawing.Size(164, 17);
+            this.addNewAttributesLastRadio.TabIndex = 0;
+            this.addNewAttributesLastRadio.TabStop = true;
+            this.addNewAttributesLastRadio.Text = "Add new attributes at the end";
+            this.addNewAttributesLastRadio.UseVisualStyleBackColor = true;
             // 
             // SettingsWindow
             // 
@@ -629,6 +666,7 @@ namespace ECDMMessageComposer
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(745, 626);
+            this.Controls.Add(this.attributeOptionsGroupBox);
             this.Controls.Add(this.xmlSchemaGroup);
             this.Controls.Add(this.deleteTaggedValueButton);
             this.Controls.Add(this.deleteStereotypeButton);
@@ -663,13 +701,18 @@ namespace ECDMMessageComposer
             this.GeneralGroupBox.PerformLayout();
             this.xmlSchemaGroup.ResumeLayout(false);
             this.xmlSchemaGroup.PerformLayout();
+            this.attributeOptionsGroupBox.ResumeLayout(false);
+            this.attributeOptionsGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
 		}
 
-        private System.Windows.Forms.CheckBox KeepAttributeOrder;
+        private System.Windows.Forms.RadioButton keepAttributeOrderRadio;
         private System.Windows.Forms.CheckBox generateToArtifactPackageCheckBox;
         private System.Windows.Forms.CheckBox generateDiagramCheckbox;
+        private System.Windows.Forms.GroupBox attributeOptionsGroupBox;
+        private System.Windows.Forms.RadioButton setAttributesOrderZeroRadio;
+        private System.Windows.Forms.RadioButton addNewAttributesLastRadio;
         //this.ResumeLayout(false);
     }
 }

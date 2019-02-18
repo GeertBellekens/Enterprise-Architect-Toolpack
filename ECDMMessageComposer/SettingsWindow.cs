@@ -42,8 +42,6 @@ namespace ECDMMessageComposer
 			loadGridData(hiddenElementGrid, settings.hiddenElementTypes);
 			//copy generalizations
 			this.generalCopyGeneralizationsCheckbox.Checked = settings.copyGeneralizations;
-            //keep original attribute order
-            this.KeepAttributeOrder.Checked = settings.keepOriginalAttributeOrder;
             //Generate to artifact package
             this.generateToArtifactPackageCheckBox.Checked = settings.generateToArtifactPackage;
             //generate diagram checkbox
@@ -58,6 +56,10 @@ namespace ECDMMessageComposer
             this.limitDatatypesCheckBox.Checked = settings.limitDataTypes;
             //copy Generalizations checkbox
             this.copyDataTypeGeneralizationsCheckBox.Checked = settings.copyDataTypeGeneralizations;
+            //Attribute options
+            this.keepAttributeOrderRadio.Checked = settings.keepOriginalAttributeOrder;
+            this.setAttributesOrderZeroRadio.Checked = settings.setAttributeOrderZero;
+            this.addNewAttributesLastRadio.Checked = !settings.setAttributeOrderZero && !settings.keepOriginalAttributeOrder;
             //sourceAttributeTag
             this.attributeTagTextBox.Text = settings.sourceAttributeTagName;
             //sourceAssociationTag
@@ -104,7 +106,7 @@ namespace ECDMMessageComposer
 		    this.settings.checkSecurity = this.checkSecurityCheckBox.Checked;
 		    this.settings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
 		    this.settings.usePackageSchemasOnly = this.usePackageSubsetsOnlyCheckBox.Checked;
-            this.settings.keepOriginalAttributeOrder = this.KeepAttributeOrder.Checked;
+            
             this.settings.generateToArtifactPackage = this.generateToArtifactPackageCheckBox.Checked ;
             //diagram options
             this.settings.generateDiagram = this.generateDiagramCheckbox.Checked;
@@ -114,8 +116,11 @@ namespace ECDMMessageComposer
 		    this.settings.copyDataTypes = this.copyDatatypesCheckbox.Checked;
 		    this.settings.limitDataTypes = this.limitDatatypesCheckBox.Checked;
 		    this.settings.copyDataTypeGeneralizations = this.copyDataTypeGeneralizationsCheckBox.Checked;
-		    //tracebility tag names
-		    this.settings.sourceAttributeTagName = this.attributeTagTextBox.Text;
+            //Attribute options
+            this.settings.keepOriginalAttributeOrder = this.keepAttributeOrderRadio.Checked;
+            this.settings.setAttributeOrderZero = this.setAttributesOrderZeroRadio.Checked;
+            //tracebility tag names
+            this.settings.sourceAttributeTagName = this.attributeTagTextBox.Text;
 		    this.settings.sourceAssociationTagName = this.associationTagTextBox.Text;
 		    //xml schema settings
 		    this.settings.dontCreateAttributeDependencies = this.noAttributeDependenciesCheckbox.Checked;
