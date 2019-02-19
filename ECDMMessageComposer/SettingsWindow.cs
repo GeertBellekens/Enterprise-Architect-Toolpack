@@ -75,7 +75,8 @@ namespace ECDMMessageComposer
 		    this.noAttributeDependenciesCheckbox.Checked = this.settings.dontCreateAttributeDependencies;
 		    this.orderAssociationsCheckbox.Checked = this.settings.orderAssociationsAlphabetically;
 		    this.orderAssociationsAmongstAttributesCheckbox.Checked = this.settings.orderAssociationsAmongstAttributes;
-		    this.tvInsteadOfTraceCheckBox.Checked = this.settings.tvInsteadOfTrace;
+            this.choiceBeforeAttributesCheckbox.Checked = this.settings.orderXmlChoiceBeforeAttributes;
+            this.tvInsteadOfTraceCheckBox.Checked = this.settings.tvInsteadOfTrace;
 		    this.elementTagTextBox.Text = this.settings.elementTagName;
 		}
 		private void enableDisable()
@@ -126,7 +127,8 @@ namespace ECDMMessageComposer
 		    this.settings.dontCreateAttributeDependencies = this.noAttributeDependenciesCheckbox.Checked;
 		    this.settings.orderAssociationsAlphabetically = this.orderAssociationsCheckbox.Checked;
 		    this.settings.orderAssociationsAmongstAttributes = this.orderAssociationsAmongstAttributesCheckbox.Checked;
-		    this.settings.tvInsteadOfTrace = this.tvInsteadOfTraceCheckBox.Checked;
+            this.settings.orderXmlChoiceBeforeAttributes = this.choiceBeforeAttributesCheckbox.Checked;
+            this.settings.tvInsteadOfTrace = this.tvInsteadOfTraceCheckBox.Checked;
 		    this.settings.elementTagName = this.elementTagTextBox.Text;
 			//save changes
 			this.settings.save();

@@ -390,6 +390,20 @@ namespace ECDMMessageComposer
             }
         }
         /// <summary>
+        /// Associations to an XmlChoice element will be ordered before any attributes
+        /// </summary>
+        public bool orderXmlChoiceBeforeAttributes
+        {
+            get
+            {
+                return this.getBooleanValue("orderXmlChoiceBeforeAttributes");
+            }
+            set
+            {
+                this.setBooleanValue("orderXmlChoiceBeforeAttributes", value);
+            }
+        }
+        /// <summary>
         /// Indicates whether or not to create/update a diagram
         /// </summary>
         public bool generateDiagram
