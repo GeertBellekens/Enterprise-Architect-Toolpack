@@ -81,9 +81,10 @@
 				SELECT obj.ea_guid 
 				FROM t_object obj 
 				INNER JOIN t_attribute att on obj.Object_ID = att.Object_ID
+				LEFT JOIN t_object ocl on ocl.Object_ID = att.Classifier
 				WHERE obj.Object_Type = 'Class'
 				AND (obj.StereoType IS NULL OR obj.StereoType = 'LDM')
-				AND att.Type is null
+				AND ocl.Object_ID is null
 			)
 		</Main>
 		<Parameters></Parameters>
