@@ -128,6 +128,7 @@ namespace ECDMMessageComposer
             this.attributeOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.setAttributesOrderZeroRadio = new System.Windows.Forms.RadioButton();
             this.addNewAttributesLastRadio = new System.Windows.Forms.RadioButton();
+            this.choiceBeforeAttributesCheckbox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -178,7 +179,7 @@ namespace ECDMMessageComposer
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(496, 595);
+            this.okButton.Location = new System.Drawing.Point(496, 628);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 2;
@@ -190,7 +191,7 @@ namespace ECDMMessageComposer
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(577, 595);
+            this.cancelButton.Location = new System.Drawing.Point(577, 628);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 3;
@@ -201,7 +202,7 @@ namespace ECDMMessageComposer
             // applyButton
             // 
             this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.applyButton.Location = new System.Drawing.Point(658, 595);
+            this.applyButton.Location = new System.Drawing.Point(658, 628);
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(75, 23);
             this.applyButton.TabIndex = 4;
@@ -559,6 +560,7 @@ namespace ECDMMessageComposer
             // xmlSchemaGroup
             // 
             this.xmlSchemaGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.xmlSchemaGroup.Controls.Add(this.choiceBeforeAttributesCheckbox);
             this.xmlSchemaGroup.Controls.Add(this.elementTagLabel);
             this.xmlSchemaGroup.Controls.Add(this.elementTagTextBox);
             this.xmlSchemaGroup.Controls.Add(this.tvInsteadOfTraceCheckBox);
@@ -567,14 +569,14 @@ namespace ECDMMessageComposer
             this.xmlSchemaGroup.Controls.Add(this.noAttributeDependenciesCheckbox);
             this.xmlSchemaGroup.Location = new System.Drawing.Point(378, 396);
             this.xmlSchemaGroup.Name = "xmlSchemaGroup";
-            this.xmlSchemaGroup.Size = new System.Drawing.Size(357, 193);
+            this.xmlSchemaGroup.Size = new System.Drawing.Size(357, 226);
             this.xmlSchemaGroup.TabIndex = 12;
             this.xmlSchemaGroup.TabStop = false;
             this.xmlSchemaGroup.Text = "XML Schema Options";
             // 
             // elementTagLabel
             // 
-            this.elementTagLabel.Location = new System.Drawing.Point(6, 139);
+            this.elementTagLabel.Location = new System.Drawing.Point(5, 169);
             this.elementTagLabel.Name = "elementTagLabel";
             this.elementTagLabel.Size = new System.Drawing.Size(100, 17);
             this.elementTagLabel.TabIndex = 13;
@@ -582,14 +584,14 @@ namespace ECDMMessageComposer
             // 
             // elementTagTextBox
             // 
-            this.elementTagTextBox.Location = new System.Drawing.Point(6, 159);
+            this.elementTagTextBox.Location = new System.Drawing.Point(5, 189);
             this.elementTagTextBox.Name = "elementTagTextBox";
             this.elementTagTextBox.Size = new System.Drawing.Size(164, 20);
             this.elementTagTextBox.TabIndex = 12;
             // 
             // tvInsteadOfTraceCheckBox
             // 
-            this.tvInsteadOfTraceCheckBox.Location = new System.Drawing.Point(6, 112);
+            this.tvInsteadOfTraceCheckBox.Location = new System.Drawing.Point(6, 142);
             this.tvInsteadOfTraceCheckBox.Name = "tvInsteadOfTraceCheckBox";
             this.tvInsteadOfTraceCheckBox.Size = new System.Drawing.Size(276, 24);
             this.tvInsteadOfTraceCheckBox.TabIndex = 11;
@@ -659,13 +661,22 @@ namespace ECDMMessageComposer
             this.addNewAttributesLastRadio.Text = "Add new attributes at the end";
             this.addNewAttributesLastRadio.UseVisualStyleBackColor = true;
             // 
+            // choiceBeforeAttributesCheckbox
+            // 
+            this.choiceBeforeAttributesCheckbox.Location = new System.Drawing.Point(6, 112);
+            this.choiceBeforeAttributesCheckbox.Name = "choiceBeforeAttributesCheckbox";
+            this.choiceBeforeAttributesCheckbox.Size = new System.Drawing.Size(276, 24);
+            this.choiceBeforeAttributesCheckbox.TabIndex = 14;
+            this.choiceBeforeAttributesCheckbox.Text = "Order XmlChoice before Attributes";
+            this.choiceBeforeAttributesCheckbox.UseVisualStyleBackColor = true;
+            // 
             // SettingsWindow
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(745, 626);
+            this.ClientSize = new System.Drawing.Size(745, 659);
             this.Controls.Add(this.attributeOptionsGroupBox);
             this.Controls.Add(this.xmlSchemaGroup);
             this.Controls.Add(this.deleteTaggedValueButton);
@@ -713,6 +724,7 @@ namespace ECDMMessageComposer
         private System.Windows.Forms.GroupBox attributeOptionsGroupBox;
         private System.Windows.Forms.RadioButton setAttributesOrderZeroRadio;
         private System.Windows.Forms.RadioButton addNewAttributesLastRadio;
+        private System.Windows.Forms.CheckBox choiceBeforeAttributesCheckbox;
         //this.ResumeLayout(false);
     }
 }
