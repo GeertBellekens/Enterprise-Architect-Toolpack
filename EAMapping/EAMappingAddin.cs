@@ -262,6 +262,8 @@ namespace EAMapping
         {
             if (mappingSet != null)
             {
+                //make sure to flush the cache 
+                this.model.flushCache();
                 //load mappingSet in control
                 this.mappingControl.loadMappingSet(mappingSet);
                 //make sure the tab is visible
