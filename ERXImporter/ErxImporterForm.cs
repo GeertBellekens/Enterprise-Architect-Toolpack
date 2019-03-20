@@ -39,8 +39,18 @@ namespace ERXImporter
         {
             Cursor.Current = Cursors.WaitCursor;
             this.errorTextBox.Clear();
-            var importer = new ERXImporter(this.importFileTextBox.Text);
-            var errors =  importer.import();
+            var importer = new ERXImporter();
+            var errors =  importer.import(this.importFileTextBox.Text);
+            this.errorTextBox.Text = string.IsNullOrEmpty(errors) ? "Finished without errors" : errors;
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void synchFKsButton_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            this.errorTextBox.Clear();
+            var importer = new ERXImporter();
+            var errors = importer.synchronizeForeignKeys();
             this.errorTextBox.Text = string.IsNullOrEmpty(errors) ? "Finished without errors" : errors;
             Cursor.Current = Cursors.Default;
         }

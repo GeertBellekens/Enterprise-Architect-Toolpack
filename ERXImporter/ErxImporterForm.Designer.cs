@@ -34,6 +34,7 @@
             this.importButton = new System.Windows.Forms.Button();
             this.errorTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.synchFKsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // browseImportFileButton
@@ -68,7 +69,7 @@
             // importButton
             // 
             this.importButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.importButton.Location = new System.Drawing.Point(291, 415);
+            this.importButton.Location = new System.Drawing.Point(291, 227);
             this.importButton.Name = "importButton";
             this.importButton.Size = new System.Drawing.Size(75, 23);
             this.importButton.TabIndex = 17;
@@ -86,7 +87,7 @@
             this.errorTextBox.Name = "errorTextBox";
             this.errorTextBox.ReadOnly = true;
             this.errorTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.errorTextBox.Size = new System.Drawing.Size(354, 345);
+            this.errorTextBox.Size = new System.Drawing.Size(354, 157);
             this.errorTextBox.TabIndex = 18;
             // 
             // label1
@@ -98,11 +99,23 @@
             this.label1.TabIndex = 19;
             this.label1.Text = "Errors";
             // 
+            // synchFKsButton
+            // 
+            this.synchFKsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.synchFKsButton.Location = new System.Drawing.Point(291, 270);
+            this.synchFKsButton.Name = "synchFKsButton";
+            this.synchFKsButton.Size = new System.Drawing.Size(75, 23);
+            this.synchFKsButton.TabIndex = 20;
+            this.synchFKsButton.Text = "Synch FKs";
+            this.synchFKsButton.UseVisualStyleBackColor = true;
+            this.synchFKsButton.Click += new System.EventHandler(this.synchFKsButton_Click);
+            // 
             // ErxImporterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 450);
+            this.ClientSize = new System.Drawing.Size(378, 305);
+            this.Controls.Add(this.synchFKsButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.errorTextBox);
             this.Controls.Add(this.importButton);
@@ -126,6 +139,7 @@
         private System.Windows.Forms.Button importButton;
         private System.Windows.Forms.TextBox errorTextBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button synchFKsButton;
     }
 }
 
