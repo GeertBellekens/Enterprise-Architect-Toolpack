@@ -273,17 +273,23 @@ namespace ERXImporter
                                 addFK(fromTable, toTable, fromColumn, fromColumns, toColumns);
 
                             }
-                            catch (SqlException)
+                            catch (SqlException e)
                             {
                                 //add to list of relations to be added "manually"
-                                errors.AppendLine($"Add relation {fromTable}.{fromColumn} => {toTable}.{toColumn}");
+                                if (e.Message.Contains("references invalid column"))
+                                {
+                                    errors.AppendLine($"Invalid column error when adding relation {fromTable}.{fromColumn} => {toTable}.{toColumn}:");
+                                }
+                                else
+                                {
+                                    errors.AppendLine($"Other error when adding relation {fromTable}.{fromColumn} => {toTable}.{toColumn}:");
+                                }
+                                //add the error
+                                errors.AppendLine(e.Message);
                             }
-                            
                         }
                     }
-                    
                 }
-                
             }
             return errors.ToString();
         }

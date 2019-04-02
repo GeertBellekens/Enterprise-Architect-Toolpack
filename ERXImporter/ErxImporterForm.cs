@@ -54,5 +54,6 @@ namespace ERXImporter
             this.errorTextBox.Text = string.IsNullOrEmpty(errors) ? "Finished without errors" : errors;
             Cursor.Current = Cursors.Default;
         }
+
     }
 }
