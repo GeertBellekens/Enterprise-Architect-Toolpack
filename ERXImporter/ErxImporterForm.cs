@@ -57,8 +57,8 @@ namespace ERXImporter
             Cursor.Current = Cursors.WaitCursor;
             this.errorTextBox.Clear();
             var importer = new ERXImporter();
-            var errors = importer.synchronizeForeignKeys(this.exportFileTextBox.Text);
-            this.errorTextBox.Text = string.IsNullOrEmpty(errors) ? "Finished without errors" : errors;
+            var relations = importer.synchronizeForeignKeys(this.exportFileTextBox.Text);
+            this.errorTextBox.Text = "Finished!";
             Cursor.Current = Cursors.Default;
         }
 
@@ -81,6 +81,11 @@ namespace ERXImporter
         private void exportFileTextBox_TextChanged(object sender, EventArgs e)
         {
             this.enableDisable();
+        }
+
+        private void browseTDMPackage_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -28,7 +28,7 @@ namespace ERXImporter
                 var builder = new SqlConnectionStringBuilder();
                 builder["Server"] = @"DESKTOP-LCVMLKT\SQLEXPRESS01";
                 builder["integrated Security"] = true;
-                builder["Initial Catalog"] = "AX";
+                builder["Initial Catalog"] = "CMS";
                 return builder.ConnectionString;
             }
         }
@@ -176,8 +176,9 @@ namespace ERXImporter
             }
             return errors.ToString();
         }
-        public string synchronizeForeignKeys(string exportFileName)
+        public List<Relation> synchronizeForeignKeys(string exportFileName)
         {
+            var relations = new List<Relation>();
             var errors = new StringBuilder();
             var exportContent = new StringBuilder();
             using (var erxConnection = new SqlConnection(this.connectionString))
@@ -213,15 +214,19 @@ namespace ERXImporter
                     while (relationResults.Read())
                     {
                         //get an applicable index
-                        var fromTable = relationResults["FromTable"].ToString();
-                        var fromColumn = relationResults["FromColumn"].ToString();
-                        var toTable = relationResults["ToTable"].ToString();
-                        var toColumn = relationResults["ToColumn"].ToString();
-                        var fromColumns = new List<string>();
-                        var toColumns = new List<string>();
+                        var relation = new Relation();
+                        //add to list
+                        relations.Add(relation);
+                        //fill in details
+                        relation.fromTable = relationResults["FromTable"].ToString();
+                        relation.fromColumn = relationResults["FromColumn"].ToString();
+                        relation.toTable = relationResults["ToTable"].ToString();
+                        relation.toColumn = relationResults["ToColumn"].ToString();
+                        relation.fromColumns = new List<string>();
+                        relation.toColumns = new List<string>();
 
                         var indexName = string.Empty;
-                        var indexesResult = this.getTargetIndexes(targetConnection, toTable, toColumn);
+                        var indexesResult = this.getTargetIndexes(targetConnection, relation.toTable, relation.toColumn);
                         bool fKAdded = false;
                         SqlException lastException = null;
                         while (indexesResult.Read())
@@ -238,10 +243,8 @@ namespace ERXImporter
                                 indexName = newIndex;
                                 try
                                 {
-                                    this.addFK(fromTable, toTable, fromColumn, fromColumns, toColumns);
+                                    this.addFK(relation, exportContent);
                                     fKAdded = true;
-                                    //log added FK
-                                    Logger.log($"Added FK between {fromTable}.{fromColumn} to {toTable}.{toColumn}");
                                     break;
                                 }
                                 catch (SqlException e)
@@ -249,20 +252,20 @@ namespace ERXImporter
                                     lastException = e;
                                 }
                                 //star newt
-                                fromColumns = new List<string>();
-                                toColumns = new List<string>();
+                                relation.fromColumns = new List<string>();
+                                relation.toColumns = new List<string>();
                             }
                             var indexColumn = indexesResult["ColumnName"].ToString();
-                            toColumns.Add(indexColumn);
-                            if (indexColumn.Equals(toColumn, StringComparison.InvariantCultureIgnoreCase))
+                            relation.toColumns.Add(indexColumn);
+                            if (indexColumn.Equals(relation.toColumn, StringComparison.InvariantCultureIgnoreCase))
                             {
                                 //add the corresponding column
-                                fromColumns.Add(fromColumn);
+                                relation.fromColumns.Add(relation.fromColumn);
                             }
                             else
                             {
                                 //add the columns with the same name
-                                fromColumns.Add(indexColumn);
+                                relation.fromColumns.Add(indexColumn);
                             }
                         }
                         //close datareader
@@ -272,25 +275,28 @@ namespace ERXImporter
                         {
                             if (lastException != null)
                             {
-                                this.processErrors(errors, exportContent, fromTable, fromColumn, toTable, toColumn, fromColumns, toColumns, lastException);
+                                this.processErrors(errors, exportContent,relation, lastException);
                             }
                             else
                             {
                                 try
                                 {
                                     //add the index
-                                    this.addFK(fromTable, toTable, fromColumn, fromColumns, toColumns);
+                                    this.addFK(relation, exportContent);
 
                                 }
                                 catch (SqlException e)
                                 {
-                                    this.processErrors(errors, exportContent, fromTable, fromColumn, toTable, toColumn, fromColumns, toColumns, e);
+                                    this.processErrors(errors, exportContent, relation, e);
                                 }
                             }
                         }
                         else
                         {
-                            errors.AppendLine($"ERROR: no index found when adding relation {fromTable}.{fromColumn} => {toTable}.{toColumn}");
+                            //add to errors
+                            errors.AppendLine($"ERROR: no index found when adding relation {relation.fromTable}.{relation.fromColumn} => {relation.toTable}.{relation.toColumn}");
+                            //add to export
+                            exportContent.AppendLine(relation.getCSVLine() + $";Error: No index found when adding relation");
                         }
                     }
                 }
@@ -300,62 +306,42 @@ namespace ERXImporter
             exportFile.Write(exportContent.ToString());
             exportFile.Close();
             //return errors
-            return errors.ToString();
+            return relations;
         }
 
-        private void processErrors(StringBuilder errors, StringBuilder exportContent, string fromTable, string fromColumn, string toTable, string toColumn, List<string> fromColumns, List<string> toColumns, SqlException e)
+        private void processErrors(StringBuilder errors, StringBuilder exportContent, Relation relation, SqlException e)
         {
             //add to list of relations to be added "manually"
             if (e.Message.Contains("references invalid column"))
             {
-                errors.AppendLine($"ERROR: Invalid column error when adding relation {fromTable}.{fromColumn} => {toTable}.{toColumn}:");
+                errors.AppendLine($"ERROR: Invalid column error when adding relation {relation.fromTable}.{relation.fromColumn} => {relation.toTable}.{relation.toColumn}:");
             }
             else
             {
-                errors.AppendLine($"ERROR: Other error when adding relation {fromTable}.{fromColumn} => {toTable}.{toColumn}:");
+                errors.AppendLine($"ERROR: Other error when adding relation {relation.fromTable}.{relation.fromColumn} => {relation.toTable}.{relation.toColumn}:");
             }
             //add the error
             errors.AppendLine(e.Message);
             //add to the export content
-            exportContent.AppendLine(this.getRelationDefinition(fromTable, fromColumn, toTable, toColumn, fromColumns, toColumns));
+            exportContent.AppendLine(relation.getCSVLine() + $";\"{e.Message}\"");
         }
 
-        private string getRelationDefinition(string fromTable, string fromColumn, string toTable, string toColumn, List<string> fromColumns, List<string> toColumns)
-        {
-            string relationDefinition;
-            string columns = string.Empty;
-            int i = 0;
-            foreach (var fromcolum in fromColumns)
-            {
-                //add newline if needed
-                if (!string.IsNullOrEmpty(columns))
-                {
-                    columns += Environment.NewLine;
-                }
-                columns += $"{fromcolum} = ";
-                if (toColumns.Count >= i)
-                {
-                    columns += toColumns[i];
-                }
-                //up the counter
-                i++;
-            }
-            //put everything together
-            relationDefinition = string.Join(";", new string[] { fromTable, fromColumn, toTable, toColumn, $"\"{columns}\"" });
-            return relationDefinition;
-        }
-        private void addFK(string fromTable, string toTable, string fromColumn, List<string> fromColumns, List<string> toColumns)
+
+        private void addFK(Relation relation, StringBuilder exportContent)
         {
             using (var targetConnection = new SqlConnection(this.targetConnectionString))
             {
                 targetConnection.Open();
-                var sourceColumns = string.Join("], [", fromColumns.ToArray());
-                var targetColumns = string.Join("], [", toColumns.ToArray());
-                var sqlAddIndex = $"ALTER TABLE [{fromTable}] ADD CONSTRAINT[FK_{fromTable}_{fromColumn}_{toTable}] "
-                                + $"FOREIGN KEY([{sourceColumns}]) REFERENCES [{toTable}]([{targetColumns}]) ON DELETE No Action ON UPDATE No Action";
+                var sourceColumns = string.Join("], [", relation.fromColumns.ToArray());
+                var targetColumns = string.Join("], [", relation.toColumns.ToArray());
+                var sqlAddIndex = $"ALTER TABLE [{relation.fromTable}] ADD CONSTRAINT[FK_{relation.fromTable}_{relation.fromColumn}_{relation.toTable}] "
+                                + $"FOREIGN KEY([{sourceColumns}]) REFERENCES [{relation.toTable}]([{targetColumns}]) ON DELETE No Action ON UPDATE No Action";
                 var addIndexCommand = new SqlCommand(sqlAddIndex, targetConnection);
                 addIndexCommand.ExecuteNonQuery();
-                Logger.log(sqlAddIndex);
+                //add to log
+                Logger.log($"Added FK between {relation.fromTable}.{relation.fromColumn} to {relation.toTable}.{relation.toColumn} with query {sqlAddIndex}" );
+                //add to export content
+                exportContent.AppendLine(relation.getCSVLine() + $";OK");
             }
         }
         private SqlDataReader getTargetIndexes(SqlConnection targetConnection, string tableName, string columnName)

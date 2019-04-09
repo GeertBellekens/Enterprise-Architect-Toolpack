@@ -40,8 +40,14 @@
             this.exportFileTextBox = new System.Windows.Forms.TextBox();
             this.exportFileLabel = new System.Windows.Forms.Label();
             this.browseExportFileButton = new System.Windows.Forms.Button();
+            this.createRelationsGroupBox = new System.Windows.Forms.GroupBox();
+            this.tdmPackageTextBox = new System.Windows.Forms.TextBox();
+            this.createRelationsButton = new System.Windows.Forms.Button();
+            this.TDMPackageLabel = new System.Windows.Forms.Label();
+            this.browseTDMPackage = new System.Windows.Forms.Button();
             this.importERXGroup.SuspendLayout();
             this.createForeignKeyGroupBox.SuspendLayout();
+            this.createRelationsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // browseImportFileButton
@@ -89,17 +95,17 @@
             this.errorTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.errorTextBox.Location = new System.Drawing.Point(12, 227);
+            this.errorTextBox.Location = new System.Drawing.Point(12, 385);
             this.errorTextBox.Name = "errorTextBox";
             this.errorTextBox.ReadOnly = true;
-            this.errorTextBox.Size = new System.Drawing.Size(416, 290);
+            this.errorTextBox.Size = new System.Drawing.Size(416, 132);
             this.errorTextBox.TabIndex = 18;
             this.errorTextBox.Text = "";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 211);
+            this.label1.Location = new System.Drawing.Point(9, 369);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(25, 13);
             this.label1.TabIndex = 19;
@@ -111,7 +117,7 @@
             this.synchFKsButton.Name = "synchFKsButton";
             this.synchFKsButton.Size = new System.Drawing.Size(75, 23);
             this.synchFKsButton.TabIndex = 20;
-            this.synchFKsButton.Text = "Synch FKs";
+            this.synchFKsButton.Text = "Create FK\'s";
             this.synchFKsButton.UseVisualStyleBackColor = true;
             this.synchFKsButton.Click += new System.EventHandler(this.synchFKsButton_Click);
             // 
@@ -171,11 +177,63 @@
             this.browseExportFileButton.UseVisualStyleBackColor = true;
             this.browseExportFileButton.Click += new System.EventHandler(this.browseExportFileButton_Click);
             // 
+            // createRelationsGroupBox
+            // 
+            this.createRelationsGroupBox.Controls.Add(this.tdmPackageTextBox);
+            this.createRelationsGroupBox.Controls.Add(this.createRelationsButton);
+            this.createRelationsGroupBox.Controls.Add(this.TDMPackageLabel);
+            this.createRelationsGroupBox.Controls.Add(this.browseTDMPackage);
+            this.createRelationsGroupBox.Location = new System.Drawing.Point(12, 217);
+            this.createRelationsGroupBox.Name = "createRelationsGroupBox";
+            this.createRelationsGroupBox.Size = new System.Drawing.Size(416, 95);
+            this.createRelationsGroupBox.TabIndex = 23;
+            this.createRelationsGroupBox.TabStop = false;
+            this.createRelationsGroupBox.Text = "Create Relations in EA";
+            // 
+            // tdmPackageTextBox
+            // 
+            this.tdmPackageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tdmPackageTextBox.Location = new System.Drawing.Point(6, 35);
+            this.tdmPackageTextBox.MinimumSize = new System.Drawing.Size(153, 20);
+            this.tdmPackageTextBox.Name = "tdmPackageTextBox";
+            this.tdmPackageTextBox.Size = new System.Drawing.Size(369, 20);
+            this.tdmPackageTextBox.TabIndex = 14;
+            // 
+            // createRelationsButton
+            // 
+            this.createRelationsButton.Location = new System.Drawing.Point(313, 66);
+            this.createRelationsButton.Name = "createRelationsButton";
+            this.createRelationsButton.Size = new System.Drawing.Size(97, 23);
+            this.createRelationsButton.TabIndex = 20;
+            this.createRelationsButton.Text = "Create Relations";
+            this.createRelationsButton.UseVisualStyleBackColor = true;
+            // 
+            // TDMPackageLabel
+            // 
+            this.TDMPackageLabel.Location = new System.Drawing.Point(3, 19);
+            this.TDMPackageLabel.Name = "TDMPackageLabel";
+            this.TDMPackageLabel.Size = new System.Drawing.Size(141, 23);
+            this.TDMPackageLabel.TabIndex = 16;
+            this.TDMPackageLabel.Text = "TDM Package";
+            // 
+            // browseTDMPackage
+            // 
+            this.browseTDMPackage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.browseTDMPackage.Location = new System.Drawing.Point(381, 34);
+            this.browseTDMPackage.Name = "browseTDMPackage";
+            this.browseTDMPackage.Size = new System.Drawing.Size(24, 20);
+            this.browseTDMPackage.TabIndex = 15;
+            this.browseTDMPackage.Text = "...";
+            this.browseTDMPackage.UseVisualStyleBackColor = true;
+            this.browseTDMPackage.Click += new System.EventHandler(this.browseTDMPackage_Click);
+            // 
             // ErxImporterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(440, 529);
+            this.Controls.Add(this.createRelationsGroupBox);
             this.Controls.Add(this.createForeignKeyGroupBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.errorTextBox);
@@ -188,6 +246,8 @@
             this.importERXGroup.PerformLayout();
             this.createForeignKeyGroupBox.ResumeLayout(false);
             this.createForeignKeyGroupBox.PerformLayout();
+            this.createRelationsGroupBox.ResumeLayout(false);
+            this.createRelationsGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,6 +267,11 @@
         private System.Windows.Forms.TextBox exportFileTextBox;
         private System.Windows.Forms.Label exportFileLabel;
         private System.Windows.Forms.Button browseExportFileButton;
+        private System.Windows.Forms.GroupBox createRelationsGroupBox;
+        private System.Windows.Forms.TextBox tdmPackageTextBox;
+        private System.Windows.Forms.Button createRelationsButton;
+        private System.Windows.Forms.Label TDMPackageLabel;
+        private System.Windows.Forms.Button browseTDMPackage;
     }
 }
 
