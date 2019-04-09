@@ -9,6 +9,8 @@ namespace ERXImporter
         public string fromColumn { get; set; }
         public string toTable { get; set; }
         public string toColumn { get; set; }
+        public string FKStatus { get; set; }
+        public bool createdInEA { get; set; } = false;
         public string joinSpecification
         {
             get
@@ -37,7 +39,7 @@ namespace ERXImporter
         public List<string> toColumns { get; set; }
         public string getCSVLine()
         {
-            return string.Join(";", new string[] { this.fromTable, this.fromColumn, this.toTable, this.toColumn, $"\"{this.joinSpecification}\"" });
+            return string.Join(";", new string[] { this.fromTable, this.fromColumn, this.toTable, this.toColumn, $"\"{this.joinSpecification}\"", this.FKStatus });
         }
 
     }

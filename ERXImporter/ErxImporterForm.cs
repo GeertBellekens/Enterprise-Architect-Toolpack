@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+
 using System.IO;
 
 namespace ERXImporter
 {
     public partial class ErxImporterForm : Form
     {
+        private ERXImporter importer = new ERXImporter();
         public ErxImporterForm()
         {
             InitializeComponent();
@@ -23,6 +25,8 @@ namespace ERXImporter
         {
             this.synchFKsButton.Enabled = !string.IsNullOrEmpty(this.exportFileTextBox.Text) &&
                                     this.exportFileTextBox.Text.IndexOfAny(Path.GetInvalidPathChars()) < 0;
+            this.createRelationsButton.Enabled = importer.relations.Any() 
+                                                && importer.selectedPackage != null;
         }
 
         private void browseImportFileButton_Click(object sender, EventArgs e)
@@ -46,7 +50,6 @@ namespace ERXImporter
         {
             Cursor.Current = Cursors.WaitCursor;
             this.errorTextBox.Clear();
-            var importer = new ERXImporter();
             var errors =  importer.import(this.importFileTextBox.Text);
             this.errorTextBox.Text = string.IsNullOrEmpty(errors) ? "Finished without errors" : errors;
             Cursor.Current = Cursors.Default;
@@ -56,9 +59,9 @@ namespace ERXImporter
         {
             Cursor.Current = Cursors.WaitCursor;
             this.errorTextBox.Clear();
-            var importer = new ERXImporter();
             var relations = importer.synchronizeForeignKeys(this.exportFileTextBox.Text);
-            this.errorTextBox.Text = "Finished!";
+            this.errorTextBox.Text = $"Finished! {relations.Count} relations processed.";
+            this.enableDisable();
             Cursor.Current = Cursors.Default;
         }
 
@@ -85,7 +88,19 @@ namespace ERXImporter
 
         private void browseTDMPackage_Click(object sender, EventArgs e)
         {
+            this.importer.selectPackage();
+            this.tdmPackageTextBox.Text = this.importer.selectedPackage?.fqn;
+            //move cursor to end to make sure the end of the path is visible
+            this.tdmPackageTextBox.Select(this.tdmPackageTextBox.Text.Length, 0);
+            this.enableDisable();
+        }
 
+        private void createRelationsButton_Click(object sender, EventArgs e)
+        {
+            this.errorTextBox.Text = "Creating relations...";
+            this.importer.createRelations();
+            var createdCount = importer.relations.Count(x => x.createdInEA);
+            this.errorTextBox.Text = $"Finished creating relations!\n{createdCount} of {importer.relations.Count} relations created in EA";
         }
     }
 }

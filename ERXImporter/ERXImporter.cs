@@ -5,11 +5,31 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
+using System.Linq;
 
 namespace ERXImporter
 {
     public class ERXImporter
     {
+        private TSF_EA.Model _model;
+        private TSF_EA.Model model
+        {
+            get
+            {
+                if (this._model == null)
+                {
+                    this._model = new TSF_EA.Model();
+                }
+                return _model;
+            }
+        }
+        public TSF_EA.Package selectedPackage { get; private set; }
+        public void selectPackage()
+        {
+            this.selectedPackage = this.model.getUserSelectedPackage() as TSF_EA.Package;
+        }
+        public List<Relation> relations { get; set; } = new List<Relation>();
         private string connectionString
         {
             get
@@ -131,6 +151,37 @@ namespace ERXImporter
             return importTables;
         }
 
+        public void createRelations()
+        {
+            //skip if selected package is not filled in
+            if (this.selectedPackage == null) return;
+            foreach (var relation in this.relations)
+            {
+                //find source table
+                var sourceTable = this.getTable(relation.fromTable);
+                //find target table
+                var targetTable = this.getTable(relation.toTable);
+                //create relationship
+                if (sourceTable != null &&  targetTable != null)
+                {
+                    var newDependency = this.model.factory.createNewElement<TSF_EA.Dependency>(sourceTable, relation.joinSpecification);
+                    newDependency.target = targetTable;
+                    newDependency.sourceEnd.name = relation.fromColumn;
+                    newDependency.targetEnd.name = relation.toColumn;
+                    newDependency.save();
+                    relation.createdInEA = true;
+                }
+            }
+        }
+        private TSF_EA.ElementWrapper getTable(string TableName)
+        {
+            var sqlGetTable = "select o.Object_ID from t_object o " 
+                            + " where o.Stereotype = 'table' "
+                            + $" and o.Name = '{TableName}' "
+                            + $" and  o.Package_ID in ({this.selectedPackage.packageTreeIDString})";
+            return this.model.getElementWrappersByQuery(sqlGetTable).FirstOrDefault();
+        }
+
         public string import(string fileName)
         {
             var errors = new StringBuilder();
@@ -178,7 +229,7 @@ namespace ERXImporter
         }
         public List<Relation> synchronizeForeignKeys(string exportFileName)
         {
-            var relations = new List<Relation>();
+            this.relations = new List<Relation>();
             var errors = new StringBuilder();
             var exportContent = new StringBuilder();
             using (var erxConnection = new SqlConnection(this.connectionString))
@@ -296,7 +347,8 @@ namespace ERXImporter
                             //add to errors
                             errors.AppendLine($"ERROR: no index found when adding relation {relation.fromTable}.{relation.fromColumn} => {relation.toTable}.{relation.toColumn}");
                             //add to export
-                            exportContent.AppendLine(relation.getCSVLine() + $";Error: No index found when adding relation");
+                            relation.FKStatus = "Error: No index found when adding relation";
+                            exportContent.AppendLine(relation.getCSVLine() );
                         }
                     }
                 }
@@ -305,7 +357,7 @@ namespace ERXImporter
             var exportFile = new StreamWriter(exportFileName, true);
             exportFile.Write(exportContent.ToString());
             exportFile.Close();
-            //return errors
+            //return relations
             return relations;
         }
 
@@ -323,7 +375,8 @@ namespace ERXImporter
             //add the error
             errors.AppendLine(e.Message);
             //add to the export content
-            exportContent.AppendLine(relation.getCSVLine() + $";\"{e.Message}\"");
+            relation.FKStatus = $"\"{e.Message}\"";
+            exportContent.AppendLine(relation.getCSVLine());
         }
 
 
@@ -341,7 +394,8 @@ namespace ERXImporter
                 //add to log
                 Logger.log($"Added FK between {relation.fromTable}.{relation.fromColumn} to {relation.toTable}.{relation.toColumn} with query {sqlAddIndex}" );
                 //add to export content
-                exportContent.AppendLine(relation.getCSVLine() + $";OK");
+                relation.FKStatus = "OK";
+                exportContent.AppendLine(relation.getCSVLine());
             }
         }
         private SqlDataReader getTargetIndexes(SqlConnection targetConnection, string tableName, string columnName)

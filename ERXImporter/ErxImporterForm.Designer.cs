@@ -197,6 +197,7 @@
             this.tdmPackageTextBox.Location = new System.Drawing.Point(6, 35);
             this.tdmPackageTextBox.MinimumSize = new System.Drawing.Size(153, 20);
             this.tdmPackageTextBox.Name = "tdmPackageTextBox";
+            this.tdmPackageTextBox.ReadOnly = true;
             this.tdmPackageTextBox.Size = new System.Drawing.Size(369, 20);
             this.tdmPackageTextBox.TabIndex = 14;
             // 
@@ -208,6 +209,7 @@
             this.createRelationsButton.TabIndex = 20;
             this.createRelationsButton.Text = "Create Relations";
             this.createRelationsButton.UseVisualStyleBackColor = true;
+            this.createRelationsButton.Click += new System.EventHandler(this.createRelationsButton_Click);
             // 
             // TDMPackageLabel
             // 
