@@ -35,9 +35,9 @@ namespace ERXImporter
             get
             {
                 var builder = new SqlConnectionStringBuilder();
-                builder["Server"] = @"DESKTOP-LCVMLKT\SQLEXPRESS";
+                builder["Server"] = Properties.Settings.Default.ERXServer;
                 builder["integrated Security"] = true;
-                builder["Initial Catalog"] = "ERX";
+                builder["Initial Catalog"] = Properties.Settings.Default.ERXDatabase;
                 return builder.ConnectionString;
             }
         }
@@ -46,9 +46,9 @@ namespace ERXImporter
             get
             {
                 var builder = new SqlConnectionStringBuilder();
-                builder["Server"] = @"DESKTOP-LCVMLKT\SQLEXPRESS01";
+                builder["Server"] = Properties.Settings.Default.CMSServer;
                 builder["integrated Security"] = true;
-                builder["Initial Catalog"] = "CMS";
+                builder["Initial Catalog"] = Properties.Settings.Default.CMSDatabase; 
                 return builder.ConnectionString;
             }
         }
@@ -151,10 +151,13 @@ namespace ERXImporter
             return importTables;
         }
 
-        public void createRelations()
+        public void createRelations(string exportFileName)
         {
             //skip if selected package is not filled in
             if (this.selectedPackage == null) return;
+            //first remove all dependencies between tables in the selected package
+            this.deleteExistingDependencies();
+            //then create them again
             foreach (var relation in this.relations)
             {
                 //find source table
@@ -171,6 +174,26 @@ namespace ERXImporter
                     newDependency.save();
                     relation.createdInEA = true;
                 }
+            }
+            //write export content
+            this.createOutputFile(exportFileName);
+        }
+        private void deleteExistingDependencies()
+        {
+            //skip if selected package is not filled in
+            if (this.selectedPackage == null) return;
+            var sqlGetDepedencies = "select c.Connector_ID from ((t_connector c                     "
+                                    + " inner join t_object o on (c.Start_Object_ID = o.Object_ID   "
+                                    + " 						and o.Stereotype = 'table'))        "
+                                    + " inner join t_object o2 on (c.End_Object_ID = o2.Object_ID   "
+                                    + " 						and o2.Stereotype = 'table'))       "
+                                    + $" where c.Connector_Type = 'Dependency' " 
+                                    + $" and o.Package_ID in ({this.selectedPackage.packageTreeIDString})   "
+                                    + $" and o2.Package_ID in  ({this.selectedPackage.packageTreeIDString}) ";
+            var dependencies = this.model.getRelationsByQuery(sqlGetDepedencies);
+            foreach (var dependency in dependencies)
+            {
+                dependency.delete();
             }
         }
         private TSF_EA.ElementWrapper getTable(string TableName)
@@ -348,15 +371,12 @@ namespace ERXImporter
                             errors.AppendLine($"ERROR: no index found when adding relation {relation.fromTable}.{relation.fromColumn} => {relation.toTable}.{relation.toColumn}");
                             //add to export
                             relation.FKStatus = "Error: No index found when adding relation";
-                            exportContent.AppendLine(relation.getCSVLine() );
                         }
                     }
                 }
             }
             //write export content
-            var exportFile = new StreamWriter(exportFileName, true);
-            exportFile.Write(exportContent.ToString());
-            exportFile.Close();
+            this.createOutputFile(exportFileName);
             //return relations
             return relations;
         }
@@ -376,9 +396,21 @@ namespace ERXImporter
             errors.AppendLine(e.Message);
             //add to the export content
             relation.FKStatus = $"\"{e.Message}\"";
-            exportContent.AppendLine(relation.getCSVLine());
         }
-
+        public void createOutputFile(string outputFileName)
+        {
+            var outputContent = new StringBuilder();
+            //header line
+            outputContent.AppendLine(Relation.CSVHeader);
+            foreach (var relation in this.relations)
+            {
+                outputContent.AppendLine(relation.CSVLine);
+            }
+            //write export content
+            var exportFile = new StreamWriter(outputFileName, false);
+            exportFile.Write(outputContent.ToString());
+            exportFile.Close();
+        }
 
         private void addFK(Relation relation, StringBuilder exportContent)
         {
@@ -395,7 +427,6 @@ namespace ERXImporter
                 Logger.log($"Added FK between {relation.fromTable}.{relation.fromColumn} to {relation.toTable}.{relation.toColumn} with query {sqlAddIndex}" );
                 //add to export content
                 relation.FKStatus = "OK";
-                exportContent.AppendLine(relation.getCSVLine());
             }
         }
         private SqlDataReader getTargetIndexes(SqlConnection targetConnection, string tableName, string columnName)

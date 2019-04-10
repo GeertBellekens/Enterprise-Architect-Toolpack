@@ -33,14 +33,14 @@ namespace ERXImporter
                     i++;
                 }
                 return joinSpec;
-              }
+            }
         }
         public List<string> fromColumns { get; set; }
         public List<string> toColumns { get; set; }
-        public string getCSVLine()
-        {
-            return string.Join(";", new string[] { this.fromTable, this.fromColumn, this.toTable, this.toColumn, $"\"{this.joinSpecification}\"", this.FKStatus });
-        }
+        public string CSVLine => string.Join(";", new string[] { this.fromTable, this.fromColumn, this.toTable,
+                this.toColumn, $"\"{this.joinSpecification}\"", this.FKStatus, this.createdInEA.ToString()});
+        public static string CSVHeader => "From Table;From Column;To Table;To Column;Join on;FK Status;Created in EA";
 
     }
 }
+

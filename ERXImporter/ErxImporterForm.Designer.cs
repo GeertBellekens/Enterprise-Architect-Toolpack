@@ -95,17 +95,17 @@
             this.errorTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.errorTextBox.Location = new System.Drawing.Point(12, 385);
+            this.errorTextBox.Location = new System.Drawing.Point(12, 343);
             this.errorTextBox.Name = "errorTextBox";
             this.errorTextBox.ReadOnly = true;
-            this.errorTextBox.Size = new System.Drawing.Size(416, 132);
+            this.errorTextBox.Size = new System.Drawing.Size(416, 36);
             this.errorTextBox.TabIndex = 18;
             this.errorTextBox.Text = "";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 369);
+            this.label1.Location = new System.Drawing.Point(9, 327);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(25, 13);
             this.label1.TabIndex = 19;
@@ -113,11 +113,11 @@
             // 
             // synchFKsButton
             // 
-            this.synchFKsButton.Location = new System.Drawing.Point(335, 66);
+            this.synchFKsButton.Location = new System.Drawing.Point(298, 19);
             this.synchFKsButton.Name = "synchFKsButton";
-            this.synchFKsButton.Size = new System.Drawing.Size(75, 23);
+            this.synchFKsButton.Size = new System.Drawing.Size(112, 23);
             this.synchFKsButton.TabIndex = 20;
-            this.synchFKsButton.Text = "Create FK\'s";
+            this.synchFKsButton.Text = "Create Foreign Keys";
             this.synchFKsButton.UseVisualStyleBackColor = true;
             this.synchFKsButton.Click += new System.EventHandler(this.synchFKsButton_Click);
             // 
@@ -136,13 +136,10 @@
             // 
             // createForeignKeyGroupBox
             // 
-            this.createForeignKeyGroupBox.Controls.Add(this.exportFileTextBox);
             this.createForeignKeyGroupBox.Controls.Add(this.synchFKsButton);
-            this.createForeignKeyGroupBox.Controls.Add(this.exportFileLabel);
-            this.createForeignKeyGroupBox.Controls.Add(this.browseExportFileButton);
-            this.createForeignKeyGroupBox.Location = new System.Drawing.Point(12, 113);
+            this.createForeignKeyGroupBox.Location = new System.Drawing.Point(12, 170);
             this.createForeignKeyGroupBox.Name = "createForeignKeyGroupBox";
-            this.createForeignKeyGroupBox.Size = new System.Drawing.Size(416, 95);
+            this.createForeignKeyGroupBox.Size = new System.Drawing.Size(416, 53);
             this.createForeignKeyGroupBox.TabIndex = 22;
             this.createForeignKeyGroupBox.TabStop = false;
             this.createForeignKeyGroupBox.Text = "Create Foreign Keys";
@@ -151,7 +148,7 @@
             // 
             this.exportFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.exportFileTextBox.Location = new System.Drawing.Point(6, 35);
+            this.exportFileTextBox.Location = new System.Drawing.Point(12, 132);
             this.exportFileTextBox.MinimumSize = new System.Drawing.Size(153, 20);
             this.exportFileTextBox.Name = "exportFileTextBox";
             this.exportFileTextBox.Size = new System.Drawing.Size(369, 20);
@@ -160,16 +157,16 @@
             // 
             // exportFileLabel
             // 
-            this.exportFileLabel.Location = new System.Drawing.Point(3, 19);
+            this.exportFileLabel.Location = new System.Drawing.Point(9, 116);
             this.exportFileLabel.Name = "exportFileLabel";
             this.exportFileLabel.Size = new System.Drawing.Size(141, 23);
             this.exportFileLabel.TabIndex = 16;
-            this.exportFileLabel.Text = "Export File";
+            this.exportFileLabel.Text = "Output File";
             // 
             // browseExportFileButton
             // 
             this.browseExportFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.browseExportFileButton.Location = new System.Drawing.Point(381, 34);
+            this.browseExportFileButton.Location = new System.Drawing.Point(387, 131);
             this.browseExportFileButton.Name = "browseExportFileButton";
             this.browseExportFileButton.Size = new System.Drawing.Size(24, 20);
             this.browseExportFileButton.TabIndex = 15;
@@ -183,7 +180,7 @@
             this.createRelationsGroupBox.Controls.Add(this.createRelationsButton);
             this.createRelationsGroupBox.Controls.Add(this.TDMPackageLabel);
             this.createRelationsGroupBox.Controls.Add(this.browseTDMPackage);
-            this.createRelationsGroupBox.Location = new System.Drawing.Point(12, 217);
+            this.createRelationsGroupBox.Location = new System.Drawing.Point(12, 229);
             this.createRelationsGroupBox.Name = "createRelationsGroupBox";
             this.createRelationsGroupBox.Size = new System.Drawing.Size(416, 95);
             this.createRelationsGroupBox.TabIndex = 23;
@@ -234,9 +231,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(440, 529);
+            this.ClientSize = new System.Drawing.Size(440, 391);
+            this.Controls.Add(this.exportFileTextBox);
             this.Controls.Add(this.createRelationsGroupBox);
+            this.Controls.Add(this.exportFileLabel);
             this.Controls.Add(this.createForeignKeyGroupBox);
+            this.Controls.Add(this.browseExportFileButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.errorTextBox);
             this.Controls.Add(this.importERXGroup);
@@ -247,7 +247,6 @@
             this.importERXGroup.ResumeLayout(false);
             this.importERXGroup.PerformLayout();
             this.createForeignKeyGroupBox.ResumeLayout(false);
-            this.createForeignKeyGroupBox.PerformLayout();
             this.createRelationsGroupBox.ResumeLayout(false);
             this.createRelationsGroupBox.PerformLayout();
             this.ResumeLayout(false);

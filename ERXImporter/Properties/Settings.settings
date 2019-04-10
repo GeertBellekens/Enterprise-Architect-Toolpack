@@ -1,7 +1,18 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ERXImporter.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ERXServer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DESKTOP-LCVMLKT\SQLEXPRESS</Value>
+    </Setting>
+    <Setting Name="ERXDatabase" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ERX</Value>
+    </Setting>
+    <Setting Name="CMSServer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DESKTOP-LCVMLKT\SQLEXPRESS01</Value>
+    </Setting>
+    <Setting Name="CMSDatabase" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CMS</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

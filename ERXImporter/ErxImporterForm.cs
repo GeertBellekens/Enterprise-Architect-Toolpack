@@ -58,9 +58,10 @@ namespace ERXImporter
         private void synchFKsButton_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            this.errorTextBox.Clear();
-            var relations = importer.synchronizeForeignKeys(this.exportFileTextBox.Text);
-            this.errorTextBox.Text = $"Finished! {relations.Count} relations processed.";
+            this.errorTextBox.Text = "Creating foreign keys...";
+            importer.synchronizeForeignKeys(this.exportFileTextBox.Text);
+            var createdFKCount = this.importer.relations.Count(x => x.FKStatus.Equals("OK", StringComparison.InvariantCultureIgnoreCase));
+            this.errorTextBox.Text = $"Finished createing foreign keys!\n{createdFKCount} of {this.importer.relations.Count} foreign keys created.";
             this.enableDisable();
             Cursor.Current = Cursors.Default;
         }
@@ -88,7 +89,13 @@ namespace ERXImporter
 
         private void browseTDMPackage_Click(object sender, EventArgs e)
         {
-            this.importer.selectPackage();
+            try
+            {
+                this.importer.selectPackage();
+            }catch(Exception)
+            {
+                MessageBox.Show("Please open the EA model");
+            }
             this.tdmPackageTextBox.Text = this.importer.selectedPackage?.fqn;
             //move cursor to end to make sure the end of the path is visible
             this.tdmPackageTextBox.Select(this.tdmPackageTextBox.Text.Length, 0);
@@ -97,10 +104,12 @@ namespace ERXImporter
 
         private void createRelationsButton_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             this.errorTextBox.Text = "Creating relations...";
-            this.importer.createRelations();
+            this.importer.createRelations(this.exportFileTextBox.Text);
             var createdCount = importer.relations.Count(x => x.createdInEA);
             this.errorTextBox.Text = $"Finished creating relations!\n{createdCount} of {importer.relations.Count} relations created in EA";
+            Cursor.Current = Cursors.Default;
         }
     }
 }
