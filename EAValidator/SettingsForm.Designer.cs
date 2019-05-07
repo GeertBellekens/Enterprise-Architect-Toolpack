@@ -40,10 +40,10 @@
             this.allowedRepositoryTypesListBox = new System.Windows.Forms.CheckedListBox();
             this.allowedRepositoryTypesLabel = new System.Windows.Forms.Label();
             this.scopeGroupBox = new System.Windows.Forms.GroupBox();
-            this.elementTypesCheckedList = new System.Windows.Forms.CheckedListBox();
-            this.elementTypesLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.diagramTypesCheckedList = new System.Windows.Forms.CheckedListBox();
+            this.elementTypesLabel = new System.Windows.Forms.Label();
+            this.elementTypesCheckedList = new System.Windows.Forms.CheckedListBox();
             this.scopeGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -160,23 +160,6 @@
             this.scopeGroupBox.TabStop = false;
             this.scopeGroupBox.Text = "Scope";
             // 
-            // elementTypesCheckedList
-            // 
-            this.elementTypesCheckedList.FormattingEnabled = true;
-            this.elementTypesCheckedList.Location = new System.Drawing.Point(6, 34);
-            this.elementTypesCheckedList.Name = "elementTypesCheckedList";
-            this.elementTypesCheckedList.Size = new System.Drawing.Size(177, 79);
-            this.elementTypesCheckedList.TabIndex = 0;
-            // 
-            // elementTypesLabel
-            // 
-            this.elementTypesLabel.AutoSize = true;
-            this.elementTypesLabel.Location = new System.Drawing.Point(6, 16);
-            this.elementTypesLabel.Name = "elementTypesLabel";
-            this.elementTypesLabel.Size = new System.Drawing.Size(73, 13);
-            this.elementTypesLabel.TabIndex = 1;
-            this.elementTypesLabel.Text = "Element types";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -193,6 +176,23 @@
             this.diagramTypesCheckedList.Name = "diagramTypesCheckedList";
             this.diagramTypesCheckedList.Size = new System.Drawing.Size(167, 79);
             this.diagramTypesCheckedList.TabIndex = 2;
+            // 
+            // elementTypesLabel
+            // 
+            this.elementTypesLabel.AutoSize = true;
+            this.elementTypesLabel.Location = new System.Drawing.Point(6, 16);
+            this.elementTypesLabel.Name = "elementTypesLabel";
+            this.elementTypesLabel.Size = new System.Drawing.Size(73, 13);
+            this.elementTypesLabel.TabIndex = 1;
+            this.elementTypesLabel.Text = "Element types";
+            // 
+            // elementTypesCheckedList
+            // 
+            this.elementTypesCheckedList.FormattingEnabled = true;
+            this.elementTypesCheckedList.Location = new System.Drawing.Point(6, 34);
+            this.elementTypesCheckedList.Name = "elementTypesCheckedList";
+            this.elementTypesCheckedList.Size = new System.Drawing.Size(177, 79);
+            this.elementTypesCheckedList.TabIndex = 0;
             // 
             // SettingsForm
             // 
@@ -218,7 +218,6 @@
             this.MinimumSize = new System.Drawing.Size(402, 463);
             this.Name = "SettingsForm";
             this.Text = "EA Validator Settings";
-            this.TopMost = true;
             this.scopeGroupBox.ResumeLayout(false);
             this.scopeGroupBox.PerformLayout();
             this.ResumeLayout(false);
