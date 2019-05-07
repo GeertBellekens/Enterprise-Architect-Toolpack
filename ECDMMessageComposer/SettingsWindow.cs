@@ -65,14 +65,16 @@ namespace ECDMMessageComposer
             //sourceAssociationTag
             this.associationTagTextBox.Text = settings.sourceAssociationTagName;
             //redirectGeneralizationsToSubset
-            this.RedirectGeneralizationsCheckBox.Checked = this.settings.redirectGeneralizationsToSubset;
-            this.prefixNotesCheckBox.Checked =  this.settings.prefixNotes;
-		    this.notesPrefixTextBox.Text = this.settings.prefixNotesText;
+            this.RedirectGeneralizationsCheckBox.Checked = this.settings.redirectGeneralizationsToSubset;            
 		    this.checkSecurityCheckBox.Checked = this.settings.checkSecurity;
 		    this.deleteUnusedElementsCheckBox.Checked = this.settings.deleteUnusedSchemaElements;
 		    this.usePackageSubsetsOnlyCheckBox.Checked = this.settings.usePackageSchemasOnly;
-		    //xml schema options
-		    this.noAttributeDependenciesCheckbox.Checked = this.settings.dontCreateAttributeDependencies;
+            //notes options
+            this.prefixNotesCheckBox.Checked = this.settings.prefixNotes;
+            this.notesPrefixTextBox.Text = this.settings.prefixNotesText;
+            this.keepNotesInSyncCheckBox.Checked = this.settings.keepNotesInSync;
+            //xml schema options
+            this.noAttributeDependenciesCheckbox.Checked = this.settings.dontCreateAttributeDependencies;
 		    this.orderAssociationsCheckbox.Checked = this.settings.orderAssociationsAlphabetically;
 		    this.orderAssociationsAmongstAttributesCheckbox.Checked = this.settings.orderAssociationsAmongstAttributes;
             this.choiceBeforeAttributesCheckbox.Checked = this.settings.orderXmlChoiceBeforeAttributes;
@@ -85,9 +87,11 @@ namespace ECDMMessageComposer
 			this.dataTypesGridView.Enabled = this.limitDatatypesCheckBox.Checked;
 			this.deleteDataTypeButton.Enabled = this.dataTypesGridView.Enabled;
 			this.copyDataTypeGeneralizationsCheckBox.Enabled = this.copyDatatypesCheckbox.Checked;
-			this.notesPrefixTextBox.Enabled = this.prefixNotesCheckBox.Checked;
+			this.notesPrefixTextBox.Enabled = this.prefixNotesCheckBox.Checked && !this.keepNotesInSyncCheckBox.Checked; ;
+            this.prefixNotesCheckBox.Enabled = !this.keepNotesInSyncCheckBox.Checked;
 			this.orderAssociationsAmongstAttributesCheckbox.Enabled = this.orderAssociationsCheckbox.Checked;
 			this.elementTagTextBox.Enabled = tvInsteadOfTraceCheckBox.Checked;
+            this.prefixNotesCheckBox.Enabled = !this.keepNotesInSyncCheckBox.Checked;
 		}
 		private void saveChanges()
 		{
@@ -102,13 +106,15 @@ namespace ECDMMessageComposer
 			//general options
 			this.settings.copyGeneralizations = this.generalCopyGeneralizationsCheckbox.Checked;
 		    this.settings.redirectGeneralizationsToSubset = this.RedirectGeneralizationsCheckBox.Checked;
-		    this.settings.prefixNotes = this.prefixNotesCheckBox.Checked;
-		    this.settings.prefixNotesText = this.notesPrefixTextBox.Text;
+
 		    this.settings.checkSecurity = this.checkSecurityCheckBox.Checked;
 		    this.settings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
 		    this.settings.usePackageSchemasOnly = this.usePackageSubsetsOnlyCheckBox.Checked;
-            
             this.settings.generateToArtifactPackage = this.generateToArtifactPackageCheckBox.Checked ;
+            //notes options
+            this.settings.prefixNotes = this.prefixNotesCheckBox.Checked;
+            this.settings.prefixNotesText = this.notesPrefixTextBox.Text;
+            this.settings.keepNotesInSync = this.keepNotesInSyncCheckBox.Checked;
             //diagram options
             this.settings.generateDiagram = this.generateDiagramCheckbox.Checked;
             this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
@@ -237,7 +243,9 @@ namespace ECDMMessageComposer
 			this.enableDisable();
 		}
 
-
-	
-	}
+        private void keepNotesInSyncCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.enableDisable();
+        }
+    }
 }

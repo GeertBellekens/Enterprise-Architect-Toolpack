@@ -417,7 +417,18 @@ namespace ECDMMessageComposer
                 this.setBooleanValue("generateDiagram", value);
             }
         }
-        
+
+        public bool keepNotesInSync
+        {
+            get
+            {
+                return this.getBooleanValue("keepNotesInSync");
+            }
+            set
+            {
+                this.setBooleanValue("keepNotesInSync", value);
+            }
+        }
     }
 }
 
