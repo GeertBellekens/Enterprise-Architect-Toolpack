@@ -78,11 +78,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 		public event EventHandler TextUpdate;
 		void TextBoxTextChanged(object sender, EventArgs e)
 		{
-			if (this.TextUpdate != null)
-			{
-				this.TextUpdate(this,e);
-			}
-		}
+            this.TextUpdate?.Invoke(this, e);
+        }
 		public event EventHandler SelectionChangeCommitted;
 		
 		void ListBoxClick(object sender, EventArgs e)

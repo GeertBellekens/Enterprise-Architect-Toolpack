@@ -96,7 +96,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 			if (searchedString != this.quickSearchText)
 			{
 				//search again in case the text has already changed in the meantime
-				this.handleSearchTextChange();
+				this.handleSearchTextChange(e);
 			}
 		}
 		
@@ -813,11 +813,12 @@ namespace TSF.UmlToolingFramework.EANavigator
 				this.quickSearchBox.Text = this.quickSearchText;
 			}
 		}
-		void QuickSearchComboBoxTextUpdate(object sender, System.EventArgs e)
+		void QuickSearchComboBoxTextUpdate(object sender, EventArgs e)
 		{
-			this.handleSearchTextChange();
+			this.handleSearchTextChange(e);
 		}
-		private void handleSearchTextChange()
+        public event EventHandler guidSearched;
+        private void handleSearchTextChange(EventArgs e)
 		{
 			if (this.quickSearchBox.Text != this.quickSearchEmpty)
 			{
@@ -836,7 +837,15 @@ namespace TSF.UmlToolingFramework.EANavigator
 				    && quickSearchTextChanged != null
 				    && !this.quickSearchBackgroundWorker.IsBusy)
 				{
-					this.quickSearchBackgroundWorker.RunWorkerAsync(this.quickSearchText);
+                    Guid guid;
+                    if (Guid.TryParse(quickSearchText, out guid))
+                    {
+                        guidSearched?.Invoke(quickSearchText, e);
+                    }
+                    else
+                    {
+                        this.quickSearchBackgroundWorker.RunWorkerAsync(this.quickSearchText);
+                    }
 				}
 			}
 		}
