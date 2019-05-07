@@ -260,7 +260,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.aboutButton.Image = ((System.Drawing.Image)(resources.GetObject("aboutButton.Image")));
             this.aboutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.aboutButton.Name = "aboutButton";
-            this.aboutButton.Size = new System.Drawing.Size(23, 20);
+            this.aboutButton.Size = new System.Drawing.Size(23, 24);
             this.aboutButton.ToolTipText = "About EA Navigator";
             this.aboutButton.Click += new System.EventHandler(this.AboutButtonClick);
             // 
@@ -285,7 +285,6 @@ namespace TSF.UmlToolingFramework.EANavigator
             // 
             this.quickSearchBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.quickSearchBox.AutoSize = true;
             this.quickSearchBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.quickSearchBox.DroppedDown = false;
             this.quickSearchBox.FormattingEnabled = true;
@@ -320,7 +319,6 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.navigatorToolStripContainer.ResumeLayout(false);
             this.navigatorToolStripContainer.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
 		}
 		private System.Windows.Forms.ToolStripButton copyGUIDButton;
