@@ -25,9 +25,11 @@ namespace EAMapping
         private void loadContent()
         {
             this.clearContents();
-            this.fromTextBox.Text = this._mapping?.source?.name;
+            this.fromTextBox.Text = this.mapping != null && this.mapping.isReverseEmpty ?
+                                    "<none>"
+                                    : this._mapping?.source?.name;
             this.toolTip.SetToolTip(this.fromTextBox, ((MappingNode)this._mapping?.source)?.getMappingPathExportString());
-            this.toTextBox.Text = this.mapping != null && this.mapping.isEmpty ? 
+            this.toTextBox.Text = this.mapping != null && (this.mapping.isEmpty && ! this.mapping.isReverseEmpty) ? 
                                     "<none>" 
                                     : this._mapping?.target?.name;
             this.toolTip.SetToolTip(this.toTextBox, ((MappingNode)this._mapping?.target)?.getMappingPathExportString());

@@ -381,7 +381,8 @@ namespace EAMapping
             }
             //get target mapping root
             TSF_EA.ElementWrapper targetRootElement = null;
-            var targets = sourceRoot.taggedValues.Where(x => x.name == this.settings.linkedElementTagName)
+            var targets = sourceRoot.taggedValues.Where(x => x.name == this.settings.linkedElementTagName
+                                                        && ! x.comment.Contains("<isEmptyMapping>True</isEmptyMapping>"))
                                             .Select(x => x.tagValue)
                                             .OfType<TSF_EA.ElementWrapper>();
             if (targets.Count() == 1)
