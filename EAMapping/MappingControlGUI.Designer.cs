@@ -183,6 +183,7 @@ namespace EAMapping
             this.sourceTreeView.UseHotItem = true;
             this.sourceTreeView.View = System.Windows.Forms.View.Details;
             this.sourceTreeView.VirtualMode = true;
+            this.sourceTreeView.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.sourceTreeView_FormatCell);
             this.sourceTreeView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.sourceTreeView_FormatRow);
             this.sourceTreeView.HeaderCheckBoxChanging += new System.EventHandler<BrightIdeasSoftware.HeaderCheckBoxChangingEventArgs>(this.sourceTreeView_HeaderCheckBoxChanging);
             this.sourceTreeView.ModelCanDrop += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.sourceTreeView_ModelCanDrop);
@@ -278,6 +279,7 @@ namespace EAMapping
             this.targetTreeView.VirtualMode = true;
             this.targetTreeView.CellRightClick += new System.EventHandler<BrightIdeasSoftware.CellRightClickEventArgs>(this.targetTreeView_CellRightClick);
             this.targetTreeView.SubItemChecking += new System.EventHandler<BrightIdeasSoftware.SubItemCheckingEventArgs>(this.targetTreeView_SubItemChecking);
+            this.targetTreeView.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.targetTreeView_FormatCell);
             this.targetTreeView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.targetTreeView_FormatRow);
             this.targetTreeView.HeaderCheckBoxChanging += new System.EventHandler<BrightIdeasSoftware.HeaderCheckBoxChangingEventArgs>(this.targetTreeView_HeaderCheckBoxChanging);
             this.targetTreeView.ModelCanDrop += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.targetTreeView_ModelCanDrop);

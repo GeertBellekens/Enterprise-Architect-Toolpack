@@ -439,6 +439,33 @@ namespace EAMapping
             }
         }
 
+        private void sourceTreeView_FormatCell(object sender, FormatCellEventArgs e)
+        {
+            if (e.ColumnIndex == this.sourceColumn.Index)
+            {
+                setAbstractItalic(e);
+            }
+        }
 
+        private static void setAbstractItalic(FormatCellEventArgs e)
+        {
+            var node = e.Model as ElementMappingNode;
+            if (node != null)
+            {
+                var sourceElement = node.source as UML.Classes.Kernel.Classifier;
+                if (sourceElement != null && sourceElement.isAbstract)
+                {
+                    e.SubItem.Font = new Font(e.SubItem.Font, FontStyle.Italic);
+                }
+            }
+        }
+
+        private void targetTreeView_FormatCell(object sender, FormatCellEventArgs e)
+        {
+            if (e.ColumnIndex == this.targetColumn.Index)
+            {
+                setAbstractItalic(e);
+            }
+        }
     }
 }
