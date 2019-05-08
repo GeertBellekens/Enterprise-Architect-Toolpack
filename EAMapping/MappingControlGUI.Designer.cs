@@ -199,8 +199,9 @@ namespace EAMapping
             // 
             // isMapped
             // 
-            this.isMapped.AspectName = "mappingCount";
+            this.isMapped.AspectName = "displayMappingCount";
             this.isMapped.Text = "Mappings";
+            this.isMapped.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // sourceExpandColumn
             // 
@@ -210,6 +211,7 @@ namespace EAMapping
             this.sourceExpandColumn.HeaderCheckBox = true;
             this.sourceExpandColumn.HeaderCheckBoxUpdatesRowCheckBoxes = false;
             this.sourceExpandColumn.Text = "Expand";
+            this.sourceExpandColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.sourceExpandColumn.Width = 80;
             // 
             // rightSplitContainer
@@ -291,8 +293,9 @@ namespace EAMapping
             // 
             // targetMappingsColumn
             // 
-            this.targetMappingsColumn.AspectName = "mappingCount";
+            this.targetMappingsColumn.AspectName = "displayMappingCount";
             this.targetMappingsColumn.Text = "Mappings";
+            this.targetMappingsColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // targetExpandedColumn
             // 
@@ -302,6 +305,7 @@ namespace EAMapping
             this.targetExpandedColumn.HeaderCheckBox = true;
             this.targetExpandedColumn.HeaderCheckBoxUpdatesRowCheckBoxes = false;
             this.targetExpandedColumn.Text = "Expand";
+            this.targetExpandedColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.targetExpandedColumn.Width = 80;
             // 
             // mainPanel
