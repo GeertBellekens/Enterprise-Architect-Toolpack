@@ -285,6 +285,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             // 
             this.quickSearchBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.quickSearchBox.AutoSize = true;
             this.quickSearchBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.quickSearchBox.DroppedDown = false;
             this.quickSearchBox.FormattingEnabled = true;
@@ -319,6 +320,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.navigatorToolStripContainer.ResumeLayout(false);
             this.navigatorToolStripContainer.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 		private System.Windows.Forms.ToolStripButton copyGUIDButton;
