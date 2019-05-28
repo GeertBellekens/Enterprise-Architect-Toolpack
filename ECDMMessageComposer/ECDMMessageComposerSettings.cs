@@ -60,10 +60,24 @@ namespace ECDMMessageComposer
 				this.setListValue("ignoredStereotypes",value);
 			}
 		}
-		/// <summary>
-		/// indicates if the data types should be added to the diagram
-		/// </summary>
-		public bool addDataTypes
+        /// <summary>
+        /// list of constraint types to ignore when updating constraints
+        /// </summary>
+        public List<string> ignoredConstraintTypes
+        {
+            get
+            {
+                return this.getListValue("ignoredConstraintTypes");
+            }
+            set
+            {
+                this.setListValue("ignoredConstraintTypes", value);
+            }
+        }
+        /// <summary>
+        /// indicates if the data types should be added to the diagram
+        /// </summary>
+        public bool addDataTypes
 		{
         	get
 			{
