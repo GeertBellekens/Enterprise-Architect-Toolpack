@@ -219,6 +219,16 @@ namespace ECDMMessageComposer
                 }
             }
         }
+        private void deleteHiddenElementButton_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.hiddenElementGrid.SelectedRows)
+            {
+                if (!row.IsNewRow)
+                {
+                    this.hiddenElementGrid.Rows.Remove(row);
+                }
+            }
+        }
         void CopyDatatypesCheckboxCheckedChanged(object sender, EventArgs e)
         {
             this.enableDisable();
