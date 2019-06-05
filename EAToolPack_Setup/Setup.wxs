@@ -14,7 +14,7 @@
 
     <Icon Id="Bellekens.ico" SourceFile=".\Files\Bellekens.ico"/>
     <Property Id="ARPPRODUCTICON" Value="Bellekens.ico" />
-    <Property Id="ARPHELPLINK" Value="http://bellekens.com" />
+    <Property Id="ARPHELPLINK" Value="https://bellekens.com" />
 
     <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
 
