@@ -100,6 +100,11 @@ namespace EAJSON
         private JSchema createSchemaForElement(UML.Classes.Kernel.Type type)
         {
             var elementSchema = new JSchema();
+            //set id 
+            //some tools seem to have issues with the references to these type of ids.
+            //elementSchema.Id = new Uri("#" + type.name, UriKind.Relative);
+            //set description
+            elementSchema.Description = type.ownedComments.FirstOrDefault()?.body;
             //set schema type
             setSchemaType(type, elementSchema);
             //add properties
@@ -132,6 +137,9 @@ namespace EAJSON
         private JSchema getPropertySchema(UML.Classes.Kernel.Property attribute)
         {
             var typeSchema = new JSchema();
+            //set description
+            typeSchema.Description = attribute.ownedComments.FirstOrDefault()?.body;
+            //check if it is an array
             if (attribute.upper.isUnlimited || attribute.upper.integerValue > 1)
             {
                 typeSchema.Type = JSchemaType.Array;
@@ -154,6 +162,14 @@ namespace EAJSON
                 }
                 typeSchema.Items.Add(itemsType);
             }
+            else if(attribute.type is UML.Classes.Kernel.Class)
+            {
+                var referenceSchema = createSchemaForElement(attribute.type);
+                //add schema to definitions if of type object
+                this.definitions.Add(attribute.name, referenceSchema);
+                //setSchemaType the typeSchema to this reference schema
+                typeSchema = referenceSchema;
+            }
             else
             {
                 setSchemaType(attribute.type, typeSchema);
@@ -164,7 +180,7 @@ namespace EAJSON
             return typeSchema;
         }
 
-        private static void setSchemaType(UML.Classes.Kernel.Type type, JSchema typeSchema)
+        private void setSchemaType(UML.Classes.Kernel.Type type, JSchema typeSchema)
         {
             //TODO find a better, non hardcoded way to determine the type properties
             if (type is UML.Classes.Kernel.Class)
@@ -273,7 +289,8 @@ namespace EAJSON
                 //do base types
                 if (!typeSchema.Type.HasValue)
                 {
-                    if (((TSF_EA.DataType)type).superClasses.Any())
+                    var dataType = type as TSF_EA.DataType;
+                    if (dataType!= null && dataType.superClasses.Any())
                     {
                         setSchemaType(((TSF_EA.DataType)type).superClasses.First(), typeSchema);
                     }
@@ -320,7 +337,8 @@ namespace EAJSON
                         typeSchema.MaximumLength = longValue;
                         break;
                     case "pattern":
-                        if (!string.IsNullOrEmpty(stringValue))
+                        if (!string.IsNullOrEmpty(stringValue) 
+                            && string.IsNullOrEmpty(typeSchema.Format))
                         {
                             //initialize
                             typeSchema.Pattern = string.Empty;
@@ -347,6 +365,7 @@ namespace EAJSON
                     //numeric facets
                     case "minimum":
                         typeSchema.Minimum = longValue;
+                        typeSchema.ExclusiveMinimum = false;
                         minimumSet = true;
                         break;
                     case "exclusiveminimum":
@@ -356,6 +375,7 @@ namespace EAJSON
                         break;
                     case "maximum":
                         typeSchema.Maximum = longValue;
+                        typeSchema.ExclusiveMaximum = false;
                         maximumSet = true;
                         break;
                     case "exclusivemaximum":
