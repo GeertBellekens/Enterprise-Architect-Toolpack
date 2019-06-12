@@ -155,6 +155,11 @@ namespace EAJSON
                 }
                 //set the type of the items
                 var itemsType = createSchemaForElement(attribute.type);
+                //set the isUnique property
+                if (attribute.isUnique)
+                {
+                    typeSchema.UniqueItems = true;
+                }
                 //add schema to definitions if of type object
                 if (itemsType.Type == JSchemaType.Object)
                 {
