@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="AB7625DC-1" name="JSON" version="1.0" notes="Elements to model JSON Schemas"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="JSON_Attribute" metatype="JSONAttribute" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="JSON_Type" baseStereotypes="JSON_Type">
+				<AppliesTo>
+					<Apply type="Attribute"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="JSON_Datatype" metatype="JSONDatatype" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="JSON_Type" baseStereotypes="JSON_Type">
+				<AppliesTo>
+					<Apply type="DataType"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="JSON_Element" metatype="JSONElement" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="id" type="" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="JSON_Schema" metatype="JSONSchema" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="JSON_Element" baseStereotypes="JSON_Element">
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="id" type="" description="" unit="" values="" default=""/>
+					<Tag name="schema" type="" description="" unit="" values="" default=""/>
+					<Tag name="schemaFileName" type="" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="JSON_Type" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
+				<TaggedValues>
+					<Tag name="format" type="enumeration" description="" unit="" values="date-time,time,date,email,idn-email,hostname,idn-hostname,ipv4,ipv6,uri,uri-reference,iri,iri-reference,uri-template,json-pointer,relative-json-pointer,regex" default=""/>
+					<Tag name="maxlength" type="" description="" unit="" values="" default=""/>
+					<Tag name="minlength" type="" description="" unit="" values="" default=""/>
+					<Tag name="pattern" type="" description="" unit="" values="" default=""/>
+					<Tag name="minimum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="exclusiveminimum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="maximum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="exclusivemaximum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="multipleof" type="int" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+		<ViewDefinitions/>
+		<Metamodel/>
+	</Content>
+</UMLProfile>

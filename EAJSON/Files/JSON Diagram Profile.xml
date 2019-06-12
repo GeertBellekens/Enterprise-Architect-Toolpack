@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="867299E8-B" name="JSON" version="1.0" notes="JSON Schema Diagram"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="JSON" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Logical">
+						<Property name="alias" value="JSON"/>
+						<Property name="diagramID" value="JSON"/>
+						<Property name="frameString" value="#DGMTYPE# #DGMNAME#"/>
+						<Property name="pdata" value="HideStereo=1;HideEStereo=1;"/>
+						<Property name="styleex" value="HideConnStereotype=1;"/>
+						<Property name="toolbox" value="JSON"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+		<ViewDefinitions/>
+		<Metamodel/>
+	</Content>
+</UMLProfile>

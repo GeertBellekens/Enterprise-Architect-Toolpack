@@ -124,8 +124,8 @@ namespace MagicdrawMigrator
         private void setSequenceKey(MDAssociation mdAssociation, TSF_EA.Association eaAssociation)
         {
             //only if the association is an ASMA or ASBIE association
-            if (eaAssociation.HasStereotype("ASMA")
-                || eaAssociation.HasStereotype("ASBIE"))
+            if (eaAssociation.hasStereotype("ASMA")
+                || eaAssociation.hasStereotype("ASBIE"))
             {
                 //find the associationRole with the largest sequenceKey
                 int sequenceKey = mdAssociation.source.sequenceKey > mdAssociation.target.sequenceKey ?

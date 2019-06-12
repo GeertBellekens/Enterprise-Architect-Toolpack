@@ -7,11 +7,18 @@ using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using Newtonsoft.Json.Schema;
 using UML = TSF.UmlToolingFramework.UML;
 using Newtonsoft.Json.Linq;
+using System.Windows.Forms;
 
 namespace EAJSON
 {
     public class EAJSONSchema
     {
+        public const string schemaStereotype = "JSON_Schema";
+        public const string attributeStereotype = "JSON_Attribute";
+        public const string datatypeStereotype = "JSON_Datatype";
+        public const string elementStereotype = "JSON_Element";
+        public const string schemaFileTagName = "schemaFileName";
+        public const string profileName = "JSON";
         private TSF_EA.ElementWrapper _rootElement;
 
         private TSF_EA.ElementWrapper rootElement
@@ -70,6 +77,49 @@ namespace EAJSON
                     _schema = this.generateSchema();
                 }
                 return _schema;
+            }
+        }
+        private string _schemaFileName;
+        public string schemaFileName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this._schemaFileName))
+                {
+                    var fileNameTag = this.rootElement.taggedValues.FirstOrDefault(x => x.name.Equals(schemaFileTagName, StringComparison.InvariantCultureIgnoreCase));
+                    if (fileNameTag != null
+                        && !string.IsNullOrWhiteSpace(fileNameTag.tagValue.ToString()))
+                    {
+                        this._schemaFileName = fileNameTag.tagValue.ToString();
+                    }
+                    else
+                    {
+                        //let the user select a file
+                        var browseSchemaFile = new SaveFileDialog();
+                        browseSchemaFile.Title = $"Save schema for {this.rootElement.name}";
+                        browseSchemaFile.Filter = "JSON Schema files|*.json;";
+                        browseSchemaFile.FilterIndex = 1;
+                        var dialogResult = browseSchemaFile.ShowDialog();
+                        if (dialogResult == DialogResult.OK)
+                        {
+                            //save the schema file name
+                            this.rootElement.addTaggedValue(schemaFileTagName, browseSchemaFile.FileName);
+                            //set the filename
+                            this._schemaFileName = browseSchemaFile.FileName;
+                        }
+                    }
+                }
+                return this._schemaFileName;
+            }
+        }
+        /// <summary>
+        /// print this json schema to the schema filename
+        /// </summary>
+        public void print()
+        {
+            if (! string.IsNullOrEmpty(this.schemaFileName))
+            {
+                System.IO.File.WriteAllText(this.schemaFileName, this.schema.ToString());
             }
         }
         private JObject _definitions;
@@ -445,6 +495,60 @@ namespace EAJSON
                     typeSchema.Minimum = Math.Pow(10, totalDigits.Value - fractionDigits.Value) * -1;
                     typeSchema.ExclusiveMinimum = true;
                 }
+            }
+        }
+        public static void transformPackage(UML.Classes.Kernel.Package package, UML.Classes.Kernel.Class rootClass)
+        {
+            //transform the rest of the package
+            if (package != null)
+            {
+                foreach (var element in package.ownedElements.OfType<UML.Classes.Kernel.Classifier>())
+                {
+                    transformElement(element as TSF_EA.ElementWrapper, rootClass);
+                }
+            }
+            //loop subPackages
+            foreach (var subPackage in package.nestedPackages)
+            {
+                transformPackage(subPackage, rootClass);
+            }
+        }
+        private static void transformElement(TSF_EA.ElementWrapper element, UML.Classes.Kernel.Class rootClass)
+        {
+            //set stereotype (not for rootclass)
+            if (element.uniqueID != rootClass.uniqueID)
+            {
+                if (element is UML.Classes.Kernel.DataType)
+                {
+                    if (! element.hasStereotype(datatypeStereotype))
+                    {
+                        element.addStereotype(profileName + "::" + datatypeStereotype);
+                        element.save();
+                    }
+                }
+                else if (element is UML.Classes.Kernel.Class)
+                {
+                    if (!element.hasStereotype(elementStereotype))
+                    {
+                        element.addStereotype(profileName + "::" + elementStereotype);
+                        element.save();
+                    }
+                }
+            }
+            else
+            {
+                if (!element.hasStereotype(schemaStereotype))
+                {
+                    //transform rootClass
+                    element.addStereotype(profileName + "::" + schemaStereotype);
+                    element.save();
+                }
+            }
+            //loop attributes
+            foreach (var attribute in element.attributes.OfType<TSF_EA.Attribute>())
+            {
+                attribute.addStereotype(profileName + "::" + attributeStereotype);
+                attribute.save();
             }
         }
     }

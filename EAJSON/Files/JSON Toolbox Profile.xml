@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="E3189EED-B" name="JSON" version="1.0" notes="Toolbox to model JSON Schemas"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="JSON" notes="JSON Schema elements" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="JSON::JSON_Schema(UML::Class)" type="" description="" unit="" values="" default="Schema"/>
+					<Tag name="JSON::JSON_Attribute(UML::Attribute)" type="" description="" unit="" values="" default="Attribue"/>
+					<Tag name="JSON::JSON_Element(UML::Class)" type="" description="" unit="" values="" default="Element"/>
+					<Tag name="UML::Enumeration" type="" description="" unit="" values="" default="Enumeration"/>
+					<Tag name="JSON::JSON_Datatype(UML::DataType)" type="" description="" unit="" values="" default="Data Type"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+		<ViewDefinitions/>
+		<Metamodel/>
+	</Content>
+</UMLProfile>
