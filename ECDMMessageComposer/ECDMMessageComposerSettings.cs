@@ -443,6 +443,18 @@ namespace ECDMMessageComposer
                 this.setBooleanValue("keepNotesInSync", value);
             }
         }
+
+        public string customPositionTag
+        {
+            get
+            {
+                return this.getValue("customPositionTag");
+            }
+            set
+            {
+                this.setValue("customPositionTag", value);
+            }
+        }
     }
 }
 

@@ -52,7 +52,6 @@ namespace ECDMMessageComposer
         private System.Windows.Forms.CheckBox orderAssociationsCheckbox;
         private System.Windows.Forms.CheckBox noAttributeDependenciesCheckbox;
         private System.Windows.Forms.CheckBox orderAssociationsAmongstAttributesCheckbox;
-        private System.Windows.Forms.Label elementTagLabel;
         private System.Windows.Forms.TextBox elementTagTextBox;
         private System.Windows.Forms.CheckBox tvInsteadOfTraceCheckBox;
 		/// <summary>
@@ -117,7 +116,6 @@ namespace ECDMMessageComposer
             this.keepAttributeOrderRadio = new System.Windows.Forms.RadioButton();
             this.xmlSchemaGroup = new System.Windows.Forms.GroupBox();
             this.choiceBeforeAttributesCheckbox = new System.Windows.Forms.CheckBox();
-            this.elementTagLabel = new System.Windows.Forms.Label();
             this.elementTagTextBox = new System.Windows.Forms.TextBox();
             this.tvInsteadOfTraceCheckBox = new System.Windows.Forms.CheckBox();
             this.orderAssociationsAmongstAttributesCheckbox = new System.Windows.Forms.CheckBox();
@@ -132,6 +130,8 @@ namespace ECDMMessageComposer
             this.ignoredConstraintsGrid = new System.Windows.Forms.DataGridView();
             this.IgnoredConstraintTypesColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deleteConstraintTypeButton = new System.Windows.Forms.Button();
+            this.customOrderTagTag = new System.Windows.Forms.Label();
+            this.customOrderTagTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
             this.diagramOptionsGroupBox.SuspendLayout();
@@ -543,8 +543,9 @@ namespace ECDMMessageComposer
             // 
             this.xmlSchemaGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.xmlSchemaGroup.Controls.Add(this.customOrderTagTag);
+            this.xmlSchemaGroup.Controls.Add(this.customOrderTagTextBox);
             this.xmlSchemaGroup.Controls.Add(this.choiceBeforeAttributesCheckbox);
-            this.xmlSchemaGroup.Controls.Add(this.elementTagLabel);
             this.xmlSchemaGroup.Controls.Add(this.elementTagTextBox);
             this.xmlSchemaGroup.Controls.Add(this.tvInsteadOfTraceCheckBox);
             this.xmlSchemaGroup.Controls.Add(this.orderAssociationsAmongstAttributesCheckbox);
@@ -552,7 +553,7 @@ namespace ECDMMessageComposer
             this.xmlSchemaGroup.Controls.Add(this.noAttributeDependenciesCheckbox);
             this.xmlSchemaGroup.Location = new System.Drawing.Point(378, 396);
             this.xmlSchemaGroup.Name = "xmlSchemaGroup";
-            this.xmlSchemaGroup.Size = new System.Drawing.Size(438, 226);
+            this.xmlSchemaGroup.Size = new System.Drawing.Size(438, 196);
             this.xmlSchemaGroup.TabIndex = 12;
             this.xmlSchemaGroup.TabStop = false;
             this.xmlSchemaGroup.Text = "XML Schema Options";
@@ -566,24 +567,16 @@ namespace ECDMMessageComposer
             this.choiceBeforeAttributesCheckbox.Text = "Order XmlChoice before Attributes";
             this.choiceBeforeAttributesCheckbox.UseVisualStyleBackColor = true;
             // 
-            // elementTagLabel
-            // 
-            this.elementTagLabel.Location = new System.Drawing.Point(5, 169);
-            this.elementTagLabel.Name = "elementTagLabel";
-            this.elementTagLabel.Size = new System.Drawing.Size(100, 17);
-            this.elementTagLabel.TabIndex = 13;
-            this.elementTagLabel.Text = "Element Tag";
-            // 
             // elementTagTextBox
             // 
-            this.elementTagTextBox.Location = new System.Drawing.Point(5, 189);
+            this.elementTagTextBox.Location = new System.Drawing.Point(212, 165);
             this.elementTagTextBox.Name = "elementTagTextBox";
             this.elementTagTextBox.Size = new System.Drawing.Size(164, 20);
             this.elementTagTextBox.TabIndex = 12;
             // 
             // tvInsteadOfTraceCheckBox
             // 
-            this.tvInsteadOfTraceCheckBox.Location = new System.Drawing.Point(6, 142);
+            this.tvInsteadOfTraceCheckBox.Location = new System.Drawing.Point(5, 165);
             this.tvInsteadOfTraceCheckBox.Name = "tvInsteadOfTraceCheckBox";
             this.tvInsteadOfTraceCheckBox.Size = new System.Drawing.Size(276, 24);
             this.tvInsteadOfTraceCheckBox.TabIndex = 11;
@@ -725,6 +718,21 @@ namespace ECDMMessageComposer
             this.deleteConstraintTypeButton.UseVisualStyleBackColor = true;
             this.deleteConstraintTypeButton.Click += new System.EventHandler(this.deleteConstraintTypeButton_Click);
             // 
+            // customOrderTagTag
+            // 
+            this.customOrderTagTag.Location = new System.Drawing.Point(6, 142);
+            this.customOrderTagTag.Name = "customOrderTagTag";
+            this.customOrderTagTag.Size = new System.Drawing.Size(100, 17);
+            this.customOrderTagTag.TabIndex = 16;
+            this.customOrderTagTag.Text = "Custom Order Tag";
+            // 
+            // customOrderTagTextBox
+            // 
+            this.customOrderTagTextBox.Location = new System.Drawing.Point(212, 139);
+            this.customOrderTagTextBox.Name = "customOrderTagTextBox";
+            this.customOrderTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.customOrderTagTextBox.TabIndex = 15;
+            // 
             // SettingsWindow
             // 
             this.AcceptButton = this.okButton;
@@ -745,7 +753,6 @@ namespace ECDMMessageComposer
             this.Controls.Add(this.ignoreGroupBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(842, 698);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(842, 698);
             this.Name = "SettingsWindow";
@@ -787,6 +794,8 @@ namespace ECDMMessageComposer
         private System.Windows.Forms.Button deleteConstraintTypeButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn IgnoredConstraintTypesColumn;
+        private System.Windows.Forms.Label customOrderTagTag;
+        private System.Windows.Forms.TextBox customOrderTagTextBox;
         //this.ResumeLayout(false);
     }
 }

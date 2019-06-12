@@ -79,8 +79,10 @@ namespace ECDMMessageComposer
             this.orderAssociationsCheckbox.Checked = this.settings.orderAssociationsAlphabetically;
             this.orderAssociationsAmongstAttributesCheckbox.Checked = this.settings.orderAssociationsAmongstAttributes;
             this.choiceBeforeAttributesCheckbox.Checked = this.settings.orderXmlChoiceBeforeAttributes;
+            this.customOrderTagTextBox.Text = this.settings.customPositionTag;
             this.tvInsteadOfTraceCheckBox.Checked = this.settings.tvInsteadOfTrace;
             this.elementTagTextBox.Text = this.settings.elementTagName;
+            
         }
         private void enableDisable()
         {
@@ -137,6 +139,7 @@ namespace ECDMMessageComposer
             this.settings.orderAssociationsAlphabetically = this.orderAssociationsCheckbox.Checked;
             this.settings.orderAssociationsAmongstAttributes = this.orderAssociationsAmongstAttributesCheckbox.Checked;
             this.settings.orderXmlChoiceBeforeAttributes = this.choiceBeforeAttributesCheckbox.Checked;
+            this.settings.customPositionTag = this.customOrderTagTextBox.Text;
             this.settings.tvInsteadOfTrace = this.tvInsteadOfTraceCheckBox.Checked;
             this.settings.elementTagName = this.elementTagTextBox.Text;
             //save changes
