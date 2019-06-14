@@ -1,5 +1,6 @@
 ﻿using EA;
 using EAAddinFramework;
+using EAAddinFramework.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace EAJSON
         const string menuTransform = "&Transform to JSON profile";
         const string menuSettings = "&Settings";
         const string menuAbout = "&About EA JSON";
+        const string outputName = "EA JSON";
         public TSF_EA.Model model { get; private set; } = null;
         private bool fullyLoaded = false;
 
@@ -48,7 +50,7 @@ namespace EAJSON
                     var selectedElement = this.model.selectedElement;
                     IsEnabled = selectedElement != null
                         &&
-                        (selectedElement.stereotypes.Any(x => x.name.Equals("JSONSchema", StringComparison.InvariantCultureIgnoreCase))
+                        (selectedElement.stereotypes.Any(x => x.name.Equals(EAJSONSchema.schemaStereotype, StringComparison.InvariantCultureIgnoreCase))
                         ||
                         selectedElement is UML.Classes.Kernel.Package);
                     break;
@@ -78,21 +80,50 @@ namespace EAJSON
             }
         }
         /// <summary>
+        /// return the MDG content for the EDD MDG (so it doesn't have to be loaded separately
+        /// </summary>
+        /// <param name="Repository"></param>
+        /// <returns>the MDG file contents</returns>
+        public override object EA_OnInitializeTechnologies(Repository Repository)
+        {
+            return Properties.Resources.JSON_MDG;
+        }
+        /// <summary>
         /// transform the selected package to the JSON profile
         /// </summary>
         private void transform()
         {
+           
             //let the user select a class to be the root class
             MessageBox.Show("Please select the root element");
             var rootObject = this.model.getUserSelectedElement(new List<string> { "Class" }) as UML.Classes.Kernel.Class;
             var selectedPackage = this.model.selectedElement as UML.Classes.Kernel.Package;
-            EAJSONSchema.transformPackage(selectedPackage, rootObject);
+            if (selectedPackage != null)
+            {
+                //inform user
+                EAOutputLogger.clearLog(this.model, outputName);
+                EAOutputLogger.log(this.model, outputName
+                                   , $"{DateTime.Now.ToLongTimeString()} Starting transform of package '{selectedPackage.name}'"
+                                   , ((TSF_EA.ElementWrapper)selectedPackage).id
+                                  , LogTypeEnum.log);
+                //perform the actual transformation
+                EAJSONSchema.transformPackage(selectedPackage, rootObject);
+                //inform user
+                EAOutputLogger.log(this.model, outputName
+                                   , $"{DateTime.Now.ToLongTimeString()} Finished transform of package '{selectedPackage.name}'"
+                                   , ((TSF_EA.ElementWrapper)selectedPackage).id
+                                  , LogTypeEnum.log);
+            }
+            
         }
         /// <summary>
         /// Generate a new JSON Schema from the selected File
         /// </summary>
         private void generateJSONSchema()
         {
+            //inform user
+            EAOutputLogger.clearLog(this.model, outputName);
+
             var selectedPackage = this.model.selectedElement as TSF_EA.Package;
             if (selectedPackage != null)
             {
@@ -107,15 +138,25 @@ namespace EAJSON
                     this.generateJSONSchema(selectedElement);
                 }
             }
+            //inform user
+            EAOutputLogger.log(this.model, outputName
+                   , $"{DateTime.Now.ToLongTimeString()} Finished generating Schema(s)"
+                   , 0
+                  , LogTypeEnum.log);
         } 
         private void generateJSONSchemas(TSF_EA.Package package)
         {
+            //inform user
+            EAOutputLogger.log(this.model, outputName
+                   , $"{DateTime.Now.ToLongTimeString()} Generating Schema's in package '{package.name}'"
+                   , package.id
+                  , LogTypeEnum.log);
             //get the «JSONSchema» elements in this package recursively
-            var sqlGetJSONSchemas = "select o.Object_ID from t_object o                           " + Environment.NewLine +
-                                    " inner join t_xref x on x.Client = o.ea_guid                 " + Environment.NewLine +
-                                    "                and x.Name = 'Stereotypes'                   " + Environment.NewLine +
-                                    "                and x.Description like '%Name=JSONSchema;%'  " + Environment.NewLine +
-                                    $" where o.Package_ID in ({package.packageTreeIDString})       ";
+            var sqlGetJSONSchemas = "select o.Object_ID from t_object o                                                " + Environment.NewLine +
+                                    " inner join t_xref x on x.Client = o.ea_guid                                      " + Environment.NewLine +
+                                    "                and x.Name = 'Stereotypes'                                        " + Environment.NewLine +
+                                    $"               and x.Description like '%Name={EAJSONSchema.schemaStereotype};%'  " + Environment.NewLine +
+                                    $" where o.Package_ID in ({package.packageTreeIDString})                           ";
             var jsonSchemaElements =  this.model.getElementWrappersByQuery(sqlGetJSONSchemas);
             foreach (var jsonSchemaElement in jsonSchemaElements)
             {
@@ -124,6 +165,10 @@ namespace EAJSON
         }
         private void generateJSONSchema(TSF_EA.ElementWrapper element)
         {
+            EAOutputLogger.log(this.model, outputName
+                   , $"{DateTime.Now.ToLongTimeString()} Generating Schema for element '{element.name}'"
+                   , element.id
+                  , LogTypeEnum.log);
             var eaJsonSchema = new EAJSONSchema(element);
             //print the schema to the file
             eaJsonSchema.print();

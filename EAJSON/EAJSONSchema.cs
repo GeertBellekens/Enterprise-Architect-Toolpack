@@ -27,13 +27,13 @@ namespace EAJSON
             set
             {
                 if (value != null && 
-                    value.stereotypes.Any(x => x.name.Equals("JSONSchema", StringComparison.InvariantCultureIgnoreCase)))
+                    value.stereotypes.Any(x => x.name.Equals(schemaStereotype, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     _rootElement = value;
                 }
                 else
                 {
-                    throw new ArgumentException("The root element should have the «JSONSchema» stereotype");
+                    throw new ArgumentException($"The root element should have the «{schemaStereotype}» stereotype");
                 }
             }
         }
@@ -245,9 +245,13 @@ namespace EAJSON
             else if (type is UML.Classes.Kernel.Enumeration)
             {
                 typeSchema.Type = JSchemaType.String;
-                foreach(var enumValue in ((UML.Classes.Kernel.Enumeration)type).ownedLiterals)
+                foreach(var enumValue in ((UML.Classes.Kernel.Enumeration)type).ownedLiterals.OfType<TSF_EA.EnumerationLiteral>())
                 {
-                    typeSchema.Enum.Add(JValue.CreateString(enumValue.name));
+                    //TODO: make configurable in setting
+                    var valueToUse = string.IsNullOrEmpty(enumValue.alias)
+                                    ? enumValue.name
+                                    : enumValue.alias;
+                    typeSchema.Enum.Add(JValue.CreateString(valueToUse));
                 }   
             }
             else if (type is UML.Classes.Kernel.DataType)
@@ -362,7 +366,8 @@ namespace EAJSON
             bool minimumSet = false;
             bool maximumSet = false;
             bool multipleOfSet = false;
-            foreach (var tag in element.taggedValues)
+            foreach (var tag in element.taggedValues
+                                .Where(x => !string.IsNullOrEmpty(x.tagValue.ToString())))
             {
                 //get string value
                 var stringValue = tag.tagValue.ToString();
@@ -412,9 +417,12 @@ namespace EAJSON
                         }
                         break;
                     case "format":
-                        if (!string.IsNullOrEmpty(stringValue))
+                        typeSchema.Format = stringValue;
+                        break;
+                    case "enum":
+                        foreach(var enumValue in stringValue.Split(','))
                         {
-                            typeSchema.Format = stringValue;
+                            typeSchema.Enum.Add(JValue.CreateString(enumValue));
                         }
                         break;
                     //numeric facets

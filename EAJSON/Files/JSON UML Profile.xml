@@ -31,12 +31,13 @@
 				</AppliesTo>
 				<TaggedValues>
 					<Tag name="id" type="" description="" unit="" values="" default=""/>
-					<Tag name="schema" type="" description="" unit="" values="" default=""/>
+					<Tag name="schema" type="enumeration" description="" unit="" values="http://json-schema.org/draft-04/schema#,http://json-schema.org/draft-05/schema#,http://json-schema.org/draft-06/schema#,http://json-schema.org/draft-07/schema#" default="http://json-schema.org/draft-04/schema#"/>
 					<Tag name="schemaFileName" type="" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="JSON_Type" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 				<TaggedValues>
+					<Tag name="enum" type="" description="" unit="" values="" default=""/>
 					<Tag name="format" type="enumeration" description="" unit="" values="date-time,time,date,email,idn-email,hostname,idn-hostname,ipv4,ipv6,uri,uri-reference,iri,iri-reference,uri-template,json-pointer,relative-json-pointer,regex" default=""/>
 					<Tag name="maxlength" type="" description="" unit="" values="" default=""/>
 					<Tag name="minlength" type="" description="" unit="" values="" default=""/>
