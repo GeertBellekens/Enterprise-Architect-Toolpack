@@ -143,6 +143,9 @@ namespace EAJSON
             //set version and Id
             generatedSchema.SchemaVersion = this.schemaVersion;
             generatedSchema.Id = this.schemaId;
+            generatedSchema.Title = this.rootElement.name;
+            generatedSchema.Description = $"Version: {this.rootElement.version}" +
+                                          Environment.NewLine + this.rootElement.EAModel.convertFromEANotes(this.rootElement.notes,"TXT");
             generatedSchema.ExtensionData.Add("definitions", this.definitions);
 
             return generatedSchema;
@@ -154,7 +157,7 @@ namespace EAJSON
             //some tools seem to have issues with the references to these type of ids.
             //elementSchema.Id = new Uri("#" + type.name, UriKind.Relative);
             //set description
-            elementSchema.Description = type.ownedComments.FirstOrDefault()?.body;
+            elementSchema.Description = ((TSF_EA.Element)type).EAModel.convertFromEANotes(type.ownedComments .FirstOrDefault()?.body, "TXT");
             //set schema type
             setSchemaType(type, elementSchema);
             //add properties
