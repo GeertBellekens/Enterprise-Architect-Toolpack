@@ -20,9 +20,7 @@ namespace EAJSON
         const string menuAbout = "&About EA JSON";
         const string outputName = "EA JSON";
         public TSF_EA.Model model { get; private set; } = null;
-        private bool fullyLoaded = false;
-
-
+        
         public EAJSONAddin() : base()
         {
             // Add menu's to the Add-in in EA
@@ -30,7 +28,7 @@ namespace EAJSON
             this.menuOptions = new string[] {
                                 menuGenerate,
                                 menuTransform,
-                                menuSettings,
+                                //menuSettings,
                                 menuAbout
                               };
         }
@@ -38,8 +36,6 @@ namespace EAJSON
         {
             // initialize the model
             this.model = new TSF_EA.Model(repository);
-            // indicate that we are now fully loaded
-            this.fullyLoaded = true;
         }
         public override void EA_GetMenuState(Repository Repository, string MenuLocation, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
         {
@@ -75,7 +71,7 @@ namespace EAJSON
                     //TODO
                     break;
                 case menuAbout:
-                    //TODO
+                    new AboutWindow().ShowDialog(this.model.mainEAWindow);
                     break;
             }
         }
