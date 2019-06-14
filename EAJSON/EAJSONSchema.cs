@@ -13,12 +13,26 @@ namespace EAJSON
 {
     public class EAJSONSchema
     {
+        //stereotypeNames
+        public const string profileName = "JSON";
         public const string schemaStereotype = "JSON_Schema";
         public const string attributeStereotype = "JSON_Attribute";
         public const string datatypeStereotype = "JSON_Datatype";
         public const string elementStereotype = "JSON_Element";
         public const string schemaFileTagName = "schemaFileName";
-        public const string profileName = "JSON";
+
+        //(facet) tagged value names
+        const string tv_minlength = "minlength";
+        const string tv_maxlength = "maxlength";
+        const string tv_pattern = "pattern";
+        const string tv_format = "format";
+        const string tv_enum = "enum";
+        const string tv_minimum = "minimum";
+        const string tv_exclusiveminimum = "exclusiveminimum";
+        const string tv_maximum = "maximum";
+        const string tv_exclusivemaximum = "exclusivemaximum";
+        const string tv_multipleof = "multipleof";
+
         private TSF_EA.ElementWrapper _rootElement;
 
         private TSF_EA.ElementWrapper rootElement
@@ -265,88 +279,15 @@ namespace EAJSON
                     case "string":
                         typeSchema.Type = JSchemaType.String;
                         break;
+                    case "integer":
+                        typeSchema.Type = JSchemaType.Integer;
+                        break;
                     case "number":
                         typeSchema.Type = JSchemaType.Number;
                         break;
                     case "boolean":
                         typeSchema.Type = JSchemaType.Boolean;
                         break;
-                    //check if the name is one of the known XML types
-                    case "decimal":
-                    case "float":
-                    case "double":
-                        typeSchema.Type = JSchemaType.Number;
-                        break;
-                    case "duration":
-                        typeSchema.Type = JSchemaType.String;
-                        typeSchema.Pattern = @"^-?P((([0-9]+Y([0-9]+M)?([0-9]+D)?|([0-9]+M)([0-9]+D)?|([0-9]+D))(T(([0-9]+H)([0-9]+M)?([0-9]+(\.[0-9]+)?S)?|([0-9]+M)([0-9]+(\.[0-9]+)?S)?|([0-9]+(\.[0-9]+)?S)))?)|(T(([0-9]+H)([0-9]+M)?([0-9]+(\.[0-9]+)?S)?|([0-9]+M)([0-9]+(\.[0-9]+)?S)?|([0-9]+(\.[0-9]+)?S))))$";
-                        break;
-                    case "datetime":
-                        typeSchema.Type = JSchemaType.String;
-                        typeSchema.Format = "date-time";
-                        break;
-                    //TODO: find better way
-                    //case "time":
-                    //case "date":
-                    //case "gyearmonth":
-                    //case "gyear":
-                    //case "gmonthday":
-                    //case "gday":
-                    //case "gmonth":
-                    //case "hexbinary":
-                    //case "base64binary":
-                    //case "anyuri":
-                    //case "qname":
-                    //case "notation":
-                    //case "normalizedstring":
-                    //case "token":
-                    //case "language":
-                    //case "nmtoken":
-                    //case "nmtokens":
-                    //case "name":
-                    //case "ncname":
-                    //case "id":
-                    //case "idref":
-                    //case "idrefs":
-                    //case "entity":
-                    //case "entities":
-                    case "integer":
-                        typeSchema.Type = JSchemaType.Integer;
-                        break;
-                    case "nonpositiveinteger":
-                        typeSchema.Type = JSchemaType.Integer;
-                        typeSchema.Maximum = 0;
-                        break;
-                    case "negativeinteger":
-                        typeSchema.Type = JSchemaType.Integer;
-                        typeSchema.Maximum = 0;
-                        typeSchema.ExclusiveMaximum = true;
-                        break;
-                    case "long":
-                        typeSchema.Type = JSchemaType.Integer;
-                        break;
-                    case "int":
-                        typeSchema.Type = JSchemaType.Integer;
-                        break;
-                    case "short":
-                        typeSchema.Type = JSchemaType.Integer;
-                        break;
-                    case "byte":
-                        typeSchema.Type = JSchemaType.Integer;
-                        break;
-                    case "nonnegativeinteger":
-                    case "unsignedlong":
-                    case "unsignedint":
-                    case "unsignedshort":
-                    case "unsignedbyte":
-                    case "positiveinteger":
-                        typeSchema.Type = JSchemaType.Integer;
-                        typeSchema.Minimum = 0;
-                        break;
-                        //TODO
-                        //case "yearmonthduration":
-                        //case "daytimeduration":
-                        //case "datetimestamp":
                 }
                 //do base types
                 if (!typeSchema.Type.HasValue)
@@ -393,13 +334,13 @@ namespace EAJSON
                 {
                     
                     //string facets
-                    case "minlength":
+                    case tv_minlength:
                         typeSchema.MinimumLength = longValue;
                         break;
-                    case "maxlength":
+                    case tv_maxlength:
                         typeSchema.MaximumLength = longValue;
                         break;
-                    case "pattern":
+                    case tv_pattern:
                         if (!string.IsNullOrEmpty(stringValue) 
                             && string.IsNullOrEmpty(typeSchema.Format))
                         {
@@ -419,69 +360,41 @@ namespace EAJSON
                             }
                         }
                         break;
-                    case "format":
+                    case tv_format:
                         typeSchema.Format = stringValue;
                         break;
-                    case "enum":
+                    case tv_enum:
                         foreach(var enumValue in stringValue.Split(','))
                         {
                             typeSchema.Enum.Add(JValue.CreateString(enumValue));
                         }
                         break;
                     //numeric facets
-                    case "minimum":
+                    case tv_minimum:
                         typeSchema.Minimum = longValue;
                         typeSchema.ExclusiveMinimum = false;
                         minimumSet = true;
                         break;
-                    case "exclusiveminimum":
+                    case tv_exclusiveminimum:
                         typeSchema.Minimum = longValue;
                         typeSchema.ExclusiveMinimum = true;
                         minimumSet = true;
                         break;
-                    case "maximum":
+                    case tv_maximum:
                         typeSchema.Maximum = longValue;
                         typeSchema.ExclusiveMaximum = false;
                         maximumSet = true;
                         break;
-                    case "exclusivemaximum":
+                    case tv_exclusivemaximum:
                         typeSchema.Maximum = longValue;
                         typeSchema.ExclusiveMaximum = true;
                         maximumSet = true;
                         break;
-                    case "multipleof":
+                    case tv_multipleof:
                         typeSchema.MultipleOf = doubleValue;
                         multipleOfSet = true;
                         break;
-                    //xsd facets
-                    case "fractiondigits":
-                        fractionDigits = doubleValue;
-                        break;
-                    case "length":
-                        typeSchema.MinimumLength = longValue;
-                        typeSchema.MaximumLength = longValue;
-                        break;
-                    case "maxexclusive":
-                        typeSchema.Maximum = longValue;
-                        typeSchema.ExclusiveMaximum = true;
-                        maximumSet = true;
-                        break;
-                    case "maxinclusive":
-                        typeSchema.Maximum = longValue;
-                        maximumSet = true;
-                        break;
-                    case "minexclusive":
-                        typeSchema.Minimum = longValue;
-                        typeSchema.ExclusiveMinimum = true;
-                        minimumSet = true;
-                        break;
-                    case "mininclusive":
-                        typeSchema.Minimum = longValue;
-                        minimumSet = true;
-                        break;
-                    case "totaldigits":
-                        totalDigits = doubleValue;
-                        break;
+                    
                 }
             }
             //set minimum and maximum and multipleOf based on fractiondigits and totalDigits
@@ -527,14 +440,16 @@ namespace EAJSON
         private static void transformElement(TSF_EA.ElementWrapper element, UML.Classes.Kernel.Class rootClass)
         {
             //set stereotype (not for rootclass)
-            if (element.uniqueID != rootClass.uniqueID)
+            if (element.uniqueID != rootClass?.uniqueID)
             {
-                if (element is UML.Classes.Kernel.DataType)
+                if (element is TSF_EA.DataType)
                 {
                     if (! element.hasStereotype(datatypeStereotype))
                     {
                         element.addStereotype(profileName + "::" + datatypeStereotype);
                         element.save();
+                        //transform from XML datatypes
+                        transformFromXmlDatatypes((TSF_EA.DataType)element);
                     }
                 }
                 else if (element is UML.Classes.Kernel.Class)
@@ -562,5 +477,184 @@ namespace EAJSON
                 attribute.save();
             }
         }
+        private static void transformFromXmlDatatypes(TSF_EA.DataType dataType)
+        {
+            switch (dataType.name.ToLower())
+            {
+                //check if the name is one of the known XML types
+                case "decimal":
+                case "float":
+                case "double":
+                    dataType.name = "number";
+                    
+                    break;
+                case "duration":
+                    dataType.name = "string";
+                    dataType.addTaggedValue(tv_pattern, @"^-?P((([0-9]+Y([0-9]+M)?([0-9]+D)?|([0-9]+M)([0-9]+D)?|([0-9]+D))(T(([0-9]+H)([0-9]+M)?([0-9]+(\.[0-9]+)?S)?|([0-9]+M)([0-9]+(\.[0-9]+)?S)?|([0-9]+(\.[0-9]+)?S)))?)|(T(([0-9]+H)([0-9]+M)?([0-9]+(\.[0-9]+)?S)?|([0-9]+M)([0-9]+(\.[0-9]+)?S)?|([0-9]+(\.[0-9]+)?S))))$");
+                    break;
+                case "datetime":
+                    dataType.name = "string";
+                    dataType.addTaggedValue(tv_format, "date-time");
+                    break;
+                //TODO: find better way
+                case "time":
+                    dataType.name = "string";
+                    dataType.addTaggedValue(tv_format, "time"); //only valid from draft 07
+                    break;
+                case "date":
+                    dataType.name = "string";
+                    dataType.addTaggedValue(tv_format, "date"); //only valid from draft 07
+                    break;
+                case "gyearmonth":
+                    dataType.name = "string";
+                    dataType.addTaggedValue(tv_pattern, @"^-?([1-9][0-9]{3,}|0[0-9]{3})-(0[1-9]|1[0-2])(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?$");
+                    break;
+                case "gyear":
+                    dataType.name = "string";
+                    dataType.addTaggedValue(tv_pattern, @"^-?([1-9][0-9]{3,}|0[0-9]{3})(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?$");
+                    break;
+                case "gmonthday":
+                    dataType.name = "string";
+                    dataType.addTaggedValue(tv_pattern, @"^--(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?$");
+                    break;   
+                case "gday":
+                    dataType.name = "string";
+                    dataType.addTaggedValue(tv_pattern, @"^---(0[1-9]|[12][0-9]|3[01])(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?$");
+                    break;
+                case "gmonth":
+                    dataType.name = "string";
+                    dataType.addTaggedValue(tv_pattern, @"^--(0[1-9]|1[0-2])(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?$");
+                    break;
+                //TODO
+                //case "hexbinary":
+                //case "base64binary":
+                //case "anyuri":
+                //case "qname":
+                //case "notation":
+                //case "normalizedstring":
+                //case "token":
+                //case "language":
+                //case "nmtoken":
+                //case "nmtokens":
+                //case "name":
+                //case "ncname":
+                //case "id":
+                //case "idref":
+                //case "idrefs":
+                //case "entity":
+                //case "entities":
+                case "nonpositiveinteger":
+                    dataType.name = "integer";
+                    dataType.addTaggedValue(tv_maximum, "0");
+                    break;
+                case "negativeinteger":
+                    dataType.name = "integer";
+                    dataType.addTaggedValue(tv_exclusivemaximum, "0");
+                    break;
+                case "long":
+                case "int":
+                case "short":
+                case "byte":
+                    dataType.name = "integer";
+                    break;
+                case "nonnegativeinteger":
+                case "unsignedlong":
+                case "unsignedint":
+                case "unsignedshort":
+                case "unsignedbyte":
+                case "positiveinteger":
+                    dataType.name = "integer";
+                    dataType.addTaggedValue(tv_minimum, "0");
+                    break;
+                    //TODO
+                    //case "yearmonthduration":
+                    //case "daytimeduration":
+                    //case "datetimestamp":
+            }
+            //process the xml facet tagged values
+            processXMLFacets(dataType);
+            //save the datatype
+            dataType.save();
+        }
+        private static void processXMLFacets(TSF_EA.Element element)
+        {
+            double? totalDigits = null;
+            double? fractionDigits = null;
+            bool minimumSet = false;
+            bool maximumSet = false;
+            bool multipleOfSet = false;
+            foreach (var tag in element.taggedValues
+                               .Where(x => !string.IsNullOrEmpty(x.tagValue.ToString())))
+            {
+                //get string value
+                var stringValue = tag.tagValue.ToString();
+                //get long value
+                long tempLong;
+                long? longValue = null;
+                if (long.TryParse(stringValue, out tempLong))
+                {
+                    longValue = tempLong;
+                }
+                //get double value
+                double tempDouble;
+                double? doubleValue = null;
+                if (double.TryParse(stringValue, out tempDouble))
+                {
+                    doubleValue = tempDouble;
+                }
+
+                switch (tag.name.ToLower())
+                {
+                    //xsd facets
+                    case "fractiondigits":
+                        fractionDigits = doubleValue;
+                        break;
+                    case "length":
+                        element.addTaggedValue(tv_minlength, longValue.ToString());
+                        element.addTaggedValue(tv_maxlength, longValue.ToString());
+                        break;
+                    case "maxexclusive":
+                        element.addTaggedValue(tv_exclusivemaximum, longValue.ToString());
+                        maximumSet = true;
+                        break;
+                    case "maxinclusive":
+                        element.addTaggedValue(tv_maximum, longValue.ToString());
+                        maximumSet = true;
+                        break;
+                    case "minexclusive":
+                        element.addTaggedValue(tv_exclusiveminimum, longValue.ToString());
+                        minimumSet = true;
+                        break;
+                    case "mininclusive":
+                        element.addTaggedValue(tv_minimum, longValue.ToString());
+                        minimumSet = true;
+                        break;
+                    case "totaldigits":
+                        totalDigits = doubleValue;
+                        break;
+                }
+            }
+            //set minimum and maximum and multipleOf based on fractiondigits and totalDigits
+            //but only if minimum, maximum and multipleOf are not yet set
+            if (totalDigits.HasValue)
+            {
+                if (!fractionDigits.HasValue)
+                {
+                    fractionDigits = 0;
+                }
+                if (!maximumSet)
+                {
+                    element.addTaggedValue(tv_exclusivemaximum, Math.Pow(10, totalDigits.Value - fractionDigits.Value).ToString());
+                }
+                if (!multipleOfSet && fractionDigits > 0)
+                {
+                    element.addTaggedValue(tv_multipleof, Math.Pow(10, (fractionDigits.Value * -1)).ToString());
+                }
+                if (!minimumSet)
+                {
+                    element.addTaggedValue(tv_exclusiveminimum, (Math.Pow(10, totalDigits.Value - fractionDigits.Value) * -1).ToString());
+                }
+            }
+        }    
     }
 }
