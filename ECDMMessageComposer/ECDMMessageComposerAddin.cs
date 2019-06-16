@@ -217,7 +217,11 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
 
                         if (response == DialogResult.Yes)
                         {
+                            //disable ui updates to speed up process
+                            this.EAModel.wrappedModel.EnableUIUpdates = false;
                             this.updateMessageSubset(schema, targetPackage);
+                            //refresh package to make changes visible
+                            targetPackage.refresh();
                         }
                     }
                     Cursor.Current = Cursors.Default;
@@ -226,6 +230,11 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
             catch (Exception e)
             {
                 processException(e);
+            }
+            finally
+            {
+                //re-enable gui updates
+                this.EAModel.wrappedModel.EnableUIUpdates = true;
             }
         }
         /// <summary>
