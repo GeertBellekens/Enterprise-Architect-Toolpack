@@ -341,8 +341,7 @@ namespace EAJSON
                         typeSchema.MaximumLength = longValue;
                         break;
                     case tv_pattern:
-                        if (!string.IsNullOrEmpty(stringValue) 
-                            && string.IsNullOrEmpty(typeSchema.Format))
+                        if (!string.IsNullOrEmpty(stringValue))
                         {
                             //initialize
                             typeSchema.Pattern = string.Empty;

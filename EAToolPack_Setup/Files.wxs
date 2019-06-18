@@ -1310,7 +1310,46 @@
             </RegistryKey>
             <Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
           </Component>
-
+          <Component Id="EAJSON_AddinFiles" Guid="7E7E454D-4265-49D2-9865-E1877DE6E47D">
+            <File Id="EAJSON.dll" KeyPath="yes" Source="..\EAJSON\bin\Debug\EAJSON.dll" />
+            <File Id="Newtonsoft.Json.Schema.dll" Name="Newtonsoft.Json.Schema.dll" Source="..\EAJSON\bin\Debug\Newtonsoft.Json.Schema.dll" />
+            <Class Id="{43FF918F-1A04-3250-877D-749B7016F25B}" Context="InprocServer32" Description="EAJSON.EAJSONAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAJSON.EAJSONAddin" Description="EAJSON.EAJSONAddin" />
+            </Class>
+            <Class Id="{9FD2D57C-D498-3D35-A890-13466131C4B9}" Context="InprocServer32" Description="EAJSON.AboutWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
+              <ProgId Id="EAJSON.AboutWindow" Description="EAJSON.AboutWindow" />
+            </Class>
+            <RegistryValue Root="HKCR" Key="CLSID\{43FF918F-1A04-3250-877D-749B7016F25B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{43FF918F-1A04-3250-877D-749B7016F25B}\InprocServer32\1.0.0.0" Name="Class" Value="EAJSON.EAJSONAddin" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{43FF918F-1A04-3250-877D-749B7016F25B}\InprocServer32\1.0.0.0" Name="Assembly" Value="EAJSON, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{43FF918F-1A04-3250-877D-749B7016F25B}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{43FF918F-1A04-3250-877D-749B7016F25B}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#EAJSON.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{43FF918F-1A04-3250-877D-749B7016F25B}\InprocServer32" Name="Class" Value="EAJSON.EAJSONAddin" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{43FF918F-1A04-3250-877D-749B7016F25B}\InprocServer32" Name="Assembly" Value="EAJSON, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{43FF918F-1A04-3250-877D-749B7016F25B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{43FF918F-1A04-3250-877D-749B7016F25B}\InprocServer32" Name="CodeBase" Value="file:///[#EAJSON.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9FD2D57C-D498-3D35-A890-13466131C4B9}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9FD2D57C-D498-3D35-A890-13466131C4B9}\InprocServer32\1.0.0.0" Name="Class" Value="EAJSON.AboutWindow" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9FD2D57C-D498-3D35-A890-13466131C4B9}\InprocServer32\1.0.0.0" Name="Assembly" Value="EAJSON, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9FD2D57C-D498-3D35-A890-13466131C4B9}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9FD2D57C-D498-3D35-A890-13466131C4B9}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#EAJSON.dll]" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9FD2D57C-D498-3D35-A890-13466131C4B9}\InprocServer32" Name="Class" Value="EAJSON.AboutWindow" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9FD2D57C-D498-3D35-A890-13466131C4B9}\InprocServer32" Name="Assembly" Value="EAJSON, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9FD2D57C-D498-3D35-A890-13466131C4B9}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+            <RegistryValue Root="HKCR" Key="CLSID\{9FD2D57C-D498-3D35-A890-13466131C4B9}\InprocServer32" Name="CodeBase" Value="file:///[#EAJSON.dll]" Type="string" Action="write" />
+          </Component>
+          <Component Id="EAJSON_RegistryEntry" Guid="0736910a-6765-4b97-bd78-f130052bc002" UninstallWhenSuperseded="yes">
+            <RegistryKey Root="HKLM" Key="SOFTWARE\Wow6432Node\Sparx Systems\EAAddins\EA JSON">
+              <RegistryValue Type="string" Value="EAJSON.EAJSONAddin" />
+            </RegistryKey>
+            <Condition> %PROCESSOR_ARCHITECTURE="AMD64" OR %PROCESSOR_ARCHITECTURE="IE64"</Condition>
+          </Component>
+          <Component Id="EAJSON_RegistryEntry_x86" Guid="5ba63afa-ec15-43fa-9b0f-0c076c1bf591" UninstallWhenSuperseded="yes">
+            <RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA JSON">
+              <RegistryValue Type="string" Value="EAJSON.EAJSONAddin" />
+            </RegistryKey>
+            <Condition> %PROCESSOR_ARCHITECTURE="x86"</Condition>
+          </Component>
           <Directory Id="Files" Name="Files">
             <Component Id="EAValidator_ExtraFiles" Guid="29085904-c1d1-4348-b872-d7e42c472b27" DiskId="1">
               <File Id="check.xsd" Source="..\EAValidator\bin\Debug\Files\check.xsd" />

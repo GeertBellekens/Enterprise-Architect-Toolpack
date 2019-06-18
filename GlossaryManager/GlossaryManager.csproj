@@ -167,6 +167,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Files\add.png" />
     <None Include="Files\businessitem.png" />
     <None Include="Files\column.png" />
