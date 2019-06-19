@@ -305,11 +305,6 @@ namespace EAJSON
         }
         private static void processFacets(UML.Classes.Kernel.Element element, JSchema typeSchema)
         {
-            double? totalDigits = null;
-            double? fractionDigits = null;
-            bool minimumSet = false;
-            bool maximumSet = false;
-            bool multipleOfSet = false;
             foreach (var tag in element.taggedValues
                                 .Where(x => !string.IsNullOrEmpty(x.tagValue.ToString())))
             {
@@ -372,51 +367,22 @@ namespace EAJSON
                     case tv_minimum:
                         typeSchema.Minimum = longValue;
                         typeSchema.ExclusiveMinimum = false;
-                        minimumSet = true;
                         break;
                     case tv_exclusiveminimum:
                         typeSchema.Minimum = longValue;
                         typeSchema.ExclusiveMinimum = true;
-                        minimumSet = true;
                         break;
                     case tv_maximum:
                         typeSchema.Maximum = longValue;
                         typeSchema.ExclusiveMaximum = false;
-                        maximumSet = true;
                         break;
                     case tv_exclusivemaximum:
                         typeSchema.Maximum = longValue;
                         typeSchema.ExclusiveMaximum = true;
-                        maximumSet = true;
                         break;
                     case tv_multipleof:
                         typeSchema.MultipleOf = doubleValue;
-                        multipleOfSet = true;
                         break;
-                    
-                }
-            }
-            //set minimum and maximum and multipleOf based on fractiondigits and totalDigits
-            //but only if minimum, maximum and multipleOf are not yet set
-            if (totalDigits.HasValue)
-            {
-                if (!fractionDigits.HasValue)
-                {
-                    fractionDigits = 0;
-                }
-                if (!maximumSet)
-                {
-                    typeSchema.Maximum = Math.Pow(10, totalDigits.Value - fractionDigits.Value);
-                    typeSchema.ExclusiveMaximum = true;
-                }
-                if (!multipleOfSet && fractionDigits > 0)
-                {
-                    typeSchema.MultipleOf = Math.Pow(10, (fractionDigits.Value * -1));
-                }
-                if (!minimumSet)
-                {
-                    typeSchema.Minimum = Math.Pow(10, totalDigits.Value - fractionDigits.Value) * -1;
-                    typeSchema.ExclusiveMinimum = true;
                 }
             }
         }
