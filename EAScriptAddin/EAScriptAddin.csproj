@@ -101,7 +101,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Files\license.rtf" />
     <None Include="Files\ScriptAddinIcon.ico" />
     <None Include="Files\ScriptAddinIcon16.png" />

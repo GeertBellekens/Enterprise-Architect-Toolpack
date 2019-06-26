@@ -109,9 +109,6 @@
     <Compile Include="UML\MDTimeEvent.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj">
       <Project>{4161dd26-375f-4744-ba96-b70366e19a78}</Project>
       <Name>EAAddinFramework</Name>
@@ -126,6 +123,8 @@
       <DependentUpon>MDMigratorForm.Designer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
