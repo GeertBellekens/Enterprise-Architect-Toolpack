@@ -217,11 +217,19 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
 
                         if (response == DialogResult.Yes)
                         {
-                            //disable ui updates to speed up process
-                            this.EAModel.wrappedModel.EnableUIUpdates = false;
+                            if (this.EAModel.EAVersion >= 1308)
+                            {
+                                //disable ui updates to speed up process. Only for v13 or higher
+                                this.EAModel.wrappedModel.EnableUIUpdates = false;
+                            }
+                            //update the subset
                             this.updateMessageSubset(schema, targetPackage);
-                            //refresh package to make changes visible
-                            targetPackage.refresh();
+                            if (this.EAModel.EAVersion >= 1308)
+                            {
+                                //refresh package to make changes visible Only for v13 or higher
+                                targetPackage.refresh();
+                            }
+                                
                         }
                     }
                     Cursor.Current = Cursors.Default;
@@ -233,8 +241,11 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
             }
             finally
             {
-                //re-enable gui updates
-                this.EAModel.wrappedModel.EnableUIUpdates = true;
+                if (this.EAModel.EAVersion >= 1308)
+                {
+                    //re-enable gui updates. Only for V13 or higher
+                    this.EAModel.wrappedModel.EnableUIUpdates = true;
+                }
             }
         }
         /// <summary>
