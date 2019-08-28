@@ -67,16 +67,21 @@
             this.lblDiagram = new System.Windows.Forms.Label();
             this.btnSelectDiagram = new System.Windows.Forms.Button();
             this.logoBox = new System.Windows.Forms.PictureBox();
+            this.validatorSplitContainer = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).BeginInit();
             this.grpElement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.validatorSplitContainer)).BeginInit();
+            this.validatorSplitContainer.Panel1.SuspendLayout();
+            this.validatorSplitContainer.Panel2.SuspendLayout();
+            this.validatorSplitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnDoValidation
             // 
-            this.btnDoValidation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDoValidation.Location = new System.Drawing.Point(903, 321);
+            this.btnDoValidation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDoValidation.Location = new System.Drawing.Point(901, 320);
             this.btnDoValidation.Name = "btnDoValidation";
             this.btnDoValidation.Size = new System.Drawing.Size(82, 25);
             this.btnDoValidation.TabIndex = 0;
@@ -119,12 +124,13 @@
             this.olvColProposedSolution});
             this.olvValidations.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvValidations.FullRowSelect = true;
+            this.olvValidations.HideSelection = false;
             this.olvValidations.IncludeColumnHeadersInCopy = true;
-            this.olvValidations.Location = new System.Drawing.Point(14, 367);
+            this.olvValidations.Location = new System.Drawing.Point(14, 26);
             this.olvValidations.Name = "olvValidations";
             this.olvValidations.ShowCommandMenuOnRightClick = true;
             this.olvValidations.ShowItemCountOnGroups = true;
-            this.olvValidations.Size = new System.Drawing.Size(971, 317);
+            this.olvValidations.Size = new System.Drawing.Size(969, 315);
             this.olvValidations.TabIndex = 2;
             this.olvValidations.UseCompatibleStateImageBehavior = false;
             this.olvValidations.UseFilterIndicator = true;
@@ -226,7 +232,8 @@
             this.olvChecks.AllColumns.Add(this.olvColCheckWarningType);
             this.olvChecks.AllColumns.Add(this.olvColCheckGroup);
             this.olvChecks.AllColumns.Add(this.olvColCheckRationale);
-            this.olvChecks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.olvChecks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.olvChecks.CellEditUseWholeCell = false;
             this.olvChecks.CheckBoxes = true;
@@ -243,12 +250,13 @@
             this.olvChecks.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvChecks.EmptyListMsg = "No checks found to validate";
             this.olvChecks.FullRowSelect = true;
+            this.olvChecks.HideSelection = false;
             this.olvChecks.IncludeColumnHeadersInCopy = true;
             this.olvChecks.Location = new System.Drawing.Point(14, 26);
             this.olvChecks.Name = "olvChecks";
             this.olvChecks.ShowGroups = false;
             this.olvChecks.ShowImagesOnSubItems = true;
-            this.olvChecks.Size = new System.Drawing.Size(971, 207);
+            this.olvChecks.Size = new System.Drawing.Size(969, 206);
             this.olvChecks.SmallImageList = this.checksImageList;
             this.olvChecks.TabIndex = 3;
             this.olvChecks.TriStateCheckBoxes = true;
@@ -345,7 +353,7 @@
             this.lblResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lblResults.AutoSize = true;
-            this.lblResults.Location = new System.Drawing.Point(17, 350);
+            this.lblResults.Location = new System.Drawing.Point(11, 10);
             this.lblResults.Name = "lblResults";
             this.lblResults.Size = new System.Drawing.Size(86, 13);
             this.lblResults.TabIndex = 5;
@@ -358,13 +366,13 @@
             this.txtElementName.Location = new System.Drawing.Point(83, 24);
             this.txtElementName.Name = "txtElementName";
             this.txtElementName.ReadOnly = true;
-            this.txtElementName.Size = new System.Drawing.Size(668, 20);
+            this.txtElementName.Size = new System.Drawing.Size(666, 20);
             this.txtElementName.TabIndex = 8;
             // 
             // btnSelectElement
             // 
             this.btnSelectElement.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectElement.Location = new System.Drawing.Point(758, 22);
+            this.btnSelectElement.Location = new System.Drawing.Point(756, 22);
             this.btnSelectElement.Name = "btnSelectElement";
             this.btnSelectElement.Size = new System.Drawing.Size(25, 23);
             this.btnSelectElement.TabIndex = 9;
@@ -374,12 +382,12 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Enabled = false;
-            this.progressBar1.Location = new System.Drawing.Point(14, 324);
+            this.progressBar1.Location = new System.Drawing.Point(14, 323);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(874, 22);
+            this.progressBar1.Size = new System.Drawing.Size(872, 22);
             this.progressBar1.Step = 1;
             this.progressBar1.TabIndex = 12;
             this.progressBar1.UseWaitCursor = true;
@@ -395,7 +403,7 @@
             // 
             // grpElement
             // 
-            this.grpElement.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.grpElement.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpElement.Controls.Add(this.btnClearScope);
             this.grpElement.Controls.Add(this.txtDiagramName);
@@ -404,9 +412,9 @@
             this.grpElement.Controls.Add(this.btnSelectElement);
             this.grpElement.Controls.Add(this.txtElementName);
             this.grpElement.Controls.Add(this.lblElementName);
-            this.grpElement.Location = new System.Drawing.Point(14, 239);
+            this.grpElement.Location = new System.Drawing.Point(14, 238);
             this.grpElement.Name = "grpElement";
-            this.grpElement.Size = new System.Drawing.Size(874, 79);
+            this.grpElement.Size = new System.Drawing.Size(872, 79);
             this.grpElement.TabIndex = 21;
             this.grpElement.TabStop = false;
             this.grpElement.Text = "Scope";
@@ -415,7 +423,7 @@
             // 
             this.btnClearScope.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClearScope.BackColor = System.Drawing.SystemColors.Control;
-            this.btnClearScope.Location = new System.Drawing.Point(789, 48);
+            this.btnClearScope.Location = new System.Drawing.Point(787, 48);
             this.btnClearScope.Name = "btnClearScope";
             this.btnClearScope.Size = new System.Drawing.Size(79, 23);
             this.btnClearScope.TabIndex = 29;
@@ -430,7 +438,7 @@
             this.txtDiagramName.Location = new System.Drawing.Point(83, 50);
             this.txtDiagramName.Name = "txtDiagramName";
             this.txtDiagramName.ReadOnly = true;
-            this.txtDiagramName.Size = new System.Drawing.Size(669, 20);
+            this.txtDiagramName.Size = new System.Drawing.Size(667, 20);
             this.txtDiagramName.TabIndex = 23;
             // 
             // lblDiagram
@@ -445,7 +453,7 @@
             // btnSelectDiagram
             // 
             this.btnSelectDiagram.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectDiagram.Location = new System.Drawing.Point(758, 48);
+            this.btnSelectDiagram.Location = new System.Drawing.Point(756, 48);
             this.btnSelectDiagram.Name = "btnSelectDiagram";
             this.btnSelectDiagram.Size = new System.Drawing.Size(25, 23);
             this.btnSelectDiagram.TabIndex = 22;
@@ -455,29 +463,47 @@
             // 
             // logoBox
             // 
-            this.logoBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.logoBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.logoBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.logoBox.ErrorImage = global::EAValidator.Properties.Resources.EA_Validator_Logo;
             this.logoBox.Image = global::EAValidator.Properties.Resources.EA_Validator_Logo;
             this.logoBox.InitialImage = global::EAValidator.Properties.Resources.EA_Validator_Logo;
-            this.logoBox.Location = new System.Drawing.Point(903, 242);
+            this.logoBox.Location = new System.Drawing.Point(901, 238);
             this.logoBox.Name = "logoBox";
             this.logoBox.Size = new System.Drawing.Size(82, 76);
             this.logoBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.logoBox.TabIndex = 13;
             this.logoBox.TabStop = false;
             // 
+            // validatorSplitContainer
+            // 
+            this.validatorSplitContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.validatorSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.validatorSplitContainer.Location = new System.Drawing.Point(0, 0);
+            this.validatorSplitContainer.Name = "validatorSplitContainer";
+            this.validatorSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // validatorSplitContainer.Panel1
+            // 
+            this.validatorSplitContainer.Panel1.Controls.Add(this.grpElement);
+            this.validatorSplitContainer.Panel1.Controls.Add(this.btnDoValidation);
+            this.validatorSplitContainer.Panel1.Controls.Add(this.lblChecks);
+            this.validatorSplitContainer.Panel1.Controls.Add(this.progressBar1);
+            this.validatorSplitContainer.Panel1.Controls.Add(this.logoBox);
+            this.validatorSplitContainer.Panel1.Controls.Add(this.olvChecks);
+            // 
+            // validatorSplitContainer.Panel2
+            // 
+            this.validatorSplitContainer.Panel2.Controls.Add(this.olvValidations);
+            this.validatorSplitContainer.Panel2.Controls.Add(this.lblResults);
+            this.validatorSplitContainer.Size = new System.Drawing.Size(1000, 700);
+            this.validatorSplitContainer.SplitterDistance = 350;
+            this.validatorSplitContainer.TabIndex = 22;
+            // 
             // ucEAValidator
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.logoBox);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.lblResults);
-            this.Controls.Add(this.lblChecks);
-            this.Controls.Add(this.olvChecks);
-            this.Controls.Add(this.olvValidations);
-            this.Controls.Add(this.btnDoValidation);
-            this.Controls.Add(this.grpElement);
+            this.Controls.Add(this.validatorSplitContainer);
             this.Name = "ucEAValidator";
             this.Size = new System.Drawing.Size(1000, 700);
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).EndInit();
@@ -485,8 +511,13 @@
             this.grpElement.ResumeLayout(false);
             this.grpElement.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).EndInit();
+            this.validatorSplitContainer.Panel1.ResumeLayout(false);
+            this.validatorSplitContainer.Panel1.PerformLayout();
+            this.validatorSplitContainer.Panel2.ResumeLayout(false);
+            this.validatorSplitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.validatorSplitContainer)).EndInit();
+            this.validatorSplitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -529,5 +560,6 @@
         private BrightIdeasSoftware.OLVColumn olvColProposedSolution;
         private System.Windows.Forms.PictureBox logoBox;
         private System.Windows.Forms.ImageList checksImageList;
+        private System.Windows.Forms.SplitContainer validatorSplitContainer;
     }
 }
