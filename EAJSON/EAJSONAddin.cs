@@ -150,9 +150,9 @@ namespace EAJSON
             //get the «JSONSchema» elements in this package recursively
             var sqlGetJSONSchemas = "select o.Object_ID from t_object o                                                " + Environment.NewLine +
                                     " inner join t_xref x on x.Client = o.ea_guid                                      " + Environment.NewLine +
+                                    $" where o.Package_ID in ({package.packageTreeIDString})                           " + Environment.NewLine +
                                     "                and x.Name = 'Stereotypes'                                        " + Environment.NewLine +
-                                    $"               and x.Description like '%Name={EAJSONSchema.schemaStereotype};%'  " + Environment.NewLine +
-                                    $" where o.Package_ID in ({package.packageTreeIDString})                           ";
+                                    $"               and x.Description like '%Name={EAJSONSchema.schemaStereotype};%'  ";
             var jsonSchemaElements =  this.model.getElementWrappersByQuery(sqlGetJSONSchemas);
             foreach (var jsonSchemaElement in jsonSchemaElements)
             {
