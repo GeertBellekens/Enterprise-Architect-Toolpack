@@ -49,6 +49,13 @@ namespace EAValidator
                 return this._ucEAValidator;
             }
         }
+        private void showValidatorTab()
+        {
+            if (this.ucEAValidator != null)
+            {
+                this.Model.showTab(appTitle);
+            }
+        }
 
         private void handleHandleDestroyed(object sender, EventArgs e)
         {
@@ -88,6 +95,8 @@ namespace EAValidator
             if (this.Model == null) { return; }
             var controller = new EAValidatorController(this.Model, this.settings);
             this.ucEAValidator.setController(controller);
+            //make sure to show the validator GUI
+            showValidatorTab();
 
         }
     }
