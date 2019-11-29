@@ -113,6 +113,7 @@
             // 
             // synchFKsButton
             // 
+            this.synchFKsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.synchFKsButton.Location = new System.Drawing.Point(298, 19);
             this.synchFKsButton.Name = "synchFKsButton";
             this.synchFKsButton.Size = new System.Drawing.Size(112, 23);
@@ -123,6 +124,8 @@
             // 
             // importERXGroup
             // 
+            this.importERXGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.importERXGroup.Controls.Add(this.importFileTextBox);
             this.importERXGroup.Controls.Add(this.importFileLabel);
             this.importERXGroup.Controls.Add(this.browseImportFileButton);
@@ -136,6 +139,8 @@
             // 
             // createForeignKeyGroupBox
             // 
+            this.createForeignKeyGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.createForeignKeyGroupBox.Controls.Add(this.synchFKsButton);
             this.createForeignKeyGroupBox.Location = new System.Drawing.Point(12, 170);
             this.createForeignKeyGroupBox.Name = "createForeignKeyGroupBox";
@@ -176,6 +181,8 @@
             // 
             // createRelationsGroupBox
             // 
+            this.createRelationsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.createRelationsGroupBox.Controls.Add(this.tdmPackageTextBox);
             this.createRelationsGroupBox.Controls.Add(this.createRelationsButton);
             this.createRelationsGroupBox.Controls.Add(this.TDMPackageLabel);
@@ -200,6 +207,7 @@
             // 
             // createRelationsButton
             // 
+            this.createRelationsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.createRelationsButton.Location = new System.Drawing.Point(313, 66);
             this.createRelationsButton.Name = "createRelationsButton";
             this.createRelationsButton.Size = new System.Drawing.Size(97, 23);
@@ -242,6 +250,7 @@
             this.Controls.Add(this.importERXGroup);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(456, 430);
             this.Name = "ErxImporterForm";
             this.Text = "ERX Importer";
             this.importERXGroup.ResumeLayout(false);
