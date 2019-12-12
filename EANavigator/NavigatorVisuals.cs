@@ -18,7 +18,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 	/// <summary>
 	/// Description of NavigatorIcons.
 	/// </summary>
-	public partial class NavigatorVisuals : UserControl
+	public partial class NavigatorVisuals : MyBaseControl
 	{
 		private int dummyIndex = 0;
 		private int attributeIndex = 1;
