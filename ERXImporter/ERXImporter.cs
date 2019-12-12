@@ -235,7 +235,10 @@ namespace ERXImporter
                     //execute inserts
                     if (!string.IsNullOrEmpty(importTable.imports))
                     {
+                       
                         var importcommand = new SqlCommand(importTable.imports, connection);
+                        //set timeout to 3 minutes to avoid timeout issues
+                        importcommand.CommandTimeout = 360;
                         try
                         {
                             importcommand.ExecuteNonQuery();

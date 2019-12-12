@@ -61,7 +61,7 @@ namespace ERXImporter
             this.errorTextBox.Text = "Creating foreign keys...";
             importer.synchronizeForeignKeys(this.exportFileTextBox.Text);
             var createdFKCount = this.importer.relations.Count(x => x.FKStatus.Equals("OK", StringComparison.InvariantCultureIgnoreCase));
-            this.errorTextBox.Text = $"Finished createing foreign keys!\n{createdFKCount} of {this.importer.relations.Count} foreign keys created.";
+            this.errorTextBox.Text = $"Finished creating foreign keys!\n{createdFKCount} of {this.importer.relations.Count} foreign keys created.";
             this.enableDisable();
             Cursor.Current = Cursors.Default;
         }
