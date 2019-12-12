@@ -220,27 +220,27 @@ namespace EAJSON
                 {
                     typeSchema.MaximumItems = attribute.upper.integerValue;
                 }
-                //set the type of the items
-                var itemsType = createSchemaForElement(attribute.type);
+                JSchema itemsType;
+                if (attribute.type is UML.Classes.Kernel.Class)
+                {
+                    itemsType = this.addDefinition(attribute.type);
+                }
+                else
+                {
+                    //set the type of the items
+                    itemsType = createSchemaForElement(attribute.type);
+                }
                 //set the isUnique property
                 if (attribute.isUnique)
                 {
                     typeSchema.UniqueItems = true;
                 }
-                //add schema to definitions if of type object
-                if (itemsType.Type == JSchemaType.Object)
-                {
-                    this.definitions.Add(attribute.type.name, itemsType);
-                }
                 typeSchema.Items.Add(itemsType);
             }
             else if(attribute.type is UML.Classes.Kernel.Class)
             {
-                var referenceSchema = createSchemaForElement(attribute.type);
                 //add schema to definitions if of type object
-                this.definitions.Add(attribute.name, referenceSchema);
-                //setSchemaType the typeSchema to this reference schema
-                typeSchema = referenceSchema;
+                typeSchema = this.addDefinition( attribute.type);
             }
             else
             {
@@ -250,6 +250,20 @@ namespace EAJSON
             processFacets(attribute, typeSchema);
             
             return typeSchema;
+        }
+        private JSchema addDefinition(UML.Classes.Kernel.Type type)
+        {
+            JToken definitionSchema; 
+            //check if the definition doesn't exist yet
+            if (!this.definitions.TryGetValue(type.name, out definitionSchema))
+            {
+                //create the schema
+                definitionSchema = createSchemaForElement(type);
+                //add the definition
+                this.definitions.Add(type.name, definitionSchema);
+            }
+            //return
+            return (JSchema) definitionSchema;
         }
 
         private void setSchemaType(UML.Classes.Kernel.Type type, JSchema typeSchema)
