@@ -48,6 +48,14 @@ namespace EAMapping
             }
             this.mappingLogicTextBox.Text = this.mappingLogic?.description;
         }
+        public bool readOnly    
+        {
+            set
+            {
+                this.mappingLogicTextBox.ReadOnly = value;
+                this.deleteButton.Enabled = !value;
+            }
+        }
 
         public event EventHandler browseButtonClicked;
         private void browseButton_Click(object sender, EventArgs e)

@@ -65,6 +65,10 @@ namespace EAMapping
             this.deleteButton.Enabled = enable;
             this.addLogicButton.Enabled = enable && this.mappingLogicPanel.Controls.Count <  this.contexts.Count;
             //this.mappingLogicTextBox.ReadOnly = !enable;
+            foreach (var mappingLogicControl in this.mappingLogicPanel.Controls.OfType<MappingLogicControl>())
+            {
+                mappingLogicControl.readOnly = !enable;
+            }
         }
 
         private MP.Mapping _mapping;

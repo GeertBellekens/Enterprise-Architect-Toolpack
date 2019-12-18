@@ -87,7 +87,8 @@ namespace EAMapping
             this.selectNewMappingRootToolStripMenuItem,
             this.newEmptyMappingToolStripMenuItem});
             this.MappingContextMenu.Name = "mappingContextMenu";
-            this.MappingContextMenu.Size = new System.Drawing.Size(207, 92);
+            this.MappingContextMenu.Size = new System.Drawing.Size(207, 114);
+            this.MappingContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.MappingContextMenu_Opening);
             // 
             // selectInProjectBrowserToolStripMenuItem
             // 

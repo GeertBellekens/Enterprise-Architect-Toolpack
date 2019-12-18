@@ -232,6 +232,19 @@ namespace EAMapping
         {
             //TODO: enableDisable context menu options
         }
+        private void MappingContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //disable option new empty mapping if node is readonly
+            var parent = ((ContextMenuStrip)sender).SourceControl;
+            if (parent == this.sourceTreeView)
+            {
+                this.newEmptyMappingToolStripMenuItem.Enabled = !this.selectedSourceNode.isReadOnly;
+            }
+            else
+            {
+                this.newEmptyMappingToolStripMenuItem.Enabled = !this.selectedTargetNode.isReadOnly;
+            }
+        }
 
         private void selectInProjectBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -467,5 +480,7 @@ namespace EAMapping
                 setAbstractItalic(e);
             }
         }
+
+
     }
 }
