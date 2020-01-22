@@ -87,7 +87,7 @@ namespace EAMapping
             this.selectNewMappingRootToolStripMenuItem,
             this.newEmptyMappingToolStripMenuItem});
             this.MappingContextMenu.Name = "mappingContextMenu";
-            this.MappingContextMenu.Size = new System.Drawing.Size(207, 114);
+            this.MappingContextMenu.Size = new System.Drawing.Size(207, 92);
             this.MappingContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.MappingContextMenu_Opening);
             // 
             // selectInProjectBrowserToolStripMenuItem
@@ -197,7 +197,7 @@ namespace EAMapping
             this.sourceColumn.AspectName = "displayName";
             this.sourceColumn.Hideable = false;
             this.sourceColumn.Text = "Source Model";
-            this.sourceColumn.Width = 260;
+            this.sourceColumn.Width = 300;
             // 
             // isMapped
             // 
@@ -209,12 +209,10 @@ namespace EAMapping
             // 
             this.sourceExpandColumn.AspectName = "showAll";
             this.sourceExpandColumn.CheckBoxes = true;
-            this.sourceExpandColumn.FillsFreeSpace = true;
             this.sourceExpandColumn.HeaderCheckBox = true;
             this.sourceExpandColumn.HeaderCheckBoxUpdatesRowCheckBoxes = false;
             this.sourceExpandColumn.Text = "Expand";
-            this.sourceExpandColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.sourceExpandColumn.Width = 80;
+            this.sourceExpandColumn.Width = 40;
             // 
             // rightSplitContainer
             // 
@@ -292,7 +290,7 @@ namespace EAMapping
             // 
             this.targetColumn.AspectName = "displayName";
             this.targetColumn.Text = "Target Model";
-            this.targetColumn.Width = 290;
+            this.targetColumn.Width = 300;
             // 
             // targetMappingsColumn
             // 
@@ -304,12 +302,10 @@ namespace EAMapping
             // 
             this.targetExpandedColumn.AspectName = "showAll";
             this.targetExpandedColumn.CheckBoxes = true;
-            this.targetExpandedColumn.FillsFreeSpace = true;
             this.targetExpandedColumn.HeaderCheckBox = true;
             this.targetExpandedColumn.HeaderCheckBoxUpdatesRowCheckBoxes = false;
             this.targetExpandedColumn.Text = "Expand";
-            this.targetExpandedColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.targetExpandedColumn.Width = 80;
+            this.targetExpandedColumn.Width = 40;
             // 
             // mainPanel
             // 
