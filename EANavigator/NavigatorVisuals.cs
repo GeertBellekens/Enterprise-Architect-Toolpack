@@ -22,9 +22,9 @@ namespace TSF.UmlToolingFramework.EANavigator
 	{
 		private int dummyIndex = 0;
 		private int attributeIndex = 1;
-		private int elementIndex = 2;
-		private int operationIndex = 3;
-		private int packageElementIndex = 5;
+		private int operationIndex = 2;
+        private int elementIndex = 3;
+        private int packageElementIndex = 5;
 		private int primitiveIndex = 6;
 		private int messagIndex = 7;
 		private int actionIndex = 8;
@@ -165,7 +165,8 @@ namespace TSF.UmlToolingFramework.EANavigator
 		public int getImageIndex(UML.Extended.UMLItem element)
 		{
 			int imageIndex;
-			if (element is UML.Classes.Kernel.Property)
+			if (element is UML.Classes.Kernel.Property 
+                && ! ( element is UTF_EA.ElementWrapper))
 			{
 				imageIndex = this.attributeIndex;
 			}
