@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using EA_MP = EAAddinFramework.Mapping;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
@@ -379,6 +380,21 @@ namespace EAMapping
             {
                 return null;
             }
+            //find the actual source root
+            var tagComments = sourceRoot.taggedValues.Where(x => (x.name == this.settings.linkedElementTagName
+                                               || x.name == this.settings.linkedAssociationTagName
+                                               || x.name == this.settings.linkedAttributeTagName)
+                                               && x.comment.Contains("<mappingSet>"))
+                                               .Select(x => x.comment);
+            foreach(var tagComment in tagComments)
+            {
+                var xdoc = XDocument.Load(new StringReader(tagComment));
+                var actualSourceRootID = xdoc.Descendants(EA_MP.MappingFactory.mappingSetName).FirstOrDefault()?
+                                                        .Descendants(EA_MP.MappingFactory.mappingSetSourceName).FirstOrDefault()?.Value 
+                                                        ?? string.Empty;
+                var actualSourceRoot = this.model.getElementByGUID(actualSourceRootID);
+            }
+
             //get target mapping root
             TSF_EA.ElementWrapper targetRootElement = null;
             var targets = sourceRoot.taggedValues.Where(x => x.name == this.settings.linkedElementTagName
@@ -403,6 +419,16 @@ namespace EAMapping
                 }
                 targetRootElement = selectTargetForm.selectedItem as TSF_EA.ElementWrapper;
             }
+            else
+            {
+                //go up in the hierarchy to find an element that is a source root for a mapping
+                var parentSourceRoot = this.getParentRootSource(sourceRoot);
+                //TODO load only part of the mapping
+                if (parentSourceRoot != null)
+                {
+                    return this.getMappingSet(parentSourceRoot);
+                }
+            }
             //log progress
             this.clearOutput();
             //log progress
@@ -415,6 +441,27 @@ namespace EAMapping
             var processingTime = (endTime - startTime).TotalSeconds;
             EAOutputLogger.log($"Finished loading mapping for {sourceRoot.name} in {processingTime.ToString("N0")} seconds", sourceRoot.id);
             return mappingSet;
+        }
+
+        private TSF_EA.ElementWrapper getParentRootSource(TSF_EA.ElementWrapper element)
+        {
+            TSF_EA.ElementWrapper sourceRoot = null;
+            //find parent package with root tagged value
+            if (element.owningPackage != null)
+            {
+                if (element.owningPackage.taggedValues.Any(x => x.name == this.settings.linkedElementTagName
+                                                          && !x.comment.Contains("<isEmptyMapping>True</isEmptyMapping>")
+                                                          && x.tagValue is TSF_EA.ElementWrapper))
+                {
+                    sourceRoot = (TSF_EA.ElementWrapper)element.owningPackage;
+                }
+                else
+                {
+                    //go up
+                    this.getParentRootSource((TSF_EA.ElementWrapper)element.owningPackage);
+                }
+            }
+            return sourceRoot;
         }
 
         // Cobol Copybook support
