@@ -142,6 +142,8 @@ namespace EAMapping
             {
                 //create the mapping set
                 mappingSet = EA_MP.MappingFactory.createMappingSet((TSF_EA.ElementWrapper)mappingSet.source.source, newTargetElement, this.settings);
+                //map source to target
+                mappingSet.source.mapTo(mappingSet.target);
                 this.loadMapping(mappingSet);
             }
         }
