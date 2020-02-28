@@ -193,7 +193,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                         writable = targetPackage.isCompletelyWritable;
                         if (!writable)
                         {
-                            DialogResult lockPackageResponse = MessageBox.Show("Package is read-only" + Environment.NewLine + "Would you like to lock the package?"
+                            var lockPackageResponse = MessageBox.Show("Package is read-only" + Environment.NewLine + "Would you like to lock the package?"
                                             , "Lock target Package?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                             //lock the elements immediately
                             if (lockPackageResponse == DialogResult.Yes)
@@ -211,7 +211,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                     if (writable)
                     {
                         //check if the already contains classes
-                        DialogResult response = DialogResult.No;
+                        var response = DialogResult.No;
                         response = MessageBox.Show($"Are you sure you want to generate the subset to package '{targetPackage.name}'?"
                                                    , "Generate Subset?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -224,12 +224,19 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                             }
                             //update the subset
                             this.updateMessageSubset(schema, targetPackage);
+                            //refresh package to make changes visible Only for v13 or higher
                             if (this.EAModel.EAVersion >= 1308)
                             {
-                                //refresh package to make changes visible Only for v13 or higher
                                 targetPackage.refresh();
                             }
-                                
+                            //check for any errors or warnings
+                            var errorCount = EAOutputLogger.getErrors(this.EAModel, this.settings.outputName).Count();
+                            var warningCount = EAOutputLogger.getWarnings(this.EAModel, this.settings.outputName).Count();
+                            if (errorCount > 0 || warningCount > 0 )
+                            {
+                                MessageBox.Show(this.EAModel.mainEAWindow, $"Generation resulted in {errorCount} errors and {warningCount} warnings.\nPlease check the output log"
+                                    , "Errors or Warnings!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
                         }
                     }
                     Cursor.Current = Cursors.Default;
