@@ -1,15 +1,13 @@
 ﻿
+using EAAddinFramework.SchemaBuilder;
+using EAAddinFramework.Utilities;
+using SchemaBuilderFramework;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Windows.Forms;
-using System.Xml.Schema;
-using UML = TSF.UmlToolingFramework.UML;
-using SchemaBuilderFramework;
-using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
-using EAAddinFramework.SchemaBuilder;
 using System.Linq;
-using EAAddinFramework.Utilities;
+using System.Windows.Forms;
+using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
+using UML = TSF.UmlToolingFramework.UML;
 
 namespace ECDMMessageComposer
 {
@@ -22,10 +20,11 @@ namespace ECDMMessageComposer
         const string menuName = "-&EA Message Composer";
         const string menuAbout = "&About";
         const string menuSettings = "&Settings";
+        const string targetPackageTagName = "targetPackage";
 
 
         private UML.Extended.UMLModel model;
-        private TSF_EA.Model EAModel { get { return this.model as TSF_EA.Model; } }
+        private TSF_EA.Model EAModel => this.model as TSF_EA.Model;
         private SchemaBuilderFactory schemaFactory;
         private ECDMMessageComposerSettings settings = new ECDMMessageComposerSettings();
         public ECDMMessageComposerAddin() : base()
@@ -61,7 +60,10 @@ namespace ECDMMessageComposer
             {
                 return base.EA_GetMenuItems(Repository, MenuLocation, MenuName);
             }
-            else return null;
+            else
+            {
+                return null;
+            }
         }
         /// <summary>
         /// only needed for the about menu
@@ -128,7 +130,10 @@ namespace ECDMMessageComposer
         public override void EA_OnOutputItemDoubleClicked(EA.Repository Repository, string TabName, string LineText, long ID)
         {
             var outputElement = this.EAModel.getElementWrapperByID((int)ID);
-            if (outputElement != null) outputElement.select();
+            if (outputElement != null)
+            {
+                outputElement.select();
+            }
         }
 
         /// <summary>
@@ -164,6 +169,25 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
             }
         }
         /// <summary>
+        /// save the target package in a tagged value on the schema container element
+        /// </summary>
+        /// <param name="schema"></param>
+        /// <param name="package"></param>
+        private void saveTargetPackageTag(Schema schema, UML.Classes.Kernel.Package targetPackage)
+        {
+            if (schema.containerElement != null)
+            {
+                if (schema.containerElement.isReadOnly)
+                {
+                    schema.containerElement.makeWritable(false);
+                }
+                if (!schema.containerElement.isReadOnly)
+                {
+                    ((TSF_EA.ElementWrapper)schema.containerElement).addTaggedValue(targetPackageTagName, targetPackage.uniqueID);
+                }
+            }
+        }
+        /// <summary>
         /// If a user selects any of the outputs listed by the Add-in, this function will be invoked. 
         /// The function receives the Schema Composer automation interface, which can be used to traverse the schema.
         /// </summary>
@@ -179,12 +203,25 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                 {
                     targetPackage = schema.containerElement?.owningPackage;
                 }
+                else
+                {
+                    var targetPackageTag = schema.containerElement?.taggedValues.FirstOrDefault(x => x.name == targetPackageTagName);
+                    if (targetPackageTag != null)
+                    {
+                        targetPackage = targetPackageTag?.tagValue as UML.Classes.Kernel.Package;
+                    }
+                }
                 if (targetPackage == null)
                 {
                     targetPackage = this.model.getUserSelectedPackage() as UML.Classes.Kernel.Package;
                 }
                 if (targetPackage != null)
                 {
+                    //save target package as tagged value on schema artifact
+                    if (!this.settings.generateToArtifactPackage)
+                    {
+                        this.saveTargetPackageTag(schema, targetPackage);
+                    }
                     Cursor.Current = Cursors.WaitCursor;
                     bool writable = true;
                     //check if package is writable
@@ -198,7 +235,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                             //lock the elements immediately
                             if (lockPackageResponse == DialogResult.Yes)
                             {
-                                writable = makeCompletelyWritable(targetPackage);
+                                writable = this.makeCompletelyWritable(targetPackage);
                                 if (!writable)
                                 {
                                     //if not writable then inform user and stop further processing;
@@ -232,7 +269,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                             //check for any errors or warnings
                             var errorCount = EAOutputLogger.getErrors(this.EAModel, this.settings.outputName).Count();
                             var warningCount = EAOutputLogger.getWarnings(this.EAModel, this.settings.outputName).Count();
-                            if (errorCount > 0 || warningCount > 0 )
+                            if (errorCount > 0 || warningCount > 0)
                             {
                                 MessageBox.Show(this.EAModel.mainEAWindow, $"Generation resulted in {errorCount} errors and {warningCount} warnings.\nPlease check the output log"
                                     , "Errors or Warnings!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -277,7 +314,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                 datatypesToCopy = this.settings.dataTypesToCopy;
             }
             bool useMessage = false;
-            if (!settings.usePackageSchemasOnly)
+            if (!this.settings.usePackageSchemasOnly)
             {
                 //check if we have a message element to folow
                 var messageElement = targetPackage.ownedElements.OfType<UML.Classes.Kernel.Classifier>().FirstOrDefault();
@@ -287,7 +324,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                     schema.updateSubsetModel(messageElement);
                 }
             }
-            if (settings.usePackageSchemasOnly || !useMessage)
+            if (this.settings.usePackageSchemasOnly || !useMessage)
             {
                 schema.updateSubsetModel(targetPackage);
             }
@@ -297,12 +334,12 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                 if (subsetDiagrams.Count > 0)
                 {
                     //if there are existing diagram then we update the existing diagrams
-                    updateExistingDiagrams(schema, subsetDiagrams);
+                    this.updateExistingDiagrams(schema, subsetDiagrams);
                 }
                 else
                 {
                     //if not we create a new diagram
-                    createNewSubsetDiagram(schema, targetPackage);
+                    this.createNewSubsetDiagram(schema, targetPackage);
                 }
             }
             //log progress
@@ -340,7 +377,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                     datatypesToCopy = this.settings.dataTypesToCopy;
                 }
                 schema.createSubsetModel(targetPackage, schema.elements);
-                createNewSubsetDiagram(schema, targetPackage);
+                this.createNewSubsetDiagram(schema, targetPackage);
             }
             //log progress
             EAOutputLogger.log(this.EAModel, this.settings.outputName
@@ -365,7 +402,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                 int yPos = 10;
                 foreach (SchemaElement schemaElement in schema.elements)
                 {
-                    if (shouldElementBeOnDiagram(schemaElement.subsetElement)
+                    if (this.shouldElementBeOnDiagram(schemaElement.subsetElement)
                         && !diagram.contains(schemaElement.subsetElement))
                     {
                         UML.Diagrams.DiagramElement diagramElement = diagram.addToDiagram(schemaElement.subsetElement);
@@ -389,8 +426,8 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
         private bool shouldElementBeOnDiagram(UML.Classes.Kernel.Classifier element)
         {
             return element != null
-                    && !settings.hiddenElementTypes.Any(x => x.Equals(element.GetType().Name, StringComparison.InvariantCulture))
-                    && !settings.hiddenElementTypes.Intersect(element.stereotypes.Select(x => x.name)).Any();
+                    && !this.settings.hiddenElementTypes.Any(x => x.Equals(element.GetType().Name, StringComparison.InvariantCulture))
+                    && !this.settings.hiddenElementTypes.Intersect(element.stereotypes.Select(x => x.name)).Any();
         }
 
         /// <summary>
@@ -400,17 +437,27 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
         /// <returns>true if this element is now completely writable</returns>
         private bool makeCompletelyWritable(UML.Classes.Kernel.Element element)
         {
-            if (!element.makeWritable(false)) return false;
+            if (!element.makeWritable(false))
+            {
+                return false;
+            }
+
             foreach (var subElement in element.ownedElements)
             {
-                if (!makeCompletelyWritable(subElement)) return false;
+                if (!this.makeCompletelyWritable(subElement))
+                {
+                    return false;
+                }
             }
             var diagramOwner = element as UML.Classes.Kernel.Namespace;
             if (diagramOwner != null)
             {
                 foreach (var diagram in diagramOwner.ownedDiagrams)
                 {
-                    if (!diagram.makeWritable(false)) return false;
+                    if (!diagram.makeWritable(false))
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
@@ -433,7 +480,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
 
                 foreach (SchemaElement schemaElement in schema.elements)
                 {
-                    if (shouldElementBeOnDiagram(schemaElement.subsetElement))
+                    if (this.shouldElementBeOnDiagram(schemaElement.subsetElement))
                     {
                         subsetDiagram.addToDiagram(schemaElement.subsetElement);
                     }
@@ -458,7 +505,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                     }
                     //add source element to the diagram if needed
                     if (addSourceElement
-                        && shouldElementBeOnDiagram(schemaElement.sourceElement))
+                        && this.shouldElementBeOnDiagram(schemaElement.sourceElement))
                     {
                         //we add the source element if the subset element doesn't exist.
                         subsetDiagram.addToDiagram(schemaElement.sourceElement);
