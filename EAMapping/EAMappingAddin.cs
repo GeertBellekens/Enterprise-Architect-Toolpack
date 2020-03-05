@@ -382,44 +382,60 @@ namespace EAMapping
             {
                 return null;
             }
-            //find the actual source root
+            //find the actual source root and target roots
             var tagComments = sourceRoot.taggedValues.Where(x => (x.name == this.settings.linkedElementTagName
                                                || x.name == this.settings.linkedAssociationTagName
                                                || x.name == this.settings.linkedAttributeTagName)
                                                && x.comment.Contains("<mappingSet>"))
                                                .Select(x => x.comment);
+            var mappingSets = new List<MappingSet>();
             foreach(var tagComment in tagComments)
             {
                 var xdoc = XDocument.Load(new StringReader(tagComment));
+                //get source root
                 var actualSourceRootID = xdoc.Descendants(EA_MP.MappingFactory.mappingSetName).FirstOrDefault()?
                                                         .Descendants(EA_MP.MappingFactory.mappingSetSourceName).FirstOrDefault()?.Value 
                                                         ?? string.Empty;
-                var actualSourceRoot = this.model.getElementByGUID(actualSourceRootID);
+                var actualSourceRoot = this.model.getElementByGUID(actualSourceRootID) as TSF_EA.ElementWrapper;
+                //get target root
+                var actualTargetRootID = xdoc.Descendants(EA_MP.MappingFactory.mappingSetName).FirstOrDefault()?
+                                                        .Descendants(EA_MP.MappingFactory.mappingSetTargetName).FirstOrDefault()?.Value
+                                                        ?? string.Empty;
+                var actualtargetRoot = this.model.getElementByGUID(actualTargetRootID) as TSF_EA.ElementWrapper;
+                if (actualSourceRoot != null 
+                    && actualtargetRoot != null)
+                {
+                    //create the mappingSet
+                    var foundMappingSet = EA_MP.MappingFactory.createMappingSet(actualSourceRoot, actualtargetRoot, this.settings);
+                    //add to list
+                    mappingSets.Add(foundMappingSet);
+                }
             }
 
-            //get target mapping root
-            TSF_EA.ElementWrapper targetRootElement = null;
-            var targets = sourceRoot.taggedValues.Where(x => x.name == this.settings.linkedElementTagName
-                                                        && ! x.comment.Contains("<isEmptyMapping>True</isEmptyMapping>"))
-                                            .Select(x => x.tagValue)
-                                            .OfType<TSF_EA.ElementWrapper>();
-            if (targets.Count() == 1)
+            MappingSet mappingSet = null;
+            if (mappingSets.Any())
             {
-                targetRootElement = targets.First();
-            }
-            else if (targets.Count() > 1)
-            {
-                //let the user select the trace element
-                var selectTargetForm = new SelectTargetForm();
-                //set items
-                selectTargetForm.setItems(targets);
-                //show form
-                var dialogResult = selectTargetForm.ShowDialog(this.model.mainEAWindow);
-                if (dialogResult == DialogResult.Cancel)
+                if (mappingSets.Count == 1)
                 {
-                    return null;
+                    mappingSet = mappingSets.First();
                 }
-                targetRootElement = selectTargetForm.selectedItem as TSF_EA.ElementWrapper;
+                else
+                {
+                    //let the user select the trace element
+                    var selectTargetForm = new SelectTargetForm();
+                    //set items
+                    var targets = mappingSets.Select(x => x.target.source);
+                    selectTargetForm.setItems(targets);
+                    //show form
+                    var dialogResult = selectTargetForm.ShowDialog(this.model.mainEAWindow);
+                    if (dialogResult == DialogResult.Cancel)
+                    {
+                        return null;
+                    }
+                    var targetRootElement = selectTargetForm.selectedItem as TSF_EA.ElementWrapper;
+                    //get corresponding mapping set
+                    mappingSet = mappingSets.First(x => x.target.source == targetRootElement);
+                }
             }
             else
             {
@@ -437,7 +453,7 @@ namespace EAMapping
             var startTime = DateTime.Now;
             EAOutputLogger.log($"Start loading mapping for {sourceRoot.name}", sourceRoot.id);
             //create the mapping set
-            var mappingSet = EA_MP.MappingFactory.createMappingSet(sourceRoot, targetRootElement, this.settings);
+            mappingSet.loadAllMappings();
             //log progress
             var endTime = DateTime.Now;
             var processingTime = (endTime - startTime).TotalSeconds;
