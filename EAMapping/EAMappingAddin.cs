@@ -421,7 +421,7 @@ namespace EAMapping
                 }
                 else
                 {
-                    //let the user select the trace element
+                    //let the user select the target element
                     var selectTargetForm = new SelectTargetForm();
                     //set items
                     var targets = mappingSets.Select(x => x.target.source);
@@ -447,17 +447,50 @@ namespace EAMapping
                     return this.getMappingSet(parentSourceRoot);
                 }
             }
-            //log progress
-            this.clearOutput();
-            //log progress
-            var startTime = DateTime.Now;
-            EAOutputLogger.log($"Start loading mapping for {sourceRoot.name}", sourceRoot.id);
-            //create the mapping set
-            mappingSet.loadAllMappings();
-            //log progress
-            var endTime = DateTime.Now;
-            var processingTime = (endTime - startTime).TotalSeconds;
-            EAOutputLogger.log($"Finished loading mapping for {sourceRoot.name} in {processingTime.ToString("N0")} seconds", sourceRoot.id);
+            if (mappingSet == null)
+            {
+                //could not find a mappingset, check if the selected element is mapped to something
+                var targets =  sourceRoot.taggedValues.Where(x => x.name == this.settings.linkedElementTagName)
+                                                            .Select(x => x.tagValue)
+                                                            .OfType<TSF_EA.ElementWrapper>()
+                                                            .Distinct();
+                TSF_EA.ElementWrapper targetRootElement;
+                if (targets.Count() > 1 )
+                {
+                    //let the user select the target element
+                    var selectTargetForm = new SelectTargetForm();
+                    selectTargetForm.setItems(targets);
+                    //show form
+                    var dialogResult = selectTargetForm.ShowDialog(this.model.mainEAWindow);
+                    if (dialogResult == DialogResult.Cancel)
+                    {
+                        return null;
+                    }
+                    targetRootElement = selectTargetForm.selectedItem as TSF_EA.ElementWrapper;
+                }
+                else
+                {
+                    targetRootElement = targets.FirstOrDefault();
+                }
+                //create the new mappingSet
+                mappingSet = EA_MP.MappingFactory.createMappingSet(sourceRoot, targetRootElement, this.settings);
+            }
+
+            //actually load the mappingset
+            if (mappingSet != null)
+            {
+                //log progress
+                this.clearOutput();
+                //log progress
+                var startTime = DateTime.Now;
+                EAOutputLogger.log($"Start loading mapping for {sourceRoot.name}", sourceRoot.id);
+                //create the mapping set
+                mappingSet.loadAllMappings();
+                //log progress
+                var endTime = DateTime.Now;
+                var processingTime = (endTime - startTime).TotalSeconds;
+                EAOutputLogger.log($"Finished loading mapping for {sourceRoot.name} in {processingTime.ToString("N0")} seconds", sourceRoot.id);
+            }
             return mappingSet;
         }
 
