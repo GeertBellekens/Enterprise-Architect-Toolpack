@@ -243,7 +243,7 @@ namespace EAMapping
             switch (ItemName)
             {
                 case menuMapAsSource:
-                    this.loadMapping(this.getMappingSet(this.model.selectedElement as TSF_EA.ElementWrapper));
+                    this.loadMapping(this.getMappingSet(this.model.selectedElement as TSF_EA.Element));
                     break;
                 case menuAbout:
                     new AboutWindow().ShowDialog(this.model.mainEAWindow);
@@ -316,6 +316,7 @@ namespace EAMapping
 
             //first get the existing mappingSet for the selected source and target
             var mappingSet = EA_MP.MappingFactory.createMappingSet(sourceElement, targetElement, this.settings);
+            mappingSet.loadAllMappings();
             if (mappingSet.mappings.Count() > 1)
             {
                 var result = MessageBox.Show(this.model.mainEAWindow
@@ -376,7 +377,35 @@ namespace EAMapping
             //load the mapping set
             this.loadMapping(mappingSet);
         }
-        public MappingSet getMappingSet(TSF_EA.ElementWrapper sourceRoot)
+        public MappingSet getMappingSet(TSF_EA.Element sourceElement)
+        {
+            var sourceRoot = sourceElement as TSF_EA.ElementWrapper;
+            //if an attribute was selected then we select the parent element as root
+            if (sourceRoot == null)
+            {
+                sourceRoot = sourceElement?.owner as TSF_EA.ElementWrapper;
+            }
+            var mappingSet = getEmptyMappingSet(sourceRoot);
+            //actually load the mappingset
+            if (mappingSet != null)
+            {
+                //log progress
+                this.clearOutput();
+                //log progress
+                var startTime = DateTime.Now;
+                EAOutputLogger.log($"Start loading mapping for {sourceRoot.name}", sourceRoot.id);
+                //Load the mappings
+                mappingSet.loadMappings(sourceRoot);
+                //mappingSet.loadAllMappings();
+                //log progress
+                var endTime = DateTime.Now;
+                var processingTime = (endTime - startTime).TotalSeconds;
+                EAOutputLogger.log($"Finished loading mapping for {sourceRoot.name} in {processingTime.ToString("N0")} seconds", sourceRoot.id);
+            }
+            //return
+            return mappingSet;
+        }
+        public MappingSet getEmptyMappingSet(TSF_EA.ElementWrapper sourceRoot)
         {
             if (sourceRoot == null)
             {
@@ -444,7 +473,7 @@ namespace EAMapping
                 //TODO load only part of the mapping
                 if (parentSourceRoot != null)
                 {
-                    return this.getMappingSet(parentSourceRoot);
+                    return this.getEmptyMappingSet(parentSourceRoot);
                 }
             }
             if (mappingSet == null)
@@ -476,21 +505,7 @@ namespace EAMapping
                 mappingSet = EA_MP.MappingFactory.createMappingSet(sourceRoot, targetRootElement, this.settings);
             }
 
-            //actually load the mappingset
-            if (mappingSet != null)
-            {
-                //log progress
-                this.clearOutput();
-                //log progress
-                var startTime = DateTime.Now;
-                EAOutputLogger.log($"Start loading mapping for {sourceRoot.name}", sourceRoot.id);
-                //create the mapping set
-                mappingSet.loadAllMappings();
-                //log progress
-                var endTime = DateTime.Now;
-                var processingTime = (endTime - startTime).TotalSeconds;
-                EAOutputLogger.log($"Finished loading mapping for {sourceRoot.name} in {processingTime.ToString("N0")} seconds", sourceRoot.id);
-            }
+
             return mappingSet;
         }
 
@@ -509,7 +524,7 @@ namespace EAMapping
                 else
                 {
                     //go up
-                    this.getParentRootSource((TSF_EA.ElementWrapper)element.owningPackage);
+                    sourceRoot = this.getParentRootSource((TSF_EA.ElementWrapper)element.owningPackage);
                 }
             }
             return sourceRoot;

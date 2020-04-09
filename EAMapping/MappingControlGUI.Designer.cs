@@ -184,6 +184,7 @@ namespace EAMapping
             this.sourceTreeView.UseHotItem = true;
             this.sourceTreeView.View = System.Windows.Forms.View.Details;
             this.sourceTreeView.VirtualMode = true;
+            this.sourceTreeView.SubItemChecking += new System.EventHandler<BrightIdeasSoftware.SubItemCheckingEventArgs>(this.sourceTreeView_SubItemChecking);
             this.sourceTreeView.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.sourceTreeView_FormatCell);
             this.sourceTreeView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.sourceTreeView_FormatRow);
             this.sourceTreeView.HeaderCheckBoxChanging += new System.EventHandler<BrightIdeasSoftware.HeaderCheckBoxChangingEventArgs>(this.sourceTreeView_HeaderCheckBoxChanging);

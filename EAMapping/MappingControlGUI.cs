@@ -422,33 +422,33 @@ namespace EAMapping
 
         private void sourceTreeView_HeaderCheckBoxChanging(object sender, HeaderCheckBoxChangingEventArgs e)
         {
-            setAllExpanded(this.sourceTreeView, e.NewCheckState == CheckState.Checked, false);
+            setAllExpanded(this.sourceTreeView, e.NewCheckState == CheckState.Checked);
         }
         private void targetTreeView_HeaderCheckBoxChanging(object sender, HeaderCheckBoxChangingEventArgs e)
         {
-            setAllExpanded(this.targetTreeView, e.NewCheckState == CheckState.Checked, true);
+            setAllExpanded(this.targetTreeView, e.NewCheckState == CheckState.Checked);
         }
-        private void setAllExpanded(TreeListView treeView, bool expand, bool isTarget)
+        private void setAllExpanded(TreeListView treeView, bool expand)
         {
             //set expanded property on all nodes
             var root = treeView.Objects.Cast<MappingNode>().FirstOrDefault();
-            setExpanded(root,expand, isTarget);
+            setExpanded(root,expand);
             treeView.RefreshObject(root);
             //expand all
             treeView.ExpandAll();
         }
-        private void setExpanded(MappingNode node, bool expand, bool isTarget)
+        private void setExpanded(MappingNode node, bool expand)
         {
             //don't do anything if null
             if (node == null) return;
             //set expanded property
-            if (!node.showAll && isTarget)
+            if (!node.showAll)
                 node.setChildNodes();
             node.showAll = expand;
             //do the same for the childnodes
             foreach (MappingNode subNode in node.childNodes)
             {
-                setExpanded(subNode, expand, isTarget);
+                setExpanded(subNode, expand);
             }
         }
 
@@ -481,6 +481,15 @@ namespace EAMapping
             }
         }
 
-
+        private void sourceTreeView_SubItemChecking(object sender, SubItemCheckingEventArgs e)
+        {
+            var node = e.RowObject as MappingNode;
+            //make sure the childeNodes are set on target nodes as they don't automatically get all child nodes
+            if (node != null)
+            {
+                node.setChildNodes();
+                this.sourceTreeView.Expand(node);
+            }
+        }
     }
 }
