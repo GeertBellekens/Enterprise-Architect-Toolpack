@@ -491,9 +491,12 @@ namespace EAMapping
         private void sourceTreeView_SubItemChecking(object sender, SubItemCheckingEventArgs e)
         {
             var node = e.RowObject as MappingNode;
-            //make sure the childeNodes are set on target nodes as they don't automatically get all child nodes
-            if (node != null)
+            //make sure the childeNodes are set as they don't automatically get all child nodes
+            if (node != null && e.NewValue == CheckState.Checked)
             {
+                //make sure to set showAll property to allow the GUI to expand
+                node.showAll = true;
+                //get child nodes
                 node.setChildNodes();
                 //make sure we get the mappings
                 node.getMyMappings();
