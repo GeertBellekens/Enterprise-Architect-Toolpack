@@ -422,33 +422,40 @@ namespace EAMapping
 
         private void sourceTreeView_HeaderCheckBoxChanging(object sender, HeaderCheckBoxChangingEventArgs e)
         {
-            setAllExpanded(this.sourceTreeView, e.NewCheckState == CheckState.Checked);
+            setAllExpanded(this.sourceTreeView, e.NewCheckState == CheckState.Checked, false);
         }
         private void targetTreeView_HeaderCheckBoxChanging(object sender, HeaderCheckBoxChangingEventArgs e)
         {
-            setAllExpanded(this.targetTreeView, e.NewCheckState == CheckState.Checked);
+            setAllExpanded(this.targetTreeView, e.NewCheckState == CheckState.Checked, true);
         }
-        private void setAllExpanded(TreeListView treeView, bool expand)
+        private void setAllExpanded(TreeListView treeView, bool expand, bool isTarget)
         {
             //set expanded property on all nodes
             var root = treeView.Objects.Cast<MappingNode>().FirstOrDefault();
-            setExpanded(root,expand);
+            setExpanded(root,expand, isTarget);
             treeView.RefreshObject(root);
             //expand all
             treeView.ExpandAll();
         }
-        private void setExpanded(MappingNode node, bool expand)
+        private void setExpanded(MappingNode node, bool expand, bool isTarget)
         {
             //don't do anything if null
             if (node == null) return;
             //set expanded property
             if (!node.showAll)
+            {
                 node.setChildNodes();
+                if (! isTarget)
+                {
+                    node.getMyMappings();
+                }
+            }
+                
             node.showAll = expand;
             //do the same for the childnodes
             foreach (MappingNode subNode in node.childNodes)
             {
-                setExpanded(subNode, expand);
+                setExpanded(subNode, expand, isTarget);
             }
         }
 
@@ -488,6 +495,14 @@ namespace EAMapping
             if (node != null)
             {
                 node.setChildNodes();
+                //make sure we get the mappings
+                node.getMyMappings();
+                foreach (var subNode in node.allChildNodes)
+                {
+                    //and the mappings of the childNodes
+                    subNode.getMyMappings();
+                }
+                //then expand
                 this.sourceTreeView.Expand(node);
             }
         }
