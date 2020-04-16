@@ -115,6 +115,14 @@ namespace EAMapping
             };
             this.sourceTreeView.ChildrenGetter = childrenGetter;
             this.targetTreeView.ChildrenGetter = childrenGetter;
+            //parentgetter to be able to reveal deeply nested nodes
+            TreeListView.ParentGetterDelegate parentGetter = delegate (object x)
+            {
+                var mappingNode = (MappingNode)x;
+                return mappingNode.parent;
+            };
+            this.sourceTreeView.ParentGetter = parentGetter;
+            this.targetTreeView.ParentGetter = parentGetter;
             //tell the control which image to show
             ImageGetterDelegate imageGetter = delegate (object rowObject)
             {
@@ -145,6 +153,7 @@ namespace EAMapping
             };
             this.sourceColumn.ImageGetter = imageGetter;
             this.targetColumn.ImageGetter = imageGetter;
+
         }
 
         public Mapping SelectedMapping =>
@@ -170,6 +179,8 @@ namespace EAMapping
         }
         private void clear()
         {
+            this.sourceExpandColumn.HeaderCheckState = CheckState.Unchecked;
+            this.targetExpandedColumn.HeaderCheckState = CheckState.Unchecked;
             this.clearMappingDetails();
         }
 
@@ -319,17 +330,7 @@ namespace EAMapping
             }
         }
 
-        private void targetTreeView_SubItemChecking(object sender, SubItemCheckingEventArgs e)
-        {
-            var node = e.RowObject as MappingNode;
-            //make sure the childeNodes are set on target nodes as they don't automatically get all child nodes
-            if (node != null)
-            {
-                node.setChildNodes();
-                this.targetTreeView.Expand(node);
-            }
-            
-        }
+
 
         private void sourceTreeView_ItemActivate(object sender, EventArgs e)
         {
@@ -456,7 +457,7 @@ namespace EAMapping
             foreach (MappingNode subNode in node.childNodes)
             {
                 setExpanded(subNode, expand, isTarget);
-            }
+            }            
         }
 
         private void sourceTreeView_FormatCell(object sender, FormatCellEventArgs e)
@@ -487,7 +488,19 @@ namespace EAMapping
                 setAbstractItalic(e);
             }
         }
+        private void targetTreeView_SubItemChecking(object sender, SubItemCheckingEventArgs e)
+        {
+            var node = e.RowObject as MappingNode;
+            //make sure the childeNodes are set on target nodes as they don't automatically get all child nodes
+            if (node != null && e.NewValue == CheckState.Checked)
+            {
+                //make sure to set showAll property to allow the GUI to expand
+                node.showAll = true;
+                node.setChildNodes();
+                this.targetTreeView.Expand(node);
+            }
 
+        }
         private void sourceTreeView_SubItemChecking(object sender, SubItemCheckingEventArgs e)
         {
             var node = e.RowObject as MappingNode;
@@ -507,6 +520,8 @@ namespace EAMapping
                 }
                 //then expand
                 this.sourceTreeView.Expand(node);
+                //reload the target to make sure all target nodes for the mappings are there
+                this.targetTreeView.RefreshObject(node.mappingSet.target);
             }
         }
     }
