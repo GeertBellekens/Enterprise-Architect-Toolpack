@@ -169,15 +169,7 @@ namespace EAValidator
             }
 
             // If one (or more) check gave an ERROR, then notify the user about it
-            var objWithError = selectedchecks.FirstOrDefault(x => x.Status == "ERROR");
-            if (objWithError != null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return selectedchecks.Any(x => x.Status == CheckStatus.Error);
         }
     }
 }

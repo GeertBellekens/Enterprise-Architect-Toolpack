@@ -33,8 +33,9 @@
             this.btnDoValidation = new System.Windows.Forms.Button();
             this.olvValidations = new BrightIdeasSoftware.ObjectListView();
             this.olvColCheck = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColEAItemType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColItemName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColProposedSolution = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColEAItemType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColElementType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColElementStereotype = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColPackageName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -44,7 +45,6 @@
             this.olvColPackageParentLvl4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColPackageParentLvl5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColWarningType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColProposedSolution = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvChecks = new BrightIdeasSoftware.TreeListView();
             this.olvColName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -92,8 +92,9 @@
             // olvValidations
             // 
             this.olvValidations.AllColumns.Add(this.olvColCheck);
-            this.olvValidations.AllColumns.Add(this.olvColEAItemType);
             this.olvValidations.AllColumns.Add(this.olvColItemName);
+            this.olvValidations.AllColumns.Add(this.olvColProposedSolution);
+            this.olvValidations.AllColumns.Add(this.olvColEAItemType);
             this.olvValidations.AllColumns.Add(this.olvColElementType);
             this.olvValidations.AllColumns.Add(this.olvColElementStereotype);
             this.olvValidations.AllColumns.Add(this.olvColPackageName);
@@ -103,15 +104,15 @@
             this.olvValidations.AllColumns.Add(this.olvColPackageParentLvl4);
             this.olvValidations.AllColumns.Add(this.olvColPackageParentLvl5);
             this.olvValidations.AllColumns.Add(this.olvColWarningType);
-            this.olvValidations.AllColumns.Add(this.olvColProposedSolution);
             this.olvValidations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.olvValidations.CellEditUseWholeCell = false;
             this.olvValidations.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColCheck,
-            this.olvColEAItemType,
             this.olvColItemName,
+            this.olvColProposedSolution,
+            this.olvColEAItemType,
             this.olvColElementType,
             this.olvColElementStereotype,
             this.olvColPackageName,
@@ -120,8 +121,7 @@
             this.olvColPackageParentLvl3,
             this.olvColPackageParentLvl4,
             this.olvColPackageParentLvl5,
-            this.olvColWarningType,
-            this.olvColProposedSolution});
+            this.olvColWarningType});
             this.olvValidations.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvValidations.FullRowSelect = true;
             this.olvValidations.HideSelection = false;
@@ -146,18 +146,24 @@
             this.olvColCheck.Text = "Check Description";
             this.olvColCheck.Width = 200;
             // 
-            // olvColEAItemType
-            // 
-            this.olvColEAItemType.AspectName = "EAItemType";
-            this.olvColEAItemType.Text = "Type";
-            this.olvColEAItemType.Width = 102;
-            // 
             // olvColItemName
             // 
             this.olvColItemName.AspectName = "ItemName";
             this.olvColItemName.IsEditable = false;
             this.olvColItemName.Text = "Item";
             this.olvColItemName.Width = 339;
+            // 
+            // olvColProposedSolution
+            // 
+            this.olvColProposedSolution.AspectName = "CheckProposedSolution";
+            this.olvColProposedSolution.Text = "Proposed solution";
+            this.olvColProposedSolution.Width = 400;
+            // 
+            // olvColEAItemType
+            // 
+            this.olvColEAItemType.AspectName = "EAItemType";
+            this.olvColEAItemType.Text = "Type";
+            this.olvColEAItemType.Width = 102;
             // 
             // olvColElementType
             // 
@@ -215,12 +221,6 @@
             this.olvColWarningType.AspectName = "CheckWarningType";
             this.olvColWarningType.Text = "Result Type";
             this.olvColWarningType.Width = 100;
-            // 
-            // olvColProposedSolution
-            // 
-            this.olvColProposedSolution.AspectName = "CheckProposedSolution";
-            this.olvColProposedSolution.Text = "Proposed solution";
-            this.olvColProposedSolution.Width = 400;
             // 
             // olvChecks
             // 
@@ -289,7 +289,7 @@
             // 
             // olvColCheckStatus
             // 
-            this.olvColCheckStatus.AspectName = "Status";
+            this.olvColCheckStatus.AspectName = "StatusName";
             this.olvColCheckStatus.MaximumWidth = 250;
             this.olvColCheckStatus.MinimumWidth = 50;
             this.olvColCheckStatus.Text = "Status";

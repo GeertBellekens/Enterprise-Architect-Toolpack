@@ -15,7 +15,26 @@ namespace EAValidator
         private DirectoryInfo directory { get; set; }
         private EAValidatorSettings settings { get; set; }
         private TSF_EA.Model model { get; set; }
-        
+        public override CheckStatus Status 
+        { 
+            get
+            {
+                var tempStatus = CheckStatus.NotValidated;
+                foreach(var check in this.GetAllChecks())
+                {
+                    if (check.Status == CheckStatus.Failed)
+                    {
+                        return CheckStatus.Failed;
+                    }
+                    else if(check.Status == CheckStatus.Passed)
+                    {
+                        tempStatus = CheckStatus.Passed;
+                    }
+                }
+                return tempStatus;
+            }
+        }
+
 
         public CheckGroup(DirectoryInfo directory, EAValidatorSettings settings, TSF_EA.Model model)
         {
@@ -24,7 +43,7 @@ namespace EAValidator
             this.model = model;
         }
         public string name => this.directory.Name;
-        public bool? selected
+        public override bool? selected
         {
             get
             {

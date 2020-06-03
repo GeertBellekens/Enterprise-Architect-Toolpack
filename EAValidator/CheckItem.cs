@@ -6,9 +6,29 @@ using System.Threading.Tasks;
 
 namespace EAValidator
 {
-    public interface CheckItem
+    public abstract class CheckItem
     {
-        string name { get; }
-        bool? selected { get; set; }
+        public string name { get; }
+        public abstract bool? selected { get; set; }
+        public virtual CheckStatus Status { get; protected set; } = CheckStatus.NotValidated;
+        public string StatusName
+        {
+            get
+            {
+                switch (this.Status)
+                {
+                    case CheckStatus.Failed:
+                        return "Failed";
+                    case CheckStatus.NotValidated:
+                        return "Not Validated";
+                    case CheckStatus.Passed:
+                        return "Passed";
+                    case CheckStatus.Error:
+                        return "ERROR";
+                    default:
+                        return "Unknown";//should not happen
+                }
+            }
+        }
     }
 }

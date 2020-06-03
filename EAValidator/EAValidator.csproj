@@ -61,6 +61,7 @@
     <Compile Include="Check.cs" />
     <Compile Include="CheckGroup.cs" />
     <Compile Include="CheckItem.cs" />
+    <Compile Include="CheckStatus.cs" />
     <Compile Include="EAValidatorSettings.cs" />
     <Compile Include="EAValidatorAddin.cs" />
     <Compile Include="EAValidatorController.cs" />

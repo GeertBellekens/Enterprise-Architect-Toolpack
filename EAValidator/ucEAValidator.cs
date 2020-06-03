@@ -67,7 +67,7 @@ namespace EAValidator
             if (this.controller.rootGroup != null)
             {
                 this.olvChecks.Objects = new List<object>() { this.controller.rootGroup };
-                this.olvChecks.ExpandAll();
+                expandToGroups(this.controller.rootGroup);
                 this.olvChecks.CheckAll();
             }
             else
@@ -75,6 +75,18 @@ namespace EAValidator
                 this.olvChecks.ClearObjects();
             }
             this.Initiate();
+        }
+        private void expandToGroups(CheckGroup group)
+        {
+            //expand to the level of the groups, but not to the level of the individual checks
+            if (! group.checks.Any())
+            {
+                this.olvChecks.Expand(group);
+            }
+            foreach(var subGroup in group.subGroups)
+            {
+                this.expandToGroups(subGroup);
+            }
         }
 
         private void Initiate()
@@ -190,15 +202,15 @@ namespace EAValidator
 
             if (e.ColumnIndex == this.olvColCheckStatus.Index)
             {
-                var check = e.Model as Check;
-                if (check != null)
+                var checkItem = e.Model as CheckItem;
+                if (checkItem != null)
                 {
-                    switch (check.Status)
+                    switch (checkItem.Status)
                     {
-                        case "Passed":
+                        case CheckStatus.Passed:
                             e.SubItem.ForeColor = Color.Green;
                             break;
-                        case "Failed":
+                        case CheckStatus.Failed:
                             e.SubItem.ForeColor = Color.Red;
                             break;
                         default:  // Not Validated, ...

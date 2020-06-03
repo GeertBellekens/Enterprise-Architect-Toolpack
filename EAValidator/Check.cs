@@ -22,10 +22,11 @@ namespace EAValidator
 
         // Check to validate
         // *****************
-        public bool Selected { get; set; }                          // Value for Checkbox in list
+        
         public string CheckId { get; set; }                         // Unique Identifier of the check
         public string CheckDescription { get; set; }                // Title of the check
-        public string Status { get; set; }                         // Status of the check  (Not validated / Passed / Failed)
+
+        
         public string Group => this.group?.name;                          // Group of the check
 
         public string QueryToFindElements { get; set; }                                     // sql-query to search for elements that must be checked
@@ -43,8 +44,8 @@ namespace EAValidator
         private CheckGroup group { get; set; }
         public string name => this.CheckDescription;
 
-        private bool _selected;
-        public bool? selected
+        private bool _selected = true;
+        public override bool? selected
         {
             get => this._selected;
             set
@@ -102,30 +103,10 @@ namespace EAValidator
             }
         }
 
-        public void SetStatus(string newstatus)
-        {
-            switch (newstatus)
-            {
-                case "Not Validated":
-                    this.Status = newstatus;
-                    break;
-                case "Passed":
-                    this.Status = newstatus;
-                    break;
-                case "Failed":
-                    this.Status = newstatus;
-                    break;
-                case "ERROR":
-                    this.Status = newstatus;
-                    break;
-                default:
-                    // Don't change
-                    break;
-            }
-        }
+
         public void resetStatus()
         {
-            this.SetStatus("Not Validated");
+            this.Status = CheckStatus.NotValidated;
             this.NumberOfElementsFound = "";
             this.NumberOfValidationResults = "";
         }
@@ -133,7 +114,7 @@ namespace EAValidator
         {
             this.resetStatus();
             // Defaults
-            this.Selected = true;
+            this.selected = true;
             this.CheckId = "0";
             this.CheckDescription = "";
             this.QueryToFindElements = "";
@@ -241,13 +222,13 @@ namespace EAValidator
             var validations = new List<Validation>();
 
             // Default status to Passed
-            this.SetStatus("Passed");
+            this.Status = CheckStatus.Passed;
             this.NumberOfElementsFound = "";
             this.NumberOfValidationResults = "";
 
             // Search elements that need to be checked depending on filters and give back their guids.
             var foundelementguids = this.getElementGuids(controller, EA_element, EA_diagram, excludeArchivedPackages);
-            if (this.Status == "ERROR")
+            if (this.Status == CheckStatus.Error)
             {
                 controller.addLineToEAOutput("- Error while searching elements.", "");
                 return validations;
@@ -260,7 +241,7 @@ namespace EAValidator
                 foundelementguids = foundelementguids.Substring(1);   // remove first ","
                 // Perform the checks for the elements found (based on their guids)
                 validations = this.CheckFoundElements(controller, foundelementguids);
-                if (this.Status == "ERROR")
+                if (this.Status == CheckStatus.Error)
                 {
                     controller.addLineToEAOutput("- Error while validating found elements.", "");
                 }
@@ -292,7 +273,7 @@ namespace EAValidator
                         this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
                         if (string.IsNullOrEmpty(whereclause))
                         {
-                            this.SetStatus("ERROR");
+                            this.Status = CheckStatus.Error;
                             return "";
                         }
                         else
@@ -315,7 +296,7 @@ namespace EAValidator
                         this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
                         if (string.IsNullOrEmpty(whereclause))
                         {
-                            this.SetStatus("ERROR");
+                            this.Status = CheckStatus.Error;
                             return "";
                         }
                         else
@@ -339,7 +320,7 @@ namespace EAValidator
                     this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
                     if (string.IsNullOrEmpty(whereclause))
                     {
-                        this.SetStatus("ERROR");
+                        this.Status = CheckStatus.Error;
                         return "";
                     }
                     else
@@ -378,8 +359,7 @@ namespace EAValidator
             }
             catch (Exception ex)
             {
-                //MessageBox.Show("Error in query: " + qryToFindElements);
-                this.SetStatus("ERROR");
+                this.Status = CheckStatus.Error;
             }
             return foundelementguids;
         }
@@ -410,7 +390,7 @@ namespace EAValidator
                 foreach (XmlNode validationNode in results.SelectNodes("//Row"))
                 {
                     // Set status of Check to FAILED
-                    this.SetStatus("Failed");
+                    this.Status = CheckStatus.Failed;
 
                     // Add results of validation to list
                     validations.Add(new Validation(this, validationNode));
@@ -420,8 +400,7 @@ namespace EAValidator
             }
             catch (Exception)
             {
-                //MessageBox.Show("Error in query: " + qryToCheckFoundElements);
-                this.SetStatus("ERROR");
+                this.Status = CheckStatus.Error;
             }
 
             return validations;
