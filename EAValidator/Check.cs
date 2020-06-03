@@ -31,11 +31,11 @@ namespace EAValidator
 
         public string QueryToFindElements { get; set; }                                     // sql-query to search for elements that must be checked
         public Dictionary<string, string> QueryToFindElementsFilters { get; set; }          // sql-filters that can be applied to QueryToFindElements
-        public string NumberOfElementsFound { get; set; }                                   // Total number of elements found 
+                                           
 
         public string QueryToCheckFoundElements { get; set; }                               // sql-query that performs the check on elements found
         public Dictionary<string, string> QueryToCheckFoundElementsParameters { get; set; } // sql-filters that can be applied to QueryToFindElements
-        public string NumberOfValidationResults { get; set; }                               // Number of Validation Results found (using Query)
+        
 
         public string WarningType { get; set; }                     // Severity of the impact when problems are found. i.e. error, warning, (information)
         public string Rationale { get; set; }                       // Explanation of the logic of the check
@@ -107,8 +107,8 @@ namespace EAValidator
         public void resetStatus()
         {
             this.Status = CheckStatus.NotValidated;
-            this.NumberOfElementsFound = "";
-            this.NumberOfValidationResults = "";
+            this.NumberOfElementsFound = null;
+            this.NumberOfValidationResults = null;
         }
         private void SetDefaultValues()
         {
@@ -223,8 +223,8 @@ namespace EAValidator
 
             // Default status to Passed
             this.Status = CheckStatus.Passed;
-            this.NumberOfElementsFound = "";
-            this.NumberOfValidationResults = "";
+            this.NumberOfElementsFound = null;
+            this.NumberOfValidationResults = null;
 
             // Search elements that need to be checked depending on filters and give back their guids.
             var foundelementguids = this.getElementGuids(controller, EA_element, EA_diagram, excludeArchivedPackages);
@@ -236,7 +236,7 @@ namespace EAValidator
 
             if (foundelementguids.Length > 0)
             {
-                controller.addLineToEAOutput("- Elements found: ", this.NumberOfElementsFound);
+                controller.addLineToEAOutput("- Elements found: ", this.NumberOfElementsFound.ToString());
 
                 foundelementguids = foundelementguids.Substring(1);   // remove first ","
                 // Perform the checks for the elements found (based on their guids)
@@ -245,11 +245,11 @@ namespace EAValidator
                 {
                     controller.addLineToEAOutput("- Error while validating found elements.", "");
                 }
-                controller.addLineToEAOutput("- Validation results found: ", this.NumberOfValidationResults);
+                controller.addLineToEAOutput("- Validation results found: ", this.NumberOfValidationResults.ToString());
             }
             else
             {
-                this.NumberOfValidationResults = "0";
+                this.NumberOfValidationResults = 0;
                 controller.addLineToEAOutput("- No elements found.", "");
             }
             return validations;
@@ -355,7 +355,7 @@ namespace EAValidator
                         }
                     }
                 }
-                this.NumberOfElementsFound = numberOfElementsFound.ToString();
+                this.NumberOfElementsFound = numberOfElementsFound;
             }
             catch (Exception ex)
             {
@@ -396,7 +396,7 @@ namespace EAValidator
                     validations.Add(new Validation(this, validationNode));
                     numberOfValidationResults += 1;
                 }
-                this.NumberOfValidationResults = numberOfValidationResults.ToString();
+                this.NumberOfValidationResults = numberOfValidationResults;
             }
             catch (Exception)
             {

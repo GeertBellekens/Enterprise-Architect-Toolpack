@@ -300,7 +300,7 @@
             // 
             this.olvColCheckNumberOfElementsFound.AspectName = "NumberOfElementsFound";
             this.olvColCheckNumberOfElementsFound.AspectToStringFormat = "";
-            this.olvColCheckNumberOfElementsFound.Text = "# found";
+            this.olvColCheckNumberOfElementsFound.Text = "Found";
             this.olvColCheckNumberOfElementsFound.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.olvColCheckNumberOfElementsFound.Width = 80;
             // 
@@ -308,7 +308,7 @@
             // 
             this.olvColCheckNumberOfValidationResults.AspectName = "NumberOfValidationResults";
             this.olvColCheckNumberOfValidationResults.AspectToStringFormat = "";
-            this.olvColCheckNumberOfValidationResults.Text = "# results";
+            this.olvColCheckNumberOfValidationResults.Text = "Failed";
             this.olvColCheckNumberOfValidationResults.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.olvColCheckNumberOfValidationResults.Width = 86;
             // 

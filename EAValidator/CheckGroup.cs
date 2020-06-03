@@ -34,6 +34,45 @@ namespace EAValidator
                 return tempStatus;
             }
         }
+        public override int? NumberOfElementsFound
+        {
+            get
+            {
+                int? numberFound = null;
+                foreach (var check in this.GetAllChecks())
+                {
+                    if (check.NumberOfElementsFound.HasValue)
+                    { 
+                        if (!numberFound.HasValue)
+                        {
+                            numberFound = 0;
+                        }
+                        numberFound += check.NumberOfElementsFound;
+                    }
+                }
+                return numberFound;
+            }
+        }
+
+        public override int? NumberOfValidationResults 
+        {
+            get
+            {
+                int? numberFound = null;
+                foreach (var check in this.GetAllChecks())
+                {
+                    if (check.NumberOfValidationResults.HasValue)
+                    {
+                        if (!numberFound.HasValue)
+                        {
+                            numberFound = 0;
+                        }
+                        numberFound += check.NumberOfValidationResults;
+                    }
+                }
+                return numberFound;
+            }
+        }
 
 
         public CheckGroup(DirectoryInfo directory, EAValidatorSettings settings, TSF_EA.Model model)
