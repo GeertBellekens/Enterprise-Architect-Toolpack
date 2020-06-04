@@ -90,6 +90,6 @@
 		<Parameters></Parameters>
 	</QueryToCheckFoundElements>
 	<WarningType>Warning</WarningType>
-	<Rationale>Every Attribute of an Class must have a Datatype</Rationale>
+	<Rationale>Every Attribute of a Class must have a Datatype</Rationale>
 	<ProposedSolution>Add a datatype to the Attributes</ProposedSolution>
 </Check>

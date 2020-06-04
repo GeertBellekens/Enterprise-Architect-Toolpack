@@ -64,4 +64,5 @@
 	<WarningType>Warning</WarningType>
 	<Rationale>Field "markerVisible" must be set to true on all Exclusive Gateways.</Rationale>
 	<ProposedSolution>Set the Field "markerVisible" to true on the Exclusive Gateways.</ProposedSolution>
+	<HelpUrl>https://bellekens.com</HelpUrl>
 </Check>

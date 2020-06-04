@@ -8,10 +8,12 @@ namespace EAValidator
     /// </summary>
     public class Validation
     {
-        public string CheckId { get; set; }                 // Reference to the check
-        public string CheckDescription { get; set; }        // Description of the check
-        public string CheckWarningType { get; set; }        // Severity of the impact when problems are found. i.e. error, warning, (information)
-        public string CheckProposedSolution { get; set; }   // Proposed Solution of the check
+        private Check check { get; set; }
+        public string CheckId => this.check.CheckId;               
+        public string CheckDescription => this.check.CheckDescription;
+        public string CheckWarningType => this.check.WarningType;
+        public string CheckProposedSolution => this.check.ProposedSolution;
+        public string helpUrl => this.check.helpUrl;
 
         public string ItemName { get; set; }                // Item that gives error/warning
         public string EAItemType { get; set; }              // Type of item in EA : object/diagram/... (only informational)
@@ -37,10 +39,7 @@ namespace EAValidator
 
         public Validation (Check check, XmlNode validationresultNode)
         {
-            this.CheckId = check.CheckId;
-            this.CheckDescription = check.CheckDescription;
-            this.CheckWarningType = check.WarningType;
-            this.CheckProposedSolution = check.ProposedSolution;
+            this.check = check;
             foreach (XmlNode subNode in validationresultNode.ChildNodes)
             {
                 InterpreteValidationResultSubNode(subNode);

@@ -59,6 +59,7 @@
 	  </xs:element>
       <xs:element type="xs:string" name="Rationale"/>
       <xs:element type="xs:string" name="ProposedSolution"/>
+	  <xs:element type="xs:anyURI" name="HelpUrl" minOccurs="0" />
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

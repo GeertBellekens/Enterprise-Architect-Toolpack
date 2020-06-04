@@ -43,7 +43,7 @@ namespace EAValidator
         private EAValidatorSettings settings { get; set; }
         private CheckGroup group { get; set; }
         public string name => this.CheckDescription;
-
+        public string helpUrl { get; set; }
         private bool _selected = true;
         public override bool? selected
         {
@@ -185,6 +185,9 @@ namespace EAValidator
                 case "proposedsolution":
                     this.ProposedSolution = node.InnerText;
                     break;
+                case "helpurl":
+                    this.helpUrl = node.InnerText;
+                    break;
                 default:
                     // do nothing
                     break;
@@ -228,19 +231,21 @@ namespace EAValidator
 
             // Search elements that need to be checked depending on filters and give back their guids.
             var foundelementguids = this.getElementGuids(controller, EA_element, EA_diagram, excludeArchivedPackages);
+            //set the numberOfElementsFound
+            this.NumberOfElementsFound = foundelementguids.Count();
             if (this.Status == CheckStatus.Error)
             {
                 controller.addLineToEAOutput("- Error while searching elements.", "");
                 return validations;
             }
 
-            if (foundelementguids.Length > 0)
+            if (foundelementguids.Any())
             {
-                controller.addLineToEAOutput("- Elements found: ", this.NumberOfElementsFound.ToString());
-
-                foundelementguids = foundelementguids.Substring(1);   // remove first ","
+                controller.addLineToEAOutput("- Elements found: ", foundelementguids.Count().ToString());
+                
                 // Perform the checks for the elements found (based on their guids)
                 validations = this.CheckFoundElements(controller, foundelementguids);
+                this.NumberOfValidationResults = validations.Count();
                 if (this.Status == CheckStatus.Error)
                 {
                     controller.addLineToEAOutput("- Error while validating found elements.", "");
@@ -255,11 +260,10 @@ namespace EAValidator
             return validations;
         }
 
-        private string getElementGuids(EAValidatorController controller, TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages)
+        private IEnumerable<string> getElementGuids(EAValidatorController controller, TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages)
         {
             var qryToFindElements = this.QueryToFindElements;
-            int numberOfElementsFound = 0;
-
+            var foundelementguids = new List<string>();
             // Check EA_element => Change / Release / Package / ...  and add to query
             if (EA_element != null)
             {
@@ -274,7 +278,7 @@ namespace EAValidator
                         if (string.IsNullOrEmpty(whereclause))
                         {
                             this.Status = CheckStatus.Error;
-                            return "";
+                            return foundelementguids;
                         }
                         else
                         {
@@ -297,7 +301,7 @@ namespace EAValidator
                         if (string.IsNullOrEmpty(whereclause))
                         {
                             this.Status = CheckStatus.Error;
-                            return "";
+                            return foundelementguids;
                         }
                         else
                         {
@@ -321,7 +325,7 @@ namespace EAValidator
                     if (string.IsNullOrEmpty(whereclause))
                     {
                         this.Status = CheckStatus.Error;
-                        return "";
+                        return foundelementguids;
                     }
                     else
                     {
@@ -336,8 +340,7 @@ namespace EAValidator
             {
                 qryToFindElements = qryToFindElements + " " + controller.settings.QueryExcludeArchivedPackages;
             }
-
-            var foundelementguids = "";
+            
             try
             {
                 // Execute the query using EA
@@ -346,16 +349,14 @@ namespace EAValidator
                 // Parse xml document with elements found and count number of elements found
                 foreach (XmlNode node in elementsFound.SelectNodes("//Row"))
                 {
-                    numberOfElementsFound += 1;
                     foreach (XmlNode subNode in node.ChildNodes)
                     {
                         if (subNode.Name == "ItemGuid")
                         {
-                            foundelementguids += ",'" + subNode.InnerText + "'";
+                            foundelementguids.Add("'" + subNode.InnerText + "'");
                         }
                     }
                 }
-                this.NumberOfElementsFound = numberOfElementsFound;
             }
             catch (Exception ex)
             {
@@ -363,44 +364,52 @@ namespace EAValidator
             }
             return foundelementguids;
         }
-
-        private List<Validation> CheckFoundElements(EAValidatorController controller, string foundelementguids)
+        public static IEnumerable<List<T>> SplitList<T>(List<T> list, int chunkSize)
+        {
+            for (int i = 0; i < list.Count; i += chunkSize)
+            {
+                yield return list.GetRange(i, Math.Min(chunkSize, list.Count - i));
+            }
+        }
+        private List<Validation> CheckFoundElements(EAValidatorController controller, IEnumerable<string> foundelementguids)
         {
             // Prepare
             var validations = new List<Validation>();
-            int numberOfValidationResults = 0;
 
-            // Replace SearchTerm with list of guids
-            var qryToCheckFoundElements = this.QueryToCheckFoundElements;
-            qryToCheckFoundElements = qryToCheckFoundElements.Replace(controller.settings.ElementGuidsInQueryToCheckFoundElements, foundelementguids);
-
-            // Search for Parameters in query and replace them
-            foreach (KeyValuePair<string, string> parameter in this.QueryToCheckFoundElementsParameters)
+            //split list into chunks of maximum 1000 elements
+            foreach (var guidsToCheck in SplitList<String>(foundelementguids.ToList(), 1000))
             {
-                string searchKey = "#" + parameter.Key + "#";
-                qryToCheckFoundElements = qryToCheckFoundElements.Replace(searchKey, parameter.Value);
-            }
+                // Replace SearchTerm with list of guids
+                var qryToCheckFoundElements = this.QueryToCheckFoundElements;
+                qryToCheckFoundElements = qryToCheckFoundElements.Replace(controller.settings.ElementGuidsInQueryToCheckFoundElements
+                                                                        , String.Join(",", guidsToCheck));
 
-            try
-            {
-                // Execute the query using EA
-                var results = this.model.SQLQuery(qryToCheckFoundElements);
-
-                // Parse xml document with results and create validation for every row found
-                foreach (XmlNode validationNode in results.SelectNodes("//Row"))
+                // Search for Parameters in query and replace them
+                foreach (KeyValuePair<string, string> parameter in this.QueryToCheckFoundElementsParameters)
                 {
-                    // Set status of Check to FAILED
-                    this.Status = CheckStatus.Failed;
-
-                    // Add results of validation to list
-                    validations.Add(new Validation(this, validationNode));
-                    numberOfValidationResults += 1;
+                    string searchKey = "#" + parameter.Key + "#";
+                    qryToCheckFoundElements = qryToCheckFoundElements.Replace(searchKey, parameter.Value);
                 }
-                this.NumberOfValidationResults = numberOfValidationResults;
-            }
-            catch (Exception)
-            {
-                this.Status = CheckStatus.Error;
+
+                try
+                {
+                    // Execute the query using EA
+                    var results = this.model.SQLQuery(qryToCheckFoundElements);
+
+                    // Parse xml document with results and create validation for every row found
+                    foreach (XmlNode validationNode in results.SelectNodes("//Row"))
+                    {
+                        // Set status of Check to FAILED
+                        this.Status = CheckStatus.Failed;
+
+                        // Add results of validation to list
+                        validations.Add(new Validation(this, validationNode));
+                    }
+                }
+                catch (Exception)
+                {
+                    this.Status = CheckStatus.Error;
+                }
             }
 
             return validations;
