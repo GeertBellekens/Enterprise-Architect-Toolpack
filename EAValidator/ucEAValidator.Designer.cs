@@ -92,8 +92,8 @@
             // olvValidations
             // 
             this.olvValidations.AllColumns.Add(this.olvColCheck);
-            this.olvValidations.AllColumns.Add(this.olvColItemName);
             this.olvValidations.AllColumns.Add(this.olvColProposedSolution);
+            this.olvValidations.AllColumns.Add(this.olvColItemName);
             this.olvValidations.AllColumns.Add(this.olvColEAItemType);
             this.olvValidations.AllColumns.Add(this.olvColElementType);
             this.olvValidations.AllColumns.Add(this.olvColElementStereotype);
@@ -110,8 +110,8 @@
             this.olvValidations.CellEditUseWholeCell = false;
             this.olvValidations.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColCheck,
-            this.olvColItemName,
             this.olvColProposedSolution,
+            this.olvColItemName,
             this.olvColEAItemType,
             this.olvColElementType,
             this.olvColElementStereotype,
@@ -135,13 +135,16 @@
             this.olvValidations.UseCompatibleStateImageBehavior = false;
             this.olvValidations.UseFilterIndicator = true;
             this.olvValidations.UseFiltering = true;
+            this.olvValidations.UseHyperlinks = true;
             this.olvValidations.View = System.Windows.Forms.View.Details;
             this.olvValidations.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.olvValidations_CellToolTipShowing);
+            this.olvValidations.IsHyperlink += new System.EventHandler<BrightIdeasSoftware.IsHyperlinkEventArgs>(this.olvValidations_IsHyperlink);
             this.olvValidations.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvValidations_MouseDoubleClick);
             // 
             // olvColCheck
             // 
             this.olvColCheck.AspectName = "CheckDescription";
+            this.olvColCheck.Hyperlink = true;
             this.olvColCheck.IsEditable = false;
             this.olvColCheck.Text = "Check Description";
             this.olvColCheck.Width = 200;
@@ -262,16 +265,19 @@
             this.olvChecks.TriStateCheckBoxes = true;
             this.olvChecks.UseCellFormatEvents = true;
             this.olvChecks.UseCompatibleStateImageBehavior = false;
+            this.olvChecks.UseHyperlinks = true;
             this.olvChecks.View = System.Windows.Forms.View.Details;
             this.olvChecks.VirtualMode = true;
             this.olvChecks.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.olvChecks_CellToolTipShowing);
             this.olvChecks.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.olvChecks_FormatCell);
+            this.olvChecks.IsHyperlink += new System.EventHandler<BrightIdeasSoftware.IsHyperlinkEventArgs>(this.olvChecks_IsHyperlink);
             this.olvChecks.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.olvChecks_ItemChecked);
             this.olvChecks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvChecks_MouseDoubleClick);
             // 
             // olvColName
             // 
             this.olvColName.AspectName = "name";
+            this.olvColName.Hyperlink = true;
             this.olvColName.MaximumWidth = 800;
             this.olvColName.MinimumWidth = 50;
             this.olvColName.Text = "Name";

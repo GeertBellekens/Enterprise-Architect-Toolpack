@@ -155,6 +155,8 @@ namespace EAValidator
                 //set cursor back
                 Cursor.Current = Cursors.Default;
             }
+            //refresh checks
+            this.olvChecks.RefreshObjects(this.olvChecks.CheckedObjects);
         }
 
         private void ClearScopeFields()
@@ -292,6 +294,35 @@ namespace EAValidator
         private void olvChecks_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             this.olvChecks.RefreshObject(((OLVListItem)e.Item).RowObject);
+        }
+
+        private void olvChecks_IsHyperlink(object sender, IsHyperlinkEventArgs e)
+        {
+            var selectedCheck = e.Model as Check;
+            if (selectedCheck != null
+                && selectedCheck.helpUrl?.Length > 0)
+            {
+                e.Url = selectedCheck.helpUrl;
+            }
+            else
+            {
+                e.IsHyperlink = false;
+            }
+            
+        }
+
+        private void olvValidations_IsHyperlink(object sender, IsHyperlinkEventArgs e)
+        {
+            var selectedValidation = e.Model as Validation;
+            if (selectedValidation != null
+                && selectedValidation.helpUrl?.Length > 0)
+            {
+                e.Url = selectedValidation.helpUrl;
+            }
+            else
+            {
+                e.IsHyperlink = false;
+            }
         }
     }
 }
