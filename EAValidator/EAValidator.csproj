@@ -119,12 +119,18 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Files\Checks\Business Processes\142 - Business Process relations not used on a diagram.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Files\EA Validator Logo.pdn" />
     <None Include="Files\license.rtf" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Files\EA Validator Logo.png" />
+    <Content Include="Files\Checks\Business Processes\142 - Business Process relations not used on a diagram.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Files\Checks\Business Processes\73 - Exclusive Gateways with markerVisible not set to true.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

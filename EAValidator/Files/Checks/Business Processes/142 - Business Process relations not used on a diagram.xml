@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Check>
+	<CheckId>142</CheckId>
+	<CheckDescription>Business Process relations not used on a diagram</CheckDescription>
+	<QueryToFindElements>
+		<Main>
+			SELECT o.ea_guid AS ItemGuid
+			, o.name, o.Stereotype
+			FROM t_object o
+			INNER JOIN t_package p ON p.Package_ID = o.Package_ID
+			left join t_object o1 on o1.Object_ID = o.ParentID
+			left join t_object o2 on o2.Object_ID = o1.ParentID
+			left join t_object o3 on o3.Object_ID = o2.ParentID
+			inner join t_connector c on c.Start_Object_ID = o.Object_ID
+									and c.Stereotype in ('MessageFlow', 'SequenceFlow')
+			LEFT JOIN t_package Package_p1 ON Package_p1.Package_id = p.parent_id
+			LEFT JOIN t_package Package_p2 ON Package_p2.Package_id = Package_p1.parent_id
+			LEFT JOIN t_package Package_p3 ON Package_p3.Package_id = Package_p2.parent_id
+			LEFT JOIN t_package Package_p4 ON Package_p4.Package_id = Package_p3.parent_id
+			LEFT JOIN t_package Package_p5 ON Package_p5.Package_id = Package_p4.parent_id
+			WHERE 'BusinessProcess' in (o1.Stereotype, o2.Stereotype, o3.Stereotype)
+		</Main>
+		<Filters>
+			<Change>
+			</Change>
+			<Release>
+			</Release>
+			<Package>
+				AND p.Package_ID in (#Branch#)
+			</Package>
+			<FunctionalDesign>
+			</FunctionalDesign>
+		</Filters>
+	</QueryToFindElements>
+	<QueryToCheckFoundElements>
+		<Main>
+			SELECT o.Name AS ItemName
+			, 'object' as ItemType
+			, o.ea_guid AS ItemGuid
+			, o.Object_Type AS ElementType
+			, o.StereoType AS ElementStereotype
+			, p.name AS PackageName
+			, package_p1.name AS PackageParentLevel1
+			, package_p2.name AS PackageParentLevel2 
+			, package_p3.name AS PackageParentLevel3
+			, package_p4.name AS PackageParentLevel4
+			, package_p5.name AS PackageParentLevel5
+			FROM t_object o
+			INNER JOIN t_package p ON p.Package_ID = o.Package_ID
+			left join t_object o1 on o1.Object_ID = o.ParentID
+			left join t_object o2 on o2.Object_ID = o1.ParentID
+			left join t_object o3 on o3.Object_ID = o2.ParentID
+			inner join t_connector c on c.Start_Object_ID = o.Object_ID
+									and c.Stereotype in ('MessageFlow', 'SequenceFlow')
+			LEFT JOIN t_package Package_p1 ON Package_p1.Package_id = p.parent_id
+			LEFT JOIN t_package Package_p2 ON Package_p2.Package_id = Package_p1.parent_id
+			LEFT JOIN t_package Package_p3 ON Package_p3.Package_id = Package_p2.parent_id
+			LEFT JOIN t_package Package_p4 ON Package_p4.Package_id = Package_p3.parent_id
+			LEFT JOIN t_package Package_p5 ON Package_p5.Package_id = Package_p4.parent_id
+			WHERE o.ea_guid in (#ElementGuids#)
+			AND not exists (select dl.DiagramID from t_diagramlinks dl
+							inner join t_diagram d on d.Diagram_ID = dl.DiagramID
+							where dl.ConnectorID = c.Connector_ID
+							and d.ParentID in (o1.Object_ID, o2.Object_ID, o3.Object_ID))
+		</Main>
+		<Parameters></Parameters>
+	</QueryToCheckFoundElements>
+	<WarningType>Error</WarningType>
+	<Rationale>All SequenceFlows and MessageFlows should be used on a diagram</Rationale>
+	<ProposedSolution>Delete the relationship if not needed, or else add it to the Business Process diagram</ProposedSolution>
+</Check>

@@ -166,6 +166,8 @@ namespace EAValidator
                         {
                             var check = new Check(file.FullName, this, this.settings, this.model);
                             this._checks.Add(check);
+                            //order by checkID
+                            this._checks = this._checks.OrderBy(x => x.CheckId).ToList();
                         }
                         catch (XmlSchemaValidationException e)
                         {

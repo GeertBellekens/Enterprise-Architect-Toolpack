@@ -62,11 +62,11 @@ namespace EAValidator
             }
         }
 
-        public Check(string file, CheckGroup group, EAValidatorSettings settings, TSF_EA.Model model)
+        public Check(string checkFile, CheckGroup group, EAValidatorSettings settings, TSF_EA.Model model)
         {
 
             //validate the xml file
-            this.ValidToXSD(file);
+            this.ValidToXSD(checkFile);
             // Constructor
             this.model = model;
             this.settings = settings;
@@ -75,34 +75,42 @@ namespace EAValidator
             this.SetDefaultValues();
 
             // Load file contents into the Check class
-            switch (Path.GetExtension(file))
+            if (Path.GetExtension(checkFile).ToLower() == ".xml")
             {
-                case ".xml":
+                // Load xml-document
+                var xmldoc = new XmlDocument();
+                xmldoc.Load(checkFile);
 
-                    // Load xml-document
-                    var xmldoc = new XmlDocument();
-                    xmldoc.Load(file);
-
-                    // Interprete xml node and subnodes
-                    XmlNode node = xmldoc.DocumentElement.SelectSingleNode(this.settings.XML_CheckMainNode);
-                    foreach (XmlNode subNode in node.ChildNodes)
-                    {
-                        this.InterpreteCheckSubNode(subNode);
-                    }
-                    break;
-
-                default:
-                    break;
+                // Interprete xml node and subnodes
+                XmlNode node = xmldoc.DocumentElement.SelectSingleNode(this.settings.XML_CheckMainNode);
+                foreach (XmlNode subNode in node.ChildNodes)
+                {
+                    this.InterpreteCheckSubNode(subNode);
+                }
             }
+            //check if helpUrl is filled in. If not then we check if there is a local file with the same name that has a .pdf extension
+            this.checkHelpUrl(checkFile);
 
             // Verify that the check has all mandatory content
             if (!this.HasMandatoryContent())
             {
-                EAOutputLogger.log($"XML file does not have all mandatory content. - {file}", 0, LogTypeEnum.error);
-                //MessageBox.Show("XML file does not have all mandatory content." + " - " + file);
+                EAOutputLogger.log($"XML file does not have all mandatory content. - {checkFile}", 0, LogTypeEnum.error);
             }
         }
-
+        private void checkHelpUrl(string checkFile)
+        {
+            if (string.IsNullOrEmpty(this.helpUrl))
+            {
+                var helpPdf = Path.GetDirectoryName(checkFile) 
+                              + "\\" 
+                              + Path.GetFileNameWithoutExtension(checkFile) + ".pdf";
+                
+                if (System.IO.File.Exists(helpPdf))
+                {
+                    this.helpUrl = helpPdf;
+                }
+            }
+        }
 
         public void resetStatus()
         {
