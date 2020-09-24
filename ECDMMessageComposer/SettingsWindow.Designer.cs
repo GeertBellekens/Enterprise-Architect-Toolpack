@@ -115,6 +115,8 @@ namespace ECDMMessageComposer
             this.prefixNotesCheckBox = new System.Windows.Forms.CheckBox();
             this.keepAttributeOrderRadio = new System.Windows.Forms.RadioButton();
             this.xmlSchemaGroup = new System.Windows.Forms.GroupBox();
+            this.customOrderTagTag = new System.Windows.Forms.Label();
+            this.customOrderTagTextBox = new System.Windows.Forms.TextBox();
             this.choiceBeforeAttributesCheckbox = new System.Windows.Forms.CheckBox();
             this.elementTagTextBox = new System.Windows.Forms.TextBox();
             this.tvInsteadOfTraceCheckBox = new System.Windows.Forms.CheckBox();
@@ -130,8 +132,10 @@ namespace ECDMMessageComposer
             this.ignoredConstraintsGrid = new System.Windows.Forms.DataGridView();
             this.IgnoredConstraintTypesColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deleteConstraintTypeButton = new System.Windows.Forms.Button();
-            this.customOrderTagTag = new System.Windows.Forms.Label();
-            this.customOrderTagTextBox = new System.Windows.Forms.TextBox();
+            this.synchronizeGroupBox = new System.Windows.Forms.GroupBox();
+            this.synchronizedTagsGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DeleteSynchronizedTagButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
             this.diagramOptionsGroupBox.SuspendLayout();
@@ -145,6 +149,8 @@ namespace ECDMMessageComposer
             this.notesOptionsGroupBox.SuspendLayout();
             this.ignoreGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredConstraintsGrid)).BeginInit();
+            this.synchronizeGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.synchronizedTagsGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // ignoredStereoTypesGrid
@@ -168,7 +174,6 @@ namespace ECDMMessageComposer
             // 
             // deleteStereotypeButton
             // 
-            this.deleteStereotypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteStereotypeButton.Location = new System.Drawing.Point(74, 154);
             this.deleteStereotypeButton.Name = "deleteStereotypeButton";
             this.deleteStereotypeButton.Size = new System.Drawing.Size(75, 23);
@@ -180,7 +185,7 @@ namespace ECDMMessageComposer
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(577, 628);
+            this.okButton.Location = new System.Drawing.Point(577, 655);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 2;
@@ -192,7 +197,7 @@ namespace ECDMMessageComposer
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(658, 628);
+            this.cancelButton.Location = new System.Drawing.Point(658, 655);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 3;
@@ -203,7 +208,7 @@ namespace ECDMMessageComposer
             // applyButton
             // 
             this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.applyButton.Location = new System.Drawing.Point(739, 628);
+            this.applyButton.Location = new System.Drawing.Point(739, 655);
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(75, 23);
             this.applyButton.TabIndex = 4;
@@ -233,7 +238,6 @@ namespace ECDMMessageComposer
             // 
             // deleteTaggedValueButton
             // 
-            this.deleteTaggedValueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteTaggedValueButton.Location = new System.Drawing.Point(212, 154);
             this.deleteTaggedValueButton.Name = "deleteTaggedValueButton";
             this.deleteTaggedValueButton.Size = new System.Drawing.Size(75, 23);
@@ -405,16 +409,16 @@ namespace ECDMMessageComposer
             this.traceabilityGroupBox.Controls.Add(this.associationTagTextBox);
             this.traceabilityGroupBox.Controls.Add(this.attributeTagLabel);
             this.traceabilityGroupBox.Controls.Add(this.attributeTagTextBox);
-            this.traceabilityGroupBox.Location = new System.Drawing.Point(378, 312);
+            this.traceabilityGroupBox.Location = new System.Drawing.Point(378, 201);
             this.traceabilityGroupBox.Name = "traceabilityGroupBox";
-            this.traceabilityGroupBox.Size = new System.Drawing.Size(438, 76);
+            this.traceabilityGroupBox.Size = new System.Drawing.Size(203, 121);
             this.traceabilityGroupBox.TabIndex = 10;
             this.traceabilityGroupBox.TabStop = false;
             this.traceabilityGroupBox.Text = "Traceability tags";
             // 
             // associationTagLabel
             // 
-            this.associationTagLabel.Location = new System.Drawing.Point(185, 20);
+            this.associationTagLabel.Location = new System.Drawing.Point(3, 63);
             this.associationTagLabel.Name = "associationTagLabel";
             this.associationTagLabel.Size = new System.Drawing.Size(100, 17);
             this.associationTagLabel.TabIndex = 3;
@@ -422,14 +426,14 @@ namespace ECDMMessageComposer
             // 
             // associationTagTextBox
             // 
-            this.associationTagTextBox.Location = new System.Drawing.Point(185, 40);
+            this.associationTagTextBox.Location = new System.Drawing.Point(5, 83);
             this.associationTagTextBox.Name = "associationTagTextBox";
             this.associationTagTextBox.Size = new System.Drawing.Size(164, 20);
             this.associationTagTextBox.TabIndex = 2;
             // 
             // attributeTagLabel
             // 
-            this.attributeTagLabel.Location = new System.Drawing.Point(5, 20);
+            this.attributeTagLabel.Location = new System.Drawing.Point(3, 20);
             this.attributeTagLabel.Name = "attributeTagLabel";
             this.attributeTagLabel.Size = new System.Drawing.Size(100, 17);
             this.attributeTagLabel.TabIndex = 1;
@@ -437,7 +441,7 @@ namespace ECDMMessageComposer
             // 
             // attributeTagTextBox
             // 
-            this.attributeTagTextBox.Location = new System.Drawing.Point(5, 40);
+            this.attributeTagTextBox.Location = new System.Drawing.Point(6, 40);
             this.attributeTagTextBox.Name = "attributeTagTextBox";
             this.attributeTagTextBox.Size = new System.Drawing.Size(164, 20);
             this.attributeTagTextBox.TabIndex = 0;
@@ -534,7 +538,7 @@ namespace ECDMMessageComposer
             // 
             this.keepAttributeOrderRadio.Location = new System.Drawing.Point(6, 42);
             this.keepAttributeOrderRadio.Name = "keepAttributeOrderRadio";
-            this.keepAttributeOrderRadio.Size = new System.Drawing.Size(276, 24);
+            this.keepAttributeOrderRadio.Size = new System.Drawing.Size(164, 24);
             this.keepAttributeOrderRadio.TabIndex = 8;
             this.keepAttributeOrderRadio.Text = "Keep original attribute order";
             this.keepAttributeOrderRadio.UseVisualStyleBackColor = true;
@@ -551,12 +555,27 @@ namespace ECDMMessageComposer
             this.xmlSchemaGroup.Controls.Add(this.orderAssociationsAmongstAttributesCheckbox);
             this.xmlSchemaGroup.Controls.Add(this.orderAssociationsCheckbox);
             this.xmlSchemaGroup.Controls.Add(this.noAttributeDependenciesCheckbox);
-            this.xmlSchemaGroup.Location = new System.Drawing.Point(378, 396);
+            this.xmlSchemaGroup.Location = new System.Drawing.Point(378, 451);
             this.xmlSchemaGroup.Name = "xmlSchemaGroup";
             this.xmlSchemaGroup.Size = new System.Drawing.Size(438, 196);
             this.xmlSchemaGroup.TabIndex = 12;
             this.xmlSchemaGroup.TabStop = false;
             this.xmlSchemaGroup.Text = "XML Schema Options";
+            // 
+            // customOrderTagTag
+            // 
+            this.customOrderTagTag.Location = new System.Drawing.Point(6, 142);
+            this.customOrderTagTag.Name = "customOrderTagTag";
+            this.customOrderTagTag.Size = new System.Drawing.Size(100, 17);
+            this.customOrderTagTag.TabIndex = 16;
+            this.customOrderTagTag.Text = "Custom Order Tag";
+            // 
+            // customOrderTagTextBox
+            // 
+            this.customOrderTagTextBox.Location = new System.Drawing.Point(212, 139);
+            this.customOrderTagTextBox.Name = "customOrderTagTextBox";
+            this.customOrderTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.customOrderTagTextBox.TabIndex = 15;
             // 
             // choiceBeforeAttributesCheckbox
             // 
@@ -619,9 +638,9 @@ namespace ECDMMessageComposer
             this.attributeOptionsGroupBox.Controls.Add(this.setAttributesOrderZeroRadio);
             this.attributeOptionsGroupBox.Controls.Add(this.addNewAttributesLastRadio);
             this.attributeOptionsGroupBox.Controls.Add(this.keepAttributeOrderRadio);
-            this.attributeOptionsGroupBox.Location = new System.Drawing.Point(378, 201);
+            this.attributeOptionsGroupBox.Location = new System.Drawing.Point(378, 327);
             this.attributeOptionsGroupBox.Name = "attributeOptionsGroupBox";
-            this.attributeOptionsGroupBox.Size = new System.Drawing.Size(436, 97);
+            this.attributeOptionsGroupBox.Size = new System.Drawing.Size(203, 97);
             this.attributeOptionsGroupBox.TabIndex = 13;
             this.attributeOptionsGroupBox.TabStop = false;
             this.attributeOptionsGroupBox.Text = "Attribute options";
@@ -709,7 +728,6 @@ namespace ECDMMessageComposer
             // 
             // deleteConstraintTypeButton
             // 
-            this.deleteConstraintTypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteConstraintTypeButton.Location = new System.Drawing.Point(349, 154);
             this.deleteConstraintTypeButton.Name = "deleteConstraintTypeButton";
             this.deleteConstraintTypeButton.Size = new System.Drawing.Size(75, 23);
@@ -718,20 +736,46 @@ namespace ECDMMessageComposer
             this.deleteConstraintTypeButton.UseVisualStyleBackColor = true;
             this.deleteConstraintTypeButton.Click += new System.EventHandler(this.deleteConstraintTypeButton_Click);
             // 
-            // customOrderTagTag
+            // synchronizeGroupBox
             // 
-            this.customOrderTagTag.Location = new System.Drawing.Point(6, 142);
-            this.customOrderTagTag.Name = "customOrderTagTag";
-            this.customOrderTagTag.Size = new System.Drawing.Size(100, 17);
-            this.customOrderTagTag.TabIndex = 16;
-            this.customOrderTagTag.Text = "Custom Order Tag";
+            this.synchronizeGroupBox.Controls.Add(this.synchronizedTagsGridView);
+            this.synchronizeGroupBox.Controls.Add(this.DeleteSynchronizedTagButton);
+            this.synchronizeGroupBox.Location = new System.Drawing.Point(590, 201);
+            this.synchronizeGroupBox.Name = "synchronizeGroupBox";
+            this.synchronizeGroupBox.Size = new System.Drawing.Size(224, 193);
+            this.synchronizeGroupBox.TabIndex = 16;
+            this.synchronizeGroupBox.TabStop = false;
+            this.synchronizeGroupBox.Text = "Synchronize";
             // 
-            // customOrderTagTextBox
+            // synchronizedTagsGridView
             // 
-            this.customOrderTagTextBox.Location = new System.Drawing.Point(212, 139);
-            this.customOrderTagTextBox.Name = "customOrderTagTextBox";
-            this.customOrderTagTextBox.Size = new System.Drawing.Size(164, 20);
-            this.customOrderTagTextBox.TabIndex = 15;
+            this.synchronizedTagsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.synchronizedTagsGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn4});
+            this.synchronizedTagsGridView.Location = new System.Drawing.Point(11, 19);
+            this.synchronizedTagsGridView.Name = "synchronizedTagsGridView";
+            this.synchronizedTagsGridView.RowHeadersVisible = false;
+            this.synchronizedTagsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.synchronizedTagsGridView.Size = new System.Drawing.Size(201, 129);
+            this.synchronizedTagsGridView.TabIndex = 7;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn4.HeaderText = "Synchronized Tags";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ToolTipText = "These tagged values will be syncrhonized between master and subset model";
+            // 
+            // DeleteSynchronizedTagButton
+            // 
+            this.DeleteSynchronizedTagButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DeleteSynchronizedTagButton.Location = new System.Drawing.Point(137, 154);
+            this.DeleteSynchronizedTagButton.Name = "DeleteSynchronizedTagButton";
+            this.DeleteSynchronizedTagButton.Size = new System.Drawing.Size(75, 23);
+            this.DeleteSynchronizedTagButton.TabIndex = 8;
+            this.DeleteSynchronizedTagButton.Text = "Delete";
+            this.DeleteSynchronizedTagButton.UseVisualStyleBackColor = true;
+            this.DeleteSynchronizedTagButton.Click += new System.EventHandler(this.DeleteSynchronizedTagButton_Click);
             // 
             // SettingsWindow
             // 
@@ -739,7 +783,8 @@ namespace ECDMMessageComposer
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(826, 659);
+            this.ClientSize = new System.Drawing.Size(826, 686);
+            this.Controls.Add(this.synchronizeGroupBox);
             this.Controls.Add(this.notesOptionsGroupBox);
             this.Controls.Add(this.attributeOptionsGroupBox);
             this.Controls.Add(this.xmlSchemaGroup);
@@ -753,8 +798,9 @@ namespace ECDMMessageComposer
             this.Controls.Add(this.ignoreGroupBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(842, 725);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(842, 698);
+            this.MinimumSize = new System.Drawing.Size(842, 725);
             this.Name = "SettingsWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -776,6 +822,8 @@ namespace ECDMMessageComposer
             this.notesOptionsGroupBox.PerformLayout();
             this.ignoreGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ignoredConstraintsGrid)).EndInit();
+            this.synchronizeGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.synchronizedTagsGridView)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -796,6 +844,10 @@ namespace ECDMMessageComposer
         private System.Windows.Forms.DataGridViewTextBoxColumn IgnoredConstraintTypesColumn;
         private System.Windows.Forms.Label customOrderTagTag;
         private System.Windows.Forms.TextBox customOrderTagTextBox;
+        private System.Windows.Forms.GroupBox synchronizeGroupBox;
+        private System.Windows.Forms.DataGridView synchronizedTagsGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.Button DeleteSynchronizedTagButton;
         //this.ResumeLayout(false);
     }
 }

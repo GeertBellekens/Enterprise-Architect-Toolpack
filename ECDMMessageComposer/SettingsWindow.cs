@@ -41,6 +41,8 @@ namespace ECDMMessageComposer
             this.loadGridData(this.dataTypesGridView, this.settings.dataTypesToCopy);
             //get the hidden element types
             this.loadGridData(this.hiddenElementGrid, this.settings.hiddenElementTypes);
+            //get the synchronized tagged values
+            this.loadGridData(this.synchronizedTagsGridView, this.settings.synchronizedTaggedValues);
             //copy generalizations
             this.generalCopyGeneralizationsCheckbox.Checked = this.settings.copyGeneralizations;
             //Generate to artifact package
@@ -108,6 +110,8 @@ namespace ECDMMessageComposer
             this.settings.dataTypesToCopy = this.getListFromDataGrid(this.dataTypesGridView);
             //get the hidden 
             this.settings.hiddenElementTypes = this.getListFromDataGrid(this.hiddenElementGrid);
+            //get the synchronized tags 
+            this.settings.synchronizedTaggedValues = this.getListFromDataGrid(this.synchronizedTagsGridView);
             //general options
             this.settings.copyGeneralizations = this.generalCopyGeneralizationsCheckbox.Checked;
             this.settings.redirectGeneralizationsToSubset = this.RedirectGeneralizationsCheckBox.Checked;
@@ -258,6 +262,15 @@ namespace ECDMMessageComposer
             this.enableDisable();
         }
 
-
+        private void DeleteSynchronizedTagButton_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.synchronizedTagsGridView.SelectedRows)
+            {
+                if (!row.IsNewRow)
+                {
+                    this.synchronizedTagsGridView.Rows.Remove(row);
+                }
+            }
+        }
     }
 }
