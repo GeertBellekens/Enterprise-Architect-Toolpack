@@ -20,7 +20,7 @@ namespace EADatabaseTransformer
 				return @"\Bellekens\EADatabaseTransformer\";
 			}
 		}
-		protected override string defaultConfigFilePath 
+		protected override string defaultConfigAssemblyFilePath 
 		{
 			get 
 			{

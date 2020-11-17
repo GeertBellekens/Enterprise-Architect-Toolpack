@@ -59,7 +59,7 @@ namespace EAImvertor
 				return @"\Bellekens\EAImvertor\";
 			}
 		}
-		protected override string defaultConfigFilePath 
+		protected override string defaultConfigAssemblyFilePath 
 		{
 			get 
 			{

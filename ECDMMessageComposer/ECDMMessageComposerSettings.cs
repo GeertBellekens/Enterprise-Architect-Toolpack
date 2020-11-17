@@ -22,7 +22,7 @@ namespace ECDMMessageComposer
                 return @"\Bellekens\ECDMMessageComposer\";
             }
         }
-        protected override string defaultConfigFilePath
+        protected override string defaultConfigAssemblyFilePath
         {
             get
             {

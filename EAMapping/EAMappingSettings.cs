@@ -8,7 +8,7 @@
         #region implemented abstract members of AddinSettings
 
         protected override string configSubPath => @"\Bellekens\EAMapping\";
-        protected override string defaultConfigFilePath => System.Reflection.Assembly.GetExecutingAssembly().Location;
+        protected override string defaultConfigAssemblyFilePath => System.Reflection.Assembly.GetExecutingAssembly().Location;
         #endregion
 
         /// <summary>

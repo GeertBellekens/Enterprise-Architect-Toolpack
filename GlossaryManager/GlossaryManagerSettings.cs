@@ -22,7 +22,7 @@ namespace GlossaryManager
             get { return @"\Bellekens\EDD\"; }
         }
 
-        protected override string defaultConfigFilePath
+        protected override string defaultConfigAssemblyFilePath
         {
             get { return Assembly.GetExecutingAssembly().Location; }
         }

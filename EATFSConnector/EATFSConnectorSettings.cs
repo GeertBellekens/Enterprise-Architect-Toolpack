@@ -22,7 +22,7 @@ namespace EATFSConnector
 				return @"\Bellekens\EATFSConnector\";
 			}
 		}
-		protected override string defaultConfigFilePath 
+		protected override string defaultConfigAssemblyFilePath 
 		{
 			get 
 			{

@@ -20,7 +20,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 				return @"\Geert Bellekens\EANavigator\";
 			}
 		}
-		protected override string defaultConfigFilePath 
+		protected override string defaultConfigAssemblyFilePath 
 		{
 			get 
 			{
@@ -136,19 +136,11 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			get
 			{
-				bool result;
-				if( bool.TryParse(this.currentConfig.AppSettings.Settings["quickSearchAddToDiagram"].Value, out result))
-			   	{
-			   		return result;
-			   	}
-			    else 
-			  	{
-			   		return false;
-			   	}
+				return getBooleanValue("quickSearchAddToDiagram");
 			}
 			set
 			{
-				this.currentConfig.AppSettings.Settings["quickSearchAddToDiagram"].Value = value.ToString();
+				setBooleanValue("quickSearchAddToDiagram", value);
 			}
 		}
 		public bool quickSearchSelectProjectBrowser

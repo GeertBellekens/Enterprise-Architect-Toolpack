@@ -12,7 +12,7 @@ namespace EAValidator
     {
         #region EA Add-in Framework settings
         protected override string configSubPath => @"\Bellekens\EAValidator\";
-        protected override string defaultConfigFilePath => Assembly.GetExecutingAssembly().Location;
+        protected override string defaultConfigAssemblyFilePath => Assembly.GetExecutingAssembly().Location;
         #endregion
 
         #region EA Validator settings
