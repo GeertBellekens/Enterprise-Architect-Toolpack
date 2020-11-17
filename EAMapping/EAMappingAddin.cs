@@ -246,7 +246,7 @@ namespace EAMapping
                     this.loadMapping(this.getMappingSet(this.model.selectedElement as TSF_EA.Element));
                     break;
                 case menuAbout:
-                    new AboutWindow().ShowDialog(this.model.mainEAWindow);
+                    new AboutWindow().ShowDialog(this.model?.mainEAWindow);
                     break;
                 case menuImportMapping:
                     this.startImportMapping();
@@ -255,7 +255,7 @@ namespace EAMapping
                     this.importCopybook();
                     break;
                 case menuSettings:
-                    new MappingSettingsForm(this.settings).ShowDialog(this.model.mainEAWindow);
+                    new AddinSettingsForm(new MappingSettingsForm(this.settings)).ShowDialog(this.model?.mainEAWindow);
                     break;
             }
         }

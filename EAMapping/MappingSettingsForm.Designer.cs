@@ -185,6 +185,8 @@ namespace EAMapping
             // 
             // linkTagNamesGroupBox
             // 
+            this.linkTagNamesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.linkTagNamesGroupBox.Controls.Add(this.elementTagLabel);
             this.linkTagNamesGroupBox.Controls.Add(this.elementTagTextBox);
             this.linkTagNamesGroupBox.Controls.Add(this.associationTagLabel);
@@ -208,6 +210,8 @@ namespace EAMapping
             // 
             // elementTagTextBox
             // 
+            this.elementTagTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.elementTagTextBox.Location = new System.Drawing.Point(5, 136);
             this.elementTagTextBox.Name = "elementTagTextBox";
             this.elementTagTextBox.Size = new System.Drawing.Size(222, 20);
@@ -223,6 +227,8 @@ namespace EAMapping
             // 
             // associationTagTextBox
             // 
+            this.associationTagTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.associationTagTextBox.Location = new System.Drawing.Point(5, 86);
             this.associationTagTextBox.Name = "associationTagTextBox";
             this.associationTagTextBox.Size = new System.Drawing.Size(222, 20);
@@ -238,6 +244,8 @@ namespace EAMapping
             // 
             // attributeTagTextBox
             // 
+            this.attributeTagTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.attributeTagTextBox.Location = new System.Drawing.Point(5, 40);
             this.attributeTagTextBox.Name = "attributeTagTextBox";
             this.attributeTagTextBox.Size = new System.Drawing.Size(222, 20);
