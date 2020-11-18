@@ -15,6 +15,7 @@ namespace ECDMMessageComposer
     {
         #region implemented abstract members of AddinSettings
 
+        protected override string addinName => "EAMessageComposer";
         protected override string configSubPath
         {
             get

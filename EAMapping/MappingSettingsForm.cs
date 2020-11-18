@@ -62,13 +62,11 @@ namespace EAMapping
         void OkButtonClick(object sender, EventArgs e)
         {
             this.saveChanges();
-            if (this.TopLevel) this.Close();
+            this.Close();
         }
         void CancelButtonClick(object sender, EventArgs e)
         {
-            this.settings.refresh();
-            this.refreshContents();
-            if (this.TopLevel) this.Close();
+          this.Close();
         }
         void ApplyButtonClick(object sender, EventArgs e)
         {

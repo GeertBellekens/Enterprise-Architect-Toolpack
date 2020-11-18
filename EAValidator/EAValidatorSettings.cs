@@ -11,6 +11,7 @@ namespace EAValidator
     public class EAValidatorSettings : EAAddinFramework.Utilities.AddinSettings
     {
         #region EA Add-in Framework settings
+        protected override string addinName => "EAValidator";
         protected override string configSubPath => @"\Bellekens\EAValidator\";
         protected override string defaultConfigAssemblyFilePath => Assembly.GetExecutingAssembly().Location;
         #endregion

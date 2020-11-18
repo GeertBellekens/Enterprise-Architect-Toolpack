@@ -17,6 +17,7 @@ namespace GlossaryManager
         {
             this.model = model;
         }
+        protected override string addinName => "EDD";
         protected override string configSubPath
         {
             get { return @"\Bellekens\EDD\"; }

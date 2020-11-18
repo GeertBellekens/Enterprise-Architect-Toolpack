@@ -15,6 +15,7 @@ namespace EATFSConnector
 	{
 		#region implemented abstract members of AddinSettings
 
+		protected override string addinName => "EATFSConnector";
 		protected override string configSubPath
 		{
 			get 

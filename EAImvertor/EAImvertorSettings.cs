@@ -19,7 +19,7 @@ namespace EAImvertor
 	/// </summary>
 	public class EAImvertorSettings : EAAddinFramework.Utilities.AddinSettings
 	{
-		private TSF_EA.Model model {get;set;}
+		protected override string addinName => "EAImvertor";
 		public EAImvertorSettings(TSF_EA.Model model)
 		{
 			this.model = model;

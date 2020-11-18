@@ -6,7 +6,7 @@
     public class EAMappingSettings : EAAddinFramework.Utilities.AddinSettings, EAAddinFramework.Mapping.MappingSettings
     {
         #region implemented abstract members of AddinSettings
-
+        protected override string addinName => "EAMapping";
         protected override string configSubPath => @"\Bellekens\EAMapping\";
         protected override string defaultConfigAssemblyFilePath => System.Reflection.Assembly.GetExecutingAssembly().Location;
         #endregion
@@ -77,8 +77,8 @@
             get => this.getValue("contextQuery");
             set => this.setValue("contextQuery", value);
         }
-        
 
+        
     }
 }
 

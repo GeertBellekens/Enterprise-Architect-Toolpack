@@ -12,7 +12,7 @@ namespace EADatabaseTransformer
 	public class EADatabaseTransformerSettings : EAAddinFramework.Utilities.AddinSettings
 	{
 		#region implemented abstract members of AddinSettings
-
+		protected override string addinName => "EADatabaseTransformer";
 		protected override string configSubPath
 		{
 			get 

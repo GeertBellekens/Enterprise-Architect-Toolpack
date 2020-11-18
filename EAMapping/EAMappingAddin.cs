@@ -197,6 +197,8 @@ namespace EAMapping
         {
             // initialize the model
             this.model = new TSF_EA.Model(Repository, true);
+            //set model to settings
+            this.settings.model = this.model;
             //close any existing tabs
             this.model.closeTab(mappingControlName);
             // indicate that we are now fully loaded

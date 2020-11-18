@@ -12,7 +12,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 	/// </summary>
 	public class NavigatorSettings:EAAddinFramework.Utilities.AddinSettings
 	{
-		
+		protected override string addinName => "EANavigator";
 		protected override string configSubPath
 		{
 			get 
