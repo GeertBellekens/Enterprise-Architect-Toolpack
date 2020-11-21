@@ -245,6 +245,7 @@ namespace EAMapping
             switch (ItemName)
             {
                 case menuMapAsSource:
+                    this.settings.setContextConfig(this.model.selectedElement);
                     this.loadMapping(this.getMappingSet(this.model.selectedElement as TSF_EA.Element));
                     break;
                 case menuAbout:
@@ -315,7 +316,8 @@ namespace EAMapping
             {
                 return;
             }
-
+            //set the settings for the source element
+            this.settings.setContextConfig(sourceElement);
             //first get the existing mappingSet for the selected source and target
             var mappingSet = EA_MP.MappingFactory.createMappingSet(sourceElement, targetElement, this.settings);
             mappingSet.loadAllMappings();

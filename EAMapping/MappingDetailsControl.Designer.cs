@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.fromLabel = new System.Windows.Forms.Label();
             this.fromTextBox = new System.Windows.Forms.TextBox();
             this.toTextBox = new System.Windows.Forms.TextBox();
             this.toLabel = new System.Windows.Forms.Label();
-            this.toolTip = new System.Windows.Forms.ToolTip();
-            this.mappingLogicPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.addLogicButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
+            this.mappingLogicPanel = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
             // 
             // fromLabel
@@ -76,23 +77,6 @@
             this.toLabel.TabIndex = 2;
             this.toLabel.Text = "To";
             // 
-            // mappingLogicPanel
-            // 
-            this.mappingLogicPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mappingLogicPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mappingLogicPanel.ColumnCount = 1;
-            this.mappingLogicPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.mappingLogicPanel.Location = new System.Drawing.Point(38, 54);
-            this.mappingLogicPanel.Name = "mappingLogicPanel";
-            this.mappingLogicPanel.RowCount = 3;
-            this.mappingLogicPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.mappingLogicPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.mappingLogicPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.mappingLogicPanel.Size = new System.Drawing.Size(184, 110);
-            this.mappingLogicPanel.TabIndex = 7;
-            // 
             // addLogicButton
             // 
             this.addLogicButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -117,6 +101,23 @@
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
+            // mappingLogicPanel
+            // 
+            this.mappingLogicPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mappingLogicPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mappingLogicPanel.ColumnCount = 1;
+            this.mappingLogicPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.mappingLogicPanel.Location = new System.Drawing.Point(38, 54);
+            this.mappingLogicPanel.Name = "mappingLogicPanel";
+            this.mappingLogicPanel.RowCount = 3;
+            this.mappingLogicPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mappingLogicPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mappingLogicPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.mappingLogicPanel.Size = new System.Drawing.Size(184, 110);
+            this.mappingLogicPanel.TabIndex = 7;
+            // 
             // MappingDetailsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -130,6 +131,7 @@
             this.Controls.Add(this.toLabel);
             this.Controls.Add(this.fromTextBox);
             this.Controls.Add(this.fromLabel);
+            this.MinimumSize = new System.Drawing.Size(0, 169);
             this.Name = "MappingDetailsControl";
             this.Size = new System.Drawing.Size(225, 169);
             this.Enter += new System.EventHandler(this.MappingDetailsControl_Enter);
