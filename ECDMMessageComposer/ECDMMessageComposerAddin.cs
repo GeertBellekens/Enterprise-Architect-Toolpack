@@ -41,6 +41,7 @@ namespace ECDMMessageComposer
         {
             //initialize the model
             this.initialize(Repository);
+            this.settings.model = this.EAModel;
         }
         /// <summary>
         /// initialize the add-in class
@@ -82,7 +83,7 @@ namespace ECDMMessageComposer
                     new AboutWindow().ShowDialog();
                     break;
                 case menuSettings:
-                    new SettingsWindow(this.settings).ShowDialog();
+                    new AddinSettingsForm(new SettingsWindow(this.settings)).ShowDialog(this.EAModel?.mainEAWindow);
                     //in case the tagged values have changed names
                     this.checkTaggedValueTypes();
                     break;
@@ -217,6 +218,8 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                 }
                 if (targetPackage != null)
                 {
+                    //set the settings based on the target package
+                    this.settings.setContextConfig(targetPackage);
                     //save target package as tagged value on schema artifact
                     if (!this.settings.generateToArtifactPackage)
                     {

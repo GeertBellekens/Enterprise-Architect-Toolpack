@@ -15,16 +15,19 @@ namespace ECDMMessageComposer
     /// <summary>
     /// Description of SettingsWindow.
     /// </summary>
-    public partial class SettingsWindow : Form
+    public partial class SettingsWindow : EAAddinFramework.Utilities.AddinSettingsFormBase
     {
-        private ECDMMessageComposerSettings settings;
-        public SettingsWindow(ECDMMessageComposerSettings settings)
+        private ECDMMessageComposerSettings messageComposerSettings
+        {        
+            get => (ECDMMessageComposerSettings)this.settings;
+            set => this.settings = value;   
+        }
+        public SettingsWindow(ECDMMessageComposerSettings settings):base(settings)
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             this.InitializeComponent();
-            this.settings = settings;
             this.loadData();
             this.enableDisable();
 
@@ -32,58 +35,58 @@ namespace ECDMMessageComposer
         private void loadData()
         {
             // get the ignored stereotypes
-            this.loadGridData(this.ignoredStereoTypesGrid, this.settings.ignoredStereotypes);
+            this.loadGridData(this.ignoredStereoTypesGrid, this.messageComposerSettings.ignoredStereotypes);
             //get the ignored tagged values
-            this.loadGridData(this.ignoredTaggedValuesGrid, this.settings.ignoredTaggedValues);
+            this.loadGridData(this.ignoredTaggedValuesGrid, this.messageComposerSettings.ignoredTaggedValues);
             //get the ignored constraints
-            this.loadGridData(this.ignoredConstraintsGrid, this.settings.ignoredConstraintTypes);
+            this.loadGridData(this.ignoredConstraintsGrid, this.messageComposerSettings.ignoredConstraintTypes);
             //get the datatypes to copy
-            this.loadGridData(this.dataTypesGridView, this.settings.dataTypesToCopy);
+            this.loadGridData(this.dataTypesGridView, this.messageComposerSettings.dataTypesToCopy);
             //get the hidden element types
-            this.loadGridData(this.hiddenElementGrid, this.settings.hiddenElementTypes);
+            this.loadGridData(this.hiddenElementGrid, this.messageComposerSettings.hiddenElementTypes);
             //get the synchronized tagged values
-            this.loadGridData(this.synchronizedTagsGridView, this.settings.synchronizedTaggedValues);
+            this.loadGridData(this.synchronizedTagsGridView, this.messageComposerSettings.synchronizedTaggedValues);
             //copy generalizations
-            this.generalCopyGeneralizationsCheckbox.Checked = this.settings.copyGeneralizations;
+            this.generalCopyGeneralizationsCheckbox.Checked = this.messageComposerSettings.copyGeneralizations;
             //Generate to artifact package
-            this.generateToArtifactPackageCheckBox.Checked = this.settings.generateToArtifactPackage;
+            this.generateToArtifactPackageCheckBox.Checked = this.messageComposerSettings.generateToArtifactPackage;
             //generate diagram checkbox
-            this.generateDiagramCheckbox.Checked = this.settings.generateDiagram;
+            this.generateDiagramCheckbox.Checked = this.messageComposerSettings.generateDiagram;
             //addDataTypes checkbox
-            this.addDataTypesCheckBox.Checked = this.settings.addDataTypes;
+            this.addDataTypesCheckBox.Checked = this.messageComposerSettings.addDataTypes;
             //addSourceElements checkbox
-            this.addSourceElementCheckBox.Checked = this.settings.addSourceElements;
+            this.addSourceElementCheckBox.Checked = this.messageComposerSettings.addSourceElements;
             //copySourceElements checkbox
-            this.copyDatatypesCheckbox.Checked = this.settings.copyDataTypes;
+            this.copyDatatypesCheckbox.Checked = this.messageComposerSettings.copyDataTypes;
             //limit datatypes checkbox
-            this.limitDatatypesCheckBox.Checked = this.settings.limitDataTypes;
+            this.limitDatatypesCheckBox.Checked = this.messageComposerSettings.limitDataTypes;
             //copy Generalizations checkbox
-            this.copyDataTypeGeneralizationsCheckBox.Checked = this.settings.copyDataTypeGeneralizations;
+            this.copyDataTypeGeneralizationsCheckBox.Checked = this.messageComposerSettings.copyDataTypeGeneralizations;
             //Attribute options
-            this.keepAttributeOrderRadio.Checked = this.settings.keepOriginalAttributeOrder;
-            this.setAttributesOrderZeroRadio.Checked = this.settings.setAttributeOrderZero;
-            this.addNewAttributesLastRadio.Checked = !this.settings.setAttributeOrderZero && !this.settings.keepOriginalAttributeOrder;
+            this.keepAttributeOrderRadio.Checked = this.messageComposerSettings.keepOriginalAttributeOrder;
+            this.setAttributesOrderZeroRadio.Checked = this.messageComposerSettings.setAttributeOrderZero;
+            this.addNewAttributesLastRadio.Checked = !this.messageComposerSettings.setAttributeOrderZero && !this.messageComposerSettings.keepOriginalAttributeOrder;
             //sourceAttributeTag
-            this.attributeTagTextBox.Text = this.settings.sourceAttributeTagName;
+            this.attributeTagTextBox.Text = this.messageComposerSettings.sourceAttributeTagName;
             //sourceAssociationTag
-            this.associationTagTextBox.Text = this.settings.sourceAssociationTagName;
+            this.associationTagTextBox.Text = this.messageComposerSettings.sourceAssociationTagName;
             //redirectGeneralizationsToSubset
-            this.RedirectGeneralizationsCheckBox.Checked = this.settings.redirectGeneralizationsToSubset;
-            this.checkSecurityCheckBox.Checked = this.settings.checkSecurity;
-            this.deleteUnusedElementsCheckBox.Checked = this.settings.deleteUnusedSchemaElements;
-            this.usePackageSubsetsOnlyCheckBox.Checked = this.settings.usePackageSchemasOnly;
+            this.RedirectGeneralizationsCheckBox.Checked = this.messageComposerSettings.redirectGeneralizationsToSubset;
+            this.checkSecurityCheckBox.Checked = this.messageComposerSettings.checkSecurity;
+            this.deleteUnusedElementsCheckBox.Checked = this.messageComposerSettings.deleteUnusedSchemaElements;
+            this.usePackageSubsetsOnlyCheckBox.Checked = this.messageComposerSettings.usePackageSchemasOnly;
             //notes options
-            this.prefixNotesCheckBox.Checked = this.settings.prefixNotes;
-            this.notesPrefixTextBox.Text = this.settings.prefixNotesText;
-            this.keepNotesInSyncCheckBox.Checked = this.settings.keepNotesInSync;
+            this.prefixNotesCheckBox.Checked = this.messageComposerSettings.prefixNotes;
+            this.notesPrefixTextBox.Text = this.messageComposerSettings.prefixNotesText;
+            this.keepNotesInSyncCheckBox.Checked = this.messageComposerSettings.keepNotesInSync;
             //xml schema options
-            this.noAttributeDependenciesCheckbox.Checked = this.settings.dontCreateAttributeDependencies;
-            this.orderAssociationsCheckbox.Checked = this.settings.orderAssociationsAlphabetically;
-            this.orderAssociationsAmongstAttributesCheckbox.Checked = this.settings.orderAssociationsAmongstAttributes;
-            this.choiceBeforeAttributesCheckbox.Checked = this.settings.orderXmlChoiceBeforeAttributes;
-            this.customOrderTagTextBox.Text = this.settings.customPositionTag;
-            this.tvInsteadOfTraceCheckBox.Checked = this.settings.tvInsteadOfTrace;
-            this.elementTagTextBox.Text = this.settings.elementTagName;
+            this.noAttributeDependenciesCheckbox.Checked = this.messageComposerSettings.dontCreateAttributeDependencies;
+            this.orderAssociationsCheckbox.Checked = this.messageComposerSettings.orderAssociationsAlphabetically;
+            this.orderAssociationsAmongstAttributesCheckbox.Checked = this.messageComposerSettings.orderAssociationsAmongstAttributes;
+            this.choiceBeforeAttributesCheckbox.Checked = this.messageComposerSettings.orderXmlChoiceBeforeAttributes;
+            this.customOrderTagTextBox.Text = this.messageComposerSettings.customPositionTag;
+            this.tvInsteadOfTraceCheckBox.Checked = this.messageComposerSettings.tvInsteadOfTrace;
+            this.elementTagTextBox.Text = this.messageComposerSettings.elementTagName;
             
         }
         private void enableDisable()
@@ -101,56 +104,57 @@ namespace ECDMMessageComposer
         private void saveChanges()
         {
             //get the stereotypes from the grid
-            this.settings.ignoredStereotypes = this.getListFromDataGrid(this.ignoredStereoTypesGrid);
+            this.messageComposerSettings.ignoredStereotypes = this.getListFromDataGrid(this.ignoredStereoTypesGrid);
             //get the tagged values from the grid
-            this.settings.ignoredTaggedValues = this.getListFromDataGrid(this.ignoredTaggedValuesGrid);
+            this.messageComposerSettings.ignoredTaggedValues = this.getListFromDataGrid(this.ignoredTaggedValuesGrid);
             //get the constraint types from the grid
-            this.settings.ignoredConstraintTypes = this.getListFromDataGrid(this.ignoredConstraintsGrid);
+            this.messageComposerSettings.ignoredConstraintTypes = this.getListFromDataGrid(this.ignoredConstraintsGrid);
             //get the datatypes from the grid
-            this.settings.dataTypesToCopy = this.getListFromDataGrid(this.dataTypesGridView);
+            this.messageComposerSettings.dataTypesToCopy = this.getListFromDataGrid(this.dataTypesGridView);
             //get the hidden 
-            this.settings.hiddenElementTypes = this.getListFromDataGrid(this.hiddenElementGrid);
+            this.messageComposerSettings.hiddenElementTypes = this.getListFromDataGrid(this.hiddenElementGrid);
             //get the synchronized tags 
-            this.settings.synchronizedTaggedValues = this.getListFromDataGrid(this.synchronizedTagsGridView);
+            this.messageComposerSettings.synchronizedTaggedValues = this.getListFromDataGrid(this.synchronizedTagsGridView);
             //general options
-            this.settings.copyGeneralizations = this.generalCopyGeneralizationsCheckbox.Checked;
-            this.settings.redirectGeneralizationsToSubset = this.RedirectGeneralizationsCheckBox.Checked;
+            this.messageComposerSettings.copyGeneralizations = this.generalCopyGeneralizationsCheckbox.Checked;
+            this.messageComposerSettings.redirectGeneralizationsToSubset = this.RedirectGeneralizationsCheckBox.Checked;
 
-            this.settings.checkSecurity = this.checkSecurityCheckBox.Checked;
-            this.settings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
-            this.settings.usePackageSchemasOnly = this.usePackageSubsetsOnlyCheckBox.Checked;
-            this.settings.generateToArtifactPackage = this.generateToArtifactPackageCheckBox.Checked;
+            this.messageComposerSettings.checkSecurity = this.checkSecurityCheckBox.Checked;
+            this.messageComposerSettings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
+            this.messageComposerSettings.usePackageSchemasOnly = this.usePackageSubsetsOnlyCheckBox.Checked;
+            this.messageComposerSettings.generateToArtifactPackage = this.generateToArtifactPackageCheckBox.Checked;
             //notes options
-            this.settings.prefixNotes = this.prefixNotesCheckBox.Checked;
-            this.settings.prefixNotesText = this.notesPrefixTextBox.Text;
-            this.settings.keepNotesInSync = this.keepNotesInSyncCheckBox.Checked;
+            this.messageComposerSettings.prefixNotes = this.prefixNotesCheckBox.Checked;
+            this.messageComposerSettings.prefixNotesText = this.notesPrefixTextBox.Text;
+            this.messageComposerSettings.keepNotesInSync = this.keepNotesInSyncCheckBox.Checked;
             //diagram options
-            this.settings.generateDiagram = this.generateDiagramCheckbox.Checked;
-            this.settings.addDataTypes = this.addDataTypesCheckBox.Checked;
-            this.settings.addSourceElements = this.addSourceElementCheckBox.Checked;
+            this.messageComposerSettings.generateDiagram = this.generateDiagramCheckbox.Checked;
+            this.messageComposerSettings.addDataTypes = this.addDataTypesCheckBox.Checked;
+            this.messageComposerSettings.addSourceElements = this.addSourceElementCheckBox.Checked;
             //datatype options
-            this.settings.copyDataTypes = this.copyDatatypesCheckbox.Checked;
-            this.settings.limitDataTypes = this.limitDatatypesCheckBox.Checked;
-            this.settings.copyDataTypeGeneralizations = this.copyDataTypeGeneralizationsCheckBox.Checked;
+            this.messageComposerSettings.copyDataTypes = this.copyDatatypesCheckbox.Checked;
+            this.messageComposerSettings.limitDataTypes = this.limitDatatypesCheckBox.Checked;
+            this.messageComposerSettings.copyDataTypeGeneralizations = this.copyDataTypeGeneralizationsCheckBox.Checked;
             //Attribute options
-            this.settings.keepOriginalAttributeOrder = this.keepAttributeOrderRadio.Checked;
-            this.settings.setAttributeOrderZero = this.setAttributesOrderZeroRadio.Checked;
+            this.messageComposerSettings.keepOriginalAttributeOrder = this.keepAttributeOrderRadio.Checked;
+            this.messageComposerSettings.setAttributeOrderZero = this.setAttributesOrderZeroRadio.Checked;
             //tracebility tag names
-            this.settings.sourceAttributeTagName = this.attributeTagTextBox.Text;
-            this.settings.sourceAssociationTagName = this.associationTagTextBox.Text;
+            this.messageComposerSettings.sourceAttributeTagName = this.attributeTagTextBox.Text;
+            this.messageComposerSettings.sourceAssociationTagName = this.associationTagTextBox.Text;
             //xml schema settings
-            this.settings.dontCreateAttributeDependencies = this.noAttributeDependenciesCheckbox.Checked;
-            this.settings.orderAssociationsAlphabetically = this.orderAssociationsCheckbox.Checked;
-            this.settings.orderAssociationsAmongstAttributes = this.orderAssociationsAmongstAttributesCheckbox.Checked;
-            this.settings.orderXmlChoiceBeforeAttributes = this.choiceBeforeAttributesCheckbox.Checked;
-            this.settings.customPositionTag = this.customOrderTagTextBox.Text;
-            this.settings.tvInsteadOfTrace = this.tvInsteadOfTraceCheckBox.Checked;
-            this.settings.elementTagName = this.elementTagTextBox.Text;
+            this.messageComposerSettings.dontCreateAttributeDependencies = this.noAttributeDependenciesCheckbox.Checked;
+            this.messageComposerSettings.orderAssociationsAlphabetically = this.orderAssociationsCheckbox.Checked;
+            this.messageComposerSettings.orderAssociationsAmongstAttributes = this.orderAssociationsAmongstAttributesCheckbox.Checked;
+            this.messageComposerSettings.orderXmlChoiceBeforeAttributes = this.choiceBeforeAttributesCheckbox.Checked;
+            this.messageComposerSettings.customPositionTag = this.customOrderTagTextBox.Text;
+            this.messageComposerSettings.tvInsteadOfTrace = this.tvInsteadOfTraceCheckBox.Checked;
+            this.messageComposerSettings.elementTagName = this.elementTagTextBox.Text;
             //save changes
-            this.settings.save();
+            this.messageComposerSettings.save();
         }
         private void loadGridData(DataGridView datagrid, List<string> data)
         {
+            datagrid.Rows.Clear();
             foreach (var rowvalue in data)
             {
                 datagrid.Rows.Add(rowvalue);
@@ -271,6 +275,11 @@ namespace ECDMMessageComposer
                     this.synchronizedTagsGridView.Rows.Remove(row);
                 }
             }
+        }
+
+        public override void refreshContents()
+        {
+            this.loadData();
         }
     }
 }
