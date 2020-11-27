@@ -155,6 +155,8 @@ namespace ECDMMessageComposer
             // 
             // ignoredStereoTypesGrid
             // 
+            this.ignoredStereoTypesGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ignoredStereoTypesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ignoredStereoTypesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.StereotypeColumn});
@@ -212,12 +214,13 @@ namespace ECDMMessageComposer
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(75, 23);
             this.applyButton.TabIndex = 4;
-            this.applyButton.Text = "Apply";
+            this.applyButton.Text = "Save";
             this.applyButton.UseVisualStyleBackColor = true;
             this.applyButton.Click += new System.EventHandler(this.ApplyButtonClick);
             // 
             // ignoredTaggedValuesGrid
             // 
+            this.ignoredTaggedValuesGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ignoredTaggedValuesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ignoredTaggedValuesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1});
@@ -708,6 +711,7 @@ namespace ECDMMessageComposer
             // 
             // ignoredConstraintsGrid
             // 
+            this.ignoredConstraintsGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ignoredConstraintsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ignoredConstraintsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IgnoredConstraintTypesColumn});
@@ -738,6 +742,7 @@ namespace ECDMMessageComposer
             // 
             // synchronizeGroupBox
             // 
+            this.synchronizeGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.synchronizeGroupBox.Controls.Add(this.synchronizedTagsGridView);
             this.synchronizeGroupBox.Controls.Add(this.DeleteSynchronizedTagButton);
             this.synchronizeGroupBox.Location = new System.Drawing.Point(590, 201);

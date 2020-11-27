@@ -78,7 +78,7 @@ namespace EAMapping
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(75, 23);
             this.applyButton.TabIndex = 12;
-            this.applyButton.Text = "Apply";
+            this.applyButton.Text = "Save";
             this.applyButton.UseVisualStyleBackColor = true;
             this.applyButton.Click += new System.EventHandler(this.ApplyButtonClick);
             // 
