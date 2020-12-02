@@ -803,7 +803,6 @@ namespace ECDMMessageComposer
             this.Controls.Add(this.ignoreGroupBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(842, 725);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(842, 725);
             this.Name = "SettingsWindow";
