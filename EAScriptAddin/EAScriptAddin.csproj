@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>EAScriptAddin</RootNamespace>
     <AssemblyName>EAScriptAddin</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -82,9 +82,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\EARefDataSplitter\EARefDataSplitter\EARefDataSplitter.csproj">
+      <Project>{66d44b95-3d44-4799-8836-d0e17a466931}</Project>
+      <Name>EARefDataSplitter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\EAAddinFramework.csproj">
       <Project>{4161DD26-375F-4744-BA96-B70366E19A78}</Project>
       <Name>EAAddinFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TextHelper\TextHelper\TextHelper.csproj">
+      <Project>{377dce16-fbb7-4611-8b03-40bdf76ffe9b}</Project>
+      <Name>TextHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UML-Tooling-Framework\UMLToolingFramework\UMLToolingFramework.csproj">
       <Project>{0FC55607-C9D0-442D-941C-F23AD00CB318}</Project>

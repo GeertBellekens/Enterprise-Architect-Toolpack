@@ -89,6 +89,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERXImporter", "ERXImporter\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAJSON", "EAJSON\EAJSON.csproj", "{1DAA7217-BB2F-4521-9764-F5759F594447}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EARefDataSplitter", "..\EARefDataSplitter\EARefDataSplitter\EARefDataSplitter.csproj", "{66D44B95-3D44-4799-8836-D0E17A466931}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextHelper", "..\TextHelper\TextHelper\TextHelper.csproj", "{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -331,6 +335,22 @@ Global
 		{1DAA7217-BB2F-4521-9764-F5759F594447}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1DAA7217-BB2F-4521-9764-F5759F594447}.Release|x86.ActiveCfg = Release|Any CPU
 		{1DAA7217-BB2F-4521-9764-F5759F594447}.Release|x86.Build.0 = Release|Any CPU
+		{66D44B95-3D44-4799-8836-D0E17A466931}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66D44B95-3D44-4799-8836-D0E17A466931}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66D44B95-3D44-4799-8836-D0E17A466931}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{66D44B95-3D44-4799-8836-D0E17A466931}.Debug|x86.Build.0 = Debug|Any CPU
+		{66D44B95-3D44-4799-8836-D0E17A466931}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66D44B95-3D44-4799-8836-D0E17A466931}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66D44B95-3D44-4799-8836-D0E17A466931}.Release|x86.ActiveCfg = Release|Any CPU
+		{66D44B95-3D44-4799-8836-D0E17A466931}.Release|x86.Build.0 = Release|Any CPU
+		{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}.Debug|x86.Build.0 = Debug|Any CPU
+		{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}.Release|x86.ActiveCfg = Release|Any CPU
+		{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
