@@ -39,9 +39,7 @@ namespace EATFSConnector
         
         //private attributes
         private EATFSConnectorSettings settings = new EATFSConnectorSettings();
-        private UML.Extended.UMLModel model;
-		private TSF_EA.Model EAModel {get{return this.model as TSF_EA.Model;}}
-		private bool fullyLoaded = false;
+        
         /// <summary>
         /// constructor, set menu names
         /// </summary>
@@ -50,13 +48,6 @@ namespace EATFSConnector
         	this.menuHeader = menuName;
 			this.menuOptions = new string[]{menuSynchTFStoEA,menuSynchEAtoTFS,menuSetProject,menuGoToTFSWeb, menuSettings, menuAbout};
         }
-       	public override void EA_FileOpen(EA.Repository Repository)
-		{
-			// initialize the model
-	        this.model = new TSF_EA.Model(Repository);
-			// indicate that we are now fully loaded
-	        this.fullyLoaded = true;
-		}
        	/// <summary>
         /// The EA_GetMenuState event enables the Add-In to set a particular menu option to either enabled or disabled. This is useful when dealing with locked packages and other situations where it is convenient to show a menu option, but not enable it for use.
         /// This event is raised just before Enterprise Architect has to show particular menu options to the user. Its use is described in the Define Menu Items topic.
@@ -119,10 +110,10 @@ namespace EATFSConnector
             		goToTFSWeb();
             		break;
 		        case menuAbout :
-            		new AboutWindow().ShowDialog(EAModel.mainEAWindow);
+            		new AboutWindow().ShowDialog(model.mainEAWindow);
 		            break;
 	            case menuSettings:
-		            new TFSConnectorSettingsForm(this.settings,EAModel).ShowDialog(EAModel.mainEAWindow);
+		            new TFSConnectorSettingsForm(this.settings,model).ShowDialog(model.mainEAWindow);
 	                break;
             }
         }
@@ -235,7 +226,7 @@ namespace EATFSConnector
 	    			if (selectedPackage != null)
 	    			{
 	        			var selectImportTypes = new SelectImportTypesForm(this.settings);
-	        			if (selectImportTypes.ShowDialog(this.EAModel.mainEAWindow) == DialogResult.OK)
+	        			if (selectImportTypes.ShowDialog(this.model.mainEAWindow) == DialogResult.OK)
 	        			{
 	        				if (selectImportTypes.allTypes)
 	        				{
@@ -296,7 +287,7 @@ namespace EATFSConnector
 			var selectedRoot = this.model.selectedItem as TSF_EA.RootPackage;
 			if (selectedRoot != null)
 			{
-				if (projectForm.ShowDialog(EAModel.mainEAWindow) == DialogResult.OK
+				if (projectForm.ShowDialog(model.mainEAWindow) == DialogResult.OK
 				   && projectForm.projectName.Length > 0)
 				{
 					selectedRoot.notes = "project=" + projectForm.projectName;
@@ -309,7 +300,7 @@ namespace EATFSConnector
 				var selectedPackage = this.model.selectedItem as TSF_EA.Package;
 				if (selectedPackage != null)
 				{
-					if (projectForm.ShowDialog(EAModel.mainEAWindow) == DialogResult.OK
+					if (projectForm.ShowDialog(model.mainEAWindow) == DialogResult.OK
 					   && projectForm.projectName.Length > 0)
 					{
 						selectedPackage.addTaggedValue("project",projectForm.projectName);
@@ -323,11 +314,11 @@ namespace EATFSConnector
 		/// <returns>the TFSProject based on the currently selected item</returns>
         private TFS.TFSProject getCurrentProject()
         {
-			var currentProject = TFS.TFSProject.getCurrentProject(this.model.selectedElement as TSF_EA.Element,this.settings.getTFSUrl(this.EAModel),this.settings);
+			var currentProject = TFS.TFSProject.getCurrentProject(this.model.selectedElement as TSF_EA.Element,this.settings.getTFSUrl(this.model),this.settings);
 			if (currentProject == null)
 			{
         		//if not found return default project
-        		currentProject = new TFS.TFSProject(settings.defaultProject,this.settings.getTFSUrl(this.EAModel),this.settings);
+        		currentProject = new TFS.TFSProject(settings.defaultProject,this.settings.getTFSUrl(this.model),this.settings);
 			}
 			return currentProject;
         }

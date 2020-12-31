@@ -32,8 +32,6 @@ namespace EAMapping
 
         const string mappingControlName = "Mapping";
         //private attributes
-        private TSF_EA.Model model = null;
-        private bool fullyLoaded = false;
         private MappingControlGUI _mappingControl;
         private EAMappingSettings settings = new EAMappingSettings();
         private string[] menuSubAddNodeOptions = { string.Empty };
@@ -196,13 +194,11 @@ namespace EAMapping
         public override void EA_FileOpen(EA.Repository Repository)
         {
             // initialize the model
-            this.model = new TSF_EA.Model(Repository, true);
+            base.EA_FileOpen(Repository);
             //set model to settings
             this.settings.model = this.model;
             //close any existing tabs
             this.model.closeTab(mappingControlName);
-            // indicate that we are now fully loaded
-            this.fullyLoaded = true;
         }
 
         public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)

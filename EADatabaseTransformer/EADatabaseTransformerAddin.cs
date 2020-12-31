@@ -30,8 +30,6 @@ namespace EADatabaseTransformer
         
         
         //private attributes
-        private UTF_EA.Model model = null;
-        private bool fullyLoaded = false;
         private EADatabaseTransformerSettings settings;
         private DBCompareControl _dbCompareControl;
         private DB2DatabaseTransformer _databaseTransformer;
@@ -133,12 +131,9 @@ namespace EADatabaseTransformer
 		}
 		public override void EA_FileOpen(EA.Repository Repository)
 		{
-			// initialize the model
-	        this.model = new UTF_EA.Model(Repository, true);
+			base.EA_FileOpen(Repository);
 	        // preload the database factory
 	        DB2DatabaseTransformer.getFactory(this.model, DB2StrategyFactory.getInstance());
-			// indicate that we are now fully loaded
-	        this.fullyLoaded = true;
 		}
         /// <summary>
         /// Called once Menu has been opened to see what menu items should active.

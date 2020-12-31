@@ -45,10 +45,9 @@ namespace TSF.UmlToolingFramework.EANavigator
         const string eaOperationGUIDTagName = "operation_guid";
 
         private int maxQuickSearchResults = 10;
-        private UTF_EA.Model model = null;
         private NavigatorControl _navigatorControl;
 
-        private bool fullyLoaded = false;
+        
         internal NavigatorSettings settings { get; set; }
 
         public EAAddin() : base()
@@ -102,10 +101,7 @@ namespace TSF.UmlToolingFramework.EANavigator
         }
         public override void EA_FileOpen(EA.Repository Repository)
         {
-            // initialize the model
-            this.model = new UTF_EA.Model(Repository);
-            // indicate that we are now fully loaded
-            this.fullyLoaded = true;
+            base.EA_FileOpen(Repository);
             // clear the control
             if (this.navigatorControl != null)
             {
@@ -581,10 +577,7 @@ namespace TSF.UmlToolingFramework.EANavigator
                 }
             }
         }
-        public override void EA_FileClose(EA.Repository Repository)
-        {
-            this.fullyLoaded = false;
-        }
+
         /// <summary>
         /// selects the element with the GUID in on the clipboard.
         /// If the clipboard doesn't contain a GUID we will ask the user to input one.

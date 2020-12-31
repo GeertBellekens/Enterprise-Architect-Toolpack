@@ -22,9 +22,6 @@ namespace ECDMMessageComposer
         const string menuSettings = "&Settings";
         const string targetPackageTagName = "targetPackage";
 
-
-        private UML.Extended.UMLModel model;
-        private TSF_EA.Model EAModel => this.model as TSF_EA.Model;
         private SchemaBuilderFactory schemaFactory;
         private ECDMMessageComposerSettings settings = new ECDMMessageComposerSettings();
         public ECDMMessageComposerAddin() : base()
@@ -39,9 +36,10 @@ namespace ECDMMessageComposer
         /// Poll its members to retrieve model data and user interface status information.</param>
         public override void EA_FileOpen(EA.Repository Repository)
         {
+            base.EA_FileOpen(Repository);
             //initialize the model
             this.initialize(Repository);
-            this.settings.model = this.EAModel;
+            this.settings.model = this.model;
         }
         /// <summary>
         /// initialize the add-in class
@@ -49,8 +47,7 @@ namespace ECDMMessageComposer
         /// <param name="Repository"></param>
         private void initialize(EA.Repository Repository)
         {
-            //initialize the model
-            this.model = new TSF_EA.Model(Repository);
+            //initialize factory
             this.schemaFactory = EASchemaBuilderFactory.getInstance(this.model);
         }
 
@@ -83,7 +80,7 @@ namespace ECDMMessageComposer
                     new AboutWindow().ShowDialog();
                     break;
                 case menuSettings:
-                    new AddinSettingsForm(new SettingsWindow(this.settings)).ShowDialog(this.EAModel?.mainEAWindow);
+                    new AddinSettingsForm(new SettingsWindow(this.settings)).ShowDialog(this.model?.mainEAWindow);
                     //in case the tagged values have changed names
                     this.checkTaggedValueTypes();
                     break;
@@ -113,7 +110,11 @@ namespace ECDMMessageComposer
         {
             //for some reason EA seems to sometimes create a new instance of the add-in.
             //to avoid nullpointer exception we inititialize the model and factory again if needed
-            if (this.model == null || this.schemaFactory == null)
+            if (this.model == null)
+            {
+                base.EA_FileOpen(Repository);
+            }
+            if (this.schemaFactory == null)
             {
                 this.initialize(Repository);
             }
@@ -130,7 +131,7 @@ namespace ECDMMessageComposer
         }
         public override void EA_OnOutputItemDoubleClicked(EA.Repository Repository, string TabName, string LineText, long ID)
         {
-            var outputElement = this.EAModel.getElementWrapperByID((int)ID);
+            var outputElement = this.model.getElementWrapperByID((int)ID);
             if (outputElement != null)
             {
                 outputElement.select();
@@ -145,27 +146,27 @@ namespace ECDMMessageComposer
         {
             if (this.model != null)
             {
-                if (!this.EAModel.taggedValueTypeExists(this.settings.sourceAttributeTagName))
+                if (!this.model.taggedValueTypeExists(this.settings.sourceAttributeTagName))
                 {
                     const string sourceAttributeTagDetail = @"Type=RefGUID;
 Values=Attribute;
 AppliesTo=Attribute;";
-                    this.EAModel.addTaggedValueType(this.settings.sourceAttributeTagName, "is derived from this Attribute", sourceAttributeTagDetail);
+                    this.model.addTaggedValueType(this.settings.sourceAttributeTagName, "is derived from this Attribute", sourceAttributeTagDetail);
                 }
-                if (!this.EAModel.taggedValueTypeExists(this.settings.sourceAssociationTagName))
+                if (!this.model.taggedValueTypeExists(this.settings.sourceAssociationTagName))
                 {
                     const string sourceAssociationTagDetail = @"Type=String;
 AppliesTo=Association,Aggregation;";
-                    this.EAModel.addTaggedValueType(this.settings.sourceAssociationTagName, "is derived from this Association", sourceAssociationTagDetail);
+                    this.model.addTaggedValueType(this.settings.sourceAssociationTagName, "is derived from this Association", sourceAssociationTagDetail);
                 }
                 if (this.settings.tvInsteadOfTrace
                     && this.settings.elementTagName.Length > 0
-                    && !this.EAModel.taggedValueTypeExists(this.settings.elementTagName))
+                    && !this.model.taggedValueTypeExists(this.settings.elementTagName))
                 {
                     const string elementTagDetail = @"Type=RefGUID;
 Values=Class;DataType;Enumeration;PrimitiveType;
 AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
-                    this.EAModel.addTaggedValueType(this.settings.elementTagName, "is derived from this Element", elementTagDetail);
+                    this.model.addTaggedValueType(this.settings.elementTagName, "is derived from this Element", elementTagDetail);
                 }
             }
         }
@@ -257,24 +258,24 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
 
                         if (response == DialogResult.Yes)
                         {
-                            if (this.EAModel.EAVersion >= 1308)
+                            if (this.model.EAVersion >= 1308)
                             {
                                 //disable ui updates to speed up process. Only for v13 or higher
-                                this.EAModel.wrappedModel.EnableUIUpdates = false;
+                                this.model.wrappedModel.EnableUIUpdates = false;
                             }
                             //update the subset
                             this.updateMessageSubset(schema, targetPackage);
                             //refresh package to make changes visible Only for v13 or higher
-                            if (this.EAModel.EAVersion >= 1308)
+                            if (this.model.EAVersion >= 1308)
                             {
                                 targetPackage.refresh();
                             }
                             //check for any errors or warnings
-                            var errorCount = EAOutputLogger.getErrors(this.EAModel, this.settings.outputName).Count();
-                            var warningCount = EAOutputLogger.getWarnings(this.EAModel, this.settings.outputName).Count();
+                            var errorCount = EAOutputLogger.getErrors(this.model, this.settings.outputName).Count();
+                            var warningCount = EAOutputLogger.getWarnings(this.model, this.settings.outputName).Count();
                             if (errorCount > 0 || warningCount > 0)
                             {
-                                MessageBox.Show(this.EAModel.mainEAWindow, $"Generation resulted in {errorCount} errors and {warningCount} warnings.\nPlease check the output log"
+                                MessageBox.Show(this.model.mainEAWindow, $"Generation resulted in {errorCount} errors and {warningCount} warnings.\nPlease check the output log"
                                     , "Errors or Warnings!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                         }
@@ -288,10 +289,10 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
             }
             finally
             {
-                if (this.EAModel.EAVersion >= 1308)
+                if (this.model.EAVersion >= 1308)
                 {
                     //re-enable gui updates. Only for V13 or higher
-                    this.EAModel.wrappedModel.EnableUIUpdates = true;
+                    this.model.wrappedModel.EnableUIUpdates = true;
                 }
             }
         }
@@ -304,8 +305,8 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
         {
             //log progress
             var startTime = DateTime.Now;
-            EAOutputLogger.clearLog(this.EAModel, this.settings.outputName);
-            EAOutputLogger.log(this.EAModel, this.settings.outputName
+            EAOutputLogger.clearLog(this.model, this.settings.outputName);
+            EAOutputLogger.log(this.model, this.settings.outputName
                                , $"{startTime.ToLongTimeString()} Starting update of existing subset for schema '{schema.name}' in package '{targetPackage.name}'"
                                , ((TSF_EA.ElementWrapper)targetPackage).id
                               , LogTypeEnum.log);
@@ -348,7 +349,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
             //log progress
             var endTime = DateTime.Now;
             var processingTime = (endTime - startTime).TotalSeconds;
-            EAOutputLogger.log(this.EAModel, this.settings.outputName
+            EAOutputLogger.log(this.model, this.settings.outputName
                                , $"{endTime.ToLongTimeString()} Finished update of existing subset for schema '{schema.name}' in package '{targetPackage.name}' in {processingTime.ToString("N0")} seconds"
                                , ((TSF_EA.Package)targetPackage).id
                               , LogTypeEnum.log);
@@ -361,8 +362,8 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
         private void createNewMessageSubset(Schema schema, UML.Classes.Kernel.Package targetPackage)
         {
             //log progress
-            EAOutputLogger.clearLog(this.EAModel, this.settings.outputName);
-            EAOutputLogger.log(this.EAModel, this.settings.outputName
+            EAOutputLogger.clearLog(this.model, this.settings.outputName);
+            EAOutputLogger.log(this.model, this.settings.outputName
                                , string.Format("{0} Starting creation of new subset for schema '{1}' in package '{2}'"
                                               , DateTime.Now.ToLongTimeString()
                                               , schema.name
@@ -383,7 +384,7 @@ AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
                 this.createNewSubsetDiagram(schema, targetPackage);
             }
             //log progress
-            EAOutputLogger.log(this.EAModel, this.settings.outputName
+            EAOutputLogger.log(this.model, this.settings.outputName
                                , string.Format("{0} Finished creation of new subset for schema '{1}' in package '{2}'"
                                               , DateTime.Now.ToLongTimeString()
                                               , schema.name

@@ -58,6 +58,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -80,6 +81,18 @@
       <DependentUpon>EAScriptAddinSettingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RefdataSplitterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RefdataSplitterControl.Designer.cs">
+      <DependentUpon>RefdataSplitterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextHelperControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TextHelperControl.Designer.cs">
+      <DependentUpon>TextHelperControl.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\EARefDataSplitter\EARefDataSplitter\EARefDataSplitter.csproj">
@@ -93,6 +106,7 @@
     <ProjectReference Include="..\..\TextHelper\TextHelper\TextHelper.csproj">
       <Project>{377dce16-fbb7-4611-8b03-40bdf76ffe9b}</Project>
       <Name>TextHelper</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
     <ProjectReference Include="..\..\UML-Tooling-Framework\UMLToolingFramework\UMLToolingFramework.csproj">
       <Project>{0FC55607-C9D0-442D-941C-F23AD00CB318}</Project>
@@ -105,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EAScriptAddinSettingForm.resx">
       <DependentUpon>EAScriptAddinSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextHelperControl.resx">
+      <DependentUpon>TextHelperControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

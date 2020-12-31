@@ -19,7 +19,6 @@ namespace EAJSON
         const string menuSettings = "&Settings";
         const string menuAbout = "&About EA JSON";
         const string outputName = "EA JSON";
-        public TSF_EA.Model model { get; private set; } = null;
         
         public EAJSONAddin() : base()
         {
@@ -32,11 +31,7 @@ namespace EAJSON
                                 menuAbout
                               };
         }
-        public override void EA_FileOpen(EA.Repository repository)
-        {
-            // initialize the model
-            this.model = new TSF_EA.Model(repository);
-        }
+
         public override void EA_GetMenuState(Repository Repository, string MenuLocation, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
         {
             switch (ItemName)

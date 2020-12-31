@@ -38,9 +38,7 @@ namespace GlossaryManager
         const string appFQN = "GlossaryManager.GlossaryManagerUI";
         const string guiFQN = "GlossaryManager.GUI.EDD_MainControl";
 
-        private TSF_EA.Model model = null;
-        public TSF_EA.Model Model { get { return this.model; } }
-        private bool fullyLoaded = false;
+        
         private bool showing = false;
 
         private GlossaryManagerSettings settings = null;
@@ -265,7 +263,7 @@ namespace GlossaryManager
 
         public override void EA_FileOpen(EA.Repository repository)
         {
-            this.model = new TSF_EA.Model(repository);
+            base.EA_FileOpen(repository);
             //close the tab if still open
             this.model.closeTab(appTitle);
             this._mainControl = null;
@@ -276,7 +274,6 @@ namespace GlossaryManager
             //(re)-initialize
             if (this.settings.showWindowAtStartup) this.initialiseMainControl();
             this.factory = GlossaryItemFactory.getFactory(this.model, this.settings);
-            this.fullyLoaded = true;
         }
 
         public override void EA_GetMenuState(EA.Repository repository,
@@ -387,7 +384,7 @@ namespace GlossaryManager
         private void manage()
         {
             if (this.model == null) { return; }
-            this.managedPackage = (TSF_EA.Package)this.Model.selectedTreePackage;
+            this.managedPackage = (TSF_EA.Package)this.model.selectedTreePackage;
             this.mainControl.clear();
             this.mainControl.selectedDomain = Domain.getDomain(this.managedPackage);
         }

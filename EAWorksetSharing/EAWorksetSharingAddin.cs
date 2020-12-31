@@ -11,7 +11,6 @@ namespace EAWorksetSharing
 	public class EAWorksetSharingAddin:EAAddinFramework.EAAddinBase
 	{
 		private const string menuName = "&Share Working Sets";
-		private UTF_EA.Model model;
 		
 				
 		public EAWorksetSharingAddin():base()
