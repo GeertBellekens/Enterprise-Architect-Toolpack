@@ -57,6 +57,8 @@ namespace EAScriptAddin
 			this.functionsListBox.DisplayMember = "fullName";
 			//load the operations
 			this.reloadOperations();
+			//load the settings data
+			this.loadData();
 			
 		}
 
