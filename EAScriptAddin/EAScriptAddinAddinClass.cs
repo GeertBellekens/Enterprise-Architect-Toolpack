@@ -31,6 +31,7 @@ namespace EAScriptAddin
 		private List<ScriptFunction> _allFunctions;
 		private List<MethodInfo> AddinOperations; 
 		private DateTime scriptTimestamp;
+		public EAScriptAddinSettings settings { get; set; } = new EAScriptAddinSettings();
 
 		#region Add-in specific operations
 		/// <summary>
@@ -71,7 +72,9 @@ namespace EAScriptAddin
 		{
 			get
 			{
-				if (this.fullyLoaded && !this.model.isLiteEdition)
+				if (this.settings.developerMode 
+					&& this.fullyLoaded 
+					&& !this.model.isLiteEdition)
 				{
 					if (this._refdataSplitterControl == null)
 					{

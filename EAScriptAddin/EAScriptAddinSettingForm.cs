@@ -58,40 +58,19 @@ namespace EAScriptAddin
 			//load the operations
 			this.reloadOperations();
 			
-			//set the link to purchase license 
-			this.licenseExpiredLabel.Links.Add(0,this.licenseExpiredLabel.Text.Length,"http://bellekens.com/ea-matic");
-			
-			//set the license status
-//			this.setLicenseStatus(this.controller.isLicensed);
 		}
-//		/// <summary>
-//		/// disable all controls except for the about
-//		/// </summary>
-//		/// <param name="bool"></param>
-//		private void setLicenseStatus(bool licensed )
-//		{
-//			this.operationsListBox.Enabled = licensed;
-//			this.functionsListBox.Enabled = licensed;
-//			this.allOperationsCheckBox.Enabled = licensed;
-//			this.addFunctionButton.Enabled = licensed;
-//			this.ScriptCombo.Enabled = licensed;
-//			if (!licensed)
-//			{				
-//				this.licenseExpiredLabel.Text = "No valid license found. Click here to purchase";
-//			}
-//			this.licenseExpiredLabel.Visible = !licensed;
-//			if( this.controller.licenseExpirationDate != null 
-//			   && this.controller.licenseExpirationDate != DateTime.MaxValue)
-//			{
-//				//temporary license
-//				this.licenseExpiredLabel.Text = "License expires " + this.controller.licenseExpirationDate.ToShortDateString() + ". Click here to purchase";
-//				this.licenseExpiredLabel.Visible = true;
-//			}
-//			//set the link to purchase license
-//			this.licenseExpiredLabel.Links.Clear();			
-//			this.licenseExpiredLabel.Links.Add(0,this.licenseExpiredLabel.Text.Length,"http://bellekens.com/ea-matic");
-//				
-//		} 
+
+		private void loadData()
+		{
+			this.developerModeCheckBox.Checked = this.controller.settings.developerMode;
+		}
+		private void saveChanges()
+		{
+			this.controller.settings.developerMode = this.developerModeCheckBox.Checked;
+			this.controller.settings.save();
+		}
+
+
 		/// <summary>
 		/// reloads the operations in the list box
 		/// </summary>
@@ -124,7 +103,7 @@ namespace EAScriptAddin
 		
 		void OkButtonClick(object sender, EventArgs e)
 		{
-			//TODO Save Settings
+			this.saveChanges();
 			this.Close();
 		}
 		
