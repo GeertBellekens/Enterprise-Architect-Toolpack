@@ -47,6 +47,9 @@ namespace EAScriptAddin
             this.OkButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.developerModeCheckBox = new System.Windows.Forms.CheckBox();
+            this.scriptPathLabel = new System.Windows.Forms.Label();
+            this.scriptPathTextBox = new System.Windows.Forms.TextBox();
+            this.scriptPathSelectButton = new System.Windows.Forms.Button();
             this.operationsPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,14 +66,14 @@ namespace EAScriptAddin
             this.operationsPanel.Controls.Add(this.operationsListBox);
             this.operationsPanel.Location = new System.Drawing.Point(5, 12);
             this.operationsPanel.Name = "operationsPanel";
-            this.operationsPanel.Size = new System.Drawing.Size(580, 421);
+            this.operationsPanel.Size = new System.Drawing.Size(574, 402);
             this.operationsPanel.TabIndex = 0;
             // 
             // addFunctionButton
             // 
             this.addFunctionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.addFunctionButton.Enabled = false;
-            this.addFunctionButton.Location = new System.Drawing.Point(481, 238);
+            this.addFunctionButton.Location = new System.Drawing.Point(481, 197);
             this.addFunctionButton.Name = "addFunctionButton";
             this.addFunctionButton.Size = new System.Drawing.Size(86, 23);
             this.addFunctionButton.TabIndex = 5;
@@ -81,7 +84,7 @@ namespace EAScriptAddin
             // defaultScriptLabel
             // 
             this.defaultScriptLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.defaultScriptLabel.Location = new System.Drawing.Point(267, 221);
+            this.defaultScriptLabel.Location = new System.Drawing.Point(267, 180);
             this.defaultScriptLabel.Name = "defaultScriptLabel";
             this.defaultScriptLabel.Size = new System.Drawing.Size(100, 16);
             this.defaultScriptLabel.TabIndex = 4;
@@ -95,7 +98,7 @@ namespace EAScriptAddin
             this.ScriptCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ScriptCombo.FormattingEnabled = true;
             this.ScriptCombo.IntegralHeight = false;
-            this.ScriptCombo.Location = new System.Drawing.Point(266, 240);
+            this.ScriptCombo.Location = new System.Drawing.Point(266, 199);
             this.ScriptCombo.Name = "ScriptCombo";
             this.ScriptCombo.Size = new System.Drawing.Size(209, 21);
             this.ScriptCombo.TabIndex = 3;
@@ -106,7 +109,7 @@ namespace EAScriptAddin
             this.allOperationsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.allOperationsCheckBox.Checked = true;
             this.allOperationsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.allOperationsCheckBox.Location = new System.Drawing.Point(4, 392);
+            this.allOperationsCheckBox.Location = new System.Drawing.Point(4, 373);
             this.allOperationsCheckBox.Name = "allOperationsCheckBox";
             this.allOperationsCheckBox.Size = new System.Drawing.Size(157, 24);
             this.allOperationsCheckBox.TabIndex = 2;
@@ -123,7 +126,7 @@ namespace EAScriptAddin
             this.functionsListBox.Location = new System.Drawing.Point(266, 4);
             this.functionsListBox.Name = "functionsListBox";
             this.functionsListBox.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.functionsListBox.Size = new System.Drawing.Size(311, 199);
+            this.functionsListBox.Size = new System.Drawing.Size(305, 169);
             this.functionsListBox.TabIndex = 1;
             // 
             // operationsListBox
@@ -133,7 +136,7 @@ namespace EAScriptAddin
             this.operationsListBox.FormattingEnabled = true;
             this.operationsListBox.Location = new System.Drawing.Point(4, 4);
             this.operationsListBox.Name = "operationsListBox";
-            this.operationsListBox.Size = new System.Drawing.Size(257, 379);
+            this.operationsListBox.Size = new System.Drawing.Size(257, 349);
             this.operationsListBox.TabIndex = 0;
             this.operationsListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OperationsListBoxItemCheck);
             this.operationsListBox.SelectedIndexChanged += new System.EventHandler(this.OperationsListBoxSelectedIndexChanged);
@@ -141,7 +144,7 @@ namespace EAScriptAddin
             // OkButton
             // 
             this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.OkButton.Location = new System.Drawing.Point(510, 449);
+            this.OkButton.Location = new System.Drawing.Point(504, 487);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 1;
@@ -153,7 +156,7 @@ namespace EAScriptAddin
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(429, 449);
+            this.cancelButton.Location = new System.Drawing.Point(423, 487);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 2;
@@ -164,12 +167,43 @@ namespace EAScriptAddin
             // 
             this.developerModeCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.developerModeCheckBox.AutoSize = true;
-            this.developerModeCheckBox.Location = new System.Drawing.Point(9, 439);
+            this.developerModeCheckBox.Location = new System.Drawing.Point(9, 420);
             this.developerModeCheckBox.Name = "developerModeCheckBox";
             this.developerModeCheckBox.Size = new System.Drawing.Size(105, 17);
             this.developerModeCheckBox.TabIndex = 3;
             this.developerModeCheckBox.Text = "Developer Mode";
             this.developerModeCheckBox.UseVisualStyleBackColor = true;
+            this.developerModeCheckBox.CheckedChanged += new System.EventHandler(this.developerModeCheckBox_CheckedChanged);
+            // 
+            // scriptPathLabel
+            // 
+            this.scriptPathLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.scriptPathLabel.AutoSize = true;
+            this.scriptPathLabel.Location = new System.Drawing.Point(6, 440);
+            this.scriptPathLabel.Name = "scriptPathLabel";
+            this.scriptPathLabel.Size = new System.Drawing.Size(59, 13);
+            this.scriptPathLabel.TabIndex = 4;
+            this.scriptPathLabel.Text = "Script Path";
+            // 
+            // scriptPathTextBox
+            // 
+            this.scriptPathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.scriptPathTextBox.Location = new System.Drawing.Point(5, 456);
+            this.scriptPathTextBox.Name = "scriptPathTextBox";
+            this.scriptPathTextBox.Size = new System.Drawing.Size(538, 20);
+            this.scriptPathTextBox.TabIndex = 5;
+            // 
+            // scriptPathSelectButton
+            // 
+            this.scriptPathSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.scriptPathSelectButton.Location = new System.Drawing.Point(549, 454);
+            this.scriptPathSelectButton.Name = "scriptPathSelectButton";
+            this.scriptPathSelectButton.Size = new System.Drawing.Size(30, 23);
+            this.scriptPathSelectButton.TabIndex = 6;
+            this.scriptPathSelectButton.Text = "...";
+            this.scriptPathSelectButton.UseVisualStyleBackColor = true;
+            this.scriptPathSelectButton.Click += new System.EventHandler(this.scriptPathSelectButton_Click);
             // 
             // EAScriptAddinSettingForm
             // 
@@ -177,7 +211,10 @@ namespace EAScriptAddin
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(591, 484);
+            this.ClientSize = new System.Drawing.Size(591, 522);
+            this.Controls.Add(this.scriptPathSelectButton);
+            this.Controls.Add(this.scriptPathTextBox);
+            this.Controls.Add(this.scriptPathLabel);
             this.Controls.Add(this.developerModeCheckBox);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.OkButton);
@@ -201,5 +238,8 @@ namespace EAScriptAddin
 		private System.Windows.Forms.CheckedListBox functionsListBox;
 		private System.Windows.Forms.Panel operationsPanel;
 		private System.Windows.Forms.CheckBox developerModeCheckBox;
-	}
+        private System.Windows.Forms.Label scriptPathLabel;
+        private System.Windows.Forms.TextBox scriptPathTextBox;
+        private System.Windows.Forms.Button scriptPathSelectButton;
+    }
 }

@@ -54,7 +54,7 @@ namespace EAScriptAddin
         private List<ScriptFunction> _allFunctions;
         private List<MethodInfo> AddinOperations;
         private DateTime scriptTimestamp;
-        public EAScriptAddinSettings settings { get; set; } = new EAScriptAddinSettings();
+        public EAScriptAddinSettings settings { get; set; } = new EAScriptAddinSettings(null);
 
         #region Add-in specific operations
         /// <summary>
@@ -220,8 +220,20 @@ namespace EAScriptAddin
             this._allFunctions = null;
             this._allModelScripts = null;
             this._allEAMaticScripts = null;
+            if (this.settings.developerMode && ! string.IsNullOrEmpty(this.settings.scriptPath))
+            {
+                this.saveAllScripts();
+            }
         }
 
+        private void saveAllScripts()
+        {
+            if (this.allModelScripts.Any())
+            {
+                Script.saveAllModelScripts(this.settings.scriptPath);
+            }
+            
+        }
         /// <summary>
         /// adds a script function for the given methodinfo to the given script
         /// </summary>
@@ -244,6 +256,7 @@ namespace EAScriptAddin
         {
             //add-in part
             base.EA_FileOpen(Repository);
+            this.settings = new EAScriptAddinSettings(this.model);
             if (this.refdataSplitterControl != null)
             {
                 this.model.showWindow("Refdata Splitter");
@@ -483,6 +496,7 @@ namespace EAScriptAddin
         public override void EA_FileClose(EA.Repository Repository)
         {
             base.EA_FileClose(Repository);
+            this.settings = new EAScriptAddinSettings(null);
             this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
         }
 

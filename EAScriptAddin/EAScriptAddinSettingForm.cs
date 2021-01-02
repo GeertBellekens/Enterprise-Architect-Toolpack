@@ -62,13 +62,20 @@ namespace EAScriptAddin
 			
 		}
 
+		private void enableDisable()
+		{
+			this.scriptPathTextBox.Enabled = this.developerModeCheckBox.Checked;
+		}
 		private void loadData()
 		{
 			this.developerModeCheckBox.Checked = this.controller.settings.developerMode;
+			this.scriptPathTextBox.Text = this.controller.settings.scriptPath;
+			enableDisable();
 		}
 		private void saveChanges()
 		{
 			this.controller.settings.developerMode = this.developerModeCheckBox.Checked;
+			this.controller.settings.scriptPath = this.scriptPathTextBox.Text;
 			this.controller.settings.save();
 		}
 
@@ -194,6 +201,22 @@ namespace EAScriptAddin
 			{
 				this.addFunctionButton.Enabled = false;
 			}
+		}
+
+		private void scriptPathSelectButton_Click(object sender, EventArgs e)
+		{
+			// Create an instance of the open file dialog box.
+			FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+
+			if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+			{
+				this.scriptPathTextBox.Text = folderBrowserDialog.SelectedPath;
+			}
+		}
+
+		private void developerModeCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			this.enableDisable();
 		}
 	}
 }
