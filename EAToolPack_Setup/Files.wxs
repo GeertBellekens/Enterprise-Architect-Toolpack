@@ -751,31 +751,61 @@
 						<File Id="EAMatic_LicenseFile" Name="EA-Matic license.rtf" Source="..\EAScriptAddin\\Files\license.rtf" />
 						<File Id="EAScriptAddin.pdb" Name="EAScriptAddin.pdb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.pdb" />
 						<File Id="EAScriptAddin.tlb" Name="EAScriptAddin.tlb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.tlb" />
-						<Class Id="{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}" Context="InprocServer32" Description="EAScriptAddin.EAScriptAddinAddinClass" ThreadingModel="both" ForeignServer="mscoree.dll">
+						<File Id="EARefDataSplitter.exe" Name="EARefDataSplitter.exe" Source="..\EAScriptAddin\bin\Debug\EARefDataSplitter.exe" />
+						<File Id="EARefDataSplitter.exe.config" Name="EARefDataSplitter.exe.config" Source="..\EAScriptAddin\bin\Debug\EARefDataSplitter.exe.config" />
+						<File Id="EARefDataSplitter.pdb" Name="EARefDataSplitter.pdb" Source="..\EAScriptAddin\bin\Debug\EARefDataSplitter.pdb" />
+						<File Id="TextHelper.exe" Name="TextHelper.exe" Source="..\EAScriptAddin\bin\Debug\TextHelper.exe" />
+						<File Id="TextHelper.exe.config" Name="TextHelper.exe.config" Source="..\EAScriptAddin\bin\Debug\TextHelper.exe.config" />
+						<File Id="TextHelper.pdb" Name="TextHelper.pdb" Source="..\EAScriptAddin\bin\Debug\TextHelper.pdb" />
+						<Class Id="{001A45E0-AEDB-38E4-A9C1-E3E557711B76}" Context="InprocServer32" Description="EAScriptAddin.EAScriptAddinAddinClass" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="EAScriptAddin.EAScriptAddinAddinClass" Description="EAScriptAddin.EAScriptAddinAddinClass" />
 						</Class>
-						<Class Id="{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}" Context="InprocServer32" Description="EAScriptAddin.AboutWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
+						<Class Id="{84FAB349-9952-34AC-A884-56DC4B3F720D}" Context="InprocServer32" Description="EAScriptAddin.TextHelperControl" ThreadingModel="both" ForeignServer="mscoree.dll">
+							<ProgId Id="EAScriptAddin.TextHelperControl" Description="EAScriptAddin.TextHelperControl" />
+						</Class>
+						<Class Id="{95B4E9C4-BF3F-3F07-BAC3-DE4289A8A822}" Context="InprocServer32" Description="EAScriptAddin.AboutWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="EAScriptAddin.AboutWindow" Description="EAScriptAddin.AboutWindow" />
 						</Class>
-						<File Id="filB0E416CBF883E412D94BCDB93E8B5EE3" KeyPath="yes" Name="EAScriptAddin.dll" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.dll" />
-						<RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32\1.0.5431.9940" Name="Class" Value="EAScriptAddin.EAScriptAddinAddinClass" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32\1.0.5431.9940" Name="Assembly" Value="EAScriptAddin, Version=1.0.5431.9940, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32\1.0.5431.9940" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32\1.0.5431.9940" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32" Name="Class" Value="EAScriptAddin.EAScriptAddinAddinClass" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32" Name="Assembly" Value="EAScriptAddin, Version=1.0.5431.9940, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{3FC050CD-382E-32F0-9647-AB5B62C9FCAA}\InprocServer32" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32\1.0.5431.9940" Name="Class" Value="EAScriptAddin.AboutWindow" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32\1.0.5431.9940" Name="Assembly" Value="EAScriptAddin, Version=1.0.5431.9940, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32\1.0.5431.9940" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32\1.0.5431.9940" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32" Name="Class" Value="EAScriptAddin.AboutWindow" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32" Name="Assembly" Value="EAScriptAddin, Version=1.0.5431.9940, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{FE1374D0-1558-3F64-AE3F-3E3DB83D0941}\InprocServer32" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+						<Class Id="{A4CFAA9C-6FF2-3EF2-8D6D-5314144A40F7}" Context="InprocServer32" Description="EAScriptAddin.RefdataSplitterControl" ThreadingModel="both" ForeignServer="mscoree.dll">
+							<ProgId Id="EAScriptAddin.RefdataSplitterControl" Description="EAScriptAddin.RefdataSplitterControl" />
+						</Class>
+						<File Id="filB0E416CBF883E412D94BCDB93E8B5EE3" KeyPath="yes" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.dll" />
+						<RegistryValue Root="HKCR" Key="CLSID\{001A45E0-AEDB-38E4-A9C1-E3E557711B76}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{001A45E0-AEDB-38E4-A9C1-E3E557711B76}\InprocServer32\2.2.0.23685" Name="Class" Value="EAScriptAddin.EAScriptAddinAddinClass" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{001A45E0-AEDB-38E4-A9C1-E3E557711B76}\InprocServer32\2.2.0.23685" Name="Assembly" Value="EAScriptAddin, Version=2.2.0.23685, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{001A45E0-AEDB-38E4-A9C1-E3E557711B76}\InprocServer32\2.2.0.23685" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{001A45E0-AEDB-38E4-A9C1-E3E557711B76}\InprocServer32\2.2.0.23685" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{001A45E0-AEDB-38E4-A9C1-E3E557711B76}\InprocServer32" Name="Class" Value="EAScriptAddin.EAScriptAddinAddinClass" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{001A45E0-AEDB-38E4-A9C1-E3E557711B76}\InprocServer32" Name="Assembly" Value="EAScriptAddin, Version=2.2.0.23685, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{001A45E0-AEDB-38E4-A9C1-E3E557711B76}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{001A45E0-AEDB-38E4-A9C1-E3E557711B76}\InprocServer32" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{84FAB349-9952-34AC-A884-56DC4B3F720D}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{84FAB349-9952-34AC-A884-56DC4B3F720D}\InprocServer32\2.2.0.23685" Name="Class" Value="EAScriptAddin.TextHelperControl" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{84FAB349-9952-34AC-A884-56DC4B3F720D}\InprocServer32\2.2.0.23685" Name="Assembly" Value="EAScriptAddin, Version=2.2.0.23685, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{84FAB349-9952-34AC-A884-56DC4B3F720D}\InprocServer32\2.2.0.23685" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{84FAB349-9952-34AC-A884-56DC4B3F720D}\InprocServer32\2.2.0.23685" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{84FAB349-9952-34AC-A884-56DC4B3F720D}\InprocServer32" Name="Class" Value="EAScriptAddin.TextHelperControl" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{84FAB349-9952-34AC-A884-56DC4B3F720D}\InprocServer32" Name="Assembly" Value="EAScriptAddin, Version=2.2.0.23685, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{84FAB349-9952-34AC-A884-56DC4B3F720D}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{84FAB349-9952-34AC-A884-56DC4B3F720D}\InprocServer32" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{95B4E9C4-BF3F-3F07-BAC3-DE4289A8A822}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{95B4E9C4-BF3F-3F07-BAC3-DE4289A8A822}\InprocServer32\2.2.0.23685" Name="Class" Value="EAScriptAddin.AboutWindow" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{95B4E9C4-BF3F-3F07-BAC3-DE4289A8A822}\InprocServer32\2.2.0.23685" Name="Assembly" Value="EAScriptAddin, Version=2.2.0.23685, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{95B4E9C4-BF3F-3F07-BAC3-DE4289A8A822}\InprocServer32\2.2.0.23685" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{95B4E9C4-BF3F-3F07-BAC3-DE4289A8A822}\InprocServer32\2.2.0.23685" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{95B4E9C4-BF3F-3F07-BAC3-DE4289A8A822}\InprocServer32" Name="Class" Value="EAScriptAddin.AboutWindow" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{95B4E9C4-BF3F-3F07-BAC3-DE4289A8A822}\InprocServer32" Name="Assembly" Value="EAScriptAddin, Version=2.2.0.23685, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{95B4E9C4-BF3F-3F07-BAC3-DE4289A8A822}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{95B4E9C4-BF3F-3F07-BAC3-DE4289A8A822}\InprocServer32" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{A4CFAA9C-6FF2-3EF2-8D6D-5314144A40F7}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{A4CFAA9C-6FF2-3EF2-8D6D-5314144A40F7}\InprocServer32\2.2.0.23685" Name="Class" Value="EAScriptAddin.RefdataSplitterControl" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{A4CFAA9C-6FF2-3EF2-8D6D-5314144A40F7}\InprocServer32\2.2.0.23685" Name="Assembly" Value="EAScriptAddin, Version=2.2.0.23685, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{A4CFAA9C-6FF2-3EF2-8D6D-5314144A40F7}\InprocServer32\2.2.0.23685" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{A4CFAA9C-6FF2-3EF2-8D6D-5314144A40F7}\InprocServer32\2.2.0.23685" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{A4CFAA9C-6FF2-3EF2-8D6D-5314144A40F7}\InprocServer32" Name="Class" Value="EAScriptAddin.RefdataSplitterControl" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{A4CFAA9C-6FF2-3EF2-8D6D-5314144A40F7}\InprocServer32" Name="Assembly" Value="EAScriptAddin, Version=2.2.0.23685, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{A4CFAA9C-6FF2-3EF2-8D6D-5314144A40F7}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{A4CFAA9C-6FF2-3EF2-8D6D-5314144A40F7}\InprocServer32" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
 
 					</Component>
 					<Component Id="EAMatic_RegistryEntry" Guid="181A2237-EF7D-48D9-A6F8-43A4749AE0DF" UninstallWhenSuperseded="yes" Win64="no">
