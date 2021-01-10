@@ -751,6 +751,7 @@
 						<File Id="EAMatic_LicenseFile" Name="EA-Matic license.rtf" Source="..\EAScriptAddin\\Files\license.rtf" />
 						<File Id="EAScriptAddin.pdb" Name="EAScriptAddin.pdb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.pdb" />
 						<File Id="EAScriptAddin.tlb" Name="EAScriptAddin.tlb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.tlb" />
+						<File Id="EAScriptAddin.dll.config" Name="EAScriptAddin.dll.config" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.dll.config" />
 						<File Id="EARefDataSplitter.exe" Name="EARefDataSplitter.exe" Source="..\EAScriptAddin\bin\Debug\EARefDataSplitter.exe" />
 						<File Id="EARefDataSplitter.exe.config" Name="EARefDataSplitter.exe.config" Source="..\EAScriptAddin\bin\Debug\EARefDataSplitter.exe.config" />
 						<File Id="EARefDataSplitter.pdb" Name="EARefDataSplitter.pdb" Source="..\EAScriptAddin\bin\Debug\EARefDataSplitter.pdb" />
