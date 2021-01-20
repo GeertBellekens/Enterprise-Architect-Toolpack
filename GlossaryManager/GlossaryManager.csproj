@@ -182,7 +182,7 @@
     <None Include="Files\link.png" />
     <None Include="Files\sync.png" />
     <None Include="Files\table.png" />
-    <None Include="GlossaryManager.dll.config">
+    <None Include="app.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

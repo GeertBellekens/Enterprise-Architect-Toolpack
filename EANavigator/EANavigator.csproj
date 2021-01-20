@@ -209,9 +209,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EANavigator.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="app.config" />
     <None Include="Files\license.rtf" />
     <None Include="Files\OpenProperties.png" />
     <None Include="Files\SelectInProjectBrowser.png" />

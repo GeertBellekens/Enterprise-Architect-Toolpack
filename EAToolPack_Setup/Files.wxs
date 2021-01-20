@@ -632,7 +632,7 @@
 						<File Id="ECDMMessageComposer.dll" Name="ECDMMessageComposer.dll" Source="..\ECDMMessageComposer\bin\Debug\ECDMMessageComposer.dll" />
 						<File Id="ECDMMessageComposer.pdb" Name="ECDMMessageComposer.pdb" Source="..\ECDMMessageComposer\bin\Debug\ECDMMessageComposer.pdb" />
 						<File Id="ECDMMessageComposer.tlb" Name="ECDMMessageComposer.tlb" Source="..\ECDMMessageComposer\bin\Debug\ECDMMessageComposer.tlb" />
-						<File Id="ECDMMessageComposer.dll.config" Name="ECDMMessageComposer.dll.config" Source="..\ECDMMessageComposer\ECDMMessageComposer.dll.config" />
+						<File Id="ECDMMessageComposer.dll.config" Name="ECDMMessageComposer.dll.config" Source="..\ECDMMessageComposer\bin\Debug\ECDMMessageComposer.dll.config" />
 						<Class Id="{39CBB071-5DEE-33D9-B05E-E0F3EEE63BE4}" Context="InprocServer32" Description="ECDMMessageComposer.ECDMMessageComposerAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="ECDMMessageComposer.ECDMMessageComposerAddin" Description="ECDMMessageComposer.ECDMMessageComposerAddin" />
 						</Class>
