@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Check>
+	<CheckId>161</CheckId>
+	<CheckDescription>Attribute with invalid name</CheckDescription>
+	<QueryToFindElements>
+		<Main>
+			SELECT a.ea_guid AS ItemGuid
+			FROM ((((((( t_attribute a
+			inner join t_object o on o.Object_ID = a.Object_ID)
+			INNER JOIN t_Package p ON p.Package_ID = o.Package_ID)
+			LEFT JOIN t_Package Package_p1 ON Package_p1.Package_id = p.parent_id)
+			LEFT JOIN t_Package Package_p2 ON Package_p2.Package_id = Package_p1.parent_id)
+			LEFT JOIN t_Package Package_p3 ON Package_p3.Package_id = Package_p2.parent_id)
+			LEFT JOIN t_Package Package_p4 ON Package_p4.Package_id = Package_p3.parent_id)
+			LEFT JOIN t_Package Package_p5 ON Package_p5.Package_id = Package_p4.parent_id)
+			WHERE a.StereoType = 'LDM_Attribute'
+		</Main>
+		<Filters>
+			<Change>
+				AND o.ea_guid in (
+					SELECT oChange.ea_guid 
+					FROM t_object oChange
+					INNER JOIN t_objectproperties opChange ON oChange.Object_ID = opChange.Object_ID
+					WHERE opChange.Property = 'CR'
+					AND opChange.Value = '#SearchTerm#'
+				)
+			</Change>
+			<Release>
+				AND o.ea_guid in (
+					SELECT o2.ea_guid 
+					FROM (t_object o2
+					INNER JOIN t_objectproperties op2 ON o2.Object_ID = op2.Object_ID)
+					WHERE op2.Property = 'CR'
+					AND op2.Value in (
+						SELECT oChange.ea_guid
+						FROM ((t_object oRelease						
+						INNER JOIN t_connector con ON oRelease.Object_ID = con.End_Object_ID)
+						INNER JOIN t_object oChange ON con.Start_Object_ID = oChange.Object_ID)						
+						WHERE oRelease.ea_guid = '#SearchTerm#'
+					)
+				)					
+			</Release>
+			<Package>
+				AND p.Package_ID in (#Branch#)
+			</Package>
+			<FunctionalDesign>
+				AND o.ea_guid in (
+					SELECT o2.ea_guid 
+					FROM t_object o1
+					INNER JOIN t_diagramobjects do1 ON do1.Object_ID = o1.Object_ID
+					INNER JOIN t_diagram d1 ON d1.Diagram_ID = do1.Diagram_ID
+					INNER JOIN t_connector con1 ON con1.Start_Object_ID = o1.Object_ID
+					INNER JOIN t_object o2 ON con1.End_Object_ID = o2.Object_ID
+					WHERE d1.ea_guid = '#SearchTerm#' 
+				)
+			</FunctionalDesign>
+		</Filters>
+	</QueryToFindElements>
+	<QueryToCheckFoundElements>
+		<Main>
+			SELECT isnull(o.Name,'') + '.' + isnull(a.Name,'') AS ItemName
+			, 'Attribute' as ItemType
+			, a.ea_guid AS ItemGuid
+			, o.Object_Type AS ElementType
+			, a.StereoType AS ElementStereotype
+			, p.name AS PackageName
+			, package_p1.name AS PackageParentLevel1
+			, package_p2.name AS PackageParentLevel2 
+			, package_p3.name AS PackageParentLevel3
+			, package_p4.name AS PackageParentLevel4
+			, package_p5.name AS PackageParentLevel5
+			FROM (((((((t_attribute a
+			inner join t_object o on o.Object_ID = a.Object_ID)
+			INNER JOIN t_package p ON p.Package_ID = o.Package_ID)
+			LEFT JOIN t_package package_p1 ON package_p1.package_id = p.parent_id)
+			LEFT JOIN t_package package_p2 ON package_p2.package_id = package_p1.parent_id)
+			LEFT JOIN t_package package_p3 ON package_p3.package_id = package_p2.parent_id)
+			LEFT JOIN t_package package_p4 on package_p4.package_id = package_p3.parent_id)
+			LEFT JOIN t_package package_p5 on package_p5.package_id = package_p4.parent_id)
+			WHERE a.ea_guid in (#ElementGuids#)
+			and (isnull(a.name, '$') like '%[^a-zA-Z]%' 
+			or LEFT(a.name, 1) = LOWER(LEFT(a.name, 1)) Collate SQL_Latin1_General_CP1_CS_AS)
+		</Main>
+		<Parameters></Parameters>
+	</QueryToCheckFoundElements>
+	<WarningType>Error</WarningType>
+	<Rationale>To insure consistency and to avoid issues when translating to technical format such as databases or XML messages</Rationale>
+	<ProposedSolution>Enter a valid name containing only alphabetic characters, starting with a capital</ProposedSolution>
+</Check>

@@ -324,5 +324,12 @@ namespace EAValidator
                 e.IsHyperlink = false;
             }
         }
+
+        private void resolveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selectedValidation = this.olvValidations.SelectedObject as Validation;
+            var resolved = selectedValidation?.Resolve();
+
+        }
     }
 }

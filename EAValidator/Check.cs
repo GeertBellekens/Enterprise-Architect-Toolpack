@@ -1,4 +1,5 @@
-﻿using EAAddinFramework.Utilities;
+﻿using EAAddinFramework.EASpecific;
+using EAAddinFramework.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -18,24 +19,25 @@ namespace EAValidator
     /// </summary>
     public class Check : CheckItem
     {
+        const string resolveFunctionName = "resolve";
         private TSF_EA.Model model { get; set; }
 
         // Check to validate
         // *****************
-        
+
         public string CheckId { get; set; }                         // Unique Identifier of the check
         public string CheckDescription { get; set; }                // Title of the check
 
-        
+
         public string Group => this.group?.name;                          // Group of the check
 
         public string QueryToFindElements { get; set; }                                     // sql-query to search for elements that must be checked
         public Dictionary<string, string> QueryToFindElementsFilters { get; set; }          // sql-filters that can be applied to QueryToFindElements
-                                           
+
 
         public string QueryToCheckFoundElements { get; set; }                               // sql-query that performs the check on elements found
         public Dictionary<string, string> QueryToCheckFoundElementsParameters { get; set; } // sql-filters that can be applied to QueryToFindElements
-        
+
 
         public string WarningType { get; set; }                     // Severity of the impact when problems are found. i.e. error, warning, (information)
         public string Rationale { get; set; }                       // Explanation of the logic of the check
@@ -44,6 +46,21 @@ namespace EAValidator
         private CheckGroup group { get; set; }
         public string name => this.CheckDescription;
         public string helpUrl { get; set; }
+        private string resolveCode { get; set; }
+        private Script _resolveScript;
+        private Script resolveScript
+        {
+            get
+            {
+                if (this._resolveScript == null 
+                    && !String.IsNullOrEmpty(this.resolveCode ))
+                {
+                    this._resolveScript = new Script(this.CheckId, this.name, "validation scripts", this.resolveCode, "VBScript", this.model);
+                    this._resolveScript.reloadCode();
+                }
+                return this._resolveScript;
+            }
+        }
         private bool _selected = true;
         public override bool? selected
         {
@@ -61,6 +78,8 @@ namespace EAValidator
                 }
             }
         }
+
+        
 
         public Check(string checkFile, CheckGroup group, EAValidatorSettings settings, TSF_EA.Model model)
         {
@@ -97,14 +116,28 @@ namespace EAValidator
                 EAOutputLogger.log($"XML file does not have all mandatory content. - {checkFile}", 0, LogTypeEnum.error);
             }
         }
+
+        internal bool resolve(string itemGuid)
+        {
+            bool result = false;
+            if (this.resolveScript != null)
+            {
+                var scriptResult = this.resolveScript.functions.FirstOrDefault(x => x.name == resolveFunctionName)
+                    ?.execute(new object[] { itemGuid }) as bool?;
+                if (scriptResult == true) result = true;
+            }
+            return result;
+            
+        }
+
         private void checkHelpUrl(string checkFile)
         {
             if (string.IsNullOrEmpty(this.helpUrl))
             {
-                var helpPdf = Path.GetDirectoryName(checkFile) 
-                              + "\\" 
+                var helpPdf = Path.GetDirectoryName(checkFile)
+                              + "\\"
                               + Path.GetFileNameWithoutExtension(checkFile) + ".pdf";
-                
+
                 if (System.IO.File.Exists(helpPdf))
                 {
                     this.helpUrl = helpPdf;
@@ -196,6 +229,9 @@ namespace EAValidator
                 case "helpurl":
                     this.helpUrl = node.InnerText;
                     break;
+                case "resolvecode":
+                    this.resolveCode = node.InnerText;
+                    break;
                 default:
                     // do nothing
                     break;
@@ -250,7 +286,7 @@ namespace EAValidator
             if (foundelementguids.Any())
             {
                 controller.addLineToEAOutput("- Elements found: ", foundelementguids.Count().ToString());
-                
+
                 // Perform the checks for the elements found (based on their guids)
                 validations = this.CheckFoundElements(controller, foundelementguids);
                 this.NumberOfValidationResults = validations.Count();
@@ -348,7 +384,7 @@ namespace EAValidator
             {
                 qryToFindElements = qryToFindElements + " " + controller.settings.QueryExcludeArchivedPackages;
             }
-            
+
             try
             {
                 // Execute the query using EA

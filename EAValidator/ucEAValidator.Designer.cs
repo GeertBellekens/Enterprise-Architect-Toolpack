@@ -33,8 +33,8 @@
             this.btnDoValidation = new System.Windows.Forms.Button();
             this.olvValidations = new BrightIdeasSoftware.ObjectListView();
             this.olvColCheck = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColItemName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColProposedSolution = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColItemName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColEAItemType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColElementType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColElementStereotype = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -68,6 +68,8 @@
             this.btnSelectDiagram = new System.Windows.Forms.Button();
             this.logoBox = new System.Windows.Forms.PictureBox();
             this.validatorSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.validationContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.resolveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).BeginInit();
             this.grpElement.SuspendLayout();
@@ -76,6 +78,7 @@
             this.validatorSplitContainer.Panel1.SuspendLayout();
             this.validatorSplitContainer.Panel2.SuspendLayout();
             this.validatorSplitContainer.SuspendLayout();
+            this.validationContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnDoValidation
@@ -122,6 +125,7 @@
             this.olvColPackageParentLvl4,
             this.olvColPackageParentLvl5,
             this.olvColWarningType});
+            this.olvValidations.ContextMenuStrip = this.validationContextMenuStrip;
             this.olvValidations.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvValidations.FullRowSelect = true;
             this.olvValidations.HideSelection = false;
@@ -149,18 +153,18 @@
             this.olvColCheck.Text = "Check Description";
             this.olvColCheck.Width = 200;
             // 
+            // olvColProposedSolution
+            // 
+            this.olvColProposedSolution.AspectName = "CheckProposedSolution";
+            this.olvColProposedSolution.Text = "Proposed solution";
+            this.olvColProposedSolution.Width = 400;
+            // 
             // olvColItemName
             // 
             this.olvColItemName.AspectName = "ItemName";
             this.olvColItemName.IsEditable = false;
             this.olvColItemName.Text = "Item";
             this.olvColItemName.Width = 339;
-            // 
-            // olvColProposedSolution
-            // 
-            this.olvColProposedSolution.AspectName = "CheckProposedSolution";
-            this.olvColProposedSolution.Text = "Proposed solution";
-            this.olvColProposedSolution.Width = 400;
             // 
             // olvColEAItemType
             // 
@@ -506,6 +510,21 @@
             this.validatorSplitContainer.SplitterDistance = 350;
             this.validatorSplitContainer.TabIndex = 22;
             // 
+            // validationContextMenuStrip
+            // 
+            this.validationContextMenuStrip.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.validationContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.resolveToolStripMenuItem});
+            this.validationContextMenuStrip.Name = "validationContextMenuStrip";
+            this.validationContextMenuStrip.Size = new System.Drawing.Size(181, 48);
+            // 
+            // resolveToolStripMenuItem
+            // 
+            this.resolveToolStripMenuItem.Name = "resolveToolStripMenuItem";
+            this.resolveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resolveToolStripMenuItem.Text = "Resolve";
+            this.resolveToolStripMenuItem.Click += new System.EventHandler(this.resolveToolStripMenuItem_Click);
+            // 
             // ucEAValidator
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -523,6 +542,7 @@
             this.validatorSplitContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.validatorSplitContainer)).EndInit();
             this.validatorSplitContainer.ResumeLayout(false);
+            this.validationContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -567,5 +587,7 @@
         private System.Windows.Forms.PictureBox logoBox;
         private System.Windows.Forms.ImageList checksImageList;
         private System.Windows.Forms.SplitContainer validatorSplitContainer;
+        private System.Windows.Forms.ContextMenuStrip validationContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem resolveToolStripMenuItem;
     }
 }

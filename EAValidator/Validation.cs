@@ -49,6 +49,14 @@ namespace EAValidator
                 MessageBox.Show("Validation result does not have all mandatory content." + " - " + check.CheckDescription);
             }
         }
+        public bool Resolve()
+        {
+            var result = false; //default false
+            //get the code to resolve the issue
+            //execute the resolve() method and get the return value
+            return this.check.resolve(this.ItemGuid);
+            return result;
+        }
 
         private void InterpreteValidationResultSubNode(XmlNode subNode)
         {
