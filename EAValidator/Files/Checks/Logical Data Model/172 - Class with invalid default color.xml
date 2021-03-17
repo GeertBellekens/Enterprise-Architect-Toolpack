@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Check>
-	<CheckId>160</CheckId>
-	<CheckDescription>Class with invalid name</CheckDescription>
+	<CheckId>172</CheckId>
+	<CheckDescription>Class with invalid default color</CheckDescription>
 	<QueryToFindElements>
 		<Main>
 			SELECT o.ea_guid AS ItemGuid
@@ -76,19 +76,25 @@
 			LEFT JOIN t_package package_p3 ON package_p3.package_id = package_p2.parent_id)
 			LEFT JOIN t_package package_p4 on package_p4.package_id = package_p3.parent_id)
 			LEFT JOIN t_package package_p5 on package_p5.package_id = package_p4.parent_id)
-			WHERE o.ea_guid in (#ElementGuids#)
-			and (isnull(o.name, '$') like '%[^a-zA-Z]%' 
-			or LEFT(o.name, 1) = LOWER(LEFT(o.name, 1)) Collate SQL_Latin1_General_CP1_CS_AS)
+			WHERE 
+			o.ea_guid in (#ElementGuids#)
+			and (not isnull(o.Backcolor,-1)  = (
+												select isnull(o2.Backcolor,-1) from
+												(
+												select top(1) o2.Backcolor, count(*) as countt from t_object o2
+												
+												where o2.Stereotype = 'LDM_Class'
+												and o2.Package_ID = o.Package_ID
+												and not o2.Object_ID = o.Object_ID
+												group by o2.Backcolor 
+												order by count(*) desc
+												) o2
+											  )
+			or isnull(o.Backcolor, -1)= -1)
 		</Main>
 		<Parameters></Parameters>
 	</QueryToCheckFoundElements>
 	<WarningType>Error</WarningType>
-	<Rationale>To insure consistency and to avoid issues when translating to technical format such as databases or XML messages</Rationale>
-	<ProposedSolution>Enter a valid name containing only alphabetic characters, starting with a capital</ProposedSolution>
-	<ResolveCode language="VBScript">
-		function resolve(itemGuid)
-			msgbox "resolve gelukt!"
-			resolve = true
-		end function
-	</ResolveCode>
+	<Rationale>Having the same default color makes it easy to use the correct color on all diagrams</Rationale>
+	<ProposedSolution>Fill in the correct default color</ProposedSolution>
 </Check>

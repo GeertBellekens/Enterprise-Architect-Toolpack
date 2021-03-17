@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Files\EA Validator Logo.png" />
+    <Content Include="Files\Check.png" />
     <Content Include="Files\Checks\Business Processes\142 - Business Process relations not used on a diagram.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -217,6 +218,18 @@
     </Content>
     <Content Include="Files\Checks\Logical Data Model\04 - LDM-Classes containing Attributes without datatype.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Logical Data Model\160 - Class with invalid name.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Logical Data Model\161 - Attribute with invalid name.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Logical Data Model\172 - Class with invalid default color.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Checks\Logical Data Model\173 - Class with invalid color on diagram.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Files\EA Validator Logo.ico" />
     <Content Include="Files\EA Validator Logo_transparent.png" />

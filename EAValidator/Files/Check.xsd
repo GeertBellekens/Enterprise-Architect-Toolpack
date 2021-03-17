@@ -63,4 +63,15 @@
 			<xs:element type="xs:string" name="ResolveCode" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name ="ResolveCode">
+		<xs:attribute name = "language" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="VBScript"/>
+					<xs:enumeration value="JScript"/>
+					<xs:enumeration value="JavaScript"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
 </xs:schema>

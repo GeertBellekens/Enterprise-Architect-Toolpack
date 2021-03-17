@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
+using System.Xml.XPath;
 using TSF.UmlToolingFramework.UML.Extended;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
@@ -21,32 +22,190 @@ namespace EAValidator
     {
         const string resolveFunctionName = "resolve";
         private TSF_EA.Model model { get; set; }
+        private XDocument xdoc;
 
         // Check to validate
         // *****************
 
-        public string CheckId { get; set; }                         // Unique Identifier of the check
-        public string CheckDescription { get; set; }                // Title of the check
+        private string _checkID = null;
+        /// <summary>
+        /// Unique Identifier of the check
+        /// </summary>
+        public string CheckId
+        {
+            get
+            {
+                if (this._checkID == null)
+                {
+                    this._checkID = xdoc.Root.Element("CheckId").Value;
+                }
+                return this._checkID;
+            }
+        }
+        private string _checkDescription = null;
+        /// <summary>
+        /// Title of the check
+        /// </summary>
+        public string CheckDescription 
+        {
+            get
+            {
+                if (this._checkDescription == null)
+                {
+                    this._checkDescription = xdoc.Root.Element("CheckDescription").Value;
+                }
+                return this._checkDescription;
+            }
+        }
+        private string _queryToFindElements = null;
+        /// <summary>
+        /// sql-query to search for elements that must be checked
+        /// </summary>
+        public string QueryToFindElements 
+        {
+            get
+            {
+                if (this._queryToFindElements == null)
+                {
+                    this._queryToFindElements = xdoc.Root.Element("QueryToFindElements").Element("Main").Value;
+                }
+                return this._queryToFindElements;
+            }
+        }                                     
+
+        
+        private Dictionary<string, string> _queryToFindElementsFilters = null;
+        /// <summary>
+        /// sql-filters that can be applied to QueryToFindElements
+        /// </summary>
+        public Dictionary<string, string> QueryToFindElementsFilters 
+        { 
+            get
+            {
+                if (this._queryToFindElementsFilters == null)
+                {
+                    this._queryToFindElementsFilters = new Dictionary<string, string>();
+                    foreach (var filterNode in xdoc.Root.Element("QueryToFindElements").Element("Filters")?.Elements())
+                    {
+                        this._queryToFindElementsFilters.Add(filterNode.Name.LocalName, filterNode.Value);
+                    }
+                }
+                return this._queryToFindElementsFilters;
+
+            }
+        }
+
+        private string _queryToCheckFoundElements = null;
+        public string QueryToCheckFoundElements
+        {
+            get
+            {
+                if (this._queryToCheckFoundElements == null)
+                {
+                    this._queryToCheckFoundElements = xdoc.Root.Element("QueryToCheckFoundElements").Element("Main").Value;
+                }
+                return this._queryToCheckFoundElements;
+            }
+        }
+        private Dictionary<string, string> _queryToCheckFoundElementsParameters = null;
+        /// <summary>
+        /// sql-filters that can be applied to QueryToFindElements
+        /// </summary>
+        public Dictionary<string, string> QueryToCheckFoundElementsParameters
+        {
+            get
+            {
+                if (this._queryToCheckFoundElementsParameters == null)
+                {
+                    this._queryToCheckFoundElementsParameters = new Dictionary<string, string>();
+                    foreach (var parameterNode in xdoc.Root.Element("QueryToCheckFoundElements").Element("Parameters")?.Elements())
+                    {
+                        this._queryToCheckFoundElementsParameters.Add(parameterNode.Name.LocalName, parameterNode.Value);
+                    }
+                }
+                return this._queryToCheckFoundElementsParameters;
+            }
+        }
 
 
-        public string Group => this.group?.name;                          // Group of the check
+        private string _warningType = null;
+        public string WarningType
+        {
+            get
+            {
+                if (this._warningType == null)
+                {
+                    this._warningType = xdoc.Root.Element("WarningType").Value;
+                }
+                return this._warningType;
+            }
+        }
 
-        public string QueryToFindElements { get; set; }                                     // sql-query to search for elements that must be checked
-        public Dictionary<string, string> QueryToFindElementsFilters { get; set; }          // sql-filters that can be applied to QueryToFindElements
+        private string _rationale = null;
+        public string Rationale
+        {
+            get
+            {
+                if (this._rationale == null)
+                {
+                    this._rationale = xdoc.Root.Element("Rationale").Value;
+                }
+                return this._rationale;
+            }
+        }
+        private string _proposedSolution = null;
+        public string ProposedSolution
+        {
+            get
+            {
+                if (this._proposedSolution == null)
+                {
+                    this._proposedSolution = xdoc.Root.Element("ProposedSolution").Value;
+                }
+                return this._proposedSolution;
+            }
+        }
+        private string _helpUrl = null;
+        public string helpUrl
+        {
+            get
+            {
+                if (this._helpUrl == null)
+                {
+                    this._helpUrl = xdoc.Root.Element("HelpUrl")?.Value;
+                    if (string.IsNullOrEmpty(this._helpUrl))
+                    {
+                        var helpPdf = Path.GetDirectoryName(this.checkfile)
+                                      + "\\"
+                                      + Path.GetFileNameWithoutExtension(this.checkfile) + ".pdf";
 
+                        if (System.IO.File.Exists(helpPdf))
+                        {
+                            this._helpUrl = helpPdf;
+                        }
+                    }
+                }
+                return this._helpUrl;
+            }
+        }
+        private string _resolveCode = null;
+        private string resolveCode
+        {
+            get
+            {
+                if (this._resolveCode == null)
+                {
+                    this._resolveCode = xdoc.Root.Element("ResolveCode")?.Value;
+                }
+                return this._resolveCode;
+            }
+        }
 
-        public string QueryToCheckFoundElements { get; set; }                               // sql-query that performs the check on elements found
-        public Dictionary<string, string> QueryToCheckFoundElementsParameters { get; set; } // sql-filters that can be applied to QueryToFindElements
-
-
-        public string WarningType { get; set; }                     // Severity of the impact when problems are found. i.e. error, warning, (information)
-        public string Rationale { get; set; }                       // Explanation of the logic of the check
-        public string ProposedSolution { get; set; }                // Proposed Solution of the check
+        public string Group => this.group?.name;
         private EAValidatorSettings settings { get; set; }
         private CheckGroup group { get; set; }
         public string name => this.CheckDescription;
-        public string helpUrl { get; set; }
-        private string resolveCode { get; set; }
+        
         private Script _resolveScript;
         private Script resolveScript
         {
@@ -55,7 +214,8 @@ namespace EAValidator
                 if (this._resolveScript == null 
                     && !String.IsNullOrEmpty(this.resolveCode ))
                 {
-                    this._resolveScript = new Script(this.CheckId, this.name, "validation scripts", this.resolveCode, "VBScript", this.model);
+                    var language = xdoc.Root.Element("ResolveCode").Attribute("language").Value;
+                    this._resolveScript = new Script(this.CheckId, this.name, "validation scripts", this.resolveCode, language, this.model);
                     this._resolveScript.reloadCode();
                 }
                 return this._resolveScript;
@@ -79,42 +239,32 @@ namespace EAValidator
             }
         }
 
-        
+        public string checkfile { get; }
+        public bool canBeResolved { get => !string.IsNullOrEmpty(this.resolveCode);}
 
         public Check(string checkFile, CheckGroup group, EAValidatorSettings settings, TSF_EA.Model model)
         {
-
-            //validate the xml file
-            this.ValidToXSD(checkFile);
             // Constructor
             this.model = model;
             this.settings = settings;
             this.group = group;
-            // Initiate the Check
-            this.SetDefaultValues();
-
-            // Load file contents into the Check class
-            if (Path.GetExtension(checkFile).ToLower() == ".xml")
+            this.checkfile = checkFile;
+            //load the contents from the the xml file
+            this.loadXml(checkFile);
+        }
+        private void loadXml(string file)
+        {
+            string schemaNamespace = "";
+            string schemaFileName = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + @"\Files\check.xsd";
+            if (!(Utils.FileOrDirectoryExists(schemaFileName)))
             {
-                // Load xml-document
-                var xmldoc = new XmlDocument();
-                xmldoc.Load(checkFile);
-
-                // Interprete xml node and subnodes
-                XmlNode node = xmldoc.DocumentElement.SelectSingleNode(this.settings.XML_CheckMainNode);
-                foreach (XmlNode subNode in node.ChildNodes)
-                {
-                    this.InterpreteCheckSubNode(subNode);
-                }
+                throw new FileNotFoundException("XSD schema not found: ", schemaFileName);
             }
-            //check if helpUrl is filled in. If not then we check if there is a local file with the same name that has a .pdf extension
-            this.checkHelpUrl(checkFile);
-
-            // Verify that the check has all mandatory content
-            if (!this.HasMandatoryContent())
-            {
-                EAOutputLogger.log($"XML file does not have all mandatory content. - {checkFile}", 0, LogTypeEnum.error);
-            }
+            XmlSchemaSet schemas = new XmlSchemaSet();
+            schemas.Add(schemaNamespace, schemaFileName);
+            string filename = new FileInfo(file).Name;
+            this.xdoc = XDocument.Load(file);
+            xdoc.Validate(schemas, (o, e) => { throw new XmlSchemaValidationException($"Check {filename} is invalid: {e.Message}"); });
         }
 
         internal bool resolve(string itemGuid)
@@ -124,25 +274,17 @@ namespace EAValidator
             {
                 var scriptResult = this.resolveScript.functions.FirstOrDefault(x => x.name == resolveFunctionName)
                     ?.execute(new object[] { itemGuid }) as bool?;
-                if (scriptResult == true) result = true;
-            }
-            return result;
-            
-        }
-
-        private void checkHelpUrl(string checkFile)
-        {
-            if (string.IsNullOrEmpty(this.helpUrl))
-            {
-                var helpPdf = Path.GetDirectoryName(checkFile)
-                              + "\\"
-                              + Path.GetFileNameWithoutExtension(checkFile) + ".pdf";
-
-                if (System.IO.File.Exists(helpPdf))
+                if (scriptResult == true)
                 {
-                    this.helpUrl = helpPdf;
+                    //re-evaluate the validation rule
+                    var validation = this.ValidateItem(itemGuid);
+                    if (validation == null)
+                    {
+                        result = true;
+                    }
                 }
             }
+            return result;
         }
 
         public void resetStatus()
@@ -151,120 +293,10 @@ namespace EAValidator
             this.NumberOfElementsFound = null;
             this.NumberOfValidationResults = null;
         }
-        private void SetDefaultValues()
-        {
-            this.resetStatus();
-            // Defaults
-            this.selected = true;
-            this.CheckId = "0";
-            this.CheckDescription = "";
-            this.QueryToFindElements = "";
-            this.QueryToCheckFoundElements = "";
-            this.WarningType = "";
-            this.Rationale = "";
-            this.ProposedSolution = "";
-            this.QueryToFindElementsFilters = new Dictionary<string, string>();
-            this.QueryToCheckFoundElementsParameters = new Dictionary<string, string>();
-        }
 
-        private void InterpreteCheckSubNode(XmlNode node)
-        {
-            switch (node.Name.ToLower())
-            {
-                case "checkid":
-                    this.CheckId = node.InnerText;
-                    break;
-                case "checkdescription":
-                    this.CheckDescription = node.InnerText;
-                    break;
-                case "querytofindelements":
-                    foreach (XmlNode subNode in node.ChildNodes)
-                    {
-                        switch (subNode.Name.ToLower())
-                        {
-                            case "main":
-                                this.QueryToFindElements = Utils.ReplaceXMLCharsInQuery(subNode.InnerText);
-                                break;
-                            case "filters":
-                                foreach (XmlNode filterNode in subNode.ChildNodes)
-                                {
-                                    this.QueryToFindElementsFilters.Add(filterNode.Name, Utils.ReplaceXMLCharsInQuery(filterNode.InnerText));
-                                }
-                                break;
-                            default:
-                                // do nothing
-                                break;
-                        }
-                    }
-                    break;
-                case "querytocheckfoundelements":
-                    foreach (XmlNode subNode in node.ChildNodes)
-                    {
-                        switch (subNode.Name.ToLower())
-                        {
-                            case "main":
-                                this.QueryToCheckFoundElements = Utils.ReplaceXMLCharsInQuery(subNode.InnerText);
-                                break;
-                            case "parameters":
-                                foreach (XmlNode parameterNode in subNode.ChildNodes)
-                                {
-                                    this.QueryToCheckFoundElementsParameters.Add(parameterNode.Name, Utils.ReplaceXMLCharsInQuery(parameterNode.InnerText));
-                                }
-                                break;
-                            default:
-                                // do nothing
-                                break;
-                        }
-                    }
-                    break;
-                case "warningtype":
-                    this.WarningType = node.InnerText;
-                    break;
-                case "rationale":
-                    this.Rationale = node.InnerText;
-                    break;
-                case "proposedsolution":
-                    this.ProposedSolution = node.InnerText;
-                    break;
-                case "helpurl":
-                    this.helpUrl = node.InnerText;
-                    break;
-                case "resolvecode":
-                    this.resolveCode = node.InnerText;
-                    break;
-                default:
-                    // do nothing
-                    break;
-            }
-        }
 
-        private bool HasMandatoryContent()
-        {
-            // Verify that the check has all mandatory content
-            if (string.IsNullOrEmpty(this.CheckDescription))
-            {
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(this.QueryToFindElements))
-            {
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(this.QueryToCheckFoundElements))
-            {
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(this.WarningType))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public List<Validation> Validate(EAValidatorController controller, TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages)
+       
+        public List<Validation> Validate(TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages, string scopePackageIDs)
         {
             var validations = new List<Validation>();
 
@@ -274,37 +306,31 @@ namespace EAValidator
             this.NumberOfValidationResults = null;
 
             // Search elements that need to be checked depending on filters and give back their guids.
-            var foundelementguids = this.getElementGuids(controller, EA_element, EA_diagram, excludeArchivedPackages);
+            var foundelementguids = this.getElementGuids(EA_element, EA_diagram, excludeArchivedPackages, scopePackageIDs);
             //set the numberOfElementsFound
             this.NumberOfElementsFound = foundelementguids.Count();
             if (this.Status == CheckStatus.Error)
             {
-                controller.addLineToEAOutput("- Error while searching elements.", "");
                 return validations;
             }
 
             if (foundelementguids.Any())
             {
-                controller.addLineToEAOutput("- Elements found: ", foundelementguids.Count().ToString());
-
                 // Perform the checks for the elements found (based on their guids)
-                validations = this.CheckFoundElements(controller, foundelementguids);
-                this.NumberOfValidationResults = validations.Count();
-                if (this.Status == CheckStatus.Error)
-                {
-                    controller.addLineToEAOutput("- Error while validating found elements.", "");
-                }
-                controller.addLineToEAOutput("- Validation results found: ", this.NumberOfValidationResults.ToString());
+                validations = this.CheckFoundElements( foundelementguids);
             }
             else
             {
                 this.NumberOfValidationResults = 0;
-                controller.addLineToEAOutput("- No elements found.", "");
             }
             return validations;
         }
+        public Validation ValidateItem (string itemGUID)
+        {
+            return this.CheckFoundElements( new List<string> { $"'{itemGUID}'"}).FirstOrDefault();
+        }
 
-        private IEnumerable<string> getElementGuids(EAValidatorController controller, TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages)
+        private IEnumerable<string> getElementGuids( TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages, string scopePackageIDs)
         {
             var qryToFindElements = this.QueryToFindElements;
             var foundelementguids = new List<string>();
@@ -327,14 +353,14 @@ namespace EAValidator
                         else
                         {
                             // Replace Branch with package-guids of branch
-                            if (whereclause.Contains(controller.settings.PackageBranch))
+                            if (whereclause.Contains(this.settings.PackageBranch))
                             {
-                                whereclause = whereclause.Replace(controller.settings.PackageBranch, controller.scopePackageIDs);
+                                whereclause = whereclause.Replace(this.settings.PackageBranch, scopePackageIDs);
                             }
                             else
                             {
                                 // Replace Search Term with Element guid
-                                whereclause = whereclause.Replace(controller.settings.SearchTermInQueryToFindElements, EA_element.guid);
+                                whereclause = whereclause.Replace(this.settings.SearchTermInQueryToFindElements, EA_element.guid);
                             }
                         }
                     }
@@ -350,7 +376,7 @@ namespace EAValidator
                         else
                         {
                             // Replace Search Term with Element guid
-                            whereclause = whereclause.Replace(controller.settings.SearchTermInQueryToFindElements, EA_element.guid);
+                            whereclause = whereclause.Replace(this.settings.SearchTermInQueryToFindElements, EA_element.guid);
                         }
                     }
                     qryToFindElements = qryToFindElements + whereclause;
@@ -374,7 +400,7 @@ namespace EAValidator
                     else
                     {
                         // Replace Search Term with diagram guid
-                        whereclause = whereclause.Replace(controller.settings.SearchTermInQueryToFindElements, EA_diagram.diagramGUID);
+                        whereclause = whereclause.Replace(this.settings.SearchTermInQueryToFindElements, EA_diagram.diagramGUID);
                     }
                     qryToFindElements = qryToFindElements + whereclause;
                 }
@@ -382,7 +408,7 @@ namespace EAValidator
 
             if (excludeArchivedPackages)
             {
-                qryToFindElements = qryToFindElements + " " + controller.settings.QueryExcludeArchivedPackages;
+                qryToFindElements = qryToFindElements + " " + this.settings.QueryExcludeArchivedPackages;
             }
 
             try
@@ -415,7 +441,7 @@ namespace EAValidator
                 yield return list.GetRange(i, Math.Min(chunkSize, list.Count - i));
             }
         }
-        private List<Validation> CheckFoundElements(EAValidatorController controller, IEnumerable<string> foundelementguids)
+        private List<Validation> CheckFoundElements(IEnumerable<string> foundelementguids)
         {
             // Prepare
             var validations = new List<Validation>();
@@ -425,7 +451,7 @@ namespace EAValidator
             {
                 // Replace SearchTerm with list of guids
                 var qryToCheckFoundElements = this.QueryToCheckFoundElements;
-                qryToCheckFoundElements = qryToCheckFoundElements.Replace(controller.settings.ElementGuidsInQueryToCheckFoundElements
+                qryToCheckFoundElements = qryToCheckFoundElements.Replace(this.settings.ElementGuidsInQueryToCheckFoundElements
                                                                         , String.Join(",", guidsToCheck));
 
                 // Search for Parameters in query and replace them
@@ -458,21 +484,6 @@ namespace EAValidator
 
             return validations;
         }
-        public bool ValidToXSD(string file)
-        {
-            bool valid = true;
-            string schemaNamespace = "";
-            string schemaFileName = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + @"\Files\check.xsd";
-            if (!(Utils.FileOrDirectoryExists(schemaFileName)))
-            {
-                throw new FileNotFoundException("XSD schema not found: ", schemaFileName);
-            }
-            XmlSchemaSet schemas = new XmlSchemaSet();
-            schemas.Add(schemaNamespace, schemaFileName);
-            string filename = new FileInfo(file).Name;
-            XDocument doc = XDocument.Load(file);
-            doc.Validate(schemas, (o, e) => { throw new XmlSchemaValidationException($"Check {filename} is invalid: {e.Message}"); });
-            return valid;
-        }
+       
     }
 }

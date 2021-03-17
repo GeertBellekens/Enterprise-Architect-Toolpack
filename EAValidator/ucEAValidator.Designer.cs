@@ -45,6 +45,12 @@
             this.olvColPackageParentLvl4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColPackageParentLvl5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColWarningType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.validationContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.resolveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resolveAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectInProjectBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.validatorImageList = new System.Windows.Forms.ImageList(this.components);
             this.olvChecks = new BrightIdeasSoftware.TreeListView();
             this.olvColName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -54,7 +60,6 @@
             this.olvColCheckWarningType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckGroup = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckRationale = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.checksImageList = new System.Windows.Forms.ImageList(this.components);
             this.lblChecks = new System.Windows.Forms.Label();
             this.lblResults = new System.Windows.Forms.Label();
             this.txtElementName = new System.Windows.Forms.TextBox();
@@ -62,15 +67,15 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.lblElementName = new System.Windows.Forms.Label();
             this.grpElement = new System.Windows.Forms.GroupBox();
+            this.getSelectedPackageButton = new System.Windows.Forms.Button();
             this.btnClearScope = new System.Windows.Forms.Button();
             this.txtDiagramName = new System.Windows.Forms.TextBox();
             this.lblDiagram = new System.Windows.Forms.Label();
             this.btnSelectDiagram = new System.Windows.Forms.Button();
             this.logoBox = new System.Windows.Forms.PictureBox();
             this.validatorSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.validationContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.resolveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).BeginInit();
+            this.validationContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).BeginInit();
             this.grpElement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
@@ -78,7 +83,6 @@
             this.validatorSplitContainer.Panel1.SuspendLayout();
             this.validatorSplitContainer.Panel2.SuspendLayout();
             this.validatorSplitContainer.SuspendLayout();
-            this.validationContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnDoValidation
@@ -135,6 +139,7 @@
             this.olvValidations.ShowCommandMenuOnRightClick = true;
             this.olvValidations.ShowItemCountOnGroups = true;
             this.olvValidations.Size = new System.Drawing.Size(969, 315);
+            this.olvValidations.SmallImageList = this.validatorImageList;
             this.olvValidations.TabIndex = 2;
             this.olvValidations.UseCompatibleStateImageBehavior = false;
             this.olvValidations.UseFilterIndicator = true;
@@ -143,6 +148,7 @@
             this.olvValidations.View = System.Windows.Forms.View.Details;
             this.olvValidations.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.olvValidations_CellToolTipShowing);
             this.olvValidations.IsHyperlink += new System.EventHandler<BrightIdeasSoftware.IsHyperlinkEventArgs>(this.olvValidations_IsHyperlink);
+            this.olvValidations.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.olvValidations_ItemSelectionChanged);
             this.olvValidations.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvValidations_MouseDoubleClick);
             // 
             // olvColCheck
@@ -229,6 +235,59 @@
             this.olvColWarningType.Text = "Result Type";
             this.olvColWarningType.Width = 100;
             // 
+            // validationContextMenuStrip
+            // 
+            this.validationContextMenuStrip.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.validationContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.resolveToolStripMenuItem,
+            this.resolveAllToolStripMenuItem,
+            this.selectInProjectBrowserToolStripMenuItem,
+            this.openPropertiesToolStripMenuItem});
+            this.validationContextMenuStrip.Name = "validationContextMenuStrip";
+            this.validationContextMenuStrip.Size = new System.Drawing.Size(204, 92);
+            // 
+            // resolveToolStripMenuItem
+            // 
+            this.resolveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("resolveToolStripMenuItem.Image")));
+            this.resolveToolStripMenuItem.Name = "resolveToolStripMenuItem";
+            this.resolveToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.resolveToolStripMenuItem.Text = "Resolve Selected";
+            this.resolveToolStripMenuItem.Click += new System.EventHandler(this.resolveToolStripMenuItem_Click);
+            // 
+            // resolveAllToolStripMenuItem
+            // 
+            this.resolveAllToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("resolveAllToolStripMenuItem.Image")));
+            this.resolveAllToolStripMenuItem.Name = "resolveAllToolStripMenuItem";
+            this.resolveAllToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.resolveAllToolStripMenuItem.Text = "Resolve All";
+            this.resolveAllToolStripMenuItem.Click += new System.EventHandler(this.resolveAllToolStripMenuItem_Click);
+            // 
+            // selectInProjectBrowserToolStripMenuItem
+            // 
+            this.selectInProjectBrowserToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("selectInProjectBrowserToolStripMenuItem.Image")));
+            this.selectInProjectBrowserToolStripMenuItem.Name = "selectInProjectBrowserToolStripMenuItem";
+            this.selectInProjectBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.selectInProjectBrowserToolStripMenuItem.Text = "Select in Project Browser";
+            this.selectInProjectBrowserToolStripMenuItem.Click += new System.EventHandler(this.selectInProjectBrowserToolStripMenuItem_Click);
+            // 
+            // openPropertiesToolStripMenuItem
+            // 
+            this.openPropertiesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openPropertiesToolStripMenuItem.Image")));
+            this.openPropertiesToolStripMenuItem.Name = "openPropertiesToolStripMenuItem";
+            this.openPropertiesToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.openPropertiesToolStripMenuItem.Text = "Open Properties";
+            this.openPropertiesToolStripMenuItem.Click += new System.EventHandler(this.openPropertiesToolStripMenuItem_Click);
+            // 
+            // validatorImageList
+            // 
+            this.validatorImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("validatorImageList.ImageStream")));
+            this.validatorImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.validatorImageList.Images.SetKeyName(0, "package");
+            this.validatorImageList.Images.SetKeyName(1, "Check");
+            this.validatorImageList.Images.SetKeyName(2, "CheckAutoResolve");
+            this.validatorImageList.Images.SetKeyName(3, "Error");
+            this.validatorImageList.Images.SetKeyName(4, "ErrorAutoResolve");
+            // 
             // olvChecks
             // 
             this.olvChecks.AllColumns.Add(this.olvColName);
@@ -264,7 +323,7 @@
             this.olvChecks.ShowGroups = false;
             this.olvChecks.ShowImagesOnSubItems = true;
             this.olvChecks.Size = new System.Drawing.Size(969, 206);
-            this.olvChecks.SmallImageList = this.checksImageList;
+            this.olvChecks.SmallImageList = this.validatorImageList;
             this.olvChecks.TabIndex = 3;
             this.olvChecks.TriStateCheckBoxes = true;
             this.olvChecks.UseCellFormatEvents = true;
@@ -342,13 +401,6 @@
             this.olvColCheckRationale.Text = "Rationale";
             this.olvColCheckRationale.Width = 500;
             // 
-            // checksImageList
-            // 
-            this.checksImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("checksImageList.ImageStream")));
-            this.checksImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.checksImageList.Images.SetKeyName(0, "Check");
-            this.checksImageList.Images.SetKeyName(1, "package");
-            // 
             // lblChecks
             // 
             this.lblChecks.AutoSize = true;
@@ -415,6 +467,7 @@
             // 
             this.grpElement.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpElement.Controls.Add(this.getSelectedPackageButton);
             this.grpElement.Controls.Add(this.btnClearScope);
             this.grpElement.Controls.Add(this.txtDiagramName);
             this.grpElement.Controls.Add(this.lblDiagram);
@@ -428,6 +481,18 @@
             this.grpElement.TabIndex = 21;
             this.grpElement.TabStop = false;
             this.grpElement.Text = "Scope";
+            // 
+            // getSelectedPackageButton
+            // 
+            this.getSelectedPackageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.getSelectedPackageButton.BackColor = System.Drawing.SystemColors.Control;
+            this.getSelectedPackageButton.Location = new System.Drawing.Point(787, 21);
+            this.getSelectedPackageButton.Name = "getSelectedPackageButton";
+            this.getSelectedPackageButton.Size = new System.Drawing.Size(79, 23);
+            this.getSelectedPackageButton.TabIndex = 30;
+            this.getSelectedPackageButton.Text = "Current";
+            this.getSelectedPackageButton.UseVisualStyleBackColor = true;
+            this.getSelectedPackageButton.Click += new System.EventHandler(this.getSelectedPackageButton_Click);
             // 
             // btnClearScope
             // 
@@ -510,21 +575,6 @@
             this.validatorSplitContainer.SplitterDistance = 350;
             this.validatorSplitContainer.TabIndex = 22;
             // 
-            // validationContextMenuStrip
-            // 
-            this.validationContextMenuStrip.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.validationContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resolveToolStripMenuItem});
-            this.validationContextMenuStrip.Name = "validationContextMenuStrip";
-            this.validationContextMenuStrip.Size = new System.Drawing.Size(181, 48);
-            // 
-            // resolveToolStripMenuItem
-            // 
-            this.resolveToolStripMenuItem.Name = "resolveToolStripMenuItem";
-            this.resolveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.resolveToolStripMenuItem.Text = "Resolve";
-            this.resolveToolStripMenuItem.Click += new System.EventHandler(this.resolveToolStripMenuItem_Click);
-            // 
             // ucEAValidator
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -532,6 +582,7 @@
             this.Name = "ucEAValidator";
             this.Size = new System.Drawing.Size(1000, 700);
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).EndInit();
+            this.validationContextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).EndInit();
             this.grpElement.ResumeLayout(false);
             this.grpElement.PerformLayout();
@@ -542,7 +593,6 @@
             this.validatorSplitContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.validatorSplitContainer)).EndInit();
             this.validatorSplitContainer.ResumeLayout(false);
-            this.validationContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -585,9 +635,13 @@
         private BrightIdeasSoftware.OLVColumn olvColCheckRationale;
         private BrightIdeasSoftware.OLVColumn olvColProposedSolution;
         private System.Windows.Forms.PictureBox logoBox;
-        private System.Windows.Forms.ImageList checksImageList;
+        private System.Windows.Forms.ImageList validatorImageList;
         private System.Windows.Forms.SplitContainer validatorSplitContainer;
         private System.Windows.Forms.ContextMenuStrip validationContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem resolveToolStripMenuItem;
+        private System.Windows.Forms.Button getSelectedPackageButton;
+        private System.Windows.Forms.ToolStripMenuItem resolveAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectInProjectBrowserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openPropertiesToolStripMenuItem;
     }
 }

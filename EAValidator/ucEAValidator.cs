@@ -41,19 +41,43 @@ namespace EAValidator
                 return checkGroup?.subItems;
             };
             this.olvChecks.ChildrenGetter = childrenGetter;
-            //tell the control which image to show
-            ImageGetterDelegate imageGetter = delegate (object rowObject)
+            //set image for check
+            ImageGetterDelegate checkImageGetter = delegate (object rowObject)
             {
-                if (rowObject is Check)
+                var checkObject = rowObject as Check;
+                if (checkObject != null)
                 {
+                    if (checkObject.canBeResolved)
+                    {
+                        return "CheckAutoResolve";
+                    }
                     return "Check";
                 }
-                else
-                {
-                    return "package";
-                }
+                return "package";
+                
             };
-            this.olvColName.ImageGetter = imageGetter;
+            this.olvColName.ImageGetter = checkImageGetter;
+            //set image for validation
+            ImageGetterDelegate validationImageGetter = delegate (object rowObject)
+            {
+                var validationObject = rowObject as Validation;
+                if (validationObject != null)
+                {
+                    if (validationObject.isResolved)
+                    {
+                        return "Check";
+                    }
+                    if (validationObject.check.canBeResolved)
+                    {
+                        return "ErrorAutoResolve";
+                    }
+                    return "Error";
+                }
+                return string.Empty;
+
+            };
+            this.olvColCheck.ImageGetter = validationImageGetter;
+
         }
 
         public void setController(EAValidatorController controller)
@@ -176,6 +200,25 @@ namespace EAValidator
             try
             {
                 this.scopeElement = this.controller.getUserSelectedScopeElement();
+            }
+            catch (Exception) { }
+
+            if (this.scopeElement != null)
+            {
+                // Show element details on screen
+                this.txtElementName.Text = this.scopeElement.name;
+            }
+            // (Re-)Initialize screen fields
+            this.Initiate();
+        }
+        private void getSelectedPackageButton_Click(object sender, EventArgs e)
+        {
+            this.ClearScopeFields();
+
+            // Select one element using EA Package Browser  (EA must be connected to a project)
+            try
+            {
+                this.scopeElement = this.controller.getSelectedPackage();
             }
             catch (Exception) { }
 
@@ -327,9 +370,62 @@ namespace EAValidator
 
         private void resolveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var selectedValidation = this.olvValidations.SelectedObject as Validation;
-            var resolved = selectedValidation?.Resolve();
+            this.resolveValidations(this.olvValidations.SelectedObjects);
+        }
+        private void resolveAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.resolveValidations(this.olvValidations.Objects);
+        }
+        private void resolveValidations(System.Collections.IEnumerable validations)
+        {
+            foreach (Validation validation in validations)
+            {
+                if (validation.check.canBeResolved
+                    && !validation.isResolved)
+                {
+                    validation.Resolve();
+                    this.olvValidations.RefreshObject(validation);
+                }
+            }
+        }
 
+        private void olvValidations_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            this.resolveToolStripMenuItem.Enabled = false;
+            this.resolveAllToolStripMenuItem.Enabled = false;
+            //check if any of the selected objects can be resolved
+            foreach (Validation validation in this.olvValidations.SelectedObjects)
+            {
+                if (validation.check.canBeResolved)
+                {
+                    this.resolveToolStripMenuItem.Enabled = true;
+                    break;
+                }
+            }
+            //check if any of the validations can be resolved
+            foreach (Validation validation in this.olvValidations.Objects)
+            {
+                if (validation.check.canBeResolved)
+                {
+                    this.resolveAllToolStripMenuItem.Enabled = true;
+                    break;
+                }
+            }
+            // select in project browser, and open properties need a selected object
+            this.selectInProjectBrowserToolStripMenuItem.Enabled = (olvValidations.SelectedObject != null);
+            this.openPropertiesToolStripMenuItem.Enabled = (olvValidations.SelectedObject != null);
+            
+
+        }
+
+        private void selectInProjectBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.controller.OpenInEA(this.olvValidations.SelectedObject as Validation);
+        }
+
+        private void openPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.controller.openProperties(this.olvValidations.SelectedObject as Validation);
         }
     }
 }

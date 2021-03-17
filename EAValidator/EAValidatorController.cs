@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using TSF.UmlToolingFramework.UML.Extended;
+using TSF.UmlToolingFramework.Wrappers.EA;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EAValidator
@@ -48,6 +49,10 @@ namespace EAValidator
         {
             return this.model.getUserSelectedElement(this.settings.scopeElementTypes) as TSF_EA.Element;
         }
+        internal TSF_EA.Package getSelectedPackage()
+        {
+            return this.model.selectedTreePackage as TSF_EA.Package;
+        }
 
         public TSF_EA.Diagram getSelectedScopeDiagram()
         {
@@ -82,6 +87,15 @@ namespace EAValidator
                         item.open();
                     }
                 }
+            }
+        }
+        public void openProperties(Validation validation)
+        {
+            if (!(String.IsNullOrEmpty(validation.ItemGuid)))
+            {
+                // First find the type of Item in EA
+                var item = this.model.getItemFromGUID(validation.ItemGuid);
+                item?.openProperties();
             }
         }
 
@@ -159,7 +173,7 @@ namespace EAValidator
                 foreach (var check in selectedchecks)
                 {
                     this.addLineToEAOutput("Validating check: ", check.CheckDescription);
-                    this.validations.AddRange(check.Validate(this, scopeElement, EA_diagram, this.settings.excludeArchivedPackages));
+                    this.validations.AddRange(check.Validate(scopeElement, EA_diagram, this.settings.excludeArchivedPackages, this.scopePackageIDs));
                     uc.refreshCheck(check);
                     uc.IncrementProgressbar();
                 }
@@ -171,5 +185,7 @@ namespace EAValidator
             // If one (or more) check gave an ERROR, then notify the user about it
             return selectedchecks.Any(x => x.Status == CheckStatus.Error);
         }
+
+
     }
 }

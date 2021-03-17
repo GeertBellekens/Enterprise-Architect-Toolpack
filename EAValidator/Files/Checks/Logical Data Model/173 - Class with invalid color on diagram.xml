@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Check>
+	<CheckId>173</CheckId>
+	<CheckDescription>Class with invalid color on diagram</CheckDescription>
+	<QueryToFindElements>
+		<Main>
+			SELECT do.Instance_ID AS ItemGuid
+			FROM ((((((t_object o
+			inner join t_diagramobjects do on do.Object_ID = o.Object_ID
+			inner join t_diagram d on d.Diagram_ID = do.Diagram_ID
+			INNER JOIN t_Package p ON p.Package_ID = d.Package_ID)
+			LEFT JOIN t_Package Package_p1 ON Package_p1.Package_id = p.parent_id)
+			LEFT JOIN t_Package Package_p2 ON Package_p2.Package_id = Package_p1.parent_id)
+			LEFT JOIN t_Package Package_p3 ON Package_p3.Package_id = Package_p2.parent_id)
+			LEFT JOIN t_Package Package_p4 ON Package_p4.Package_id = Package_p3.parent_id)
+			LEFT JOIN t_Package Package_p5 ON Package_p5.Package_id = Package_p4.parent_id)
+			WHERE o.Object_Type = 'Class'
+			and o.StereoType = 'LDM_Class'
+		</Main>
+		<Filters>
+			<Change>
+				AND o.ea_guid in (
+					SELECT oChange.ea_guid 
+					FROM t_object oChange
+					INNER JOIN t_objectproperties opChange ON oChange.Object_ID = opChange.Object_ID
+					WHERE opChange.Property = 'CR'
+					AND opChange.Value = '#SearchTerm#'
+				)
+			</Change>
+			<Release>
+				AND o.ea_guid in (
+					SELECT o2.ea_guid 
+					FROM (t_object o2
+					INNER JOIN t_objectproperties op2 ON o2.Object_ID = op2.Object_ID)
+					WHERE op2.Property = 'CR'
+					AND op2.Value in (
+						SELECT oChange.ea_guid
+						FROM ((t_object oRelease						
+						INNER JOIN t_connector con ON oRelease.Object_ID = con.End_Object_ID)
+						INNER JOIN t_object oChange ON con.Start_Object_ID = oChange.Object_ID)						
+						WHERE oRelease.ea_guid = '#SearchTerm#'
+					)
+				)					
+			</Release>
+			<Package>
+				AND p.Package_ID in (#Branch#)
+			</Package>
+			<FunctionalDesign>
+				AND d.ea_guid = '#SearchTerm#'
+			</FunctionalDesign>
+		</Filters>
+	</QueryToFindElements>
+	<QueryToCheckFoundElements>
+		<Main>
+			SELECT o.Name + ' on diagram "' + d.name + '"' AS ItemName
+			, 'object' as ItemType
+			, do.Instance_ID AS ItemGuid
+			, o.Object_Type AS ElementType
+			, o.StereoType AS ElementStereotype
+			, p.name AS PackageName
+			, package_p1.name AS PackageParentLevel1
+			, package_p2.name AS PackageParentLevel2 
+			, package_p3.name AS PackageParentLevel3
+			, package_p4.name AS PackageParentLevel4
+			, package_p5.name AS PackageParentLevel5
+			,do.*
+			FROM ((((((t_object o
+			inner join t_diagramobjects do on do.Object_ID = o.Object_ID
+			inner join t_diagram d on d.Diagram_ID = do.Diagram_ID
+							and d.StyleEx like '%MDGDgm=LDM::LDM Diagram;%'
+			INNER JOIN t_Package p ON p.Package_ID = d.Package_ID)
+			LEFT JOIN t_package package_p1 ON package_p1.package_id = p.parent_id)
+			LEFT JOIN t_package package_p2 ON package_p2.package_id = package_p1.parent_id)
+			LEFT JOIN t_package package_p3 ON package_p3.package_id = package_p2.parent_id)
+			LEFT JOIN t_package package_p4 on package_p4.package_id = package_p3.parent_id)
+			LEFT JOIN t_package package_p5 on package_p5.package_id = package_p4.parent_id)
+			WHERE 
+			do.Instance_ID in (#ElementGuids#)
+			and do.ObjectStyle like '%BCol=[^-]%'
+		</Main>
+		<Parameters></Parameters>
+	</QueryToCheckFoundElements>
+	<WarningType>Error</WarningType>
+	<Rationale>Using the same color makes it easy to spot classes from the same domain</Rationale>
+	<ProposedSolution>Reset background color to default</ProposedSolution>
+	<ResolveCode language="VBScript">
+		function resolve (itemGuid)
+			resolve = false 'initial value
+			dim sqlData
+			sqlGetData = "select do.Diagram_ID from t_diagramobjects do where do.Instance_ID = " &amp; itemGuid
+			dim diagram
+			set diagram = getDiagramFromQuery(sqlGetData)
+			'get element
+			sqlGetData = "select do.Object_ID from t_diagramobjects do where do.Instance_ID = " &amp; itemGuid
+			dim elements 
+			set elements = Repository.GetElementSet(sqlGetData,2)
+			dim element
+			set element = elements(0)
+			'get diagramObject
+			dim diagramObject as EA.DiagramObject
+			for each diagramObject in diagram.DiagramObjects
+				if diagramObject.ElementID = element.ElementID then
+					'reset background color
+					diagramObject.BackgroundColor = -1
+					diagramObject.Update
+					'return success
+					resolve = true
+					exit for
+				end if
+			next
+		end function
+
+		function getDiagramFromQuery(sqlGetData)
+			dim xmlResult
+			xmlResult = Repository.SQLQuery(sqlGetData)
+			dim diagramIDs
+			diagramIDs = convertQueryResultToArray(xmlResult)
+			dim diagramID
+			dim diagram
+			set diagram = nothing
+			for each diagramID in diagramIDs
+				if diagramID > 0 then
+					set diagram =  Repository.GetDiagramByID(diagramID)
+					exit for
+				end if
+			next
+			'return
+			set getDiagramFromQuery = diagram
+		end function
+
+		'converts the query results from Repository.SQLQuery from xml format to a two dimensional array of strings
+		Public Function convertQueryResultToArray(xmlQueryResult)
+			Dim arrayCreated
+			Dim i 
+			i = 0
+			Dim j 
+			j = 0
+			Dim result()
+			Dim xDoc 
+			Set xDoc = CreateObject( "MSXML2.DOMDocument" )
+			'load the resultset in the xml document
+			If xDoc.LoadXML(xmlQueryResult) Then        
+				'select the rows
+				Dim rowList
+				Set rowList = xDoc.SelectNodes("//Row")
+
+				Dim rowNode 
+				Dim fieldNode
+				arrayCreated = False
+				'loop rows and find fields
+				For Each rowNode In rowList
+					j = 0
+					If (rowNode.HasChildNodes) Then
+						'redim array (only once)
+						If Not arrayCreated Then
+							ReDim result(rowList.Length, rowNode.ChildNodes.Length)
+							arrayCreated = True
+						End If
+						For Each fieldNode In rowNode.ChildNodes
+							'write f
+							result(i, j) = fieldNode.Text
+							j = j + 1
+						Next
+					End If
+					i = i + 1
+				Next
+			end if
+			convertQueryResultToArray = result
+		End Function
+	</ResolveCode>
+</Check>

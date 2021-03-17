@@ -8,7 +8,7 @@ namespace EAValidator
     /// </summary>
     public class Validation
     {
-        private Check check { get; set; }
+        public Check check { get; private set; }
         public string CheckId => this.check.CheckId;               
         public string CheckDescription => this.check.CheckDescription;
         public string CheckWarningType => this.check.WarningType;
@@ -27,6 +27,7 @@ namespace EAValidator
         public string PackageParentLevel3 { get; set; }          // Parent package of Package (level +3)
         public string PackageParentLevel4 { get; set; }          // Parent package of Package (level +4)
         public string PackageParentLevel5 { get; set; }          // Parent package of Package (level +5)
+        public bool isResolved { get; set; } = false;
 
         public bool HasMandatoryContent()
         {
@@ -51,11 +52,8 @@ namespace EAValidator
         }
         public bool Resolve()
         {
-            var result = false; //default false
-            //get the code to resolve the issue
-            //execute the resolve() method and get the return value
-            return this.check.resolve(this.ItemGuid);
-            return result;
+            this.isResolved = this.check.resolve(this.ItemGuid);
+            return this.isResolved;
         }
 
         private void InterpreteValidationResultSubNode(XmlNode subNode)
