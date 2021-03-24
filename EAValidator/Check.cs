@@ -318,6 +318,7 @@ namespace EAValidator
             {
                 // Perform the checks for the elements found (based on their guids)
                 validations = this.CheckFoundElements( foundelementguids);
+                this.NumberOfValidationResults = validations.Count();
             }
             else
             {
