@@ -1,7 +1,9 @@
 ﻿using BrightIdeasSoftware;
+using EAAddinFramework.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -378,15 +380,44 @@ namespace EAValidator
         }
         private void resolveValidations(System.Collections.IEnumerable validations)
         {
+            int resolved = 0;
+            int unresolved = 0;
+            int errors = 0;
+            Cursor.Current = Cursors.WaitCursor;
+
             foreach (Validation validation in validations)
             {
                 if (validation.check.canBeResolved
                     && !validation.isResolved)
                 {
-                    validation.Resolve();
-                    this.olvValidations.RefreshObject(validation);
+                    try
+                    {
+                        if (validation.Resolve())
+                        {
+                            resolved++;
+                        }
+                        else
+                        {
+                            unresolved++;
+                        }
+                        this.olvValidations.RefreshObject(validation);
+                    }
+                    catch (Exception e)
+                    {
+                        errors++;
+                        EAOutputLogger.log($"Error while resolving rule {validation.CheckId} for item {validation.ItemName}: {e.Message}{Environment.NewLine}{e.StackTrace}",0,LogTypeEnum.error);
+                    }
                 }
             }
+            Cursor.Current = Cursors.Default;
+            //show the results
+            var message = $"{resolved} validations resolved{Environment.NewLine}{unresolved} validations could not be resolved";
+            if (errors > 0 )
+            {
+                message += $"{Environment.NewLine}{errors} validation resolutions resulted in an error";
+            }
+            MessageBox.Show(this, message);
+            
         }
 
         private void olvValidations_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
