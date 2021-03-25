@@ -238,24 +238,31 @@ namespace EAMapping
         /// <param name="ItemName">the name of the selected menu item</param>
         public override void EA_MenuClick(EA.Repository Repository, string Location, string MenuName, string ItemName)
         {
-            switch (ItemName)
+            try
             {
-                case menuMapAsSource:
-                    this.settings.setContextConfig(this.model.selectedElement);
-                    this.loadMapping(this.getMappingSet(this.model.selectedElement as TSF_EA.Element));
-                    break;
-                case menuAbout:
-                    new AboutWindow().ShowDialog(this.model?.mainEAWindow);
-                    break;
-                case menuImportMapping:
-                    this.startImportMapping();
-                    break;
-                case menuImportCopybook:
-                    this.importCopybook();
-                    break;
-                case menuSettings:
-                    new AddinSettingsForm(new MappingSettingsForm(this.settings)).ShowDialog(this.model?.mainEAWindow);
-                    break;
+                switch (ItemName)
+                {
+                    case menuMapAsSource:
+                        this.settings.setContextConfig(this.model.selectedElement);
+                        this.loadMapping(this.getMappingSet(this.model.selectedElement as TSF_EA.Element));
+                        break;
+                    case menuAbout:
+                        new AboutWindow().ShowDialog(this.model?.mainEAWindow);
+                        break;
+                    case menuImportMapping:
+                        this.startImportMapping();
+                        break;
+                    case menuImportCopybook:
+                        this.importCopybook();
+                        break;
+                    case menuSettings:
+                        new AddinSettingsForm(new MappingSettingsForm(this.settings)).ShowDialog(this.model?.mainEAWindow);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                EAAddinBase.processException(e);
             }
         }
 
@@ -320,7 +327,7 @@ namespace EAMapping
             if (mappingSet.mappings.Count() > 1)
             {
                 var result = MessageBox.Show(this.model.mainEAWindow
-                    , $"Found {mappingSet.mappings.Count() -1 } existing mappings.{Environment.NewLine}" +
+                    , $"Found {mappingSet.mappings.Count() - 1 } existing mappings.{Environment.NewLine}" +
                     $"Are you sure you want to remove all mappings and continue the import?"
                     , "Existing Mappings"
                     , MessageBoxButtons.YesNo
@@ -334,7 +341,7 @@ namespace EAMapping
             //let the user know
             EAOutputLogger.log($"Start importing mappings from file: {filePath}");
             //import the mappings
-            EA_MP.MappingFactory.importMappings(mappingSet,filePath, this.model);
+            EA_MP.MappingFactory.importMappings(mappingSet, filePath, this.model);
             //load the mappings
             if (mappingSet != null)
             {
@@ -418,12 +425,12 @@ namespace EAMapping
                                                && x.comment.Contains("<mappingSet>"))
                                                .Select(x => x.comment);
             var mappingSets = new List<MappingSet>();
-            foreach(var tagComment in tagComments)
+            foreach (var tagComment in tagComments)
             {
                 var xdoc = XDocument.Load(new StringReader(tagComment));
                 //get source root
                 var actualSourceRootID = xdoc.Descendants(EA_MP.MappingFactory.mappingSetName).FirstOrDefault()?
-                                                        .Descendants(EA_MP.MappingFactory.mappingSetSourceName).FirstOrDefault()?.Value 
+                                                        .Descendants(EA_MP.MappingFactory.mappingSetSourceName).FirstOrDefault()?.Value
                                                         ?? string.Empty;
                 var actualSourceRoot = this.model.getElementByGUID(actualSourceRootID) as TSF_EA.ElementWrapper;
                 //get target root
@@ -431,7 +438,7 @@ namespace EAMapping
                                                         .Descendants(EA_MP.MappingFactory.mappingSetTargetName).FirstOrDefault()?.Value
                                                         ?? string.Empty;
                 var actualtargetRoot = this.model.getElementByGUID(actualTargetRootID) as TSF_EA.ElementWrapper;
-                if (actualSourceRoot != null 
+                if (actualSourceRoot != null
                     && actualtargetRoot != null)
                 {
                     //create the mappingSet
@@ -479,12 +486,12 @@ namespace EAMapping
             if (mappingSet == null)
             {
                 //could not find a mappingset, check if the selected element is mapped to something
-                var targets =  sourceRoot.taggedValues.Where(x => x.name == this.settings.linkedElementTagName)
+                var targets = sourceRoot.taggedValues.Where(x => x.name == this.settings.linkedElementTagName)
                                                             .Select(x => x.tagValue)
                                                             .OfType<TSF_EA.ElementWrapper>()
                                                             .Distinct();
                 TSF_EA.ElementWrapper targetRootElement;
-                if (targets.Count() > 1 )
+                if (targets.Count() > 1)
                 {
                     //let the user select the target element
                     var selectTargetForm = new SelectTargetForm();
