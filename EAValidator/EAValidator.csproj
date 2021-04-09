@@ -71,6 +71,12 @@
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Check.cs" />
+    <Compile Include="CheckEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckEditorForm.Designer.cs">
+      <DependentUpon>CheckEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CheckGroup.cs" />
     <Compile Include="CheckItem.cs" />
     <Compile Include="CheckStatus.cs" />
@@ -111,6 +117,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckEditorForm.resx">
+      <DependentUpon>CheckEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

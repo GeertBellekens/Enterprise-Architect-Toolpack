@@ -186,6 +186,15 @@ namespace EAValidator
             return selectedchecks.Any(x => x.Status == CheckStatus.Error);
         }
 
+        internal void editCheck(Check check)
+        {
+            throw new NotImplementedException();
+        }
 
+        internal void copyAsNew(Check check)
+        {
+            //create copy of check
+            //edit new check
+        }
     }
 }

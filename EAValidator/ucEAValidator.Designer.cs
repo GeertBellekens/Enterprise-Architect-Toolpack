@@ -74,6 +74,9 @@
             this.btnSelectDiagram = new System.Windows.Forms.Button();
             this.logoBox = new System.Windows.Forms.PictureBox();
             this.validatorSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.checkContextStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyAsNewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).BeginInit();
             this.validationContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).BeginInit();
@@ -83,6 +86,7 @@
             this.validatorSplitContainer.Panel1.SuspendLayout();
             this.validatorSplitContainer.Panel2.SuspendLayout();
             this.validatorSplitContainer.SuspendLayout();
+            this.checkContextStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnDoValidation
@@ -575,6 +579,31 @@
             this.validatorSplitContainer.SplitterDistance = 350;
             this.validatorSplitContainer.TabIndex = 22;
             // 
+            // checkContextStrip
+            // 
+            this.checkContextStrip.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.checkContextStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editMenuItem,
+            this.copyAsNewMenuItem});
+            this.checkContextStrip.Name = "validationContextMenuStrip";
+            this.checkContextStrip.Size = new System.Drawing.Size(181, 70);
+            // 
+            // editMenuItem
+            // 
+            this.editMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editMenuItem.Image")));
+            this.editMenuItem.Name = "editMenuItem";
+            this.editMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editMenuItem.Text = "Edit";
+            this.editMenuItem.Click += new System.EventHandler(this.editMenuItem_Click);
+            // 
+            // copyAsNewMenuItem
+            // 
+            this.copyAsNewMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyAsNewMenuItem.Image")));
+            this.copyAsNewMenuItem.Name = "copyAsNewMenuItem";
+            this.copyAsNewMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyAsNewMenuItem.Text = "Copy as New";
+            this.copyAsNewMenuItem.Click += new System.EventHandler(this.copyAsNewMenuItem_Click);
+            // 
             // ucEAValidator
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -593,6 +622,7 @@
             this.validatorSplitContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.validatorSplitContainer)).EndInit();
             this.validatorSplitContainer.ResumeLayout(false);
+            this.checkContextStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -643,5 +673,8 @@
         private System.Windows.Forms.ToolStripMenuItem resolveAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectInProjectBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openPropertiesToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip checkContextStrip;
+        private System.Windows.Forms.ToolStripMenuItem editMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyAsNewMenuItem;
     }
 }

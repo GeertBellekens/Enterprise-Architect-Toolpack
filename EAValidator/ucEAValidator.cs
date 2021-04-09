@@ -458,5 +458,15 @@ namespace EAValidator
         {
             this.controller.openProperties(this.olvValidations.SelectedObject as Validation);
         }
+
+        private void editMenuItem_Click(object sender, EventArgs e)
+        {
+            this.controller.editCheck(this.olvChecks.SelectedObject as Check);
+        }
+
+        private void copyAsNewMenuItem_Click(object sender, EventArgs e)
+        {
+            this.controller.copyAsNew(this.olvChecks.SelectedObject as Check);
+        }
     }
 }

@@ -164,8 +164,8 @@ AppliesTo=Association,Aggregation;";
                     && !this.model.taggedValueTypeExists(this.settings.elementTagName))
                 {
                     const string elementTagDetail = @"Type=RefGUID;
-Values=Class;DataType;Enumeration;PrimitiveType;
-AppliesTo=Class;DataType;Enumeration;PrimitiveType;";
+Values=Class,DataType,Enumeration,PrimitiveType;
+AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
                     this.model.addTaggedValueType(this.settings.elementTagName, "is derived from this Element", elementTagDetail);
                 }
             }
