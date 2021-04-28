@@ -24,146 +24,74 @@ namespace EAValidator
         private TSF_EA.Model model { get; set; }
         private XDocument xdoc;
 
+
         // Check to validate
         // *****************
 
-        private string _checkID = null;
         /// <summary>
         /// Unique Identifier of the check
         /// </summary>
         public string CheckId
         {
-            get
-            {
-                if (this._checkID == null)
-                {
-                    this._checkID = xdoc.Root.Element("CheckId").Value;
-                }
-                return this._checkID;
-            }
+            get => this.xdoc.Root.Element("CheckId").Value;
+            set => this.xdoc.Root.Element("CheckId").Value = value;
         }
-        private string _checkDescription = null;
         /// <summary>
         /// Title of the check
         /// </summary>
         public string CheckDescription 
         {
-            get
-            {
-                if (this._checkDescription == null)
-                {
-                    this._checkDescription = xdoc.Root.Element("CheckDescription").Value;
-                }
-                return this._checkDescription;
-            }
+            get => this.xdoc.Root.Element("CheckDescription").Value;
+            set => this.xdoc.Root.Element("CheckDescription").Value = value;
         }
-        private string _queryToFindElements = null;
         /// <summary>
         /// sql-query to search for elements that must be checked
         /// </summary>
         public string QueryToFindElements 
         {
-            get
-            {
-                if (this._queryToFindElements == null)
-                {
-                    this._queryToFindElements = xdoc.Root.Element("QueryToFindElements").Element("Main").Value;
-                }
-                return this._queryToFindElements;
-            }
+            get => this.xdoc.Root.Element("QueryToFindElements").Element("Main").Value;
+            set => this.xdoc.Root.Element("QueryToFindElements").Element("Main").Value = value;
         }                                     
-
-        
-        private Dictionary<string, string> _queryToFindElementsFilters = null;
-        /// <summary>
-        /// sql-filters that can be applied to QueryToFindElements
-        /// </summary>
-        public Dictionary<string, string> QueryToFindElementsFilters 
-        { 
-            get
-            {
-                if (this._queryToFindElementsFilters == null)
-                {
-                    this._queryToFindElementsFilters = new Dictionary<string, string>();
-                    foreach (var filterNode in xdoc.Root.Element("QueryToFindElements").Element("Filters")?.Elements())
-                    {
-                        this._queryToFindElementsFilters.Add(filterNode.Name.LocalName, filterNode.Value);
-                    }
-                }
-                return this._queryToFindElementsFilters;
-
-            }
+        public string packageFilter
+        {
+            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters")?.Element("Package")?.Value;
+            set => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("Package").Value = value;
+        }
+        public string changeFilter
+        {
+            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters")?.Element("Change")?.Value;
+            set => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("Change").Value = value;
+        }
+        public string releaseFilter
+        {
+            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters")?.Element("Release")?.Value;
+            set => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("Release").Value = value;
+        }
+        public string diagramFilter
+        {
+            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters")?.Element("FunctionalDesign")?.Value;
+            set => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("FunctionalDesign").Value = value;
         }
 
-        private string _queryToCheckFoundElements = null;
         public string QueryToCheckFoundElements
         {
-            get
-            {
-                if (this._queryToCheckFoundElements == null)
-                {
-                    this._queryToCheckFoundElements = xdoc.Root.Element("QueryToCheckFoundElements").Element("Main").Value;
-                }
-                return this._queryToCheckFoundElements;
-            }
+            get => this.xdoc.Root.Element("QueryToCheckFoundElements").Element("Main").Value;
+            set => this.xdoc.Root.Element("QueryToCheckFoundElements").Element("Main").Value = value;
         }
-        private Dictionary<string, string> _queryToCheckFoundElementsParameters = null;
-        /// <summary>
-        /// sql-filters that can be applied to QueryToFindElements
-        /// </summary>
-        public Dictionary<string, string> QueryToCheckFoundElementsParameters
-        {
-            get
-            {
-                if (this._queryToCheckFoundElementsParameters == null)
-                {
-                    this._queryToCheckFoundElementsParameters = new Dictionary<string, string>();
-                    foreach (var parameterNode in xdoc.Root.Element("QueryToCheckFoundElements").Element("Parameters")?.Elements())
-                    {
-                        this._queryToCheckFoundElementsParameters.Add(parameterNode.Name.LocalName, parameterNode.Value);
-                    }
-                }
-                return this._queryToCheckFoundElementsParameters;
-            }
-        }
-
-
-        private string _warningType = null;
         public string WarningType
         {
-            get
-            {
-                if (this._warningType == null)
-                {
-                    this._warningType = xdoc.Root.Element("WarningType").Value;
-                }
-                return this._warningType;
-            }
+            get => this.xdoc.Root.Element("WarningType").Value;
+            set => this.xdoc.Root.Element("WarningType").Value = value;
         }
-
-        private string _rationale = null;
         public string Rationale
         {
-            get
-            {
-                if (this._rationale == null)
-                {
-                    this._rationale = xdoc.Root.Element("Rationale").Value;
-                }
-                return this._rationale;
-            }
+            get => this.xdoc.Root.Element("Rationale").Value;
+            set => this.xdoc.Root.Element("Rationale").Value = value;
         }
-        private string _proposedSolution = null;
         public string ProposedSolution
         {
-            get
-            {
-                if (this._proposedSolution == null)
-                {
-                    this._proposedSolution = xdoc.Root.Element("ProposedSolution").Value;
-                }
-                return this._proposedSolution;
-            }
+            get => this.xdoc.Root.Element("ProposedSolution").Value;
+            set => this.xdoc.Root.Element("ProposedSolution").Value = value;
         }
         private string _helpUrl = null;
         public string helpUrl
@@ -172,7 +100,7 @@ namespace EAValidator
             {
                 if (this._helpUrl == null)
                 {
-                    this._helpUrl = xdoc.Root.Element("HelpUrl")?.Value;
+                    this._helpUrl = this.xdoc.Root.Element("HelpUrl")?.Value;
                     if (string.IsNullOrEmpty(this._helpUrl))
                     {
                         var helpPdf = Path.GetDirectoryName(this.checkfile)
@@ -181,24 +109,34 @@ namespace EAValidator
 
                         if (System.IO.File.Exists(helpPdf))
                         {
-                            this._helpUrl = helpPdf;
+                            return helpPdf;
                         }
                     }
                 }
                 return this._helpUrl;
             }
-        }
-        private string _resolveCode = null;
-        private string resolveCode
-        {
-            get
+            set
             {
-                if (this._resolveCode == null)
+                //only store http urls. paths to pdf files are not stored
+                if (value.ToLower().StartsWith("http"))
                 {
-                    this._resolveCode = xdoc.Root.Element("ResolveCode")?.Value;
+                    this.xdoc.Root.Element("HelpUrl").Value = value;
                 }
-                return this._resolveCode;
             }
+        }
+        public string resolveCode
+        {
+            get => this.xdoc.Root.Element("ResolveCode")?.Value;
+            set
+            {
+                if (!value.Equals(this.xdoc.Root.Element("ResolveCode").Value))
+                {
+                    this.xdoc.Root.Element("ResolveCode").Value = value;
+                    //reset script
+                    this._resolveScript = null;
+                }
+            }
+                
         }
 
         public string Group => this.group?.name;
@@ -266,7 +204,14 @@ namespace EAValidator
             this.xdoc = XDocument.Load(file);
             xdoc.Validate(schemas, (o, e) => { throw new XmlSchemaValidationException($"Check {filename} is invalid: {e.Message}"); });
         }
-
+        public void save()
+        {
+            this.xdoc.Save(this.checkfile);
+        }
+        internal void reload()
+        {
+            this.loadXml(this.checkfile);
+        }
         internal bool resolve(string itemGuid)
         {
             bool result = false;
@@ -345,7 +290,7 @@ namespace EAValidator
                     if (EA_element is TSF_EA.Package)
                     {
                         filterType = "Package";
-                        this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
+                        whereclause = this.packageFilter;
                         if (string.IsNullOrEmpty(whereclause))
                         {
                             this.Status = CheckStatus.Error;
@@ -368,7 +313,14 @@ namespace EAValidator
                     else
                     {
                         filterType = EA_element.stereotypeNames.FirstOrDefault();
-                        this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
+                        if (filterType == "Change")
+                        {
+                            whereclause = this.changeFilter;
+                        }
+                        else if (filterType == "Release")
+                        {
+                            whereclause = this.releaseFilter;
+                        }
                         if (string.IsNullOrEmpty(whereclause))
                         {
                             this.Status = CheckStatus.Error;
@@ -390,9 +342,7 @@ namespace EAValidator
                 if (!(String.IsNullOrEmpty(EA_diagram.diagramGUID)))
                 {
                     string filterType;
-                    string whereclause = string.Empty;
-                    filterType = "FunctionalDesign";
-                    this.QueryToFindElementsFilters.TryGetValue(filterType, out whereclause);
+                    string whereclause = this.diagramFilter;
                     if (string.IsNullOrEmpty(whereclause))
                     {
                         this.Status = CheckStatus.Error;
@@ -454,13 +404,6 @@ namespace EAValidator
                 var qryToCheckFoundElements = this.QueryToCheckFoundElements;
                 qryToCheckFoundElements = qryToCheckFoundElements.Replace(this.settings.ElementGuidsInQueryToCheckFoundElements
                                                                         , String.Join(",", guidsToCheck));
-
-                // Search for Parameters in query and replace them
-                foreach (KeyValuePair<string, string> parameter in this.QueryToCheckFoundElementsParameters)
-                {
-                    string searchKey = "#" + parameter.Key + "#";
-                    qryToCheckFoundElements = qryToCheckFoundElements.Replace(searchKey, parameter.Value);
-                }
 
                 try
                 {

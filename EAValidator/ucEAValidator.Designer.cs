@@ -317,6 +317,7 @@
             this.olvColCheckWarningType,
             this.olvColCheckGroup,
             this.olvColCheckRationale});
+            this.olvChecks.ContextMenuStrip = this.checkContextStrip;
             this.olvChecks.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvChecks.EmptyListMsg = "No checks found to validate";
             this.olvChecks.FullRowSelect = true;
@@ -586,13 +587,13 @@
             this.editMenuItem,
             this.copyAsNewMenuItem});
             this.checkContextStrip.Name = "validationContextMenuStrip";
-            this.checkContextStrip.Size = new System.Drawing.Size(181, 70);
+            this.checkContextStrip.Size = new System.Drawing.Size(144, 48);
             // 
             // editMenuItem
             // 
             this.editMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editMenuItem.Image")));
             this.editMenuItem.Name = "editMenuItem";
-            this.editMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editMenuItem.Size = new System.Drawing.Size(143, 22);
             this.editMenuItem.Text = "Edit";
             this.editMenuItem.Click += new System.EventHandler(this.editMenuItem_Click);
             // 
@@ -600,7 +601,7 @@
             // 
             this.copyAsNewMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyAsNewMenuItem.Image")));
             this.copyAsNewMenuItem.Name = "copyAsNewMenuItem";
-            this.copyAsNewMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyAsNewMenuItem.Size = new System.Drawing.Size(143, 22);
             this.copyAsNewMenuItem.Text = "Copy as New";
             this.copyAsNewMenuItem.Click += new System.EventHandler(this.copyAsNewMenuItem_Click);
             // 

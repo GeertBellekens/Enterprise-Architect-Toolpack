@@ -188,7 +188,7 @@ namespace EAValidator
 
         internal void editCheck(Check check)
         {
-            throw new NotImplementedException();
+            new CheckEditorForm(check).ShowDialog();
         }
 
         internal void copyAsNew(Check check)
