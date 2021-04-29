@@ -188,7 +188,8 @@ namespace EAValidator
 
         internal void editCheck(Check check)
         {
-            new CheckEditorForm(check).ShowDialog();
+            if (check != null) 
+                new CheckEditorForm(check).ShowDialog();
         }
 
         internal void copyAsNew(Check check)

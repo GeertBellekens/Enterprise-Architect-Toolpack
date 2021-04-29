@@ -1,12 +1,12 @@
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:element name="Check" type="CheckType"/>
 	<xs:complexType name="FiltersType">
-		<xs:sequence>
+		<xs:all>
 			<xs:element type="xs:string" name="Change" minOccurs="0"/>
 			<xs:element type="xs:string" name="Release" minOccurs="0"/>
 			<xs:element type="xs:string" name="Package" minOccurs="0"/>
 			<xs:element type="xs:string" name="FunctionalDesign" minOccurs="0"/>
-		</xs:sequence>
+		</xs:all>
 	</xs:complexType>
 	<xs:complexType name="QueryToFindElementsType">
 		<xs:sequence>
@@ -38,7 +38,7 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="CheckType">
-		<xs:sequence>
+		<xs:all>
 			<xs:element type="xs:integer" name="CheckId"/>
 			<xs:element name="CheckDescription">
 				<xs:simpleType>
@@ -60,18 +60,22 @@
 			<xs:element type="xs:string" name="Rationale"/>
 			<xs:element type="xs:string" name="ProposedSolution"/>
 			<xs:element type="xs:anyURI" name="HelpUrl" minOccurs="0" />
-			<xs:element type="xs:string" name="ResolveCode" minOccurs="0"/>
-		</xs:sequence>
+			<xs:element type="ResolveCode" name="ResolveCode" minOccurs="0"/>
+		</xs:all>
 	</xs:complexType>
 	<xs:complexType name ="ResolveCode">
-		<xs:attribute name = "language" use="required">
-			<xs:simpleType>
-				<xs:restriction base="xs:token">
-					<xs:enumeration value="VBScript"/>
-					<xs:enumeration value="JScript"/>
-					<xs:enumeration value="JavaScript"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name = "language" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:token">
+							<xs:enumeration value="VBScript"/>
+							<xs:enumeration value="JScript"/>
+							<xs:enumeration value="JavaScript"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
 	</xs:complexType>
 </xs:schema>

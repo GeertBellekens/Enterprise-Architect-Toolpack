@@ -39,7 +39,7 @@ namespace EAValidator
         /// <summary>
         /// Title of the check
         /// </summary>
-        public string CheckDescription 
+        public string CheckDescription
         {
             get => this.xdoc.Root.Element("CheckDescription").Value;
             set => this.xdoc.Root.Element("CheckDescription").Value = value;
@@ -47,30 +47,30 @@ namespace EAValidator
         /// <summary>
         /// sql-query to search for elements that must be checked
         /// </summary>
-        public string QueryToFindElements 
+        public string QueryToFindElements
         {
             get => this.xdoc.Root.Element("QueryToFindElements").Element("Main").Value;
             set => this.xdoc.Root.Element("QueryToFindElements").Element("Main").Value = value;
-        }                                     
+        }
         public string packageFilter
         {
-            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters")?.Element("Package")?.Value;
-            set => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("Package").Value = value;
+            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("Package")?.Value;
+            set => getOrCreateElement(this.xdoc.Root.Element("QueryToFindElements").Element("Filters"), "Package").Value = value;
         }
         public string changeFilter
         {
-            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters")?.Element("Change")?.Value;
-            set => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("Change").Value = value;
+            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("Change")?.Value;
+            set => getOrCreateElement(this.xdoc.Root.Element("QueryToFindElements").Element("Filters"), "Change").Value = value;
         }
         public string releaseFilter
         {
-            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters")?.Element("Release")?.Value;
-            set => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("Release").Value = value;
+            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("Release")?.Value;
+            set => getOrCreateElement(this.xdoc.Root.Element("QueryToFindElements").Element("Filters"), "Release").Value = value;
         }
         public string diagramFilter
         {
-            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters")?.Element("FunctionalDesign")?.Value;
-            set => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("FunctionalDesign").Value = value;
+            get => this.xdoc.Root.Element("QueryToFindElements").Element("Filters").Element("FunctionalDesign")?.Value;
+            set => getOrCreateElement(this.xdoc.Root.Element("QueryToFindElements").Element("Filters"), "FunctionalDesign").Value = value;
         }
 
         public string QueryToCheckFoundElements
@@ -93,64 +93,84 @@ namespace EAValidator
             get => this.xdoc.Root.Element("ProposedSolution").Value;
             set => this.xdoc.Root.Element("ProposedSolution").Value = value;
         }
-        private string _helpUrl = null;
+
         public string helpUrl
         {
             get
             {
-                if (this._helpUrl == null)
+                if (string.IsNullOrEmpty(this.helpUrlText))
                 {
-                    this._helpUrl = this.xdoc.Root.Element("HelpUrl")?.Value;
-                    if (string.IsNullOrEmpty(this._helpUrl))
-                    {
-                        var helpPdf = Path.GetDirectoryName(this.checkfile)
-                                      + "\\"
-                                      + Path.GetFileNameWithoutExtension(this.checkfile) + ".pdf";
+                    var helpPdf = Path.GetDirectoryName(this.checkfile)
+                                  + "\\"
+                                  + Path.GetFileNameWithoutExtension(this.checkfile) + ".pdf";
 
-                        if (System.IO.File.Exists(helpPdf))
-                        {
-                            return helpPdf;
-                        }
+                    if (System.IO.File.Exists(helpPdf))
+                    {
+                        return helpPdf;
                     }
                 }
-                return this._helpUrl;
+                return this.helpUrlText;
             }
-            set
-            {
-                //only store http urls. paths to pdf files are not stored
-                if (value.ToLower().StartsWith("http"))
-                {
-                    this.xdoc.Root.Element("HelpUrl").Value = value;
-                }
-            }
+
+        }
+        public string helpUrlText
+        {
+            get => this.xdoc.Root.Element("HelpUrl")?.Value;
+            set => getOrCreateElement(this.xdoc.Root, "HelpUrl").Value = value;
         }
         public string resolveCode
         {
             get => this.xdoc.Root.Element("ResolveCode")?.Value;
             set
             {
-                if (!value.Equals(this.xdoc.Root.Element("ResolveCode").Value))
+                if (! string.IsNullOrEmpty(value) 
+                    || this.xdoc.Root.Element("ResolveCode") != null)
                 {
-                    this.xdoc.Root.Element("ResolveCode").Value = value;
-                    //reset script
-                    this._resolveScript = null;
+                    var resolveNode = getOrCreateElement(this.xdoc.Root, "ResolveCode");
+                    //make sure to create the attribute as well if needed
+                    var languageAttribute = resolveNode.Attribute("language");
+                    if (languageAttribute == null)
+                    {
+                        resolveNode.Add(new XAttribute("language", "VBScript")); 
+                    }
+                    if (!value.Equals(resolveNode.Value))
+                    {
+                        resolveNode.Value = value;
+                        //reset script
+                        this._resolveScript = null;
+                    }
                 }
             }
-                
+        }
+        public string resolveCodeLanguage
+        {
+            get => this.xdoc.Root.Element("ResolveCode")?.Attribute("language")?.Value;
+            set
+            {
+                if (!string.IsNullOrEmpty(this.resolveCode))
+                {
+                    if (!value.Equals(this.xdoc.Root.Element("ResolveCode").Attribute("language").Value))
+                    {
+                        this.xdoc.Root.Element("ResolveCode").Attribute("language").Value = value;
+                        //reset script
+                        this._resolveScript = null;
+                    }
+                }
+            }
         }
 
         public string Group => this.group?.name;
         private EAValidatorSettings settings { get; set; }
         private CheckGroup group { get; set; }
         public string name => this.CheckDescription;
-        
+
         private Script _resolveScript;
         private Script resolveScript
         {
             get
             {
-                if (this._resolveScript == null 
-                    && !String.IsNullOrEmpty(this.resolveCode ))
+                if (this._resolveScript == null
+                    && !String.IsNullOrEmpty(this.resolveCode))
                 {
                     var language = xdoc.Root.Element("ResolveCode").Attribute("language").Value;
                     this._resolveScript = new Script(this.CheckId, this.name, "validation scripts", this.resolveCode, language, this.model);
@@ -178,7 +198,7 @@ namespace EAValidator
         }
 
         public string checkfile { get; }
-        public bool canBeResolved { get => !string.IsNullOrEmpty(this.resolveCode);}
+        public bool canBeResolved { get => !string.IsNullOrEmpty(this.resolveCode); }
 
         public Check(string checkFile, CheckGroup group, EAValidatorSettings settings, TSF_EA.Model model)
         {
@@ -240,7 +260,7 @@ namespace EAValidator
         }
 
 
-       
+
         public List<Validation> Validate(TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages, string scopePackageIDs)
         {
             var validations = new List<Validation>();
@@ -262,7 +282,7 @@ namespace EAValidator
             if (foundelementguids.Any())
             {
                 // Perform the checks for the elements found (based on their guids)
-                validations = this.CheckFoundElements( foundelementguids);
+                validations = this.CheckFoundElements(foundelementguids);
                 this.NumberOfValidationResults = validations.Count();
             }
             else
@@ -271,12 +291,12 @@ namespace EAValidator
             }
             return validations;
         }
-        public Validation ValidateItem (string itemGUID)
+        public Validation ValidateItem(string itemGUID)
         {
-            return this.CheckFoundElements( new List<string> { $"'{itemGUID}'"}).FirstOrDefault();
+            return this.CheckFoundElements(new List<string> { $"'{itemGUID}'" }).FirstOrDefault();
         }
 
-        private IEnumerable<string> getElementGuids( TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages, string scopePackageIDs)
+        private IEnumerable<string> getElementGuids(TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages, string scopePackageIDs)
         {
             var qryToFindElements = this.QueryToFindElements;
             var foundelementguids = new List<string>();
@@ -428,6 +448,16 @@ namespace EAValidator
 
             return validations;
         }
-       
+        private static XElement getOrCreateElement(XContainer container, string name)
+        {
+            var element = container.Element(name);
+            if (element == null)
+            {
+                element = new XElement(name);
+                container.Add(element);
+            }
+            return element;
+        }
+
     }
 }

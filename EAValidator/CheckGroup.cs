@@ -171,7 +171,7 @@ namespace EAValidator
                         }
                         catch (XmlSchemaValidationException e)
                         {
-                            MessageBox.Show(this.model.mainEAWindow, e.Message, "Invalid Check file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            EAAddinFramework.Utilities.EAOutputLogger.log(this.model,this.settings.outputName, e.Message, 0, EAAddinFramework.Utilities.LogTypeEnum.error);
                         }
                     }
                 }

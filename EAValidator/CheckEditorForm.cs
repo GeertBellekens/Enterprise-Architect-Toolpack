@@ -21,26 +21,28 @@ namespace EAValidator
         }
         private void setDataBindings()
         {
-            this.idTextBox.DataBindings.Add("Text", this.check, "CheckId", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.typeComboBox.DataBindings.Add("Text", this.check, "WarningType", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.descriptionTextBox.DataBindings.Add("Text", this.check, "CheckDescription", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.rationaleTextBox.DataBindings.Add("Text", this.check, "Rationale", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.proposedSolutionTextBox.DataBindings.Add("Text", this.check, "ProposedSolution", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.helpUrlTextBox.DataBindings.Add("Text", this.check, "helpUrl", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.elementsToCheckTextBox.DataBindings.Add("Text", this.check, "QueryToFindElements", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.invalidElementsTextBox.DataBindings.Add("Text", this.check, "QueryToCheckFoundElements", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.packageFilterTextBox.DataBindings.Add("Text", this.check, "packageFilter", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.changeFilterTextBox.DataBindings.Add("Text", this.check, "changeFilter", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.releaseFilterTextBox.DataBindings.Add("Text", this.check, "releaseFilter", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.diagramFilterTextBox.DataBindings.Add("Text", this.check, "diagramFilter", false, DataSourceUpdateMode.OnPropertyChanged);
-            this.resolveCodeTextBox.DataBindings.Add("Text", this.check.r, "diagramFilter", false, DataSourceUpdateMode.OnPropertyChanged);
+            this.idTextBox.DataBindings.Add("Text", this.check, "CheckId"); ;
+            this.typeComboBox.DataBindings.Add("Text", this.check, "WarningType");
+            this.descriptionTextBox.DataBindings.Add("Text", this.check, "CheckDescription");
+            this.rationaleTextBox.DataBindings.Add("Text", this.check, "Rationale");
+            this.proposedSolutionTextBox.DataBindings.Add("Text", this.check, "ProposedSolution");
+            this.helpUrlTextBox.DataBindings.Add("Text", this.check, "helpUrlText");
+            this.elementsToCheckTextBox.DataBindings.Add("Text", this.check, "QueryToFindElements"); 
+            this.invalidElementsTextBox.DataBindings.Add("Text", this.check, "QueryToCheckFoundElements"); 
+            this.packageFilterTextBox.DataBindings.Add("Text", this.check, "packageFilter");
+            this.changeFilterTextBox.DataBindings.Add("Text", this.check, "changeFilter");
+            this.releaseFilterTextBox.DataBindings.Add("Text", this.check, "releaseFilter");
+            this.diagramFilterTextBox.DataBindings.Add("Text", this.check, "diagramFilter");
+            this.languageComboBox.DataBindings.Add("Text", this.check, "resolveCodeLanguage");
+            this.resolveCodeTextBox.DataBindings.Add("Text", this.check, "resolveCode");
         }
 
         
         private void normalizeLineEndings(TextBox textBox)
         {
             //replace LF with CR+LF
-            textBox.Text = textBox.Text.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
+            textBox.Text = textBox.Text.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n")
+                .Replace("\r\n\t\t\t\t", "\r\n").Replace("\r\n\t\t\t","\r\n"); //remove tabs at the start of a new line as well.
         }
         private void elementsToCheckTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -60,6 +62,31 @@ namespace EAValidator
         {
             this.check.reload();
             this.Close();
+        }
+
+        private void packageFilterTextBox_TextChanged(object sender, EventArgs e)
+        {
+            normalizeLineEndings((TextBox)sender);
+        }
+
+        private void changeFilterTextBox_TextChanged(object sender, EventArgs e)
+        {
+            normalizeLineEndings((TextBox)sender);
+        }
+
+        private void releaseFilterTextBox_TextChanged(object sender, EventArgs e)
+        {
+            normalizeLineEndings((TextBox)sender);
+        }
+
+        private void diagramFilterTextBox_TextChanged(object sender, EventArgs e)
+        {
+            normalizeLineEndings((TextBox)sender);
+        }
+
+        private void resolveCodeTextBox_TextChanged(object sender, EventArgs e)
+        {
+            normalizeLineEndings((TextBox)sender);
         }
     }
 }

@@ -59,6 +59,8 @@
             this.resolveCodeTextBox = new System.Windows.Forms.TextBox();
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
+            this.languageComboBox = new System.Windows.Forms.ComboBox();
+            this.languageLabel = new System.Windows.Forms.Label();
             this.checkTabControl.SuspendLayout();
             this.mainTab.SuspendLayout();
             this.filtersTab.SuspendLayout();
@@ -169,7 +171,7 @@
             // helpURLLabel
             // 
             this.helpURLLabel.AutoSize = true;
-            this.helpURLLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.helpURLLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.helpURLLabel.Location = new System.Drawing.Point(16, 196);
             this.helpURLLabel.Name = "helpURLLabel";
             this.helpURLLabel.Size = new System.Drawing.Size(54, 13);
@@ -190,6 +192,7 @@
             // 
             // mainTab
             // 
+            this.mainTab.BackColor = System.Drawing.SystemColors.Control;
             this.mainTab.Controls.Add(this.invalidElementsLabel);
             this.mainTab.Controls.Add(this.invalidElementsTextBox);
             this.mainTab.Controls.Add(this.selectElementsQueryLabel);
@@ -212,7 +215,6 @@
             this.mainTab.Size = new System.Drawing.Size(600, 950);
             this.mainTab.TabIndex = 0;
             this.mainTab.Text = "Main";
-            this.mainTab.UseVisualStyleBackColor = true;
             // 
             // invalidElementsLabel
             // 
@@ -263,6 +265,7 @@
             // 
             // filtersTab
             // 
+            this.filtersTab.BackColor = System.Drawing.SystemColors.Control;
             this.filtersTab.Controls.Add(this.diagramFilterLabel);
             this.filtersTab.Controls.Add(this.diagramFilterTextBox);
             this.filtersTab.Controls.Add(this.releaseFilterLabel);
@@ -277,7 +280,6 @@
             this.filtersTab.Size = new System.Drawing.Size(600, 950);
             this.filtersTab.TabIndex = 1;
             this.filtersTab.Text = "Filters";
-            this.filtersTab.UseVisualStyleBackColor = true;
             // 
             // diagramFilterLabel
             // 
@@ -300,6 +302,7 @@
             this.diagramFilterTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.diagramFilterTextBox.Size = new System.Drawing.Size(572, 200);
             this.diagramFilterTextBox.TabIndex = 21;
+            this.diagramFilterTextBox.TextChanged += new System.EventHandler(this.diagramFilterTextBox_TextChanged);
             // 
             // releaseFilterLabel
             // 
@@ -322,6 +325,7 @@
             this.releaseFilterTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.releaseFilterTextBox.Size = new System.Drawing.Size(572, 200);
             this.releaseFilterTextBox.TabIndex = 19;
+            this.releaseFilterTextBox.TextChanged += new System.EventHandler(this.releaseFilterTextBox_TextChanged);
             // 
             // changeFilterLabel
             // 
@@ -344,6 +348,7 @@
             this.changeFilterTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.changeFilterTextBox.Size = new System.Drawing.Size(572, 200);
             this.changeFilterTextBox.TabIndex = 17;
+            this.changeFilterTextBox.TextChanged += new System.EventHandler(this.changeFilterTextBox_TextChanged);
             // 
             // packageFilterLabel
             // 
@@ -366,9 +371,13 @@
             this.packageFilterTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.packageFilterTextBox.Size = new System.Drawing.Size(572, 88);
             this.packageFilterTextBox.TabIndex = 15;
+            this.packageFilterTextBox.TextChanged += new System.EventHandler(this.packageFilterTextBox_TextChanged);
             // 
             // resolveTab
             // 
+            this.resolveTab.BackColor = System.Drawing.SystemColors.Control;
+            this.resolveTab.Controls.Add(this.languageLabel);
+            this.resolveTab.Controls.Add(this.languageComboBox);
             this.resolveTab.Controls.Add(this.resolveCodeTextBox);
             this.resolveTab.Location = new System.Drawing.Point(4, 22);
             this.resolveTab.Name = "resolveTab";
@@ -376,19 +385,21 @@
             this.resolveTab.Size = new System.Drawing.Size(600, 950);
             this.resolveTab.TabIndex = 2;
             this.resolveTab.Text = "Resolve Code";
-            this.resolveTab.UseVisualStyleBackColor = true;
             // 
             // resolveCodeTextBox
             // 
             this.resolveCodeTextBox.AcceptsReturn = true;
             this.resolveCodeTextBox.AcceptsTab = true;
-            this.resolveCodeTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.resolveCodeTextBox.Location = new System.Drawing.Point(3, 3);
+            this.resolveCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.resolveCodeTextBox.Location = new System.Drawing.Point(3, 33);
             this.resolveCodeTextBox.Multiline = true;
             this.resolveCodeTextBox.Name = "resolveCodeTextBox";
             this.resolveCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.resolveCodeTextBox.Size = new System.Drawing.Size(594, 944);
+            this.resolveCodeTextBox.Size = new System.Drawing.Size(594, 914);
             this.resolveCodeTextBox.TabIndex = 23;
+            this.resolveCodeTextBox.TextChanged += new System.EventHandler(this.resolveCodeTextBox_TextChanged);
             // 
             // okButton
             // 
@@ -413,6 +424,29 @@
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
+            // languageComboBox
+            // 
+            this.languageComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.languageComboBox.FormattingEnabled = true;
+            this.languageComboBox.Items.AddRange(new object[] {
+            "VBScript",
+            "JavaScript",
+            "JScript"});
+            this.languageComboBox.Location = new System.Drawing.Point(471, 6);
+            this.languageComboBox.Name = "languageComboBox";
+            this.languageComboBox.Size = new System.Drawing.Size(121, 21);
+            this.languageComboBox.TabIndex = 24;
+            // 
+            // languageLabel
+            // 
+            this.languageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.languageLabel.AutoSize = true;
+            this.languageLabel.Location = new System.Drawing.Point(401, 9);
+            this.languageLabel.Name = "languageLabel";
+            this.languageLabel.Size = new System.Drawing.Size(55, 13);
+            this.languageLabel.TabIndex = 25;
+            this.languageLabel.Text = "Language";
+            // 
             // CheckEditorForm
             // 
             this.AcceptButton = this.okButton;
@@ -423,6 +457,7 @@
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.checkTabControl);
+            this.MinimumSize = new System.Drawing.Size(250, 1056);
             this.Name = "CheckEditorForm";
             this.Text = "Check Editor";
             this.checkTabControl.ResumeLayout(false);
@@ -469,5 +504,7 @@
         private System.Windows.Forms.TextBox resolveCodeTextBox;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.Label languageLabel;
+        private System.Windows.Forms.ComboBox languageComboBox;
     }
 }
