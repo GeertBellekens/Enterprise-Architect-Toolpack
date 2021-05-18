@@ -188,14 +188,31 @@ namespace EAValidator
 
         internal void editCheck(Check check)
         {
-            if (check != null) 
-                new CheckEditorForm(check).ShowDialog();
+            if (check == null) return;
+
+            new CheckEditorForm(check).ShowDialog();
         }
 
         internal void copyAsNew(Check check)
         {
-            //create copy of check
-            //edit new check
+            if (check == null) return;
+            //copy check
+            var saveCheckDialog = new SaveFileDialog();
+            saveCheckDialog.Title = "Save check as new file";
+            saveCheckDialog.Filter = "Check files|*.xml";
+            saveCheckDialog.FilterIndex = 1;
+            saveCheckDialog.InitialDirectory = Path.GetDirectoryName(check.checkfile);
+            var dialogResult = saveCheckDialog.ShowDialog(this.model.mainEAWindow);
+            if (dialogResult == DialogResult.OK)
+            {
+                var filePath = saveCheckDialog.FileName;
+                //copy contents of check file
+                var checkfileContents = File.ReadAllText(check.checkfile);
+                File.WriteAllText(filePath, checkfileContents);
+                //edit new check
+                var newCheck = new Check(filePath, check.group, this.settings, this.model);
+                new CheckEditorForm(newCheck).ShowDialog();
+            }
         }
     }
 }

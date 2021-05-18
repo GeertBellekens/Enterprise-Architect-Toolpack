@@ -161,7 +161,7 @@ namespace EAValidator
 
         public string Group => this.group?.name;
         private EAValidatorSettings settings { get; set; }
-        private CheckGroup group { get; set; }
+        public CheckGroup group { get; set; }
         public string name => this.CheckDescription;
 
         private Script _resolveScript;

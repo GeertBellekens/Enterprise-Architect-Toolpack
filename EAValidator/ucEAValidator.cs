@@ -467,6 +467,7 @@ namespace EAValidator
         private void copyAsNewMenuItem_Click(object sender, EventArgs e)
         {
             this.controller.copyAsNew(this.olvChecks.SelectedObject as Check);
+            this.setController(this.controller);//resets the checks
         }
     }
 }
