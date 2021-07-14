@@ -123,8 +123,8 @@ namespace EAValidator
                 }
                 else
                 {
-                    //no scope diagram, use base logic
-                    base.EA_GetMenuState(Repository, MenuLocation, MenuName, ItemName, ref IsEnabled, ref IsChecked);
+                    var selectedElement = this.model.selectedElement as TSF_EA.ElementWrapper ;
+                    IsEnabled = this.settings.scopeElementTypes.Contains(selectedElement?.EAElementType);
                 }   
             }            
             else
