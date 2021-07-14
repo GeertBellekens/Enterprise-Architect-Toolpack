@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Windows.Forms;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
@@ -193,18 +194,18 @@ namespace EAValidator
             this.txtDiagramName.Text = "";
             this.scopeDiagram = null;
         }
-
-        private void btnSelectElement_Click(object sender, EventArgs e)
+        private void setScopeToUserSelectedScopeElement()
         {
-            this.ClearScopeFields();
-
-            // Select one element using EA Package Browser  (EA must be connected to a project)
             try
             {
-                this.scopeElement = this.controller.getUserSelectedScopeElement();
+                this.setScopeToElement(this.controller.getUserSelectedScopeElement());
             }
             catch (Exception) { }
-
+        }
+        public void setScopeToElement(TSF_EA.Element element)
+        {
+            this.ClearScopeFields();
+            this.scopeElement = element;
             if (this.scopeElement != null)
             {
                 // Show element details on screen
@@ -212,6 +213,10 @@ namespace EAValidator
             }
             // (Re-)Initialize screen fields
             this.Initiate();
+        }
+        private void btnSelectElement_Click(object sender, EventArgs e)
+        {
+            setScopeToUserSelectedScopeElement();
         }
         private void getSelectedPackageButton_Click(object sender, EventArgs e)
         {
@@ -233,13 +238,21 @@ namespace EAValidator
             this.Initiate();
         }
 
-        private void btnSelectDiagram_Click(object sender, EventArgs e)
+        public void setScopeToDiagram(TSF_EA.Diagram diagram)
         {
             this.ClearScopeFields();
             // Select the diagram that is selected in the EA Package Browser
-            this.scopeDiagram = this.controller.getSelectedScopeDiagram();
+            this.scopeDiagram = diagram;
             this.txtDiagramName.Text = this.scopeDiagram?.name;
             this.Initiate();
+        }
+        public void setScopeToSelectedDiagram()
+        {
+            this.setScopeToDiagram(this.controller.getSelectedScopeDiagram());
+        }
+        private void btnSelectDiagram_Click(object sender, EventArgs e)
+        {
+            this.setScopeToSelectedDiagram();
         }
 
 
