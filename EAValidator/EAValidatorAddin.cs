@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EA;
 using EAAddinFramework;
+using EAAddinFramework.Utilities;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EAValidator
@@ -31,7 +32,12 @@ namespace EAValidator
             // Add menu's to the Add-in in EA
             this.menuHeader = menuName;
         }
-
+        public override void EA_FileOpen(EA.Repository Repository)
+        {
+            base.EA_FileOpen(Repository);
+            //initialize the model
+            this.settings.model = this.model;
+        }
         private ucEAValidator ucEAValidator
         {
             get
@@ -143,7 +149,7 @@ namespace EAValidator
                     this.openEAValidator();
                     break;
                 case menuSettings:
-                    new SettingsForm(this.settings).ShowDialog(this.model.mainEAWindow);
+                    new AddinSettingsForm(new SettingsForm(this.settings)).ShowDialog(this.model?.mainEAWindow);
                     break;
                 case menuAbout:
                     new AboutWindow().ShowDialog(this.model.mainEAWindow);

@@ -11,10 +11,14 @@ using TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EAValidator
 {
-    public partial class SettingsForm : Form
+    public partial class SettingsForm : EAAddinFramework.Utilities.AddinSettingsFormBase
     {
-        EAValidatorSettings settings { get; set; }
-        public SettingsForm(EAValidatorSettings settings)
+        private EAValidatorSettings validatorSettings
+        {
+            get => (EAValidatorSettings)this.settings;
+            set => this.settings = value;
+        }
+        public SettingsForm(EAValidatorSettings settings) : base(settings)
         {
             InitializeComponent();
             this.settings = settings;
@@ -23,13 +27,17 @@ namespace EAValidator
             this.diagramTypesCheckedList.DataSource = this.diagramTypes;
             this.loadSettings();
         }
+        public override void refreshContents()
+        {
+            this.loadSettings();
+        }
         private void loadSettings()
         {
-            this.txtDirectoryValidationChecks.Text = this.settings.ValidationChecks_Directory;
-            this.excludeArchivedPackagesCheckbox.Checked = this.settings.excludeArchivedPackages;
-            this.archivedPackagesQueryTextBox.Text = this.settings.QueryExcludeArchivedPackages;
+            this.txtDirectoryValidationChecks.Text = this.validatorSettings.ValidationChecks_Directory;
+            this.excludeArchivedPackagesCheckbox.Checked = this.validatorSettings.excludeArchivedPackages;
+            this.archivedPackagesQueryTextBox.Text = this.validatorSettings.QueryExcludeArchivedPackages;
             //set allowed RepositoryTypes
-            foreach (var repositoryType in this.settings.AllowedRepositoryTypes)
+            foreach (var repositoryType in this.validatorSettings.AllowedRepositoryTypes)
             {
                 for (int i = 0; i < allowedRepositoryTypesListBox.Items.Count; i++)
                 {
@@ -40,7 +48,7 @@ namespace EAValidator
                 }
             }
             //set element types
-            foreach (var elementType in this.settings.scopeElementTypes)
+            foreach (var elementType in this.validatorSettings.scopeElementTypes)
             {
                 for (int i = 0; i < this.elementTypesCheckedList.Items.Count; i++)
                 {
@@ -51,7 +59,7 @@ namespace EAValidator
                 }
             }
             //set diagram types
-            foreach (var diagramType in this.settings.scopeDiagramTypes)
+            foreach (var diagramType in this.validatorSettings.scopeDiagramTypes)
             {
                 for (int i = 0; i < this.diagramTypesCheckedList.Items.Count; i++)
                 {
@@ -65,12 +73,12 @@ namespace EAValidator
         }
         private void unloadSettings()
         {
-            this.settings.ValidationChecks_Directory = this.txtDirectoryValidationChecks.Text;
-            this.settings.excludeArchivedPackages = this.excludeArchivedPackagesCheckbox.Checked;
-            this.settings.QueryExcludeArchivedPackages = this.archivedPackagesQueryTextBox.Text ;
-            this.settings.AllowedRepositoryTypes = this.allowedRepositoryTypesListBox.CheckedItems.Cast<RepositoryType>().ToList();
-            this.settings.scopeElementTypes = this.elementTypesCheckedList.CheckedItems.Cast<string>().ToList();
-            this.settings.scopeDiagramTypes = this.diagramTypesCheckedList.CheckedItems.Cast<string>().ToList();
+            this.validatorSettings.ValidationChecks_Directory = this.txtDirectoryValidationChecks.Text;
+            this.validatorSettings.excludeArchivedPackages = this.excludeArchivedPackagesCheckbox.Checked;
+            this.validatorSettings.QueryExcludeArchivedPackages = this.archivedPackagesQueryTextBox.Text ;
+            this.validatorSettings.AllowedRepositoryTypes = this.allowedRepositoryTypesListBox.CheckedItems.Cast<RepositoryType>().ToList();
+            this.validatorSettings.scopeElementTypes = this.elementTypesCheckedList.CheckedItems.Cast<string>().ToList();
+            this.validatorSettings.scopeDiagramTypes = this.diagramTypesCheckedList.CheckedItems.Cast<string>().ToList();
         }
         private void save()
         {
@@ -91,7 +99,7 @@ namespace EAValidator
         private void btnSelectQueryDirectory_Click(object sender, EventArgs e)
         {
             // Change the setting to the selected directory
-            this.txtDirectoryValidationChecks.Text = Utils.selectDirectory(this.settings.ValidationChecks_Directory);
+            this.txtDirectoryValidationChecks.Text = Utils.selectDirectory(this.validatorSettings.ValidationChecks_Directory);
         }
 
         private void excludeArchivedPackagesCheckbox_CheckedChanged(object sender, EventArgs e)
