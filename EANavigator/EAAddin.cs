@@ -108,6 +108,15 @@ namespace TSF.UmlToolingFramework.EANavigator
                 this.navigatorControl.clear();
             }
         }
+        public override void EA_FileClose(EA.Repository Repository)
+        {
+            base.EA_FileClose(Repository);
+            // clear the control
+            if (this.navigatorControl != null)
+            {
+                this.navigatorControl.clear();
+            }
+        }
         /// <summary>
         /// The EA_GetMenuItems event enables the Add-In to provide the Enterprise Architect user interface with additional Add-In menu options in various context and main menus. When a user selects an Add-In menu option, an event is raised and passed back to the Add-In that originally defined that menu option.
         /// This event is raised just before Enterprise Architect has to show particular menu options to the user, and its use is described in the Define Menu Items topic.
