@@ -19,8 +19,29 @@ namespace EAValidator
     /// </summary>
     public partial class ucEAValidator : UserControl
     {
-        private TSF_EA.Element scopeElement { get; set; }
-        private TSF_EA.Diagram scopeDiagram { get; set; }
+        private TSF_EA.Element scopeElement 
+        {
+            get=> this.controller.scopeElement;
+            set
+            {
+                if (this.controller.setScope(value))
+                {
+                    this.loadChecks();
+                }
+            }
+        }
+        private TSF_EA.Diagram scopeDiagram
+        {
+            get => this.controller.scopeDiagram;
+            set
+            {
+                if (this.controller.setScope(value))
+                {
+                    this.loadChecks();
+                }
+            }
+        }
+            
         private EAValidatorController controller { get; set; }
 
         public ucEAValidator()
@@ -86,8 +107,14 @@ namespace EAValidator
         public void setController(EAValidatorController controller)
         {
             this.controller = controller;
+            loadChecks();
+            this.Initiate();
+        }
+
+        private void loadChecks()
+        {
             // Load files from directory as checks
-            this.controller.loadChecksFromDirectory(this.controller.settings.ValidationChecks_Directory);
+            this.controller.loadChecks();
 
             // Show checks/validations in objectListViews     
             //this.olvColCheckDescription.HeaderCheckState = CheckState.Checked;
@@ -101,8 +128,8 @@ namespace EAValidator
             {
                 this.olvChecks.ClearObjects();
             }
-            this.Initiate();
         }
+
         private void expandToGroups(CheckGroup group)
         {
             //expand to the level of the groups, but not to the level of the individual checks

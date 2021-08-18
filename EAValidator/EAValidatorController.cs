@@ -22,7 +22,19 @@ namespace EAValidator
         public EAValidatorSettings settings { get; private set; }
         public CheckGroup rootGroup { get; private set; }
         public string scopePackageIDs { get; private set; }
+        public Element scopeElement { get; private set; }
 
+        public bool setScope(Element element)
+        {
+            this.scopeElement = element;
+            return this.settings.setContextConfig(element);            
+        }
+        public Diagram scopeDiagram { get; private set; }
+        public bool setScope(Diagram diagram)
+        {
+            this.scopeDiagram = diagram;
+            return this.settings.setContextConfig(diagram?.owner);            
+        }
 
 
         public EAValidatorController(TSF_EA.Model model, EAValidatorSettings settings)
@@ -31,6 +43,11 @@ namespace EAValidator
             this.validations = new List<Validation>();
             this.settings = settings;
             this.outputName = this.settings.outputName;
+        }
+        private void setContextSettings(Element scopeElement)
+        {
+
+            this.settings.setContextConfig(scopeElement);
         }
         private IEnumerable<Check> _checks;
         public IEnumerable<Check> checks
@@ -99,8 +116,9 @@ namespace EAValidator
             }
         }
 
-        public void loadChecksFromDirectory(string directory)
+        public void loadChecks()
         {
+            var directory = this.settings.ValidationChecks_Directory;
             // Check if directory exists
             if (Utils.FileOrDirectoryExists(directory))
             {

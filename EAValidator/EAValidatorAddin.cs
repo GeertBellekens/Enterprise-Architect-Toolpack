@@ -124,12 +124,18 @@ namespace EAValidator
                 }
                 if (scopeDiagram != null)
                 {
+                    //set context settings
+                    this.settings.setContextConfig(scopeDiagram.owner);
                     //check if scope diagram is of the correct type
                     IsEnabled = this.settings.scopeDiagramTypes.Contains(scopeDiagram.diagramType);
                 }
                 else
                 {
                     var selectedElement = this.model.selectedElement as TSF_EA.ElementWrapper ;
+                    if (selectedElement != null)
+                    {
+                        this.settings.setContextConfig(selectedElement);
+                    }
                     IsEnabled = this.settings.scopeElementTypes.Contains(selectedElement?.EAElementType);
                 }   
             }            
