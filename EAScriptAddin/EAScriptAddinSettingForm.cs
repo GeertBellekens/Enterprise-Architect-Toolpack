@@ -14,6 +14,7 @@ using EAAddinFramework.EASpecific;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using System.Reflection;
 using System.Linq;
+using BrightIdeasSoftware;
 
 namespace EAScriptAddin
 {
@@ -35,6 +36,7 @@ namespace EAScriptAddin
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			this.setDelegates();
 			
 			this.controller = scriptAddin;
 			
@@ -70,7 +72,20 @@ namespace EAScriptAddin
 		{
 			this.developerModeCheckBox.Checked = this.controller.settings.developerMode;
 			this.scriptPathTextBox.Text = this.controller.settings.scriptPath;
+			this.scriptTreeView.Objects = this.getScriptGroups();
 			enableDisable();
+		}
+		private List<ScriptGroup> getScriptGroups()
+		{
+			var scriptGroups = new List<ScriptGroup>();
+			foreach (var script in this.modelScripts)
+			{
+				if (!scriptGroups.Any(x => x.name == script.groupName))
+				{
+					scriptGroups.Add(script.group);
+				}
+			}
+			return scriptGroups;
 		}
 		private void saveChanges()
 		{
@@ -78,7 +93,65 @@ namespace EAScriptAddin
 			this.controller.settings.scriptPath = this.scriptPathTextBox.Text;
 			this.controller.settings.save();
 		}
-
+		private void setDelegates()
+		{
+			//tell the control who can expand 
+			TreeListView.CanExpandGetterDelegate canExpandGetter = delegate (object o)
+			{
+				var scriptGroup = o as ScriptGroup;
+				if (scriptGroup != null)
+				{
+					return scriptGroup.scripts.Any();
+				}
+				var script = o as Script;
+				if (script != null)
+				{
+					//return script.includedModelScripts.Any();
+					return script.addinFunctions.Any();
+				}
+				return false;
+				//return ((ScriptInclude)o).hasIncludes;
+			};
+			this.scriptTreeView.CanExpandGetter = canExpandGetter;
+			//tell the control how to expand
+			TreeListView.ChildrenGetterDelegate childrenGetter = delegate (object o)
+			{
+				var scriptGroup = o as ScriptGroup;
+				if (scriptGroup != null)
+				{
+					return scriptGroup.scripts.OrderBy(x => x.name);
+				}
+				var script = o as Script;
+				if (script != null)
+				{
+					//return script.includedModelScripts;
+					return script.addinFunctions.OrderBy(x => x.name);
+				}
+				return new List<string>();
+				//return ((ScriptInclude)o).scriptIncludes;
+			};
+			this.scriptTreeView.ChildrenGetter = childrenGetter;
+			//tell the control which image to show
+			ImageGetterDelegate imageGetter = delegate (object o)
+			{
+				
+				var scriptGroup = o as ScriptGroup;
+				if (scriptGroup != null)
+				{
+					return "ScriptGroup";
+				}
+				var script = o as Script;
+				if (script != null)
+				{
+					return "Script";
+				}
+				else
+				{
+					return "Operation";
+				}
+			};
+			this.nameColumn.ImageGetter = imageGetter;
+		}
 
 		/// <summary>
 		/// reloads the operations in the list box

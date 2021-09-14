@@ -39,8 +39,8 @@ namespace EAScriptAddin
                 return _allEAMaticScripts;
             }
         }
-        private List<Script> _allModelScripts;
-        private List<Script> allModelScripts
+        private Dictionary<string, Script> _allModelScripts;
+        private Dictionary<string, Script> allModelScripts
         {
             get
             {
