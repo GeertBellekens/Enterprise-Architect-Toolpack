@@ -47,7 +47,9 @@ namespace ECDMMessageComposer
             //get the synchronized tagged values
             this.loadGridData(this.synchronizedTagsGridView, this.messageComposerSettings.synchronizedTaggedValues);
             //copy generalizations
-            this.generalCopyGeneralizationsCheckbox.Checked = this.messageComposerSettings.copyGeneralizations;
+            this.generalCopyGeneralizationsCheckbox.Checked = this.messageComposerSettings.copyExternalGeneralizations;
+            //ignore inheritance checkbox
+            this.copyAllGeneralizationsCheckBox.Checked = this.messageComposerSettings.copyAllGeneralizations;
             //Generate to artifact package
             this.generateToArtifactPackageCheckBox.Checked = this.messageComposerSettings.generateToArtifactPackage;
             //generate diagram checkbox
@@ -116,7 +118,8 @@ namespace ECDMMessageComposer
             //get the synchronized tags 
             this.messageComposerSettings.synchronizedTaggedValues = this.getListFromDataGrid(this.synchronizedTagsGridView);
             //general options
-            this.messageComposerSettings.copyGeneralizations = this.generalCopyGeneralizationsCheckbox.Checked;
+            this.messageComposerSettings.copyExternalGeneralizations = this.generalCopyGeneralizationsCheckbox.Checked;
+            this.messageComposerSettings.copyAllGeneralizations = this.copyAllGeneralizationsCheckBox.Checked;
             this.messageComposerSettings.redirectGeneralizationsToSubset = this.RedirectGeneralizationsCheckBox.Checked;
 
             this.messageComposerSettings.checkSecurity = this.checkSecurityCheckBox.Checked;

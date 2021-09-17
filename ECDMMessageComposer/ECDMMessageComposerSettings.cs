@@ -89,8 +89,21 @@ namespace ECDMMessageComposer
                 this.setBooleanValue("addDataTypes", value);
             }
         }
-
-        public bool copyGeneralizations
+        /// <summary>
+        /// ignores wether or not the generalization is selected in the profile
+        /// </summary>
+        public bool copyAllGeneralizations
+        {
+            get
+            {
+                return this.getBooleanValue("copyAllGeneralizations");
+            }
+            set
+            {
+                this.setBooleanValue("copyAllGeneralizations", value);
+            }
+        }
+        public bool copyExternalGeneralizations
         {
             get
             {
