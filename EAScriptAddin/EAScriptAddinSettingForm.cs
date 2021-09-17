@@ -44,6 +44,7 @@ namespace EAScriptAddin
 			this.modelFunctions = functions;
 			this.modelScripts = scripts;
 									
+			
 			this.ScriptCombo.DisplayMember = "displayName";
 			//add the scripts to the combobox
 			foreach (Script script in this.modelScripts) 
@@ -70,9 +71,13 @@ namespace EAScriptAddin
 		}
 		private void loadData()
 		{
+			//this.functionDropdown.DisplayMember = "Name";
+			//this.functionDropdown.ValueMember = null;
+			this.functionDropdown.DataSource = this.addinOperations;
+
 			this.developerModeCheckBox.Checked = this.controller.settings.developerMode;
 			this.scriptPathTextBox.Text = this.controller.settings.scriptPath;
-			this.scriptTreeView.Objects = this.getScriptGroups();
+			this.scriptTreeView.Objects = this.getScriptGroups().OrderBy(x => x.name);
 			enableDisable();
 		}
 		private List<ScriptGroup> getScriptGroups()
