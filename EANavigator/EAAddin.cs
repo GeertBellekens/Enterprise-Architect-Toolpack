@@ -242,10 +242,6 @@ namespace TSF.UmlToolingFramework.EANavigator
             {
                 menuOptionsList.Add(menuOperation);
             }
-            else if (element is UML.Classes.Kernel.PrimitiveType)
-            {
-                //add no options for primitive types	
-            }
             else if (element is UML.Classes.Kernel.Type
                      && !(element is UML.Classes.Kernel.Relationship)
                     || element is UML.Classes.AssociationClasses.AssociationClass)
