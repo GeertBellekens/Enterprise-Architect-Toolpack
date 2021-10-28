@@ -39,12 +39,12 @@ namespace EAScriptAddin
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EAScriptAddinSettingForm));
             this.operationsPanel = new System.Windows.Forms.Panel();
-            this.addFunctionButton = new System.Windows.Forms.Button();
             this.defaultScriptLabel = new System.Windows.Forms.Label();
             this.ScriptCombo = new System.Windows.Forms.ComboBox();
             this.allOperationsCheckBox = new System.Windows.Forms.CheckBox();
             this.functionsListBox = new System.Windows.Forms.CheckedListBox();
             this.operationsListBox = new System.Windows.Forms.CheckedListBox();
+            this.addFunctionButton = new System.Windows.Forms.Button();
             this.OkButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.developerModeCheckBox = new System.Windows.Forms.CheckBox();
@@ -74,18 +74,6 @@ namespace EAScriptAddin
             this.operationsPanel.Name = "operationsPanel";
             this.operationsPanel.Size = new System.Drawing.Size(548, 345);
             this.operationsPanel.TabIndex = 0;
-            // 
-            // addFunctionButton
-            // 
-            this.addFunctionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addFunctionButton.Enabled = false;
-            this.addFunctionButton.Location = new System.Drawing.Point(456, 395);
-            this.addFunctionButton.Name = "addFunctionButton";
-            this.addFunctionButton.Size = new System.Drawing.Size(86, 23);
-            this.addFunctionButton.TabIndex = 5;
-            this.addFunctionButton.Text = "Add Function";
-            this.addFunctionButton.UseVisualStyleBackColor = true;
-            this.addFunctionButton.Click += new System.EventHandler(this.AddFunctionButtonClick);
             // 
             // defaultScriptLabel
             // 
@@ -146,6 +134,18 @@ namespace EAScriptAddin
             this.operationsListBox.TabIndex = 0;
             this.operationsListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OperationsListBoxItemCheck);
             this.operationsListBox.SelectedIndexChanged += new System.EventHandler(this.OperationsListBoxSelectedIndexChanged);
+            // 
+            // addFunctionButton
+            // 
+            this.addFunctionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addFunctionButton.Enabled = false;
+            this.addFunctionButton.Location = new System.Drawing.Point(456, 395);
+            this.addFunctionButton.Name = "addFunctionButton";
+            this.addFunctionButton.Size = new System.Drawing.Size(86, 23);
+            this.addFunctionButton.TabIndex = 5;
+            this.addFunctionButton.Text = "Add Function";
+            this.addFunctionButton.UseVisualStyleBackColor = true;
+            this.addFunctionButton.Click += new System.EventHandler(this.AddFunctionButtonClick);
             // 
             // OkButton
             // 
@@ -241,8 +241,8 @@ namespace EAScriptAddin
             // 
             this.scriptTreeImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("scriptTreeImages.ImageStream")));
             this.scriptTreeImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.scriptTreeImages.Images.SetKeyName(0, "Script");
-            this.scriptTreeImages.Images.SetKeyName(1, "ScriptGroup");
+            this.scriptTreeImages.Images.SetKeyName(0, "ScriptGroup");
+            this.scriptTreeImages.Images.SetKeyName(1, "Script");
             this.scriptTreeImages.Images.SetKeyName(2, "Operation");
             // 
             // functionDropdown
