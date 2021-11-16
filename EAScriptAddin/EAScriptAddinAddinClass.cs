@@ -46,7 +46,7 @@ namespace EAScriptAddin
             {
                 if (_allModelScripts == null)
                 {
-                    _allModelScripts = Script.getAllModelScripts(this.model, !this.settings.developerMode);
+                    _allModelScripts = Script.getAllModelScripts(this.model, !this.settings.developerMode).Values.ToList(); ;
                 }
                 return _allModelScripts;
             }

@@ -14,6 +14,7 @@ using EAAddinFramework.EASpecific;
 using UTF_EA=TSF.UmlToolingFramework.Wrappers.EA;
 using System.Reflection;
 using System.Linq;
+using BrightIdeasSoftware;
 
 namespace EAScriptAddin
 {
@@ -25,8 +26,6 @@ namespace EAScriptAddin
 		private List<MethodInfo> addinOperations;
 		private List<ScriptFunction> modelFunctions;
 		private List<Script> modelScripts;
-		private bool checkBoxesReadOnly = false;
-		private bool showAllOperations = true;
 		private EAScriptAddinAddinClass controller;
 		
 		public EAScriptAddinSettingForm(List<MethodInfo> operations, List<ScriptFunction> functions,List<Script> scripts,EAScriptAddinAddinClass scriptAddin)
@@ -35,6 +34,7 @@ namespace EAScriptAddin
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			this.setDelegates();
 			
 			this.controller = scriptAddin;
 			
@@ -42,21 +42,6 @@ namespace EAScriptAddin
 			this.modelFunctions = functions;
 			this.modelScripts = scripts;
 									
-			this.ScriptCombo.DisplayMember = "displayName";
-			//add the scripts to the combobox
-			foreach (Script script in this.modelScripts) 
-			{
-				this.ScriptCombo.Items.Add(script);
-			}
-			//select the first script
-			if (this.ScriptCombo.Items.Count > 0)
-			{
-				this.ScriptCombo.SelectedIndex = 0;
-			}
-			this.operationsListBox.DisplayMember = "Name";
-			this.functionsListBox.DisplayMember = "fullName";
-			//load the operations
-			this.reloadOperations();
 			//load the settings data
 			this.loadData();
 			
@@ -65,12 +50,30 @@ namespace EAScriptAddin
 		private void enableDisable()
 		{
 			this.scriptPathTextBox.Enabled = this.developerModeCheckBox.Checked;
+			this.addFunctionButton.Enabled = this.selectedScript != null;
 		}
 		private void loadData()
 		{
+			//this.functionDropdown.DisplayMember = "Name";
+			//this.functionDropdown.ValueMember = null;
+			this.functionDropdown.DataSource = this.addinOperations;
+
 			this.developerModeCheckBox.Checked = this.controller.settings.developerMode;
 			this.scriptPathTextBox.Text = this.controller.settings.scriptPath;
+			this.scriptTreeView.Objects = this.getScriptGroups().OrderBy(x => x.name);
 			enableDisable();
+		}
+		private List<ScriptGroup> getScriptGroups()
+		{
+			var scriptGroups = new List<ScriptGroup>();
+			foreach (var script in this.modelScripts)
+			{
+				if (!scriptGroups.Any(x => x.name == script.groupName))
+				{
+					scriptGroups.Add(script.group);
+				}
+			}
+			return scriptGroups;
 		}
 		private void saveChanges()
 		{
@@ -78,37 +81,67 @@ namespace EAScriptAddin
 			this.controller.settings.scriptPath = this.scriptPathTextBox.Text;
 			this.controller.settings.save();
 		}
-
-
-		/// <summary>
-		/// reloads the operations in the list box
-		/// </summary>
-		private void reloadOperations()
+		private void setDelegates()
 		{
-			//set the checkboxes read/write
-			this.checkBoxesReadOnly = false;
-			
-			//clear the listboxes
-			this.operationsListBox.Items.Clear();
-			this.functionsListBox.Items.Clear();
-			
-			//add the operations
-			foreach (MethodInfo operation in this.addinOperations)
+			//tell the control who can expand 
+			TreeListView.CanExpandGetterDelegate canExpandGetter = delegate (object o)
 			{
-				bool hasEquivalentFunction = this.modelFunctions.Exists(x => x.name == operation.Name);
-				if (hasEquivalentFunction || showAllOperations)
+				var scriptGroup = o as ScriptGroup;
+				if (scriptGroup != null)
 				{
-					this.operationsListBox.Items.Add(operation,hasEquivalentFunction);
+					return scriptGroup.scripts.Any();
 				}
-			}
-			//finished loading, now set the checkboxes back to readonly
-			this.checkBoxesReadOnly = true;
-			//select the first one
-			if (this.operationsListBox.Items.Count > 0)
+				var script = o as Script;
+				if (script != null)
+				{
+					//return script.includedModelScripts.Any();
+					return script.addinFunctions.Any();
+				}
+				return false;
+				//return ((ScriptInclude)o).hasIncludes;
+			};
+			this.scriptTreeView.CanExpandGetter = canExpandGetter;
+			//tell the control how to expand
+			TreeListView.ChildrenGetterDelegate childrenGetter = delegate (object o)
 			{
-				this.operationsListBox.SelectedIndex = 0;
-			}
+				var scriptGroup = o as ScriptGroup;
+				if (scriptGroup != null)
+				{
+					return scriptGroup.scripts.OrderBy(x => x.name);
+				}
+				var script = o as Script;
+				if (script != null)
+				{
+					//return script.includedModelScripts;
+					return script.addinFunctions.OrderBy(x => x.name);
+				}
+				return new List<string>();
+				//return ((ScriptInclude)o).scriptIncludes;
+			};
+			this.scriptTreeView.ChildrenGetter = childrenGetter;
+			//tell the control which image to show
+			ImageGetterDelegate imageGetter = delegate (object o)
+			{
+				
+				var scriptGroup = o as ScriptGroup;
+				if (scriptGroup != null)
+				{
+					return "ScriptGroup";
+				}
+				var script = o as Script;
+				if (script != null)
+				{
+					return "Script";
+				}
+				else
+				{
+					return "Operation";
+				}
+			};
+			this.nameColumn.ImageGetter = imageGetter;
 		}
+
+
 		
 		void OkButtonClick(object sender, EventArgs e)
 		{
@@ -116,72 +149,52 @@ namespace EAScriptAddin
 			this.Close();
 		}
 		
-		void OperationsListBoxSelectedIndexChanged(object sender, EventArgs e)
-		{
-			//clear the functions
-			this.functionsListBox.Items.Clear();
-			//get the selected operations
-			MethodInfo selectedOperation = (MethodInfo)this.operationsListBox.SelectedItem;
-			//add each corresponding function to the functions checkbox list
-			foreach (ScriptFunction function in this.modelFunctions.Where(x => x.name == selectedOperation.Name))
-			{
-				this.functionsListBox.Items.Add(function,true);
-			}
-		}
 		
 		void AboutButtonClick(object sender, EventArgs e)
 		{
 			new AboutWindow().ShowDialog(this);
 		}
 		
-		void OperationsListBoxItemCheck(object sender, ItemCheckEventArgs e)
-		{
-			//only allow user to check, not to uncheck
-			if (checkBoxesReadOnly)
-			{
-				if (e.NewValue == CheckState.Unchecked ||
-				   (ScriptCombo.SelectedItem != null &&  ((Script)this.ScriptCombo.SelectedItem).isStatic))
-				{
-					e.NewValue = e.CurrentValue;
-				}
-				//add the function if the user has checked the operation
-				else if (e.CurrentValue == CheckState.Unchecked && e.NewValue == CheckState.Checked)
-				{
-					this.addFunction();
-				}
-			}
-		}
-		
-		void AllOperationsCheckBoxCheckedChanged(object sender, EventArgs e)
-		{
-			this.showAllOperations = this.allOperationsCheckBox.Checked;
-			this.reloadOperations();
-		}
 		
 		void AddFunctionButtonClick(object sender, EventArgs e)
 		{
 			this.addFunction();
+		}
+		private Script selectedScript
+		{
+			get
+			{
+				Script selectedScript = null;
+				var selectedObject = this.scriptTreeView.SelectedObject;
+				selectedScript = selectedObject as Script;
+				//if script was selected, return the script
+				if (selectedScript == null)
+				{
+					var selectedFunction = selectedObject as ScriptFunction;
+					// if parent
+					if (selectedFunction != null)
+					{
+						selectedScript = selectedFunction.owner;
+					}
+				}
+				return selectedScript;
+			}
 		}
 		/// <summary>
 		/// add a function for the selected operation to the selected script
 		/// </summary>
 		private void addFunction()
 		{
-			if (this.operationsListBox.SelectedItem != null
-			    && this.ScriptCombo.SelectedItem != null
-			    && ! ((Script)this.ScriptCombo.SelectedItem).isStatic )
+			var script = this.selectedScript;
+			var selectedFunction = functionDropdown.SelectedItem as MethodInfo;
+			if (selectedFunction != null
+				&& script != null
+				&& script?.isStatic == false)
 			{
-				ScriptFunction newFunction = this.controller.addNewScriptFunction(this.operationsListBox.SelectedItem as MethodInfo, this.ScriptCombo.SelectedItem as Script);
-				//add this function to the list	
-				if (newFunction != null)
-				{
-					this.modelFunctions.Add(newFunction);
-					this.functionsListBox.Items.Add(newFunction,true);
-					this.checkBoxesReadOnly = false;
-					this.operationsListBox.SetItemChecked(operationsListBox.SelectedIndex, true);
-					this.checkBoxesReadOnly = true;
-				}
+				ScriptFunction newFunction = this.controller.addNewScriptFunction(selectedFunction, script);
 			}
+			//refresh scriptTreeView
+			this.scriptTreeView.RefreshObject(script);
 		}
 		
 		
@@ -190,19 +203,6 @@ namespace EAScriptAddin
 			System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
 		}
 		
-		void ScriptComboSelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (this.ScriptCombo.SelectedItem != null
-			    && ! ((Script)this.ScriptCombo.SelectedItem).isStatic)
-			{
-				this.addFunctionButton.Enabled = true;
-			}
-			else
-			{
-				this.addFunctionButton.Enabled = false;
-			}
-		}
-
 		private void scriptPathSelectButton_Click(object sender, EventArgs e)
 		{
 			// Create an instance of the open file dialog box.
@@ -215,6 +215,11 @@ namespace EAScriptAddin
 		}
 
 		private void developerModeCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			this.enableDisable();
+		}
+
+		private void scriptTreeView_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			this.enableDisable();
 		}
