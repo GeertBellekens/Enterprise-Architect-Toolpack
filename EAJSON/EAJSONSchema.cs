@@ -8,6 +8,7 @@ using Newtonsoft.Json.Schema;
 using UML = TSF.UmlToolingFramework.UML;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
+using EAAddinFramework.Utilities;
 
 namespace EAJSON
 {
@@ -63,7 +64,16 @@ namespace EAJSON
                 if (this._schemaId == null)
                 {
                     var idTag = this.rootElement.taggedValues.FirstOrDefault(x => x.name.Equals("id", StringComparison.InvariantCultureIgnoreCase));
-                    this._schemaId = new Uri(idTag?.tagValue.ToString());
+                    try
+                    {
+                        this._schemaId = new Uri(idTag?.tagValue.ToString());
+                    }
+                    catch(System.UriFormatException e)
+                    {
+                        var errorMessage = $"Fill the property 'id' of the element '{this.rootElement.name}' with a valid URL";
+                        Logger.logError(errorMessage);
+                        throw new Exception(errorMessage, e);
+                    }
                 }
                 return this._schemaId;
             }
@@ -76,7 +86,17 @@ namespace EAJSON
                 if (this._schemaVersion == null)
                 {
                     var schemaTag = this.rootElement.taggedValues.FirstOrDefault(x => x.name.Equals("schema", StringComparison.InvariantCultureIgnoreCase));
-                    this._schemaVersion = new Uri(schemaTag?.tagValue.ToString());
+                    try
+                    {
+                        this._schemaVersion = new Uri(schemaTag?.tagValue.ToString());
+                    }
+                    catch (System.UriFormatException e)
+                    {
+                        var errorMessage = $"Fill the property 'schema' of the element '{this.rootElement.name}' with a valid URL";
+                        Logger.logError(errorMessage);
+                        throw new Exception(errorMessage, e);
+                    }
+
                 }
                 return this._schemaVersion;
             }
@@ -369,7 +389,14 @@ namespace EAJSON
                         }
                         break;
                     case tv_format:
-                        typeSchema.Format = stringValue;
+                        if (stringValue.Equals("<none>", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            typeSchema.Format = string.Empty;
+                        }
+                        else
+                        {
+                            typeSchema.Format = stringValue;
+                        }
                         break;
                     case tv_enum:
                         foreach(var enumValue in stringValue.Split(','))

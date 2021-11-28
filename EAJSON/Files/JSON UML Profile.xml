@@ -38,15 +38,15 @@
 			<Stereotype name="JSON_Type" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 				<TaggedValues>
 					<Tag name="enum" type="" description="" unit="" values="" default=""/>
-					<Tag name="format" type="enumeration" description="" unit="" values="date-time,time,date,email,idn-email,hostname,idn-hostname,ipv4,ipv6,uri,uri-reference,iri,iri-reference,uri-template,json-pointer,relative-json-pointer,regex" default=""/>
-					<Tag name="maxlength" type="" description="" unit="" values="" default=""/>
-					<Tag name="minlength" type="" description="" unit="" values="" default=""/>
-					<Tag name="pattern" type="" description="" unit="" values="" default=""/>
-					<Tag name="minimum" type="int" description="" unit="" values="" default=""/>
-					<Tag name="exclusiveminimum" type="int" description="" unit="" values="" default=""/>
-					<Tag name="maximum" type="int" description="" unit="" values="" default=""/>
 					<Tag name="exclusivemaximum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="exclusiveminimum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="format" type="enumeration" description="" unit="" values="date-time,time,date,email,idn-email,hostname,idn-hostname,ipv4,ipv6,uri,uri-reference,iri,iri-reference,uri-template,json-pointer,relative-json-pointer,regex,&lt;none&gt;" default=""/>
+					<Tag name="maximum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="maxlength" type="" description="" unit="" values="" default=""/>
+					<Tag name="minimum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="minlength" type="" description="" unit="" values="" default=""/>
 					<Tag name="multipleof" type="int" description="" unit="" values="" default=""/>
+					<Tag name="pattern" type="" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
 		</Stereotypes>
