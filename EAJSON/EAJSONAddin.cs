@@ -120,13 +120,27 @@ namespace EAJSON
             {
                 //generate for package
                 generateJSONSchemas(selectedPackage);
+                //inform the user the generation has finished
+                MessageBox.Show($"Finished generating JSON schema's for package '{selectedPackage.name}'"
+                                , "JSON Schema's generated"
+                                , MessageBoxButtons.OK
+                                , MessageBoxIcon.Information);
             }
             else
             {
                 var selectedElement = this.model.selectedElement as TSF_EA.ElementWrapper;
                 if (selectedElement != null)
                 {
-                    this.generateJSONSchema(selectedElement);
+                    var jsonSchema = this.generateJSONSchema(selectedElement);
+                    //allow the user to open the file
+                    var response = MessageBox.Show($"Finished generating JSON schema for element '{selectedElement.name}'{Environment.NewLine}Would you like to open the JSON Schema?"
+                                                    , "JSON Schema's generated"
+                                                    , MessageBoxButtons.YesNo
+                                                    , MessageBoxIcon.Question);
+                    if (response == DialogResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start(jsonSchema.schemaFileName);
+                    }
                 }
             }
             //inform user
@@ -154,7 +168,7 @@ namespace EAJSON
                 generateJSONSchema(jsonSchemaElement);
             }
         }
-        private void generateJSONSchema(TSF_EA.ElementWrapper element)
+        private EAJSONSchema generateJSONSchema(TSF_EA.ElementWrapper element)
         {
             EAOutputLogger.log(this.model, outputName
                    , $"{DateTime.Now.ToLongTimeString()} Generating Schema for element '{element.name}'"
@@ -163,6 +177,7 @@ namespace EAJSON
             var eaJsonSchema = new EAJSONSchema(element);
             //print the schema to the file
             eaJsonSchema.print();
+            return eaJsonSchema;
         }
     }
 }
