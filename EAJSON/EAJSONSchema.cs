@@ -391,7 +391,7 @@ namespace EAJSON
                     case tv_format:
                         if (stringValue.Equals("<none>", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            typeSchema.Format = string.Empty;
+                            typeSchema.Format = null;
                         }
                         else
                         {
