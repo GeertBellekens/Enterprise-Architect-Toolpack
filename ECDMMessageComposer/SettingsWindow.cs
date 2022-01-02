@@ -52,6 +52,8 @@ namespace ECDMMessageComposer
             this.copyAllGeneralizationsCheckBox.Checked = this.messageComposerSettings.copyAllGeneralizations;
             //Generate to artifact package
             this.generateToArtifactPackageCheckBox.Checked = this.messageComposerSettings.generateToArtifactPackage;
+            //use alias for redefined elements
+            this.useAliasForRedefinedElementsCheckBox.Checked = this.messageComposerSettings.useAliasForRedefinedElements;
             //generate diagram checkbox
             this.generateDiagramCheckbox.Checked = this.messageComposerSettings.generateDiagram;
             //addDataTypes checkbox
@@ -126,6 +128,7 @@ namespace ECDMMessageComposer
             this.messageComposerSettings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
             this.messageComposerSettings.usePackageSchemasOnly = this.usePackageSubsetsOnlyCheckBox.Checked;
             this.messageComposerSettings.generateToArtifactPackage = this.generateToArtifactPackageCheckBox.Checked;
+            this.messageComposerSettings.useAliasForRedefinedElements = this.useAliasForRedefinedElementsCheckBox.Checked;
             //notes options
             this.messageComposerSettings.prefixNotes = this.prefixNotesCheckBox.Checked;
             this.messageComposerSettings.prefixNotesText = this.notesPrefixTextBox.Text;

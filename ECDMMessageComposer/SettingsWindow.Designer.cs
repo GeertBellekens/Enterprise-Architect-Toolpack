@@ -110,6 +110,7 @@ namespace ECDMMessageComposer
             this.deleteUnusedElementsCheckBox = new System.Windows.Forms.CheckBox();
             this.generalCopyGeneralizationsCheckbox = new System.Windows.Forms.CheckBox();
             this.checkSecurityCheckBox = new System.Windows.Forms.CheckBox();
+            this.copyAllGeneralizationsCheckBox = new System.Windows.Forms.CheckBox();
             this.RedirectGeneralizationsCheckBox = new System.Windows.Forms.CheckBox();
             this.notesPrefixTextBox = new System.Windows.Forms.TextBox();
             this.prefixNotesCheckBox = new System.Windows.Forms.CheckBox();
@@ -136,7 +137,8 @@ namespace ECDMMessageComposer
             this.synchronizedTagsGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeleteSynchronizedTagButton = new System.Windows.Forms.Button();
-            this.copyAllGeneralizationsCheckBox = new System.Windows.Forms.CheckBox();
+            this.useAliasForRedefinedElementsCheckBox = new System.Windows.Forms.CheckBox();
+            this.generalizationOptions = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
             this.diagramOptionsGroupBox.SuspendLayout();
@@ -152,6 +154,7 @@ namespace ECDMMessageComposer
             ((System.ComponentModel.ISupportInitialize)(this.ignoredConstraintsGrid)).BeginInit();
             this.synchronizeGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.synchronizedTagsGridView)).BeginInit();
+            this.generalizationOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // ignoredStereoTypesGrid
@@ -188,7 +191,7 @@ namespace ECDMMessageComposer
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(577, 688);
+            this.okButton.Location = new System.Drawing.Point(577, 713);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 2;
@@ -200,7 +203,7 @@ namespace ECDMMessageComposer
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(658, 688);
+            this.cancelButton.Location = new System.Drawing.Point(658, 713);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 3;
@@ -211,7 +214,7 @@ namespace ECDMMessageComposer
             // applyButton
             // 
             this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.applyButton.Location = new System.Drawing.Point(739, 688);
+            this.applyButton.Location = new System.Drawing.Point(739, 713);
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(75, 23);
             this.applyButton.TabIndex = 4;
@@ -258,7 +261,7 @@ namespace ECDMMessageComposer
             this.diagramOptionsGroupBox.Controls.Add(this.hiddenElementGrid);
             this.diagramOptionsGroupBox.Controls.Add(this.addSourceElementCheckBox);
             this.diagramOptionsGroupBox.Controls.Add(this.addDataTypesCheckBox);
-            this.diagramOptionsGroupBox.Location = new System.Drawing.Point(12, 513);
+            this.diagramOptionsGroupBox.Location = new System.Drawing.Point(12, 574);
             this.diagramOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 75);
             this.diagramOptionsGroupBox.Name = "diagramOptionsGroupBox";
             this.diagramOptionsGroupBox.Size = new System.Drawing.Size(351, 158);
@@ -343,7 +346,7 @@ namespace ECDMMessageComposer
             this.dataTypeOptionsGroupBox.Controls.Add(this.deleteDataTypeButton);
             this.dataTypeOptionsGroupBox.Controls.Add(this.dataTypesGridView);
             this.dataTypeOptionsGroupBox.Controls.Add(this.copyDatatypesCheckbox);
-            this.dataTypeOptionsGroupBox.Location = new System.Drawing.Point(12, 345);
+            this.dataTypeOptionsGroupBox.Location = new System.Drawing.Point(12, 406);
             this.dataTypeOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 45);
             this.dataTypeOptionsGroupBox.Name = "dataTypeOptionsGroupBox";
             this.dataTypeOptionsGroupBox.Size = new System.Drawing.Size(351, 162);
@@ -453,24 +456,22 @@ namespace ECDMMessageComposer
             // GeneralGroupBox
             // 
             this.GeneralGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.GeneralGroupBox.Controls.Add(this.useAliasForRedefinedElementsCheckBox);
             this.GeneralGroupBox.Controls.Add(this.generateToArtifactPackageCheckBox);
             this.GeneralGroupBox.Controls.Add(this.usePackageSubsetsOnlyCheckBox);
             this.GeneralGroupBox.Controls.Add(this.deleteUnusedElementsCheckBox);
-            this.GeneralGroupBox.Controls.Add(this.generalCopyGeneralizationsCheckbox);
             this.GeneralGroupBox.Controls.Add(this.checkSecurityCheckBox);
-            this.GeneralGroupBox.Controls.Add(this.copyAllGeneralizationsCheckBox);
-            this.GeneralGroupBox.Controls.Add(this.RedirectGeneralizationsCheckBox);
             this.GeneralGroupBox.Location = new System.Drawing.Point(12, 12);
             this.GeneralGroupBox.MinimumSize = new System.Drawing.Size(0, 20);
             this.GeneralGroupBox.Name = "GeneralGroupBox";
-            this.GeneralGroupBox.Size = new System.Drawing.Size(351, 226);
+            this.GeneralGroupBox.Size = new System.Drawing.Size(351, 177);
             this.GeneralGroupBox.TabIndex = 11;
             this.GeneralGroupBox.TabStop = false;
             this.GeneralGroupBox.Text = "General Options";
             // 
             // generateToArtifactPackageCheckBox
             // 
-            this.generateToArtifactPackageCheckBox.Location = new System.Drawing.Point(6, 199);
+            this.generateToArtifactPackageCheckBox.Location = new System.Drawing.Point(6, 109);
             this.generateToArtifactPackageCheckBox.Name = "generateToArtifactPackageCheckBox";
             this.generateToArtifactPackageCheckBox.Size = new System.Drawing.Size(276, 24);
             this.generateToArtifactPackageCheckBox.TabIndex = 9;
@@ -479,16 +480,16 @@ namespace ECDMMessageComposer
             // 
             // usePackageSubsetsOnlyCheckBox
             // 
-            this.usePackageSubsetsOnlyCheckBox.Location = new System.Drawing.Point(6, 169);
+            this.usePackageSubsetsOnlyCheckBox.Location = new System.Drawing.Point(6, 79);
             this.usePackageSubsetsOnlyCheckBox.Name = "usePackageSubsetsOnlyCheckBox";
             this.usePackageSubsetsOnlyCheckBox.Size = new System.Drawing.Size(276, 24);
             this.usePackageSubsetsOnlyCheckBox.TabIndex = 7;
-            this.usePackageSubsetsOnlyCheckBox.Text = "Use Package Structure for subset determination";
+            this.usePackageSubsetsOnlyCheckBox.Text = "Use package structure for subset determination";
             this.usePackageSubsetsOnlyCheckBox.UseVisualStyleBackColor = true;
             // 
             // deleteUnusedElementsCheckBox
             // 
-            this.deleteUnusedElementsCheckBox.Location = new System.Drawing.Point(6, 139);
+            this.deleteUnusedElementsCheckBox.Location = new System.Drawing.Point(6, 49);
             this.deleteUnusedElementsCheckBox.Name = "deleteUnusedElementsCheckBox";
             this.deleteUnusedElementsCheckBox.Size = new System.Drawing.Size(248, 24);
             this.deleteUnusedElementsCheckBox.TabIndex = 6;
@@ -497,29 +498,38 @@ namespace ECDMMessageComposer
             // 
             // generalCopyGeneralizationsCheckbox
             // 
-            this.generalCopyGeneralizationsCheckbox.Location = new System.Drawing.Point(6, 19);
+            this.generalCopyGeneralizationsCheckbox.Location = new System.Drawing.Point(7, 19);
             this.generalCopyGeneralizationsCheckbox.Name = "generalCopyGeneralizationsCheckbox";
             this.generalCopyGeneralizationsCheckbox.Size = new System.Drawing.Size(247, 24);
             this.generalCopyGeneralizationsCheckbox.TabIndex = 5;
-            this.generalCopyGeneralizationsCheckbox.Text = "Copy External Generalizations";
+            this.generalCopyGeneralizationsCheckbox.Text = "Copy external generalizations";
             this.generalCopyGeneralizationsCheckbox.UseVisualStyleBackColor = true;
             // 
             // checkSecurityCheckBox
             // 
-            this.checkSecurityCheckBox.Location = new System.Drawing.Point(6, 109);
+            this.checkSecurityCheckBox.Location = new System.Drawing.Point(6, 19);
             this.checkSecurityCheckBox.Name = "checkSecurityCheckBox";
             this.checkSecurityCheckBox.Size = new System.Drawing.Size(248, 24);
             this.checkSecurityCheckBox.TabIndex = 4;
-            this.checkSecurityCheckBox.Text = "Check Security locks";
+            this.checkSecurityCheckBox.Text = "Check security locks";
             this.checkSecurityCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // copyAllGeneralizationsCheckBox
+            // 
+            this.copyAllGeneralizationsCheckBox.Location = new System.Drawing.Point(7, 79);
+            this.copyAllGeneralizationsCheckBox.Name = "copyAllGeneralizationsCheckBox";
+            this.copyAllGeneralizationsCheckBox.Size = new System.Drawing.Size(247, 24);
+            this.copyAllGeneralizationsCheckBox.TabIndex = 0;
+            this.copyAllGeneralizationsCheckBox.Text = "Ignore inheritance selection";
+            this.copyAllGeneralizationsCheckBox.UseVisualStyleBackColor = true;
             // 
             // RedirectGeneralizationsCheckBox
             // 
-            this.RedirectGeneralizationsCheckBox.Location = new System.Drawing.Point(6, 49);
+            this.RedirectGeneralizationsCheckBox.Location = new System.Drawing.Point(7, 49);
             this.RedirectGeneralizationsCheckBox.Name = "RedirectGeneralizationsCheckBox";
             this.RedirectGeneralizationsCheckBox.Size = new System.Drawing.Size(247, 24);
             this.RedirectGeneralizationsCheckBox.TabIndex = 0;
-            this.RedirectGeneralizationsCheckBox.Text = "Redirect Generalizations to subset";
+            this.RedirectGeneralizationsCheckBox.Text = "Redirect generalizations to subset";
             this.RedirectGeneralizationsCheckBox.UseVisualStyleBackColor = true;
             // 
             // notesPrefixTextBox
@@ -560,7 +570,7 @@ namespace ECDMMessageComposer
             this.xmlSchemaGroup.Controls.Add(this.orderAssociationsAmongstAttributesCheckbox);
             this.xmlSchemaGroup.Controls.Add(this.orderAssociationsCheckbox);
             this.xmlSchemaGroup.Controls.Add(this.noAttributeDependenciesCheckbox);
-            this.xmlSchemaGroup.Location = new System.Drawing.Point(376, 475);
+            this.xmlSchemaGroup.Location = new System.Drawing.Point(376, 506);
             this.xmlSchemaGroup.Name = "xmlSchemaGroup";
             this.xmlSchemaGroup.Size = new System.Drawing.Size(438, 196);
             this.xmlSchemaGroup.TabIndex = 12;
@@ -643,7 +653,7 @@ namespace ECDMMessageComposer
             this.attributeOptionsGroupBox.Controls.Add(this.setAttributesOrderZeroRadio);
             this.attributeOptionsGroupBox.Controls.Add(this.addNewAttributesLastRadio);
             this.attributeOptionsGroupBox.Controls.Add(this.keepAttributeOrderRadio);
-            this.attributeOptionsGroupBox.Location = new System.Drawing.Point(378, 345);
+            this.attributeOptionsGroupBox.Location = new System.Drawing.Point(381, 327);
             this.attributeOptionsGroupBox.Name = "attributeOptionsGroupBox";
             this.attributeOptionsGroupBox.Size = new System.Drawing.Size(203, 97);
             this.attributeOptionsGroupBox.TabIndex = 13;
@@ -677,9 +687,9 @@ namespace ECDMMessageComposer
             this.notesOptionsGroupBox.Controls.Add(this.keepNotesInSyncCheckBox);
             this.notesOptionsGroupBox.Controls.Add(this.notesPrefixTextBox);
             this.notesOptionsGroupBox.Controls.Add(this.prefixNotesCheckBox);
-            this.notesOptionsGroupBox.Location = new System.Drawing.Point(12, 244);
+            this.notesOptionsGroupBox.Location = new System.Drawing.Point(12, 312);
             this.notesOptionsGroupBox.Name = "notesOptionsGroupBox";
-            this.notesOptionsGroupBox.Size = new System.Drawing.Size(351, 95);
+            this.notesOptionsGroupBox.Size = new System.Drawing.Size(351, 88);
             this.notesOptionsGroupBox.TabIndex = 14;
             this.notesOptionsGroupBox.TabStop = false;
             this.notesOptionsGroupBox.Text = "Notes Options";
@@ -749,13 +759,16 @@ namespace ECDMMessageComposer
             this.synchronizeGroupBox.Controls.Add(this.DeleteSynchronizedTagButton);
             this.synchronizeGroupBox.Location = new System.Drawing.Point(590, 201);
             this.synchronizeGroupBox.Name = "synchronizeGroupBox";
-            this.synchronizeGroupBox.Size = new System.Drawing.Size(224, 241);
+            this.synchronizeGroupBox.Size = new System.Drawing.Size(224, 223);
             this.synchronizeGroupBox.TabIndex = 16;
             this.synchronizeGroupBox.TabStop = false;
             this.synchronizeGroupBox.Text = "Synchronize";
             // 
             // synchronizedTagsGridView
             // 
+            this.synchronizedTagsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.synchronizedTagsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.synchronizedTagsGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn4});
@@ -763,7 +776,7 @@ namespace ECDMMessageComposer
             this.synchronizedTagsGridView.Name = "synchronizedTagsGridView";
             this.synchronizedTagsGridView.RowHeadersVisible = false;
             this.synchronizedTagsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.synchronizedTagsGridView.Size = new System.Drawing.Size(201, 179);
+            this.synchronizedTagsGridView.Size = new System.Drawing.Size(201, 161);
             this.synchronizedTagsGridView.TabIndex = 7;
             // 
             // dataGridViewTextBoxColumn4
@@ -775,8 +788,8 @@ namespace ECDMMessageComposer
             // 
             // DeleteSynchronizedTagButton
             // 
-            this.DeleteSynchronizedTagButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.DeleteSynchronizedTagButton.Location = new System.Drawing.Point(137, 210);
+            this.DeleteSynchronizedTagButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.DeleteSynchronizedTagButton.Location = new System.Drawing.Point(137, 192);
             this.DeleteSynchronizedTagButton.Name = "DeleteSynchronizedTagButton";
             this.DeleteSynchronizedTagButton.Size = new System.Drawing.Size(75, 23);
             this.DeleteSynchronizedTagButton.TabIndex = 8;
@@ -784,14 +797,26 @@ namespace ECDMMessageComposer
             this.DeleteSynchronizedTagButton.UseVisualStyleBackColor = true;
             this.DeleteSynchronizedTagButton.Click += new System.EventHandler(this.DeleteSynchronizedTagButton_Click);
             // 
-            // copyAllGeneralizationsCheckBox
+            // useAliasForRedefinedElementsCheckBox
             // 
-            this.copyAllGeneralizationsCheckBox.Location = new System.Drawing.Point(6, 79);
-            this.copyAllGeneralizationsCheckBox.Name = "copyAllGeneralizationsCheckBox";
-            this.copyAllGeneralizationsCheckBox.Size = new System.Drawing.Size(247, 24);
-            this.copyAllGeneralizationsCheckBox.TabIndex = 0;
-            this.copyAllGeneralizationsCheckBox.Text = "Ignore Inheritance selection";
-            this.copyAllGeneralizationsCheckBox.UseVisualStyleBackColor = true;
+            this.useAliasForRedefinedElementsCheckBox.Location = new System.Drawing.Point(6, 139);
+            this.useAliasForRedefinedElementsCheckBox.Name = "useAliasForRedefinedElementsCheckBox";
+            this.useAliasForRedefinedElementsCheckBox.Size = new System.Drawing.Size(276, 24);
+            this.useAliasForRedefinedElementsCheckBox.TabIndex = 9;
+            this.useAliasForRedefinedElementsCheckBox.Text = "Use alias for redefined elements";
+            this.useAliasForRedefinedElementsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // generalizationOptions
+            // 
+            this.generalizationOptions.Controls.Add(this.copyAllGeneralizationsCheckBox);
+            this.generalizationOptions.Controls.Add(this.RedirectGeneralizationsCheckBox);
+            this.generalizationOptions.Controls.Add(this.generalCopyGeneralizationsCheckbox);
+            this.generalizationOptions.Location = new System.Drawing.Point(12, 196);
+            this.generalizationOptions.Name = "generalizationOptions";
+            this.generalizationOptions.Size = new System.Drawing.Size(351, 110);
+            this.generalizationOptions.TabIndex = 17;
+            this.generalizationOptions.TabStop = false;
+            this.generalizationOptions.Text = "Inheritance Options";
             // 
             // SettingsWindow
             // 
@@ -799,7 +824,8 @@ namespace ECDMMessageComposer
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(826, 719);
+            this.ClientSize = new System.Drawing.Size(826, 744);
+            this.Controls.Add(this.generalizationOptions);
             this.Controls.Add(this.synchronizeGroupBox);
             this.Controls.Add(this.notesOptionsGroupBox);
             this.Controls.Add(this.attributeOptionsGroupBox);
@@ -815,7 +841,6 @@ namespace ECDMMessageComposer
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(842, 725);
             this.Name = "SettingsWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -839,6 +864,7 @@ namespace ECDMMessageComposer
             ((System.ComponentModel.ISupportInitialize)(this.ignoredConstraintsGrid)).EndInit();
             this.synchronizeGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.synchronizedTagsGridView)).EndInit();
+            this.generalizationOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -864,6 +890,8 @@ namespace ECDMMessageComposer
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.Button DeleteSynchronizedTagButton;
         private System.Windows.Forms.CheckBox copyAllGeneralizationsCheckBox;
+        private System.Windows.Forms.CheckBox useAliasForRedefinedElementsCheckBox;
+        private System.Windows.Forms.GroupBox generalizationOptions;
         //this.ResumeLayout(false);
     }
 }

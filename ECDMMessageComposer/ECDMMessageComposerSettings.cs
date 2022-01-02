@@ -482,6 +482,17 @@ namespace ECDMMessageComposer
                 this.setListValue("synchronizedTaggedValues", value);
             }
         }
+        public bool useAliasForRedefinedElements
+        {
+            get
+            {
+                return this.getBooleanValue("useAliasForRedefinedElements");
+            }
+            set
+            {
+                this.setBooleanValue("useAliasForRedefinedElements", value);
+            }
+        }
     }
 }
 
