@@ -141,6 +141,8 @@ namespace ECDMMessageComposer
             this.generalizationOptions = new System.Windows.Forms.GroupBox();
             this.operationsGroupbox = new System.Windows.Forms.GroupBox();
             this.copyOperationsCheckbox = new System.Windows.Forms.CheckBox();
+            this.operationTagLabel = new System.Windows.Forms.Label();
+            this.operationTagTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
             this.diagramOptionsGroupBox.SuspendLayout();
@@ -825,6 +827,8 @@ namespace ECDMMessageComposer
             // 
             this.operationsGroupbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.operationsGroupbox.Controls.Add(this.operationTagTextBox);
+            this.operationsGroupbox.Controls.Add(this.operationTagLabel);
             this.operationsGroupbox.Controls.Add(this.copyOperationsCheckbox);
             this.operationsGroupbox.Location = new System.Drawing.Point(376, 446);
             this.operationsGroupbox.Name = "operationsGroupbox";
@@ -842,6 +846,23 @@ namespace ECDMMessageComposer
             this.copyOperationsCheckbox.TabIndex = 0;
             this.copyOperationsCheckbox.Text = "Copy all operations";
             this.copyOperationsCheckbox.UseVisualStyleBackColor = true;
+            this.copyOperationsCheckbox.CheckedChanged += new System.EventHandler(this.copyOperationsCheckbox_CheckedChanged);
+            // 
+            // operationTagLabel
+            // 
+            this.operationTagLabel.AutoSize = true;
+            this.operationTagLabel.Location = new System.Drawing.Point(137, 24);
+            this.operationTagLabel.Name = "operationTagLabel";
+            this.operationTagLabel.Size = new System.Drawing.Size(72, 13);
+            this.operationTagLabel.TabIndex = 1;
+            this.operationTagLabel.Text = "OperationTag";
+            // 
+            // operationTagTextBox
+            // 
+            this.operationTagTextBox.Location = new System.Drawing.Point(225, 21);
+            this.operationTagTextBox.Name = "operationTagTextBox";
+            this.operationTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.operationTagTextBox.TabIndex = 3;
             // 
             // SettingsWindow
             // 
@@ -922,6 +943,8 @@ namespace ECDMMessageComposer
         private System.Windows.Forms.GroupBox generalizationOptions;
         private System.Windows.Forms.GroupBox operationsGroupbox;
         private System.Windows.Forms.CheckBox copyOperationsCheckbox;
+        private System.Windows.Forms.TextBox operationTagTextBox;
+        private System.Windows.Forms.Label operationTagLabel;
         //this.ResumeLayout(false);
     }
 }

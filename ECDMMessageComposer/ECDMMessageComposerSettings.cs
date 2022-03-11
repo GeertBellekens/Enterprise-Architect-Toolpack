@@ -504,6 +504,18 @@ namespace ECDMMessageComposer
                 this.setBooleanValue("copyAllOperations", value);
             }
         }
+
+        public string sourceOperationTagName
+        {
+            get
+            {
+                return this.getValue("sourceOperationTagName");
+            }
+            set
+            {
+                this.setValue("sourceOperationTagName", value);
+            }
+        }
     }
 }
 

@@ -72,6 +72,7 @@ namespace ECDMMessageComposer
             this.addNewAttributesLastRadio.Checked = !this.messageComposerSettings.setAttributeOrderZero && !this.messageComposerSettings.keepOriginalAttributeOrder;
             //Operations options
             this.copyOperationsCheckbox.Checked = this.messageComposerSettings.copyAllOperations;
+            this.operationTagTextBox.Text = this.messageComposerSettings.sourceOperationTagName;
             //sourceAttributeTag
             this.attributeTagTextBox.Text = this.messageComposerSettings.sourceAttributeTagName;
             //sourceAssociationTag
@@ -106,6 +107,7 @@ namespace ECDMMessageComposer
             this.orderAssociationsAmongstAttributesCheckbox.Enabled = this.orderAssociationsCheckbox.Checked;
             this.elementTagTextBox.Enabled = this.tvInsteadOfTraceCheckBox.Checked;
             this.prefixNotesCheckBox.Enabled = !this.keepNotesInSyncCheckBox.Checked;
+            this.operationTagTextBox.Enabled = this.copyOperationsCheckbox.Checked;
         }
         private void saveChanges()
         {
@@ -148,8 +150,9 @@ namespace ECDMMessageComposer
             this.messageComposerSettings.setAttributeOrderZero = this.setAttributesOrderZeroRadio.Checked;
             //Operations options
             this.messageComposerSettings.copyAllOperations = this.copyOperationsCheckbox.Checked;
-            //tracebility tag names
-            this.messageComposerSettings.sourceAttributeTagName = this.attributeTagTextBox.Text;
+            this.messageComposerSettings.sourceOperationTagName = this.operationTagTextBox.Text;
+             //tracebility tag names
+             this.messageComposerSettings.sourceAttributeTagName = this.attributeTagTextBox.Text;
             this.messageComposerSettings.sourceAssociationTagName = this.associationTagTextBox.Text;
             //xml schema settings
             this.messageComposerSettings.dontCreateAttributeDependencies = this.noAttributeDependenciesCheckbox.Checked;
@@ -290,6 +293,11 @@ namespace ECDMMessageComposer
         public override void refreshContents()
         {
             this.loadData();
+        }
+
+        private void copyOperationsCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.enableDisable();
         }
     }
 }
