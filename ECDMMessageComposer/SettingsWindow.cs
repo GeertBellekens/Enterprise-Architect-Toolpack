@@ -70,6 +70,8 @@ namespace ECDMMessageComposer
             this.keepAttributeOrderRadio.Checked = this.messageComposerSettings.keepOriginalAttributeOrder;
             this.setAttributesOrderZeroRadio.Checked = this.messageComposerSettings.setAttributeOrderZero;
             this.addNewAttributesLastRadio.Checked = !this.messageComposerSettings.setAttributeOrderZero && !this.messageComposerSettings.keepOriginalAttributeOrder;
+            //Operations options
+            this.copyOperationsCheckbox.Checked = this.messageComposerSettings.copyAllOperations;
             //sourceAttributeTag
             this.attributeTagTextBox.Text = this.messageComposerSettings.sourceAttributeTagName;
             //sourceAssociationTag
@@ -144,6 +146,8 @@ namespace ECDMMessageComposer
             //Attribute options
             this.messageComposerSettings.keepOriginalAttributeOrder = this.keepAttributeOrderRadio.Checked;
             this.messageComposerSettings.setAttributeOrderZero = this.setAttributesOrderZeroRadio.Checked;
+            //Operations options
+            this.messageComposerSettings.copyAllOperations = this.copyOperationsCheckbox.Checked;
             //tracebility tag names
             this.messageComposerSettings.sourceAttributeTagName = this.attributeTagTextBox.Text;
             this.messageComposerSettings.sourceAssociationTagName = this.associationTagTextBox.Text;

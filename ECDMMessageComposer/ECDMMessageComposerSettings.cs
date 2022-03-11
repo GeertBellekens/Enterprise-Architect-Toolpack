@@ -493,6 +493,17 @@ namespace ECDMMessageComposer
                 this.setBooleanValue("useAliasForRedefinedElements", value);
             }
         }
+        public bool copyAllOperations
+        {
+            get
+            {
+                return this.getBooleanValue("copyAllOperations");
+            }
+            set
+            {
+                this.setBooleanValue("copyAllOperations", value);
+            }
+        }
     }
 }
 
