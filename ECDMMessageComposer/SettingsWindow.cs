@@ -94,7 +94,8 @@ namespace ECDMMessageComposer
             this.customOrderTagTextBox.Text = this.messageComposerSettings.customPositionTag;
             this.tvInsteadOfTraceCheckBox.Checked = this.messageComposerSettings.tvInsteadOfTrace;
             this.elementTagTextBox.Text = this.messageComposerSettings.elementTagName;
-            
+            this.useMultiplicityForUseTagOnXsdAttributes.Checked = this.messageComposerSettings.useMultiplicityForUseTagOnXsdAttributes;
+
         }
         private void enableDisable()
         {
@@ -162,6 +163,7 @@ namespace ECDMMessageComposer
             this.messageComposerSettings.customPositionTag = this.customOrderTagTextBox.Text;
             this.messageComposerSettings.tvInsteadOfTrace = this.tvInsteadOfTraceCheckBox.Checked;
             this.messageComposerSettings.elementTagName = this.elementTagTextBox.Text;
+            this.messageComposerSettings.useMultiplicityForUseTagOnXsdAttributes = this.useMultiplicityForUseTagOnXsdAttributes.Checked;
             //save changes
             this.messageComposerSettings.save();
         }

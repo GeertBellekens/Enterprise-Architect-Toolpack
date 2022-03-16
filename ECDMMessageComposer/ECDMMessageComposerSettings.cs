@@ -516,6 +516,17 @@ namespace ECDMMessageComposer
                 this.setValue("sourceOperationTagName", value);
             }
         }
+        public bool useMultiplicityForUseTagOnXsdAttributes
+        {
+            get
+            {
+                return this.getBooleanValue("useMultiplicityForUseTagOnXsdAttributes");
+            }
+            set
+            {
+                this.setBooleanValue("useMultiplicityForUseTagOnXsdAttributes", value);
+            }
+        }
     }
 }
 

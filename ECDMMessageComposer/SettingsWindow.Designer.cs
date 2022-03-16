@@ -143,6 +143,7 @@ namespace ECDMMessageComposer
             this.copyOperationsCheckbox = new System.Windows.Forms.CheckBox();
             this.operationTagLabel = new System.Windows.Forms.Label();
             this.operationTagTextBox = new System.Windows.Forms.TextBox();
+            this.useMultiplicityForUseTagOnXsdAttributes = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
             this.diagramOptionsGroupBox.SuspendLayout();
@@ -576,6 +577,7 @@ namespace ECDMMessageComposer
             // 
             this.xmlSchemaGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.xmlSchemaGroup.Controls.Add(this.useMultiplicityForUseTagOnXsdAttributes);
             this.xmlSchemaGroup.Controls.Add(this.customOrderTagTag);
             this.xmlSchemaGroup.Controls.Add(this.customOrderTagTextBox);
             this.xmlSchemaGroup.Controls.Add(this.choiceBeforeAttributesCheckbox);
@@ -584,16 +586,16 @@ namespace ECDMMessageComposer
             this.xmlSchemaGroup.Controls.Add(this.orderAssociationsAmongstAttributesCheckbox);
             this.xmlSchemaGroup.Controls.Add(this.orderAssociationsCheckbox);
             this.xmlSchemaGroup.Controls.Add(this.noAttributeDependenciesCheckbox);
-            this.xmlSchemaGroup.Location = new System.Drawing.Point(376, 506);
+            this.xmlSchemaGroup.Location = new System.Drawing.Point(376, 485);
             this.xmlSchemaGroup.Name = "xmlSchemaGroup";
-            this.xmlSchemaGroup.Size = new System.Drawing.Size(438, 196);
+            this.xmlSchemaGroup.Size = new System.Drawing.Size(438, 217);
             this.xmlSchemaGroup.TabIndex = 12;
             this.xmlSchemaGroup.TabStop = false;
             this.xmlSchemaGroup.Text = "XML Schema Options";
             // 
             // customOrderTagTag
             // 
-            this.customOrderTagTag.Location = new System.Drawing.Point(105, 142);
+            this.customOrderTagTag.Location = new System.Drawing.Point(257, 89);
             this.customOrderTagTag.Name = "customOrderTagTag";
             this.customOrderTagTag.Size = new System.Drawing.Size(100, 17);
             this.customOrderTagTag.TabIndex = 16;
@@ -601,14 +603,14 @@ namespace ECDMMessageComposer
             // 
             // customOrderTagTextBox
             // 
-            this.customOrderTagTextBox.Location = new System.Drawing.Point(212, 139);
+            this.customOrderTagTextBox.Location = new System.Drawing.Point(260, 110);
             this.customOrderTagTextBox.Name = "customOrderTagTextBox";
             this.customOrderTagTextBox.Size = new System.Drawing.Size(164, 20);
             this.customOrderTagTextBox.TabIndex = 15;
             // 
             // choiceBeforeAttributesCheckbox
             // 
-            this.choiceBeforeAttributesCheckbox.Location = new System.Drawing.Point(6, 112);
+            this.choiceBeforeAttributesCheckbox.Location = new System.Drawing.Point(8, 108);
             this.choiceBeforeAttributesCheckbox.Name = "choiceBeforeAttributesCheckbox";
             this.choiceBeforeAttributesCheckbox.Size = new System.Drawing.Size(276, 24);
             this.choiceBeforeAttributesCheckbox.TabIndex = 14;
@@ -617,14 +619,14 @@ namespace ECDMMessageComposer
             // 
             // elementTagTextBox
             // 
-            this.elementTagTextBox.Location = new System.Drawing.Point(212, 165);
+            this.elementTagTextBox.Location = new System.Drawing.Point(227, 140);
             this.elementTagTextBox.Name = "elementTagTextBox";
             this.elementTagTextBox.Size = new System.Drawing.Size(164, 20);
             this.elementTagTextBox.TabIndex = 12;
             // 
             // tvInsteadOfTraceCheckBox
             // 
-            this.tvInsteadOfTraceCheckBox.Location = new System.Drawing.Point(5, 165);
+            this.tvInsteadOfTraceCheckBox.Location = new System.Drawing.Point(8, 138);
             this.tvInsteadOfTraceCheckBox.Name = "tvInsteadOfTraceCheckBox";
             this.tvInsteadOfTraceCheckBox.Size = new System.Drawing.Size(276, 24);
             this.tvInsteadOfTraceCheckBox.TabIndex = 11;
@@ -634,7 +636,7 @@ namespace ECDMMessageComposer
             // 
             // orderAssociationsAmongstAttributesCheckbox
             // 
-            this.orderAssociationsAmongstAttributesCheckbox.Location = new System.Drawing.Point(6, 82);
+            this.orderAssociationsAmongstAttributesCheckbox.Location = new System.Drawing.Point(8, 79);
             this.orderAssociationsAmongstAttributesCheckbox.Name = "orderAssociationsAmongstAttributesCheckbox";
             this.orderAssociationsAmongstAttributesCheckbox.Size = new System.Drawing.Size(276, 24);
             this.orderAssociationsAmongstAttributesCheckbox.TabIndex = 10;
@@ -643,7 +645,7 @@ namespace ECDMMessageComposer
             // 
             // orderAssociationsCheckbox
             // 
-            this.orderAssociationsCheckbox.Location = new System.Drawing.Point(6, 52);
+            this.orderAssociationsCheckbox.Location = new System.Drawing.Point(8, 49);
             this.orderAssociationsCheckbox.Name = "orderAssociationsCheckbox";
             this.orderAssociationsCheckbox.Size = new System.Drawing.Size(276, 24);
             this.orderAssociationsCheckbox.TabIndex = 9;
@@ -653,7 +655,7 @@ namespace ECDMMessageComposer
             // 
             // noAttributeDependenciesCheckbox
             // 
-            this.noAttributeDependenciesCheckbox.Location = new System.Drawing.Point(6, 22);
+            this.noAttributeDependenciesCheckbox.Location = new System.Drawing.Point(8, 19);
             this.noAttributeDependenciesCheckbox.Name = "noAttributeDependenciesCheckbox";
             this.noAttributeDependenciesCheckbox.Size = new System.Drawing.Size(248, 24);
             this.noAttributeDependenciesCheckbox.TabIndex = 8;
@@ -830,7 +832,7 @@ namespace ECDMMessageComposer
             this.operationsGroupbox.Controls.Add(this.operationTagTextBox);
             this.operationsGroupbox.Controls.Add(this.operationTagLabel);
             this.operationsGroupbox.Controls.Add(this.copyOperationsCheckbox);
-            this.operationsGroupbox.Location = new System.Drawing.Point(376, 446);
+            this.operationsGroupbox.Location = new System.Drawing.Point(378, 430);
             this.operationsGroupbox.Name = "operationsGroupbox";
             this.operationsGroupbox.Size = new System.Drawing.Size(438, 54);
             this.operationsGroupbox.TabIndex = 18;
@@ -863,6 +865,15 @@ namespace ECDMMessageComposer
             this.operationTagTextBox.Name = "operationTagTextBox";
             this.operationTagTextBox.Size = new System.Drawing.Size(164, 20);
             this.operationTagTextBox.TabIndex = 3;
+            // 
+            // useMultiplicityForUseTagOnXsdAttributes
+            // 
+            this.useMultiplicityForUseTagOnXsdAttributes.Location = new System.Drawing.Point(8, 168);
+            this.useMultiplicityForUseTagOnXsdAttributes.Name = "useMultiplicityForUseTagOnXsdAttributes";
+            this.useMultiplicityForUseTagOnXsdAttributes.Size = new System.Drawing.Size(276, 24);
+            this.useMultiplicityForUseTagOnXsdAttributes.TabIndex = 17;
+            this.useMultiplicityForUseTagOnXsdAttributes.Text = "Translate multiplicity to use tag on XSDAttributes";
+            this.useMultiplicityForUseTagOnXsdAttributes.UseVisualStyleBackColor = true;
             // 
             // SettingsWindow
             // 
@@ -945,6 +956,7 @@ namespace ECDMMessageComposer
         private System.Windows.Forms.CheckBox copyOperationsCheckbox;
         private System.Windows.Forms.TextBox operationTagTextBox;
         private System.Windows.Forms.Label operationTagLabel;
+        private System.Windows.Forms.CheckBox useMultiplicityForUseTagOnXsdAttributes;
         //this.ResumeLayout(false);
     }
 }
