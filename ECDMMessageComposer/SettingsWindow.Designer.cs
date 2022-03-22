@@ -117,6 +117,7 @@ namespace ECDMMessageComposer
             this.prefixNotesCheckBox = new System.Windows.Forms.CheckBox();
             this.keepAttributeOrderRadio = new System.Windows.Forms.RadioButton();
             this.xmlSchemaGroup = new System.Windows.Forms.GroupBox();
+            this.useMultiplicityForUseTagOnXsdAttributes = new System.Windows.Forms.CheckBox();
             this.customOrderTagTag = new System.Windows.Forms.Label();
             this.customOrderTagTextBox = new System.Windows.Forms.TextBox();
             this.choiceBeforeAttributesCheckbox = new System.Windows.Forms.CheckBox();
@@ -140,10 +141,9 @@ namespace ECDMMessageComposer
             this.DeleteSynchronizedTagButton = new System.Windows.Forms.Button();
             this.generalizationOptions = new System.Windows.Forms.GroupBox();
             this.operationsGroupbox = new System.Windows.Forms.GroupBox();
-            this.copyOperationsCheckbox = new System.Windows.Forms.CheckBox();
-            this.operationTagLabel = new System.Windows.Forms.Label();
             this.operationTagTextBox = new System.Windows.Forms.TextBox();
-            this.useMultiplicityForUseTagOnXsdAttributes = new System.Windows.Forms.CheckBox();
+            this.operationTagLabel = new System.Windows.Forms.Label();
+            this.copyOperationsCheckbox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
             this.diagramOptionsGroupBox.SuspendLayout();
@@ -593,9 +593,18 @@ namespace ECDMMessageComposer
             this.xmlSchemaGroup.TabStop = false;
             this.xmlSchemaGroup.Text = "XML Schema Options";
             // 
+            // useMultiplicityForUseTagOnXsdAttributes
+            // 
+            this.useMultiplicityForUseTagOnXsdAttributes.Location = new System.Drawing.Point(8, 168);
+            this.useMultiplicityForUseTagOnXsdAttributes.Name = "useMultiplicityForUseTagOnXsdAttributes";
+            this.useMultiplicityForUseTagOnXsdAttributes.Size = new System.Drawing.Size(276, 24);
+            this.useMultiplicityForUseTagOnXsdAttributes.TabIndex = 17;
+            this.useMultiplicityForUseTagOnXsdAttributes.Text = "Translate multiplicity to use tag on XSDAttributes";
+            this.useMultiplicityForUseTagOnXsdAttributes.UseVisualStyleBackColor = true;
+            // 
             // customOrderTagTag
             // 
-            this.customOrderTagTag.Location = new System.Drawing.Point(257, 89);
+            this.customOrderTagTag.Location = new System.Drawing.Point(248, 89);
             this.customOrderTagTag.Name = "customOrderTagTag";
             this.customOrderTagTag.Size = new System.Drawing.Size(100, 17);
             this.customOrderTagTag.TabIndex = 16;
@@ -603,7 +612,9 @@ namespace ECDMMessageComposer
             // 
             // customOrderTagTextBox
             // 
-            this.customOrderTagTextBox.Location = new System.Drawing.Point(260, 110);
+            this.customOrderTagTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.customOrderTagTextBox.Location = new System.Drawing.Point(251, 110);
             this.customOrderTagTextBox.Name = "customOrderTagTextBox";
             this.customOrderTagTextBox.Size = new System.Drawing.Size(164, 20);
             this.customOrderTagTextBox.TabIndex = 15;
@@ -619,7 +630,9 @@ namespace ECDMMessageComposer
             // 
             // elementTagTextBox
             // 
-            this.elementTagTextBox.Location = new System.Drawing.Point(227, 140);
+            this.elementTagTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.elementTagTextBox.Location = new System.Drawing.Point(251, 140);
             this.elementTagTextBox.Name = "elementTagTextBox";
             this.elementTagTextBox.Size = new System.Drawing.Size(164, 20);
             this.elementTagTextBox.TabIndex = 12;
@@ -839,16 +852,12 @@ namespace ECDMMessageComposer
             this.operationsGroupbox.TabStop = false;
             this.operationsGroupbox.Text = "Operations options";
             // 
-            // copyOperationsCheckbox
+            // operationTagTextBox
             // 
-            this.copyOperationsCheckbox.AutoSize = true;
-            this.copyOperationsCheckbox.Location = new System.Drawing.Point(5, 23);
-            this.copyOperationsCheckbox.Name = "copyOperationsCheckbox";
-            this.copyOperationsCheckbox.Size = new System.Drawing.Size(115, 17);
-            this.copyOperationsCheckbox.TabIndex = 0;
-            this.copyOperationsCheckbox.Text = "Copy all operations";
-            this.copyOperationsCheckbox.UseVisualStyleBackColor = true;
-            this.copyOperationsCheckbox.CheckedChanged += new System.EventHandler(this.copyOperationsCheckbox_CheckedChanged);
+            this.operationTagTextBox.Location = new System.Drawing.Point(225, 21);
+            this.operationTagTextBox.Name = "operationTagTextBox";
+            this.operationTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.operationTagTextBox.TabIndex = 3;
             // 
             // operationTagLabel
             // 
@@ -859,21 +868,16 @@ namespace ECDMMessageComposer
             this.operationTagLabel.TabIndex = 1;
             this.operationTagLabel.Text = "OperationTag";
             // 
-            // operationTagTextBox
+            // copyOperationsCheckbox
             // 
-            this.operationTagTextBox.Location = new System.Drawing.Point(225, 21);
-            this.operationTagTextBox.Name = "operationTagTextBox";
-            this.operationTagTextBox.Size = new System.Drawing.Size(164, 20);
-            this.operationTagTextBox.TabIndex = 3;
-            // 
-            // useMultiplicityForUseTagOnXsdAttributes
-            // 
-            this.useMultiplicityForUseTagOnXsdAttributes.Location = new System.Drawing.Point(8, 168);
-            this.useMultiplicityForUseTagOnXsdAttributes.Name = "useMultiplicityForUseTagOnXsdAttributes";
-            this.useMultiplicityForUseTagOnXsdAttributes.Size = new System.Drawing.Size(276, 24);
-            this.useMultiplicityForUseTagOnXsdAttributes.TabIndex = 17;
-            this.useMultiplicityForUseTagOnXsdAttributes.Text = "Translate multiplicity to use tag on XSDAttributes";
-            this.useMultiplicityForUseTagOnXsdAttributes.UseVisualStyleBackColor = true;
+            this.copyOperationsCheckbox.AutoSize = true;
+            this.copyOperationsCheckbox.Location = new System.Drawing.Point(5, 23);
+            this.copyOperationsCheckbox.Name = "copyOperationsCheckbox";
+            this.copyOperationsCheckbox.Size = new System.Drawing.Size(115, 17);
+            this.copyOperationsCheckbox.TabIndex = 0;
+            this.copyOperationsCheckbox.Text = "Copy all operations";
+            this.copyOperationsCheckbox.UseVisualStyleBackColor = true;
+            this.copyOperationsCheckbox.CheckedChanged += new System.EventHandler(this.copyOperationsCheckbox_CheckedChanged);
             // 
             // SettingsWindow
             // 
