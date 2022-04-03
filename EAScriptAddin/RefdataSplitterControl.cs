@@ -24,5 +24,9 @@ namespace EAScriptAddin
             this.refDataSplitterForm.Dock = DockStyle.Fill;
             this.refDataSplitterForm.Show();
         }
+        public void loadTempFile(string fileName)
+        {
+            this.refDataSplitterForm.loadTempfile(fileName);
+        }
     }
 }

@@ -26,7 +26,9 @@ namespace EAScriptAddin
         private const string menuSettings = "&Settings";
         private const string menuRefdataSplitter = "&EA Refdata Splitter";
         private const string menuTextHelper = "&Text Helper";
+        private const string menuTransferScripts = "&Transfer Scripts";
         private const string refdataSplitterWindowName = "Refdata Splitter";
+        
         private List<Script> _allEAMaticScripts;
         private List<Script> allEAMaticScripts
         {
@@ -87,7 +89,7 @@ namespace EAScriptAddin
                 .Where(x => (x.Name.StartsWith("EA_") || x.Name.StartsWith("MDG_")) && !x.Name.ToLower().Contains("addin")).ToList<MethodInfo>();
 
             this.menuHeader = menuMain;
-            this.menuOptions = new String[] { menuRefdataSplitter, menuTextHelper, menuSettings };
+            this.menuOptions = new String[] {menuTransferScripts, menuRefdataSplitter, menuTextHelper, menuSettings };
         }
         private RefdataSplitterControl _refdataSplitterControl;
         private RefdataSplitterControl refdataSplitterControl
@@ -259,7 +261,7 @@ namespace EAScriptAddin
             this.settings = new EAScriptAddinSettings(this.model);
             if (this.refdataSplitterControl != null)
             {
-                this.model.showWindow("Refdata Splitter");
+                this.model.showWindow(refdataSplitterWindowName);
             }
             this.resetScripts(true);
             //call scriptfunctions
@@ -289,7 +291,9 @@ namespace EAScriptAddin
                     break;
                 case menuRefdataSplitter:
                     new EARefDataSplitter.RefDataSplitterForm().Show(this.model?.mainEAWindow);
-                    //this.model.ad
+                    break;
+                case menuTransferScripts:
+                    startTransferScripts();
                     break;
                 case menuTextHelper:
 
@@ -305,6 +309,13 @@ namespace EAScriptAddin
             }
             //call scriptfunctions
             this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { MenuLocation, MenuName, ItemName });
+        }
+        private void startTransferScripts()
+        {
+            var tempfile = System.IO.Path.GetTempFileName();
+            Script.exportScripts(this.model, tempfile);
+            this.refdataSplitterControl.loadTempFile(tempfile);
+            this.model.showWindow(refdataSplitterWindowName);
         }
 
         /// <summary>
