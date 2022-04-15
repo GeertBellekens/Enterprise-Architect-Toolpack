@@ -74,5 +74,17 @@ namespace EAScriptAddin
 				}
 			}
 		}
+		public Dictionary<string, string> environments
+		{
+			get
+			{
+				return this.getDictionaryValue("environments");
+
+			}
+			set
+			{
+				this.setDictionaryValue("environments", value);
+			}
+		}
 	}
 }

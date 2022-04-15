@@ -38,6 +38,9 @@ namespace EAScriptAddin
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EAScriptAddinSettingForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.addFunctionButton = new System.Windows.Forms.Button();
             this.OkButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
@@ -50,13 +53,20 @@ namespace EAScriptAddin
             this.scriptTreeImages = new System.Windows.Forms.ImageList(this.components);
             this.functionDropdown = new System.Windows.Forms.ComboBox();
             this.functionsLabel = new System.Windows.Forms.Label();
+            this.environmentsGridView = new System.Windows.Forms.DataGridView();
+            this.deleteEnvironmentButton = new System.Windows.Forms.Button();
+            this.environmentsGroupBox = new System.Windows.Forms.GroupBox();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConnectionString = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.scriptTreeView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.environmentsGridView)).BeginInit();
+            this.environmentsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // addFunctionButton
             // 
             this.addFunctionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.addFunctionButton.Location = new System.Drawing.Point(239, 446);
+            this.addFunctionButton.Location = new System.Drawing.Point(269, 474);
             this.addFunctionButton.Name = "addFunctionButton";
             this.addFunctionButton.Size = new System.Drawing.Size(86, 23);
             this.addFunctionButton.TabIndex = 5;
@@ -67,7 +77,7 @@ namespace EAScriptAddin
             // OkButton
             // 
             this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.OkButton.Location = new System.Drawing.Point(250, 542);
+            this.OkButton.Location = new System.Drawing.Point(280, 745);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 1;
@@ -79,7 +89,7 @@ namespace EAScriptAddin
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(167, 542);
+            this.cancelButton.Location = new System.Drawing.Point(197, 745);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 2;
@@ -90,7 +100,7 @@ namespace EAScriptAddin
             // 
             this.developerModeCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.developerModeCheckBox.AutoSize = true;
-            this.developerModeCheckBox.Location = new System.Drawing.Point(12, 475);
+            this.developerModeCheckBox.Location = new System.Drawing.Point(12, 503);
             this.developerModeCheckBox.Name = "developerModeCheckBox";
             this.developerModeCheckBox.Size = new System.Drawing.Size(105, 17);
             this.developerModeCheckBox.TabIndex = 3;
@@ -102,7 +112,7 @@ namespace EAScriptAddin
             // 
             this.scriptPathLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.scriptPathLabel.AutoSize = true;
-            this.scriptPathLabel.Location = new System.Drawing.Point(12, 495);
+            this.scriptPathLabel.Location = new System.Drawing.Point(12, 523);
             this.scriptPathLabel.Name = "scriptPathLabel";
             this.scriptPathLabel.Size = new System.Drawing.Size(59, 13);
             this.scriptPathLabel.TabIndex = 4;
@@ -112,15 +122,15 @@ namespace EAScriptAddin
             // 
             this.scriptPathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.scriptPathTextBox.Location = new System.Drawing.Point(12, 511);
+            this.scriptPathTextBox.Location = new System.Drawing.Point(12, 539);
             this.scriptPathTextBox.Name = "scriptPathTextBox";
-            this.scriptPathTextBox.Size = new System.Drawing.Size(277, 20);
+            this.scriptPathTextBox.Size = new System.Drawing.Size(307, 20);
             this.scriptPathTextBox.TabIndex = 5;
             // 
             // scriptPathSelectButton
             // 
             this.scriptPathSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.scriptPathSelectButton.Location = new System.Drawing.Point(295, 508);
+            this.scriptPathSelectButton.Location = new System.Drawing.Point(325, 536);
             this.scriptPathSelectButton.Name = "scriptPathSelectButton";
             this.scriptPathSelectButton.Size = new System.Drawing.Size(30, 23);
             this.scriptPathSelectButton.TabIndex = 6;
@@ -144,7 +154,7 @@ namespace EAScriptAddin
             this.scriptTreeView.Name = "scriptTreeView";
             this.scriptTreeView.ShowGroups = false;
             this.scriptTreeView.ShowImagesOnSubItems = true;
-            this.scriptTreeView.Size = new System.Drawing.Size(313, 414);
+            this.scriptTreeView.Size = new System.Drawing.Size(343, 439);
             this.scriptTreeView.SmallImageList = this.scriptTreeImages;
             this.scriptTreeView.TabIndex = 7;
             this.scriptTreeView.UseCompatibleStateImageBehavior = false;
@@ -175,21 +185,96 @@ namespace EAScriptAddin
             this.functionDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.functionDropdown.FormattingEnabled = true;
             this.functionDropdown.IntegralHeight = false;
-            this.functionDropdown.Location = new System.Drawing.Point(12, 448);
+            this.functionDropdown.Location = new System.Drawing.Point(12, 476);
             this.functionDropdown.Name = "functionDropdown";
-            this.functionDropdown.Size = new System.Drawing.Size(221, 21);
+            this.functionDropdown.Size = new System.Drawing.Size(251, 21);
             this.functionDropdown.TabIndex = 6;
             this.functionDropdown.ValueMember = "null";
             // 
             // functionsLabel
             // 
             this.functionsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.functionsLabel.Location = new System.Drawing.Point(12, 429);
+            this.functionsLabel.Location = new System.Drawing.Point(12, 457);
             this.functionsLabel.Name = "functionsLabel";
             this.functionsLabel.Size = new System.Drawing.Size(100, 16);
             this.functionsLabel.TabIndex = 7;
             this.functionsLabel.Text = "Function";
             this.functionsLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // environmentsGridView
+            // 
+            this.environmentsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.environmentsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.environmentsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.environmentsGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn4,
+            this.ConnectionString});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.environmentsGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            this.environmentsGridView.Location = new System.Drawing.Point(6, 19);
+            this.environmentsGridView.Name = "environmentsGridView";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.environmentsGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.environmentsGridView.RowHeadersVisible = false;
+            this.environmentsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.environmentsGridView.Size = new System.Drawing.Size(323, 108);
+            this.environmentsGridView.TabIndex = 7;
+            // 
+            // deleteEnvironmentButton
+            // 
+            this.deleteEnvironmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteEnvironmentButton.Location = new System.Drawing.Point(254, 133);
+            this.deleteEnvironmentButton.Name = "deleteEnvironmentButton";
+            this.deleteEnvironmentButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteEnvironmentButton.TabIndex = 8;
+            this.deleteEnvironmentButton.Text = "Delete";
+            this.deleteEnvironmentButton.UseVisualStyleBackColor = true;
+            // 
+            // environmentsGroupBox
+            // 
+            this.environmentsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.environmentsGroupBox.Controls.Add(this.environmentsGridView);
+            this.environmentsGroupBox.Controls.Add(this.deleteEnvironmentButton);
+            this.environmentsGroupBox.Location = new System.Drawing.Point(12, 575);
+            this.environmentsGroupBox.Name = "environmentsGroupBox";
+            this.environmentsGroupBox.Size = new System.Drawing.Size(341, 164);
+            this.environmentsGroupBox.TabIndex = 17;
+            this.environmentsGroupBox.TabStop = false;
+            this.environmentsGroupBox.Text = "Environments";
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn4.HeaderText = "Environment";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ToolTipText = "Environment";
+            // 
+            // ConnectionString
+            // 
+            this.ConnectionString.HeaderText = "ConnectionString";
+            this.ConnectionString.Name = "ConnectionString";
+            this.ConnectionString.Width = 250;
             // 
             // EAScriptAddinSettingForm
             // 
@@ -197,7 +282,8 @@ namespace EAScriptAddin
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(335, 577);
+            this.ClientSize = new System.Drawing.Size(365, 780);
+            this.Controls.Add(this.environmentsGroupBox);
             this.Controls.Add(this.addFunctionButton);
             this.Controls.Add(this.functionsLabel);
             this.Controls.Add(this.scriptTreeView);
@@ -212,6 +298,8 @@ namespace EAScriptAddin
             this.Name = "EAScriptAddinSettingForm";
             this.Text = "Settings";
             ((System.ComponentModel.ISupportInitialize)(this.scriptTreeView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.environmentsGridView)).EndInit();
+            this.environmentsGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,5 +316,10 @@ namespace EAScriptAddin
         private BrightIdeasSoftware.OLVColumn nameColumn;
         private System.Windows.Forms.ComboBox functionDropdown;
         private System.Windows.Forms.Label functionsLabel;
+        private System.Windows.Forms.DataGridView environmentsGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ConnectionString;
+        private System.Windows.Forms.Button deleteEnvironmentButton;
+        private System.Windows.Forms.GroupBox environmentsGroupBox;
     }
 }
