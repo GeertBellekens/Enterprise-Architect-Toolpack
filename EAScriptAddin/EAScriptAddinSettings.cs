@@ -10,7 +10,6 @@ namespace EAScriptAddin
 {
     public class EAScriptAddinSettings : AddinSettings
     {
-		public Model model { get; set; }
 		public EAScriptAddinSettings(Model model)
 		{
 			this.model = model;

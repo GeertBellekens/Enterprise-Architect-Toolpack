@@ -38,9 +38,9 @@ namespace EAScriptAddin
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EAScriptAddinSettingForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.addFunctionButton = new System.Windows.Forms.Button();
             this.OkButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
@@ -54,10 +54,10 @@ namespace EAScriptAddin
             this.functionDropdown = new System.Windows.Forms.ComboBox();
             this.functionsLabel = new System.Windows.Forms.Label();
             this.environmentsGridView = new System.Windows.Forms.DataGridView();
-            this.deleteEnvironmentButton = new System.Windows.Forms.Button();
-            this.environmentsGroupBox = new System.Windows.Forms.GroupBox();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ConnectionString = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deleteEnvironmentButton = new System.Windows.Forms.Button();
+            this.environmentsGroupBox = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.scriptTreeView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.environmentsGridView)).BeginInit();
             this.environmentsGroupBox.SuspendLayout();
@@ -206,62 +206,40 @@ namespace EAScriptAddin
             this.environmentsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.environmentsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.environmentsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.environmentsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.environmentsGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn4,
             this.ConnectionString});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.environmentsGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.environmentsGridView.DefaultCellStyle = dataGridViewCellStyle5;
             this.environmentsGridView.Location = new System.Drawing.Point(6, 19);
             this.environmentsGridView.Name = "environmentsGridView";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.environmentsGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.environmentsGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.environmentsGridView.RowHeadersVisible = false;
             this.environmentsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.environmentsGridView.Size = new System.Drawing.Size(323, 108);
             this.environmentsGridView.TabIndex = 7;
-            // 
-            // deleteEnvironmentButton
-            // 
-            this.deleteEnvironmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteEnvironmentButton.Location = new System.Drawing.Point(254, 133);
-            this.deleteEnvironmentButton.Name = "deleteEnvironmentButton";
-            this.deleteEnvironmentButton.Size = new System.Drawing.Size(75, 23);
-            this.deleteEnvironmentButton.TabIndex = 8;
-            this.deleteEnvironmentButton.Text = "Delete";
-            this.deleteEnvironmentButton.UseVisualStyleBackColor = true;
-            // 
-            // environmentsGroupBox
-            // 
-            this.environmentsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.environmentsGroupBox.Controls.Add(this.environmentsGridView);
-            this.environmentsGroupBox.Controls.Add(this.deleteEnvironmentButton);
-            this.environmentsGroupBox.Location = new System.Drawing.Point(12, 575);
-            this.environmentsGroupBox.Name = "environmentsGroupBox";
-            this.environmentsGroupBox.Size = new System.Drawing.Size(341, 164);
-            this.environmentsGroupBox.TabIndex = 17;
-            this.environmentsGroupBox.TabStop = false;
-            this.environmentsGroupBox.Text = "Environments";
             // 
             // dataGridViewTextBoxColumn4
             // 
@@ -275,6 +253,30 @@ namespace EAScriptAddin
             this.ConnectionString.HeaderText = "ConnectionString";
             this.ConnectionString.Name = "ConnectionString";
             this.ConnectionString.Width = 250;
+            // 
+            // deleteEnvironmentButton
+            // 
+            this.deleteEnvironmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteEnvironmentButton.Location = new System.Drawing.Point(254, 133);
+            this.deleteEnvironmentButton.Name = "deleteEnvironmentButton";
+            this.deleteEnvironmentButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteEnvironmentButton.TabIndex = 8;
+            this.deleteEnvironmentButton.Text = "Delete";
+            this.deleteEnvironmentButton.UseVisualStyleBackColor = true;
+            this.deleteEnvironmentButton.Click += new System.EventHandler(this.deleteEnvironmentButton_Click);
+            // 
+            // environmentsGroupBox
+            // 
+            this.environmentsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.environmentsGroupBox.Controls.Add(this.environmentsGridView);
+            this.environmentsGroupBox.Controls.Add(this.deleteEnvironmentButton);
+            this.environmentsGroupBox.Location = new System.Drawing.Point(12, 575);
+            this.environmentsGroupBox.Name = "environmentsGroupBox";
+            this.environmentsGroupBox.Size = new System.Drawing.Size(341, 164);
+            this.environmentsGroupBox.TabIndex = 17;
+            this.environmentsGroupBox.TabStop = false;
+            this.environmentsGroupBox.Text = "Environments";
             // 
             // EAScriptAddinSettingForm
             // 

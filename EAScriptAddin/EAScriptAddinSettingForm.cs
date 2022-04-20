@@ -61,7 +61,15 @@ namespace EAScriptAddin
 			this.developerModeCheckBox.Checked = this.controller.settings.developerMode;
 			this.scriptPathTextBox.Text = this.controller.settings.scriptPath;
 			this.scriptTreeView.Objects = this.getScriptGroups().OrderBy(x => x.name);
+			this.loadDictionaryIntoDataGrid(this.environmentsGridView, this.controller.settings.environments);
 			enableDisable();
+		}
+		private void saveChanges()
+		{
+			this.controller.settings.developerMode = this.developerModeCheckBox.Checked;
+			this.controller.settings.scriptPath = this.scriptPathTextBox.Text;
+			this.controller.settings.environments = this.getDictionaryFromDataGrid(this.environmentsGridView);
+			this.controller.settings.save();
 		}
 		private List<ScriptGroup> getScriptGroups()
 		{
@@ -75,12 +83,7 @@ namespace EAScriptAddin
 			}
 			return scriptGroups;
 		}
-		private void saveChanges()
-		{
-			this.controller.settings.developerMode = this.developerModeCheckBox.Checked;
-			this.controller.settings.scriptPath = this.scriptPathTextBox.Text;
-			this.controller.settings.save();
-		}
+
 		private void setDelegates()
 		{
 			//tell the control who can expand 
@@ -222,6 +225,39 @@ namespace EAScriptAddin
 		private void scriptTreeView_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			this.enableDisable();
+		}
+
+		private void deleteEnvironmentButton_Click(object sender, EventArgs e)
+		{
+			foreach (DataGridViewRow row in this.environmentsGridView.SelectedRows)
+			{
+				if (!row.IsNewRow)
+				{
+					this.environmentsGridView.Rows.Remove(row);
+				}
+			}
+		}
+		private Dictionary<string, string> getDictionaryFromDataGrid(DataGridView datagrid)
+		{
+			var returnedDictionary = new Dictionary<string, string>();
+			foreach (DataGridViewRow row in datagrid.Rows)
+			{
+				string key = row.Cells[0].Value != null ? row.Cells[0].Value.ToString() : string.Empty;
+				string value = row.Cells[1].Value != null ? row.Cells[1].Value.ToString() : string.Empty;
+				if (key != string.Empty && !returnedDictionary.ContainsKey(key))
+				{
+					returnedDictionary.Add(key, value);
+				}
+			}
+			return returnedDictionary;
+		}
+		private void loadDictionaryIntoDataGrid(DataGridView datagrid, Dictionary<string, string> dictionary)
+		{
+			datagrid.Rows.Clear();
+			foreach (var key in dictionary.Keys)
+			{
+				datagrid.Rows.Add(new string[] { key, dictionary[key] });
+			}
 		}
 	}
 }

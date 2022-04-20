@@ -103,6 +103,7 @@ namespace EAScriptAddin
                     if (this._refdataSplitterControl == null)
                     {
                         this._refdataSplitterControl = this.model.addWindow("Refdata Splitter", "EAScriptAddin.RefdataSplitterControl") as RefdataSplitterControl;
+                        this._refdataSplitterControl.Init(this.settings);
                     }
                 }
                 return _refdataSplitterControl;
@@ -314,8 +315,17 @@ namespace EAScriptAddin
         {
             var tempfile = System.IO.Path.GetTempFileName();
             Script.exportScripts(this.model, tempfile);
-            this.refdataSplitterControl.loadTempFile(tempfile);
-            this.model.showWindow(refdataSplitterWindowName);
+            if (refdataSplitterControl != null)
+            {
+                this.refdataSplitterControl.loadTempfile(tempfile);
+                this.model.showWindow(refdataSplitterWindowName);
+            }
+            else
+            {
+                var refdataSplitter = new EARefDataSplitter.RefDataSplitterForm();
+                refdataSplitter.loadTempfile(tempfile);
+                refdataSplitter.Show(this.model?.mainEAWindow);
+            }
         }
 
         /// <summary>
