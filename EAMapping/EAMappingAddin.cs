@@ -195,6 +195,8 @@ namespace EAMapping
         {
             // initialize the model
             base.EA_FileOpen(Repository);
+            // make sure we are using the cache
+            this.model.useCache = true;
             //set model to settings
             this.settings.model = this.model;
             //close any existing tabs
@@ -271,8 +273,6 @@ namespace EAMapping
         {
             if (mappingSet != null)
             {
-                //make sure to flush the cache 
-                this.model.flushCache();
                 //load mappingSet in control
                 this.mappingControl.loadMappingSet(mappingSet);
                 //make sure the tab is visible
@@ -386,6 +386,8 @@ namespace EAMapping
         }
         public MappingSet getMappingSet(TSF_EA.Element sourceElement)
         {
+            //make sure to flush the cache before loading the mapping set
+            this.model.flushCache();
             var sourceRoot = sourceElement as TSF_EA.ElementWrapper;
             //if an attribute was selected then we select the parent element as root
             if (sourceRoot == null)
