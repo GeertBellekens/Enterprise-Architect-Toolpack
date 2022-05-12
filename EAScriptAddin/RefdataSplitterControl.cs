@@ -32,22 +32,25 @@ namespace EAScriptAddin
             
         }
 
-        private void transferToButtonClick(object sender, EventArgs e)
+        private async void transferToButtonClick(object sender, EventArgs e)
         {
             var environmentKey = this.refDataSplitterForm.selectedEnvironment;
             if (this.settings.environments.ContainsKey(environmentKey))
             {
-                var tempfile = System.IO.Path.GetTempFileName();
-                this.refDataSplitterForm.exportToFile(tempfile);
-                if (EAAddinFramework.EASpecific.Script.importScripts(tempfile, this.settings.environments[environmentKey]))
+                var myTask = Task.Run(() =>
                 {
-                    MessageBox.Show($"Import scripts to {environmentKey} successful!");
-                }
-                else
-                {
-                    MessageBox.Show($"Import scripts to {environmentKey} failed!","Import Failed", MessageBoxButtons.OK, MessageBoxIcon.Error );
-                }
-                
+                    var tempfile = System.IO.Path.GetTempFileName();
+                    this.refDataSplitterForm.exportToFile(tempfile);
+                    if (EAAddinFramework.EASpecific.Script.importScripts(tempfile, this.settings.environments[environmentKey]))
+                    {
+                        MessageBox.Show($"Import scripts to {environmentKey} successful!");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Import scripts to {environmentKey} failed!", "Import Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                });
+                await myTask;
             }
         }
 
