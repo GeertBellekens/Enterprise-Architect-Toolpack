@@ -307,7 +307,7 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
             var startTime = DateTime.Now;
             EAOutputLogger.clearLog(this.model, this.settings.outputName);
             EAOutputLogger.log(this.model, this.settings.outputName
-                               , $"{startTime.ToLongTimeString()} Starting update of existing subset for schema '{schema.name}' in package '{targetPackage.name}'"
+                               , $"Starting update of existing subset for schema '{schema.name}' in package '{targetPackage.name}'"
                                , ((TSF_EA.ElementWrapper)targetPackage).id
                               , LogTypeEnum.log);
 
@@ -334,6 +334,10 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
             }
             if (this.settings.generateDiagram)
             {
+                EAOutputLogger.log(this.model, this.settings.outputName
+                               , "Updating diagram(s)"
+                               , ((TSF_EA.Package)targetPackage).id
+                              , LogTypeEnum.log);
                 var subsetDiagrams = targetPackage.ownedDiagrams;
                 if (subsetDiagrams.Count > 0)
                 {
@@ -350,7 +354,7 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
             var endTime = DateTime.Now;
             var processingTime = (endTime - startTime).TotalSeconds;
             EAOutputLogger.log(this.model, this.settings.outputName
-                               , $"{endTime.ToLongTimeString()} Finished update of existing subset for schema '{schema.name}' in package '{targetPackage.name}' in {processingTime.ToString("N0")} seconds"
+                               , $"Finished update of existing subset for schema '{schema.name}' in package '{targetPackage.name}' in {processingTime.ToString("N0")} seconds"
                                , ((TSF_EA.Package)targetPackage).id
                               , LogTypeEnum.log);
         }
@@ -364,10 +368,7 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
             //log progress
             EAOutputLogger.clearLog(this.model, this.settings.outputName);
             EAOutputLogger.log(this.model, this.settings.outputName
-                               , string.Format("{0} Starting creation of new subset for schema '{1}' in package '{2}'"
-                                              , DateTime.Now.ToLongTimeString()
-                                              , schema.name
-                                              , targetPackage.name)
+                               , $"Starting creation of new subset for schema '{schema.name}' in package '{targetPackage.name}'"
                                , ((TSF_EA.ElementWrapper)targetPackage).id
                               , LogTypeEnum.log);
             if (targetPackage != null)
@@ -385,10 +386,7 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
             }
             //log progress
             EAOutputLogger.log(this.model, this.settings.outputName
-                               , string.Format("{0} Finished creation of new subset for schema '{1}' in package '{2}'"
-                                              , DateTime.Now.ToLongTimeString()
-                                              , schema.name
-                                              , targetPackage.name)
+                               , $"Finished creation of new subset for schema '{schema.name}' in package '{targetPackage.name}'"
                                , ((TSF_EA.ElementWrapper)targetPackage).id
                               , LogTypeEnum.log);
         }
