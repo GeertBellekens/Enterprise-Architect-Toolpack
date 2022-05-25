@@ -321,7 +321,12 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
             if (!this.settings.usePackageSchemasOnly)
             {
                 //check if we have a message element to folow
-                var messageElement = targetPackage.ownedElements.OfType<UML.Classes.Kernel.Classifier>().FirstOrDefault();
+                EAOutputLogger.log(this.model, this.settings.outputName, $"Getting root element" , ((TSF_EA.ElementWrapper)targetPackage).id, LogTypeEnum.log);
+                var getdataSQL = $@"select top(1) o.Object_ID from t_object o
+                                    where o.Object_Type = 'Class'
+                                    and o.Package_ID = {((TSF_EA.Package)targetPackage).packageID}
+                                    order by o.Name";
+                var messageElement = this.model.getElementWrappersByQuery(getdataSQL).OfType<UML.Classes.Kernel.Classifier>().FirstOrDefault();
                 if (messageElement != null)
                 {
                     useMessage = true;
