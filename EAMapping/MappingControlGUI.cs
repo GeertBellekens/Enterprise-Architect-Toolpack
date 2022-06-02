@@ -249,11 +249,11 @@ namespace EAMapping
             var parent = ((ContextMenuStrip)sender).SourceControl;
             if (parent == this.sourceTreeView)
             {
-                this.newEmptyMappingToolStripMenuItem.Enabled = !this.selectedSourceNode.isReadOnly;
+                this.newEmptyMappingToolStripMenuItem.Enabled = ! (this.selectedSourceNode?.isReadOnly == true);
             }
             else
             {
-                this.newEmptyMappingToolStripMenuItem.Enabled = !this.selectedTargetNode.isReadOnly;
+                this.newEmptyMappingToolStripMenuItem.Enabled = !(this.selectedTargetNode?.isReadOnly == true);
             }
         }
 

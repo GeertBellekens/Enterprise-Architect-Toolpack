@@ -1,8 +1,18 @@
 ﻿<?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
+		<!-- Define correct programfiles folder -->
+		<?if $(var.Platform) = x64 ?>
+			<?define Win64 = "yes" ?>
+			<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+			<?define EAAddinRegistryKey = "SOFTWARE\Sparx Systems\EAAddins64\" ?>
+		<?else?>
+			<?define Win64 = "no" ?>
+			<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+			<?define EAAddinRegistryKey = "SOFTWARE\Sparx Systems\EAAddins\" ?>
+		<?endif?>
 		<DirectoryRef Id="TARGETDIR">
-			<Directory Id="ProgramFilesFolder" Name="PFiles">
+			<Directory Id="$(var.PlatformProgramFilesFolder)" Name="PFiles">
 				<Directory Id="BellekensDir" Name="Bellekens EA Toolpack">
 					<Component Id="Framework_AddinFiles" Guid="5F223BA8-CAB6-44D8-961F-59F749C93DEF" DiskId="1">
 						<File Id="EAAddinFramework.dll" Name="EAAddinFramework.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\EAAddinFramework.dll" />
@@ -646,12 +656,12 @@
 						<RegistryValue Root="HKCR" Key="CLSID\{39CBB071-5DEE-33D9-B05E-E0F3EEE63BE4}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
 						<RegistryValue Root="HKCR" Key="CLSID\{39CBB071-5DEE-33D9-B05E-E0F3EEE63BE4}\InprocServer32" Name="CodeBase" Value="file:///[#ECDMMessageComposer.dll]" Type="string" Action="write" />
 					</Component>
-					<Component Id="ECDM_RegistryEntry" Guid="85CE2F68-545D-4FBB-80F9-10888BFAAF07" UninstallWhenSuperseded="yes" Win64="no">
-						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\ECDM Message Composer">
+					<Component Id="ECDM_RegistryEntry" Guid="85CE2F68-545D-4FBB-80F9-10888BFAAF07" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
+						<RegistryKey Root="HKLM" Key="$(var.EAAddinRegistryKey)ECDM Message Composer">
 							<RegistryValue Type="string" Value="ECDMMessageComposer.ECDMMessageComposerAddin" />
 						</RegistryKey>
 					</Component>
-					<Component Id="EANavigator_AddinFiles" Guid="DE2A4AFA-C6D9-45DB-90F5-57AE0758383D" DiskId="1">
+					<Component Id="EANavigator_AddinFiles" Guid="DE2A4AFA-C6D9-45DB-90F5-57AE0758383D" DiskId="1" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
 						<File Id="EANavigator_License" Name="EA Navigator license.rtf" Source="..\EANavigator\Files\license.rtf" />
 						<File Id="EANavigator.pdb" Name="EANavigator.pdb" Source="..\EANavigator\bin\Debug\EANavigator.pdb" />
 						<File Id="EANavigator.tlb" Name="EANavigator.tlb" Source="..\EANavigator\bin\Debug\EANavigator.tlb" />
@@ -742,12 +752,12 @@
 						<RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
 						<RegistryValue Root="HKCR" Key="CLSID\{F09531B4-535D-3B96-A119-6150249D53C8}\InprocServer32" Name="CodeBase" Value="file:///[#filB155DC1E8CD1FB5125EF3FB4E90B4F71]" Type="string" Action="write" />
 					</Component>
-					<Component Id="EANavigator_RegistryEntry" Guid="94CE2F68-545D-4FAC-80F9-10888BFAAF06" UninstallWhenSuperseded="yes" Win64="no">
-						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA_Navigator">
+					<Component Id="EANavigator_RegistryEntry" Guid="94CE2F68-545D-4FAC-80F9-10888BFAAF06" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
+						<RegistryKey Root="HKLM" Key="$(var.EAAddinRegistryKey)EA_Navigator">
 							<RegistryValue Type="string" Value="TSF.UmlToolingFramework.EANavigator.EAAddin" />
 						</RegistryKey>
 					</Component>
-					<Component Id="EAMatic_AddinFiles" Guid="8E59E143-AADC-44AA-B49E-CB7B06ED4E4C" DiskId="1" UninstallWhenSuperseded="yes" Win64="no">
+					<Component Id="EAMatic_AddinFiles" Guid="8E59E143-AADC-44AA-B49E-CB7B06ED4E4C" DiskId="1" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
 						<File Id="EAMatic_LicenseFile" Name="EA-Matic license.rtf" Source="..\EAScriptAddin\\Files\license.rtf" />
 						<File Id="EAScriptAddin.pdb" Name="EAScriptAddin.pdb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.pdb" />
 						<File Id="EAScriptAddin.tlb" Name="EAScriptAddin.tlb" Source="..\EAScriptAddin\bin\Debug\EAScriptAddin.tlb" />
@@ -809,13 +819,13 @@
 						<RegistryValue Root="HKCR" Key="CLSID\{A4CFAA9C-6FF2-3EF2-8D6D-5314144A40F7}\InprocServer32" Name="CodeBase" Value="file:///[#filB0E416CBF883E412D94BCDB93E8B5EE3]" Type="string" Action="write" />
 
 					</Component>
-					<Component Id="EAMatic_RegistryEntry" Guid="181A2237-EF7D-48D9-A6F8-43A4749AE0DF" UninstallWhenSuperseded="yes" Win64="no">
-						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA-Matic">
+					<Component Id="EAMatic_RegistryEntry" Guid="181A2237-EF7D-48D9-A6F8-43A4749AE0DF" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
+						<RegistryKey Root="HKLM" Key="$(var.EAAddinRegistryKey)EA-Matic">
 							<RegistryValue Type="string" Value="EAScriptAddin.EAScriptAddinAddinClass" />
 						</RegistryKey>
 					</Component>
 
-					<Component Id="EABDTransformer_AddinFiles" Guid="c8773965-2c38-4c1c-932d-a54fdc990ee0" DiskId="1" UninstallWhenSuperseded="yes" Win64="no">
+					<Component Id="EABDTransformer_AddinFiles" Guid="c8773965-2c38-4c1c-932d-a54fdc990ee0" DiskId="1" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
 						<Class Id="{2B2C5E8C-0D94-33FA-9D9B-C763CDFE905C}" Context="InprocServer32" Description="EADatabaseTransformer.RenameWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="EADatabaseTransformer.RenameWindow" Description="EADatabaseTransformer.RenameWindow" />
 						</Class>
@@ -882,12 +892,12 @@
 						<RegistryValue Root="HKCR" Key="CLSID\{DBC0596A-4CAA-3E56-A71A-5365169E35FF}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
 						<RegistryValue Root="HKCR" Key="CLSID\{DBC0596A-4CAA-3E56-A71A-5365169E35FF}\InprocServer32" Name="CodeBase" Value="file:///[#filC9CF437975C8AAF33CDE28EEAB82C8AD]" Type="string" Action="write" />
 					</Component>
-					<Component Id="EABDTransformer_RegistryEntry" Guid="3c764045-39ad-4ceb-b188-81927aa1487e" UninstallWhenSuperseded="yes" Win64="no">
-						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA Database Transformer">
+					<Component Id="EABDTransformer_RegistryEntry" Guid="3c764045-39ad-4ceb-b188-81927aa1487e" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
+						<RegistryKey Root="HKLM" Key="$(var.EAAddinRegistryKey)EA Database Transformer">
 							<RegistryValue Type="string" Value="EADatabaseTransformer.EADatabaseTransformerAddin" />
 						</RegistryKey>
 					</Component>
-					<Component Id="EATFSConnector_AddinFiles" Guid="4d6351c8-feb5-4ec6-857b-a1feb710191e" DiskId="1" UninstallWhenSuperseded="yes" Win64="no">
+					<Component Id="EATFSConnector_AddinFiles" Guid="4d6351c8-feb5-4ec6-857b-a1feb710191e" DiskId="1" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
 						<Class Id="{151EEFAA-3FCF-315E-BF78-451C5E66E255}" Context="InprocServer32" Description="EATFSConnector.EATFSConnectorAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="EATFSConnector.EATFSConnectorAddin" Description="EATFSConnector.EATFSConnectorAddin" />
 						</Class>
@@ -942,12 +952,12 @@
 						<RegistryValue Root="HKCR" Key="CLSID\{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
 						<RegistryValue Root="HKCR" Key="CLSID\{4DE9877D-2AC9-3494-A3B0-5D0953FA410B}\InprocServer32" Name="CodeBase" Value="file:///[#filA716B9DB25AC874575EC3FCB7476BCD8]" Type="string" Action="write" />
 					</Component>
-					<Component Id="EATFSConnector_RegistryEntry" Guid="28184672-25fa-49e7-9eb3-3e612ff092f6" UninstallWhenSuperseded="yes" Win64="no">
-						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA TFS Connector">
+					<Component Id="EATFSConnector_RegistryEntry" Guid="28184672-25fa-49e7-9eb3-3e612ff092f6" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
+						<RegistryKey Root="HKLM" Key="$(var.EAAddinRegistryKey)EA TFS Connector">
 							<RegistryValue Type="string" Value="EATFSConnector.EATFSConnectorAddin" />
 						</RegistryKey>
 					</Component>
-					<Component Id="EDD_AddinFiles" Guid="70503033-ed87-4f03-acb6-ef4420e154b8">
+					<Component Id="EDD_AddinFiles" Guid="70503033-ed87-4f03-acb6-ef4420e154b8" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
 
 						<File Id="GlossaryManager.pdb" Source="..\GlossaryManager\bin\Debug\GlossaryManager.pdb" />
 						<File Id="GlossaryManager.tlb" Source="..\GlossaryManager\bin\Debug\GlossaryManager.tlb" />
@@ -1056,12 +1066,12 @@
 						<RegistryValue Root="HKCR" Key="Record\{2672DC50-D061-33D6-9E2C-829E99E95730}\1.6.1.21693" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
 						<RegistryValue Root="HKCR" Key="Record\{2672DC50-D061-33D6-9E2C-829E99E95730}\1.6.1.21693" Name="CodeBase" Value="file:///[#fil3D7C7D9CCAC93777DA2BEE5DD7B864F4]" Type="string" Action="write" />
 					</Component>
-					<Component Id="EDD_RegistryEntry" Guid="2b885ff9-2b17-46a2-8cd9-db954f3764c0" UninstallWhenSuperseded="yes" Win64="no">
-						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\Enterprise Data Dictionary">
+					<Component Id="EDD_RegistryEntry" Guid="2b885ff9-2b17-46a2-8cd9-db954f3764c0" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
+						<RegistryKey Root="HKLM" Key="$(var.EAAddinRegistryKey)Enterprise Data Dictionary">
 							<RegistryValue Type="string" Value="GlossaryManager.GlossaryManagerAddin" />
 						</RegistryKey>
 					</Component>
-					<Component Id="EAValidator_AddinFiles" Guid="a18ffd05-126e-47b3-9c8c-3823e7f3161d">
+					<Component Id="EAValidator_AddinFiles" Guid="a18ffd05-126e-47b3-9c8c-3823e7f3161d" UninstallWhenSuperseded="yes" Win64="$(var.Win64)"> 
 						<Class Id="{1A625E81-64AA-3984-860D-A9D782426696}" Context="InprocServer32" Description="EAValidator.EAValidatorAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="EAValidator.EAValidatorAddin" Description="EAValidator.EAValidatorAddin" />
 						</Class>
@@ -1128,12 +1138,12 @@
 						<RegistryValue Root="HKCR" Key="CLSID\{D70711C8-BB28-3983-9761-95FEA331EC70}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
 						<RegistryValue Root="HKCR" Key="CLSID\{D70711C8-BB28-3983-9761-95FEA331EC70}\InprocServer32" Name="CodeBase" Value="file:///[#fil904F58FF7F62609D844E592FCE998D3A]" Type="string" Action="write" />
 					</Component>
-					<Component Id="EAValidator_RegistryEntry" Guid="3cc8c8a1-55b3-445a-8844-340d527415c9" UninstallWhenSuperseded="yes" Win64="no">
-						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA Validator">
+					<Component Id="EAValidator_RegistryEntry" Guid="3cc8c8a1-55b3-445a-8844-340d527415c9" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
+						<RegistryKey Root="HKLM" Key="$(var.EAAddinRegistryKey)EA Validator">
 							<RegistryValue Type="string" Value="EAValidator.EAValidatorAddin" />
 						</RegistryKey>
 					</Component>
-					<Component Id="EAMapping_AddinFiles" Guid="49a007a8-8704-4829-8f06-5f684fd33b79">
+					<Component Id="EAMapping_AddinFiles" Guid="49a007a8-8704-4829-8f06-5f684fd33b79" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
 						<Class Id="{247252EB-F797-3272-BF24-11EEF866C0F7}" Context="InprocServer32" Description="EAMapping.MappingControlGUI" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="EAMapping.MappingControlGUI" Description="EAMapping.MappingControlGUI" />
 						</Class>
@@ -1214,12 +1224,12 @@
 						<RegistryValue Root="HKCR" Key="CLSID\{C5BB8F60-48DA-3BE2-975C-3833E83C94B0}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
 						<RegistryValue Root="HKCR" Key="CLSID\{C5BB8F60-48DA-3BE2-975C-3833E83C94B0}\InprocServer32" Name="CodeBase" Value="file:///[#fil3EE4582EB99445EBAE70DC1751CE006C]" Type="string" Action="write" />
 					</Component>
-					<Component Id="EAMapping_RegistryEntry" Guid="0736910a-6765-4b97-bd78-f130052bc002" UninstallWhenSuperseded="yes" Win64="no">
-						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA Mapping">
+					<Component Id="EAMapping_RegistryEntry" Guid="0736910a-6765-4b97-bd78-f130052bc002" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
+						<RegistryKey Root="HKLM" Key="$(var.EAAddinRegistryKey)EA Mapping">
 							<RegistryValue Type="string" Value="EAMapping.EAMappingAddin" />
 						</RegistryKey>
 					</Component>
-					<Component Id="EAJSON_AddinFiles" Guid="7E7E454D-4265-49D2-9865-E1877DE6E47D">
+					<Component Id="EAJSON_AddinFiles" Guid="7E7E454D-4265-49D2-9865-E1877DE6E47D" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
 						<File Id="EAJSON.dll" KeyPath="yes" Source="..\EAJSON\bin\Debug\EAJSON.dll" />
 						<File Id="Newtonsoft.Json.Schema.dll" Name="Newtonsoft.Json.Schema.dll" Source="..\EAJSON\bin\Debug\Newtonsoft.Json.Schema.dll" />
 						<Class Id="{43FF918F-1A04-3250-877D-749B7016F25B}" Context="InprocServer32" Description="EAJSON.EAJSONAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
@@ -1247,13 +1257,13 @@
 						<RegistryValue Root="HKCR" Key="CLSID\{9FD2D57C-D498-3D35-A890-13466131C4B9}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
 						<RegistryValue Root="HKCR" Key="CLSID\{9FD2D57C-D498-3D35-A890-13466131C4B9}\InprocServer32" Name="CodeBase" Value="file:///[#EAJSON.dll]" Type="string" Action="write" />
 					</Component>
-					<Component Id="EAJSON_RegistryEntry" Guid="C6B8F87E-695E-4D3A-B1C4-2E8F3D7E2A18" UninstallWhenSuperseded="yes" Win64="no">
-						<RegistryKey Root="HKLM" Key="SOFTWARE\Sparx Systems\EAAddins\EA JSON">
+					<Component Id="EAJSON_RegistryEntry" Guid="C6B8F87E-695E-4D3A-B1C4-2E8F3D7E2A18" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
+						<RegistryKey Root="HKLM" Key="$(var.EAAddinRegistryKey)EA JSON">
 							<RegistryValue Type="string" Value="EAJSON.EAJSONAddin" />
 						</RegistryKey>
 					</Component>
 					<Directory Id="Files" Name="Files">
-						<Component Id="EAValidator_ExtraFiles" Guid="29085904-c1d1-4348-b872-d7e42c472b27" DiskId="1">
+						<Component Id="EAValidator_ExtraFiles" Guid="29085904-c1d1-4348-b872-d7e42c472b27" DiskId="1" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
 							<File Id="check.xsd" Source="..\EAValidator\bin\Debug\Files\check.xsd" />
 						</Component>
 						<Directory Id="dirChecks" Name="Checks">

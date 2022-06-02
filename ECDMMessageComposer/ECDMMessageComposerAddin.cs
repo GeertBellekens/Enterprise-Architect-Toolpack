@@ -201,6 +201,11 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
             {
                 Schema schema = this.schemaFactory.createSchema(composer, this.settings);
                 UML.Classes.Kernel.Package targetPackage = null;
+                if (schema.containerElement?.owningPackage!= null)
+                {
+                    //set the settings based the container element
+                    this.settings.setContextConfig(schema.containerElement.owningPackage);
+                }
                 if (this.settings.generateToArtifactPackage)
                 {
                     targetPackage = schema.containerElement?.owningPackage;
@@ -219,8 +224,12 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
                 }
                 if (targetPackage != null)
                 {
-                    //set the settings based on the target package
-                    this.settings.setContextConfig(targetPackage);
+                    
+                    if (schema.containerElement == null)
+                    {
+                        //set the settings based on the target package
+                        this.settings.setContextConfig(targetPackage);
+                    }
                     //save target package as tagged value on schema artifact
                     if (!this.settings.generateToArtifactPackage)
                     {

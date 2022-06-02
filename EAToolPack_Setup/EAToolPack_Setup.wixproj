@@ -18,8 +18,17 @@
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+  <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+  <OutputPath>bin\x64\Debug\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -31,8 +40,14 @@
     <Optimize>True</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <WixExtension Include="..\..\..\..\..\..\Program Files %28x86%29\WiX Toolset v3.10\bin\WixNetFxExtension.dll" />
-    <WixExtension Include="WixUIExtension.dll" />
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\WiX Toolset v3.10\bin\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension.dll">
+      <HintPath>WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension.dll</Name>
+    </WixExtension>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Files.wxs" />
