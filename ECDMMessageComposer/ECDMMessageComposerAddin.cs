@@ -331,7 +331,7 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
             {
                 //check if we have a message element to folow
                 EAOutputLogger.log(this.model, this.settings.outputName, $"Getting root element" , ((TSF_EA.ElementWrapper)targetPackage).id, LogTypeEnum.log);
-                var getdataSQL = $@"select top(1) o.Object_ID from t_object o
+                var getdataSQL = $@"select top 1 o.Object_ID from t_object o
                                     where o.Object_Type = 'Class'
                                     and o.Package_ID = {((TSF_EA.Package)targetPackage).packageID}
                                     order by o.Name";

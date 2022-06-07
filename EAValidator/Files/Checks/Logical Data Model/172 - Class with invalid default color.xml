@@ -81,7 +81,7 @@
 			and (not isnull(o.Backcolor,-1)  = (
 												select isnull(o2.Backcolor,-1) from
 												(
-												select top(1) o2.Backcolor, count(*) as countt from t_object o2
+												select top 1 o2.Backcolor, count(*) as countt from t_object o2
 												
 												where o2.Stereotype = 'LDM_Class'
 												and o2.Package_ID = o.Package_ID
