@@ -179,13 +179,15 @@ namespace EAScriptAddin
             this.resetScripts(false);
             object returnValue = null;
 
-            int numberofParameters = 0;
+            int numberOfParameters = 0;
             if (parameters != null)
             {
-                numberofParameters = parameters.Length;
+                numberOfParameters = parameters.Length;
             }
 
-            List<ScriptFunction> functions = this.allFunctions.FindAll(f => f.name == functionName && f.numberOfParameters == numberofParameters);
+            List<ScriptFunction> functions = this.allFunctions.FindAll(f => f.name == functionName 
+                                                                            && (f.numberOfParameters == numberOfParameters
+                                                                                || f.numberOfParameters == null));
             foreach (ScriptFunction function in functions)
             {
                 if (function != null)
@@ -220,6 +222,7 @@ namespace EAScriptAddin
 
         private void resetScriptsNow()
         {
+            Script.resetScripts();
             this._allFunctions = null;
             this._allModelScripts = null;
             this._allEAMaticScripts = null;

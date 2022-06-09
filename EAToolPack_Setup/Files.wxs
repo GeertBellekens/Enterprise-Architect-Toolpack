@@ -43,6 +43,9 @@
 						<File Id="ComponentFactory.Krypton.Toolkit.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ComponentFactory.Krypton.Toolkit.dll" />
 						<File Id="ComponentFactory.Krypton.Workspace.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ComponentFactory.Krypton.Workspace.dll" />
 						<File Id="ObjectListView.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\ObjectListView.dll" />
+						<?if $(var.Platform) = x64 ?>
+							<File Id="tsc64.dll" Source="..\..\Enterprise-Architect-Add-in-Framework\EAAddinFramework\bin\Debug\Files\tsc64.dll" SelfRegCost="1"/>
+						<?endif?>
 						<Class Id="{042AEE20-8328-387C-8B12-CFF551979DB9}" Context="InprocServer32" Description="EAAddinFramework.EASpecific.VBScriptLanguage" ThreadingModel="both" ForeignServer="mscoree.dll">
 							<ProgId Id="EAAddinFramework.EASpecific.VBScriptLanguage" Description="EAAddinFramework.EASpecific.VBScriptLanguage" />
 						</Class>

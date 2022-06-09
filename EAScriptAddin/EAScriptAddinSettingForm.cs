@@ -98,7 +98,7 @@ namespace EAScriptAddin
 				if (script != null)
 				{
 					//return script.includedModelScripts.Any();
-					return script.addinFunctions.Any();
+					return script.addinFunctions.Any( x => this.addinOperations.Any(y => y.Name == x.name));
 				}
 				return false;
 				//return ((ScriptInclude)o).hasIncludes;
@@ -116,7 +116,8 @@ namespace EAScriptAddin
 				if (script != null)
 				{
 					//return script.includedModelScripts;
-					return script.addinFunctions.OrderBy(x => x.name);
+					return script.addinFunctions.Where(x => this.addinOperations.Any(y => y.Name == x.name))
+												.OrderBy(x => x.name);
 				}
 				return new List<string>();
 				//return ((ScriptInclude)o).scriptIncludes;
