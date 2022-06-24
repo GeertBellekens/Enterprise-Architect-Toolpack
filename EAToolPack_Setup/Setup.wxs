@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?if $(var.Platform) = x64 ?>
-		<?define PlatFormName = "(64 bit)" ?>
+	<?define PlatFormName = "(64 bit)" ?>
 	<?else?>
-		<?define PlatFormName = "(32 bit)" ?>
+	<?define PlatFormName = "(32 bit)" ?>
 	<?endif?>
 	<Product Id="*"
 		  Name="Bellekens EA Toolpack $(var.PlatFormName)"
@@ -91,6 +91,13 @@
 					 Level="99">
 			<ComponentRef Id="EABDTransformer_AddinFiles"/>
 			<ComponentRef Id="EABDTransformer_RegistryEntry"/>
+		</Feature>
+		<Feature Id="SAP2EAImporter"
+					 Title="SAP to EA Importer"
+					 Description="Import SAP data to EA"
+					 Level="99">
+			<ComponentRef Id="SAP2EAImporter_AddinFiles"/>
+			<ComponentRef Id="SAP2EAImporter_RegistryEntry"/>
 		</Feature>
 		<Feature Id="EATFSConnector"
 					 Title="EA TFS Connector"

@@ -93,6 +93,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EARefDataSplitter", "..\EAR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextHelper", "..\TextHelper\TextHelper\TextHelper.csproj", "{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP2EAImporter", "SAP2EAImporter\SAP2EAImporter.csproj", "{69F3DC26-99B2-461C-8D4F-8D47702FA90C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -448,6 +450,18 @@ Global
 		{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}.Release|x64.Build.0 = Release|x64
 		{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}.Release|x86.ActiveCfg = Release|Any CPU
 		{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}.Release|x86.Build.0 = Release|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Debug|x64.Build.0 = Debug|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Debug|x86.Build.0 = Debug|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Release|x64.ActiveCfg = Release|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Release|x64.Build.0 = Release|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Release|x86.ActiveCfg = Release|Any CPU
+		{69F3DC26-99B2-461C-8D4F-8D47702FA90C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

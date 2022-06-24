@@ -1265,6 +1265,26 @@
 							<RegistryValue Type="string" Value="EAJSON.EAJSONAddin" />
 						</RegistryKey>
 					</Component>
+					<Component Id="SAP2EAImporter_AddinFiles" Guid="D5EDA3D6-4F5F-4D00-A860-486D8D4A690D">
+						<File Id="SAP2EAImporter.dll" KeyPath="yes" Source="..\SAP2EAImporter\bin\Debug\SAP2EAImporter.dll" />
+						<Class Id="{63F6FB7A-F206-39AF-8CD5-69D061F83C88}" Context="InprocServer32" Description="SAP2EAImporter.SAP2EAImporterAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
+							<ProgId Id="SAP2EAImporter.SAP2EAImporterAddin" Description="SAP2EAImporter.SAP2EAImporterAddin" />
+						</Class>
+						<RegistryValue Root="HKCR" Key="CLSID\{63F6FB7A-F206-39AF-8CD5-69D061F83C88}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{63F6FB7A-F206-39AF-8CD5-69D061F83C88}\InprocServer32\1.0.0.0" Name="Class" Value="SAP2EAImporter.SAP2EAImporterAddin" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{63F6FB7A-F206-39AF-8CD5-69D061F83C88}\InprocServer32\1.0.0.0" Name="Assembly" Value="SAP2EAImporter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{63F6FB7A-F206-39AF-8CD5-69D061F83C88}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{63F6FB7A-F206-39AF-8CD5-69D061F83C88}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#SAP2EAImporter.dll]" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{63F6FB7A-F206-39AF-8CD5-69D061F83C88}\InprocServer32" Name="Class" Value="SAP2EAImporter.SAP2EAImporterAddin" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{63F6FB7A-F206-39AF-8CD5-69D061F83C88}\InprocServer32" Name="Assembly" Value="SAP2EAImporter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{63F6FB7A-F206-39AF-8CD5-69D061F83C88}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+						<RegistryValue Root="HKCR" Key="CLSID\{63F6FB7A-F206-39AF-8CD5-69D061F83C88}\InprocServer32" Name="CodeBase" Value="file:///[#SAP2EAImporter.dll]" Type="string" Action="write" />
+					</Component>
+					<Component Id="SAP2EAImporter_RegistryEntry" Guid="9265EFE4-9240-4DA2-86A4-5A4836A8D6AE" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
+						<RegistryKey Root="HKLM" Key="$(var.EAAddinRegistryKey)SAP2EA Importer">
+							<RegistryValue Type="string" Value="SAP2EAImporter.SAP2EAImporterAddin" />
+						</RegistryKey>
+					</Component>
 					<Directory Id="Files" Name="Files">
 						<Component Id="EAValidator_ExtraFiles" Guid="29085904-c1d1-4348-b872-d7e42c472b27" DiskId="1" UninstallWhenSuperseded="yes" Win64="$(var.Win64)">
 							<File Id="check.xsd" Source="..\EAValidator\bin\Debug\Files\check.xsd" />
