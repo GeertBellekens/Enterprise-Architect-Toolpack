@@ -53,5 +53,42 @@ namespace SAP2EAImporter
                                     .FirstOrDefault(x => x.hasStereotype("SAP_composition")
                                                     && x.source.uniqueID == this.owner?.wrappedElement.uniqueID);
         }
+        const string codeTypeTagName = "Node Type";
+        public string nodeType
+        {
+            get => this.getStringProperty(codeTypeTagName);
+            set => this.setStringProperty(codeTypeTagName, value); 
+        }
+        const string isTransientTagName = "IsTransient";
+        public bool isTransient
+        {
+            get => this.getBoolProperty(isTransientTagName);
+            set => this.setBoolProperty(isTransientTagName, value);
+        }
+        const string combinedStructureTagName = "Combined Structure";
+        public UML.Classes.Kernel.DataType combinedStructure
+        {
+            get => this.getLinkProperty<UML.Classes.Kernel.DataType>(combinedStructureTagName);
+            set => this.setLinkProperty(combinedStructureTagName, value);
+        }
+        const string dataStructureTagName = "Data Structure";
+        public UML.Classes.Kernel.DataType dataStructure
+        {
+            get => this.getLinkProperty<UML.Classes.Kernel.DataType>(dataStructureTagName);
+            set => this.setLinkProperty(dataStructureTagName, value);
+        }
+        const string combinedTableTypeTagName = "Combined Table Type";
+        public UML.Classes.Kernel.Class combinedTableType
+        {
+            get => this.getLinkProperty<UML.Classes.Kernel.Class>(combinedTableTypeTagName);
+            set => this.setLinkProperty(combinedTableTypeTagName, value);
+        }
+        const string nodeClassTagName = "Combined Structure";
+        public UML.Classes.Kernel.Class nodeClass
+        {
+            get => this.getLinkProperty<UML.Classes.Kernel.Class>(nodeClassTagName);
+            set => this.setLinkProperty(nodeClassTagName, value);
+        }
+
     }
 }

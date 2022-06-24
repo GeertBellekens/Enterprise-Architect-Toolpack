@@ -19,13 +19,10 @@ namespace SAP2EAImporter
         const string objectCategoryTagName = "Object Category";
         public string objectCategory
         {
-            get => this.wrappedElement.taggedValues.FirstOrDefault(x => x.name == objectCategoryTagName)?.tagValue?.ToString();
-            set
-            {
-                var taggedValue = this.wrappedElement.addTaggedValue(objectCategoryTagName, value);
-                taggedValue.save();
-            }
+            get => this.getStringProperty(objectCategoryTagName);
+            set => this.setStringProperty(objectCategoryTagName, value);
         }
+
         public BOPFNode addNode(string name, string key)
         {
             return new BOPFNode(name, this, key);

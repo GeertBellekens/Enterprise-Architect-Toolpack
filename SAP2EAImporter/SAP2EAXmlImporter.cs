@@ -289,11 +289,16 @@ namespace SAP2EAImporter
                 var node = businessObject.addNode(elementName, key);
 
                 // Import notes
-                var notesNode = elementNode.Element("node_properties")?.Elements("notes").FirstOrDefault();
+                var notesNode = nodeNode.Element("node_properties")?.Element("notes");
                 if (notesNode != null)
                 {
                     node.notes = notesNode.Value;
                 }
+                //node type
+                node.nodeType = nodeNode.Element("node_properties")?.Element("node_settings")?.Element("node_type")?.Value;
+                //is transient
+                node.isTransient = "true".Equals(nodeNode.Element("node_properties")?.Element("node_settings")?.Element("is_transient")?.Value, StringComparison.InvariantCultureIgnoreCase);
+                
 
                 node.save();
             }
