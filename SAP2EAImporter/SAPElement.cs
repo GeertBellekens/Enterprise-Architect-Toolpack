@@ -41,11 +41,12 @@ namespace SAP2EAImporter
         /// </summary>
         /// <param name="name"> name</param>
         /// <param name="package"> the parent package</param>
-        protected SAPElement(string name, UML.Classes.Kernel.Package package, string stereotypeName): this(name, package, stereotypeName, string.Empty){}
+        protected SAPElement(string name, UML.Classes.Kernel.Namespace package) : this(name, package, string.Empty) { }
+        protected SAPElement(string name, UML.Classes.Kernel.Namespace package, string stereotypeName): this(name, package, stereotypeName, string.Empty){}
         protected SAPElement(string name, UML.Classes.Kernel.Namespace owner, string stereotypeName, string key)
         {
-
-            this.wrappedElement = this.getElement<T>(owner, name, key, $"{profileName}::{stereotypeName}");
+            var fqStereo = string.IsNullOrEmpty(stereotypeName) ? string.Empty : $"{profileName}::{stereotypeName}";
+            this.wrappedElement = this.getElement<T>(owner, name, key, fqStereo);
             if (this.wrappedElement != null)
             {
                 this.wrappedElement.owner = owner;
@@ -61,13 +62,13 @@ namespace SAP2EAImporter
                 this.save();
             }
         }
-        protected Q getElement<Q>(UML.Classes.Kernel.Namespace owner, string name, string key, string FQStereo, bool searchGlobal = false, bool searchPackage = false  ) where Q : UMLEA.ElementWrapper
+        protected Q getElement<Q>(UML.Classes.Kernel.Namespace owner, string name, string key, string fqStereo, bool searchGlobal = false, bool searchPackage = false  ) where Q : UMLEA.ElementWrapper
         {
             Q element = null;
             string stereotypeName = string.Empty;
-            if (FQStereo.Contains("::"))
+            if (fqStereo.Contains("::"))
             {
-                var splittedStereo = FQStereo.Split(new string[] { "::" }, StringSplitOptions.None);
+                var splittedStereo = fqStereo.Split(new string[] { "::" }, StringSplitOptions.None);
                 if (splittedStereo.Count() == 2)
                 {
                     stereotypeName = splittedStereo[1];
@@ -82,14 +83,14 @@ namespace SAP2EAImporter
                             where tv.Value = '{key}'";
                 var existingElements = ((UMLEA.Model)owner.model).getElementWrappersByQuery(sqlGetData).OfType<Q>();
                 //first get the one in the given package
-                element = existingElements.FirstOrDefault(x => (string.IsNullOrEmpty(FQStereo)
-                                                                || x.fqStereotype.Equals(FQStereo, StringComparison.InvariantCultureIgnoreCase))
+                element = existingElements.FirstOrDefault(x => (string.IsNullOrEmpty(fqStereo)
+                                                                || x.fqStereotype.Equals(fqStereo, StringComparison.InvariantCultureIgnoreCase))
                                                                  && x.owningPackage.uniqueID == owner.uniqueID);
                 //if not found here, search in other packages
                 if (element == null)
                 {
-                    element = existingElements.FirstOrDefault(x => string.IsNullOrEmpty(FQStereo)
-                                                                || x.fqStereotype.Equals(FQStereo, StringComparison.InvariantCultureIgnoreCase));
+                    element = existingElements.FirstOrDefault(x => string.IsNullOrEmpty(fqStereo)
+                                                                || x.fqStereotype.Equals(fqStereo, StringComparison.InvariantCultureIgnoreCase));
                                                                 
                 }
             }
@@ -99,8 +100,8 @@ namespace SAP2EAImporter
                 element = owner.ownedElements.ToList().
                                 OfType<Q>().
                                 FirstOrDefault(x => x.name == name
-                                                && (string.IsNullOrEmpty(FQStereo)
-                                                    || x.fqStereotype.Equals(FQStereo, StringComparison.InvariantCultureIgnoreCase)));
+                                                && (string.IsNullOrEmpty(fqStereo)
+                                                    || x.fqStereotype.Equals(fqStereo, StringComparison.InvariantCultureIgnoreCase)));
                 //Do we find an element with that name, type and stereotype 
                 if (searchPackage)
                 {
@@ -117,9 +118,9 @@ namespace SAP2EAImporter
                     element = ((UMLEA.ElementWrapper)owner).addOwnedElement<Q>(name);
 
                     // Add the stereotype to the element.
-                    if (!string.IsNullOrEmpty(FQStereo))
+                    if (!string.IsNullOrEmpty(fqStereo))
                     {
-                        element.setStereotype(FQStereo);
+                        element.setStereotype(fqStereo);
                     }
                     element.save();
                 }
@@ -169,5 +170,40 @@ namespace SAP2EAImporter
             this.setStringProperty(tagName, value.uniqueID);
         }
 
+        internal UMLEA.Attribute addOrUpdateAttribute(string attributeName, string key, string fqStereo, string notes, string datatype, int attributePos )
+        {
+            //check if this attribute exists
+            var sqlGetData = $@"select a.ea_guid from t_attribute a
+               left join t_attributetag tv on tv.ElementID = a.ID
+                       and tv.Property = 'Key'
+               where a.Object_ID = {this.wrappedElement.id}
+                ";
+            if (!string.IsNullOrEmpty(key))
+            {
+                sqlGetData += $" and tv.Value = '{key}' ";
+            }
+            else
+            {
+                sqlGetData += $" and a.name = '{attributeName}' ";
+            }
+
+
+            var attribute = this.wrappedElement.EAModel.getAttributesByQuery(sqlGetData).FirstOrDefault();
+            //create new
+            if (attribute == null)
+            {
+                attribute = this.wrappedElement.addOwnedElement<UMLEA.Attribute>(attributeName);
+            }
+            //set properties
+            attribute.notes = notes;
+            if (!string.IsNullOrEmpty(fqStereo))
+            {
+                attribute.setStereotype(fqStereo);
+            }
+            attribute.type = attribute.EAModel.factory.createPrimitiveType(datatype);
+            attribute.position = attributePos;
+            attribute.save();
+            return attribute;
+        }
     }
 }

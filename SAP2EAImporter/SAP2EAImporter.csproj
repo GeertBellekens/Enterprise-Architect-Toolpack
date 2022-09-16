@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="BOPFBusinessObject.cs" />
     <Compile Include="BOPFNode.cs" />
+    <Compile Include="BOPFNodeOwner.cs" />
+    <Compile Include="SAPClass.cs" />
     <Compile Include="SAPElement.cs" />
     <Compile Include="AuthorizationObject.cs" />
     <Compile Include="Authorization.cs" />

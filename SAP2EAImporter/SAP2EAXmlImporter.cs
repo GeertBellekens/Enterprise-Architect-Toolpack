@@ -22,6 +22,7 @@ namespace SAP2EAImporter
         const string SapFunctionModule = "FUNC";
         const string SapUsercategory = "ORG";
         const string SapBopf = "BOBF";
+        const string SapClass = "CLAS";
         const string outputName = "SAP2EAImporter"; //TODO move to settings
         private XDocument xDoc { get; set; }
         private UMLEA.Model model { get; set; }
@@ -208,10 +209,46 @@ namespace SAP2EAImporter
                 case SapBopf:
                     processBopf(elementNode, package);
                     break;
+                case SapClass:
+                    processClass(elementNode, package);
+                    break;
             }
 
         }
 
+        private SAPClass processClass(XElement elementNode, UML.Classes.Kernel.Package package)
+        {
+            var elementName = elementNode.Attribute("name").Value;
+            var sapClass = new SAPClass(elementName, package);
+            // Import notes
+            var notesNode = elementNode.Elements("notes").FirstOrDefault();
+            if (notesNode != null)
+            {
+                sapClass.notes = notesNode.Value;
+            }
+            sapClass.save();
+            //process attributes
+            this.processAttributes<UMLEA.Class>(elementNode, sapClass);
+            return sapClass;
+
+        }
+        private void processAttributes<T>(XElement elementNode, SAPElement<T> owner) where T : UMLEA.ElementWrapper
+        {
+            //<Attribute name="MC_ISTAT" datatype="ISTAT_D" visibility="Protected" ownerScope="Constant" changeable="frozen">
+			//	<notes>Planningsstatus</notes>
+			//</Attribute>
+            var attributePos = 0;
+            foreach (var attributeNode in elementNode.Elements("Attribute"))
+            {
+                attributePos++;
+                var attributeName = attributeNode.Attribute("name").Value;
+                var key = attributeNode.Attribute("key")?.Value;
+                var datatype = attributeNode.Attribute("datatype")?.Value;
+                var notes = attributeNode.Elements("notes").FirstOrDefault()?.Value;
+                //TODO: ownerScope and changeable, add to profile?
+                owner.addOrUpdateAttribute(attributeName,key, string.Empty, notes, datatype, attributePos);
+            }
+        }
         private BOPFBusinessObject processBopf(XElement elementNode, UML.Classes.Kernel.Package package)
         {
             //<element name="ZA_TEXT_COLLECTION" type="BOBF" tabclass="" key="7EAE1BA4330B1EE5849B1B023574921A">
@@ -255,7 +292,7 @@ namespace SAP2EAImporter
             return businessObject;
         }
 
-        private void processNodes(XElement elementNode, BOPFBusinessObject businessObject)
+        private void processNodes(XElement elementNode, BOPFNodeOwner businessObject)
         {
             //<node name="TEXT_COLLECTION_HDR" key="7EAE1BA4330B1EE5849B1B0393DD921A">
             //<node_properties>
@@ -301,6 +338,8 @@ namespace SAP2EAImporter
                 
 
                 node.save();
+                //process subnodes
+                this.processNodes(nodeNode, node);
             }
         }
         /// <summary>

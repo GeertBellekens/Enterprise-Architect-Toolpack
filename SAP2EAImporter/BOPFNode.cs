@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
 using UMLEA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace SAP2EAImporter
 {
-    class BOPFNode : SAPElement<UMLEA.Class>
+    class BOPFNode : SAPElement<UMLEA.Class>, BOPFNodeOwner
     {
         const string stereotypeName = "BOPF_node";
 
-        public BOPFNode(string name,BOPFBusinessObject owner, string key)
-            : base(name, owner.wrappedElement, stereotypeName, key)
+        public BOPFNode(string name, BOPFNodeOwner owner, string key)
+            : base(name, (UML.Classes.Kernel.Namespace) owner.elementWrapper, stereotypeName, key)
         {
             //set the owner
             this.owner = owner;
         }
-        BOPFBusinessObject _owner;
-        public BOPFBusinessObject owner
+        public SAPElement<UMLEA.Class> element => this;
+
+        BOPFNodeOwner _owner;
+        public BOPFNodeOwner owner
         {
             get => this._owner;
             set
@@ -34,24 +37,24 @@ namespace SAP2EAImporter
                 //ceate new composition if needed
                 if (composition == null)
                 {
-                    composition = this.owner.wrappedElement.addOwnedElement<UMLEA.Association>("");
+                    composition = this.owner.elementWrapper.addOwnedElement<UMLEA.Association>("");
                     composition.addStereotype("SAP_composition");
                 }
                 composition.sourceEnd.aggregation = UML.Classes.Kernel.AggregationKind.composite;
                 composition.targetEnd.isNavigable = true;
                 composition.target = this.wrappedElement;
-                composition.source = value.wrappedElement;
+                composition.source = value.elementWrapper;
                 composition.save();
 
                 //set ownership of wrapped element 
-                this.wrappedElement.owner = value.wrappedElement;
+                this.wrappedElement.owner = value.elementWrapper;
             }
         }
         public UMLEA.Association compositionToOwner
         {
                  get => this.wrappedElement.getRelationships<UMLEA.Association>(false, true)
                                     .FirstOrDefault(x => x.hasStereotype("SAP_composition")
-                                                    && x.source.uniqueID == this.owner?.wrappedElement.uniqueID);
+                                                    && x.source.uniqueID == this.owner?.elementWrapper.uniqueID);
         }
         const string codeTypeTagName = "Node Type";
         public string nodeType
@@ -88,6 +91,13 @@ namespace SAP2EAImporter
         {
             get => this.getLinkProperty<UML.Classes.Kernel.Class>(nodeClassTagName);
             set => this.setLinkProperty(nodeClassTagName, value);
+        }
+
+        public ElementWrapper elementWrapper => this.wrappedElement;
+
+        public BOPFNode addNode(string name, string key)
+        {
+            return new BOPFNode(name, this, key);
         }
 
     }
