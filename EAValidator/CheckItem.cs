@@ -18,7 +18,15 @@ namespace EAValidator
         /// <summary>
         /// Number of Validation Results found (using Query)
         /// </summary>
-        public virtual int? NumberOfValidationResults { get; set; }                               
+        public virtual int? NumberOfValidationResults { get; set; }
+        /// <summary>
+        /// The result of checking this item
+        /// </summary>
+        public virtual decimal Result => this.Status == CheckStatus.Failed 
+                                    && this.NumberOfElementsFound  > 0  
+                                    && NumberOfValidationResults > 0
+                                      ? (decimal) this.NumberOfValidationResults.Value / this.NumberOfElementsFound.Value
+                                      : 0 ;
 
         public string StatusName
         {

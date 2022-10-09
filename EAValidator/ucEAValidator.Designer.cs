@@ -57,9 +57,13 @@
             this.olvColCheckStatus = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckNumberOfElementsFound = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckNumberOfValidationResults = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColCheckResult = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckWarningType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckGroup = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColCheckRationale = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.checkContextStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyAsNewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblChecks = new System.Windows.Forms.Label();
             this.lblResults = new System.Windows.Forms.Label();
             this.txtElementName = new System.Windows.Forms.TextBox();
@@ -74,19 +78,16 @@
             this.btnSelectDiagram = new System.Windows.Forms.Button();
             this.logoBox = new System.Windows.Forms.PictureBox();
             this.validatorSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.checkContextStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.editMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyAsNewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).BeginInit();
             this.validationContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).BeginInit();
+            this.checkContextStrip.SuspendLayout();
             this.grpElement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.validatorSplitContainer)).BeginInit();
             this.validatorSplitContainer.Panel1.SuspendLayout();
             this.validatorSplitContainer.Panel2.SuspendLayout();
             this.validatorSplitContainer.SuspendLayout();
-            this.checkContextStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnDoValidation
@@ -299,6 +300,7 @@
             this.olvChecks.AllColumns.Add(this.olvColCheckStatus);
             this.olvChecks.AllColumns.Add(this.olvColCheckNumberOfElementsFound);
             this.olvChecks.AllColumns.Add(this.olvColCheckNumberOfValidationResults);
+            this.olvChecks.AllColumns.Add(this.olvColCheckResult);
             this.olvChecks.AllColumns.Add(this.olvColCheckWarningType);
             this.olvChecks.AllColumns.Add(this.olvColCheckGroup);
             this.olvChecks.AllColumns.Add(this.olvColCheckRationale);
@@ -314,6 +316,7 @@
             this.olvColCheckStatus,
             this.olvColCheckNumberOfElementsFound,
             this.olvColCheckNumberOfValidationResults,
+            this.olvColCheckResult,
             this.olvColCheckWarningType,
             this.olvColCheckGroup,
             this.olvColCheckRationale});
@@ -386,6 +389,11 @@
             this.olvColCheckNumberOfValidationResults.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.olvColCheckNumberOfValidationResults.Width = 86;
             // 
+            // olvColCheckResult
+            // 
+            this.olvColCheckResult.AspectName = "Result";
+            this.olvColCheckResult.Text = "Result";
+            // 
             // olvColCheckWarningType
             // 
             this.olvColCheckWarningType.AspectName = "WarningType";
@@ -405,6 +413,31 @@
             this.olvColCheckRationale.MinimumWidth = 5;
             this.olvColCheckRationale.Text = "Rationale";
             this.olvColCheckRationale.Width = 500;
+            // 
+            // checkContextStrip
+            // 
+            this.checkContextStrip.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.checkContextStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editMenuItem,
+            this.copyAsNewMenuItem});
+            this.checkContextStrip.Name = "validationContextMenuStrip";
+            this.checkContextStrip.Size = new System.Drawing.Size(144, 48);
+            // 
+            // editMenuItem
+            // 
+            this.editMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editMenuItem.Image")));
+            this.editMenuItem.Name = "editMenuItem";
+            this.editMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.editMenuItem.Text = "Edit";
+            this.editMenuItem.Click += new System.EventHandler(this.editMenuItem_Click);
+            // 
+            // copyAsNewMenuItem
+            // 
+            this.copyAsNewMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyAsNewMenuItem.Image")));
+            this.copyAsNewMenuItem.Name = "copyAsNewMenuItem";
+            this.copyAsNewMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyAsNewMenuItem.Text = "Copy as New";
+            this.copyAsNewMenuItem.Click += new System.EventHandler(this.copyAsNewMenuItem_Click);
             // 
             // lblChecks
             // 
@@ -580,31 +613,6 @@
             this.validatorSplitContainer.SplitterDistance = 350;
             this.validatorSplitContainer.TabIndex = 22;
             // 
-            // checkContextStrip
-            // 
-            this.checkContextStrip.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.checkContextStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editMenuItem,
-            this.copyAsNewMenuItem});
-            this.checkContextStrip.Name = "validationContextMenuStrip";
-            this.checkContextStrip.Size = new System.Drawing.Size(144, 48);
-            // 
-            // editMenuItem
-            // 
-            this.editMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editMenuItem.Image")));
-            this.editMenuItem.Name = "editMenuItem";
-            this.editMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.editMenuItem.Text = "Edit";
-            this.editMenuItem.Click += new System.EventHandler(this.editMenuItem_Click);
-            // 
-            // copyAsNewMenuItem
-            // 
-            this.copyAsNewMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyAsNewMenuItem.Image")));
-            this.copyAsNewMenuItem.Name = "copyAsNewMenuItem";
-            this.copyAsNewMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.copyAsNewMenuItem.Text = "Copy as New";
-            this.copyAsNewMenuItem.Click += new System.EventHandler(this.copyAsNewMenuItem_Click);
-            // 
             // ucEAValidator
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -614,6 +622,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).EndInit();
             this.validationContextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).EndInit();
+            this.checkContextStrip.ResumeLayout(false);
             this.grpElement.ResumeLayout(false);
             this.grpElement.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).EndInit();
@@ -623,7 +632,6 @@
             this.validatorSplitContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.validatorSplitContainer)).EndInit();
             this.validatorSplitContainer.ResumeLayout(false);
-            this.checkContextStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -677,5 +685,6 @@
         private System.Windows.Forms.ContextMenuStrip checkContextStrip;
         private System.Windows.Forms.ToolStripMenuItem editMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyAsNewMenuItem;
+        private BrightIdeasSoftware.OLVColumn olvColCheckResult;
     }
 }

@@ -101,7 +101,8 @@ namespace EAValidator
 
             };
             this.olvColCheck.ImageGetter = validationImageGetter;
-
+            //set renderer for result
+            this.olvColCheckResult.Renderer = new BarRenderer(0, 1);
         }
 
         public void setController(EAValidatorController controller)
