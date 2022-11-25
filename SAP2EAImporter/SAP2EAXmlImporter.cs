@@ -335,7 +335,51 @@ namespace SAP2EAImporter
                 node.nodeType = nodeNode.Element("node_properties")?.Element("node_settings")?.Element("node_type")?.Value;
                 //is transient
                 node.isTransient = "true".Equals(nodeNode.Element("node_properties")?.Element("node_settings")?.Element("is_transient")?.Value, StringComparison.InvariantCultureIgnoreCase);
-                
+                //node links
+                var datamodelNode = nodeNode.Element("node_properties")?.Element("node_settings")?.Element("datamodel");
+                //combined structure
+                var combinedStructureName = datamodelNode?.Element("combined_structure")?.Value;
+                if (!string.IsNullOrEmpty(combinedStructureName))
+                {
+                    node.combinedStructure = new SAPDatatype(combinedStructureName, businessObject.elementWrapper.owningPackage);
+                }
+                //data_structure 
+                var dataStructureName = datamodelNode?.Element("data_structure")?.Value;
+                if (!string.IsNullOrEmpty(dataStructureName))
+                {
+                    node.dataStructure = new SAPDatatype(dataStructureName, businessObject.elementWrapper.owningPackage);
+                }
+                //transient structure 
+                var transientStructureName = datamodelNode?.Element("Transient_structure")?.Value;
+                if (!string.IsNullOrEmpty(transientStructureName))
+                {
+                    node.transientStructure = new SAPDatatype(transientStructureName, businessObject.elementWrapper.owningPackage);
+                }
+                //combined Table Type
+                var combinedTableTypeName = datamodelNode?.Element("Combined_table_type")?.Value;
+                if (!string.IsNullOrEmpty(combinedTableTypeName))
+                {
+                    node.combinedTableType = new SAPDatatype(combinedTableTypeName, businessObject.elementWrapper.owningPackage);
+                }
+                //node class
+                var nodeClassName = datamodelNode?.Element("implementation")?.Element("node_class")?.Value;
+                if (!string.IsNullOrEmpty(nodeClassName))
+                {
+                    node.nodeClass = new SAPClass(nodeClassName, businessObject.elementWrapper.owningPackage);
+                }
+                //check class
+                var checkClassName = datamodelNode?.Element("auth_class")?.Value;
+                if (!string.IsNullOrEmpty(checkClassName))
+                {
+                    node.checkClass = new SAPClass(checkClassName, businessObject.elementWrapper.owningPackage);
+                }
+                //Database table
+                var databaseTableName = nodeNode.Element("node_properties")?.Element("node_settings")?.Element("data_access")?.Element("database_table")?.Value;
+                if (!string.IsNullOrEmpty(databaseTableName))
+                {
+                    node.databaseTable = new SAPTable(databaseTableName, businessObject.elementWrapper.owningPackage);
+                }
+
 
                 node.save();
                 //process subnodes

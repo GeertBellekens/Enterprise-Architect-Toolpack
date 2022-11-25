@@ -45,7 +45,20 @@ namespace SAP2EAImporter
         protected SAPElement(string name, UML.Classes.Kernel.Namespace package, string stereotypeName): this(name, package, stereotypeName, string.Empty){}
         protected SAPElement(string name, UML.Classes.Kernel.Namespace owner, string stereotypeName, string key)
         {
-            var fqStereo = string.IsNullOrEmpty(stereotypeName) ? string.Empty : $"{profileName}::{stereotypeName}";
+            var fqStereo = string.Empty;
+            if (!string.IsNullOrEmpty(stereotypeName))
+            {
+                //check if the stereotype is already fully qualified
+                if (stereotypeName?.Contains("::") == true)
+                {
+                    fqStereo = stereotypeName;
+                }
+                else
+                {
+                    fqStereo = $"{profileName}::{stereotypeName}";
+                }
+            }
+                        
             this.wrappedElement = this.getElement<T>(owner, name, key, fqStereo);
             if (this.wrappedElement != null)
             {
@@ -55,13 +68,18 @@ namespace SAP2EAImporter
                 {
                     this.key = key;
                 }
-                if (!string.IsNullOrEmpty(stereotypeName))
+                if (!string.IsNullOrEmpty(fqStereo))
                 {
-                    this.wrappedElement.setStereotype($"{profileName}::{stereotypeName}");
+                    this.wrappedElement.setStereotype(fqStereo);
                 }
                 this.save();
             }
         }
+        protected SAPElement(T wrappedElement)
+        {
+            this.wrappedElement = wrappedElement;
+        }
+
         protected Q getElement<Q>(UML.Classes.Kernel.Namespace owner, string name, string key, string fqStereo, bool searchGlobal = false, bool searchPackage = false  ) where Q : UMLEA.ElementWrapper
         {
             Q element = null;
@@ -163,7 +181,7 @@ namespace SAP2EAImporter
         }
         protected Q getLinkProperty<Q>(string tagName) where Q : class, UML.Extended.UMLItem
         {
-           return  this.wrappedElement.model.getItemFromGUID(this.getStringProperty(tagName)) as Q;
+           return   this.wrappedElement.model.getItemFromGUID(this.getStringProperty(tagName)) as Q;
         }
         protected void setLinkProperty(string tagName, UML.Extended.UMLItem value)
         {

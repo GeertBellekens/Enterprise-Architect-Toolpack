@@ -51,6 +51,7 @@
     <Compile Include="BOPFNode.cs" />
     <Compile Include="BOPFNodeOwner.cs" />
     <Compile Include="SAPClass.cs" />
+    <Compile Include="SAPDatatype.cs" />
     <Compile Include="SAPElement.cs" />
     <Compile Include="AuthorizationObject.cs" />
     <Compile Include="Authorization.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="FunctionModule.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="RolePackage.cs" />
+    <Compile Include="SAPTable.cs" />
     <Compile Include="SingleRole.cs" />
     <Compile Include="UserCategory.cs" />
     <Compile Include="SAP2EAImporterAddin.cs" />

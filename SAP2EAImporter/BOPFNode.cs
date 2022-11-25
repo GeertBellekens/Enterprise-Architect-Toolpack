@@ -69,28 +69,47 @@ namespace SAP2EAImporter
             set => this.setBoolProperty(isTransientTagName, value);
         }
         const string combinedStructureTagName = "Combined Structure";
-        public UML.Classes.Kernel.DataType combinedStructure
+        public SAPDatatype combinedStructure
         {
-            get => this.getLinkProperty<UML.Classes.Kernel.DataType>(combinedStructureTagName);
-            set => this.setLinkProperty(combinedStructureTagName, value);
+            get => new SAPDatatype(this.getLinkProperty<DataType>(combinedStructureTagName));
+            set => this.setLinkProperty(combinedStructureTagName, value.wrappedElement);
         }
         const string dataStructureTagName = "Data Structure";
-        public UML.Classes.Kernel.DataType dataStructure
+        public SAPDatatype dataStructure
         {
-            get => this.getLinkProperty<UML.Classes.Kernel.DataType>(dataStructureTagName);
-            set => this.setLinkProperty(dataStructureTagName, value);
+            get => new SAPDatatype(this.getLinkProperty<DataType>(dataStructureTagName));
+            set => this.setLinkProperty(dataStructureTagName, value.wrappedElement);
+        }
+
+        const string transientStructureTagName = "Transient Structure";
+        public SAPDatatype transientStructure
+        {
+            get => new SAPDatatype(this.getLinkProperty<DataType>(transientStructureTagName));
+            set => this.setLinkProperty(transientStructureTagName, value.wrappedElement);
         }
         const string combinedTableTypeTagName = "Combined Table Type";
-        public UML.Classes.Kernel.Class combinedTableType
+        public SAPDatatype combinedTableType
         {
-            get => this.getLinkProperty<UML.Classes.Kernel.Class>(combinedTableTypeTagName);
-            set => this.setLinkProperty(combinedTableTypeTagName, value);
+            get => new SAPDatatype(this.getLinkProperty<DataType>(combinedTableTypeTagName));
+            set => this.setLinkProperty(combinedTableTypeTagName, value.wrappedElement);
         }
-        const string nodeClassTagName = "Combined Structure";
-        public UML.Classes.Kernel.Class nodeClass
+        const string nodeClassTagName = "Node Class";
+        public SAPClass nodeClass
         {
-            get => this.getLinkProperty<UML.Classes.Kernel.Class>(nodeClassTagName);
-            set => this.setLinkProperty(nodeClassTagName, value);
+            get => new SAPClass(this.getLinkProperty<Class>(nodeClassTagName));
+            set => this.setLinkProperty(nodeClassTagName, value.wrappedElement);
+        }
+        const string checkClassTagName = "Check Class";
+        public SAPClass checkClass
+        {
+            get => new SAPClass(this.getLinkProperty<Class>(checkClassTagName));
+            set => this.setLinkProperty(checkClassTagName, value.wrappedElement);
+        }
+        const string databaseTableTagName = "Database Table";
+        public SAPTable databaseTable
+        {
+            get => new SAPTable(this.getLinkProperty<Class>(databaseTableTagName));
+            set => this.setLinkProperty(databaseTableTagName, value.wrappedElement);
         }
 
         public ElementWrapper elementWrapper => this.wrappedElement;

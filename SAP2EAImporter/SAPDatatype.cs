@@ -8,10 +8,10 @@ using UMLEA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace SAP2EAImporter
 {
-    internal class SAPClass: SAPElement<UMLEA.Class>
+    internal class SAPDatatype : SAPElement<UMLEA.DataType>
     {
-        public SAPClass(string name, UML.Classes.Kernel.Namespace owner)
-            : base(name, owner){}
-        public SAPClass(UMLEA.Class classElement) : base(classElement) { }
+        public SAPDatatype(string name, UML.Classes.Kernel.Namespace owner)
+            : base(name, owner) { }
+        public SAPDatatype(UMLEA.DataType dataType): base(dataType) { } 
     }
 }
