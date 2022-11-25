@@ -13,6 +13,7 @@ namespace ERXImporter
     public class ERXImporter
     {
         private TSF_EA.Model _model;
+       
         private TSF_EA.Model model
         {
             get
@@ -30,25 +31,46 @@ namespace ERXImporter
             this.selectedPackage = this.model.getUserSelectedPackage() as TSF_EA.Package;
         }
         public List<Relation> relations { get; set; } = new List<Relation>();
-        private string connectionString
+        private string erxConnectionString
         {
             get
             {
                 var builder = new SqlConnectionStringBuilder();
-                builder["Server"] = Properties.Settings.Default.ERXServer;
-                builder["integrated Security"] = true;
-                builder["Initial Catalog"] = Properties.Settings.Default.ERXDatabase;
+                builder.DataSource = Properties.Settings.Default.ERXServer;
+                if (Properties.Settings.Default.ERXIsAzure)
+                {
+                    builder.Authentication = SqlAuthenticationMethod.SqlPassword;
+                    builder.UserID = Properties.Settings.Default.ERXUser;
+                    builder.Password = Properties.Settings.Default.ERXPassword;
+                }
+                else
+                {
+                    builder["integrated Security"] = true;
+                }
+                builder.InitialCatalog = Properties.Settings.Default.ERXDatabase;
+
                 return builder.ConnectionString;
             }
         }
-        private string targetConnectionString
+        private string cmsConnectionString
         {
             get
             {
                 var builder = new SqlConnectionStringBuilder();
-                builder["Server"] = Properties.Settings.Default.CMSServer;
-                builder["integrated Security"] = true;
-                builder["Initial Catalog"] = Properties.Settings.Default.CMSDatabase; 
+                builder.DataSource = Properties.Settings.Default.CMSServer;
+
+                if (Properties.Settings.Default.CMSIsAzure)
+                {
+                    builder.Authentication = SqlAuthenticationMethod.SqlPassword;
+                    builder.UserID = Properties.Settings.Default.CMSUser;
+                    builder.Password = Properties.Settings.Default.CMSPassword;
+                }
+                else
+                {
+                    builder["integrated Security"] = true;
+                }
+                builder.InitialCatalog = Properties.Settings.Default.CMSDatabase;
+
                 return builder.ConnectionString;
             }
         }
@@ -209,48 +231,58 @@ namespace ERXImporter
         {
             var errors = new StringBuilder();
             var importTables = this.parseErx(fileName);
-            using (var connection = new SqlConnection(this.connectionString))
-            {
-                connection.Open();
-                foreach (var importTable in importTables)
+            //logging
+            //errors.AppendLine($"Trying to connect with connectionString: {this.connectionString(userPassword)}");
+            //try
+            //{
+                using (var connection = new SqlConnection(this.erxConnectionString))
                 {
-                    //execute create table
-                    var ddlCommand = new SqlCommand(importTable.ddl, connection);
-                    try
+                    connection.Open();
+                    foreach (var importTable in importTables)
                     {
-                        ddlCommand.ExecuteNonQuery();
-                    }
-                    catch (Exception e)
-                    {
-                        if (!e.Message.Contains("There is already an object named"))
-                        {
-                            //skip this one
-                            errors.Append($"{Environment.NewLine}Error on ddl for table '{importTable.tableName}' {Environment.NewLine}{e.Message}"
-                                + $"{Environment.NewLine}SQL Statement: {importTable.ddl}");
-                            continue;
-                        }
-                        //if the table already exists we don't care and we continue
-                    }
-
-                    //execute inserts
-                    if (!string.IsNullOrEmpty(importTable.imports))
-                    {
-                       
-                        var importcommand = new SqlCommand(importTable.imports, connection);
-                        //set timeout to 3 minutes to avoid timeout issues
-                        importcommand.CommandTimeout = 360;
+                        //execute create table
+                        var ddlCommand = new SqlCommand(importTable.ddl, connection);
                         try
                         {
-                            importcommand.ExecuteNonQuery();
+                            ddlCommand.ExecuteNonQuery();
                         }
                         catch (Exception e)
                         {
-                            errors.Append($"{Environment.NewLine}Error on imports for table '{importTable.tableName}' {Environment.NewLine}{e.Message}"
-                                + $"{Environment.NewLine}SQL Statement: {importTable.imports}");
+                            if (!e.Message.Contains("There is already an object named"))
+                            {
+                                //skip this one
+                                errors.Append($"{Environment.NewLine}Error on ddl for table '{importTable.tableName}' {Environment.NewLine}{e.Message}"
+                                    + $"{Environment.NewLine}SQL Statement: {importTable.ddl}");
+                                continue;
+                            }
+                            //if the table already exists we don't care and we continue
+                        }
+
+                        //execute inserts
+                        if (!string.IsNullOrEmpty(importTable.imports))
+                        {
+
+                            var importcommand = new SqlCommand(importTable.imports, connection);
+                            //set timeout to 3 minutes to avoid timeout issues
+                            importcommand.CommandTimeout = 360;
+                            try
+                            {
+                                importcommand.ExecuteNonQuery();
+                            }
+                            catch (Exception e)
+                            {
+                                errors.Append($"{Environment.NewLine}Error on imports for table '{importTable.tableName}' {Environment.NewLine}{e.Message}"
+                                    + $"{Environment.NewLine}SQL Statement: {importTable.imports}");
+                            }
                         }
                     }
                 }
-            }
+            
+            //}catch(Exception e)
+            //{
+            //    errors.AppendLine($"ERROR: {e.Message}");
+            //    errors.AppendLine($"{e.StackTrace}");
+            //}
             return errors.ToString();
         }
         public List<Relation> synchronizeForeignKeys(string exportFileName)
@@ -258,7 +290,7 @@ namespace ERXImporter
             this.relations = new List<Relation>();
             var errors = new StringBuilder();
             var exportContent = new StringBuilder();
-            using (var erxConnection = new SqlConnection(this.connectionString))
+            using (var erxConnection = new SqlConnection(this.erxConnectionString))
             {
                 erxConnection.Open();
                 var sqlGetRelations = @"select 
@@ -284,7 +316,7 @@ namespace ERXImporter
                 var getRelationsCommand = new SqlCommand(sqlGetRelations, erxConnection);
                 var relationResults = getRelationsCommand.ExecuteReader();
                 //connect to target database
-                using (var targetConnection = new SqlConnection(this.targetConnectionString))
+                using (var targetConnection = new SqlConnection(this.cmsConnectionString))
                 {
                     targetConnection.Open();
                     //read the relations
@@ -352,7 +384,7 @@ namespace ERXImporter
                         {
                             if (lastException != null)
                             {
-                                this.processErrors(errors, exportContent,relation, lastException);
+                                this.processErrors(errors, exportContent, relation, lastException);
                             }
                             else
                             {
@@ -417,7 +449,7 @@ namespace ERXImporter
 
         private void addFK(Relation relation, StringBuilder exportContent)
         {
-            using (var targetConnection = new SqlConnection(this.targetConnectionString))
+            using (var targetConnection = new SqlConnection(this.cmsConnectionString))
             {
                 targetConnection.Open();
                 var sourceColumns = string.Join("], [", relation.fromColumns.ToArray());
@@ -427,7 +459,7 @@ namespace ERXImporter
                 var addIndexCommand = new SqlCommand(sqlAddIndex, targetConnection);
                 addIndexCommand.ExecuteNonQuery();
                 //add to log
-                Logger.log($"Added FK between {relation.fromTable}.{relation.fromColumn} to {relation.toTable}.{relation.toColumn} with query {sqlAddIndex}" );
+                Logger.log($"Added FK between {relation.fromTable}.{relation.fromColumn} to {relation.toTable}.{relation.toColumn} with query {sqlAddIndex}");
                 //add to export content
                 relation.FKStatus = "OK";
             }

@@ -12,7 +12,7 @@ namespace ERXImporter.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,7 +25,7 @@ namespace ERXImporter.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DESKTOP-LCVMLKT\\SQLEXPRESS")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DESKTOP-BGN5EL4")]
         public string ERXServer {
             get {
                 return ((string)(this["ERXServer"]));
@@ -43,7 +43,7 @@ namespace ERXImporter.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DESKTOP-LCVMLKT\\SQLEXPRESS01")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DESKTOP-BGN5EL4")]
         public string CMSServer {
             get {
                 return ((string)(this["CMSServer"]));
@@ -56,6 +56,66 @@ namespace ERXImporter.Properties {
         public string CMSDatabase {
             get {
                 return ((string)(this["CMSDatabase"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ERXIsAzure {
+            get {
+                return ((bool)(this["ERXIsAzure"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CMSIsAzure {
+            get {
+                return ((bool)(this["CMSIsAzure"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ERX_DBUSER")]
+        public string ERXUser {
+            get {
+                return ((string)(this["ERXUser"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CMS_DBUSER")]
+        public string CMSUser {
+            get {
+                return ((string)(this["CMSUser"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ERXPassword {
+            get {
+                return ((string)(this["ERXPassword"]));
+            }
+            set {
+                this["ERXPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CMSPassword {
+            get {
+                return ((string)(this["CMSPassword"]));
+            }
+            set {
+                this["CMSPassword"] = value;
             }
         }
     }

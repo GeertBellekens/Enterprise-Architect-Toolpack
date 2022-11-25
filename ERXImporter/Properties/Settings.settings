@@ -3,16 +3,34 @@
   <Profiles />
   <Settings>
     <Setting Name="ERXServer" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">DESKTOP-LCVMLKT\SQLEXPRESS</Value>
+      <Value Profile="(Default)">DESKTOP-BGN5EL4</Value>
     </Setting>
     <Setting Name="ERXDatabase" Type="System.String" Scope="Application">
       <Value Profile="(Default)">ERX</Value>
     </Setting>
     <Setting Name="CMSServer" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">DESKTOP-LCVMLKT\SQLEXPRESS01</Value>
+      <Value Profile="(Default)">DESKTOP-BGN5EL4</Value>
     </Setting>
     <Setting Name="CMSDatabase" Type="System.String" Scope="Application">
       <Value Profile="(Default)">CMS</Value>
+    </Setting>
+    <Setting Name="ERXIsAzure" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="CMSIsAzure" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ERXUser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ERX_DBUSER</Value>
+    </Setting>
+    <Setting Name="CMSUser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CMS_DBUSER</Value>
+    </Setting>
+    <Setting Name="ERXPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CMSPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

@@ -36,6 +36,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.synchFKsButton = new System.Windows.Forms.Button();
             this.importERXGroup = new System.Windows.Forms.GroupBox();
+            this.erxPasswordLabel = new System.Windows.Forms.Label();
+            this.erxPasswordTextBox = new System.Windows.Forms.TextBox();
             this.createForeignKeyGroupBox = new System.Windows.Forms.GroupBox();
             this.exportFileTextBox = new System.Windows.Forms.TextBox();
             this.exportFileLabel = new System.Windows.Forms.Label();
@@ -45,6 +47,8 @@
             this.createRelationsButton = new System.Windows.Forms.Button();
             this.TDMPackageLabel = new System.Windows.Forms.Label();
             this.browseTDMPackage = new System.Windows.Forms.Button();
+            this.cmsPasswordLabel = new System.Windows.Forms.Label();
+            this.cmsPasswordTextBox = new System.Windows.Forms.TextBox();
             this.importERXGroup.SuspendLayout();
             this.createForeignKeyGroupBox.SuspendLayout();
             this.createRelationsGroupBox.SuspendLayout();
@@ -126,6 +130,8 @@
             // 
             this.importERXGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.importERXGroup.Controls.Add(this.erxPasswordLabel);
+            this.importERXGroup.Controls.Add(this.erxPasswordTextBox);
             this.importERXGroup.Controls.Add(this.importFileTextBox);
             this.importERXGroup.Controls.Add(this.importFileLabel);
             this.importERXGroup.Controls.Add(this.browseImportFileButton);
@@ -137,10 +143,28 @@
             this.importERXGroup.TabStop = false;
             this.importERXGroup.Text = "Import ERX";
             // 
+            // erxPasswordLabel
+            // 
+            this.erxPasswordLabel.Location = new System.Drawing.Point(6, 71);
+            this.erxPasswordLabel.Name = "erxPasswordLabel";
+            this.erxPasswordLabel.Size = new System.Drawing.Size(89, 18);
+            this.erxPasswordLabel.TabIndex = 19;
+            this.erxPasswordLabel.Text = "Password";
+            // 
+            // erxPasswordTextBox
+            // 
+            this.erxPasswordTextBox.Location = new System.Drawing.Point(101, 68);
+            this.erxPasswordTextBox.Name = "erxPasswordTextBox";
+            this.erxPasswordTextBox.PasswordChar = '*';
+            this.erxPasswordTextBox.Size = new System.Drawing.Size(154, 20);
+            this.erxPasswordTextBox.TabIndex = 18;
+            // 
             // createForeignKeyGroupBox
             // 
             this.createForeignKeyGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.createForeignKeyGroupBox.Controls.Add(this.cmsPasswordLabel);
+            this.createForeignKeyGroupBox.Controls.Add(this.cmsPasswordTextBox);
             this.createForeignKeyGroupBox.Controls.Add(this.synchFKsButton);
             this.createForeignKeyGroupBox.Location = new System.Drawing.Point(12, 170);
             this.createForeignKeyGroupBox.Name = "createForeignKeyGroupBox";
@@ -235,6 +259,22 @@
             this.browseTDMPackage.UseVisualStyleBackColor = true;
             this.browseTDMPackage.Click += new System.EventHandler(this.browseTDMPackage_Click);
             // 
+            // cmsPasswordLabel
+            // 
+            this.cmsPasswordLabel.Location = new System.Drawing.Point(6, 22);
+            this.cmsPasswordLabel.Name = "cmsPasswordLabel";
+            this.cmsPasswordLabel.Size = new System.Drawing.Size(89, 18);
+            this.cmsPasswordLabel.TabIndex = 22;
+            this.cmsPasswordLabel.Text = "Password";
+            // 
+            // cmsPasswordTextBox
+            // 
+            this.cmsPasswordTextBox.Location = new System.Drawing.Point(101, 19);
+            this.cmsPasswordTextBox.Name = "cmsPasswordTextBox";
+            this.cmsPasswordTextBox.PasswordChar = '*';
+            this.cmsPasswordTextBox.Size = new System.Drawing.Size(154, 20);
+            this.cmsPasswordTextBox.TabIndex = 21;
+            // 
             // ErxImporterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -256,6 +296,7 @@
             this.importERXGroup.ResumeLayout(false);
             this.importERXGroup.PerformLayout();
             this.createForeignKeyGroupBox.ResumeLayout(false);
+            this.createForeignKeyGroupBox.PerformLayout();
             this.createRelationsGroupBox.ResumeLayout(false);
             this.createRelationsGroupBox.PerformLayout();
             this.ResumeLayout(false);
@@ -282,6 +323,10 @@
         private System.Windows.Forms.Button createRelationsButton;
         private System.Windows.Forms.Label TDMPackageLabel;
         private System.Windows.Forms.Button browseTDMPackage;
+        private System.Windows.Forms.Label erxPasswordLabel;
+        private System.Windows.Forms.TextBox erxPasswordTextBox;
+        private System.Windows.Forms.Label cmsPasswordLabel;
+        private System.Windows.Forms.TextBox cmsPasswordTextBox;
     }
 }
 

@@ -50,6 +50,7 @@ namespace ERXImporter
         {
             Cursor.Current = Cursors.WaitCursor;
             this.errorTextBox.Clear();
+            this.safePasswords();
             var errors =  importer.import(this.importFileTextBox.Text);
             this.errorTextBox.Text = string.IsNullOrEmpty(errors) ? "Finished without errors" : errors;
             Cursor.Current = Cursors.Default;
@@ -59,11 +60,24 @@ namespace ERXImporter
         {
             Cursor.Current = Cursors.WaitCursor;
             this.errorTextBox.Text = "Creating foreign keys...";
+            this.safePasswords();
             importer.synchronizeForeignKeys(this.exportFileTextBox.Text);
             var createdFKCount = this.importer.relations.Count(x => x.FKStatus.Equals("OK", StringComparison.InvariantCultureIgnoreCase));
             this.errorTextBox.Text = $"Finished creating foreign keys!\n{createdFKCount} of {this.importer.relations.Count} foreign keys created.";
             this.enableDisable();
             Cursor.Current = Cursors.Default;
+        }
+        private void safePasswords()
+        {
+            if (!string.IsNullOrEmpty(this.erxPasswordTextBox.Text))
+            {
+                Properties.Settings.Default.ERXPassword = this.erxPasswordTextBox.Text;
+            }
+            if (!string.IsNullOrEmpty(this.cmsPasswordTextBox.Text))
+            {
+                Properties.Settings.Default.CMSPassword = this.cmsPasswordTextBox.Text;
+            }
+            Properties.Settings.Default.Save();
         }
 
         private void browseExportFileButton_Click(object sender, EventArgs e)
