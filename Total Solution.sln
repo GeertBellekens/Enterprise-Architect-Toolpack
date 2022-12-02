@@ -97,6 +97,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP2EAImporter", "SAP2EAImp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EA console app", "EA console app\EA console app.csproj", "{70FCB3DD-D668-4F95-B0DA-5C2D46C1A0D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EA Stripper", "EA Stripper\EA Stripper.csproj", "{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -476,6 +478,18 @@ Global
 		{70FCB3DD-D668-4F95-B0DA-5C2D46C1A0D9}.Release|x64.Build.0 = Release|Any CPU
 		{70FCB3DD-D668-4F95-B0DA-5C2D46C1A0D9}.Release|x86.ActiveCfg = Release|Any CPU
 		{70FCB3DD-D668-4F95-B0DA-5C2D46C1A0D9}.Release|x86.Build.0 = Release|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Debug|x64.Build.0 = Debug|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Debug|x86.Build.0 = Debug|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Release|x64.ActiveCfg = Release|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Release|x64.Build.0 = Release|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Release|x86.ActiveCfg = Release|Any CPU
+		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
