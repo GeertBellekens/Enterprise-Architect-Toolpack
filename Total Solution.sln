@@ -99,6 +99,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EA console app", "EA consol
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EA Stripper", "EA Stripper\EA Stripper.csproj", "{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewAddin", "NewAddin\NewAddin.csproj", "{8CC96367-09D0-4144-BD29-D24642B6E243}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -490,6 +492,18 @@ Global
 		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Release|x64.Build.0 = Release|Any CPU
 		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Release|x86.ActiveCfg = Release|Any CPU
 		{0CAD463B-A1EE-4CAB-885C-00F0958F6E1E}.Release|x86.Build.0 = Release|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Debug|x64.Build.0 = Debug|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Debug|x86.Build.0 = Debug|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Release|x64.ActiveCfg = Release|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Release|x64.Build.0 = Release|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Release|x86.ActiveCfg = Release|Any CPU
+		{8CC96367-09D0-4144-BD29-D24642B6E243}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
