@@ -59,7 +59,7 @@ namespace SAP2EAImporter
                 }
             }
                         
-            this.wrappedElement = this.getElement<T>(owner, name, key, fqStereo);
+            this.wrappedElement = this.getElement<T>(owner as UMLEA.ElementWrapper, name, key, fqStereo);
             if (this.wrappedElement != null)
             {
                 this.wrappedElement.owner = owner;
@@ -80,7 +80,9 @@ namespace SAP2EAImporter
             this.wrappedElement = wrappedElement;
         }
 
-        protected Q getElement<Q>(UML.Classes.Kernel.Namespace owner, string name, string key, string fqStereo, bool searchGlobal = false, bool searchPackage = false  ) where Q : UMLEA.ElementWrapper
+        
+
+        internal Q getElement<Q>(UMLEA.ElementWrapper owner, string name, string key, string fqStereo, bool searchGlobal = false, bool searchPackage = false  ) where Q : UMLEA.ElementWrapper
         {
             Q element = null;
             string stereotypeName = string.Empty;
@@ -115,19 +117,35 @@ namespace SAP2EAImporter
             if (element == null)
             {
                 // Does an element with given name and stereotype exist?
-                element = owner.ownedElements.ToList().
+                if (owner != null)
+                {
+                    element = owner.ownedElements.ToList().
                                 OfType<Q>().
                                 FirstOrDefault(x => x.name == name
                                                 && (string.IsNullOrEmpty(fqStereo)
                                                     || x.fqStereotype.Equals(fqStereo, StringComparison.InvariantCultureIgnoreCase)));
-                //Do we find an element with that name, type and stereotype 
-                if (searchPackage)
-                {
-                    //TODO: get elements from query based on the package
                 }
-                if (searchGlobal)
+
+                var sqlGetData = $@"select o.Object_ID from t_object o
+                                        where o.Stereotype = '{stereotypeName}'
+                                        and o.Name = '{name}'";
+
+                //Do we find an element with that name, type and stereotype 
+                if (element == null 
+                      && owner != null 
+                      && searchPackage)
                 {
-                    //TODO: get all elements based on query
+                    var package = owner as UMLEA.Package;
+                    if (package == null)
+                    {
+                        package = owner.owningPackage as UMLEA.Package;
+                    }
+                    var sqlGetDataWithPackage = sqlGetData + $"{Environment.NewLine} and o.Package_ID in ({package.packageTreeIDString}) ";
+                    element = ((UMLEA.Model)owner.model).getElementWrappersByQuery(sqlGetDataWithPackage).OfType<Q>().FirstOrDefault();
+                }
+                if (element == null && searchGlobal)
+                {
+                    element = ((UMLEA.Model)owner.model).getElementWrappersByQuery(sqlGetData).OfType<Q>().FirstOrDefault();
                 }
 
                 if (element == null)

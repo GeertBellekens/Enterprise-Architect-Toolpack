@@ -382,8 +382,66 @@ namespace SAP2EAImporter
 
 
                 node.save();
+
+                //  'import associations
+                processAssociations(nodeNode, node);
+                //'import determinations
+                //importDeterminations nodeNode, element, package
+                //'import validations
+                //importValidations nodeNode, element
+                //'import actions
+                //importActions nodeNode, element
+                //'import queries
+                //importQueries nodeNode, element
+                //'import altkeys
+                //importAltkeys nodeNode, element
+                //'import authorisations
+                //importAuth nodeNode, element
+
                 //process subnodes
                 this.processNodes(nodeNode, node);
+            }
+        }
+        private void processAssociations(XElement nodeNode, BOPFNode sourceNode)
+        {
+            //<node_elements>
+            //<static_properties/>
+            //<associations>
+            //	<association name="TO_TITELS" key="7EAE1BA4330B1ED5849B9268CC18955F">
+            //		<notes>Titels van het hosting BO</notes>
+            //		<assoc_settings>
+            //			<cardinality>1:0..*</cardinality>
+            //			<target_bo>ZA_TEXT_COLLECTION</target_bo>
+            //			<target_node target_node_key="7EAE1BA4330B1ED5849B697B6CB18E1D">TEXT_HDR</target_node>
+            //			<resolving_node>Target Node</resolving_node>
+            //			<assoc_cat>Specialization association</assoc_cat>
+            //			<assoc_type>Association</assoc_type>
+            //			<implementation>
+            //				<assoc_class/>
+            //				<filter_structure/>
+            //			</implementation>
+            //		</assoc_settings>
+            //	</association>
+            foreach (var associationNode in nodeNode.Element("node_elements").Element("associations").Elements("association"))
+            {
+                var assocationName = associationNode.Attribute("name").Value;
+                var targetBOName = associationNode.Element("assoc_settings")?.Element("target_bo")?.Value;
+                var targetNodeName = associationNode.Element("assoc_settings").Element("target_node")?.Value;
+                var targetKeyName = associationNode.Element("assoc_settings").Element("target_node")?.Attribute("target_node_key")?.Value;
+
+                //get target BO
+                var targetBO = new BOPFBusinessObject(targetBOName, sourceNode.wrappedElement.owningPackage, null);
+                var targetNode = new BOPFNode(targetNodeName, targetBO, targetKeyName);
+                //get association
+                var association = new SAPAssociation(sourceNode, targetNode, assocationName);
+                //set notes
+                var notesNode = associationNode.Element("notes");
+                if (notesNode != null)
+                {
+                    association.notes = notesNode.Value;
+                }
+                association.save();
+                //TODO set other properties
             }
         }
         /// <summary>

@@ -50,6 +50,7 @@
     <Compile Include="BOPFBusinessObject.cs" />
     <Compile Include="BOPFNode.cs" />
     <Compile Include="BOPFNodeOwner.cs" />
+    <Compile Include="SAPAssociation.cs" />
     <Compile Include="SAPClass.cs" />
     <Compile Include="SAPDatatype.cs" />
     <Compile Include="SAPElement.cs" />

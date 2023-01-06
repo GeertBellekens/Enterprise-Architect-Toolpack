@@ -19,7 +19,7 @@ namespace SAP2EAImporter
             //set the owner
             this.owner = owner;
         }
-        public SAPElement<UMLEA.Class> element => this;
+        public BOPFNode(UMLEA.Class eaClass) : base(eaClass){ }
 
         BOPFNodeOwner _owner;
         public BOPFNodeOwner owner
@@ -111,6 +111,34 @@ namespace SAP2EAImporter
             get => new SAPTable(this.getLinkProperty<Class>(databaseTableTagName));
             set => this.setLinkProperty(databaseTableTagName, value.wrappedElement);
         }
+        private List<SAPAssociation> _associations;
+        public IEnumerable<SAPAssociation> associations
+        {
+            get
+            {
+                if (this._associations == null)
+                {
+                    foreach (var eaAssociation in this.wrappedElement.getRelationships<Association>(true, false)
+                                                        .Where(x => x.hasStereotype(SAPAssociation.stereotype)))
+                    {
+                        this._associations.Add(new SAPAssociation(eaAssociation));
+                    }
+                }
+                return this._associations;
+                
+            }
+        }
+        
+        //public SAPAssociation getAssociation(BOPFNode target, string Name)
+        //{
+        //    var association = this.associations.FirstOrDefault(x => x.target.key == target.key);
+        //    if (association == null)
+        //    {
+        //        var wrappedAssociation = this.wrappedElement.addOwnedElement<UMLEA.Association>(Name)
+
+        //    }
+        //    return association;
+        //}
 
         public ElementWrapper elementWrapper => this.wrappedElement;
 
