@@ -292,7 +292,7 @@ namespace SAP2EAImporter
             return businessObject;
         }
 
-        private void processNodes(XElement elementNode, BOPFNodeOwner businessObject)
+        private void processNodes(XElement elementNode, BOPFNodeOwner nodeOwner)
         {
             //<node name="TEXT_COLLECTION_HDR" key="7EAE1BA4330B1EE5849B1B0393DD921A">
             //<node_properties>
@@ -323,7 +323,7 @@ namespace SAP2EAImporter
             {
                 var elementName = nodeNode.Attribute("name").Value;
                 var key = nodeNode.Attribute("key").Value;
-                var node = businessObject.addNode(elementName, key);
+                var node = nodeOwner.addNode(elementName, key);
 
                 // Import notes
                 var notesNode = nodeNode.Element("node_properties")?.Element("notes");
@@ -341,47 +341,49 @@ namespace SAP2EAImporter
                 var combinedStructureName = datamodelNode?.Element("combined_structure")?.Value;
                 if (!string.IsNullOrEmpty(combinedStructureName))
                 {
-                    node.combinedStructure = new SAPDatatype(combinedStructureName, businessObject.elementWrapper.owningPackage);
+                    node.combinedStructure = new SAPDatatype(combinedStructureName, nodeOwner.elementWrapper.owningPackage);
                 }
                 //data_structure 
                 var dataStructureName = datamodelNode?.Element("data_structure")?.Value;
                 if (!string.IsNullOrEmpty(dataStructureName))
                 {
-                    node.dataStructure = new SAPDatatype(dataStructureName, businessObject.elementWrapper.owningPackage);
+                    node.dataStructure = new SAPDatatype(dataStructureName, nodeOwner.elementWrapper.owningPackage);
                 }
                 //transient structure 
                 var transientStructureName = datamodelNode?.Element("Transient_structure")?.Value;
                 if (!string.IsNullOrEmpty(transientStructureName))
                 {
-                    node.transientStructure = new SAPDatatype(transientStructureName, businessObject.elementWrapper.owningPackage);
+                    node.transientStructure = new SAPDatatype(transientStructureName, nodeOwner.elementWrapper.owningPackage);
                 }
                 //combined Table Type
                 var combinedTableTypeName = datamodelNode?.Element("Combined_table_type")?.Value;
                 if (!string.IsNullOrEmpty(combinedTableTypeName))
                 {
-                    node.combinedTableType = new SAPDatatype(combinedTableTypeName, businessObject.elementWrapper.owningPackage);
+                    node.combinedTableType = new SAPDatatype(combinedTableTypeName, nodeOwner.elementWrapper.owningPackage);
                 }
                 //node class
                 var nodeClassName = datamodelNode?.Element("implementation")?.Element("node_class")?.Value;
                 if (!string.IsNullOrEmpty(nodeClassName))
                 {
-                    node.nodeClass = new SAPClass(nodeClassName, businessObject.elementWrapper.owningPackage);
+                    node.nodeClass = new SAPClass(nodeClassName, nodeOwner.elementWrapper.owningPackage);
                 }
                 //check class
                 var checkClassName = datamodelNode?.Element("auth_class")?.Value;
                 if (!string.IsNullOrEmpty(checkClassName))
                 {
-                    node.checkClass = new SAPClass(checkClassName, businessObject.elementWrapper.owningPackage);
+                    node.checkClass = new SAPClass(checkClassName, nodeOwner.elementWrapper.owningPackage);
                 }
                 //Database table
                 var databaseTableName = nodeNode.Element("node_properties")?.Element("node_settings")?.Element("data_access")?.Element("database_table")?.Value;
                 if (!string.IsNullOrEmpty(databaseTableName))
                 {
-                    node.databaseTable = new SAPTable(databaseTableName, businessObject.elementWrapper.owningPackage);
+                    node.databaseTable = new SAPTable(databaseTableName, nodeOwner.elementWrapper.owningPackage);
                 }
 
 
                 node.save();
+                //process subnodes
+                this.processNodes(nodeNode, node);
 
                 //  'import associations
                 processAssociations(nodeNode, node);
@@ -398,8 +400,7 @@ namespace SAP2EAImporter
                 //'import authorisations
                 //importAuth nodeNode, element
 
-                //process subnodes
-                this.processNodes(nodeNode, node);
+                
             }
         }
         private void processAssociations(XElement nodeNode, BOPFNode sourceNode)

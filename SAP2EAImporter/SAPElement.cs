@@ -43,7 +43,7 @@ namespace SAP2EAImporter
         /// <param name="package"> the parent package</param>
         protected SAPElement(string name, UML.Classes.Kernel.Namespace package) : this(name, package, string.Empty) { }
         protected SAPElement(string name, UML.Classes.Kernel.Namespace package, string stereotypeName): this(name, package, stereotypeName, string.Empty){}
-        protected SAPElement(string name, UML.Classes.Kernel.Namespace owner, string stereotypeName, string key)
+        protected SAPElement(string name, UML.Classes.Kernel.Namespace owner, string stereotypeName, string key, bool searchGlobal = false, bool searchPackage = false)
         {
             var fqStereo = string.Empty;
             if (!string.IsNullOrEmpty(stereotypeName))
@@ -59,7 +59,7 @@ namespace SAP2EAImporter
                 }
             }
                         
-            this.wrappedElement = this.getElement<T>(owner as UMLEA.ElementWrapper, name, key, fqStereo);
+            this.wrappedElement = this.getElement<T>(owner as UMLEA.ElementWrapper, name, key, fqStereo, searchGlobal, searchPackage);
             if (this.wrappedElement != null)
             {
                 this.wrappedElement.owner = owner;

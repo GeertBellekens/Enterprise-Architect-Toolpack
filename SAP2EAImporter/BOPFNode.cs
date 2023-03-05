@@ -48,6 +48,7 @@ namespace SAP2EAImporter
 
                 //set ownership of wrapped element 
                 this.wrappedElement.owner = value.elementWrapper;
+                this.save();
             }
         }
         public UMLEA.Association compositionToOwner

@@ -14,7 +14,7 @@ namespace SAP2EAImporter
         const string stereotypeName = "BOPF_businessObject";
 
         public BOPFBusinessObject(string name, UML.Classes.Kernel.Package package, string key)
-            : base(name, package, stereotypeName, key)
+            : base(name, package, stereotypeName, key, true, true)
         {
         }
         const string objectCategoryTagName = "Object Category";
