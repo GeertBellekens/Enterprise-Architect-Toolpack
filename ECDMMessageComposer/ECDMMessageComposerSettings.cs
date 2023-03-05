@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Collections.Generic;
 using SBF = SchemaBuilderFramework;
+using SchemaBuilderFramework;
 
 namespace ECDMMessageComposer
 {
@@ -32,6 +33,20 @@ namespace ECDMMessageComposer
         }
         #endregion
 
+        /// <summary>
+        /// list of tagged value names to ignore when updating tagged values
+        /// </summary>
+        public List<string> inheritancExceptionStereotypes
+        {
+            get
+            {
+                return this.getListValue("inheritancExceptionStereotypes");
+            }
+            set
+            {
+                this.setListValue("inheritancExceptionStereotypes", value);
+            }
+        }
 
         /// <summary>
         /// list of tagged value names to ignore when updating tagged values
@@ -525,6 +540,30 @@ namespace ECDMMessageComposer
             set
             {
                 this.setBooleanValue("useMultiplicityForUseTagOnXsdAttributes", value);
+            }
+        }
+        /// <summary>
+        /// Determines if all generalizations have to be copied for this element, based on the property CopyAllGeneralizations, and the inheritanceExceptionStereotypes
+        /// </summary>
+        /// <param name="element">the element to be tested</param>
+        /// <returns>true if we should copy all generalizations for this element</returns>
+        public bool copyAllGeneralizationsForElement(SchemaElement element)
+        {
+            if (element == null) return false;
+            //check if the stereotypes are somewhere in the list of inheritance exceptions.
+            //In that case return the reverse of copyAllGeneralizations
+            var stereotypes = element.subsetElement == null
+                    ? element.subsetElement?.stereotypes
+                    : element.sourceElement?.stereotypes;
+            if (this.inheritancExceptionStereotypes
+                            .Any(x => stereotypes
+                            .Any(y => y.name.Equals(x, StringComparison.CurrentCultureIgnoreCase))))
+            {
+                return !this.copyAllGeneralizations;
+            }
+            else
+            {
+                return this.copyAllGeneralizations;
             }
         }
     }

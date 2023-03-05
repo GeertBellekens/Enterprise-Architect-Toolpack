@@ -46,6 +46,8 @@ namespace ECDMMessageComposer
             this.loadGridData(this.hiddenElementGrid, this.messageComposerSettings.hiddenElementTypes);
             //get the synchronized tagged values
             this.loadGridData(this.synchronizedTagsGridView, this.messageComposerSettings.synchronizedTaggedValues);
+            //get the inheritancExceptionStereotypes
+            this.loadGridData(this.inheritanceExceptionStereotypeGridView, this.messageComposerSettings.inheritancExceptionStereotypes);
             //copy generalizations
             this.generalCopyGeneralizationsCheckbox.Checked = this.messageComposerSettings.copyExternalGeneralizations;
             //ignore inheritance checkbox
@@ -124,6 +126,8 @@ namespace ECDMMessageComposer
             this.messageComposerSettings.hiddenElementTypes = this.getListFromDataGrid(this.hiddenElementGrid);
             //get the synchronized tags 
             this.messageComposerSettings.synchronizedTaggedValues = this.getListFromDataGrid(this.synchronizedTagsGridView);
+            //get the inheritance exception stereotypes
+            this.messageComposerSettings.inheritancExceptionStereotypes = this.getListFromDataGrid(this.inheritanceExceptionStereotypeGridView);
             //general options
             this.messageComposerSettings.copyExternalGeneralizations = this.generalCopyGeneralizationsCheckbox.Checked;
             this.messageComposerSettings.copyAllGeneralizations = this.copyAllGeneralizationsCheckBox.Checked;
@@ -255,6 +259,16 @@ namespace ECDMMessageComposer
                 }
             }
         }
+        private void deleteExceptionStereotypeButton_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.inheritanceExceptionStereotypeGridView.SelectedRows)
+            {
+                if (!row.IsNewRow)
+                {
+                    this.inheritanceExceptionStereotypeGridView.Rows.Remove(row);
+                }
+            }
+        }
         void CopyDatatypesCheckboxCheckedChanged(object sender, EventArgs e)
         {
             this.enableDisable();
@@ -301,5 +315,7 @@ namespace ECDMMessageComposer
         {
             this.enableDisable();
         }
+
+
     }
 }

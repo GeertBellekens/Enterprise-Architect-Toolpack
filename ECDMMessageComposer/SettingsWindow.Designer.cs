@@ -15,7 +15,6 @@ namespace ECDMMessageComposer
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.DataGridView ignoredStereoTypesGrid;
-		private System.Windows.Forms.DataGridViewTextBoxColumn StereotypeColumn;
 		private System.Windows.Forms.Button deleteStereotypeButton;
 		private System.Windows.Forms.Button okButton;
 		private System.Windows.Forms.Button cancelButton;
@@ -77,13 +76,11 @@ namespace ECDMMessageComposer
 		{
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsWindow));
             this.ignoredStereoTypesGrid = new System.Windows.Forms.DataGridView();
-            this.StereotypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deleteStereotypeButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.applyButton = new System.Windows.Forms.Button();
             this.ignoredTaggedValuesGrid = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deleteTaggedValueButton = new System.Windows.Forms.Button();
             this.diagramOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.generateDiagramCheckbox = new System.Windows.Forms.CheckBox();
@@ -133,17 +130,22 @@ namespace ECDMMessageComposer
             this.keepNotesInSyncCheckBox = new System.Windows.Forms.CheckBox();
             this.ignoreGroupBox = new System.Windows.Forms.GroupBox();
             this.ignoredConstraintsGrid = new System.Windows.Forms.DataGridView();
-            this.IgnoredConstraintTypesColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deleteConstraintTypeButton = new System.Windows.Forms.Button();
             this.synchronizeGroupBox = new System.Windows.Forms.GroupBox();
             this.synchronizedTagsGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeleteSynchronizedTagButton = new System.Windows.Forms.Button();
             this.generalizationOptions = new System.Windows.Forms.GroupBox();
+            this.deleteExceptionStereotypeButton = new System.Windows.Forms.Button();
+            this.inheritanceExceptionStereotypeGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.operationsGroupbox = new System.Windows.Forms.GroupBox();
             this.operationTagTextBox = new System.Windows.Forms.TextBox();
             this.operationTagLabel = new System.Windows.Forms.Label();
             this.copyOperationsCheckbox = new System.Windows.Forms.CheckBox();
+            this.StereotypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IgnoredConstraintTypesColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredStereoTypesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ignoredTaggedValuesGrid)).BeginInit();
             this.diagramOptionsGroupBox.SuspendLayout();
@@ -160,6 +162,7 @@ namespace ECDMMessageComposer
             this.synchronizeGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.synchronizedTagsGridView)).BeginInit();
             this.generalizationOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.inheritanceExceptionStereotypeGridView)).BeginInit();
             this.operationsGroupbox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -174,19 +177,13 @@ namespace ECDMMessageComposer
             this.ignoredStereoTypesGrid.Name = "ignoredStereoTypesGrid";
             this.ignoredStereoTypesGrid.RowHeadersVisible = false;
             this.ignoredStereoTypesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ignoredStereoTypesGrid.Size = new System.Drawing.Size(132, 129);
+            this.ignoredStereoTypesGrid.Size = new System.Drawing.Size(153, 129);
             this.ignoredStereoTypesGrid.TabIndex = 0;
-            // 
-            // StereotypeColumn
-            // 
-            this.StereotypeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.StereotypeColumn.HeaderText = "Ignored Stereotypes";
-            this.StereotypeColumn.Name = "StereotypeColumn";
-            this.StereotypeColumn.ToolTipText = "Classes with these stereotypes will not be deleted when updating a subset model";
             // 
             // deleteStereotypeButton
             // 
-            this.deleteStereotypeButton.Location = new System.Drawing.Point(74, 154);
+            this.deleteStereotypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteStereotypeButton.Location = new System.Drawing.Point(95, 154);
             this.deleteStereotypeButton.Name = "deleteStereotypeButton";
             this.deleteStereotypeButton.Size = new System.Drawing.Size(75, 23);
             this.deleteStereotypeButton.TabIndex = 1;
@@ -197,7 +194,7 @@ namespace ECDMMessageComposer
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(577, 713);
+            this.okButton.Location = new System.Drawing.Point(682, 713);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 2;
@@ -209,7 +206,7 @@ namespace ECDMMessageComposer
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(658, 713);
+            this.cancelButton.Location = new System.Drawing.Point(763, 713);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 3;
@@ -220,7 +217,7 @@ namespace ECDMMessageComposer
             // applyButton
             // 
             this.applyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.applyButton.Location = new System.Drawing.Point(739, 713);
+            this.applyButton.Location = new System.Drawing.Point(844, 713);
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(75, 23);
             this.applyButton.TabIndex = 4;
@@ -234,24 +231,17 @@ namespace ECDMMessageComposer
             this.ignoredTaggedValuesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ignoredTaggedValuesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1});
-            this.ignoredTaggedValuesGrid.Location = new System.Drawing.Point(155, 19);
+            this.ignoredTaggedValuesGrid.Location = new System.Drawing.Point(176, 19);
             this.ignoredTaggedValuesGrid.Name = "ignoredTaggedValuesGrid";
             this.ignoredTaggedValuesGrid.RowHeadersVisible = false;
             this.ignoredTaggedValuesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ignoredTaggedValuesGrid.Size = new System.Drawing.Size(132, 129);
+            this.ignoredTaggedValuesGrid.Size = new System.Drawing.Size(144, 129);
             this.ignoredTaggedValuesGrid.TabIndex = 5;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn1.HeaderText = "Ignored Tags";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ToolTipText = "These tagged values will be left untouched when they have a value in the subset m" +
-    "odel";
             // 
             // deleteTaggedValueButton
             // 
-            this.deleteTaggedValueButton.Location = new System.Drawing.Point(212, 154);
+            this.deleteTaggedValueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteTaggedValueButton.Location = new System.Drawing.Point(245, 154);
             this.deleteTaggedValueButton.Name = "deleteTaggedValueButton";
             this.deleteTaggedValueButton.Size = new System.Drawing.Size(75, 23);
             this.deleteTaggedValueButton.TabIndex = 6;
@@ -270,7 +260,7 @@ namespace ECDMMessageComposer
             this.diagramOptionsGroupBox.Location = new System.Drawing.Point(12, 574);
             this.diagramOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 75);
             this.diagramOptionsGroupBox.Name = "diagramOptionsGroupBox";
-            this.diagramOptionsGroupBox.Size = new System.Drawing.Size(351, 158);
+            this.diagramOptionsGroupBox.Size = new System.Drawing.Size(410, 128);
             this.diagramOptionsGroupBox.TabIndex = 8;
             this.diagramOptionsGroupBox.TabStop = false;
             this.diagramOptionsGroupBox.Text = "Diagram Options";
@@ -287,7 +277,7 @@ namespace ECDMMessageComposer
             // deleteHiddenElementButton
             // 
             this.deleteHiddenElementButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteHiddenElementButton.Location = new System.Drawing.Point(270, 130);
+            this.deleteHiddenElementButton.Location = new System.Drawing.Point(328, 99);
             this.deleteHiddenElementButton.Name = "deleteHiddenElementButton";
             this.deleteHiddenElementButton.Size = new System.Drawing.Size(75, 23);
             this.deleteHiddenElementButton.TabIndex = 9;
@@ -302,11 +292,11 @@ namespace ECDMMessageComposer
             this.hiddenElementGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.hiddenElementGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn3});
-            this.hiddenElementGrid.Location = new System.Drawing.Point(169, 19);
+            this.hiddenElementGrid.Location = new System.Drawing.Point(228, 19);
             this.hiddenElementGrid.Name = "hiddenElementGrid";
             this.hiddenElementGrid.RowHeadersVisible = false;
             this.hiddenElementGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.hiddenElementGrid.Size = new System.Drawing.Size(176, 105);
+            this.hiddenElementGrid.Size = new System.Drawing.Size(176, 74);
             this.hiddenElementGrid.TabIndex = 8;
             // 
             // dataGridViewTextBoxColumn3
@@ -336,7 +326,6 @@ namespace ECDMMessageComposer
             // 
             // copyDatatypesCheckbox
             // 
-            this.copyDatatypesCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.copyDatatypesCheckbox.Location = new System.Drawing.Point(6, 19);
             this.copyDatatypesCheckbox.Name = "copyDatatypesCheckbox";
             this.copyDatatypesCheckbox.Size = new System.Drawing.Size(162, 24);
@@ -352,17 +341,16 @@ namespace ECDMMessageComposer
             this.dataTypeOptionsGroupBox.Controls.Add(this.deleteDataTypeButton);
             this.dataTypeOptionsGroupBox.Controls.Add(this.dataTypesGridView);
             this.dataTypeOptionsGroupBox.Controls.Add(this.copyDatatypesCheckbox);
-            this.dataTypeOptionsGroupBox.Location = new System.Drawing.Point(12, 406);
+            this.dataTypeOptionsGroupBox.Location = new System.Drawing.Point(12, 436);
             this.dataTypeOptionsGroupBox.MinimumSize = new System.Drawing.Size(0, 45);
             this.dataTypeOptionsGroupBox.Name = "dataTypeOptionsGroupBox";
-            this.dataTypeOptionsGroupBox.Size = new System.Drawing.Size(351, 162);
+            this.dataTypeOptionsGroupBox.Size = new System.Drawing.Size(410, 132);
             this.dataTypeOptionsGroupBox.TabIndex = 9;
             this.dataTypeOptionsGroupBox.TabStop = false;
             this.dataTypeOptionsGroupBox.Text = "Datatype Options";
             // 
             // copyDataTypeGeneralizationsCheckBox
             // 
-            this.copyDataTypeGeneralizationsCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.copyDataTypeGeneralizationsCheckBox.Location = new System.Drawing.Point(6, 79);
             this.copyDataTypeGeneralizationsCheckBox.Name = "copyDataTypeGeneralizationsCheckBox";
             this.copyDataTypeGeneralizationsCheckBox.Size = new System.Drawing.Size(162, 24);
@@ -372,7 +360,6 @@ namespace ECDMMessageComposer
             // 
             // limitDatatypesCheckBox
             // 
-            this.limitDatatypesCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.limitDatatypesCheckBox.Location = new System.Drawing.Point(6, 49);
             this.limitDatatypesCheckBox.Name = "limitDatatypesCheckBox";
             this.limitDatatypesCheckBox.Size = new System.Drawing.Size(162, 24);
@@ -384,7 +371,7 @@ namespace ECDMMessageComposer
             // deleteDataTypeButton
             // 
             this.deleteDataTypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteDataTypeButton.Location = new System.Drawing.Point(269, 130);
+            this.deleteDataTypeButton.Location = new System.Drawing.Point(328, 100);
             this.deleteDataTypeButton.Name = "deleteDataTypeButton";
             this.deleteDataTypeButton.Size = new System.Drawing.Size(75, 23);
             this.deleteDataTypeButton.TabIndex = 7;
@@ -400,11 +387,11 @@ namespace ECDMMessageComposer
             this.dataTypesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataTypesGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn2});
-            this.dataTypesGridView.Location = new System.Drawing.Point(174, 19);
+            this.dataTypesGridView.Location = new System.Drawing.Point(228, 19);
             this.dataTypesGridView.Name = "dataTypesGridView";
             this.dataTypesGridView.RowHeadersVisible = false;
             this.dataTypesGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataTypesGridView.Size = new System.Drawing.Size(170, 105);
+            this.dataTypesGridView.Size = new System.Drawing.Size(175, 75);
             this.dataTypesGridView.TabIndex = 6;
             // 
             // dataGridViewTextBoxColumn2
@@ -422,9 +409,9 @@ namespace ECDMMessageComposer
             this.traceabilityGroupBox.Controls.Add(this.associationTagTextBox);
             this.traceabilityGroupBox.Controls.Add(this.attributeTagLabel);
             this.traceabilityGroupBox.Controls.Add(this.attributeTagTextBox);
-            this.traceabilityGroupBox.Location = new System.Drawing.Point(378, 201);
+            this.traceabilityGroupBox.Location = new System.Drawing.Point(428, 201);
             this.traceabilityGroupBox.Name = "traceabilityGroupBox";
-            this.traceabilityGroupBox.Size = new System.Drawing.Size(203, 121);
+            this.traceabilityGroupBox.Size = new System.Drawing.Size(258, 121);
             this.traceabilityGroupBox.TabIndex = 10;
             this.traceabilityGroupBox.TabStop = false;
             this.traceabilityGroupBox.Text = "Traceability tags";
@@ -439,9 +426,11 @@ namespace ECDMMessageComposer
             // 
             // associationTagTextBox
             // 
+            this.associationTagTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.associationTagTextBox.Location = new System.Drawing.Point(5, 83);
             this.associationTagTextBox.Name = "associationTagTextBox";
-            this.associationTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.associationTagTextBox.Size = new System.Drawing.Size(237, 20);
             this.associationTagTextBox.TabIndex = 2;
             // 
             // attributeTagLabel
@@ -454,9 +443,11 @@ namespace ECDMMessageComposer
             // 
             // attributeTagTextBox
             // 
+            this.attributeTagTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.attributeTagTextBox.Location = new System.Drawing.Point(6, 40);
             this.attributeTagTextBox.Name = "attributeTagTextBox";
-            this.attributeTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.attributeTagTextBox.Size = new System.Drawing.Size(236, 20);
             this.attributeTagTextBox.TabIndex = 0;
             // 
             // GeneralGroupBox
@@ -470,7 +461,7 @@ namespace ECDMMessageComposer
             this.GeneralGroupBox.Location = new System.Drawing.Point(12, 12);
             this.GeneralGroupBox.MinimumSize = new System.Drawing.Size(0, 20);
             this.GeneralGroupBox.Name = "GeneralGroupBox";
-            this.GeneralGroupBox.Size = new System.Drawing.Size(351, 177);
+            this.GeneralGroupBox.Size = new System.Drawing.Size(410, 177);
             this.GeneralGroupBox.TabIndex = 11;
             this.GeneralGroupBox.TabStop = false;
             this.GeneralGroupBox.Text = "General Options";
@@ -549,9 +540,11 @@ namespace ECDMMessageComposer
             // 
             // notesPrefixTextBox
             // 
+            this.notesPrefixTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.notesPrefixTextBox.Location = new System.Drawing.Point(103, 51);
             this.notesPrefixTextBox.Name = "notesPrefixTextBox";
-            this.notesPrefixTextBox.Size = new System.Drawing.Size(242, 20);
+            this.notesPrefixTextBox.Size = new System.Drawing.Size(300, 20);
             this.notesPrefixTextBox.TabIndex = 3;
             // 
             // prefixNotesCheckBox
@@ -586,9 +579,9 @@ namespace ECDMMessageComposer
             this.xmlSchemaGroup.Controls.Add(this.orderAssociationsAmongstAttributesCheckbox);
             this.xmlSchemaGroup.Controls.Add(this.orderAssociationsCheckbox);
             this.xmlSchemaGroup.Controls.Add(this.noAttributeDependenciesCheckbox);
-            this.xmlSchemaGroup.Location = new System.Drawing.Point(376, 485);
+            this.xmlSchemaGroup.Location = new System.Drawing.Point(428, 485);
             this.xmlSchemaGroup.Name = "xmlSchemaGroup";
-            this.xmlSchemaGroup.Size = new System.Drawing.Size(438, 217);
+            this.xmlSchemaGroup.Size = new System.Drawing.Size(491, 217);
             this.xmlSchemaGroup.TabIndex = 12;
             this.xmlSchemaGroup.TabStop = false;
             this.xmlSchemaGroup.Text = "XML Schema Options";
@@ -616,7 +609,7 @@ namespace ECDMMessageComposer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.customOrderTagTextBox.Location = new System.Drawing.Point(251, 110);
             this.customOrderTagTextBox.Name = "customOrderTagTextBox";
-            this.customOrderTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.customOrderTagTextBox.Size = new System.Drawing.Size(217, 20);
             this.customOrderTagTextBox.TabIndex = 15;
             // 
             // choiceBeforeAttributesCheckbox
@@ -634,7 +627,7 @@ namespace ECDMMessageComposer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.elementTagTextBox.Location = new System.Drawing.Point(251, 140);
             this.elementTagTextBox.Name = "elementTagTextBox";
-            this.elementTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.elementTagTextBox.Size = new System.Drawing.Size(217, 20);
             this.elementTagTextBox.TabIndex = 12;
             // 
             // tvInsteadOfTraceCheckBox
@@ -682,9 +675,9 @@ namespace ECDMMessageComposer
             this.attributeOptionsGroupBox.Controls.Add(this.setAttributesOrderZeroRadio);
             this.attributeOptionsGroupBox.Controls.Add(this.addNewAttributesLastRadio);
             this.attributeOptionsGroupBox.Controls.Add(this.keepAttributeOrderRadio);
-            this.attributeOptionsGroupBox.Location = new System.Drawing.Point(378, 327);
+            this.attributeOptionsGroupBox.Location = new System.Drawing.Point(428, 327);
             this.attributeOptionsGroupBox.Name = "attributeOptionsGroupBox";
-            this.attributeOptionsGroupBox.Size = new System.Drawing.Size(203, 97);
+            this.attributeOptionsGroupBox.Size = new System.Drawing.Size(258, 97);
             this.attributeOptionsGroupBox.TabIndex = 13;
             this.attributeOptionsGroupBox.TabStop = false;
             this.attributeOptionsGroupBox.Text = "Attribute options";
@@ -716,9 +709,9 @@ namespace ECDMMessageComposer
             this.notesOptionsGroupBox.Controls.Add(this.keepNotesInSyncCheckBox);
             this.notesOptionsGroupBox.Controls.Add(this.notesPrefixTextBox);
             this.notesOptionsGroupBox.Controls.Add(this.prefixNotesCheckBox);
-            this.notesOptionsGroupBox.Location = new System.Drawing.Point(12, 312);
+            this.notesOptionsGroupBox.Location = new System.Drawing.Point(12, 342);
             this.notesOptionsGroupBox.Name = "notesOptionsGroupBox";
-            this.notesOptionsGroupBox.Size = new System.Drawing.Size(351, 88);
+            this.notesOptionsGroupBox.Size = new System.Drawing.Size(410, 88);
             this.notesOptionsGroupBox.TabIndex = 14;
             this.notesOptionsGroupBox.TabStop = false;
             this.notesOptionsGroupBox.Text = "Notes Options";
@@ -743,9 +736,9 @@ namespace ECDMMessageComposer
             this.ignoreGroupBox.Controls.Add(this.ignoredStereoTypesGrid);
             this.ignoreGroupBox.Controls.Add(this.deleteStereotypeButton);
             this.ignoreGroupBox.Controls.Add(this.deleteTaggedValueButton);
-            this.ignoreGroupBox.Location = new System.Drawing.Point(378, 12);
+            this.ignoreGroupBox.Location = new System.Drawing.Point(428, 12);
             this.ignoreGroupBox.Name = "ignoreGroupBox";
-            this.ignoreGroupBox.Size = new System.Drawing.Size(436, 183);
+            this.ignoreGroupBox.Size = new System.Drawing.Size(491, 183);
             this.ignoreGroupBox.TabIndex = 15;
             this.ignoreGroupBox.TabStop = false;
             this.ignoreGroupBox.Text = "Ignore";
@@ -756,24 +749,17 @@ namespace ECDMMessageComposer
             this.ignoredConstraintsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ignoredConstraintsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IgnoredConstraintTypesColumn});
-            this.ignoredConstraintsGrid.Location = new System.Drawing.Point(292, 19);
+            this.ignoredConstraintsGrid.Location = new System.Drawing.Point(326, 19);
             this.ignoredConstraintsGrid.Name = "ignoredConstraintsGrid";
             this.ignoredConstraintsGrid.RowHeadersVisible = false;
             this.ignoredConstraintsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ignoredConstraintsGrid.Size = new System.Drawing.Size(132, 129);
+            this.ignoredConstraintsGrid.Size = new System.Drawing.Size(153, 129);
             this.ignoredConstraintsGrid.TabIndex = 7;
-            // 
-            // IgnoredConstraintTypesColumn
-            // 
-            this.IgnoredConstraintTypesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.IgnoredConstraintTypesColumn.HeaderText = "Ignored Constraints";
-            this.IgnoredConstraintTypesColumn.Name = "IgnoredConstraintTypesColumn";
-            this.IgnoredConstraintTypesColumn.ToolTipText = "These constraint types will be left untouched when they have a value in the subse" +
-    "t model";
             // 
             // deleteConstraintTypeButton
             // 
-            this.deleteConstraintTypeButton.Location = new System.Drawing.Point(349, 154);
+            this.deleteConstraintTypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteConstraintTypeButton.Location = new System.Drawing.Point(404, 154);
             this.deleteConstraintTypeButton.Name = "deleteConstraintTypeButton";
             this.deleteConstraintTypeButton.Size = new System.Drawing.Size(75, 23);
             this.deleteConstraintTypeButton.TabIndex = 8;
@@ -786,7 +772,7 @@ namespace ECDMMessageComposer
             this.synchronizeGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.synchronizeGroupBox.Controls.Add(this.synchronizedTagsGridView);
             this.synchronizeGroupBox.Controls.Add(this.DeleteSynchronizedTagButton);
-            this.synchronizeGroupBox.Location = new System.Drawing.Point(590, 201);
+            this.synchronizeGroupBox.Location = new System.Drawing.Point(695, 201);
             this.synchronizeGroupBox.Name = "synchronizeGroupBox";
             this.synchronizeGroupBox.Size = new System.Drawing.Size(224, 223);
             this.synchronizeGroupBox.TabIndex = 16;
@@ -828,15 +814,49 @@ namespace ECDMMessageComposer
             // 
             // generalizationOptions
             // 
+            this.generalizationOptions.Controls.Add(this.deleteExceptionStereotypeButton);
+            this.generalizationOptions.Controls.Add(this.inheritanceExceptionStereotypeGridView);
             this.generalizationOptions.Controls.Add(this.copyAllGeneralizationsCheckBox);
             this.generalizationOptions.Controls.Add(this.RedirectGeneralizationsCheckBox);
             this.generalizationOptions.Controls.Add(this.generalCopyGeneralizationsCheckbox);
             this.generalizationOptions.Location = new System.Drawing.Point(12, 196);
             this.generalizationOptions.Name = "generalizationOptions";
-            this.generalizationOptions.Size = new System.Drawing.Size(351, 110);
+            this.generalizationOptions.Size = new System.Drawing.Size(410, 140);
             this.generalizationOptions.TabIndex = 17;
             this.generalizationOptions.TabStop = false;
             this.generalizationOptions.Text = "Inheritance Options";
+            // 
+            // deleteExceptionStereotypeButton
+            // 
+            this.deleteExceptionStereotypeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteExceptionStereotypeButton.Location = new System.Drawing.Point(328, 107);
+            this.deleteExceptionStereotypeButton.Name = "deleteExceptionStereotypeButton";
+            this.deleteExceptionStereotypeButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteExceptionStereotypeButton.TabIndex = 8;
+            this.deleteExceptionStereotypeButton.Text = "Delete";
+            this.deleteExceptionStereotypeButton.UseVisualStyleBackColor = true;
+            this.deleteExceptionStereotypeButton.Click += new System.EventHandler(this.deleteExceptionStereotypeButton_Click);
+            // 
+            // inheritanceExceptionStereotypeGridView
+            // 
+            this.inheritanceExceptionStereotypeGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.inheritanceExceptionStereotypeGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.inheritanceExceptionStereotypeGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn5});
+            this.inheritanceExceptionStereotypeGridView.Location = new System.Drawing.Point(228, 19);
+            this.inheritanceExceptionStereotypeGridView.Name = "inheritanceExceptionStereotypeGridView";
+            this.inheritanceExceptionStereotypeGridView.RowHeadersVisible = false;
+            this.inheritanceExceptionStereotypeGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.inheritanceExceptionStereotypeGridView.Size = new System.Drawing.Size(175, 82);
+            this.inheritanceExceptionStereotypeGridView.TabIndex = 6;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn5.HeaderText = "Exception Stereotypes";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ToolTipText = "Stereotypes for which the Ignore Inheritace selection works reverse";
             // 
             // operationsGroupbox
             // 
@@ -845,18 +865,20 @@ namespace ECDMMessageComposer
             this.operationsGroupbox.Controls.Add(this.operationTagTextBox);
             this.operationsGroupbox.Controls.Add(this.operationTagLabel);
             this.operationsGroupbox.Controls.Add(this.copyOperationsCheckbox);
-            this.operationsGroupbox.Location = new System.Drawing.Point(378, 430);
+            this.operationsGroupbox.Location = new System.Drawing.Point(428, 430);
             this.operationsGroupbox.Name = "operationsGroupbox";
-            this.operationsGroupbox.Size = new System.Drawing.Size(438, 54);
+            this.operationsGroupbox.Size = new System.Drawing.Size(493, 54);
             this.operationsGroupbox.TabIndex = 18;
             this.operationsGroupbox.TabStop = false;
             this.operationsGroupbox.Text = "Operations options";
             // 
             // operationTagTextBox
             // 
+            this.operationTagTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.operationTagTextBox.Location = new System.Drawing.Point(225, 21);
             this.operationTagTextBox.Name = "operationTagTextBox";
-            this.operationTagTextBox.Size = new System.Drawing.Size(164, 20);
+            this.operationTagTextBox.Size = new System.Drawing.Size(243, 20);
             this.operationTagTextBox.TabIndex = 3;
             // 
             // operationTagLabel
@@ -879,13 +901,36 @@ namespace ECDMMessageComposer
             this.copyOperationsCheckbox.UseVisualStyleBackColor = true;
             this.copyOperationsCheckbox.CheckedChanged += new System.EventHandler(this.copyOperationsCheckbox_CheckedChanged);
             // 
+            // StereotypeColumn
+            // 
+            this.StereotypeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.StereotypeColumn.HeaderText = "Stereotypes";
+            this.StereotypeColumn.Name = "StereotypeColumn";
+            this.StereotypeColumn.ToolTipText = "Classes with these stereotypes will not be deleted when updating a subset model";
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Tags";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ToolTipText = "These tagged values will be left untouched when they have a value in the subset m" +
+    "odel";
+            // 
+            // IgnoredConstraintTypesColumn
+            // 
+            this.IgnoredConstraintTypesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.IgnoredConstraintTypesColumn.HeaderText = "Constraints";
+            this.IgnoredConstraintTypesColumn.Name = "IgnoredConstraintTypesColumn";
+            this.IgnoredConstraintTypesColumn.ToolTipText = "These constraint types will be left untouched when they have a value in the subse" +
+    "t model";
+            // 
             // SettingsWindow
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(826, 744);
+            this.ClientSize = new System.Drawing.Size(931, 744);
             this.Controls.Add(this.operationsGroupbox);
             this.Controls.Add(this.generalizationOptions);
             this.Controls.Add(this.synchronizeGroupBox);
@@ -927,6 +972,7 @@ namespace ECDMMessageComposer
             this.synchronizeGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.synchronizedTagsGridView)).EndInit();
             this.generalizationOptions.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.inheritanceExceptionStereotypeGridView)).EndInit();
             this.operationsGroupbox.ResumeLayout(false);
             this.operationsGroupbox.PerformLayout();
             this.ResumeLayout(false);
@@ -945,8 +991,6 @@ namespace ECDMMessageComposer
         private System.Windows.Forms.GroupBox ignoreGroupBox;
         private System.Windows.Forms.DataGridView ignoredConstraintsGrid;
         private System.Windows.Forms.Button deleteConstraintTypeButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IgnoredConstraintTypesColumn;
         private System.Windows.Forms.Label customOrderTagTag;
         private System.Windows.Forms.TextBox customOrderTagTextBox;
         private System.Windows.Forms.GroupBox synchronizeGroupBox;
@@ -961,6 +1005,12 @@ namespace ECDMMessageComposer
         private System.Windows.Forms.TextBox operationTagTextBox;
         private System.Windows.Forms.Label operationTagLabel;
         private System.Windows.Forms.CheckBox useMultiplicityForUseTagOnXsdAttributes;
+        private System.Windows.Forms.Button deleteExceptionStereotypeButton;
+        private System.Windows.Forms.DataGridView inheritanceExceptionStereotypeGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StereotypeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IgnoredConstraintTypesColumn;
         //this.ResumeLayout(false);
     }
 }
