@@ -442,8 +442,61 @@ namespace SAP2EAImporter
                 {
                     association.notes = notesNode.Value;
                 }
+                //settings
+                var settingsNode = associationNode.Element("assoc_settings");
+                if (settingsNode != null)
+                {
+                    //cardinality
+                    var cardinalityString = settingsNode.Element("cardinality")?.Value;
+                    var cardinalityParts = cardinalityString.Split(':');
+                    if (cardinalityParts.Length > 0 && ! string.IsNullOrEmpty(cardinalityParts[0]))
+                    {
+                        try
+                        {
+                            association.sourceMultiplicity = cardinalityParts[0];
+                        }
+                        catch(FormatException)
+                        {
+                            EAOutputLogger.log(this.model, outputName
+                            , $" Cannot convert '{cardinalityParts[0]}' into source multiplicity for association '{assocationName}' from node '{sourceNode.name}' to '{targetNode.name}'"
+                            , sourceNode.elementWrapper.id
+                            , LogTypeEnum.error);
+                        }
+                    }
+                    if (cardinalityParts.Length > 1 && !string.IsNullOrEmpty(cardinalityParts[1]))
+                    {
+                        try
+                        {
+                            association.targetMultiplicity = cardinalityParts[1];
+                        }
+                        catch (FormatException)
+                        {
+                            EAOutputLogger.log(this.model, outputName
+                            , $" Cannot convert '{cardinalityParts[1]}' into target multiplicity for association '{assocationName}' from node '{sourceNode.name}' to '{targetNode.name}'"
+                            , sourceNode.elementWrapper.id
+                            , LogTypeEnum.error);
+                        }
+                    }
+                    //resolving node
+                    var resolvingNode = settingsNode.Element("resolving_node")?.Value;
+                    if (! string.IsNullOrEmpty(resolvingNode))
+                    {
+                        association.resolvingNode = resolvingNode;
+                    }
+                    //category
+                    var category = settingsNode.Element("assoc_cat")?.Value;
+                    if (!string.IsNullOrEmpty(category))
+                    {
+                        association.category = category;
+                    }
+                    //Association Class
+                    var associationClassName = settingsNode?.Element("implementation")?.Element("assoc_class")?. Value;
+                    if (!string.IsNullOrEmpty(associationClassName))
+                    {
+                        association.associationClass = new SAPClass(associationClassName, association.source.elementWrapper.owningPackage);
+                    }
+                }
                 association.save();
-                //TODO set other properties
             }
         }
         /// <summary>
