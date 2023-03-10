@@ -13,11 +13,19 @@ namespace SAP2EAImporter
     {
         const string stereotypeName = "BOPF_node";
 
+        public BOPFNode(string name, BOPFNodeOwner owner, string key, bool relocate)
+            :this(name, owner,  key)
+        {
+            if (relocate)
+            {
+                //set the owner
+                this.owner = owner;
+            }
+            
+        }
         public BOPFNode(string name, BOPFNodeOwner owner, string key)
             : base(name, (UML.Classes.Kernel.Namespace) owner.elementWrapper, stereotypeName, key)
         {
-            //set the owner
-            this.owner = owner;
         }
         public BOPFNode(UMLEA.Class eaClass) : base(eaClass){ }
 
@@ -145,7 +153,7 @@ namespace SAP2EAImporter
 
         public BOPFNode addNode(string name, string key)
         {
-            return new BOPFNode(name, this, key);
+            return new BOPFNode(name, this, key, true);
         }
 
     }

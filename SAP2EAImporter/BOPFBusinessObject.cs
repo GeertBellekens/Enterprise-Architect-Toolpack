@@ -30,7 +30,7 @@ namespace SAP2EAImporter
 
         public BOPFNode addNode(string name, string key)
         {
-            return new BOPFNode(name, this, key);
+            return new BOPFNode(name, this, key, true);
         }
 
 

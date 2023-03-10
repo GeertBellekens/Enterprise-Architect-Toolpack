@@ -426,6 +426,7 @@ namespace SAP2EAImporter
             foreach (var associationNode in nodeNode.Element("node_elements").Element("associations").Elements("association"))
             {
                 var assocationName = associationNode.Attribute("name").Value;
+                var associationKey = associationNode.Attribute("key").Value;
                 var targetBOName = associationNode.Element("assoc_settings")?.Element("target_bo")?.Value;
                 var targetNodeName = associationNode.Element("assoc_settings").Element("target_node")?.Value;
                 var targetKeyName = associationNode.Element("assoc_settings").Element("target_node")?.Attribute("target_node_key")?.Value;
@@ -434,7 +435,7 @@ namespace SAP2EAImporter
                 var targetBO = new BOPFBusinessObject(targetBOName, sourceNode.wrappedElement.owningPackage, null);
                 var targetNode = new BOPFNode(targetNodeName, targetBO, targetKeyName);
                 //get association
-                var association = new SAPAssociation(sourceNode, targetNode, assocationName);
+                var association = new SAPAssociation(sourceNode, targetNode, assocationName,associationKey );
                 //set notes
                 var notesNode = associationNode.Element("notes");
                 if (notesNode != null)

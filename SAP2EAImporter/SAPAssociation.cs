@@ -10,6 +10,7 @@ namespace SAP2EAImporter
 {
     internal class SAPAssociation
     {
+        const string keyTagName = "Key";
         public static string stereotype =>  "SAP_Association";
         internal UMLEA.Association wrappedAssociation { get; private set; }
         public string name
@@ -22,6 +23,15 @@ namespace SAP2EAImporter
             get => this.wrappedAssociation.notes;
             set => this.wrappedAssociation.notes = value;
         }
+        public string key
+        {
+            get => this.wrappedAssociation.taggedValues.FirstOrDefault(x => x.name == keyTagName)?.tagValue?.ToString();
+            set
+            {
+                var taggedValue = this.wrappedAssociation.addTaggedValue(keyTagName, value);
+                taggedValue.save();
+            }
+        }
         public BOPFNode source
         {
             get => new BOPFNode(this.wrappedAssociation.source as UMLEA.Class);
@@ -33,21 +43,54 @@ namespace SAP2EAImporter
             set => this.wrappedAssociation.source = value.wrappedElement;
         }
 
-        internal SAPAssociation(BOPFNode source, BOPFNode target, String name)
+        internal SAPAssociation(BOPFNode source, BOPFNode target, String name, String associationKey)
         {
             //check if this association already exists
             this.wrappedAssociation = source.wrappedElement.getRelationships<UMLEA.Association>(true, false)
                                                         .Where(x => x.hasStereotype(stereotype)
-                                                                    && x.name == name
-                                                                    && x.target == target.wrappedElement)
+                                                                    && x.taggedValues.Any(y => y.name == keyTagName
+                                                                                            && y.tagValue.ToString() == associationKey)
+                                                                    && x.target.Equals(target.wrappedElement))
                                                         .FirstOrDefault();
+            //debug
+            //foreach (var association in source.wrappedElement.getRelationships<UMLEA.Association>(true, false))
+            //{
+            //    if (association.hasStereotype(stereotype))
+            //    {
+            //        if (association.target == target.wrappedElement)
+            //        {
+            //            if (association.taggedValues.Any(y => y.name == keyTagName
+            //                                             && y.tagValue.ToString() == associationKey))
+            //            {
+            //                this.wrappedAssociation = association;
+            //            }
+            //        }
+            //    }
+            //}
             //create new association
             if (this.wrappedAssociation == null)
             {
                 this.wrappedAssociation = source.wrappedElement.addOwnedElement<UMLEA.Association>(name);
                 this.wrappedAssociation.target = target.wrappedElement;
                 this.wrappedAssociation.addStereotype(stereotype);
-                this.wrappedAssociation.save();
+                this.save();
+            }
+
+            bool dirty = false;
+            //set the name if needed
+            if (this.name != name)
+            {
+                this.name = name;
+                dirty = true;
+            }
+            if (this.key != associationKey)
+            {
+                this.key = associationKey;
+                dirty = true;
+            }
+            if (dirty)
+            {
+                this.save();
             }
         }
         internal SAPAssociation(UMLEA.Association association)

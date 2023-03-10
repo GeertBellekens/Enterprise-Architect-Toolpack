@@ -62,7 +62,6 @@ namespace SAP2EAImporter
             this.wrappedElement = this.getElement<T>(owner as UMLEA.ElementWrapper, name, key, fqStereo, searchGlobal, searchPackage);
             if (this.wrappedElement != null)
             {
-                this.wrappedElement.owner = owner;
                 this.name = name;
                 if (!string.IsNullOrEmpty(key))
                 {
