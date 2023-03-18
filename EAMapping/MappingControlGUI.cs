@@ -246,13 +246,24 @@ namespace EAMapping
         private void MappingContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //disable option new empty mapping if node is readonly
+            
             var parent = ((ContextMenuStrip)sender).SourceControl;
             if (parent == this.sourceTreeView)
             {
                 this.newEmptyMappingToolStripMenuItem.Enabled = ! (this.selectedSourceNode?.isReadOnly == true);
+                
             }
             else
             {
+                //disable select new mapping root if source node is readonly
+                if (!(this.mappingSet?.source?.isReadOnly == true))
+                {
+                    this.selectNewMappingRootToolStripMenuItem.Enabled = true;
+                }
+                else
+                {
+                    this.selectNewMappingRootToolStripMenuItem.Enabled = false;
+                }
                 this.newEmptyMappingToolStripMenuItem.Enabled = !(this.selectedTargetNode?.isReadOnly == true);
             }
         }
