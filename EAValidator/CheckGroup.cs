@@ -10,11 +10,11 @@ using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EAValidator
 {
-    public class CheckGroup : CheckItem
+    public abstract class CheckGroup : CheckItem
     {
-        private DirectoryInfo directory { get; set; }
-        private EAValidatorSettings settings { get; set; }
-        private TSF_EA.Model model { get; set; }
+        
+        protected EAValidatorSettings settings { get; set; }
+        protected TSF_EA.Model model { get; set; }
         public override CheckStatus Status 
         { 
             get
@@ -75,13 +75,12 @@ namespace EAValidator
         }
 
 
-        public CheckGroup(DirectoryInfo directory, EAValidatorSettings settings, TSF_EA.Model model)
+        public CheckGroup(EAValidatorSettings settings, TSF_EA.Model model)
         {
-            this.directory = directory;
             this.settings = settings;
             this.model = model;
         }
-        public string name => this.directory.Name;
+        public abstract string name {get;}
         public override bool? selected
         {
             get
@@ -116,26 +115,19 @@ namespace EAValidator
             }
         }
 
-        public List<CheckGroup> _subGroups;
+        private List<CheckGroup> _subGroups;
         public IEnumerable<CheckGroup> subGroups
         {
             get
             {
-                if (_subGroups == null)
+                if (this._subGroups == null)
                 {
-                    _subGroups = new List<CheckGroup>();
-                    foreach (var subdirectory in this.directory.GetDirectories())
-                    {
-                        var newSubGroup = new CheckGroup(subdirectory, this.settings, this.model);
-                        if (newSubGroup.subItems.Any())
-                        {
-                            _subGroups.Add(newSubGroup);
-                        }
-                    }
+                    this._subGroups = getSubGroups(); 
                 }
-                return _subGroups;
+                return this._subGroups;
             }
         }
+        protected abstract List<CheckGroup> getSubGroups();
         private List<CheckItem> _subItems;
         public IEnumerable<CheckItem> subItems
         {
@@ -157,27 +149,13 @@ namespace EAValidator
             {
                 if (this._checks == null)
                 {
-                    this._checks = new List<Check>();
-                    // Get files from given directory                
-                    foreach (var file in this.directory.GetFiles("*.xml"))
-                    {
-                        // add new check
-                        try
-                        {
-                            var check = new Check(file.FullName, this, this.settings, this.model);
-                            this._checks.Add(check);
-                            //order by checkID
-                            this._checks = this._checks.OrderBy(x => x.CheckId).ToList();
-                        }
-                        catch (XmlSchemaValidationException e)
-                        {
-                            EAAddinFramework.Utilities.EAOutputLogger.log(this.model,this.settings.outputName, e.Message, 0, EAAddinFramework.Utilities.LogTypeEnum.error);
-                        }
-                    }
+                    this._checks = this.GetChecks();
+                    
                 }
                 return this._checks;
             }
         }
+        protected abstract List<Check> GetChecks();
 
         
 

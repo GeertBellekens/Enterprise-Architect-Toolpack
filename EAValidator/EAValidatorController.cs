@@ -118,18 +118,27 @@ namespace EAValidator
 
         public void loadChecks()
         {
-            var directory = this.settings.ValidationChecks_Directory;
-            // Check if directory exists
-            if (Utils.FileOrDirectoryExists(directory))
+            //load checks from model is possible
+            if (this.settings.ValidationChecks_Package != null)
             {
-                this.rootGroup = new CheckGroup(new DirectoryInfo(directory), this.settings, this.model);
+                this.rootGroup = new ModelCheckGroup(this.settings.ValidationChecks_Package, this.settings, this.model);
             }
+            //else load from files
             else
             {
-                //try the default directory, which is the directory of the dll + \Files\Checks\
-                var checksDirectory = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
-                    ,@"Files\Checks\") ;
-                this.rootGroup = new CheckGroup(new DirectoryInfo(checksDirectory), this.settings, this.model);
+                var directory = this.settings.ValidationChecks_Directory;
+                // Check if directory exists
+                if (Utils.FileOrDirectoryExists(directory))
+                {
+                    this.rootGroup = new FileCheckGroup(new DirectoryInfo(directory), this.settings, this.model);
+                }
+                else
+                {
+                    //try the default directory, which is the directory of the dll + \Files\Checks\
+                    var checksDirectory = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
+                        , @"Files\Checks\");
+                    this.rootGroup = new FileCheckGroup(new DirectoryInfo(checksDirectory), this.settings, this.model);
+                }
             }
         }
 
@@ -215,6 +224,25 @@ namespace EAValidator
         {
             if (check == null) return;
             //copy check
+            Check newCheck = null;
+            var fileCheck = check as FileCheck;
+            if (fileCheck != null)
+            {
+                newCheck = copyFileCheck(fileCheck);
+            }else
+            {
+                var modelCheck = check as ModelCheck;
+                newCheck = copyModelCheck(modelCheck);
+            }
+            if (newCheck != null)
+            {
+                new CheckEditorForm(newCheck).ShowDialog();
+            }
+            
+        }
+        private FileCheck copyFileCheck(FileCheck check)
+        {
+            FileCheck newCheck = null;
             var saveCheckDialog = new SaveFileDialog();
             saveCheckDialog.Title = "Save check as new file";
             saveCheckDialog.Filter = "Check files|*.xml";
@@ -228,9 +256,15 @@ namespace EAValidator
                 var checkfileContents = File.ReadAllText(check.checkfile);
                 File.WriteAllText(filePath, checkfileContents);
                 //edit new check
-                var newCheck = new Check(filePath, check.group, this.settings, this.model);
-                new CheckEditorForm(newCheck).ShowDialog();
+                newCheck = new FileCheck(filePath, check.group, this.settings, this.model);
             }
+            return newCheck;
         }
+        private ModelCheck copyModelCheck (ModelCheck check)
+        {
+            ModelCheck newCheck = check.copy();
+            return newCheck;
+        }
+        
     }
 }

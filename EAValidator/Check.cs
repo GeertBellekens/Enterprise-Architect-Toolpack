@@ -18,11 +18,11 @@ namespace EAValidator
     /// <summary>
     /// Class Validation defined to show in objectListView.
     /// </summary>
-    public class Check : CheckItem
+    public abstract class Check : CheckItem
     {
         const string resolveFunctionName = "resolve";
-        private TSF_EA.Model model { get; set; }
-        private XDocument xdoc;
+        protected TSF_EA.Model model { get; set; }
+        protected XDocument xdoc;
 
 
         // Check to validate
@@ -94,25 +94,8 @@ namespace EAValidator
             set => this.xdoc.Root.Element("ProposedSolution").Value = value;
         }
 
-        public string helpUrl
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(this.helpUrlText))
-                {
-                    var helpPdf = Path.GetDirectoryName(this.checkfile)
-                                  + "\\"
-                                  + Path.GetFileNameWithoutExtension(this.checkfile) + ".pdf";
+        public virtual string helpUrl => this.helpUrlText;
 
-                    if (System.IO.File.Exists(helpPdf))
-                    {
-                        return helpPdf;
-                    }
-                }
-                return this.helpUrlText;
-            }
-
-        }
         public string helpUrlText
         {
             get => this.xdoc.Root.Element("HelpUrl")?.Value;
@@ -160,7 +143,7 @@ namespace EAValidator
         }
 
         public string Group => this.group?.name;
-        private EAValidatorSettings settings { get; set; }
+        protected EAValidatorSettings settings { get; set; }
         public CheckGroup group { get; set; }
         public string name => this.CheckDescription;
 
@@ -197,20 +180,20 @@ namespace EAValidator
             }
         }
 
-        public string checkfile { get; }
+        
         public bool canBeResolved { get => !string.IsNullOrEmpty(this.resolveCode); }
 
-        public Check(string checkFile, CheckGroup group, EAValidatorSettings settings, TSF_EA.Model model)
+        public Check(CheckGroup group, EAValidatorSettings settings, TSF_EA.Model model)
         {
             // Constructor
             this.model = model;
             this.settings = settings;
             this.group = group;
-            this.checkfile = checkFile;
-            //load the contents from the the xml file
-            this.loadXml(checkFile);
+
         }
-        private void loadXml(string file)
+        protected abstract string xmlString { get; }
+        protected abstract string checkName { get; }
+        protected void loadXml()
         {
             string schemaNamespace = "";
             string schemaFileName = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + @"\Files\check.xsd";
@@ -220,17 +203,14 @@ namespace EAValidator
             }
             XmlSchemaSet schemas = new XmlSchemaSet();
             schemas.Add(schemaNamespace, schemaFileName);
-            string filename = new FileInfo(file).Name;
-            this.xdoc = XDocument.Load(file);
-            xdoc.Validate(schemas, (o, e) => { throw new XmlSchemaValidationException($"Check {filename} is invalid: {e.Message}"); });
+            this.xdoc = XDocument.Parse(this.xmlString);
+            xdoc.Validate(schemas, (o, e) => { throw new XmlSchemaValidationException($"Check {this.checkName} is invalid: {e.Message}"); });
         }
-        public void save()
-        {
-            this.xdoc.Save(this.checkfile);
-        }
+        public abstract void save();
+        
         internal void reload()
         {
-            this.loadXml(this.checkfile);
+            this.loadXml();
         }
         internal bool resolve(string itemGuid)
         {

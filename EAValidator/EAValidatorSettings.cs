@@ -30,6 +30,12 @@ namespace EAValidator
             set => this.setValue("ValidationChecks_Directory", value);
         }
 
+        public Package ValidationChecks_Package
+        {
+            get => this.model.getElementByGUID(this.getValue("ValidationChecks_Package")) as Package;
+            set => this.setValue("ValidationChecks_Package", value.uniqueID);
+        }
+
         public string SearchTermInQueryToFindElements
         {
             get => this.getValue("SearchTermInQueryToFindElements");

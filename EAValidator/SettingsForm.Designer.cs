@@ -44,6 +44,9 @@
             this.diagramTypesCheckedList = new System.Windows.Forms.CheckedListBox();
             this.elementTypesLabel = new System.Windows.Forms.Label();
             this.elementTypesCheckedList = new System.Windows.Forms.CheckedListBox();
+            this.browseChecksPackageButton = new System.Windows.Forms.Button();
+            this.checksPackageTextBox = new System.Windows.Forms.TextBox();
+            this.checksPackageLabel = new System.Windows.Forms.Label();
             this.scopeGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,7 +82,7 @@
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(218, 389);
+            this.okButton.Location = new System.Drawing.Point(218, 490);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 15;
@@ -91,7 +94,7 @@
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(299, 389);
+            this.cancelButton.Location = new System.Drawing.Point(299, 490);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 16;
@@ -102,7 +105,7 @@
             // excludeArchivedPackagesCheckbox
             // 
             this.excludeArchivedPackagesCheckbox.AutoSize = true;
-            this.excludeArchivedPackagesCheckbox.Location = new System.Drawing.Point(12, 265);
+            this.excludeArchivedPackagesCheckbox.Location = new System.Drawing.Point(12, 311);
             this.excludeArchivedPackagesCheckbox.Name = "excludeArchivedPackagesCheckbox";
             this.excludeArchivedPackagesCheckbox.Size = new System.Drawing.Size(152, 17);
             this.excludeArchivedPackagesCheckbox.TabIndex = 17;
@@ -115,16 +118,16 @@
             this.archivedPackagesQueryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.archivedPackagesQueryTextBox.Location = new System.Drawing.Point(12, 301);
+            this.archivedPackagesQueryTextBox.Location = new System.Drawing.Point(12, 347);
             this.archivedPackagesQueryTextBox.Multiline = true;
             this.archivedPackagesQueryTextBox.Name = "archivedPackagesQueryTextBox";
-            this.archivedPackagesQueryTextBox.Size = new System.Drawing.Size(362, 82);
+            this.archivedPackagesQueryTextBox.Size = new System.Drawing.Size(362, 137);
             this.archivedPackagesQueryTextBox.TabIndex = 18;
             // 
             // archivedPackagesQueryLabel
             // 
             this.archivedPackagesQueryLabel.AutoSize = true;
-            this.archivedPackagesQueryLabel.Location = new System.Drawing.Point(9, 285);
+            this.archivedPackagesQueryLabel.Location = new System.Drawing.Point(9, 331);
             this.archivedPackagesQueryLabel.Name = "archivedPackagesQueryLabel";
             this.archivedPackagesQueryLabel.Size = new System.Drawing.Size(122, 13);
             this.archivedPackagesQueryLabel.TabIndex = 19;
@@ -133,7 +136,7 @@
             // allowedRepositoryTypesListBox
             // 
             this.allowedRepositoryTypesListBox.FormattingEnabled = true;
-            this.allowedRepositoryTypesListBox.Location = new System.Drawing.Point(12, 67);
+            this.allowedRepositoryTypesListBox.Location = new System.Drawing.Point(12, 113);
             this.allowedRepositoryTypesListBox.Name = "allowedRepositoryTypesListBox";
             this.allowedRepositoryTypesListBox.Size = new System.Drawing.Size(153, 64);
             this.allowedRepositoryTypesListBox.TabIndex = 20;
@@ -141,7 +144,7 @@
             // allowedRepositoryTypesLabel
             // 
             this.allowedRepositoryTypesLabel.AutoSize = true;
-            this.allowedRepositoryTypesLabel.Location = new System.Drawing.Point(9, 51);
+            this.allowedRepositoryTypesLabel.Location = new System.Drawing.Point(9, 97);
             this.allowedRepositoryTypesLabel.Name = "allowedRepositoryTypesLabel";
             this.allowedRepositoryTypesLabel.Size = new System.Drawing.Size(120, 13);
             this.allowedRepositoryTypesLabel.TabIndex = 21;
@@ -153,7 +156,7 @@
             this.scopeGroupBox.Controls.Add(this.diagramTypesCheckedList);
             this.scopeGroupBox.Controls.Add(this.elementTypesLabel);
             this.scopeGroupBox.Controls.Add(this.elementTypesCheckedList);
-            this.scopeGroupBox.Location = new System.Drawing.Point(12, 137);
+            this.scopeGroupBox.Location = new System.Drawing.Point(12, 183);
             this.scopeGroupBox.Name = "scopeGroupBox";
             this.scopeGroupBox.Size = new System.Drawing.Size(362, 122);
             this.scopeGroupBox.TabIndex = 22;
@@ -194,13 +197,46 @@
             this.elementTypesCheckedList.Size = new System.Drawing.Size(177, 79);
             this.elementTypesCheckedList.TabIndex = 0;
             // 
+            // browseChecksPackageButton
+            // 
+            this.browseChecksPackageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.browseChecksPackageButton.Location = new System.Drawing.Point(349, 64);
+            this.browseChecksPackageButton.Name = "browseChecksPackageButton";
+            this.browseChecksPackageButton.Size = new System.Drawing.Size(25, 23);
+            this.browseChecksPackageButton.TabIndex = 24;
+            this.browseChecksPackageButton.Text = "...";
+            this.browseChecksPackageButton.UseVisualStyleBackColor = true;
+            this.browseChecksPackageButton.Click += new System.EventHandler(this.browseChecksPackageButton_Click);
+            // 
+            // checksPackageTextBox
+            // 
+            this.checksPackageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.checksPackageTextBox.Location = new System.Drawing.Point(12, 66);
+            this.checksPackageTextBox.Name = "checksPackageTextBox";
+            this.checksPackageTextBox.ReadOnly = true;
+            this.checksPackageTextBox.Size = new System.Drawing.Size(331, 20);
+            this.checksPackageTextBox.TabIndex = 23;
+            // 
+            // checksPackageLabel
+            // 
+            this.checksPackageLabel.AutoSize = true;
+            this.checksPackageLabel.Location = new System.Drawing.Point(12, 50);
+            this.checksPackageLabel.Name = "checksPackageLabel";
+            this.checksPackageLabel.Size = new System.Drawing.Size(88, 13);
+            this.checksPackageLabel.TabIndex = 25;
+            this.checksPackageLabel.Text = "Checks package";
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(386, 424);
+            this.ClientSize = new System.Drawing.Size(386, 525);
+            this.Controls.Add(this.browseChecksPackageButton);
+            this.Controls.Add(this.checksPackageTextBox);
+            this.Controls.Add(this.checksPackageLabel);
             this.Controls.Add(this.scopeGroupBox);
             this.Controls.Add(this.allowedRepositoryTypesListBox);
             this.Controls.Add(this.archivedPackagesQueryTextBox);
@@ -242,5 +278,8 @@
         private System.Windows.Forms.CheckedListBox diagramTypesCheckedList;
         private System.Windows.Forms.Label elementTypesLabel;
         private System.Windows.Forms.CheckedListBox elementTypesCheckedList;
+        private System.Windows.Forms.Button browseChecksPackageButton;
+        private System.Windows.Forms.TextBox checksPackageTextBox;
+        private System.Windows.Forms.Label checksPackageLabel;
     }
 }

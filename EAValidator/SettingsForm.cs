@@ -36,6 +36,7 @@ namespace EAValidator
             this.txtDirectoryValidationChecks.Text = this.validatorSettings.ValidationChecks_Directory;
             this.excludeArchivedPackagesCheckbox.Checked = this.validatorSettings.excludeArchivedPackages;
             this.archivedPackagesQueryTextBox.Text = this.validatorSettings.QueryExcludeArchivedPackages;
+            this.checksPackageTextBox.Text = this.validatorSettings.ValidationChecks_Package?.name;
             //set allowed RepositoryTypes
             foreach (var repositoryType in this.validatorSettings.AllowedRepositoryTypes)
             {
@@ -100,6 +101,7 @@ namespace EAValidator
         {
             // Change the setting to the selected directory
             this.txtDirectoryValidationChecks.Text = Utils.selectDirectory(this.validatorSettings.ValidationChecks_Directory);
+
         }
 
         private void excludeArchivedPackagesCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -110,6 +112,15 @@ namespace EAValidator
         private void enableDisable()
         {
             this.archivedPackagesQueryTextBox.Enabled = this.excludeArchivedPackagesCheckbox.Checked;
+            this.txtDirectoryValidationChecks.Enabled = this.validatorSettings.ValidationChecks_Package == null;
+        }
+        private void browseChecksPackageButton_Click(object sender, EventArgs e)
+        {
+            var package = this.settings.model.getUserSelectedPackage() as Package;
+            this.checksPackageTextBox.Text = package?.name;
+            this.validatorSettings.ValidationChecks_Package = package;
+            this.enableDisable();
+            
         }
         private List<string> diagramTypes = new List<string> {"Activity"
                                                             ,"Analysis"
@@ -178,5 +189,7 @@ namespace EAValidator
                                                             ,"TimeLine"
                                                             ,"UMLDiagram"
                                                             ,"UseCase"};
+
+
     }
 }
