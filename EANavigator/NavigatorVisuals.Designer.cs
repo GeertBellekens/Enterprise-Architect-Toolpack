@@ -144,6 +144,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.NavigatorImageList.Images.SetKeyName(96, "AssociationClass.png");
             this.NavigatorImageList.Images.SetKeyName(97, "Package_AssociationClass.png");
             this.NavigatorImageList.Images.SetKeyName(98, "EnumerationLiteral.png");
+            this.NavigatorImageList.Images.SetKeyName(99, "Package_Connector.png");
             // 
             // NavigatorVisuals
             // 

@@ -34,6 +34,8 @@ namespace TSF.UmlToolingFramework.EANavigator
         internal const string menuConveyingConnectors = "&Conveying Connectors";
         internal const string menuAssociationClass = "&Association Class";
         internal const string menuAssociation = "&Association";
+        internal const string menuEffect = "&Effect";
+        internal const string menuTransitions = "&Transitions";
 
         internal const string taggedValueMenuSuffix = " Tags";
         internal const string taggedValueMenuPrefix = "&";
@@ -47,7 +49,7 @@ namespace TSF.UmlToolingFramework.EANavigator
         private int maxQuickSearchResults = 10;
         private NavigatorControl _navigatorControl;
 
-        
+
         internal NavigatorSettings settings { get; set; }
 
         public EAAddin() : base()
@@ -227,7 +229,7 @@ namespace TSF.UmlToolingFramework.EANavigator
                 menuOptionsList.Add(menuParameterTypes);
                 menuOptionsList.Add(menuActions);
                 menuOptionsList.Add(menuImplementation);
-                //menuOptionsList.Add(menuLinkedToElementFeature);
+                menuOptionsList.Add(menuTransitions);
 
             }
             else if (element is UML.Interactions.BasicInteractions.Message)
@@ -237,6 +239,10 @@ namespace TSF.UmlToolingFramework.EANavigator
                 menuOptionsList.Add(menuParameterTypes);
                 menuOptionsList.Add(menuImplementation);
 
+            }
+            else if (element is UML.StateMachines.BehaviorStateMachines.Transition)
+            {
+                menuOptionsList.Add(menuEffect);
             }
             else if (element is UML.Actions.BasicActions.CallOperationAction)
             {
@@ -253,7 +259,6 @@ namespace TSF.UmlToolingFramework.EANavigator
             else if (element is UML.Classes.Kernel.Property)
             {
                 menuOptionsList.Add(getTypeMenuName(element));
-                //menuOptionsList.Add(menuLinkedToElementFeature);
             }
             else if (element is UML.Diagrams.SequenceDiagram
                     || element is UML.Diagrams.CommunicationDiagram)
@@ -261,9 +266,13 @@ namespace TSF.UmlToolingFramework.EANavigator
                 menuOptionsList.Add(menuDiagramOperations);
             }
             //now for behavior, could be a type as well
-            if (element is UML.CommonBehaviors.BasicBehaviors.Behavior
-                || element is UML.Diagrams.Diagram &&
-                ((UML.Diagrams.Diagram)element).owner is UML.CommonBehaviors.BasicBehaviors.Behavior)
+            if (element is UML.CommonBehaviors.BasicBehaviors.Behavior)
+            {
+                menuOptionsList.Add(menuImplementedOperations);
+                menuOptionsList.Add(menuTransitions);
+            }
+            if (element is UML.Diagrams.Diagram &&
+               ((UML.Diagrams.Diagram)element).owner is UML.CommonBehaviors.BasicBehaviors.Behavior)
             {
                 menuOptionsList.Add(menuImplementedOperations);
             }
@@ -499,6 +508,12 @@ namespace TSF.UmlToolingFramework.EANavigator
                     break;
                 case menuAssociation:
                     elementsToNavigate = this.getRelatedAssociation(parentElement);
+                    break;
+                case menuEffect:
+                    elementsToNavigate = this.getTransitionEffect(parentElement);
+                    break;
+                case menuTransitions:
+                    elementsToNavigate = this.getTransitions(parentElement);
                     break;
                 default:
                     if (menuChoice.StartsWith(taggedValueMenuPrefix)
@@ -862,6 +877,43 @@ namespace TSF.UmlToolingFramework.EANavigator
                 && associationClass.relatedAssociation != null)
             {
                 elementsToNavigate.Add(associationClass.relatedAssociation);
+            }
+            return elementsToNavigate;
+        }
+        /// <summary>
+        /// gets the transitionEffect (either behavior or operation)
+        /// </summary>
+        /// <param name="parentElement">the selected Transition</param>
+        /// <returns>the effect</returns>
+        List<UML.Extended.UMLItem> getTransitionEffect(UML.Extended.UMLItem parentElement)
+        {
+            var elementsToNavigate = new List<UML.Extended.UMLItem>();
+            var transition = parentElement as UTF_EA.BehaviorStateMachines.Transition;
+            if (transition != null)
+            {
+                if (transition.effect != null)
+                {
+                    elementsToNavigate.Add(transition.effect);
+                }
+                if (transition.effectOperation != null)
+                {
+                    elementsToNavigate.Add(transition.effectOperation);
+                }
+            }
+            return elementsToNavigate;
+        }
+        /// <summary>
+        /// gets the transitions that have this item as effect
+        /// </summary>
+        /// <param name="parentElement">the effect for the returned transitions</param>
+        /// <returns>transitions that have this item as effect</returns>
+        List<UML.Extended.UMLItem> getTransitions(UML.Extended.UMLItem parentElement)
+        {
+            var elementsToNavigate = new List<UML.Extended.UMLItem>();
+            var element = parentElement as UTF_EA.Element;
+            if (element != null)
+            {
+                elementsToNavigate.AddRange(element.getDependentTransitions());
             }
             return elementsToNavigate;
         }

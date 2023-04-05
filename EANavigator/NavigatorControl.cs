@@ -154,7 +154,8 @@ namespace TSF.UmlToolingFramework.EANavigator
             }
             else
             {
-            	            	
+				//reset dropped down property of the quicksearch box
+				this.quickSearchBox.DroppedDown = false;            	
             	//do the visual work for the new treenode
             	TreeNode elementNode = (TreeNode)e.Result;
             	

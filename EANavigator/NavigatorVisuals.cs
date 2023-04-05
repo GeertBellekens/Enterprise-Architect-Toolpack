@@ -119,6 +119,7 @@ namespace TSF.UmlToolingFramework.EANavigator
 		private int AssociationClassIndex = 96;
 		private int Package_AssociationClassIndex = 97;
 		private int enumerationLiteralIndex = 98;
+		private int package_ConnectorIndex = 99;
 		/// <summary>
 		/// singleton instance
 		/// </summary>
@@ -527,19 +528,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 				case EAAddin.menuDependentTaggedValues:
 					imageIndex = this.packageTaggedValuesIndex;
 					break;
-				case EAAddin.menuDiagramOperations:
-					imageIndex = this.packageOperationIndex;
-					break;
 				case EAAddin.menuDiagrams:
-					imageIndex = this.packageSequenceDiagramIndex;
-					break;
 				case EAAddin.menuImplementation:
 					imageIndex = this.packageSequenceDiagramIndex;
 					break;
 				case EAAddin.menuOperation:
-					imageIndex = this.packageOperationIndex;
-					break;
+				case EAAddin.menuDiagramOperations:
 				case EAAddin.menuImplementedOperations:
+				case EAAddin.menuEffect:
 					imageIndex = this.packageOperationIndex;
 					break;
 				case EAAddin.menuParameters:
@@ -564,6 +560,9 @@ namespace TSF.UmlToolingFramework.EANavigator
 				case EAAddin.menuAssociation:
 				case EAAddin.menuAssociationClass:
 					imageIndex = this.Package_AssociationClassIndex;
+					break;
+				case EAAddin.menuTransitions:
+					imageIndex = this.package_ConnectorIndex;
 					break;
 				default:
 					if( menuOptionName.StartsWith(EAAddin.taggedValueMenuPrefix)

@@ -25,14 +25,13 @@ namespace NewAddin
         private bool shouldWeSayHello = true;
 
 
-
         /// <summary>
         /// constructor where we set the menuheader and menuOptions
         /// </summary>
         public AddinClass() : base()
         {
             this.menuHeader = menuName;
-            this.menuOptions = new string[] { menuHello, menuGoodbye, menuCreatePackage, menuShowControl };
+            this.menuOptions = new string[] { menuHello, menuGoodbye };//, menuCreatePackage, menuShowControl };
         }
 
         /// <summary>

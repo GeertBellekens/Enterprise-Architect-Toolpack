@@ -152,7 +152,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.navigatorToolStrip.Location = new System.Drawing.Point(0, 0);
             this.navigatorToolStrip.Name = "navigatorToolStrip";
             this.navigatorToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.navigatorToolStrip.Size = new System.Drawing.Size(234, 27);
+            this.navigatorToolStrip.Size = new System.Drawing.Size(234, 2);
             this.navigatorToolStrip.TabIndex = 1;
             // 
             // openInNavigatorButton
@@ -162,7 +162,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.openInNavigatorButton.Image = ((System.Drawing.Image)(resources.GetObject("openInNavigatorButton.Image")));
             this.openInNavigatorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openInNavigatorButton.Name = "openInNavigatorButton";
-            this.openInNavigatorButton.Size = new System.Drawing.Size(23, 24);
+            this.openInNavigatorButton.Size = new System.Drawing.Size(23, 0);
             this.openInNavigatorButton.Text = "Open";
             this.openInNavigatorButton.ToolTipText = "Show selected item in EA Navigator";
             this.openInNavigatorButton.Click += new System.EventHandler(this.OpenInNavigatorButtonClick);
@@ -170,7 +170,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 2);
             // 
             // projectBrowserButton
             // 
@@ -178,7 +178,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.projectBrowserButton.Image = ((System.Drawing.Image)(resources.GetObject("projectBrowserButton.Image")));
             this.projectBrowserButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.projectBrowserButton.Name = "projectBrowserButton";
-            this.projectBrowserButton.Size = new System.Drawing.Size(23, 24);
+            this.projectBrowserButton.Size = new System.Drawing.Size(23, 0);
             this.projectBrowserButton.ToolTipText = "Select in project Browser";
             this.projectBrowserButton.Click += new System.EventHandler(this.ProjectBrowserButtonClick);
             // 
@@ -188,7 +188,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.propertiesButton.Image = ((System.Drawing.Image)(resources.GetObject("propertiesButton.Image")));
             this.propertiesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.propertiesButton.Name = "propertiesButton";
-            this.propertiesButton.Size = new System.Drawing.Size(23, 24);
+            this.propertiesButton.Size = new System.Drawing.Size(23, 0);
             this.propertiesButton.ToolTipText = "Open properties";
             this.propertiesButton.Click += new System.EventHandler(this.PropertiesButtonClick);
             // 
@@ -198,7 +198,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.addToDiagramButton.Image = ((System.Drawing.Image)(resources.GetObject("addToDiagramButton.Image")));
             this.addToDiagramButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addToDiagramButton.Name = "addToDiagramButton";
-            this.addToDiagramButton.Size = new System.Drawing.Size(23, 24);
+            this.addToDiagramButton.Size = new System.Drawing.Size(23, 0);
             this.addToDiagramButton.Text = "To Diagram";
             this.addToDiagramButton.ToolTipText = "Add to diagram";
             this.addToDiagramButton.Click += new System.EventHandler(this.AddToDiagramButtonClick);
@@ -206,7 +206,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 2);
             // 
             // fqnButton
             // 
@@ -214,7 +214,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.fqnButton.Image = ((System.Drawing.Image)(resources.GetObject("fqnButton.Image")));
             this.fqnButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.fqnButton.Name = "fqnButton";
-            this.fqnButton.Size = new System.Drawing.Size(23, 24);
+            this.fqnButton.Size = new System.Drawing.Size(23, 0);
             this.fqnButton.ToolTipText = "Navigate to Fully Qualified Name";
             this.fqnButton.Click += new System.EventHandler(this.FqnButtonClick);
             // 
@@ -224,7 +224,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.guidButton.Image = ((System.Drawing.Image)(resources.GetObject("guidButton.Image")));
             this.guidButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.guidButton.Name = "guidButton";
-            this.guidButton.Size = new System.Drawing.Size(23, 24);
+            this.guidButton.Size = new System.Drawing.Size(23, 0);
             this.guidButton.Text = "GUID";
             this.guidButton.ToolTipText = "Select element from GUID";
             this.guidButton.Click += new System.EventHandler(this.GuidButtonClick);
@@ -235,14 +235,14 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.copyGUIDButton.Image = ((System.Drawing.Image)(resources.GetObject("copyGUIDButton.Image")));
             this.copyGUIDButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.copyGUIDButton.Name = "copyGUIDButton";
-            this.copyGUIDButton.Size = new System.Drawing.Size(23, 24);
+            this.copyGUIDButton.Size = new System.Drawing.Size(23, 0);
             this.copyGUIDButton.Text = "Copy GUID";
             this.copyGUIDButton.Click += new System.EventHandler(this.CopyGUIDButtonClick);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 2);
             // 
             // settingsButton
             // 
@@ -250,7 +250,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("settingsButton.Image")));
             this.settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(23, 24);
+            this.settingsButton.Size = new System.Drawing.Size(23, 0);
             this.settingsButton.ToolTipText = "Settings";
             this.settingsButton.Click += new System.EventHandler(this.SettingsButtonClick);
             // 
@@ -260,7 +260,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.aboutButton.Image = ((System.Drawing.Image)(resources.GetObject("aboutButton.Image")));
             this.aboutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.aboutButton.Name = "aboutButton";
-            this.aboutButton.Size = new System.Drawing.Size(23, 24);
+            this.aboutButton.Size = new System.Drawing.Size(23, 0);
             this.aboutButton.ToolTipText = "About EA Navigator";
             this.aboutButton.Click += new System.EventHandler(this.AboutButtonClick);
             // 
@@ -271,7 +271,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             // navigatorToolStripContainer.ContentPanel
             // 
             this.navigatorToolStripContainer.ContentPanel.Controls.Add(this.navigatorToolStrip);
-            this.navigatorToolStripContainer.ContentPanel.Size = new System.Drawing.Size(234, 27);
+            this.navigatorToolStripContainer.ContentPanel.Size = new System.Drawing.Size(234, 2);
             this.navigatorToolStripContainer.LeftToolStripPanelVisible = false;
             this.navigatorToolStripContainer.Location = new System.Drawing.Point(0, 0);
             this.navigatorToolStripContainer.Name = "navigatorToolStripContainer";
@@ -302,6 +302,7 @@ namespace TSF.UmlToolingFramework.EANavigator
             this.quickSearchBox.TextChanged += new System.EventHandler(this.QuickSearchComboBoxTextChanged);
             this.quickSearchBox.Enter += new System.EventHandler(this.QuickSearchComboBoxEnter);
             this.quickSearchBox.Leave += new System.EventHandler(this.QuickSearchComboBoxLeave);
+            this.quickSearchBox.MouseLeave += new System.EventHandler(this.QuickSearchComboBoxLeave);
             // 
             // NavigatorControl
             // 
