@@ -11,23 +11,23 @@ namespace SAP2EAImporter
 {
     class BOPFNode : SAPElement<UMLEA.Class>, BOPFNodeOwner
     {
-        const string stereotypeName = "BOPF_node";
+        public static string stereotype => "BOPF_node";
 
         public BOPFNode(string name, BOPFNodeOwner owner, string key, bool relocate)
-            :this(name, owner,  key)
+            : this(name, owner, key)
         {
             if (relocate)
             {
                 //set the owner
                 this.owner = owner;
             }
-            
+
         }
         public BOPFNode(string name, BOPFNodeOwner owner, string key)
-            : base(name, (UML.Classes.Kernel.Namespace) owner.elementWrapper, stereotypeName, key)
+            : base(name, (UML.Classes.Kernel.Namespace)owner.elementWrapper, stereotype, key)
         {
         }
-        public BOPFNode(UMLEA.Class eaClass) : base(eaClass){ }
+        public BOPFNode(UMLEA.Class eaClass) : base(eaClass) { }
 
         BOPFNodeOwner _owner;
         public BOPFNodeOwner owner
@@ -35,9 +35,10 @@ namespace SAP2EAImporter
             get => this._owner;
             set
             {
-
+                //get the existing composition before setting the owner
                 var composition = this.compositionToOwner;
                 this._owner = value;
+                //check if there is a composition to the new owner
                 if (composition == null)
                 {
                     composition = this.compositionToOwner;
@@ -45,13 +46,9 @@ namespace SAP2EAImporter
                 //ceate new composition if needed
                 if (composition == null)
                 {
-                    composition = this.owner.elementWrapper.addOwnedElement<UMLEA.Association>("");
-                    composition.addStereotype("SAP_composition");
+                    composition = new SAPComposition(value, this);
                 }
-                composition.sourceEnd.aggregation = UML.Classes.Kernel.AggregationKind.composite;
-                composition.targetEnd.isNavigable = true;
-                composition.target = this.wrappedElement;
-                composition.source = value.elementWrapper;
+                composition.source = value;
                 composition.save();
 
                 //set ownership of wrapped element 
@@ -59,17 +56,15 @@ namespace SAP2EAImporter
                 this.save();
             }
         }
-        public UMLEA.Association compositionToOwner
+        public SAPComposition compositionToOwner
         {
-                 get => this.wrappedElement.getRelationships<UMLEA.Association>(false, true)
-                                    .FirstOrDefault(x => x.hasStereotype("SAP_composition")
-                                                    && x.source.uniqueID == this.owner?.elementWrapper.uniqueID);
+            get => SAPComposition.getExisitingComposition(this.owner, this);
         }
         const string codeTypeTagName = "Node Type";
         public string nodeType
         {
             get => this.getStringProperty(codeTypeTagName);
-            set => this.setStringProperty(codeTypeTagName, value); 
+            set => this.setStringProperty(codeTypeTagName, value);
         }
         const string isTransientTagName = "IsTransient";
         public bool isTransient
@@ -127,6 +122,7 @@ namespace SAP2EAImporter
             {
                 if (this._associations == null)
                 {
+                    this._associations = new List<SAPAssociation>();
                     foreach (var eaAssociation in this.wrappedElement.getRelationships<Association>(true, false)
                                                         .Where(x => x.hasStereotype(SAPAssociation.stereotype)))
                     {
@@ -134,10 +130,10 @@ namespace SAP2EAImporter
                     }
                 }
                 return this._associations;
-                
+
             }
         }
-        
+
         //public SAPAssociation getAssociation(BOPFNode target, string Name)
         //{
         //    var association = this.associations.FirstOrDefault(x => x.target.key == target.key);
@@ -148,8 +144,6 @@ namespace SAP2EAImporter
         //    }
         //    return association;
         //}
-
-        public ElementWrapper elementWrapper => this.wrappedElement;
 
         public BOPFNode addNode(string name, string key)
         {

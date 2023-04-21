@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
 using UMLEA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace SAP2EAImporter
 {
-    abstract class SAPElement<T>
+    abstract class SAPElement<T> : ISAPElement
         where T : UMLEA.ElementWrapper
     {
         const string keyTagName = "Key";
         const string profileName = "SAP";
         internal T wrappedElement { get; set; }
+        public ElementWrapper elementWrapper 
+        { 
+            get => this.wrappedElement;
+            set => this.wrappedElement = value as T;
+        }
 
         public string notes
         {
@@ -35,6 +41,8 @@ namespace SAP2EAImporter
                 taggedValue.save();
             }
         }
+
+        
 
         /// <summary>
         ///  

@@ -11,12 +11,12 @@ namespace SAP2EAImporter
 {
     class BOPFBusinessObject: SAPElement<UMLEA.Component>, BOPFNodeOwner
     {
-        const string stereotypeName = "BOPF_businessObject";
+        public static string stereotype => "BOPF_businessObject";
 
         public BOPFBusinessObject(string name, UML.Classes.Kernel.Package package, string key)
-            : base(name, package, stereotypeName, key, true, true)
-        {
-        }
+            : base(name, package, stereotype, key, true, true) { }
+        public BOPFBusinessObject(UMLEA.Component component) : base(component) { }
+
         const string objectCategoryTagName = "Object Category";
         public string objectCategory
         {
@@ -25,8 +25,6 @@ namespace SAP2EAImporter
         }
 
         public SAPElement<UMLEA.Component> element => this;
-
-        public ElementWrapper elementWrapper => this.wrappedElement;
 
         public BOPFNode addNode(string name, string key)
         {

@@ -10,12 +10,10 @@ namespace SAP2EAImporter
 {
     class SingleRole: Role
     {
-        const string stereotypeName = "SAP_singleRole";
+        public static string stereotype => "SAP_singleRole";
 
         public SingleRole(string elementName, UML.Classes.Kernel.Package package)
-            : base(elementName, package, stereotypeName)
-        {
-
-        }
+            : base(elementName, package, stereotype) { }
+        public SingleRole(UMLEA.Class element) : base(element) { }
     }
 }

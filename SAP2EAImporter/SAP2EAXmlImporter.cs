@@ -235,8 +235,8 @@ namespace SAP2EAImporter
         private void processAttributes<T>(XElement elementNode, SAPElement<T> owner) where T : UMLEA.ElementWrapper
         {
             //<Attribute name="MC_ISTAT" datatype="ISTAT_D" visibility="Protected" ownerScope="Constant" changeable="frozen">
-			//	<notes>Planningsstatus</notes>
-			//</Attribute>
+            //	<notes>Planningsstatus</notes>
+            //</Attribute>
             var attributePos = 0;
             foreach (var attributeNode in elementNode.Elements("Attribute"))
             {
@@ -246,7 +246,7 @@ namespace SAP2EAImporter
                 var datatype = attributeNode.Attribute("datatype")?.Value;
                 var notes = attributeNode.Elements("notes").FirstOrDefault()?.Value;
                 //TODO: ownerScope and changeable, add to profile?
-                owner.addOrUpdateAttribute(attributeName,key, string.Empty, notes, datatype, attributePos);
+                owner.addOrUpdateAttribute(attributeName, key, string.Empty, notes, datatype, attributePos);
             }
         }
         private BOPFBusinessObject processBopf(XElement elementNode, UML.Classes.Kernel.Package package)
@@ -388,6 +388,7 @@ namespace SAP2EAImporter
                 //  'import associations
                 processAssociations(nodeNode, node);
                 //'import determinations
+                processDeterminations(nodeNode, node);
                 //importDeterminations nodeNode, element, package
                 //'import validations
                 //importValidations nodeNode, element
@@ -400,7 +401,49 @@ namespace SAP2EAImporter
                 //'import authorisations
                 //importAuth nodeNode, element
 
-                
+
+            }
+        }
+        private void processDeterminations(XElement nodeNode, BOPFNode node)
+        {
+            //<node_elements>
+            //<determinations>
+            //	<determination name = "SET_READ_ONLY" key="7EAE1BA4330B1EE5A3A12E773D7B8AEA">
+            //		<notes/>
+            //		<determination_settings>
+            //			<det_category>Transient</det_category>
+            //			<det_class>ZA_CL_TEXT_COLLECTION_DET</det_class>
+            //		</determination_settings>
+            //		<trigger_conditions>
+            //			<trigger_condition Trigger_node_bo = "ZA_TEXT_COLLECTION" Trigger_node="TEXT_CONTENT" Trigger_node_key="7EAE1BA4330B1ED5849BBA0133FA8059" Create="false" Update="false" Delete="false" Determine="false" Load="true"/>
+            //		</trigger_conditions>
+            //		<evaluation_timepoints>
+            //			<evaluation_timepoint before_retrieve = "false" after_loading="True" after_creation="false" after_change="false" after_deletion="false" after_modification="false" after_validation="false" before_save_finalize="false" after_commit="false" after_failed_save_attempt="false" during_save_before_writing_data="false" before_save_draw_numbers="false" before_save_before_consistency_check="false" check_and_determine_before_consistency_check="false" cleanup="false" node_category="TEXT_CONTENT"/>
+            //		</evaluation_timepoints>
+            //		<necessary_determinations/>
+            //		<dependent_determinations/>
+            //	</determination>
+            //</determinations>
+            foreach (var determinationNode in nodeNode.Element("node_elements").Element("determinations").Elements("determination"))
+            {
+                var determinationName = determinationNode.Attribute("name").Value;
+                var determinationKey = determinationNode.Attribute("key").Value;
+                var determination = new BOPFDetermination(determinationName, node, determinationKey);
+                //set notes
+                var notesNode = determinationNode.Element("notes");
+                if (notesNode != null)
+                {
+                    determination.notes = notesNode.Value;
+                }
+                foreach (var triggerNode in determinationNode.Element("trigger_conditions")?.Elements("trigger_condition"))
+                {
+                    var triggerNodeName = triggerNode.Attribute("Trigger_node").Value;
+                    var triggerBOName = triggerNode.Attribute("Trigger_node_bo").Value;
+                    var triggerNodeKey = triggerNode.Attribute("Trigger_node_key").Value;
+                    var tiggereredNodeBO = new BOPFBusinessObject(triggerBOName, node.wrappedElement.owningPackage, String.Empty);
+                    var triggeredNode = new BOPFNode(triggerNodeName, tiggereredNodeBO, triggerNodeKey);
+
+                }
             }
         }
         private void processAssociations(XElement nodeNode, BOPFNode sourceNode)

@@ -11,12 +11,13 @@ namespace SAP2EAImporter
 
     class FunctionModule : SAPElement<UMLEA.Class>
     {
-        const string stereotypeName = "SAP_functionModule";
+        public static string stereotype => "SAP_functionModule";
         public FunctionModule(string name, UML.Classes.Kernel.Package package)
-            : base(name, package, stereotypeName)
+            : base(name, package, stereotype)
         {
 
         }
+        public FunctionModule(UMLEA.Class element) : base(element) { }
         public void addRole(Role role, string category)
         {
             // Check if the aggregation relationship exists already.

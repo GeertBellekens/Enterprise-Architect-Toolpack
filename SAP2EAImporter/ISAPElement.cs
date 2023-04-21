@@ -8,8 +8,8 @@ using UMLEA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace SAP2EAImporter
 {
-    interface BOPFNodeOwner : ISAPElement
+    internal interface ISAPElement
     {
-        BOPFNode addNode(string name, string key);
+        UMLEA.ElementWrapper elementWrapper { get; set; }
     }
 }

@@ -10,12 +10,13 @@ namespace SAP2EAImporter
 {
     class CompositeRole : Role
     {
-        const string stereotypeName = "SAP_compositeRole";
+        public static string stereotype => "SAP_compositeRole";
 
         public CompositeRole(string elementName, UML.Classes.Kernel.Package package)
-            : base(elementName, package, stereotypeName)
+            : base(elementName, package, stereotype)
         {
         }
+        public CompositeRole(UMLEA.Class element) : base(element) { }
 
         public void addSingleRole(SingleRole singleRole)
         {

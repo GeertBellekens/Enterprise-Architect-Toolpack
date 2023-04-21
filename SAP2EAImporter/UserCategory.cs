@@ -10,12 +10,11 @@ namespace SAP2EAImporter
 {
     class UserCategory : SAPElement<UMLEA.Class>
     {
-        const string stereotypeName = "SAP_userCategory";
+        public static string stereotype => "SAP_userCategory";
         public UserCategory(string name, UML.Classes.Kernel.Package package)
-            : base(name, package, stereotypeName)
-        {
+            : base(name, package, stereotype) { }
 
-        }
+        public UserCategory(UMLEA.Class element) : base(element) { }
         public void addRolePackage(RolePackage rolePackage)
         {
             // Check if the aggregation relationship exists already.
@@ -23,7 +22,7 @@ namespace SAP2EAImporter
                 .OfType<UML.Classes.Dependencies.Usage>()
                 .OfType<UMLEA.ConnectorWrapper>()
                 .Any(x => x.target.name == rolePackage.name
-                       && x.target.stereotypes.Any(y => y.name == UserCategory.stereotypeName)))
+                       && x.target.stereotypes.Any(y => y.name == stereotype)))
             {
                 //If the relationship does not exist, create one
                 var newRelation = this.wrappedElement.model.factory.createNewElement<UML.Classes.Dependencies.Usage>(this.wrappedElement, "");

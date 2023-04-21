@@ -10,12 +10,10 @@ namespace SAP2EAImporter
 {
     class RolePackage: SAPElement<UMLEA.Class>
     {
-        const string stereotypeName = "SAP_rolePackage";
+        public static string stereotype => "SAP_rolePackage";
         public RolePackage(string name, UML.Classes.Kernel.Package package)
-            : base(name, package, stereotypeName)
-        { 
-
-        }
+            : base(name, package, stereotype){ }
+        public RolePackage(UMLEA.Class element) : base(element) { }
         public void addRole(Role role)
         {
             // Check if the aggregation relationship exists already.

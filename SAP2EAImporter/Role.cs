@@ -13,7 +13,8 @@ namespace SAP2EAImporter
         public Role(string elementName, UML.Classes.Kernel.Package package, string stereotypeName)
             : base(elementName, package, stereotypeName)
         {
-        }// specific implementation
+        }
+        protected Role(UMLEA.Class element) : base(element) { }
         public string shortDescription
         {
             get => this.wrappedElement.taggedValues.FirstOrDefault(x => x.name == "Short Description").tagValue as string;

@@ -12,6 +12,7 @@ namespace SAP2EAImporter
 {
     class AuthorizationObject: SAPElement<UMLEA.Class>
     {
+        public static string stereotype => "SAP_authorizationObject";
         const string authorizationClassTagName = "AuthorizationClass";
 
         public string authorizationClass
@@ -25,18 +26,15 @@ namespace SAP2EAImporter
             }
         }
 
-        const string stereotypeName = "SAP_authorizationObject";
+        
         /// <summary>
         ///  
         /// </summary>
         /// <param name="name"> name of the authorization object</param>
         /// <param name="package"> the parent package of the authorization object</param>
         public AuthorizationObject(string name, UML.Classes.Kernel.Package package)
-            :base(name, package, stereotypeName)
-        {
-           
-        }
-
+            :base(name, package, stereotype){}
+        public AuthorizationObject(UMLEA.Class element) : base(element) { }
         internal void addAuthorizationField(string name)
         {
             if (!this.wrappedElement.attributes.Any(x => x.name == name))

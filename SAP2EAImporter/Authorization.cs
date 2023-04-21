@@ -10,7 +10,7 @@ namespace SAP2EAImporter
 {
     class Authorization : SAPElement<UMLEA.InstanceSpecification>
     {
-        const string stereotypeName = "SAP_authorization";
+        public static string stereotype => "SAP_authorization";
         public Authorization(string name, SingleRole owningRole, AuthorizationObject authorizationObject)
         {
             //first find out if an element the the given name, stereotype and classifiername exists under the owning role
@@ -18,7 +18,7 @@ namespace SAP2EAImporter
             this.wrappedElement = owningRole.wrappedElement.ownedElements.ToList().
                             OfType<UMLEA.InstanceSpecification>().
                             FirstOrDefault(x => x.name == name
-                                            && x.stereotypes.Any(y => y.name == stereotypeName)
+                                            && x.stereotypes.Any(y => y.name == stereotype)
                                             && x.classifier != null
                                             && x.classifier.name.Equals(authorizationObject.name, StringComparison.InvariantCultureIgnoreCase));
             if (this.wrappedElement == null)
@@ -26,7 +26,7 @@ namespace SAP2EAImporter
                 // Create the element in EA
                 this.wrappedElement = owningRole.wrappedElement.addOwnedElement<UMLEA.InstanceSpecification>(name);
                 // Add the stereotype to the element.
-                this.wrappedElement.setStereotype(stereotypeName);
+                this.wrappedElement.setStereotype(stereotype);
                 //set the authorizationObject
                 this.authorizationObject = authorizationObject;
                 //save 
@@ -34,6 +34,7 @@ namespace SAP2EAImporter
             }
             
         }
+        public Authorization(UMLEA.InstanceSpecification instance) : base(instance) { }
 
         private AuthorizationObject _authorizationObject;
         public AuthorizationObject authorizationObject
