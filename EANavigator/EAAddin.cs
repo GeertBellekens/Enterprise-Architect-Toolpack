@@ -1159,7 +1159,8 @@ namespace TSF.UmlToolingFramework.EANavigator
         {
             List<UML.Extended.UMLItem> elementsToNavigate = new List<UML.Extended.UMLItem>();
             UML.Classes.Kernel.Property selectedAttribute = parentElement as UML.Classes.Kernel.Property;
-            if (null != selectedAttribute)
+            if (null != selectedAttribute 
+                && selectedAttribute.type != null)
             {
                 elementsToNavigate.Add(selectedAttribute.type);
             }
