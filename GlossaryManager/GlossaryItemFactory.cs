@@ -92,7 +92,7 @@ namespace GlossaryManager
         {
             var wrappedClass = ((TSF_EA.Package)ownerPackage).addOwnedElement<TSF_EA.Class>(string.Empty);
             var stereotype = new T().Stereotype;
-            wrappedClass.setStereotype(stereotype);
+            wrappedClass.fqStereotype = stereotype;
             wrappedClass.name = stereotype + "1";
             return CreateFrom<T>(wrappedClass);
         }

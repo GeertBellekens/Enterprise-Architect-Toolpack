@@ -77,7 +77,7 @@ namespace SAP2EAImporter
                 }
                 if (!string.IsNullOrEmpty(fqStereo))
                 {
-                    this.wrappedElement.setStereotype(fqStereo);
+                    this.wrappedElement.fqStereotype = fqStereo;
                 }
                 this.save();
             }
@@ -163,7 +163,7 @@ namespace SAP2EAImporter
                     // Add the stereotype to the element.
                     if (!string.IsNullOrEmpty(fqStereo))
                     {
-                        element.setStereotype(fqStereo);
+                        element.fqStereotype = fqStereo;
                     }
                     element.save();
                 }
