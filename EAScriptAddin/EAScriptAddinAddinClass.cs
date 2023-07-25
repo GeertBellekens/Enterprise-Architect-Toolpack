@@ -615,7 +615,13 @@ namespace EAScriptAddin
         /// <param name="DiagramID">The diagram ID, or 0 if switched to an Add-In tab.</param>
         public override void EA_OnTabChanged(EA.Repository Repository, string TabName, int DiagramID)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { TabName, DiagramID });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { TabName, DiagramID });
+            }
+            catch (Exception ex) { 
+                processException(ex);
+            }
         }
 
         #region Add-In License Management Events
