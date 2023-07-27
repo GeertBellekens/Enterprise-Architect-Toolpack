@@ -13,6 +13,7 @@ using UTF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using System.Reflection;
 using System.Linq;
 using TSF.UmlToolingFramework.Wrappers.EA;
+using System.Windows.Forms;
 //using EAAddinFramework.Licensing;
 
 namespace EAScriptAddin
@@ -260,16 +261,23 @@ namespace EAScriptAddin
         /// Poll its members to retrieve model data and user interface status information.</param>
         public override void EA_FileOpen(EA.Repository Repository)
         {
-            //add-in part
-            base.EA_FileOpen(Repository);
-            this.settings = new EAScriptAddinSettings(this.model);
-            if (this.refdataSplitterControl != null)
+            try
             {
-                this.model.showWindow(refdataSplitterWindowName);
+                //add-in part
+                base.EA_FileOpen(Repository);
+                this.settings = new EAScriptAddinSettings(this.model);
+                if (this.refdataSplitterControl != null)
+                {
+                    this.model.showWindow(refdataSplitterWindowName);
+                }
+                this.resetScripts(true);
+                //call scriptfunctions
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
             }
-            this.resetScripts(true);
-            //call scriptfunctions
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -287,32 +295,39 @@ namespace EAScriptAddin
         /// <param name="ItemName">The name of the option actually clicked, for example, Create a New Invoice.</param>
         public override void EA_MenuClick(EA.Repository Repository, string MenuLocation, string MenuName, string ItemName)
         {
-            //add-in part
-            switch (ItemName)
+            try
             {
-                case menuSettings:
-                    this.showSettings();
-                    break;
-                case menuRefdataSplitter:
-                    new EARefDataSplitter.RefDataSplitterForm().Show(this.model?.mainEAWindow);
-                    break;
-                case menuTransferScripts:
-                    startTransferScripts();
-                    break;
-                case menuTextHelper:
+                //add-in part
+                switch (ItemName)
+                {
+                    case menuSettings:
+                        this.showSettings();
+                        break;
+                    case menuRefdataSplitter:
+                        new EARefDataSplitter.RefDataSplitterForm().Show(this.model?.mainEAWindow);
+                        break;
+                    case menuTransferScripts:
+                        startTransferScripts();
+                        break;
+                    case menuTextHelper:
 
-                    if (this.model != null)
-                    {
-                        var textHelperControl = this.model.addTab("TextHelper", "EAScriptAddin.TextHelperControl");
-                    }
-                    else
-                    {
-                        new TextHelper.MainTextHelperForm().Show();
-                    }
-                    break;
+                        if (this.model != null)
+                        {
+                            var textHelperControl = this.model.addTab("TextHelper", "EAScriptAddin.TextHelperControl");
+                        }
+                        else
+                        {
+                            new TextHelper.MainTextHelperForm().Show();
+                        }
+                        break;
+                }
+                //call scriptfunctions
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { MenuLocation, MenuName, ItemName });
             }
-            //call scriptfunctions
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { MenuLocation, MenuName, ItemName });
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
         private void startTransferScripts()
         {
@@ -370,40 +385,49 @@ namespace EAScriptAddin
         /// In the case of the top-level menu it should be a single string or an array containing only one item, or Empty/null.</returns>
         public override object EA_GetMenuItems(EA.Repository Repository, string MenuLocation, string MenuName)
         {
-            object functionReturn = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { MenuLocation, MenuName });
-            //add an "about" menu option.
-            if (MenuLocation == "MainMenu")
+            try
             {
-                if (MenuName == string.Empty)
+                object functionReturn = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { MenuLocation, MenuName });
+                //add an "about" menu option.
+                if (MenuLocation == "MainMenu")
                 {
-                    //return top level menu option
-                    if (functionReturn == null)
+                    if (MenuName == string.Empty)
                     {
-                        return this.menuHeader;
+                        //return top level menu option
+                        if (functionReturn == null)
+                        {
+                            return this.menuHeader;
+                        }
                     }
-                }
-                else
-                {
-                    // return submenu options
-                    if (functionReturn is object[])
-                    {
-                        string[] functionMenuOptions = Array.ConvertAll<object, string>((object[])functionReturn, o => o.ToString());
-                        //add the about menu to the end
-                        List<string> newMenuOptions = functionMenuOptions.ToList();
-                        newMenuOptions.Add(menuSettings);
-                        newMenuOptions.Add(menuRefdataSplitter);
-                        newMenuOptions.Add(menuTextHelper);
-                        return newMenuOptions.ToArray<string>();
-                    }
-                    //TODO test what happens if the function returns a single string as submenu options
                     else
                     {
-                        return this.menuOptions;
-                    }
+                        // return submenu options
+                        if (functionReturn is object[])
+                        {
+                            string[] functionMenuOptions = Array.ConvertAll<object, string>((object[])functionReturn, o => o.ToString());
+                            //add the about menu to the end
+                            List<string> newMenuOptions = functionMenuOptions.ToList();
+                            newMenuOptions.Add(menuSettings);
+                            newMenuOptions.Add(menuRefdataSplitter);
+                            newMenuOptions.Add(menuTextHelper);
+                            return newMenuOptions.ToArray<string>();
+                        }
+                        //TODO test what happens if the function returns a single string as submenu options
+                        else
+                        {
+                            return this.menuOptions;
+                        }
 
+                    }
                 }
+                return functionReturn;
+
             }
-            return functionReturn;
+            catch (Exception ex)
+            {
+                processException(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -421,20 +445,27 @@ namespace EAScriptAddin
         /// <param name="IsChecked">Boolean. Set to True to check this particular menu option.</param>
         public override void EA_GetMenuState(EA.Repository Repository, string MenuLocation, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
         {
-            object returnValue = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { MenuLocation, MenuName, ItemName, IsEnabled, IsChecked });
-            if (returnValue is object[] && ((object[])returnValue).Length == 5)
+            try
             {
-                object[] refParams = (object[])returnValue;
-                //get IsEnabled
-                if (refParams[3] is bool)
+                object returnValue = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { MenuLocation, MenuName, ItemName, IsEnabled, IsChecked });
+                if (returnValue is object[] && ((object[])returnValue).Length == 5)
                 {
-                    IsEnabled = (bool)refParams[3];
+                    object[] refParams = (object[])returnValue;
+                    //get IsEnabled
+                    if (refParams[3] is bool)
+                    {
+                        IsEnabled = (bool)refParams[3];
+                    }
+                    //get IsChecked
+                    if (refParams[4] is bool)
+                    {
+                        IsChecked = (bool)refParams[4];
+                    }
                 }
-                //get IsChecked
-                if (refParams[4] is bool)
-                {
-                    IsChecked = (bool)refParams[4];
-                }
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
             }
         }
 
@@ -449,8 +480,16 @@ namespace EAScriptAddin
         /// </summary>
         public override void EA_Disconnect()
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
-            base.EA_Disconnect();
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+                base.EA_Disconnect();
+
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
 
@@ -468,7 +507,14 @@ namespace EAScriptAddin
         /// <param name="ID">The ID value specified in the original call to Repository.WriteOutput().</param>
         public override void EA_OnOutputItemClicked(EA.Repository Repository, string TabName, string LineText, long ID)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { TabName, LineText, ID });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { TabName, LineText, ID });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -485,7 +531,14 @@ namespace EAScriptAddin
         /// <param name="ID">The ID value specified in the original call to Repository.WriteOutput().</param>
         public override void EA_OnOutputItemDoubleClicked(EA.Repository Repository, string TabName, string LineText, long ID)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { TabName, LineText, ID });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { TabName, LineText, ID });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -501,7 +554,14 @@ namespace EAScriptAddin
         /// <param name="ItemName">The name of the option actually clicked, for example, Create a New Invoice.</param>
         public override void EA_ShowHelp(EA.Repository Repository, string MenuLocation, string MenuName, string ItemName)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { MenuLocation, MenuName, ItemName });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { MenuLocation, MenuName, ItemName });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
 
@@ -519,9 +579,17 @@ namespace EAScriptAddin
         /// Poll its members to retrieve model data and user interface status information.</param>
         public override void EA_FileClose(EA.Repository Repository)
         {
-            base.EA_FileClose(Repository);
-            this.settings = new EAScriptAddinSettings(null);
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+            try
+            {
+                base.EA_FileClose(Repository);
+                this.settings = new EAScriptAddinSettings(null);
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
+
         }
 
         /// <summary>
@@ -533,7 +601,14 @@ namespace EAScriptAddin
         /// Poll its members to retrieve model data and user interface status information.</param>
         public override void EA_FileNew(EA.Repository Repository)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -545,7 +620,14 @@ namespace EAScriptAddin
         /// <param name="DiagramID">Contains the Diagram ID of the diagram that was closed.</param>
         public override void EA_OnPostCloseDiagram(EA.Repository Repository, int DiagramID)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { DiagramID });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { DiagramID });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -557,7 +639,14 @@ namespace EAScriptAddin
         /// <param name="DiagramID">Contains the Diagram ID of the diagram that was opened.</param>
         public override void EA_OnPostOpenDiagram(EA.Repository Repository, int DiagramID)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { DiagramID });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { DiagramID });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -567,7 +656,14 @@ namespace EAScriptAddin
         /// Poll its members to retrieve model data and user interface status information.</param>
         public override void EA_OnPreExitInstance(EA.Repository Repository)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
 
@@ -589,7 +685,15 @@ namespace EAScriptAddin
         /// <returns>Reserved for future use.</returns>
         public override bool EA_OnPostTransform(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -602,7 +706,15 @@ namespace EAScriptAddin
         /// <returns>Return a string containing the XMI export of the model that is being used as a template.</returns>
         public override string EA_OnRetrieveModelTemplate(EA.Repository Repository, string sLocation)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { sLocation }, string.Empty);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { sLocation }, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -707,7 +819,15 @@ namespace EAScriptAddin
         /// <returns>A String containing a comma-separated list of user-defined compartments.</returns>
         public override object EA_QueryAvailableCompartments(EA.Repository Repository)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -721,7 +841,15 @@ namespace EAScriptAddin
         /// <returns>Variant containing a formatted string. See the example in the EA Help file to understand the format.</returns>
         public override object EA_GetCompartmentData(EA.Repository Repository, string sCompartment, string sGUID, EA.ObjectType oType)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { sCompartment, sGUID, oType });
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { sCompartment, sGUID, oType });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return null;
+            }
         }
 
         #endregion EA Compartment Events
@@ -749,7 +877,14 @@ namespace EAScriptAddin
         /// <param name="ot">Specifies the type of the new context item.</param>
         public override void EA_OnContextItemChanged(EA.Repository Repository, string GUID, EA.ObjectType ot)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { GUID, ot });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { GUID, ot });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -773,7 +908,15 @@ namespace EAScriptAddin
         /// <returns>Return True to notify Enterprise Architect that the double-click event has been handled by an Add-In. Return False to enable Enterprise Architect to continue processing the event.</returns>
         public override bool EA_OnContextItemDoubleClicked(EA.Repository Repository, string GUID, EA.ObjectType ot)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { GUID, ot }, false);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { GUID, ot }, false);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -796,7 +939,14 @@ namespace EAScriptAddin
         /// <param name="ot">Specifies the type of the new context item.</param>
         public override void EA_OnNotifyContextItemModified(EA.Repository Repository, string GUID, EA.ObjectType ot)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { GUID, ot });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { GUID, ot });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         #endregion EA Context Item Events
@@ -818,7 +968,14 @@ namespace EAScriptAddin
         /// <param name="Args">Contains a (Variant) list of Rule Categories that are active for the current invocation of model validation.</param>
         public override void EA_OnStartValidation(EA.Repository Repository, object Args)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Args });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Args });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -829,7 +986,14 @@ namespace EAScriptAddin
         /// <param name="Args">Contains a (Variant) list of Rule Categories that were active for the invocation of model validation that has just completed.</param>
         public override void EA_OnEndValidation(EA.Repository Repository, object Args)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Args });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Args });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -842,7 +1006,14 @@ namespace EAScriptAddin
         /// <param name="Element">The element to potentially perform validation on.</param>
         public override void EA_OnRunElementRule(EA.Repository Repository, string RuleID, EA.Element Element)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, Element });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, Element });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -856,7 +1027,14 @@ namespace EAScriptAddin
         /// <param name="PackageID">The ID of the package to potentially perform validation on. Use the Repository.GetPackageByID method to retrieve the package object.</param>
         public override void EA_OnRunPackageRule(EA.Repository Repository, string RuleID, long PackageID)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, PackageID });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, PackageID });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -870,7 +1048,14 @@ namespace EAScriptAddin
         /// <param name="DiagramID">The ID of the diagram to potentially perform validation on. Use the Repository.GetDiagramByID method to retrieve the diagram object.</param>
         public override void EA_OnRunDiagramRule(EA.Repository Repository, string RuleID, long DiagramID)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, DiagramID });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, DiagramID });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -884,7 +1069,14 @@ namespace EAScriptAddin
         /// <param name="ConnectorID">The ID of the connector to potentially perform validation on. Use the Repository.GetConnectorByID method to retrieve the connector object.</param>
         public override void EA_OnRunConnectorRule(EA.Repository Repository, string RuleID, long ConnectorID)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, ConnectorID });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, ConnectorID });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -899,7 +1091,14 @@ namespace EAScriptAddin
         /// <param name="ObjectID">The ID of the object that owns the given attribute. Use the Repository.GetObjectByID method to retrieve the object.</param>
         public override void EA_OnRunAttributeRule(EA.Repository Repository, string RuleID, string AttributeGUID, long ObjectID)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, AttributeGUID, ObjectID });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, AttributeGUID, ObjectID });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -914,7 +1113,14 @@ namespace EAScriptAddin
         /// <param name="ObjectID">The ID of the object that owns the given method. Use the Repository.GetObjectByID method to retrieve the object.</param>
         public override void EA_OnRunMethodRule(EA.Repository Repository, string RuleID, string MethodGUID, long ObjectID)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, MethodGUID, ObjectID });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, MethodGUID, ObjectID });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -930,7 +1136,14 @@ namespace EAScriptAddin
         /// <param name="ObjectID">The ID of the object that owns the given parameter. Use the Repository.GetObjectByID parameter to retrieve the object.</param>
         public override void EA_OnRunParameterRule(EA.Repository Repository, string RuleID, string ParameterGUID, string MethodGUID, long ObjectID)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, ParameterGUID, MethodGUID, ObjectID });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { RuleID, ParameterGUID, MethodGUID, ObjectID });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         #endregion EA Model Validation Broadcasts        
@@ -949,7 +1162,15 @@ namespace EAScriptAddin
         /// <returns>Return True if the element has been updated during this notification. Return False otherwise.</returns>
         public override bool EA_OnPostNewElement(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -965,7 +1186,15 @@ namespace EAScriptAddin
         /// <returns>Return True if the connector has been updated during this notification. Return False otherwise.</returns>
         public override bool EA_OnPostNewConnector(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -980,7 +1209,15 @@ namespace EAScriptAddin
         /// <returns>Return True if the diagram has been updated during this notification. Return False otherwise.</returns>
         public override bool EA_OnPostNewDiagram(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -995,7 +1232,15 @@ namespace EAScriptAddin
         /// <returns>Return True if the element has been updated during this notification. Return False otherwise.</returns>
         public override bool EA_OnPostNewDiagramObject(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1010,7 +1255,15 @@ namespace EAScriptAddin
         /// <returns>Return True if the attribute has been updated during this notification. Return False otherwise.</returns>
         public override bool EA_OnPostNewAttribute(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1025,7 +1278,15 @@ namespace EAScriptAddin
         /// <returns>Return True if the method has been updated during this notification. Return False otherwise.</returns>
         public override bool EA_OnPostNewMethod(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1040,7 +1301,15 @@ namespace EAScriptAddin
         /// <returns>Return True if the package has been updated during this notification. Return False otherwise.</returns>
         public override bool EA_OnPostNewPackage(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1055,7 +1324,15 @@ namespace EAScriptAddin
         /// <returns>Return True if the glossary term has been updated during this notification. Return False otherwise.</returns>
         public override bool EA_OnPostNewGlossaryTerm(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, false);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         #endregion EA Post-New Events        
@@ -1074,7 +1351,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable deletion of the element from the model. Return False to disable deletion of the element.</returns>
         public override bool EA_OnPreDeleteElement(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1089,7 +1374,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable deletion of the attribute from the model. Return False to disable deletion of the attribute.</returns>
         public override bool EA_OnPreDeleteAttribute(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1104,7 +1397,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable deletion of the method from the model. Return False to disable deletion of the method.</returns>
         public override bool EA_OnPreDeleteMethod(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1119,7 +1420,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable deletion of the connector from the model. Return False to disable deletion of the connector.</returns>
         public override bool EA_OnPreDeleteConnector(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1134,7 +1443,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable deletion of the diagram from the model. Return False to disable deletion of the diagram.</returns>
         public override bool EA_OnPreDeleteDiagram(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1148,7 +1465,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable deletion of the element from the model. Return False to disable deletion of the element.</returns>
         public override bool EA_OnPreDeleteDiagramObject(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1163,7 +1488,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable deletion of the package from the model. Return False to disable deletion of the package.</returns>
         public override bool EA_OnPreDeletePackage(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1177,7 +1510,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable deletion of the glossary term from the model. Return False to disable deletion of the glossary term.</returns>
         public override bool EA_OnPreDeleteGlossaryTerm(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
 
@@ -1201,7 +1542,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable addition of the new element to the model. Return False to disable addition of the new element.</returns>
         public override bool EA_OnPreNewElement(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1222,7 +1571,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable addition of the new connector to the model. Return False to disable addition of the new connector.</returns>
         public override bool EA_OnPreNewConnector(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1239,7 +1596,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable addition of the new diagram to the model. Return False to disable addition of the new diagram.</returns>
         public override bool EA_OnPreNewDiagram(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1257,7 +1622,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable addition of the object to the model. Return False to disable addition of the object.</returns>
         public override bool EA_OnPreNewDiagramObject(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1275,7 +1648,15 @@ namespace EAScriptAddin
         /// <returns>Returns True to allow the default behavior to be executed. Return False if you are overriding this behavior.</returns>
         public override bool EA_OnPreDropFromTree(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1293,7 +1674,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable addition of the new attribute to the model. Return False to disable addition of the new attribute.</returns>
         public override bool EA_OnPreNewAttribute(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1311,7 +1700,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable addition of the new method to the model. Return False to disable addition of the new method.</returns>
         public override bool EA_OnPreNewMethod(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1328,7 +1725,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable addition of the new package to the model. Return False to disable addition of the new package.</returns>
         public override bool EA_OnPreNewPackage(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -1343,7 +1748,15 @@ namespace EAScriptAddin
         /// <returns>Return True to enable addition of the new glossary term to the model. Return False to disable addition of the new glossary term.</returns>
         public override bool EA_OnPreNewGlossaryTerm(EA.Repository Repository, EA.EventProperties Info)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { Info }, true);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return false;
+            }
         }
 
         #endregion EA Pre-New Events
@@ -1367,26 +1780,32 @@ namespace EAScriptAddin
         /// is updated, the new value is stored in the repository on exit of the function.</param>
         public override void EA_OnAttributeTagEdit(EA.Repository Repository, long AttributeID, ref string TagName, ref string TagValue, ref string TagNotes)
         {
-
-            object returnValue = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { AttributeID, TagName, TagValue, TagNotes });
-            if (returnValue is object[] && ((object[])returnValue).Length == 4)
+            try
             {
-                object[] refParams = (object[])returnValue;
-                //get TagName
-                if (refParams[1] is string)
+                object returnValue = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { AttributeID, TagName, TagValue, TagNotes });
+                if (returnValue is object[] && ((object[])returnValue).Length == 4)
                 {
-                    TagName = (string)refParams[1];
+                    object[] refParams = (object[])returnValue;
+                    //get TagName
+                    if (refParams[1] is string)
+                    {
+                        TagName = (string)refParams[1];
+                    }
+                    //get TagValue
+                    if (refParams[2] is string)
+                    {
+                        TagValue = (string)refParams[2];
+                    }
+                    //get TagNotes
+                    if (refParams[3] is string)
+                    {
+                        TagNotes = (string)refParams[3];
+                    }
                 }
-                //get TagValue
-                if (refParams[2] is string)
-                {
-                    TagValue = (string)refParams[2];
-                }
-                //get TagNotes
-                if (refParams[3] is string)
-                {
-                    TagNotes = (string)refParams[3];
-                }
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
             }
         }
 
@@ -1406,25 +1825,32 @@ namespace EAScriptAddin
         /// <param name="TagNotes">The current value of the Tagged Value notes; if the value 
         public override void EA_OnConnectorTagEdit(EA.Repository Repository, long ConnectorID, ref string TagName, ref string TagValue, ref string TagNotes)
         {
-            object returnValue = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { ConnectorID, TagName, TagValue, TagNotes });
-            if (returnValue is object[] && ((object[])returnValue).Length == 4)
+            try
             {
-                object[] refParams = (object[])returnValue;
-                //get TagName
-                if (refParams[1] is string)
+                object returnValue = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { ConnectorID, TagName, TagValue, TagNotes });
+                if (returnValue is object[] && ((object[])returnValue).Length == 4)
                 {
-                    TagName = (string)refParams[1];
+                    object[] refParams = (object[])returnValue;
+                    //get TagName
+                    if (refParams[1] is string)
+                    {
+                        TagName = (string)refParams[1];
+                    }
+                    //get TagValue
+                    if (refParams[2] is string)
+                    {
+                        TagValue = (string)refParams[2];
+                    }
+                    //get TagNotes
+                    if (refParams[3] is string)
+                    {
+                        TagNotes = (string)refParams[3];
+                    }
                 }
-                //get TagValue
-                if (refParams[2] is string)
-                {
-                    TagValue = (string)refParams[2];
-                }
-                //get TagNotes
-                if (refParams[3] is string)
-                {
-                    TagNotes = (string)refParams[3];
-                }
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
             }
         }
 
@@ -1444,25 +1870,32 @@ namespace EAScriptAddin
         /// <param name="TagNotes">The current value of the Tagged Value notes; if the value 
         public override void EA_OnElementTagEdit(EA.Repository Repository, long ObjectID, ref string TagName, ref string TagValue, ref string TagNotes)
         {
-            object returnValue = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { ObjectID, TagName, TagValue, TagNotes });
-            if (returnValue is object[] && ((object[])returnValue).Length == 4)
+            try
             {
-                object[] refParams = (object[])returnValue;
-                //get TagName
-                if (refParams[1] is string)
+                object returnValue = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { ObjectID, TagName, TagValue, TagNotes });
+                if (returnValue is object[] && ((object[])returnValue).Length == 4)
                 {
-                    TagName = (string)refParams[1];
+                    object[] refParams = (object[])returnValue;
+                    //get TagName
+                    if (refParams[1] is string)
+                    {
+                        TagName = (string)refParams[1];
+                    }
+                    //get TagValue
+                    if (refParams[2] is string)
+                    {
+                        TagValue = (string)refParams[2];
+                    }
+                    //get TagNotes
+                    if (refParams[3] is string)
+                    {
+                        TagNotes = (string)refParams[3];
+                    }
                 }
-                //get TagValue
-                if (refParams[2] is string)
-                {
-                    TagValue = (string)refParams[2];
-                }
-                //get TagNotes
-                if (refParams[3] is string)
-                {
-                    TagNotes = (string)refParams[3];
-                }
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
             }
         }
 
@@ -1482,25 +1915,32 @@ namespace EAScriptAddin
         /// <param name="TagNotes">The current value of the Tagged Value notes; if the value 
         public override void EA_OnMethodTagEdit(EA.Repository Repository, long MethodID, ref string TagName, ref string TagValue, ref string TagNotes)
         {
-            object returnValue = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { MethodID, TagName, TagValue, TagNotes });
-            if (returnValue is object[] && ((object[])returnValue).Length == 4)
+            try
             {
-                object[] refParams = (object[])returnValue;
-                //get TagName
-                if (refParams[1] is string)
+                object returnValue = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { MethodID, TagName, TagValue, TagNotes });
+                if (returnValue is object[] && ((object[])returnValue).Length == 4)
                 {
-                    TagName = (string)refParams[1];
+                    object[] refParams = (object[])returnValue;
+                    //get TagName
+                    if (refParams[1] is string)
+                    {
+                        TagName = (string)refParams[1];
+                    }
+                    //get TagValue
+                    if (refParams[2] is string)
+                    {
+                        TagValue = (string)refParams[2];
+                    }
+                    //get TagNotes
+                    if (refParams[3] is string)
+                    {
+                        TagNotes = (string)refParams[3];
+                    }
                 }
-                //get TagValue
-                if (refParams[2] is string)
-                {
-                    TagValue = (string)refParams[2];
-                }
-                //get TagNotes
-                if (refParams[3] is string)
-                {
-                    TagNotes = (string)refParams[3];
-                }
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
             }
         }
         #endregion
@@ -1543,7 +1983,14 @@ namespace EAScriptAddin
         /// <param name="PackageGuid">The GUID identifying the Enterprise Architect package sub-tree that is controlled by the Add-In.</param>
         public override void MDG_BuildProject(EA.Repository Repository, string PackageGuid)
         {
+            try
+            {
             this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -1562,7 +2009,15 @@ namespace EAScriptAddin
         /// <returns>Returns a non-zero to indicate that a connection has been made; a zero indicates that the user has not nominated a project and connection should not proceed.</returns>
         public override long MDG_Connect(EA.Repository Repository, long PackageID, string PackageGuid)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageID, PackageGuid }, 0L);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageID, PackageGuid }, 0L);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return 0;
+            }
         }
 
         /// <summary>
@@ -1575,7 +2030,15 @@ namespace EAScriptAddin
         /// <returns>Returns a non-zero to indicate that a disconnection has occurred enabling Enterprise Architect to update the user interface. A zero indicates that the user has not disconnected from an external project.</returns>
         public override long MDG_Disconnect(EA.Repository Repository, string PackageGuid)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid }, 0L);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid }, 0L);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return 0;
+            }
         }
 
         /// <summary>
@@ -1587,7 +2050,15 @@ namespace EAScriptAddin
         /// <returns>Returns an array of GUID strings representing individual Enterprise Architect packages.</returns>
         public override object MDG_GetConnectedPackages(EA.Repository Repository)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -1606,7 +2077,15 @@ namespace EAScriptAddin
         /// <returns>see summary above</returns>
         public override object MDG_GetProperty(EA.Repository Repository, string PackageGuid, string PropertyName)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid, PropertyName });
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid, PropertyName });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -1648,8 +2127,16 @@ namespace EAScriptAddin
                                       ref object ImportFiles, ref string IgnoreLocked, ref string Language)
         {
             long returnValue = 0L;
-            object functionReturn = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[]{PackageGuid , SynchObjects,
-                                                      SynchType, ExportObjects, ExportFiles, ImportFiles ,IgnoreLocked ,Language,returnValue});
+            object functionReturn = null;
+            try
+            {
+                functionReturn = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[]{PackageGuid , SynchObjects,
+                                                    SynchType, ExportObjects, ExportFiles, ImportFiles ,IgnoreLocked ,Language,returnValue});
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
             //get the ref parameter values
             if (functionReturn is object[] && ((object[])functionReturn).Length == 9)
             {
@@ -1701,7 +2188,16 @@ namespace EAScriptAddin
         public override string MDG_NewClass(EA.Repository Repository, string PackageGuid, string CodeID, ref string Language)
         {
             string returnValue = string.Empty;
-            object functionReturn = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid, CodeID, Language, returnValue });
+            object functionReturn = null;
+            try
+            {
+                functionReturn = this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid, CodeID, Language, returnValue });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
+
             //get the ref parameter values
             if (functionReturn is object[] && ((object[])functionReturn).Length == 4)
             {
@@ -1737,7 +2233,15 @@ namespace EAScriptAddin
         /// This function is required to handle two separate and distinct cases.</returns>
         public override long MDG_PostGenerate(EA.Repository Repository, string PackageGuid, string FilePath, string FileContents)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid, FilePath, FileContents }, 0L);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid, FilePath, FileContents }, 0L);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return 0;
+            }
         }
 
         /// <summary>
@@ -1753,7 +2257,15 @@ namespace EAScriptAddin
         /// <returns>Return a zero value if the post-merge process has failed, a non-zero return indicates that the post-merge has been successful. Enterprise Architect assumes a non-zero return if this method is not implemented</returns>
         public override long MDG_PostMerge(EA.Repository Repository, string PackageGuid)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid }, 1L);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid }, 1L);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return 0;
+            }
         }
 
         /// <summary>
@@ -1768,7 +2280,15 @@ namespace EAScriptAddin
         /// <returns>Return a zero value to abort generation. Any other value enables the generation to continue.</returns>
         public override long MDG_PreGenerate(EA.Repository Repository, string PackageGuid)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid }, 1L);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid }, 1L);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return 0;
+            }
         }
 
         /// <summary>
@@ -1785,7 +2305,15 @@ namespace EAScriptAddin
         /// <returns>A return value of zero indicates that the merge process will not occur. If the value is not zero the merge process will proceed. If this method is not implemented then it is assumed that a merge process is used.</returns>
         public override long MDG_PreMerge(EA.Repository Repository, string PackageGuid)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid }, 1L);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid }, 1L);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return 0;
+            }
         }
 
         /// <summary>
@@ -1799,7 +2327,14 @@ namespace EAScriptAddin
         /// <param name="FilePaths">A string array of filepaths pointed to the files that are to be reverse engineered.</param>
         public override void MDG_PreReverse(EA.Repository Repository, string PackageGuid, object FilePaths)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid, FilePaths });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid, FilePaths });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -1811,7 +2346,14 @@ namespace EAScriptAddin
         /// <param name="PackageGuid">The GUID identifying the Enterprise Architect package sub-tree that is controlled by the Add-In.</param>
         public override void MDG_RunExe(EA.Repository Repository, string PackageGuid)
         {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid });
+            try
+            {
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid });
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+            }
         }
 
         /// <summary>
@@ -1832,7 +2374,15 @@ namespace EAScriptAddin
         /// <returns>Return a non-zero value to indicate that the Add-In has processed the request. Returning a zero value results in Enterprise Architect employing the standard viewing process which is to launch the associated source file.</returns>
         public override long MDG_View(EA.Repository Repository, string PackageGuid, string CodeID)
         {
-            return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid, CodeID }, 0L);
+            try
+            {
+                return this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid, CodeID }, 0L);
+            }
+            catch (Exception ex)
+            {
+                processException(ex);
+                return 0;
+            }
         }
 
         #endregion EA MDG Events
