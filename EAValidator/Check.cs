@@ -1,5 +1,6 @@
 ﻿using EAAddinFramework.EASpecific;
 using EAAddinFramework.Utilities;
+using EAScriptAddin;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -156,7 +157,7 @@ namespace EAValidator
                     && !String.IsNullOrEmpty(this.resolveCode))
                 {
                     var language = xdoc.Root.Element("ResolveCode").Attribute("language").Value;
-                    this._resolveScript = new Script(this.CheckId, this.name, "validation scripts", this.resolveCode, language, this.model);
+                    this._resolveScript = new Script(EAScriptAddinAddinClass.globalScriptRepository, this.CheckId, this.name, "validation scripts", this.resolveCode, language, this.model);
                     this._resolveScript.reloadCode();
                 }
                 return this._resolveScript;

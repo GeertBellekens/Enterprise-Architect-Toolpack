@@ -9,11 +9,9 @@
 using System;
 using System.Collections.Generic;
 using EAAddinFramework.EASpecific;
-using UTF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using System.Reflection;
 using System.Linq;
-using TSF.UmlToolingFramework.Wrappers.EA;
-using System.Windows.Forms;
+using EAAddinFramework.Utilities;
 //using EAAddinFramework.Licensing;
 
 namespace EAScriptAddin
@@ -29,56 +27,25 @@ namespace EAScriptAddin
         private const string menuTextHelper = "&Text Helper";
         private const string menuTransferScripts = "&Transfer Scripts";
         private const string refdataSplitterWindowName = "Refdata Splitter";
-        
-        private List<Script> _allEAMaticScripts;
-        private List<Script> allEAMaticScripts
-        {
-            get
-            {
-                if (_allEAMaticScripts == null)
-                {
-                    _allEAMaticScripts = Script.getEAMaticScripts(this.model, !this.settings.developerMode);
-                }
-                return _allEAMaticScripts;
-            }
-        }
-        private List<Script> _allModelScripts;
-        private List<Script> allModelScripts
-        {
-            get
-            {
-                if (_allModelScripts == null)
-                {
-                    _allModelScripts = Script.getAllModelScripts(this.model, !this.settings.developerMode).Values.ToList(); ;
-                }
-                return _allModelScripts;
-            }
-        }
-        private List<ScriptFunction> _allFunctions;
+
+        /// <summary>
+        /// Hack for Check.cs until can work out a way to find the script lookup repo
+        /// </summary>
+        public static ScriptRepository globalScriptRepository = null;
+
+        private ScriptRepositoryProxy scriptRepositoryProxy = new ScriptRepositoryProxy();
+        private ModelScriptRepository modelScriptRepository = null;
+
         private List<MethodInfo> AddinOperations;
         private DateTime scriptTimestamp;
         public EAScriptAddinSettings settings { get; set; } = new EAScriptAddinSettings(null);
 
         #region Add-in specific operations
         /// <summary>
-        /// All available functions in the scripts of the model
+        /// All available functions in the scripts of the model.
         /// </summary>
-        private List<ScriptFunction> allFunctions
-        {
-            get
-            {
-                if (this._allFunctions == null)
-                {
-                    this._allFunctions = new List<ScriptFunction>();
-                    foreach (Script script in this.allEAMaticScripts)
-                    {
-                        this._allFunctions.AddRange(script.functions);
-                    }
-                    this.scriptTimestamp = DateTime.Now;
-                }
-                return this._allFunctions;
-            }
-        }
+        private List<ScriptFunction> allFunctions = new List<ScriptFunction>();
+
         /// <summary>
         /// constructor
         /// </summary>
@@ -90,7 +57,9 @@ namespace EAScriptAddin
                 .Where(x => (x.Name.StartsWith("EA_") || x.Name.StartsWith("MDG_")) && !x.Name.ToLower().Contains("addin")).ToList<MethodInfo>();
 
             this.menuHeader = menuMain;
-            this.menuOptions = new String[] {menuTransferScripts, menuRefdataSplitter, menuTextHelper, menuSettings };
+            this.menuOptions = new String[] { menuTransferScripts, menuRefdataSplitter, menuTextHelper, menuSettings };
+
+            // scriptRepositoryProxy is initialised in EA_FileOpen
         }
         private RefdataSplitterControl _refdataSplitterControl;
         private RefdataSplitterControl refdataSplitterControl
@@ -169,7 +138,9 @@ namespace EAScriptAddin
             return returnValue;
         }
         /// <summary>
-        /// executes the scriptfunctions with the given functionName and returns wathever object is being returned by the scriptfunction
+        /// executes the scriptfunctions with the given functionName and returns whatever object is being returned by the scriptfunction
+        /// 
+        /// Scripts may be reset and reloaded from the repository if they are too old
         /// </summary>
         /// <param name="functionName">the name of the function to call</param>
         /// <param name="parameters">the parameters to pass to the function</param>
@@ -186,7 +157,7 @@ namespace EAScriptAddin
                 numberOfParameters = parameters.Length;
             }
 
-            List<ScriptFunction> functions = this.allFunctions.FindAll(f => f.name == functionName 
+            List<ScriptFunction> functions = this.allFunctions.FindAll(f => f.name == functionName
                                                                             && (f.numberOfParameters == numberOfParameters
                                                                                 || f.numberOfParameters == null));
             foreach (ScriptFunction function in functions)
@@ -221,13 +192,36 @@ namespace EAScriptAddin
             }
         }
 
+        private void resetFunctions()
+        {
+            DateTime timeStart = DateTime.Now;
+            Logger.log($"TRACE: resetFunctions start");
+
+            this.allFunctions = new List<ScriptFunction>();
+            foreach (Script script in scriptRepositoryProxy.getEAMaticScripts())
+            {
+                Logger.log($"DEBUG: Adding functions: {(script.functions.Any() ? string.Join(",", script.functions) : "<empty>")}");
+                this.allFunctions.AddRange(script.functions);
+            }
+            this.scriptTimestamp = DateTime.Now;
+
+            DateTime timeEnd = DateTime.Now; ;
+            TimeSpan difference = timeEnd - timeStart;
+            Logger.log($"TRACE: resetFunctions end: {difference.TotalSeconds}");
+        }
+
         private void resetScriptsNow()
         {
-            Script.resetScripts();
-            this._allFunctions = null;
-            this._allModelScripts = null;
-            this._allEAMaticScripts = null;
-            if (this.settings.developerMode && ! string.IsNullOrEmpty(this.settings.scriptPath))
+            // resetScriptsNow can be called BEFORE any model has been opened
+            // for example in EA_GetMenuItems, which will happen after EA has been loaded
+            if ( modelScriptRepository != null)
+            {
+                modelScriptRepository.onlyLoadEAMaticScripts = !this.settings.developerMode;
+            }
+            scriptRepositoryProxy.resetScripts();
+            resetFunctions();
+
+            if (this.settings.developerMode && !string.IsNullOrEmpty(this.settings.scriptPath))
             {
                 this.saveAllScripts();
             }
@@ -235,11 +229,7 @@ namespace EAScriptAddin
 
         private void saveAllScripts()
         {
-            if (this.allModelScripts.Any())
-            {
-                Script.saveAllModelScripts(this.settings.scriptPath);
-            }
-            
+            scriptRepositoryProxy.saveScripts(this.settings.scriptPath);
         }
         /// <summary>
         /// adds a script function for the given methodinfo to the given script
@@ -270,9 +260,18 @@ namespace EAScriptAddin
                 {
                     this.model.showWindow(refdataSplitterWindowName);
                 }
+                this.scriptRepositoryProxy = new ScriptRepositoryProxy();
+                this.scriptRepositoryProxy.addRepository(new LocalScriptRepository(scriptRepositoryProxy));
+                this.scriptRepositoryProxy.addRepository(new MDGScriptRepository(scriptRepositoryProxy));
+                modelScriptRepository = new ModelScriptRepository(scriptRepositoryProxy, model, !this.settings.developerMode);
+                this.scriptRepositoryProxy.addRepository(modelScriptRepository);
+
                 this.resetScripts(true);
                 //call scriptfunctions
                 this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+
+                //HACK
+                globalScriptRepository = this.scriptRepositoryProxy;
             }
             catch (Exception ex)
             {
@@ -348,12 +347,14 @@ namespace EAScriptAddin
 
         /// <summary>
         /// show the settings dialog
+        /// 
+        /// scripts are always reset when this method is called.
         /// </summary>
         private void showSettings()
         {
             //reset the functions
             this.resetScripts(true);
-            EAScriptAddinSettingForm settingsForm = new EAScriptAddinSettingForm(AddinOperations, this.allFunctions, this.allEAMaticScripts, this);
+            EAScriptAddinSettingForm settingsForm = new EAScriptAddinSettingForm(AddinOperations, this.allFunctions, scriptRepositoryProxy.getEAMaticScripts(), this);
             settingsForm.ShowDialog();
         }
         #region EA Add-In Events
@@ -731,7 +732,8 @@ namespace EAScriptAddin
             {
                 this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { TabName, DiagramID });
             }
-            catch (Exception ex) { 
+            catch (Exception ex)
+            {
                 processException(ex);
             }
         }
@@ -1985,7 +1987,7 @@ namespace EAScriptAddin
         {
             try
             {
-            this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid });
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, new object[] { PackageGuid });
             }
             catch (Exception ex)
             {

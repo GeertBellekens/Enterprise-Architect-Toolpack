@@ -138,6 +138,10 @@
       <Project>{0fc55607-c9d0-442d-941c-f23ad00cb318}</Project>
       <Name>UMLToolingFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EAScriptAddin\EAScriptAddin.csproj">
+      <Project>{36C02EF9-C18F-4B64-AB69-80F5906DDBCE}</Project>
+      <Name>EAScriptAddin</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AboutWindow.resx">
