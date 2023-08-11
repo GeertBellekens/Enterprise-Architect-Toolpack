@@ -195,19 +195,19 @@ namespace EAScriptAddin
         private void resetFunctions()
         {
             DateTime timeStart = DateTime.Now;
-            Logger.log($"TRACE: resetFunctions start");
+            Logger.logTrace($"resetFunctions start");
 
             this.allFunctions = new List<ScriptFunction>();
             foreach (Script script in scriptRepositoryProxy.getEAMaticScripts())
             {
-                Logger.log($"DEBUG: Adding functions: {(script.functions.Any() ? string.Join(",", script.functions) : "<empty>")}");
+                Logger.logDebug($"Adding functions: {(script.functions.Any() ? string.Join(",", script.functions) : "<empty>")}");
                 this.allFunctions.AddRange(script.functions);
             }
             this.scriptTimestamp = DateTime.Now;
 
             DateTime timeEnd = DateTime.Now; ;
             TimeSpan difference = timeEnd - timeStart;
-            Logger.log($"TRACE: resetFunctions end: {difference.TotalSeconds}");
+            Logger.logTrace($"resetFunctions end: {difference.TotalSeconds}");
         }
 
         private void resetScriptsNow()
