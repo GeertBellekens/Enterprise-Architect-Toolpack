@@ -35,6 +35,8 @@ namespace EAScriptAddin
 			//
 			InitializeComponent();
 			this.setDelegates();
+			this.AutoScroll = true;
+			this.AutoScrollMinSize = new System.Drawing.Size(343, 200);
 			
 			this.controller = scriptAddin;
 			
