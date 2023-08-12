@@ -267,11 +267,12 @@ namespace EAScriptAddin
                 this.scriptRepositoryProxy.addRepository(modelScriptRepository);
 
                 this.resetScripts(true);
-                //call scriptfunctions
-                this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
 
                 //HACK
                 globalScriptRepository = this.scriptRepositoryProxy;
+
+                //call scriptfunctions
+                this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
             }
             catch (Exception ex)
             {
@@ -585,6 +586,9 @@ namespace EAScriptAddin
                 base.EA_FileClose(Repository);
                 this.settings = new EAScriptAddinSettings(null);
                 this.callFunctions(MethodBase.GetCurrentMethod().Name, null);
+                this.scriptRepositoryProxy = new ScriptRepositoryProxy();
+                this.modelScriptRepository = null;
+                globalScriptRepository = null;
             }
             catch (Exception ex)
             {
