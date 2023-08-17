@@ -46,6 +46,14 @@ namespace TSF.UmlToolingFramework.EANavigator
 		{
 			get {return this.listBox.Visible;}
 			set {
+				if (this.InvokeRequired)
+				{
+					this.Invoke((MethodInvoker)delegate
+					{
+						this.DroppedDown = value;
+						return;
+					});
+				}
 				this.listBox.Visible = value;
 				if (! value) this.itemTooltip.Hide(this);}
 		}
