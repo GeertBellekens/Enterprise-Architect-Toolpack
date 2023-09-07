@@ -435,16 +435,73 @@ namespace SAP2EAImporter
                 {
                     determination.notes = notesNode.Value;
                 }
+                //trigger conditions
                 foreach (var triggerNode in determinationNode.Element("trigger_conditions")?.Elements("trigger_condition"))
                 {
                     var triggerNodeName = triggerNode.Attribute("Trigger_node").Value;
                     var triggerBOName = triggerNode.Attribute("Trigger_node_bo").Value;
                     var triggerNodeKey = triggerNode.Attribute("Trigger_node_key").Value;
-                    var tiggereredNodeBO = new BOPFBusinessObject(triggerBOName, node.wrappedElement.owningPackage, String.Empty);
-                    var triggeredNode = new BOPFNode(triggerNodeName, tiggereredNodeBO, triggerNodeKey);
-
+                    var triggerBOPFNodeBO = new BOPFBusinessObject(triggerBOName, node.wrappedElement.owningPackage, String.Empty);
+                    var triggerBOPFNode = new BOPFNode(triggerNodeName, triggerBOPFNodeBO, triggerNodeKey);
+                    //create the determinationTriggeredBy relation to the triggerBOPFNode
+                    var triggerConnector = new BOPFTrigger(determination, triggerBOPFNode);
+                    //read trigger points
+                    triggerConnector.triggersOnCreate = this.getAttributeBoolValue(triggerNode, "Create");
+                    triggerConnector.triggersOnUpdate = this.getAttributeBoolValue(triggerNode, "Update");
+                    triggerConnector.triggersOnDelete = this.getAttributeBoolValue(triggerNode, "Delete");
+                    triggerConnector.triggersOnLoad = this.getAttributeBoolValue(triggerNode, "Load");
+                    triggerConnector.triggersOnDetermine = this.getAttributeBoolValue(triggerNode, "Determine");
                 }
+                //evaluation timepoints
+                var evaluationTimepointNode = determinationNode.Element("evaluation_timepoints")?.Element("evaluation_timepoint");
+                if (evaluationTimepointNode != null)
+                {
+                    determination.evaluateBeforeRetrieve = getAttributeBoolValue(evaluationTimepointNode, "before_retrieve");
+                    determination.evaluateAfterLoading = getAttributeBoolValue(evaluationTimepointNode, "after_loading");
+                    //determination.eva.. = getAttributeBoolValue(evaluationTimepointNode, "after_creation"); TODO
+                    //determination.eva.. = getAttributeBoolValue(evaluationTimepointNode, "after_change"); TODO
+                    //determination.eva.. = getAttributeBoolValue(evaluationTimepointNode, "after_deletion"); TODO
+                    determination.evaluateAfterModify = getAttributeBoolValue(evaluationTimepointNode, "after_modification");
+                    determination.evaluateAfterValidation = getAttributeBoolValue(evaluationTimepointNode, "after_validation");
+                    determination.evaluateBeforeSaveFinalize = getAttributeBoolValue(evaluationTimepointNode, "before_save_finalize");
+                    determination.evaluateAfterCommit = getAttributeBoolValue(evaluationTimepointNode, "after_commit");
+                    determination.evaluateAfterFailedSave = getAttributeBoolValue(evaluationTimepointNode, "after_failed_save_attempt");
+                    determination.evaluateDuringSave = getAttributeBoolValue(evaluationTimepointNode, "during_save_before_writing_data");
+                    determination.evaluateBeforeSaveDrawNumbers = getAttributeBoolValue(evaluationTimepointNode, "before_save_draw_numbers");
+                    determination.evaluateBeforeSaveBeforeConsistency = getAttributeBoolValue(evaluationTimepointNode, "before_save_before_consistency_check");
+                    determination.evaluateDuringCheckAndDetermine = getAttributeBoolValue(evaluationTimepointNode, "check_and_determine_before_consistency_check");
+                    determination.evaluateCleanup = getAttributeBoolValue(evaluationTimepointNode, "cleanup");
+                }
+                //Category and determinationclass from determination_settings
+                determination.category = determinationNode.Element("determination_settings")?.Element("det_category")?.Value;
+                var determinationClassName = determinationNode.Element("determination_settings")?.Element("det_class")?.Value;
+                if (! string.IsNullOrEmpty(determinationClassName))
+                {
+                    determination.determinationClass = new SAPClass(determinationClassName, determination.elementWrapper.owningPackage);
+                }
+                else
+                {
+                    determination.determinationClass = null;
+                }
+                //dependencies to other determinations
+                //<necessary_determinations>
+				//  <determination name="SET_ENDDATE_31_12_9999"/>
+				//</necessary_determinations>
+                foreach (var dependingDeterminationNode in determinationNode.Element("necessary_determinations")?.Elements("determination"))
+                {
+                    var dependingDeterminationName = dependingDeterminationNode.Attribute("name")?.Value;
+                    if (!string.IsNullOrEmpty(determinationName))
+                    {
+                        var dependingDetermination = new BOPFDetermination(dependingDeterminationName, node, "");
+
+                    }
+                }
+
             }
+        }
+        private bool getAttributeBoolValue (XElement node, string attributeName)
+        {
+            return "True".Equals(node.Attribute(attributeName)?.Value, StringComparison.InvariantCultureIgnoreCase);
         }
         private void processAssociations(XElement nodeNode, BOPFNode sourceNode)
         {

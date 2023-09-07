@@ -51,6 +51,7 @@
     <Compile Include="BOPFDetermination.cs" />
     <Compile Include="BOPFNode.cs" />
     <Compile Include="BOPFNodeOwner.cs" />
+    <Compile Include="BOPFTrigger.cs" />
     <Compile Include="ISAPElement.cs" />
     <Compile Include="SAPAssociation.cs" />
     <Compile Include="SAPClass.cs" />

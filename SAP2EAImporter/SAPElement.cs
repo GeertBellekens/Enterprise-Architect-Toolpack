@@ -188,7 +188,7 @@ namespace SAP2EAImporter
         }
         protected void setStringProperty(string tagName, string value)
         {
-            var taggedValue = this.wrappedElement.addTaggedValue(tagName, value);
+            var taggedValue = this.wrappedElement.addTaggedValue(tagName, value ?? "");
             taggedValue.save();
         }
         protected bool getBoolProperty(string tagName)
@@ -210,7 +210,7 @@ namespace SAP2EAImporter
         }
         protected void setLinkProperty(string tagName, UML.Extended.UMLItem value)
         {
-            this.setStringProperty(tagName, value.uniqueID);
+            this.setStringProperty(tagName, value?.uniqueID);
         }
 
         internal UMLEA.Attribute addOrUpdateAttribute(string attributeName, string key, string fqStereo, string notes, string datatype, int attributePos )

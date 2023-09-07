@@ -111,6 +111,17 @@ namespace SAP2EAImporter
             var taggedValue = this.wrappedConnector.addTaggedValue(tagName, value);
             taggedValue.save();
         }
+        protected bool getBoolProperty(string tagName)
+        {
+            return "True".Equals(this.wrappedConnector.taggedValues
+                .FirstOrDefault(x => x.name.Equals(tagName, StringComparison.InvariantCultureIgnoreCase))
+                                ?.tagValue?.ToString(),StringComparison.InvariantCultureIgnoreCase);
+        }
+        protected void setBoolProperty(string tagName, bool value)
+        {
+            var boolString = value? "True" : "False";
+            this.setStringProperty(tagName,boolString);
+        }
         public static T getExistingConnector(ISAPElement source, ISAPElement target, string stereotype, string name)
         {
             if (source == null || target == null) return null;
