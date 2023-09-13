@@ -84,4 +84,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"%25windir%25\Microsoft.NET\Framework\v4.0.30319\regasm.exe" "$(TargetPath)" /codebase /tlb</PostBuildEvent>
+  </PropertyGroup>
 </Project>
