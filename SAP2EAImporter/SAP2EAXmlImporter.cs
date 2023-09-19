@@ -389,9 +389,9 @@ namespace SAP2EAImporter
                 processAssociations(nodeNode, node);
                 //'import determinations
                 processDeterminations(nodeNode, node);
-                //importDeterminations nodeNode, element, package
+
                 //'import validations
-                //importValidations nodeNode, element
+                processValidations(nodeNode, node);
                 //'import actions
                 //importActions nodeNode, element
                 //'import queries
@@ -402,6 +402,58 @@ namespace SAP2EAImporter
                 //importAuth nodeNode, element
 
 
+            }
+        }
+        private void processValidations(XElement nodeNode, BOPFNode node)
+        {
+            //<validations>
+            //<validation name="CHECK_TITEL_NL" key="7EAE1BA4330B1ED59CE236A35BFDD2CD">
+            //	<notes/>
+            //	<validation_settings>
+            //		<val_class>ZA_CL_TEXT_COLLECTION_VAL</val_class>
+            //		<val_category>Action Check</val_category>
+            //	</validation_settings>
+            //	<trigger_actions>
+            //		<node_category>
+            //			<trigger_action>SAVE_TEXT_CONTENT</trigger_action>
+            //		</node_category>
+            //	</trigger_actions>
+            //</validation>
+            foreach (var validationNode in nodeNode.Element("node_elements").Element("validations").Elements("validation"))
+            {
+                var validationName = validationNode.Attribute("name").Value;
+                var validationKey = validationNode.Attribute("key").Value;
+                var validation = new BOPFValidation(validationName, node, validationKey);
+                //set notes
+                var notesNode = validationNode.Element("notes");
+                if (notesNode != null)
+                {
+                    validation.notes = notesNode.Value;
+                }
+                //Category and validationclass from validation_settings
+                validation.category = validationNode.Element("validation_settings")?.Element("val_category")?.Value;
+                var validationClassName = validationNode.Element("validation_settings")?.Element("val_class")?.Value;
+                if (!string.IsNullOrEmpty(validationClassName))
+                {
+                    validation.validationClass = new SAPClass(validationClassName, validation.elementWrapper.owningPackage);
+                }
+                else
+                {
+                    validation.validationClass = null;
+                }
+                //trigger actions
+                foreach (var triggerActionNode in validationNode.Element("trigger_actions")?.Element("node_category")?.Elements("trigger_action"))
+                {
+                    var triggerActionName = triggerActionNode.Value;
+                    if (!string.IsNullOrEmpty(triggerActionName))
+                    {
+                        //get the trigger action
+                        var triggerAction = new BOPFAction(triggerActionName, node, "");
+                        //create the relation between them
+                        new BOPFActionValidationTrigger (validation, triggerAction);
+                        //TODO: ActionValidation has a nodeCategory property, but that doesn't seem to be present in the xml
+                    }
+                }
             }
         }
         private void processDeterminations(XElement nodeNode, BOPFNode node)
@@ -444,7 +496,7 @@ namespace SAP2EAImporter
                     var triggerBOPFNodeBO = new BOPFBusinessObject(triggerBOName, node.wrappedElement.owningPackage, String.Empty);
                     var triggerBOPFNode = new BOPFNode(triggerNodeName, triggerBOPFNodeBO, triggerNodeKey);
                     //create the determinationTriggeredBy relation to the triggerBOPFNode
-                    var triggerConnector = new BOPFTrigger(determination, triggerBOPFNode);
+                    var triggerConnector = new BOPFDeterminationTrigger(determination, triggerBOPFNode);
                     //read trigger points
                     triggerConnector.triggersOnCreate = this.getAttributeBoolValue(triggerNode, "Create");
                     triggerConnector.triggersOnUpdate = this.getAttributeBoolValue(triggerNode, "Update");
@@ -492,11 +544,12 @@ namespace SAP2EAImporter
                     var dependingDeterminationName = dependingDeterminationNode.Attribute("name")?.Value;
                     if (!string.IsNullOrEmpty(determinationName))
                     {
+                        //get the depending determination
                         var dependingDetermination = new BOPFDetermination(dependingDeterminationName, node, "");
-
+                        //create the relation between them
+                        new BOPFDeterminationDependency(determination, dependingDetermination);
                     }
                 }
-
             }
         }
         private bool getAttributeBoolValue (XElement node, string attributeName)

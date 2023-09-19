@@ -9,7 +9,7 @@ using UMLEA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace SAP2EAImporter
 {
-    internal class BOPFTrigger : SAPConnector<UMLEA.Dependency>
+    internal class BOPFDeterminationTrigger : SAPConnector<UMLEA.Dependency>
     {
 
         const string createTagName = "Create";
@@ -19,7 +19,7 @@ namespace SAP2EAImporter
         const string determineTagName = "Determine";
         public static string stereotype => "BOPF_determinationTriggeredBy";
 
-        public BOPFTrigger(BOPFDetermination source, BOPFNode target)
+        public BOPFDeterminationTrigger(BOPFDetermination source, BOPFNode target)
         : base(source, target, "", "", stereotype)
         {
 
@@ -50,7 +50,7 @@ namespace SAP2EAImporter
             set => this.setBoolProperty(determineTagName, value);
         }
 
-        internal BOPFTrigger(UMLEA.Dependency dependency) : base(dependency) { }
+        internal BOPFDeterminationTrigger(UMLEA.Dependency dependency) : base(dependency) { }
 
     }
 }

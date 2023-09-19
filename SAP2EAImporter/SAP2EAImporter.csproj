@@ -47,11 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOPFAction.cs" />
+    <Compile Include="BOPFActionValidationTrigger.cs" />
     <Compile Include="BOPFBusinessObject.cs" />
     <Compile Include="BOPFDetermination.cs" />
+    <Compile Include="BOPFDeterminationDependency.cs" />
     <Compile Include="BOPFNode.cs" />
     <Compile Include="BOPFNodeOwner.cs" />
-    <Compile Include="BOPFTrigger.cs" />
+    <Compile Include="BOPFDeterminationTrigger.cs" />
+    <Compile Include="BOPFValidation.cs" />
     <Compile Include="ISAPElement.cs" />
     <Compile Include="SAPAssociation.cs" />
     <Compile Include="SAPClass.cs" />
