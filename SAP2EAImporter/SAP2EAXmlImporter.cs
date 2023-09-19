@@ -96,7 +96,7 @@ namespace SAP2EAImporter
                                                                        // Create one in the selected package. everything in the input xml is imported in the system package.
             var systemPackage = getPackage(systemName, selectedPackage, "Bibliotheek Technisch");
 
-            foreach (var packageNode in this.xDoc.Root.Elements("package")) // packages
+            foreach (var packageNode in this.xDoc.Root.Elements("package") ?? Array.Empty<XElement>()) // packages
             {
                 // Process package nodes
                 this.processPackageNode(packageNode, systemPackage);
@@ -123,7 +123,7 @@ namespace SAP2EAImporter
           */
             var packageName = packageNode.Attribute("name").Value;
             EAOutputLogger.log(this.model, outputName
-                              , $" Processing package '{packageName}' in parent package '{package.name}'"
+                              , $" Processing package '{packageName}' in package '{package.name}'"
                               , ((UMLEA.ElementWrapper)package).id
                              , LogTypeEnum.log);
 
@@ -133,13 +133,13 @@ namespace SAP2EAImporter
 
 
             // Process the elements in the package.
-            foreach (var elementNode in packageNode.Elements("element"))
+            foreach (var elementNode in packageNode.Elements("element") ?? Array.Empty<XElement>())
             {
                 this.processElementNode(elementNode, pack);
             }
 
             //process the packages in the package
-            foreach (var subPackageNode in packageNode.Elements("package")) // packages.
+            foreach (var subPackageNode in packageNode.Elements("package") ?? Array.Empty<XElement>()) // packages.
             {
                 // Process package nodes
                 this.processPackageNode(subPackageNode, pack);
@@ -181,7 +181,7 @@ namespace SAP2EAImporter
         {
             var elementName = elementNode.Attribute("name").Value;
             EAOutputLogger.log(this.model, outputName
-                            , $" Processing element '{elementName}' in parent package '{package.name}'"
+                            , $" Processing element '{elementName}' in package '{package.name}'"
                             , ((UMLEA.ElementWrapper)package).id
                             , LogTypeEnum.log);
 
@@ -238,7 +238,7 @@ namespace SAP2EAImporter
             //	<notes>Planningsstatus</notes>
             //</Attribute>
             var attributePos = 0;
-            foreach (var attributeNode in elementNode.Elements("Attribute"))
+            foreach (var attributeNode in elementNode.Elements("Attribute") ?? Array.Empty<XElement>())
             {
                 attributePos++;
                 var attributeName = attributeNode.Attribute("name").Value;
@@ -319,7 +319,7 @@ namespace SAP2EAImporter
             //<node_elements>
 
             //process the NodeNodes
-            foreach (var nodeNode in elementNode.Elements("node"))
+            foreach (var nodeNode in elementNode.Elements("node") ?? Array.Empty<XElement>())
             {
                 var elementName = nodeNode.Attribute("name").Value;
                 var key = nodeNode.Attribute("key").Value;
@@ -393,9 +393,9 @@ namespace SAP2EAImporter
                 //'import validations
                 processValidations(nodeNode, node);
                 //'import actions
-                //importActions nodeNode, element
+                processActions(nodeNode, node);
                 //'import queries
-                //importQueries nodeNode, element
+                processQueries(nodeNode, node);
                 //'import altkeys
                 //importAltkeys nodeNode, element
                 //'import authorisations
@@ -403,6 +403,70 @@ namespace SAP2EAImporter
 
 
             }
+        }
+        private void processQueries(XElement nodeNode, BOPFNode node)
+        {
+            //<queries>
+            //    <query name="SELECT_BY_ATTRIBUTES" key="7EAE1BA4330B1ED592DF2E8CEF0EC600">
+            //	    <notes/>
+            //	    <qry_settings/>
+            //	    <implementation>
+            //		    <query_class/>
+            //		    <filter_structure>ZAS_TOEWIJZINGSTYPE_GROEP_D</filter_structure>
+            //	    </implementation>
+            //    </query>
+            foreach (var queryNode in nodeNode.Element("node_elements")?.Element("queries")?.Elements("query") ?? Array.Empty<XElement>())
+            {
+                var queryName = queryNode.Attribute("name").Value;
+                var queryKey = queryNode.Attribute("key").Value;
+                var query = new BOPFQuery(queryName, node, queryKey);
+                //set notes
+                var notesNode = queryNode.Element("notes");
+                if (notesNode != null)
+                {
+                    query.notes = notesNode.Value;
+                }
+            }
+            //TODO: filter structure, result structure, result table type (last one exists as tagged value in the profile, but not in xml files?)
+        }
+        private void processActions(XElement nodeNode, BOPFNode node)
+        {
+            //<actions>
+            //	<action name="SELECT_ALL_BRONOBJ" key="7EAE1BA4330B1ED695ACBADBE6115AFC">
+            //		<notes>alle gefilterde bronobjecten selecteren</notes>
+            //		<action_settings>
+            //			<cardinality>Multiple Node Instances</cardinality>
+            //			<implementation>
+            //				<action_class>ZA_CL_TOEWIJZINGSTYPE_ACT</action_class>
+            //				<filter_structure/>
+            //			</implementation>
+            //		</action_settings>
+            //	</action>
+            foreach (var actionNode in nodeNode.Element("node_elements")?.Element("actions")?.Elements("action") ?? Array.Empty<XElement>())
+            {
+                var actionName = actionNode.Attribute("name").Value;
+                var actionKey = actionNode.Attribute("key").Value;
+                var action = new BOPFAction(actionName, node, actionKey);
+                //set notes
+                var notesNode = actionNode.Element("notes");
+                if (notesNode != null)
+                {
+                    action.notes = notesNode.Value;
+                }
+                //Category and actionclass from action_settings
+                action.cardinality = actionNode.Element("action_settings")?.Element("cardinality")?.Value;
+                //TODO: action class and filter structure (to be added in profile)
+                //var actionClassName = actionNode.Element("action_settings")?.Element("implementation")?.Element("action_class")?.Value;
+                //if (!string.IsNullOrEmpty(actionClassName))
+                //{
+                //    action.actionClass = new SAPClass(actionClassName, action.elementWrapper.owningPackage);
+                //}
+                //else
+                //{
+                //    action.actionClass = null;
+                //}
+            }
+
         }
         private void processValidations(XElement nodeNode, BOPFNode node)
         {
@@ -419,7 +483,7 @@ namespace SAP2EAImporter
             //		</node_category>
             //	</trigger_actions>
             //</validation>
-            foreach (var validationNode in nodeNode.Element("node_elements").Element("validations").Elements("validation"))
+            foreach (var validationNode in nodeNode.Element("node_elements")?.Element("validations")?.Elements("validation") ?? Array.Empty<XElement>())
             {
                 var validationName = validationNode.Attribute("name").Value;
                 var validationKey = validationNode.Attribute("key").Value;
@@ -442,7 +506,7 @@ namespace SAP2EAImporter
                     validation.validationClass = null;
                 }
                 //trigger actions
-                foreach (var triggerActionNode in validationNode.Element("trigger_actions")?.Element("node_category")?.Elements("trigger_action"))
+                foreach (var triggerActionNode in validationNode.Element("trigger_actions")?.Element("node_category")?.Elements("trigger_action") ?? Array.Empty<XElement>())
                 {
                     var triggerActionName = triggerActionNode.Value;
                     if (!string.IsNullOrEmpty(triggerActionName))
@@ -476,7 +540,7 @@ namespace SAP2EAImporter
             //		<dependent_determinations/>
             //	</determination>
             //</determinations>
-            foreach (var determinationNode in nodeNode.Element("node_elements").Element("determinations").Elements("determination"))
+            foreach (var determinationNode in nodeNode.Element("node_elements")?.Element("determinations")?.Elements("determination") ?? Array.Empty<XElement>())
             {
                 var determinationName = determinationNode.Attribute("name").Value;
                 var determinationKey = determinationNode.Attribute("key").Value;
@@ -488,7 +552,7 @@ namespace SAP2EAImporter
                     determination.notes = notesNode.Value;
                 }
                 //trigger conditions
-                foreach (var triggerNode in determinationNode.Element("trigger_conditions")?.Elements("trigger_condition"))
+                foreach (var triggerNode in determinationNode.Element("trigger_conditions")?.Elements("trigger_condition") ?? Array.Empty<XElement>())
                 {
                     var triggerNodeName = triggerNode.Attribute("Trigger_node").Value;
                     var triggerBOName = triggerNode.Attribute("Trigger_node_bo").Value;
@@ -539,7 +603,7 @@ namespace SAP2EAImporter
                 //<necessary_determinations>
 				//  <determination name="SET_ENDDATE_31_12_9999"/>
 				//</necessary_determinations>
-                foreach (var dependingDeterminationNode in determinationNode.Element("necessary_determinations")?.Elements("determination"))
+                foreach (var dependingDeterminationNode in determinationNode.Element("necessary_determinations")?.Elements("determination") ?? Array.Empty<XElement>())
                 {
                     var dependingDeterminationName = dependingDeterminationNode.Attribute("name")?.Value;
                     if (!string.IsNullOrEmpty(determinationName))
@@ -576,7 +640,7 @@ namespace SAP2EAImporter
             //			</implementation>
             //		</assoc_settings>
             //	</association>
-            foreach (var associationNode in nodeNode.Element("node_elements").Element("associations").Elements("association"))
+            foreach (var associationNode in nodeNode.Element("node_elements")?.Element("associations")?.Elements("association") ?? Array.Empty<XElement>())
             {
                 var assocationName = associationNode.Attribute("name").Value;
                 var associationKey = associationNode.Attribute("key").Value;
@@ -722,7 +786,7 @@ namespace SAP2EAImporter
             //save rolePackage
             rolePackage.save();
             //process the orgunit nodes as User Categories
-            foreach (var userCategoryNode in elementNode.Element("assignment")?.Elements("orgunit"))
+            foreach (var userCategoryNode in elementNode.Element("assignment")?.Elements("orgunit") ?? Array.Empty<XElement>())
             {
                 var userCategoryName = userCategoryNode.Attribute("name").Value;
 
@@ -779,7 +843,7 @@ namespace SAP2EAImporter
             //save functionModule
             functionModule.save();
             // process parameters as ports
-            foreach (var parameterNode in elementNode.Element("parameters")?.Elements("parameter"))
+            foreach (var parameterNode in elementNode.Element("parameters")?.Elements("parameter") ?? Array.Empty<XElement>())
             {
                 var parameterName = parameterNode.Attribute("name").Value;
                 var parameterDatatypeType = parameterNode.Attribute("datatype").Value;
@@ -842,7 +906,7 @@ namespace SAP2EAImporter
             //	</authorizations>
             if (authorizationsNode != null)
             {
-                foreach (var authorizationNode in authorizationsNode.Elements("authorization"))
+                foreach (var authorizationNode in authorizationsNode.Elements("authorization") ?? Array.Empty<XElement>())
                 {
                     //get authorizationObject
                     var authorizationObjectName = authorizationNode.Attribute("auth_object").Value;
@@ -863,12 +927,12 @@ namespace SAP2EAImporter
                     var authorization = new Authorization(authorizationName, singleRole, authorizationObject);
                     var authorizationFields = new Dictionary<string, string>();
                     //process authorization fields
-                    foreach (var authFieldNode in authorizationNode.Elements("auth_field"))
+                    foreach (var authFieldNode in authorizationNode.Elements("auth_field") ?? Array.Empty<XElement>())
                     {
                         var authFieldName = authFieldNode.Attribute("name").Value;
                         //get all values and concatenate with ","
                         var values = new List<string>();
-                        foreach (var valueNode in authFieldNode.Elements("field_value"))
+                        foreach (var valueNode in authFieldNode.Elements("field_value") ?? Array.Empty<XElement>())
                         {
                             values.Add(valueNode.Value);
                         }
@@ -920,7 +984,7 @@ namespace SAP2EAImporter
             }
             compositeRole.save();
             // Import the aggregated single roles.
-            foreach (var singleRoleNode in elementNode.Element("single_roles")?.Elements("single_role"))
+            foreach (var singleRoleNode in elementNode.Element("single_roles")?.Elements("single_role") ?? Array.Empty<XElement>())
             {
                 var singleRoleName = singleRoleNode.Attribute("name").Value;
 
@@ -950,11 +1014,11 @@ namespace SAP2EAImporter
             if (assignmentNode == null)
                 return;
             //process functionModules in their groups
-            foreach (var groupNode in assignmentNode.Elements("group"))
+            foreach (var groupNode in assignmentNode.Elements("group") ?? Array.Empty<XElement>())
             {
                 var groupName = groupNode.Attribute("name").Value;
 
-                foreach (var functionModuleNode in groupNode.Elements("function_module"))
+                foreach (var functionModuleNode in groupNode.Elements("function_module") ?? Array.Empty<XElement>())
                 {
                     var functionModuleName = functionModuleNode.Attribute("name").Value;
                     FunctionModule functionModule;
@@ -965,7 +1029,7 @@ namespace SAP2EAImporter
                 }
             }
             //process rolePackages
-            foreach (var rolePackageNode in assignmentNode.Elements("role_package"))
+            foreach (var rolePackageNode in assignmentNode.Elements("role_package") ?? Array.Empty<XElement>())
             {
                 var rolePackageName = rolePackageNode.Attribute("name").Value;
                 RolePackage rolePackage;

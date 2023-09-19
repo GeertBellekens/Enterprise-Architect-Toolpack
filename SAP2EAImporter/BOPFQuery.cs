@@ -8,18 +8,16 @@ using UMLEA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace SAP2EAImporter
 {
-    internal class BOPFAction : SAPElement<UMLEA.Activity>
+    internal class BOPFQuery : SAPElement<UMLEA.Activity>
     {
-        public static string stereotype => "BOPF_action";
-        const string cardinalityTagName = "Action Cardinality";
-        const string actionClassTagName = "Action Class";
+        public static string stereotype => "BOPF_query";
 
-        public BOPFAction(string name, BOPFNode ownerNode, string key)
+        public BOPFQuery(string name, BOPFNode ownerNode, string key)
             : base(name, ownerNode.wrappedElement, stereotype, key)
         {
             this.owner = ownerNode;
         }
-        public BOPFAction(UMLEA.Activity activity) : base(activity) { }
+        public BOPFQuery(UMLEA.Activity activity) : base(activity) { }
 
         BOPFNodeOwner _owner;
         public BOPFNodeOwner owner
@@ -52,18 +50,6 @@ namespace SAP2EAImporter
         {
             get => SAPComposition.getExisitingComposition(this.owner, this);
         }
-        public string cardinality
-        {
-            get => this.getStringProperty(cardinalityTagName);
-            set => this.setStringProperty(cardinalityTagName, value);
-        }
-        public SAPClass actionClass
-        {
-            get => new SAPClass(this.getLinkProperty<UMLEA.Class>(actionClassTagName));
-            set => this.setLinkProperty(actionClassTagName, value.wrappedElement);
-        }
-
-
 
     }
 }

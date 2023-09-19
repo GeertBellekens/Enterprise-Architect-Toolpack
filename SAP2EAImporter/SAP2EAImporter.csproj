@@ -55,6 +55,7 @@
     <Compile Include="BOPFNode.cs" />
     <Compile Include="BOPFNodeOwner.cs" />
     <Compile Include="BOPFDeterminationTrigger.cs" />
+    <Compile Include="BOPFQuery.cs" />
     <Compile Include="BOPFValidation.cs" />
     <Compile Include="ISAPElement.cs" />
     <Compile Include="SAPAssociation.cs" />
