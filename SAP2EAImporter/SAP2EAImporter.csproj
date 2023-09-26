@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="BOPFAction.cs" />
     <Compile Include="BOPFActionValidationTrigger.cs" />
+    <Compile Include="BOPFAlternativeKey.cs" />
     <Compile Include="BOPFBusinessObject.cs" />
     <Compile Include="BOPFDetermination.cs" />
     <Compile Include="BOPFDeterminationDependency.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="BOPFValidation.cs" />
     <Compile Include="ISAPElement.cs" />
     <Compile Include="SAPAssociation.cs" />
+    <Compile Include="SAPAttribute.cs" />
     <Compile Include="SAPClass.cs" />
     <Compile Include="SAPComposition.cs" />
     <Compile Include="SAPConnector.cs" />

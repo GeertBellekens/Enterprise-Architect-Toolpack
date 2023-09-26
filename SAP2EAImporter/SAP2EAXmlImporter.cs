@@ -397,11 +397,61 @@ namespace SAP2EAImporter
                 //'import queries
                 processQueries(nodeNode, node);
                 //'import altkeys
-                //importAltkeys nodeNode, element
+                processAltKeys(nodeNode, node);
                 //'import authorisations
                 //importAuth nodeNode, element
 
 
+            }
+        }
+        private void processAltKeys(XElement nodeNode, BOPFNode node)
+        {
+            //<altkeys>
+            //	<altkey name="HOST_PARENT" key="7EAE1BA4330B1ED5849B3C9FD476D55F">
+            //		<notes>Alt. key voor bovenl. knooppunt host</notes>
+            //		<altkey_settings>
+            //			<altkey_unique>N</altkey_unique>
+            //			<implementation>
+            //				<data_type>/BOBF/S_LIB_K_DELEGATION</data_type>
+            //				<data_table_type>/BOBF/T_LIB_K_DELEGATION</data_table_type>
+            //			</implementation>
+            //		</altkey_settings>
+            //	</altkey>
+            //</altkeys>
+            foreach (var altkeyNode in nodeNode.Element("node_elements")?.Element("altkeys")?.Elements("altkey") ?? Array.Empty<XElement>())
+            {
+                var altkeyName = altkeyNode.Attribute("name").Value;
+                var altkeyKey = altkeyNode.Attribute("key").Value;
+                var altkey = new BOPFAlternativeKey(altkeyName, node, altkeyKey);
+                //set notes
+                var notesNode = altkeyNode.Element("notes");
+                if (notesNode != null)
+                {
+                    altkey.notes = notesNode.Value;
+                }
+                //altkey_unique
+                var altKeyUnique = altkeyNode.Element("altkey_settings")?.Element("altkey_unique")?.Value;
+                if (altKeyUnique != null) altkey.unique = altKeyUnique;
+                //datatype
+                var datatypeClassName = altkeyNode.Element("implementation")?.Element("data_type")?.Value;
+                if (!string.IsNullOrEmpty(datatypeClassName))
+                {
+                    altkey.dataType = new SAPClass(datatypeClassName, node.elementWrapper.owningPackage);
+                }
+                else
+                {
+                    altkey.dataType = null;
+                }
+                //datatype type
+                var dataTypeTypeName = altkeyNode.Element("implementation")?.Element("data_table_type")?.Value;
+                if (!string.IsNullOrEmpty(datatypeClassName))
+                {
+                    altkey.dataTableType = new SAPDatatype(dataTypeTypeName, node.elementWrapper.owningPackage);
+                }
+                else
+                {
+                    altkey.dataTableType = null;
+                }
             }
         }
         private void processQueries(XElement nodeNode, BOPFNode node)
