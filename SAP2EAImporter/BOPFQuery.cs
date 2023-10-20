@@ -11,6 +11,7 @@ namespace SAP2EAImporter
     internal class BOPFQuery : SAPElement<UMLEA.Activity>
     {
         public static string stereotype => "BOPF_query";
+        const string filterStructureTagName = "Filter Structure";
 
         public BOPFQuery(string name, BOPFNode ownerNode, string key)
             : base(name, ownerNode.wrappedElement, stereotype, key)
@@ -50,6 +51,10 @@ namespace SAP2EAImporter
         {
             get => SAPComposition.getExisitingComposition(this.owner, this);
         }
-
+        public SAPDatatype filterStructure
+        {
+            get => new SAPDatatype(this.getLinkProperty<UMLEA.DataType>(filterStructureTagName));
+            set => this.setLinkProperty(filterStructureTagName, value?.wrappedElement);
+        }
     }
 }

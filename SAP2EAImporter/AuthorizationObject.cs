@@ -33,7 +33,7 @@ namespace SAP2EAImporter
         /// <param name="name"> name of the authorization object</param>
         /// <param name="package"> the parent package of the authorization object</param>
         public AuthorizationObject(string name, UML.Classes.Kernel.Package package)
-            :base(name, package, stereotype){}
+            :base(name, package, stereotype,String.Empty, true, true){}
         public AuthorizationObject(UMLEA.Class element) : base(element) { }
         internal void addAuthorizationField(string name)
         {

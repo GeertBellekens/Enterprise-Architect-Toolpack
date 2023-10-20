@@ -389,7 +389,6 @@ namespace SAP2EAImporter
                 processAssociations(nodeNode, node);
                 //'import determinations
                 processDeterminations(nodeNode, node);
-
                 //'import validations
                 processValidations(nodeNode, node);
                 //'import actions
@@ -399,9 +398,31 @@ namespace SAP2EAImporter
                 //'import altkeys
                 processAltKeys(nodeNode, node);
                 //'import authorisations
-                //importAuth nodeNode, element
+                processNodeAuthorizations(nodeNode, node);
 
 
+            }
+        }
+        private void processNodeAuthorizations(XElement nodeNode, BOPFNode node)
+        {
+            //<authorization>
+            //	<auth_object name="ZS_DELEG">
+            //		<auth_field>ZS_TOEWTYP</auth_field>
+            //		<node_attribute>TOEW_TYPE_ID</node_attribute>
+            //		<Association>00000000000000000000000000000000</Association>
+            //	</auth_object>
+            //</authorization>
+            foreach (var authorizationObjectNode in nodeNode.Element("node_elements")?. Element("authorization")?.Elements("auth_object") ?? Array.Empty<XElement>())
+            {
+                var authName = authorizationObjectNode.Attribute("name").Value;
+                var authFieldName = authorizationObjectNode.Element("auth_field")?.Value;
+                var authNodeAttributeName = authorizationObjectNode.Element("node_attribute")?.Value;
+                var authorizationObject = new AuthorizationObject(authName, node.elementWrapper.owningPackage);
+                if ( authorizationObject != null)
+                {
+                    var authorizationCheck = new BOPFAuthorizationCheck(node, authorizationObject);
+                    authorizationCheck.constraint = $"{node.name}.{authNodeAttributeName} = {authName}.{authFieldName}";
+                }
             }
         }
         private void processAltKeys(XElement nodeNode, BOPFNode node)
@@ -476,8 +497,18 @@ namespace SAP2EAImporter
                 {
                     query.notes = notesNode.Value;
                 }
+                //Filter Structure
+                var filterStructureName = queryNode.Element("implementation")?.Element("filter_structure")?.Value;
+                if (!string.IsNullOrEmpty(filterStructureName))
+                {
+                    query.filterStructure = new SAPDatatype(filterStructureName, node.elementWrapper.owningPackage);
+                }
+                else
+                {
+                    query.filterStructure = null;
+                }
             }
-            //TODO: filter structure, result structure, result table type (last one exists as tagged value in the profile, but not in xml files?)
+            //TODO: result structure, result table type (last one exists as tagged value in the profile, but not in xml files?)
         }
         private void processActions(XElement nodeNode, BOPFNode node)
         {

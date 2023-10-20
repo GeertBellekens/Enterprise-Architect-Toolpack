@@ -50,6 +50,7 @@
     <Compile Include="BOPFAction.cs" />
     <Compile Include="BOPFActionValidationTrigger.cs" />
     <Compile Include="BOPFAlternativeKey.cs" />
+    <Compile Include="BOPFAuthorizationCheck.cs" />
     <Compile Include="BOPFBusinessObject.cs" />
     <Compile Include="BOPFDetermination.cs" />
     <Compile Include="BOPFDeterminationDependency.cs" />
