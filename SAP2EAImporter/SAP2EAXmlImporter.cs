@@ -96,7 +96,7 @@ namespace SAP2EAImporter
                                                                        // Create one in the selected package. everything in the input xml is imported in the system package.
             var systemPackage = getPackage(systemName, selectedPackage, "Bibliotheek Technisch");
 
-            foreach (var packageNode in this.xDoc.Root.Elements("package")) // packages
+            foreach (var packageNode in this.xDoc.Root.Elements("package") ?? Array.Empty<XElement>()) // packages
             {
                 // Process package nodes
                 this.processPackageNode(packageNode, systemPackage);
@@ -123,7 +123,7 @@ namespace SAP2EAImporter
           */
             var packageName = packageNode.Attribute("name").Value;
             EAOutputLogger.log(this.model, outputName
-                              , $" Processing package '{packageName}' in parent package '{package.name}'"
+                              , $" Processing package '{packageName}' in package '{package.name}'"
                               , ((UMLEA.ElementWrapper)package).id
                              , LogTypeEnum.log);
 
@@ -133,13 +133,13 @@ namespace SAP2EAImporter
 
 
             // Process the elements in the package.
-            foreach (var elementNode in packageNode.Elements("element"))
+            foreach (var elementNode in packageNode.Elements("element") ?? Array.Empty<XElement>())
             {
                 this.processElementNode(elementNode, pack);
             }
 
             //process the packages in the package
-            foreach (var subPackageNode in packageNode.Elements("package")) // packages.
+            foreach (var subPackageNode in packageNode.Elements("package") ?? Array.Empty<XElement>()) // packages.
             {
                 // Process package nodes
                 this.processPackageNode(subPackageNode, pack);
@@ -181,7 +181,7 @@ namespace SAP2EAImporter
         {
             var elementName = elementNode.Attribute("name").Value;
             EAOutputLogger.log(this.model, outputName
-                            , $" Processing element '{elementName}' in parent package '{package.name}'"
+                            , $" Processing element '{elementName}' in package '{package.name}'"
                             , ((UMLEA.ElementWrapper)package).id
                             , LogTypeEnum.log);
 
@@ -238,7 +238,7 @@ namespace SAP2EAImporter
             //	<notes>Planningsstatus</notes>
             //</Attribute>
             var attributePos = 0;
-            foreach (var attributeNode in elementNode.Elements("Attribute"))
+            foreach (var attributeNode in elementNode.Elements("Attribute") ?? Array.Empty<XElement>())
             {
                 attributePos++;
                 var attributeName = attributeNode.Attribute("name").Value;
@@ -319,7 +319,7 @@ namespace SAP2EAImporter
             //<node_elements>
 
             //process the NodeNodes
-            foreach (var nodeNode in elementNode.Elements("node"))
+            foreach (var nodeNode in elementNode.Elements("node") ?? Array.Empty<XElement>())
             {
                 var elementName = nodeNode.Attribute("name").Value;
                 var key = nodeNode.Attribute("key").Value;
@@ -389,19 +389,216 @@ namespace SAP2EAImporter
                 processAssociations(nodeNode, node);
                 //'import determinations
                 processDeterminations(nodeNode, node);
-                //importDeterminations nodeNode, element, package
                 //'import validations
-                //importValidations nodeNode, element
+                processValidations(nodeNode, node);
                 //'import actions
-                //importActions nodeNode, element
+                processActions(nodeNode, node);
                 //'import queries
-                //importQueries nodeNode, element
+                processQueries(nodeNode, node);
                 //'import altkeys
-                //importAltkeys nodeNode, element
+                processAltKeys(nodeNode, node);
                 //'import authorisations
-                //importAuth nodeNode, element
+                processNodeAuthorizations(nodeNode, node);
 
 
+            }
+        }
+        private void processNodeAuthorizations(XElement nodeNode, BOPFNode node)
+        {
+            //<authorization>
+            //	<auth_object name="ZS_DELEG">
+            //		<auth_field>ZS_TOEWTYP</auth_field>
+            //		<node_attribute>TOEW_TYPE_ID</node_attribute>
+            //		<Association>00000000000000000000000000000000</Association>
+            //	</auth_object>
+            //</authorization>
+            foreach (var authorizationObjectNode in nodeNode.Element("node_elements")?. Element("authorization")?.Elements("auth_object") ?? Array.Empty<XElement>())
+            {
+                var authName = authorizationObjectNode.Attribute("name").Value;
+                var authFieldName = authorizationObjectNode.Element("auth_field")?.Value;
+                var authNodeAttributeName = authorizationObjectNode.Element("node_attribute")?.Value;
+                var authorizationObject = new AuthorizationObject(authName, node.elementWrapper.owningPackage);
+                if ( authorizationObject != null)
+                {
+                    var authorizationCheck = new BOPFAuthorizationCheck(node, authorizationObject);
+                    authorizationCheck.constraint = $"{node.name}.{authNodeAttributeName} = {authName}.{authFieldName}";
+                }
+            }
+        }
+        private void processAltKeys(XElement nodeNode, BOPFNode node)
+        {
+            //<altkeys>
+            //	<altkey name="HOST_PARENT" key="7EAE1BA4330B1ED5849B3C9FD476D55F">
+            //		<notes>Alt. key voor bovenl. knooppunt host</notes>
+            //		<altkey_settings>
+            //			<altkey_unique>N</altkey_unique>
+            //			<implementation>
+            //				<data_type>/BOBF/S_LIB_K_DELEGATION</data_type>
+            //				<data_table_type>/BOBF/T_LIB_K_DELEGATION</data_table_type>
+            //			</implementation>
+            //		</altkey_settings>
+            //	</altkey>
+            //</altkeys>
+            foreach (var altkeyNode in nodeNode.Element("node_elements")?.Element("altkeys")?.Elements("altkey") ?? Array.Empty<XElement>())
+            {
+                var altkeyName = altkeyNode.Attribute("name").Value;
+                var altkeyKey = altkeyNode.Attribute("key").Value;
+                var altkey = new BOPFAlternativeKey(altkeyName, node, altkeyKey);
+                //set notes
+                var notesNode = altkeyNode.Element("notes");
+                if (notesNode != null)
+                {
+                    altkey.notes = notesNode.Value;
+                }
+                //altkey_unique
+                var altKeyUnique = altkeyNode.Element("altkey_settings")?.Element("altkey_unique")?.Value;
+                if (altKeyUnique != null) altkey.unique = altKeyUnique;
+                //datatype
+                var datatypeClassName = altkeyNode.Element("implementation")?.Element("data_type")?.Value;
+                if (!string.IsNullOrEmpty(datatypeClassName))
+                {
+                    altkey.dataType = new SAPClass(datatypeClassName, node.elementWrapper.owningPackage);
+                }
+                else
+                {
+                    altkey.dataType = null;
+                }
+                //datatype type
+                var dataTypeTypeName = altkeyNode.Element("implementation")?.Element("data_table_type")?.Value;
+                if (!string.IsNullOrEmpty(datatypeClassName))
+                {
+                    altkey.dataTableType = new SAPDatatype(dataTypeTypeName, node.elementWrapper.owningPackage);
+                }
+                else
+                {
+                    altkey.dataTableType = null;
+                }
+            }
+        }
+        private void processQueries(XElement nodeNode, BOPFNode node)
+        {
+            //<queries>
+            //    <query name="SELECT_BY_ATTRIBUTES" key="7EAE1BA4330B1ED592DF2E8CEF0EC600">
+            //	    <notes/>
+            //	    <qry_settings/>
+            //	    <implementation>
+            //		    <query_class/>
+            //		    <filter_structure>ZAS_TOEWIJZINGSTYPE_GROEP_D</filter_structure>
+            //	    </implementation>
+            //    </query>
+            foreach (var queryNode in nodeNode.Element("node_elements")?.Element("queries")?.Elements("query") ?? Array.Empty<XElement>())
+            {
+                var queryName = queryNode.Attribute("name").Value;
+                var queryKey = queryNode.Attribute("key").Value;
+                var query = new BOPFQuery(queryName, node, queryKey);
+                //set notes
+                var notesNode = queryNode.Element("notes");
+                if (notesNode != null)
+                {
+                    query.notes = notesNode.Value;
+                }
+                //Filter Structure
+                var filterStructureName = queryNode.Element("implementation")?.Element("filter_structure")?.Value;
+                if (!string.IsNullOrEmpty(filterStructureName))
+                {
+                    query.filterStructure = new SAPDatatype(filterStructureName, node.elementWrapper.owningPackage);
+                }
+                else
+                {
+                    query.filterStructure = null;
+                }
+            }
+            //TODO: result structure, result table type (last one exists as tagged value in the profile, but not in xml files?)
+        }
+        private void processActions(XElement nodeNode, BOPFNode node)
+        {
+            //<actions>
+            //	<action name="SELECT_ALL_BRONOBJ" key="7EAE1BA4330B1ED695ACBADBE6115AFC">
+            //		<notes>alle gefilterde bronobjecten selecteren</notes>
+            //		<action_settings>
+            //			<cardinality>Multiple Node Instances</cardinality>
+            //			<implementation>
+            //				<action_class>ZA_CL_TOEWIJZINGSTYPE_ACT</action_class>
+            //				<filter_structure/>
+            //			</implementation>
+            //		</action_settings>
+            //	</action>
+            foreach (var actionNode in nodeNode.Element("node_elements")?.Element("actions")?.Elements("action") ?? Array.Empty<XElement>())
+            {
+                var actionName = actionNode.Attribute("name").Value;
+                var actionKey = actionNode.Attribute("key").Value;
+                var action = new BOPFAction(actionName, node, actionKey);
+                //set notes
+                var notesNode = actionNode.Element("notes");
+                if (notesNode != null)
+                {
+                    action.notes = notesNode.Value;
+                }
+                //Category and actionclass from action_settings
+                action.cardinality = actionNode.Element("action_settings")?.Element("cardinality")?.Value;
+                //TODO: action class and filter structure (to be added in profile)
+                //var actionClassName = actionNode.Element("action_settings")?.Element("implementation")?.Element("action_class")?.Value;
+                //if (!string.IsNullOrEmpty(actionClassName))
+                //{
+                //    action.actionClass = new SAPClass(actionClassName, action.elementWrapper.owningPackage);
+                //}
+                //else
+                //{
+                //    action.actionClass = null;
+                //}
+            }
+
+        }
+        private void processValidations(XElement nodeNode, BOPFNode node)
+        {
+            //<validations>
+            //<validation name="CHECK_TITEL_NL" key="7EAE1BA4330B1ED59CE236A35BFDD2CD">
+            //	<notes/>
+            //	<validation_settings>
+            //		<val_class>ZA_CL_TEXT_COLLECTION_VAL</val_class>
+            //		<val_category>Action Check</val_category>
+            //	</validation_settings>
+            //	<trigger_actions>
+            //		<node_category>
+            //			<trigger_action>SAVE_TEXT_CONTENT</trigger_action>
+            //		</node_category>
+            //	</trigger_actions>
+            //</validation>
+            foreach (var validationNode in nodeNode.Element("node_elements")?.Element("validations")?.Elements("validation") ?? Array.Empty<XElement>())
+            {
+                var validationName = validationNode.Attribute("name").Value;
+                var validationKey = validationNode.Attribute("key").Value;
+                var validation = new BOPFValidation(validationName, node, validationKey);
+                //set notes
+                var notesNode = validationNode.Element("notes");
+                if (notesNode != null)
+                {
+                    validation.notes = notesNode.Value;
+                }
+                //Category and validationclass from validation_settings
+                validation.category = validationNode.Element("validation_settings")?.Element("val_category")?.Value;
+                var validationClassName = validationNode.Element("validation_settings")?.Element("val_class")?.Value;
+                if (!string.IsNullOrEmpty(validationClassName))
+                {
+                    validation.validationClass = new SAPClass(validationClassName, validation.elementWrapper.owningPackage);
+                }
+                else
+                {
+                    validation.validationClass = null;
+                }
+                //trigger actions
+                foreach (var triggerActionNode in validationNode.Element("trigger_actions")?.Element("node_category")?.Elements("trigger_action") ?? Array.Empty<XElement>())
+                {
+                    var triggerActionName = triggerActionNode.Value;
+                    if (!string.IsNullOrEmpty(triggerActionName))
+                    {
+                        //get the trigger action
+                        var triggerAction = new BOPFAction(triggerActionName, node, "");
+                        //create the relation between them
+                        new BOPFActionValidationTrigger (validation, triggerAction);
+                        //TODO: ActionValidation has a nodeCategory property, but that doesn't seem to be present in the xml
+                    }
+                }
             }
         }
         private void processDeterminations(XElement nodeNode, BOPFNode node)
@@ -424,7 +621,7 @@ namespace SAP2EAImporter
             //		<dependent_determinations/>
             //	</determination>
             //</determinations>
-            foreach (var determinationNode in nodeNode.Element("node_elements").Element("determinations").Elements("determination"))
+            foreach (var determinationNode in nodeNode.Element("node_elements")?.Element("determinations")?.Elements("determination") ?? Array.Empty<XElement>())
             {
                 var determinationName = determinationNode.Attribute("name").Value;
                 var determinationKey = determinationNode.Attribute("key").Value;
@@ -435,16 +632,74 @@ namespace SAP2EAImporter
                 {
                     determination.notes = notesNode.Value;
                 }
-                foreach (var triggerNode in determinationNode.Element("trigger_conditions")?.Elements("trigger_condition"))
+                //trigger conditions
+                foreach (var triggerNode in determinationNode.Element("trigger_conditions")?.Elements("trigger_condition") ?? Array.Empty<XElement>())
                 {
                     var triggerNodeName = triggerNode.Attribute("Trigger_node").Value;
                     var triggerBOName = triggerNode.Attribute("Trigger_node_bo").Value;
                     var triggerNodeKey = triggerNode.Attribute("Trigger_node_key").Value;
-                    var tiggereredNodeBO = new BOPFBusinessObject(triggerBOName, node.wrappedElement.owningPackage, String.Empty);
-                    var triggeredNode = new BOPFNode(triggerNodeName, tiggereredNodeBO, triggerNodeKey);
-
+                    var triggerBOPFNodeBO = new BOPFBusinessObject(triggerBOName, node.wrappedElement.owningPackage, String.Empty);
+                    var triggerBOPFNode = new BOPFNode(triggerNodeName, triggerBOPFNodeBO, triggerNodeKey);
+                    //create the determinationTriggeredBy relation to the triggerBOPFNode
+                    var triggerConnector = new BOPFDeterminationTrigger(determination, triggerBOPFNode);
+                    //read trigger points
+                    triggerConnector.triggersOnCreate = this.getAttributeBoolValue(triggerNode, "Create");
+                    triggerConnector.triggersOnUpdate = this.getAttributeBoolValue(triggerNode, "Update");
+                    triggerConnector.triggersOnDelete = this.getAttributeBoolValue(triggerNode, "Delete");
+                    triggerConnector.triggersOnLoad = this.getAttributeBoolValue(triggerNode, "Load");
+                    triggerConnector.triggersOnDetermine = this.getAttributeBoolValue(triggerNode, "Determine");
+                }
+                //evaluation timepoints
+                var evaluationTimepointNode = determinationNode.Element("evaluation_timepoints")?.Element("evaluation_timepoint");
+                if (evaluationTimepointNode != null)
+                {
+                    determination.evaluateBeforeRetrieve = getAttributeBoolValue(evaluationTimepointNode, "before_retrieve");
+                    determination.evaluateAfterLoading = getAttributeBoolValue(evaluationTimepointNode, "after_loading");
+                    //determination.eva.. = getAttributeBoolValue(evaluationTimepointNode, "after_creation"); TODO
+                    //determination.eva.. = getAttributeBoolValue(evaluationTimepointNode, "after_change"); TODO
+                    //determination.eva.. = getAttributeBoolValue(evaluationTimepointNode, "after_deletion"); TODO
+                    determination.evaluateAfterModify = getAttributeBoolValue(evaluationTimepointNode, "after_modification");
+                    determination.evaluateAfterValidation = getAttributeBoolValue(evaluationTimepointNode, "after_validation");
+                    determination.evaluateBeforeSaveFinalize = getAttributeBoolValue(evaluationTimepointNode, "before_save_finalize");
+                    determination.evaluateAfterCommit = getAttributeBoolValue(evaluationTimepointNode, "after_commit");
+                    determination.evaluateAfterFailedSave = getAttributeBoolValue(evaluationTimepointNode, "after_failed_save_attempt");
+                    determination.evaluateDuringSave = getAttributeBoolValue(evaluationTimepointNode, "during_save_before_writing_data");
+                    determination.evaluateBeforeSaveDrawNumbers = getAttributeBoolValue(evaluationTimepointNode, "before_save_draw_numbers");
+                    determination.evaluateBeforeSaveBeforeConsistency = getAttributeBoolValue(evaluationTimepointNode, "before_save_before_consistency_check");
+                    determination.evaluateDuringCheckAndDetermine = getAttributeBoolValue(evaluationTimepointNode, "check_and_determine_before_consistency_check");
+                    determination.evaluateCleanup = getAttributeBoolValue(evaluationTimepointNode, "cleanup");
+                }
+                //Category and determinationclass from determination_settings
+                determination.category = determinationNode.Element("determination_settings")?.Element("det_category")?.Value;
+                var determinationClassName = determinationNode.Element("determination_settings")?.Element("det_class")?.Value;
+                if (! string.IsNullOrEmpty(determinationClassName))
+                {
+                    determination.determinationClass = new SAPClass(determinationClassName, determination.elementWrapper.owningPackage);
+                }
+                else
+                {
+                    determination.determinationClass = null;
+                }
+                //dependencies to other determinations
+                //<necessary_determinations>
+				//  <determination name="SET_ENDDATE_31_12_9999"/>
+				//</necessary_determinations>
+                foreach (var dependingDeterminationNode in determinationNode.Element("necessary_determinations")?.Elements("determination") ?? Array.Empty<XElement>())
+                {
+                    var dependingDeterminationName = dependingDeterminationNode.Attribute("name")?.Value;
+                    if (!string.IsNullOrEmpty(determinationName))
+                    {
+                        //get the depending determination
+                        var dependingDetermination = new BOPFDetermination(dependingDeterminationName, node, "");
+                        //create the relation between them
+                        new BOPFDeterminationDependency(determination, dependingDetermination);
+                    }
                 }
             }
+        }
+        private bool getAttributeBoolValue (XElement node, string attributeName)
+        {
+            return "True".Equals(node.Attribute(attributeName)?.Value, StringComparison.InvariantCultureIgnoreCase);
         }
         private void processAssociations(XElement nodeNode, BOPFNode sourceNode)
         {
@@ -466,7 +721,7 @@ namespace SAP2EAImporter
             //			</implementation>
             //		</assoc_settings>
             //	</association>
-            foreach (var associationNode in nodeNode.Element("node_elements").Element("associations").Elements("association"))
+            foreach (var associationNode in nodeNode.Element("node_elements")?.Element("associations")?.Elements("association") ?? Array.Empty<XElement>())
             {
                 var assocationName = associationNode.Attribute("name").Value;
                 var associationKey = associationNode.Attribute("key").Value;
@@ -612,7 +867,7 @@ namespace SAP2EAImporter
             //save rolePackage
             rolePackage.save();
             //process the orgunit nodes as User Categories
-            foreach (var userCategoryNode in elementNode.Element("assignment")?.Elements("orgunit"))
+            foreach (var userCategoryNode in elementNode.Element("assignment")?.Elements("orgunit") ?? Array.Empty<XElement>())
             {
                 var userCategoryName = userCategoryNode.Attribute("name").Value;
 
@@ -669,7 +924,7 @@ namespace SAP2EAImporter
             //save functionModule
             functionModule.save();
             // process parameters as ports
-            foreach (var parameterNode in elementNode.Element("parameters")?.Elements("parameter"))
+            foreach (var parameterNode in elementNode.Element("parameters")?.Elements("parameter") ?? Array.Empty<XElement>())
             {
                 var parameterName = parameterNode.Attribute("name").Value;
                 var parameterDatatypeType = parameterNode.Attribute("datatype").Value;
@@ -732,7 +987,7 @@ namespace SAP2EAImporter
             //	</authorizations>
             if (authorizationsNode != null)
             {
-                foreach (var authorizationNode in authorizationsNode.Elements("authorization"))
+                foreach (var authorizationNode in authorizationsNode.Elements("authorization") ?? Array.Empty<XElement>())
                 {
                     //get authorizationObject
                     var authorizationObjectName = authorizationNode.Attribute("auth_object").Value;
@@ -753,12 +1008,12 @@ namespace SAP2EAImporter
                     var authorization = new Authorization(authorizationName, singleRole, authorizationObject);
                     var authorizationFields = new Dictionary<string, string>();
                     //process authorization fields
-                    foreach (var authFieldNode in authorizationNode.Elements("auth_field"))
+                    foreach (var authFieldNode in authorizationNode.Elements("auth_field") ?? Array.Empty<XElement>())
                     {
                         var authFieldName = authFieldNode.Attribute("name").Value;
                         //get all values and concatenate with ","
                         var values = new List<string>();
-                        foreach (var valueNode in authFieldNode.Elements("field_value"))
+                        foreach (var valueNode in authFieldNode.Elements("field_value") ?? Array.Empty<XElement>())
                         {
                             values.Add(valueNode.Value);
                         }
@@ -810,7 +1065,7 @@ namespace SAP2EAImporter
             }
             compositeRole.save();
             // Import the aggregated single roles.
-            foreach (var singleRoleNode in elementNode.Element("single_roles")?.Elements("single_role"))
+            foreach (var singleRoleNode in elementNode.Element("single_roles")?.Elements("single_role") ?? Array.Empty<XElement>())
             {
                 var singleRoleName = singleRoleNode.Attribute("name").Value;
 
@@ -840,11 +1095,11 @@ namespace SAP2EAImporter
             if (assignmentNode == null)
                 return;
             //process functionModules in their groups
-            foreach (var groupNode in assignmentNode.Elements("group"))
+            foreach (var groupNode in assignmentNode.Elements("group") ?? Array.Empty<XElement>())
             {
                 var groupName = groupNode.Attribute("name").Value;
 
-                foreach (var functionModuleNode in groupNode.Elements("function_module"))
+                foreach (var functionModuleNode in groupNode.Elements("function_module") ?? Array.Empty<XElement>())
                 {
                     var functionModuleName = functionModuleNode.Attribute("name").Value;
                     FunctionModule functionModule;
@@ -855,7 +1110,7 @@ namespace SAP2EAImporter
                 }
             }
             //process rolePackages
-            foreach (var rolePackageNode in assignmentNode.Elements("role_package"))
+            foreach (var rolePackageNode in assignmentNode.Elements("role_package") ?? Array.Empty<XElement>())
             {
                 var rolePackageName = rolePackageNode.Attribute("name").Value;
                 RolePackage rolePackage;

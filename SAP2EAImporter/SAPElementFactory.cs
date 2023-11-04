@@ -34,6 +34,18 @@ namespace SAP2EAImporter
             {
                 return new BOPFNode(elementWrapper as UMLEA.Class);
             }
+            if (stereotype == BOPFAction.stereotype)
+            {
+                return new BOPFAction(elementWrapper as UMLEA.Activity);
+            }
+            if (stereotype == BOPFValidation.stereotype)
+            {
+                return new BOPFValidation(elementWrapper as UMLEA.Activity);
+            }
+            if (stereotype == BOPFQuery.stereotype)
+            {
+                return new BOPFQuery(elementWrapper as UMLEA.Activity);
+            }
             if (stereotype == CompositeRole.stereotype)
             {
                 return new CompositeRole(elementWrapper as UMLEA.Class);
@@ -68,6 +80,7 @@ namespace SAP2EAImporter
             {
                 return new SingleRole(elementWrapper as UMLEA.Class);
             }
+            
             //default case
             return null;
         }

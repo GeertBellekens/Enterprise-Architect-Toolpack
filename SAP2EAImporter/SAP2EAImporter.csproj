@@ -47,12 +47,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOPFAction.cs" />
+    <Compile Include="BOPFActionValidationTrigger.cs" />
+    <Compile Include="BOPFAlternativeKey.cs" />
+    <Compile Include="BOPFAuthorizationCheck.cs" />
     <Compile Include="BOPFBusinessObject.cs" />
     <Compile Include="BOPFDetermination.cs" />
+    <Compile Include="BOPFDeterminationDependency.cs" />
     <Compile Include="BOPFNode.cs" />
     <Compile Include="BOPFNodeOwner.cs" />
+    <Compile Include="BOPFDeterminationTrigger.cs" />
+    <Compile Include="BOPFQuery.cs" />
+    <Compile Include="BOPFValidation.cs" />
     <Compile Include="ISAPElement.cs" />
     <Compile Include="SAPAssociation.cs" />
+    <Compile Include="SAPAttribute.cs" />
     <Compile Include="SAPClass.cs" />
     <Compile Include="SAPComposition.cs" />
     <Compile Include="SAPConnector.cs" />
@@ -83,4 +92,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"%25windir%25\Microsoft.NET\Framework\v4.0.30319\regasm.exe" "$(TargetPath)" /codebase /tlb</PostBuildEvent>
+  </PropertyGroup>
 </Project>

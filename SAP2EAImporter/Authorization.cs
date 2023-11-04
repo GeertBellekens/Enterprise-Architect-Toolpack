@@ -26,7 +26,7 @@ namespace SAP2EAImporter
                 // Create the element in EA
                 this.wrappedElement = owningRole.wrappedElement.addOwnedElement<UMLEA.InstanceSpecification>(name);
                 // Add the stereotype to the element.
-                this.wrappedElement.setStereotype(stereotype);
+                this.wrappedElement.fqStereotype = stereotype;
                 //set the authorizationObject
                 this.authorizationObject = authorizationObject;
                 //save 
