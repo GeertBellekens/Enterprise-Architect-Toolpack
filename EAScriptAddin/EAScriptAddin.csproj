@@ -140,7 +140,7 @@
       <Project>{4161DD26-375F-4744-BA96-B70366E19A78}</Project>
       <Name>EAAddinFramework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\TextHelper\TextHelper\TextHelper.csproj">
+    <ProjectReference Include="..\..\TextHelper\TextHelper.csproj">
       <Project>{377dce16-fbb7-4611-8b03-40bdf76ffe9b}</Project>
       <Name>TextHelper</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>

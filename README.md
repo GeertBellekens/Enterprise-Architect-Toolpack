@@ -26,3 +26,5 @@ The Enterprise Architect Toolpack contains the actual tools and add-ins for Spar
 
 ##### More info:
 https://bellekens.com
+
+https://bellekens.com/2011/01/29/tutorial-create-your-first-c-enterprise-architect-add-in-in-10-minutes/

@@ -91,7 +91,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAJSON", "EAJSON\EAJSON.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EARefDataSplitter", "..\EARefDataSplitter\EARefDataSplitter\EARefDataSplitter.csproj", "{66D44B95-3D44-4799-8836-D0E17A466931}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextHelper", "..\TextHelper\TextHelper\TextHelper.csproj", "{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextHelper", "..\TextHelper\TextHelper.csproj", "{377DCE16-FBB7-4611-8B03-40BDF76FFE9B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP2EAImporter", "SAP2EAImporter\SAP2EAImporter.csproj", "{69F3DC26-99B2-461C-8D4F-8D47702FA90C}"
 EndProject
