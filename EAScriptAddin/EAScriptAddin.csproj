@@ -156,6 +156,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EAScriptAddinSettingForm.resx">
       <DependentUpon>EAScriptAddinSettingForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TextHelperControl.resx">
       <DependentUpon>TextHelperControl.cs</DependentUpon>

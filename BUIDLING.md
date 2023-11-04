@@ -73,3 +73,6 @@ In your code right click the a line and choose "Breakpoint > Insert Breakpoint".
 ## BrightIdeasSoftware can't be found even though nuGet says its installed.
 Reboot seemed to fix that.
 
+## Log file
+
+EA-Matic writes its log file to %temp%\EAAddinFramework.log
