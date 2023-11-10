@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using EA;
 using EAAddinFramework;
+using UMLEA = TSF.UmlToolingFramework.Wrappers.EA;
 using UML = TSF.UmlToolingFramework.UML;
+using EAAddinFramework.Utilities;
 //SAP2EAImporter.SAP2EAImporterAddin
 namespace SAP2EAImporter
 {
@@ -47,10 +49,27 @@ namespace SAP2EAImporter
                     break;
             }
         }
-
+        const string outputName = "SAP2EAImporter"; //TODO move to settings
         private void import(UML.Classes.Kernel.Package package)
         {
+            SAPElement<UMLEA.ElementWrapper>.clearRegistry();
             new SAP2EAXmlImporter().import(package);
+            //inform user
+            EAOutputLogger.log(this.model, outputName
+                              , $"Starting formatting diagrams"
+                              , ((UMLEA.ElementWrapper)package).id 
+                             , LogTypeEnum.log);
+            var sapElements = SAPElement<UMLEA.ElementWrapper>.elementRegistry.Values.ToList();
+            //after importing we can format the diagrams
+            foreach (var sapElement in sapElements)
+            {
+                sapElement.formatDiagrams();
+            }
+            //inform user
+            EAOutputLogger.log(this.model, outputName
+                              , $"Finished formatting diagrams'"
+                              , ((UMLEA.ElementWrapper)package).id
+                             , LogTypeEnum.log);
         }
 
         public override object EA_GetMenuItems(Repository Repository, string MenuLocation, string MenuName)

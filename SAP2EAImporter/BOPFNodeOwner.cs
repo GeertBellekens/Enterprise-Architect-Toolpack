@@ -11,5 +11,8 @@ namespace SAP2EAImporter
     interface BOPFNodeOwner : ISAPElement
     {
         BOPFNode addNode(string name, string key);
+        string name { get; }
+        List<BOPFNode> ownedNodes { get; }
+        List<BOPFNode> allOwnedNodes { get; }
     }
 }

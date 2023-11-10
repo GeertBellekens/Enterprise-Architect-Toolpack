@@ -94,6 +94,7 @@ namespace SAP2EAImporter
             var systemName = this.xDoc.Root.Attribute("system").Value; // Ex: R3
                                                                        // Using the systemName, get the corresponding package in EA. If a package with the given system name does not exist, 
                                                                        // Create one in the selected package. everything in the input xml is imported in the system package.
+            //TODO: Add system name to settings
             var systemPackage = getPackage(systemName, selectedPackage, "Bibliotheek Technisch");
 
             foreach (var packageNode in this.xDoc.Root.Elements("package") ?? Array.Empty<XElement>()) // packages

@@ -12,9 +12,18 @@ namespace SAP2EAImporter
     abstract class SAPElement<T> : ISAPElement
         where T : UMLEA.ElementWrapper
     {
-        const string keyTagName = "Key";
-        const string profileName = "SAP";
-        internal T wrappedElement { get; set; }
+        protected const string keyTagName = "Key";
+        protected const string profileName = "SAP";
+        private T _wrappedElement;
+        internal T wrappedElement 
+        { get => this._wrappedElement;
+            set
+            {
+                this._wrappedElement = value;
+                //add myself to the registry of SAPElements
+                SAPElement<ElementWrapper>.elementRegistry[value.uniqueID] = this;
+            }
+        }
         public ElementWrapper elementWrapper 
         { 
             get => this.wrappedElement;
@@ -51,7 +60,7 @@ namespace SAP2EAImporter
         /// <param name="package"> the parent package</param>
         protected SAPElement(string name, UML.Classes.Kernel.Namespace package) : this(name, package, string.Empty) { }
         protected SAPElement(string name, UML.Classes.Kernel.Namespace package, string stereotypeName): this(name, package, stereotypeName, string.Empty){}
-        protected SAPElement(string name, UML.Classes.Kernel.Namespace owner, string stereotypeName, string key, bool searchGlobal = false, bool searchPackage = false)
+        protected SAPElement(string name, UML.Classes.Kernel.Namespace owner, string stereotypeName, string key, bool searchGlobal = false, bool searchPackage = false): this()
         {
             var fqStereo = string.Empty;
             if (!string.IsNullOrEmpty(stereotypeName))
@@ -82,12 +91,19 @@ namespace SAP2EAImporter
                 this.save();
             }
         }
-        protected SAPElement(T wrappedElement)
+        protected SAPElement(T wrappedElement) : this()
         {
             this.wrappedElement = wrappedElement;
         }
+        public SAPElement()
+        {        
 
-        
+        }
+        public static Dictionary<string,ISAPElement> elementRegistry = new Dictionary<string, ISAPElement>();
+        public static void clearRegistry()
+        {
+            SAPElement<ElementWrapper>.elementRegistry.Clear();
+        }
 
         internal Q getElement<Q>(UMLEA.ElementWrapper owner, string name, string key, string fqStereo, bool searchGlobal = false, bool searchPackage = false  ) where Q : UMLEA.ElementWrapper
         {
@@ -170,10 +186,7 @@ namespace SAP2EAImporter
             }
             return element;
         }
-        public SAPElement()
-        {
-            //default empty constructor
-        }
+
 
         public void save()
         {
@@ -247,6 +260,11 @@ namespace SAP2EAImporter
             attribute.position = attributePos;
             attribute.save();
             return attribute;
+        }
+
+        public virtual void formatDiagrams()
+        {
+            //default empty implementation
         }
     }
 }

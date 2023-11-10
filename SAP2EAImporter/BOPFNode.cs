@@ -29,6 +29,27 @@ namespace SAP2EAImporter
         }
         public BOPFNode(UMLEA.Class eaClass) : base(eaClass) { }
 
+        public static List<BOPFNode> getOwnedNodes(BOPFNodeOwner owner)
+        {
+            List<BOPFNode> nodes = new List<BOPFNode>();
+            foreach (var wrapper in owner.elementWrapper.ownedElementWrappers
+                                    .OfType<Class>()
+                                    .Where(x => x.fqStereotype == $"{profileName}::{stereotype}" ))
+            {
+                nodes.Add(new BOPFNode(wrapper));
+            }
+            return nodes;
+        }
+        public static List<BOPFNode> getAllOwnedNodes(BOPFNodeOwner owner)
+        {
+            List<BOPFNode> ownedNodes = new List<BOPFNode>(owner.ownedNodes);
+            foreach (BOPFNode node in owner.ownedNodes)
+            {
+                ownedNodes.AddRange(getAllOwnedNodes(node));
+            }
+            return ownedNodes;
+        }
+
         BOPFNodeOwner _owner;
         public BOPFNodeOwner owner
         {
@@ -149,6 +170,8 @@ namespace SAP2EAImporter
         {
             return new BOPFNode(name, this, key, true);
         }
+        public List<BOPFNode> ownedNodes => getOwnedNodes(this);
+        public List<BOPFNode> allOwnedNodes => getAllOwnedNodes(this);
 
     }
 }
