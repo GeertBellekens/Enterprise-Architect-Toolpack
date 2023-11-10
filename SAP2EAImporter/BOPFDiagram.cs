@@ -49,12 +49,14 @@ namespace SAP2EAImporter
             if (this.ownerBusinessObject != null)
             {
                 //get all owned nodes recursively
+                elementsToAdd.Add(this.ownerBusinessObject);
                 elementsToAdd.AddRange(ownerBusinessObject.allOwnedNodes);
             }
             else if (this.ownerNode != null)
             {
-                //get all direct owned SAPElements
-                //TODO:
+                //get all direct owned SAPElements that are not nodes
+                elementsToAdd.Add(this.ownerNode);
+                elementsToAdd.AddRange(ownerNode.ownedNonNodes);
             }
             //add them to the diagram
             foreach (var element in elementsToAdd)
@@ -65,7 +67,8 @@ namespace SAP2EAImporter
 
         public void format()
         {
-
+            //TODO: fix layout; autolayout for now
+            this.wrappedDiagram.autoLayout();
         }
     }
 }

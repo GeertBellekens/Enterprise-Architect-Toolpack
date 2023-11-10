@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EAAddinFramework.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace SAP2EAImporter
     class BOPFNode : SAPElement<UMLEA.Class>, BOPFNodeOwner
     {
         public static string stereotype => "BOPF_node";
+        
 
         public BOPFNode(string name, BOPFNodeOwner owner, string key, bool relocate)
             : this(name, owner, key)
@@ -36,7 +38,26 @@ namespace SAP2EAImporter
                                     .OfType<Class>()
                                     .Where(x => x.fqStereotype == $"{profileName}::{stereotype}" ))
             {
-                nodes.Add(new BOPFNode(wrapper));
+                var element = SAPElementFactory.CreateSAPElement(wrapper) as BOPFNode;
+                if (element != null)
+                {
+                    nodes.Add(element);
+                }
+            }
+            return nodes;
+        }
+        public static List<ISAPElement> getOwnedNonNodes(BOPFNodeOwner owner)
+        {
+            List<ISAPElement> nodes = new List<ISAPElement>();
+            foreach (var wrapper in owner.elementWrapper.ownedElementWrappers
+                                    .Where(x => x.fqStereotype.Substring(0,profileName.Length + 2) == $"{profileName}::"
+                                    && x.fqStereotype != $"{profileName}::{stereotype}"))
+            {
+                var element = SAPElementFactory.CreateSAPElement(wrapper);
+                if (element != null)
+                {
+                    nodes.Add(element);
+                }
             }
             return nodes;
         }
@@ -172,6 +193,32 @@ namespace SAP2EAImporter
         }
         public List<BOPFNode> ownedNodes => getOwnedNodes(this);
         public List<BOPFNode> allOwnedNodes => getAllOwnedNodes(this);
+        public List<ISAPElement> ownedNonNodes => getOwnedNonNodes(this);
+
+        const string outputName = "SAP2EAImporter"; //TODO move to settings
+        public override void formatDiagrams()
+        {
+            EAOutputLogger.log(this.wrappedElement.EAModel, outputName
+                          , $"Formatting diagrams for '{this.name}'"
+                          , this.wrappedElement.id
+                         , LogTypeEnum.log);
+            //make sure all nodes and subnodes are on the diagram
+            this.diagram.complete();
+            //format the diagram
+            this.diagram.format();
+        }
+        private BOPFDiagram _diagram;
+        private BOPFDiagram diagram
+        {
+            get
+            {
+                if (this._diagram == null)
+                {
+                    this._diagram = new BOPFDiagram(this);
+                }
+                return this._diagram;
+            }
+        }
 
     }
 }
