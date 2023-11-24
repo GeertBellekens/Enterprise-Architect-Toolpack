@@ -51,6 +51,7 @@ namespace EAScriptAddin
                     }
                 });
                 await myTask;
+                this.refDataSplitterForm.setTransferFinished();
             }
         }
 
