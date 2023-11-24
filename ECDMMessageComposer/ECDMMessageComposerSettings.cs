@@ -542,6 +542,30 @@ namespace ECDMMessageComposer
                 this.setBooleanValue("useMultiplicityForUseTagOnXsdAttributes", value);
             }
         }
+
+        public bool useRecycleBin
+        {
+            get
+            {
+                return this.getBooleanValue("useRecycleBin");
+            }
+            set
+            {
+                this.setBooleanValue("useRecycleBin", value);
+            }
+        }
+        public string recycleBinName
+        {
+            get
+            {
+                return this.getValue("recycleBinName");
+            }
+            set
+            {
+                this.setValue("recycleBinName", value);
+            }
+        }
+
         /// <summary>
         /// Determines if all generalizations have to be copied for this element, based on the property CopyAllGeneralizations, and the inheritanceExceptionStereotypes
         /// </summary>

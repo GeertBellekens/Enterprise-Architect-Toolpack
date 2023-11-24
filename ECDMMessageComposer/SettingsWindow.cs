@@ -82,8 +82,12 @@ namespace ECDMMessageComposer
             //redirectGeneralizationsToSubset
             this.RedirectGeneralizationsCheckBox.Checked = this.messageComposerSettings.redirectGeneralizationsToSubset;
             this.checkSecurityCheckBox.Checked = this.messageComposerSettings.checkSecurity;
-            this.deleteUnusedElementsCheckBox.Checked = this.messageComposerSettings.deleteUnusedSchemaElements;
             this.usePackageSubsetsOnlyCheckBox.Checked = this.messageComposerSettings.usePackageSchemasOnly;
+            //delete options
+            this.deleteUnusedElementsCheckBox.Checked = this.messageComposerSettings.deleteUnusedSchemaElements;
+            this.useRecycleBinCheckBox.Checked = this.messageComposerSettings.useRecycleBin;
+            this.recyleBinNameTextBox.Text = this.messageComposerSettings.recycleBinName;
+
             //notes options
             this.prefixNotesCheckBox.Checked = this.messageComposerSettings.prefixNotes;
             this.notesPrefixTextBox.Text = this.messageComposerSettings.prefixNotesText;
@@ -111,6 +115,7 @@ namespace ECDMMessageComposer
             this.elementTagTextBox.Enabled = this.tvInsteadOfTraceCheckBox.Checked;
             this.prefixNotesCheckBox.Enabled = !this.keepNotesInSyncCheckBox.Checked;
             this.operationTagTextBox.Enabled = this.copyOperationsCheckbox.Checked;
+            this.recyleBinNameTextBox.Enabled = this.useRecycleBinCheckBox.Checked;
         }
         private void saveChanges()
         {
@@ -133,11 +138,16 @@ namespace ECDMMessageComposer
             this.messageComposerSettings.copyAllGeneralizations = this.copyAllGeneralizationsCheckBox.Checked;
             this.messageComposerSettings.redirectGeneralizationsToSubset = this.RedirectGeneralizationsCheckBox.Checked;
 
-            this.messageComposerSettings.checkSecurity = this.checkSecurityCheckBox.Checked;
-            this.messageComposerSettings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
+            this.messageComposerSettings.checkSecurity = this.checkSecurityCheckBox.Checked;  
             this.messageComposerSettings.usePackageSchemasOnly = this.usePackageSubsetsOnlyCheckBox.Checked;
             this.messageComposerSettings.generateToArtifactPackage = this.generateToArtifactPackageCheckBox.Checked;
             this.messageComposerSettings.useAliasForRedefinedElements = this.useAliasForRedefinedElementsCheckBox.Checked;
+            
+            //delete options
+            this.messageComposerSettings.deleteUnusedSchemaElements = this.deleteUnusedElementsCheckBox.Checked;
+            this.messageComposerSettings.useRecycleBin = this.useRecycleBinCheckBox.Checked;
+            this.messageComposerSettings.recycleBinName= this.recyleBinNameTextBox.Text;
+
             //notes options
             this.messageComposerSettings.prefixNotes = this.prefixNotesCheckBox.Checked;
             this.messageComposerSettings.prefixNotesText = this.notesPrefixTextBox.Text;
@@ -316,6 +326,9 @@ namespace ECDMMessageComposer
             this.enableDisable();
         }
 
-
+        private void useRecycleBinCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.enableDisable();
+        }
     }
 }
