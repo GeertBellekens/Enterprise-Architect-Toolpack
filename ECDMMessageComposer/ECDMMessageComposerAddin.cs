@@ -292,6 +292,11 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
                     Cursor.Current = Cursors.Default;
                 }
             }
+            catch (AmbiguityException e)
+            {
+                MessageBox.Show(this.model.mainEAWindow, e.Message
+                                    , "Ambiguity Detected!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (Exception e)
             {
                 processException(e);
