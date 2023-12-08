@@ -76,6 +76,7 @@
     <Compile Include="RolePackage.cs" />
     <Compile Include="SAPElementFactory.cs" />
     <Compile Include="SAPTable.cs" />
+    <Compile Include="SAPView.cs" />
     <Compile Include="SingleRole.cs" />
     <Compile Include="UserCategory.cs" />
     <Compile Include="SAP2EAImporterAddin.cs" />

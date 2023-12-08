@@ -226,7 +226,8 @@ namespace SAP2EAImporter
             this.setStringProperty(tagName, value?.uniqueID);
         }
 
-        internal UMLEA.Attribute addOrUpdateAttribute(string attributeName, string key, string fqStereo, string notes, string datatype, int attributePos )
+        internal UMLEA.Attribute addOrUpdateAttribute(string attributeName, string key, string fqStereo, string notes, string datatype, int attributePos
+                                                     , int length = 0, int scale = 0, bool isKey = false)
         {
             //check if this attribute exists
             var sqlGetData = $@"select a.ea_guid from t_attribute a
@@ -257,6 +258,11 @@ namespace SAP2EAImporter
                 attribute.setStereotype(fqStereo);
             }
             attribute.type = attribute.EAModel.factory.createPrimitiveType(datatype);
+            //set both precision and length to length. EA makes a difference between those two based on the database type.
+            attribute.precision = length;
+            attribute.length = length;
+            attribute.scale = scale;
+            attribute.isOrdered = isKey;
             attribute.position = attributePos;
             attribute.save();
             return attribute;

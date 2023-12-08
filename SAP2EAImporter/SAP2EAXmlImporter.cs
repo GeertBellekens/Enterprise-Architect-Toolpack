@@ -23,6 +23,8 @@ namespace SAP2EAImporter
         const string SapUsercategory = "ORG";
         const string SapBopf = "BOBF";
         const string SapClass = "CLAS";
+        const string SapTable = "TABL";
+        const string SapView = "VIEW";
         const string outputName = "SAP2EAImporter"; //TODO move to settings
         private XDocument xDoc { get; set; }
         private UMLEA.Model model { get; set; }
@@ -213,8 +215,39 @@ namespace SAP2EAImporter
                 case SapClass:
                     processClass(elementNode, package);
                     break;
+                case SapTable:
+                    processTable(elementNode, package);
+                    break;
+                case SapView:
+                    processView(elementNode, package);
+                    break;
             }
 
+        }
+
+        private SAPTable processTable(XElement elementNode, UML.Classes.Kernel.Package package)
+        {
+            return processTableOrView(elementNode, package, false);
+
+        }
+        private SAPTable processTableOrView(XElement elementNode, UML.Classes.Kernel.Package package, bool isView)
+        {
+            var elementName = elementNode.Attribute("name").Value;
+            SAPTable sapTable = isView ? new SAPView(elementName, package) : new SAPTable(elementName, package);
+            // Import notes
+            var notesNode = elementNode.Elements("notes").FirstOrDefault();
+            if (notesNode != null)
+            {
+                sapTable.notes = notesNode.Value;
+            }
+            sapTable.save();
+            //process attributes
+            this.processAttributes(elementNode, sapTable);
+            return sapTable;
+        }
+        private SAPView processView(XElement elementNode, UML.Classes.Kernel.Package package)
+        {
+            return processTableOrView(elementNode, package, true) as SAPView;
         }
 
         private SAPClass processClass(XElement elementNode, UML.Classes.Kernel.Package package)
@@ -245,9 +278,15 @@ namespace SAP2EAImporter
                 var attributeName = attributeNode.Attribute("name").Value;
                 var key = attributeNode.Attribute("key")?.Value;
                 var datatype = attributeNode.Attribute("datatype")?.Value;
+                int length = 0;
+                int.TryParse (attributeNode.Attribute("length")?.Value, out length);
+                int scale = 0;
+                int.TryParse(attributeNode.Attribute("scale")?.Value, out scale);
+                var isKey = "X".Equals(attributeNode.Attribute("isKey")?.Value, StringComparison.InvariantCultureIgnoreCase);
                 var notes = attributeNode.Elements("notes").FirstOrDefault()?.Value;
-                //TODO: ownerScope and changeable, add to profile?
-                owner.addOrUpdateAttribute(attributeName, key, string.Empty, notes, datatype, attributePos);
+                //stereotype column for views and tables
+                var stereotype = owner is SAPTable ? "EAUML::column" : string.Empty;
+                owner.addOrUpdateAttribute(attributeName, key, stereotype, notes, datatype, attributePos, length, scale, isKey);
             }
         }
         private BOPFBusinessObject processBopf(XElement elementNode, UML.Classes.Kernel.Package package)
