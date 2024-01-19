@@ -117,44 +117,86 @@ namespace SAP2EAImporter
         const string combinedStructureTagName = "Combined Structure";
         public SAPDatatype combinedStructure
         {
-            get => new SAPDatatype(this.getLinkProperty<DataType>(combinedStructureTagName));
+            get
+            {
+                var linkProperty = this.getLinkProperty<DataType>(combinedStructureTagName);
+                return linkProperty != null 
+                        ? new SAPDatatype(linkProperty) 
+                        : null;
+            }
             set => this.setLinkProperty(combinedStructureTagName, value.wrappedElement);
         }
         const string dataStructureTagName = "Data Structure";
         public SAPDatatype dataStructure
         {
-            get => new SAPDatatype(this.getLinkProperty<DataType>(dataStructureTagName));
+            get
+            {
+                var linkProperty = this.getLinkProperty<DataType>(dataStructureTagName);
+                return linkProperty != null
+                        ? new SAPDatatype(linkProperty)
+                        : null;
+            }
             set => this.setLinkProperty(dataStructureTagName, value.wrappedElement);
         }
 
         const string transientStructureTagName = "Transient Structure";
         public SAPDatatype transientStructure
         {
-            get => new SAPDatatype(this.getLinkProperty<DataType>(transientStructureTagName));
+            get
+            {
+                var linkProperty = this.getLinkProperty<DataType>(transientStructureTagName);
+                return linkProperty != null
+                        ? new SAPDatatype(linkProperty)
+                        : null;
+            }
             set => this.setLinkProperty(transientStructureTagName, value.wrappedElement);
         }
         const string combinedTableTypeTagName = "Combined Table Type";
         public SAPDatatype combinedTableType
         {
-            get => new SAPDatatype(this.getLinkProperty<DataType>(combinedTableTypeTagName));
+            get
+            {
+                var linkProperty = this.getLinkProperty<DataType>(combinedTableTypeTagName);
+                return linkProperty != null
+                        ? new SAPDatatype(linkProperty)
+                        : null;
+            }
             set => this.setLinkProperty(combinedTableTypeTagName, value.wrappedElement);
         }
         const string nodeClassTagName = "Node Class";
         public SAPClass nodeClass
         {
-            get => new SAPClass(this.getLinkProperty<Class>(nodeClassTagName));
+            get
+            {
+                var linkProperty = this.getLinkProperty<Class>(nodeClassTagName);
+                return linkProperty != null
+                        ? new SAPClass(linkProperty)
+                        : null;
+            }
             set => this.setLinkProperty(nodeClassTagName, value.wrappedElement);
         }
         const string checkClassTagName = "Check Class";
         public SAPClass checkClass
         {
-            get => new SAPClass(this.getLinkProperty<Class>(checkClassTagName));
+            get
+            {
+                var linkProperty = this.getLinkProperty<Class>(checkClassTagName);
+                return linkProperty != null
+                        ? new SAPClass(linkProperty)
+                        : null;
+            }
             set => this.setLinkProperty(checkClassTagName, value.wrappedElement);
         }
         const string databaseTableTagName = "Database Table";
         public SAPTable databaseTable
         {
-            get => new SAPTable(this.getLinkProperty<Class>(databaseTableTagName));
+            get
+            {
+                var linkProperty = this.getLinkProperty<Class>(databaseTableTagName);
+                return linkProperty != null
+                        ? new SAPTable(linkProperty)
+                        : null;
+            }
             set => this.setLinkProperty(databaseTableTagName, value.wrappedElement);
         }
         private List<SAPAssociation> _associations;
@@ -173,6 +215,25 @@ namespace SAP2EAImporter
                 }
                 return this._associations;
 
+            }
+        }
+
+        private List<SAPAuthorizationObject> _authorizationObjects;
+        public List<SAPAuthorizationObject> authorizationObjects
+        {
+            get
+            {
+                if (this._authorizationObjects == null)
+                {
+                    this._authorizationObjects = new List<SAPAuthorizationObject>();
+                    foreach (var eaAssociation in this.wrappedElement.getRelationships<Association>(true, false)
+                                                        .Where(x => x.hasStereotype(BOPFAuthorizationCheck.stereotype)))
+                    {
+                        var authorizationCheck = new BOPFAuthorizationCheck(eaAssociation);
+                        this._authorizationObjects.Add(authorizationCheck.authorizationObject);
+                    }
+                }
+                return this._authorizationObjects;
             }
         }
 

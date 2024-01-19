@@ -14,5 +14,6 @@ namespace SAP2EAImporter
         string name { get; }
         List<BOPFNode> ownedNodes { get; }
         List<BOPFNode> allOwnedNodes { get; }
+
     }
 }

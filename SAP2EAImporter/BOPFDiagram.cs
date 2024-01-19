@@ -41,6 +41,9 @@ namespace SAP2EAImporter
                 this.wrappedDiagram.metaType = MDGType;
                 this.wrappedDiagram.save();
             }
+            //make sure this diagram is the composite diagram
+            this.owner.elementWrapper.compositeDiagram = this.wrappedDiagram;
+            this.owner.elementWrapper.save();
         }
         public void complete()
         {
@@ -51,12 +54,21 @@ namespace SAP2EAImporter
                 //get all owned nodes recursively
                 elementsToAdd.Add(this.ownerBusinessObject);
                 elementsToAdd.AddRange(ownerBusinessObject.allOwnedNodes);
+                //add the autorization object(s)
+                elementsToAdd.AddRange(this.ownerBusinessObject.allOwnedNodes.SelectMany(x => x.authorizationObjects));
             }
             else if (this.ownerNode != null)
             {
                 //get all direct owned SAPElements that are not nodes
                 elementsToAdd.Add(this.ownerNode);
                 elementsToAdd.AddRange(ownerNode.ownedNonNodes);
+                //add the autorization object(s)
+                elementsToAdd.AddRange(this.ownerNode.authorizationObjects);
+                //add combined structure
+                if (this.ownerNode.combinedStructure != null)
+                {
+                    elementsToAdd.Add(this.ownerNode.combinedStructure);
+                }
             }
             //add them to the diagram
             foreach (var element in elementsToAdd)

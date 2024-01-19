@@ -8,10 +8,10 @@ using UMLEA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace SAP2EAImporter
 {
-    class Authorization : SAPElement<UMLEA.InstanceSpecification>
+    class SAPAuthorization : SAPElement<UMLEA.InstanceSpecification>
     {
         public static string stereotype => "SAP_authorization";
-        public Authorization(string name, SingleRole owningRole, AuthorizationObject authorizationObject)
+        public SAPAuthorization(string name, SingleRole owningRole, SAPAuthorizationObject authorizationObject)
         {
             //first find out if an element the the given name, stereotype and classifiername exists under the owning role
             // Does an element with given name and stereotype exist?
@@ -34,10 +34,10 @@ namespace SAP2EAImporter
             }
             
         }
-        public Authorization(UMLEA.InstanceSpecification instance) : base(instance) { }
+        public SAPAuthorization(UMLEA.InstanceSpecification instance) : base(instance) { }
 
-        private AuthorizationObject _authorizationObject;
-        public AuthorizationObject authorizationObject
+        private SAPAuthorizationObject _authorizationObject;
+        public SAPAuthorizationObject authorizationObject
         {
             get
             {
@@ -45,7 +45,7 @@ namespace SAP2EAImporter
                 {
                     if (this.wrappedElement.classifier != null)
                     {
-                        this._authorizationObject = new AuthorizationObject(this.wrappedElement.classifier.name, this.wrappedElement.classifier.owningPackage);
+                        this._authorizationObject = new SAPAuthorizationObject(this.wrappedElement.classifier.name, this.wrappedElement.classifier.owningPackage);
                     }
                 }
                 return this._authorizationObject;

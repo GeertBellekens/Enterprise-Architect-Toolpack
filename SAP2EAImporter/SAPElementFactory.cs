@@ -14,13 +14,13 @@ namespace SAP2EAImporter
         {
             var stereotype = elementWrapper.stereotypes.FirstOrDefault()?.name;
 
-            if (stereotype == Authorization.stereotype)
+            if (stereotype == SAPAuthorization.stereotype)
             {
-                return new Authorization(elementWrapper as UMLEA.InstanceSpecification);
+                return new SAPAuthorization(elementWrapper as UMLEA.InstanceSpecification);
             }
-            if (stereotype == AuthorizationObject.stereotype)
+            if (stereotype == SAPAuthorizationObject.stereotype)
             {
-                return new AuthorizationObject(elementWrapper as UMLEA.Class);
+                return new SAPAuthorizationObject(elementWrapper as UMLEA.Class);
             }
             if (stereotype == BOPFBusinessObject.stereotype)
             {

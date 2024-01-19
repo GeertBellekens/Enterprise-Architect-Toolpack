@@ -15,7 +15,7 @@ namespace SAP2EAImporter
 
         const string constraintName = "bopf_auth_field_mapping";
 
-        public BOPFAuthorizationCheck(BOPFNode source, AuthorizationObject target)
+        public BOPFAuthorizationCheck(BOPFNode source, SAPAuthorizationObject target)
         : base(source, target, "", "", stereotype) { }
         internal BOPFAuthorizationCheck(UMLEA.Association association) : base(association) { }
         public string constraint
@@ -37,6 +37,8 @@ namespace SAP2EAImporter
                 wrappedConstraint.save();
             }
         }
+        public SAPAuthorizationObject authorizationObject => this.target as SAPAuthorizationObject;
+        public BOPFNode node => this.source as BOPFNode;
 
     }
 }

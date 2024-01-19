@@ -29,7 +29,7 @@ namespace SAP2EAImporter
         private XDocument xDoc { get; set; }
         private UMLEA.Model model { get; set; }
         private Dictionary<string, SingleRole> singleRoles;
-        private Dictionary<string, AuthorizationObject> authorizationOjects;
+        private Dictionary<string, SAPAuthorizationObject> authorizationOjects;
         private Dictionary<string, RolePackage> rolePackages;
         private Dictionary<string, FunctionModule> functionModules;
         private Dictionary<string, UserCategory> userCategories;
@@ -38,7 +38,7 @@ namespace SAP2EAImporter
         {
             // initialize dictionaries
             this.singleRoles = new Dictionary<string, SingleRole>();
-            this.authorizationOjects = new Dictionary<string, AuthorizationObject>();
+            this.authorizationOjects = new Dictionary<string, SAPAuthorizationObject>();
             this.rolePackages = new Dictionary<string, RolePackage>();
             this.functionModules = new Dictionary<string, FunctionModule>();
             this.userCategories = new Dictionary<string, UserCategory>();
@@ -457,7 +457,7 @@ namespace SAP2EAImporter
                 var authName = authorizationObjectNode.Attribute("name").Value;
                 var authFieldName = authorizationObjectNode.Element("auth_field")?.Value;
                 var authNodeAttributeName = authorizationObjectNode.Element("node_attribute")?.Value;
-                var authorizationObject = new AuthorizationObject(authName, node.elementWrapper.owningPackage);
+                var authorizationObject = new SAPAuthorizationObject(authName, node.elementWrapper.owningPackage);
                 if ( authorizationObject != null)
                 {
                     var authorizationCheck = new BOPFAuthorizationCheck(node, authorizationObject);
@@ -843,7 +843,7 @@ namespace SAP2EAImporter
         /// <param name="elementNode"></param>
         /// <param name="package"> The package in which the authorization object will be created.</param>
         /// <returns></returns>
-        private AuthorizationObject processAuthorizationObject(XElement elementNode, UML.Classes.Kernel.Package package)
+        private SAPAuthorizationObject processAuthorizationObject(XElement elementNode, UML.Classes.Kernel.Package package)
         {
             //-<element name="ZS_CBOX_CF" type="SUSO">
             //<notes>chatbox config</notes>
@@ -854,7 +854,7 @@ namespace SAP2EAImporter
             //<auth_class>ZSAU</auth_class>
             //</element>
             var elementName = elementNode.Attribute("name").Value;
-            var authorizationObject = new AuthorizationObject(elementName, package);
+            var authorizationObject = new SAPAuthorizationObject(elementName, package);
 
             //add to list of authorizationOBjects, used by authorizations
             this.authorizationOjects.Add(authorizationObject.name, authorizationObject);
@@ -1032,7 +1032,7 @@ namespace SAP2EAImporter
                     //get authorizationObject
                     var authorizationObjectName = authorizationNode.Attribute("auth_object").Value;
 
-                    AuthorizationObject authorizationObject;
+                    SAPAuthorizationObject authorizationObject;
                     if (!this.authorizationOjects.TryGetValue(authorizationObjectName, out authorizationObject))
                     {
                         //log error
@@ -1045,7 +1045,7 @@ namespace SAP2EAImporter
                     var authorizationName = authorizationNode.Attribute("name").Value;
 
                     //create authorization 
-                    var authorization = new Authorization(authorizationName, singleRole, authorizationObject);
+                    var authorization = new SAPAuthorization(authorizationName, singleRole, authorizationObject);
                     var authorizationFields = new Dictionary<string, string>();
                     //process authorization fields
                     foreach (var authFieldNode in authorizationNode.Elements("auth_field") ?? Array.Empty<XElement>())

@@ -68,8 +68,8 @@
     <Compile Include="SAPConnector.cs" />
     <Compile Include="SAPDatatype.cs" />
     <Compile Include="SAPElement.cs" />
-    <Compile Include="AuthorizationObject.cs" />
-    <Compile Include="Authorization.cs" />
+    <Compile Include="SAPAuthorizationObject.cs" />
+    <Compile Include="SAPAuthorization.cs" />
     <Compile Include="CompositeRole.cs" />
     <Compile Include="FunctionModule.cs" />
     <Compile Include="Role.cs" />
