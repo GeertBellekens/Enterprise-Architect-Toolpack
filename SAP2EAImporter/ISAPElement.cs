@@ -11,6 +11,8 @@ namespace SAP2EAImporter
     internal interface ISAPElement
     {
         UMLEA.ElementWrapper elementWrapper { get; set; }
+
+        string name { get; set; }
         void formatDiagrams();
     }
 }
