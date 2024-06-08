@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using TSF.UmlToolingFramework.Wrappers.EA;
+using EAAddinFramework.DiagramLayout;
 
 
 namespace SAP2EAImporter
@@ -83,6 +84,7 @@ namespace SAP2EAImporter
 
         public void format()
         {
+            //layout elements
             if (this.ownerBusinessObject != null)
             {
                 layoutBusinessObjectDiagram();
@@ -91,8 +93,11 @@ namespace SAP2EAImporter
             {
                 layoutNodeDiagram();
             }
-            
-            
+            //layout links
+            layoutDiagramLinks();
+            //reload
+            this.wrappedDiagram.reFresh();
+
         }
         private void layoutBusinessObjectDiagram()
         {
@@ -159,22 +164,21 @@ namespace SAP2EAImporter
             nodeDiagramObject.yPosition = 10;
             nodeDiagramObject.save();
             //Process all subElements of this node
-            var horizontalPadding = 200;
+            var horizontalPadding = 150;
             var verticalPadding = 10;
             //get ordered list of DiagramObjects
             var orderedDiagramObjects = getNodeDiagramObjectsInOrder(diagramObjects);
             //get center position
             var centerX = nodeDiagramObject.xPosition + (nodeDiagramObject.width / 2);
             int position = 0;
-            int yPos = nodeDiagramObject.yPosition + nodeDiagramObject.height + verticalPadding;
+            int yPos = nodeDiagramObject.yPosition + nodeDiagramObject.height + verticalPadding *2 ;
             List<int> xPositions = new List<int>
-            {
-                centerX - horizontalPadding,
-                centerX + horizontalPadding,
-                centerX - (horizontalPadding * 2),
-                centerX + (horizontalPadding * 2)
-            };
-
+                                    {
+                                        centerX - horizontalPadding/2,
+                                        centerX + horizontalPadding/2,
+                                        centerX - (horizontalPadding * 2),
+                                        centerX + (horizontalPadding * 2)
+                                    };
             foreach (var diagramObject in orderedDiagramObjects)
             {
 
@@ -194,6 +198,16 @@ namespace SAP2EAImporter
                 //reset position after 3
                 position = position == 3 ? 0 : position + 1;
             }
+        }
+        private void layoutDiagramLinks()
+        {
+            //set all compositions links to lateral horizontal
+            new LateralHorizontalLayout(this.wrappedDiagram)
+                    .layout(this.wrappedDiagram.diagramLinkWrappers.Where(x => x.relation.hasStereotype(SAPComposition.stereotype)));
+            //other relations orthogonal rounded and spread out
+            new SpreadRelationsEvenlyLayout(this.wrappedDiagram)
+                    .layout(this.wrappedDiagram.diagramLinkWrappers.Where(x => !x.relation.hasStereotype(SAPComposition.stereotype)));
+            
         }
 
         private List<DiagramObjectWrapper> getNodeDiagramObjectsInOrder(Dictionary<int, DiagramObjectWrapper> allDiagramObjects)
