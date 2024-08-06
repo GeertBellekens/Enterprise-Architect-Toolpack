@@ -22,6 +22,9 @@ namespace EAJSON
         public const string elementStereotype = "JSON_Element";
         public const string schemaFileTagName = "schemaFileName";
 
+        //xsd stereotypes
+        const string xsdSimpleType = "XSDsimpleType";
+
         //(facet) tagged value names
         const string tv_minlength = "minlength";
         const string tv_maxlength = "maxlength";
@@ -445,14 +448,23 @@ namespace EAJSON
         }
         private static void transformElement(TSF_EA.ElementWrapper element, UML.Classes.Kernel.Class rootClass)
         {
+            EAOutputLogger.log( $"Processing Element '{element.name}'", element.id);
             //set stereotype (not for rootclass)
             if (element.uniqueID != rootClass?.uniqueID)
             {
+                //check if the stereotype is an XSD simple type. In that case we want to transform it to a datatype
+                if (element.stereotypeNames.Contains(xsdSimpleType))
+                {
+                    element.WrappedElement.Type = "DataType";
+                    element.WrappedElement.Update();
+                    element = element.model.getItemFromGUID(element.uniqueID) as TSF_EA.ElementWrapper;
+                }
                 if (element is TSF_EA.DataType)
                 {
                     if (! element.hasStereotype(datatypeStereotype))
                     {
-                        element.addStereotype(profileName + "::" + datatypeStereotype);
+                        element.stereotypes = new HashSet<UML.Profiles.Stereotype>();
+                        element.addStereotype (profileName + "::" + datatypeStereotype);
                         element.save();
                         //transform from XML datatypes
                         transformFromXmlDatatypes((TSF_EA.DataType)element);
@@ -462,6 +474,7 @@ namespace EAJSON
                 {
                     if (!element.hasStereotype(elementStereotype))
                     {
+                        element.stereotypes = new HashSet<UML.Profiles.Stereotype>();
                         element.addStereotype(profileName + "::" + elementStereotype);
                         element.save();
                     }
@@ -472,13 +485,37 @@ namespace EAJSON
                 if (!element.hasStereotype(schemaStereotype))
                 {
                     //transform rootClass
+                    element.stereotypes = new HashSet<UML.Profiles.Stereotype>();
                     element.addStereotype(profileName + "::" + schemaStereotype);
                     element.save();
                 }
             }
+            //loop associations and replace them by attributes
+            foreach (var association in element.getRelationships<TSF_EA.Association>(true, false))
+            {
+                //determine other end
+                var otherEnd = association.source.uniqueID == element.uniqueID
+                                ? association.targetEnd
+                                : association.sourceEnd;   
+                //determine name
+                var name = otherEnd.name;
+                if (string.IsNullOrEmpty(name))
+                {
+                    name = $"{association.name.Trim()}{otherEnd.type?.name}";
+                }
+                //create attribute
+                var attribute = element.addOwnedElement<TSF_EA.Attribute>(name);
+                attribute.type = otherEnd.type;
+                attribute.multiplicity = otherEnd.multiplicity;
+                attribute.addStereotype(profileName + "::" + attributeStereotype);
+                attribute.save();
+                //delete association
+                association.delete();
+            }
             //loop attributes
             foreach (var attribute in element.attributes.OfType<TSF_EA.Attribute>())
             {
+                attribute.stereotypes = new HashSet<UML.Profiles.Stereotype>();
                 attribute.addStereotype(profileName + "::" + attributeStereotype);
                 attribute.save();
             }

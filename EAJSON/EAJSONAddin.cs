@@ -94,14 +94,16 @@ namespace EAJSON
                 //inform user
                 EAOutputLogger.clearLog(this.model, outputName);
                 EAOutputLogger.log(this.model, outputName
-                                   , $"{DateTime.Now.ToLongTimeString()} Starting transform of package '{selectedPackage.name}'"
+                                   , $"Starting transform of package '{selectedPackage.name}'"
                                    , ((TSF_EA.ElementWrapper)selectedPackage).id
                                   , LogTypeEnum.log);
                 //perform the actual transformation
                 EAJSONSchema.transformPackage(selectedPackage, rootObject);
+                //reload package
+                selectedPackage.refresh();
                 //inform user
                 EAOutputLogger.log(this.model, outputName
-                                   , $"{DateTime.Now.ToLongTimeString()} Finished transform of package '{selectedPackage.name}'"
+                                   , $"Finished transform of package '{selectedPackage.name}'"
                                    , ((TSF_EA.ElementWrapper)selectedPackage).id
                                   , LogTypeEnum.log);
             }
