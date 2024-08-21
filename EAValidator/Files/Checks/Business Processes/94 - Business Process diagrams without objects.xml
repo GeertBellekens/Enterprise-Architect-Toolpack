@@ -59,4 +59,6 @@
 	<WarningType>Error</WarningType>
 	<Rationale></Rationale>
 	<ProposedSolution></ProposedSolution>
+	<IgnoredItem itemguid ="{D0E891D9-A1FA-40b2-9125-18496F87C37F}">Reason to ignore validation</IgnoredItem>
+	<IgnoredItem itemguid ="{EAEFF0D3-BA33-49ed-8D78-D38826743C2A}">Another Reason to ignore validation</IgnoredItem>
 </Check>

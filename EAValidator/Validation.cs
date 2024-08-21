@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace EAValidator
@@ -28,6 +29,7 @@ namespace EAValidator
         public string PackageParentLevel4 { get; set; }          // Parent package of Package (level +4)
         public string PackageParentLevel5 { get; set; }          // Parent package of Package (level +5)
         public bool isResolved { get; set; } = false;
+        public string ignoreReason { get; set; } = "";
 
         public bool HasMandatoryContent()
         {
@@ -94,6 +96,12 @@ namespace EAValidator
                     this.PackageParentLevel5 = subNode.InnerText;
                     break;
             }
+        }
+
+        internal void ignore(string reason)
+        {
+            this.check.addIgnoredItem(this.ItemGuid, reason);
+            this.check.save();
         }
     }
 }

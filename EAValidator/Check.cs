@@ -25,6 +25,9 @@ namespace EAValidator
         protected TSF_EA.Model model { get; set; }
         protected XDocument xdoc;
 
+        public IEnumerable<Validation> validations { get; private set; }
+        public IEnumerable<Validation> ignoredValidations { get; private set; } = new List<Validation>();
+
 
         // Check to validate
         // *****************
@@ -142,6 +145,53 @@ namespace EAValidator
                 }
             }
         }
+        private Dictionary<string, string> _ignoredItems;
+        public Dictionary<string, string> ignoredItems
+        {
+            get
+            {
+                if (this._ignoredItems == null)
+                {
+                    this._ignoredItems = new Dictionary<string, string>();
+                    foreach (var item in this.xdoc.Root.Elements("IgnoredItem"))
+                    {
+                        this._ignoredItems.Add(item.Attribute("itemguid").Value, item.Value);
+                    }
+                }
+                return this._ignoredItems;
+            }
+            set
+            {
+                this._ignoredItems = value;
+                // replace the xml items
+                this.xdoc.Root.Elements("IgnoredItem").Remove();
+                foreach (var tuple in value)
+                {
+                    this.xdoc.Root.Add(new XElement("IgnoredItem", tuple.Value, new XAttribute("itemguid", tuple.Key)));
+                }
+            }
+        }
+        public void addIgnoredItem(string itemGuid, string reason)
+        {
+            if (!this.ignoredItems.ContainsKey(itemGuid))
+            {
+                this.ignoredItems.Add(itemGuid, reason);
+                this.xdoc.Root.Add(new XElement("IgnoredItem", reason, new XAttribute("itemguid", itemGuid)));
+            }
+            else
+            {
+                this.ignoredItems[itemGuid] = reason;
+                this.xdoc.Root.Elements("IgnoredItem").FirstOrDefault(x => x.Attribute("itemguid").Value == itemGuid).Value = reason;
+            }
+        }
+        public void removeIgnoredItem(string itemGuid)
+        {
+            if (this.ignoredItems.ContainsKey(itemGuid))
+            {
+                this.ignoredItems.Remove(itemGuid);
+                this.xdoc.Root.Elements("IgnoredItem").FirstOrDefault(x => x.Attribute("itemguid").Value == itemGuid).Remove();
+            }
+        }
 
         public string Group => this.group?.name;
         protected EAValidatorSettings settings { get; set; }
@@ -242,9 +292,9 @@ namespace EAValidator
 
 
 
-        public List<Validation> Validate(TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages, string scopePackageIDs)
+        public IEnumerable<Validation> Validate(TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages, string scopePackageIDs)
         {
-            var validations = new List<Validation>();
+            this.validations = new List<Validation>();
 
             // Default status to Passed
             this.Status = CheckStatus.Passed;
@@ -257,13 +307,14 @@ namespace EAValidator
             this.NumberOfElementsFound = foundelementguids.Count();
             if (this.Status == CheckStatus.Error)
             {
-                return validations;
+                return this.validations;
             }
 
             if (foundelementguids.Any())
             {
                 // Perform the checks for the elements found (based on their guids)
-                validations = this.CheckFoundElements(foundelementguids);
+                this.validations = this.CheckFoundElements(foundelementguids);
+                this.setIgnoredValidations();
                 this.NumberOfValidationResults = validations.Count();
             }
             else
@@ -271,6 +322,20 @@ namespace EAValidator
                 this.NumberOfValidationResults = 0;
             }
             return validations;
+        }
+        private void setIgnoredValidations()
+        {
+            //check if the item is in the ignored items list
+           foreach (var validation in this.validations)
+           {
+                if (this.ignoredItems.ContainsKey(validation.ItemGuid))
+                {
+                    validation.ignoreReason = this.ignoredItems[validation.ItemGuid];
+                    this.ignoredValidations.Append(validation);
+                }
+           }
+           //remove ignored validations from the list of validations
+           this.validations = this.validations.Except(this.ignoredValidations);
         }
         public Validation ValidateItem(string itemGUID)
         {

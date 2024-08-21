@@ -265,6 +265,15 @@ namespace EAValidator
             ModelCheck newCheck = check.copy();
             return newCheck;
         }
-        
+
+        internal void ignoreValidation(Validation validation)
+        {
+            new IgnoreValidationForm(this, validation).ShowDialog();
+        }
+
+        internal void ignoreValidation(Validation validation, string reason)
+        {
+            validation.ignore(reason);
+        }
     }
 }

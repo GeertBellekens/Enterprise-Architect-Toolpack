@@ -78,6 +78,7 @@
             this.btnSelectDiagram = new System.Windows.Forms.Button();
             this.logoBox = new System.Windows.Forms.PictureBox();
             this.validatorSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.ignoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).BeginInit();
             this.validationContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).BeginInit();
@@ -247,9 +248,10 @@
             this.resolveToolStripMenuItem,
             this.resolveAllToolStripMenuItem,
             this.selectInProjectBrowserToolStripMenuItem,
-            this.openPropertiesToolStripMenuItem});
+            this.openPropertiesToolStripMenuItem,
+            this.ignoreToolStripMenuItem});
             this.validationContextMenuStrip.Name = "validationContextMenuStrip";
-            this.validationContextMenuStrip.Size = new System.Drawing.Size(204, 92);
+            this.validationContextMenuStrip.Size = new System.Drawing.Size(204, 136);
             // 
             // resolveToolStripMenuItem
             // 
@@ -613,6 +615,14 @@
             this.validatorSplitContainer.SplitterDistance = 350;
             this.validatorSplitContainer.TabIndex = 22;
             // 
+            // ignoreToolStripMenuItem
+            // 
+            this.ignoreToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ignoreToolStripMenuItem.Image")));
+            this.ignoreToolStripMenuItem.Name = "ignoreToolStripMenuItem";
+            this.ignoreToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.ignoreToolStripMenuItem.Text = "Ignore";
+            this.ignoreToolStripMenuItem.Click += new System.EventHandler(this.ignoreToolStripMenuItem_Click);
+            // 
             // ucEAValidator
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -686,5 +696,6 @@
         private System.Windows.Forms.ToolStripMenuItem editMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyAsNewMenuItem;
         private BrightIdeasSoftware.OLVColumn olvColCheckResult;
+        private System.Windows.Forms.ToolStripMenuItem ignoreToolStripMenuItem;
     }
 }

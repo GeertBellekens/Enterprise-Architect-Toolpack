@@ -510,5 +510,10 @@ namespace EAValidator
             this.controller.copyAsNew(this.olvChecks.SelectedObject as Check);
             this.setController(this.controller);//resets the checks
         }
+
+        private void ignoreToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.controller.ignoreValidation(this.olvValidations.SelectedObject as Validation);
+        }
     }
 }
