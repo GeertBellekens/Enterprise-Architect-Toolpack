@@ -61,7 +61,15 @@
 			<xs:element type="xs:string" name="ProposedSolution"/>
 			<xs:element type="xs:anyURI" name="HelpUrl" minOccurs="0" />
 			<xs:element type="ResolveCode" name="ResolveCode" minOccurs="0"/>
+			<xs:element type="IgnoredItem" name="IgnoredItem" minOccurs="0"/>
 		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="IgnoredItem">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="itemguid" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
 	</xs:complexType>
 	<xs:complexType name ="ResolveCode">
 		<xs:simpleContent>

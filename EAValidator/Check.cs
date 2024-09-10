@@ -26,7 +26,7 @@ namespace EAValidator
         protected XDocument xdoc;
 
         public IEnumerable<Validation> validations { get; private set; }
-        public IEnumerable<Validation> ignoredValidations { get; private set; } = new List<Validation>();
+        public List<Validation> ignoredValidations { get; private set; } = new List<Validation>();
 
 
         // Check to validate
@@ -331,7 +331,7 @@ namespace EAValidator
                 if (this.ignoredItems.ContainsKey(validation.ItemGuid))
                 {
                     validation.ignoreReason = this.ignoredItems[validation.ItemGuid];
-                    this.ignoredValidations.Append(validation);
+                    this.ignoredValidations.Add(validation);
                 }
            }
            //remove ignored validations from the list of validations
