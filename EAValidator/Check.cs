@@ -24,6 +24,7 @@ namespace EAValidator
         const string resolveFunctionName = "resolve";
         protected TSF_EA.Model model { get; set; }
         protected XDocument xdoc;
+        protected string scopePackageIDs;
 
         public IEnumerable<Validation> validations { get; private set; }
         public List<Validation> ignoredValidations { get; private set; } = new List<Validation>();
@@ -295,6 +296,7 @@ namespace EAValidator
         public IEnumerable<Validation> Validate(TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages, string scopePackageIDs)
         {
             this.validations = new List<Validation>();
+            this.scopePackageIDs = scopePackageIDs;
 
             // Default status to Passed
             this.Status = CheckStatus.Passed;
@@ -302,7 +304,7 @@ namespace EAValidator
             this.NumberOfValidationResults = null;
 
             // Search elements that need to be checked depending on filters and give back their guids.
-            var foundelementguids = this.getElementGuids(EA_element, EA_diagram, excludeArchivedPackages, scopePackageIDs);
+            var foundelementguids = this.getElementGuids(EA_element, EA_diagram, excludeArchivedPackages);
             //set the numberOfElementsFound
             this.NumberOfElementsFound = foundelementguids.Count();
             if (this.Status == CheckStatus.Error)
@@ -342,9 +344,10 @@ namespace EAValidator
             return this.CheckFoundElements(new List<string> { $"'{itemGUID}'" }).FirstOrDefault();
         }
 
-        private IEnumerable<string> getElementGuids(TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages, string scopePackageIDs)
+        private IEnumerable<string> getElementGuids(TSF_EA.Element EA_element, TSF_EA.Diagram EA_diagram, bool excludeArchivedPackages)
         {
             var qryToFindElements = this.QueryToFindElements;
+            string itemGUID = null;
             var foundelementguids = new List<string>();
             // Check EA_element => Change / Release / Package / ...  and add to query
             if (EA_element != null)
@@ -365,14 +368,10 @@ namespace EAValidator
                         else
                         {
                             // Replace Branch with package-guids of branch
-                            if (whereclause.Contains(this.settings.PackageBranch))
-                            {
-                                whereclause = whereclause.Replace(this.settings.PackageBranch, scopePackageIDs);
-                            }
-                            else
+                            if (!whereclause.Contains(this.settings.PackageBranch))
                             {
                                 // Replace Search Term with Element guid
-                                whereclause = whereclause.Replace(this.settings.SearchTermInQueryToFindElements, EA_element.guid);
+                                itemGUID = EA_element.guid;
                             }
                         }
                     }
@@ -395,7 +394,7 @@ namespace EAValidator
                         else
                         {
                             // Replace Search Term with Element guid
-                            whereclause = whereclause.Replace(this.settings.SearchTermInQueryToFindElements, EA_element.guid);
+                            itemGUID = EA_element.guid;
                         }
                     }
                     qryToFindElements = qryToFindElements + whereclause;
@@ -417,7 +416,7 @@ namespace EAValidator
                     else
                     {
                         // Replace Search Term with diagram guid
-                        whereclause = whereclause.Replace(this.settings.SearchTermInQueryToFindElements, EA_diagram.diagramGUID);
+                        itemGUID = EA_diagram.diagramGUID;
                     }
                     qryToFindElements = qryToFindElements + whereclause;
                 }
@@ -430,11 +429,12 @@ namespace EAValidator
 
             try
             {
+                var elementsFound = this.queryModel(qryToFindElements, null, itemGUID);
                 // Execute the query using EA
-                var elementsFound = this.model.SQLQuery(qryToFindElements);
+                //var elementsFound = this.model.SQLQuery(qryToFindElements);
 
                 // Parse xml document with elements found and count number of elements found
-                foreach (XmlNode node in elementsFound.SelectNodes("//Row"))
+                foreach (XmlNode node in elementsFound)
                 {
                     foreach (XmlNode subNode in node.ChildNodes)
                     {
@@ -468,16 +468,13 @@ namespace EAValidator
             {
                 // Replace SearchTerm with list of guids
                 var qryToCheckFoundElements = this.QueryToCheckFoundElements;
-                qryToCheckFoundElements = qryToCheckFoundElements.Replace(this.settings.ElementGuidsInQueryToCheckFoundElements
-                                                                        , String.Join(",", guidsToCheck));
-
                 try
                 {
                     // Execute the query using EA
-                    var results = this.model.SQLQuery(qryToCheckFoundElements);
+                    var results = this.queryModel(this.QueryToCheckFoundElements, guidsToCheck, null);
 
-                    // Parse xml document with results and create validation for every row found
-                    foreach (XmlNode validationNode in results.SelectNodes("//Row"))
+                    // create validation for every row found
+                    foreach (XmlNode validationNode in results)
                     {
                         // Set status of Check to FAILED
                         this.Status = CheckStatus.Failed;
@@ -493,6 +490,25 @@ namespace EAValidator
             }
 
             return validations;
+        }
+        private XmlNodeList queryModel(string query, IEnumerable<string> guidsToCheck, string itemGUID )
+        {
+            //make all replacements
+            if (guidsToCheck != null)
+            {
+                query = query.Replace(this.settings.ElementGuidsInQueryToCheckFoundElements, String.Join(",", guidsToCheck));
+            }
+            if (!string.IsNullOrEmpty(itemGUID))
+            {
+                query = query.Replace(this.settings.SearchTermInQueryToFindElements, itemGUID);
+            }
+            if (!string.IsNullOrEmpty(this.scopePackageIDs))
+            {
+                query = query.Replace(this.settings.PackageBranch, this.scopePackageIDs);
+            }
+            var elementsFound = this.model.SQLQuery(query);
+            return elementsFound.SelectNodes("//Row");
+
         }
         private static XElement getOrCreateElement(XContainer container, string name)
         {
