@@ -87,6 +87,10 @@ namespace EAValidator
                 var validationObject = rowObject as Validation;
                 if (validationObject != null)
                 {
+                    if (validationObject.isIgnored)
+                    {
+                        return "Ignored";
+                    }
                     if (validationObject.isResolved)
                     {
                         return "Check";
@@ -161,7 +165,7 @@ namespace EAValidator
         private void clearLists()
         {
             // Clear the lists
-            this.controller.validations.Clear();
+            this.controller.allValidations.Clear();
         }
 
 
@@ -205,7 +209,9 @@ namespace EAValidator
                 successful = this.controller.ValidateChecks(this, listOfChecksForValidation, this.scopeElement, this.scopeDiagram);
 
                 // Show validation results on screen
-                this.olvValidations.Objects = this.controller.validations;
+                this.olvValidations.Objects = this.showIgnoredErrorsBeckbox.Checked
+                                        ? this.controller.allValidations
+                                        : this.controller.validations;
 
                 //set cursor back
                 Cursor.Current = Cursors.Default;
@@ -461,34 +467,6 @@ namespace EAValidator
             
         }
 
-        private void olvValidations_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-            this.resolveToolStripMenuItem.Enabled = false;
-            this.resolveAllToolStripMenuItem.Enabled = false;
-            //check if any of the selected objects can be resolved
-            foreach (Validation validation in this.olvValidations.SelectedObjects)
-            {
-                if (validation.check.canBeResolved)
-                {
-                    this.resolveToolStripMenuItem.Enabled = true;
-                    break;
-                }
-            }
-            //check if any of the validations can be resolved
-            foreach (Validation validation in this.olvValidations.Objects)
-            {
-                if (validation.check.canBeResolved)
-                {
-                    this.resolveAllToolStripMenuItem.Enabled = true;
-                    break;
-                }
-            }
-            // select in project browser, and open properties need a selected object
-            this.selectInProjectBrowserToolStripMenuItem.Enabled = (olvValidations.SelectedObject != null);
-            this.openPropertiesToolStripMenuItem.Enabled = (olvValidations.SelectedObject != null);
-            
-
-        }
 
         private void selectInProjectBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -513,7 +491,67 @@ namespace EAValidator
 
         private void ignoreToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.controller.ignoreValidation(this.olvValidations.SelectedObject as Validation);
+            foreach (var validation in olvValidations.SelectedObjects.OfType<Validation>())
+            {
+                if (this.ignoreToolStripMenuItem.Text == "Ignore"
+                    && !validation.isIgnored
+                    || this.ignoreToolStripMenuItem.Text != "Ignore"
+                    && validation.isIgnored)
+                {
+                    controller.ignoreValidation(validation);
+                    this.olvValidations.RefreshObject(validation);
+                }   
+            }
+        }
+       
+
+        private void showIgnoredErrorsBeckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.olvValidations.Objects = this.showIgnoredErrorsBeckbox.Checked
+                                        ? this.controller.allValidations
+                                        : this.controller.validations;
+        }
+
+        private void olvValidations_CellRightClick(object sender, CellRightClickEventArgs e)
+        {
+            this.resolveToolStripMenuItem.Enabled = false;
+            this.resolveAllToolStripMenuItem.Enabled = false;
+            //check if any of the selected objects can be resolved
+            foreach (Validation validation in this.olvValidations.SelectedObjects)
+            {
+                if (validation.check.canBeResolved)
+                {
+                    this.resolveToolStripMenuItem.Enabled = true;
+                    break;
+                }
+            }
+            //check if any of the validations can be resolved
+            foreach (Validation validation in this.olvValidations.Objects)
+            {
+                if (validation.check.canBeResolved)
+                {
+                    this.resolveAllToolStripMenuItem.Enabled = true;
+                    break;
+                }
+            }
+            // select in project browser, and open properties need a selected object
+            this.selectInProjectBrowserToolStripMenuItem.Enabled = (olvValidations.SelectedObject != null);
+            this.openPropertiesToolStripMenuItem.Enabled = (olvValidations.SelectedObject != null);
+            // ignore needs a selected validation(s)
+            if (this.olvValidations.SelectedObjects.Count > 0)
+            {
+                this.ignoreToolStripMenuItem.Enabled = true;
+                var ignoredValidations = this.olvValidations.SelectedObjects.OfType<Validation>().Where(x => x.isIgnored);
+                var notIgnoredValidations = this.olvValidations.SelectedObjects.OfType<Validation>().Where(x => !x.isIgnored);
+                if (ignoredValidations.Count() > notIgnoredValidations.Count())
+                {
+                    this.ignoreToolStripMenuItem.Text = "Unignore";
+                }
+                else
+                {
+                    this.ignoreToolStripMenuItem.Text = "Ignore";
+                }
+            }
         }
     }
 }

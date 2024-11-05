@@ -27,7 +27,7 @@ namespace EAValidator
         protected string scopePackageIDs;
 
         public IEnumerable<Validation> validations { get; private set; }
-        public List<Validation> ignoredValidations { get; private set; } = new List<Validation>();
+        public IEnumerable<Validation> ignoredValidations => validations.Where(x => x.isIgnored);
 
 
         // Check to validate
@@ -317,7 +317,7 @@ namespace EAValidator
                 // Perform the checks for the elements found (based on their guids)
                 this.validations = this.CheckFoundElements(foundelementguids);
                 this.setIgnoredValidations();
-                this.NumberOfValidationResults = validations.Count();
+                this.NumberOfValidationResults = validations.Count(x => !x.isIgnored);
             }
             else
             {
@@ -332,12 +332,10 @@ namespace EAValidator
            {
                 if (this.ignoredItems.ContainsKey(validation.ItemGuid))
                 {
+                    validation.isIgnored = true;
                     validation.ignoreReason = this.ignoredItems[validation.ItemGuid];
-                    this.ignoredValidations.Add(validation);
                 }
            }
-           //remove ignored validations from the list of validations
-           this.validations = this.validations.Except(this.ignoredValidations);
         }
         public Validation ValidateItem(string itemGUID)
         {

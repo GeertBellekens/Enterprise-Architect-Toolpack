@@ -50,6 +50,7 @@
             this.resolveAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectInProjectBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ignoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.validatorImageList = new System.Windows.Forms.ImageList(this.components);
             this.olvChecks = new BrightIdeasSoftware.TreeListView();
             this.olvColName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -78,7 +79,7 @@
             this.btnSelectDiagram = new System.Windows.Forms.Button();
             this.logoBox = new System.Windows.Forms.PictureBox();
             this.validatorSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.ignoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showIgnoredErrorsBeckbox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.olvValidations)).BeginInit();
             this.validationContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.olvChecks)).BeginInit();
@@ -152,9 +153,9 @@
             this.olvValidations.UseFiltering = true;
             this.olvValidations.UseHyperlinks = true;
             this.olvValidations.View = System.Windows.Forms.View.Details;
+            this.olvValidations.CellRightClick += new System.EventHandler<BrightIdeasSoftware.CellRightClickEventArgs>(this.olvValidations_CellRightClick);
             this.olvValidations.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.olvValidations_CellToolTipShowing);
             this.olvValidations.IsHyperlink += new System.EventHandler<BrightIdeasSoftware.IsHyperlinkEventArgs>(this.olvValidations_IsHyperlink);
-            this.olvValidations.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.olvValidations_ItemSelectionChanged);
             this.olvValidations.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvValidations_MouseDoubleClick);
             // 
             // olvColCheck
@@ -251,7 +252,7 @@
             this.openPropertiesToolStripMenuItem,
             this.ignoreToolStripMenuItem});
             this.validationContextMenuStrip.Name = "validationContextMenuStrip";
-            this.validationContextMenuStrip.Size = new System.Drawing.Size(204, 136);
+            this.validationContextMenuStrip.Size = new System.Drawing.Size(204, 114);
             // 
             // resolveToolStripMenuItem
             // 
@@ -285,6 +286,14 @@
             this.openPropertiesToolStripMenuItem.Text = "Open Properties";
             this.openPropertiesToolStripMenuItem.Click += new System.EventHandler(this.openPropertiesToolStripMenuItem_Click);
             // 
+            // ignoreToolStripMenuItem
+            // 
+            this.ignoreToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ignoreToolStripMenuItem.Image")));
+            this.ignoreToolStripMenuItem.Name = "ignoreToolStripMenuItem";
+            this.ignoreToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.ignoreToolStripMenuItem.Text = "Ignore";
+            this.ignoreToolStripMenuItem.Click += new System.EventHandler(this.ignoreToolStripMenuItem_Click);
+            // 
             // validatorImageList
             // 
             this.validatorImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("validatorImageList.ImageStream")));
@@ -294,6 +303,7 @@
             this.validatorImageList.Images.SetKeyName(2, "CheckAutoResolve");
             this.validatorImageList.Images.SetKeyName(3, "Error");
             this.validatorImageList.Images.SetKeyName(4, "ErrorAutoResolve");
+            this.validatorImageList.Images.SetKeyName(5, "Ignored");
             // 
             // olvChecks
             // 
@@ -609,19 +619,24 @@
             // 
             // validatorSplitContainer.Panel2
             // 
+            this.validatorSplitContainer.Panel2.Controls.Add(this.showIgnoredErrorsBeckbox);
             this.validatorSplitContainer.Panel2.Controls.Add(this.olvValidations);
             this.validatorSplitContainer.Panel2.Controls.Add(this.lblResults);
             this.validatorSplitContainer.Size = new System.Drawing.Size(1000, 700);
             this.validatorSplitContainer.SplitterDistance = 350;
             this.validatorSplitContainer.TabIndex = 22;
             // 
-            // ignoreToolStripMenuItem
+            // showIgnoredErrorsBeckbox
             // 
-            this.ignoreToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ignoreToolStripMenuItem.Image")));
-            this.ignoreToolStripMenuItem.Name = "ignoreToolStripMenuItem";
-            this.ignoreToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.ignoreToolStripMenuItem.Text = "Ignore";
-            this.ignoreToolStripMenuItem.Click += new System.EventHandler(this.ignoreToolStripMenuItem_Click);
+            this.showIgnoredErrorsBeckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.showIgnoredErrorsBeckbox.AutoSize = true;
+            this.showIgnoredErrorsBeckbox.Location = new System.Drawing.Point(859, 6);
+            this.showIgnoredErrorsBeckbox.Name = "showIgnoredErrorsBeckbox";
+            this.showIgnoredErrorsBeckbox.Size = new System.Drawing.Size(124, 17);
+            this.showIgnoredErrorsBeckbox.TabIndex = 6;
+            this.showIgnoredErrorsBeckbox.Text = "Show ignored results";
+            this.showIgnoredErrorsBeckbox.UseVisualStyleBackColor = true;
+            this.showIgnoredErrorsBeckbox.CheckedChanged += new System.EventHandler(this.showIgnoredErrorsBeckbox_CheckedChanged);
             // 
             // ucEAValidator
             // 
@@ -697,5 +712,6 @@
         private System.Windows.Forms.ToolStripMenuItem copyAsNewMenuItem;
         private BrightIdeasSoftware.OLVColumn olvColCheckResult;
         private System.Windows.Forms.ToolStripMenuItem ignoreToolStripMenuItem;
+        private System.Windows.Forms.CheckBox showIgnoredErrorsBeckbox;
     }
 }

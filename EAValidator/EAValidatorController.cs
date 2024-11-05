@@ -18,7 +18,14 @@ namespace EAValidator
     {
         public TSF_EA.Model model { get; private set; }
         public string outputName { get; private set; }
-        public List<Validation> validations { get; set; }
+        public List<Validation> allValidations { get; set; }
+        public IEnumerable<Validation> validations
+        {
+            get
+            {
+                return this.allValidations.Where(x => !x.isIgnored);
+            }
+        }
         public EAValidatorSettings settings { get; private set; }
         public CheckGroup rootGroup { get; private set; }
         public string scopePackageIDs { get; private set; }
@@ -40,7 +47,7 @@ namespace EAValidator
         public EAValidatorController(TSF_EA.Model model, EAValidatorSettings settings)
         {
             this.model = model;
-            this.validations = new List<Validation>();
+            this.allValidations = new List<Validation>();
             this.settings = settings;
             this.outputName = this.settings.outputName;
         }
@@ -178,7 +185,7 @@ namespace EAValidator
             if (numberOfChecks > 0)
             {
                 // Clear list of validations
-                this.validations.Clear();
+                this.allValidations.Clear();
 
                 // Perform the selected checks and return the validation-results
                 this.addLineToEAOutput("START of Validations...", "");
@@ -200,7 +207,7 @@ namespace EAValidator
                 foreach (var check in selectedchecks)
                 {
                     this.addLineToEAOutput("Validating check: ", check.CheckDescription);
-                    this.validations.AddRange(check.Validate(scopeElement, EA_diagram, this.settings.excludeArchivedPackages, this.scopePackageIDs));
+                    this.allValidations.AddRange(check.Validate(scopeElement, EA_diagram, this.settings.excludeArchivedPackages, this.scopePackageIDs));
                     uc.refreshCheck(check);
                     uc.IncrementProgressbar();
                 }
@@ -268,12 +275,25 @@ namespace EAValidator
 
         internal void ignoreValidation(Validation validation)
         {
-            new IgnoreValidationForm(this, validation).ShowDialog();
+            if (validation == null) return;
+            if (!validation.isIgnored)
+            {
+                new IgnoreValidationForm(this, validation).ShowDialog();
+            }
+            else
+            {
+                validation.unIgnore();
+            }
         }
 
         internal void ignoreValidation(Validation validation, string reason)
         {
             validation.ignore(reason);
+        }
+
+        internal void reloadValidations(bool @checked)
+        {
+            throw new NotImplementedException();
         }
     }
 }

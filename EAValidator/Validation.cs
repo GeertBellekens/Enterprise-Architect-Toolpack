@@ -13,7 +13,9 @@ namespace EAValidator
         public string CheckId => this.check.CheckId;               
         public string CheckDescription => this.check.CheckDescription;
         public string CheckWarningType => this.check.WarningType;
-        public string CheckProposedSolution => this.check.ProposedSolution;
+        public string CheckProposedSolution => this.isIgnored
+                                            ? this.ignoreReason
+                                            : this.check.ProposedSolution;
         public string helpUrl => this.check.helpUrl;
 
         public string ItemName { get; set; }                // Item that gives error/warning
@@ -30,6 +32,7 @@ namespace EAValidator
         public string PackageParentLevel5 { get; set; }          // Parent package of Package (level +5)
         public bool isResolved { get; set; } = false;
         public string ignoreReason { get; set; } = "";
+        public bool isIgnored { get; internal set; } = false;
 
         public bool HasMandatoryContent()
         {
@@ -100,7 +103,15 @@ namespace EAValidator
 
         internal void ignore(string reason)
         {
+            this.isIgnored = true;
+            this.ignoreReason = reason;
             this.check.addIgnoredItem(this.ItemGuid, reason);
+            this.check.save();
+        }
+        internal void unIgnore()
+        {
+            this.isIgnored = false;
+            this.check.removeIgnoredItem(this.ItemGuid);
             this.check.save();
         }
     }

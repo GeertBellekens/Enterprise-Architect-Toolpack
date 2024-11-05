@@ -19,6 +19,8 @@ namespace EAValidator
             InitializeComponent();
             this.controller = controller;
             this.validation = validation;
+            this.checkTextBox.Text = validation.CheckDescription;
+            this.itemTextBox.Text = validation.ItemName;
         }
 
 
