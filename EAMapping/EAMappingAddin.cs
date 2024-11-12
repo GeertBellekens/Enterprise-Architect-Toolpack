@@ -224,6 +224,11 @@ namespace EAMapping
                     IsEnabled = this.fullyLoaded &&
                           (this.model.selectedElement != null);
                     break;
+                case menuMapAsSource:
+                    IsEnabled = this.fullyLoaded &&
+                      (this.model.selectedElement is TSF_EA.Element) &&
+                      ! (this.model.selectedElement is TSF_EA.RootPackage);
+                    break;
                 default:
                     IsEnabled = true;
                     break;

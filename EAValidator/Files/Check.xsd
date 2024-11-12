@@ -38,7 +38,7 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="CheckType">
-		<xs:all>
+		<xs:sequence>
 			<xs:element type="xs:integer" name="CheckId"/>
 			<xs:element name="CheckDescription">
 				<xs:simpleType>
@@ -61,8 +61,8 @@
 			<xs:element type="xs:string" name="ProposedSolution"/>
 			<xs:element type="xs:anyURI" name="HelpUrl" minOccurs="0" />
 			<xs:element type="ResolveCode" name="ResolveCode" minOccurs="0"/>
-			<xs:element type="IgnoredItem" name="IgnoredItem" minOccurs="0"/>
-		</xs:all>
+			<xs:element type="IgnoredItem" name="IgnoredItem" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="IgnoredItem">
 		<xs:simpleContent>
