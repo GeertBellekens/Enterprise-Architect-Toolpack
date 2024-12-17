@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices.Expando;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using MP = MappingFramework;
 using UML = TSF.UmlToolingFramework.UML;
 
@@ -165,7 +167,7 @@ namespace EAMapping
         private MP.MappingNode selectedTargetNode => this.targetTreeView.SelectedObject as MP.MappingNode;
         private MP.MappingNode selectedNode { get; set; }
 
-        public void loadMappingSet(MP.MappingSet mappingSet)
+        public void loadMappingSet(MP.MappingSet mappingSet, bool expandAll)
         {
             //first clear the existing mappings
             this.clear();
@@ -173,6 +175,11 @@ namespace EAMapping
             this.mappingSet = mappingSet;
             this.sourceTreeView.Objects = new List<MP.MappingNode>() { mappingSet.source };
             this.targetTreeView.Objects = new List<MP.MappingNode>() { mappingSet.target };
+            if (expandAll)
+            {
+                this.setAllExpanded(sourceTreeView, true, false);
+                this.setAllExpanded(targetTreeView, true, true);
+            }
             //expand the treeviews
             this.sourceTreeView.ExpandAll();
             this.targetTreeView.ExpandAll();

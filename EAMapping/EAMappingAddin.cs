@@ -133,16 +133,20 @@ namespace EAMapping
         private void mappingControl_SelectNewMappingTarget(object sender, EventArgs e)
         {
             var mappingSet = sender as EA_MP.MappingSet;
+            selectAndLoadNewMappingTarget((TSF_EA.ElementWrapper)mappingSet.source.source);
+        }
+        private void selectAndLoadNewMappingTarget(TSF_EA.ElementWrapper source)
+        {
             //let the user select a new element
             var newTargetElement = this.model.getUserSelectedElement(new List<string>() { "Class", "Package" }) as TSF_EA.ElementWrapper;
             //create mapping node for target element and set it as target of the mapping set
             if (newTargetElement != null)
             {
                 //create the mapping set
-                mappingSet = EA_MP.MappingFactory.createMappingSet((TSF_EA.ElementWrapper)mappingSet.source.source, newTargetElement, this.settings);
+                var mappingSet = EA_MP.MappingFactory.createMappingSet(source, newTargetElement, this.settings);
                 //map source to target
                 mappingSet.source.mapTo(mappingSet.target);
-                this.loadMapping(mappingSet);
+                this.loadMapping(mappingSet, true);
             }
         }
 
@@ -274,12 +278,12 @@ namespace EAMapping
         }
 
 
-        void loadMapping(MappingSet mappingSet)
+        void loadMapping(MappingSet mappingSet, bool expandAll = false)
         {
             if (mappingSet != null)
             {
                 //load mappingSet in control
-                this.mappingControl.loadMappingSet(mappingSet);
+                this.mappingControl.loadMappingSet(mappingSet, expandAll);
                 //make sure the tab is visible
                 if (this.embedded)
                 {
@@ -515,8 +519,16 @@ namespace EAMapping
                 {
                     targetRootElement = targets.FirstOrDefault();
                 }
-                //create the new mappingSet
-                mappingSet = EA_MP.MappingFactory.createMappingSet(sourceRoot, targetRootElement, this.settings);
+                //let the user select the target root element element if still empty
+                if (targetRootElement == null)
+                {
+                    selectAndLoadNewMappingTarget(sourceRoot);
+                }
+                else
+                {
+                    //create the new mappingSet
+                    mappingSet = EA_MP.MappingFactory.createMappingSet(sourceRoot, targetRootElement, this.settings);
+                }
             }
 
 
