@@ -96,7 +96,7 @@ namespace SAP2EAImporter
             var systemName = this.xDoc.Root.Attribute("system").Value; // Ex: R3
                                                                        // Using the systemName, get the corresponding package in EA. If a package with the given system name does not exist, 
                                                                        // Create one in the selected package. everything in the input xml is imported in the system package.
-            //TODO: Add system name to settings
+                                                                       //TODO: Add system name to settings
             var systemPackage = getPackage(systemName, selectedPackage, "Bibliotheek Technisch");
 
             foreach (var packageNode in this.xDoc.Root.Elements("package") ?? Array.Empty<XElement>()) // packages
@@ -125,6 +125,15 @@ namespace SAP2EAImporter
             </package>
           */
             var packageName = packageNode.Attribute("name").Value;
+            // we can't process empty package names. Log error
+            if (string.IsNullOrEmpty(packageName))
+            {
+                EAOutputLogger.log(this.model, outputName
+                              , $" Found empty name for package element in '{package.name}'"
+                              , ((UMLEA.ElementWrapper)package).id
+                             , LogTypeEnum.error);
+                return;
+            }
             EAOutputLogger.log(this.model, outputName
                               , $" Processing package '{packageName}' in package '{package.name}'"
                               , ((UMLEA.ElementWrapper)package).id
@@ -157,6 +166,10 @@ namespace SAP2EAImporter
         /// <returns></returns>
         private UML.Classes.Kernel.Package getPackageUnderPackage(string packageName, UML.Classes.Kernel.Package parentPackage)
         {
+            if (string.IsNullOrEmpty(packageName))
+            { 
+                return null; 
+            }
             var sqlSelectPackage = $@"SELECT o.Object_ID
                                     FROM t_object o
                                     INNER JOIN t_package p ON o.ea_guid = p.ea_guid
@@ -263,8 +276,34 @@ namespace SAP2EAImporter
             sapClass.save();
             //process attributes
             this.processAttributes<UMLEA.Class>(elementNode, sapClass);
+            this.processOperations<UMLEA.Class>(elementNode, sapClass);
             return sapClass;
 
+        }
+        private void processOperations<T>(XElement elementNode, SAPElement<T> owner) where T : UMLEA.ElementWrapper
+        {
+            //<Operation name="DETERMINE_CRITERIA" visibility="Protected" ownerScope="Static">
+            //<Parameter>
+            //	<type>BOOLEAN</type>
+            //	<name>IM_OPL_INCLUDED</name>
+            //	<direction>in</direction>
+            //</Parameter>
+            var operationPos = 0;
+            foreach (var operationNode in elementNode.Elements("Operation") ?? Array.Empty<XElement>())
+            {
+                operationPos++;
+                var operationName = operationNode.Attribute("name").Value;
+                //TODO: visibility, ownerScope
+                var operation = new SAPOperation(owner, operationName, operationPos);
+                //process parameters
+                foreach (var parameterNode in operationNode.Elements("Parameter") ?? Array.Empty<XElement>())
+                {
+                    var parameterName = parameterNode.Element("name")?.Value;
+                    var parameterType = parameterNode.Element("type")?.Value;
+                    var parameterDirection = parameterNode.Element("direction")?.Value;
+                    operation.addOrUpdateParameter(parameterName, parameterType, parameterDirection);
+                }
+            }
         }
         private void processAttributes<T>(XElement elementNode, SAPElement<T> owner) where T : UMLEA.ElementWrapper
         {
@@ -279,7 +318,7 @@ namespace SAP2EAImporter
                 var key = attributeNode.Attribute("key")?.Value;
                 var datatype = attributeNode.Attribute("datatype")?.Value;
                 int length = 0;
-                int.TryParse (attributeNode.Attribute("length")?.Value, out length);
+                int.TryParse(attributeNode.Attribute("length")?.Value, out length);
                 int scale = 0;
                 int.TryParse(attributeNode.Attribute("scale")?.Value, out scale);
                 var isKey = "X".Equals(attributeNode.Attribute("isKey")?.Value, StringComparison.InvariantCultureIgnoreCase);
@@ -452,13 +491,13 @@ namespace SAP2EAImporter
             //		<Association>00000000000000000000000000000000</Association>
             //	</auth_object>
             //</authorization>
-            foreach (var authorizationObjectNode in nodeNode.Element("node_elements")?. Element("authorization")?.Elements("auth_object") ?? Array.Empty<XElement>())
+            foreach (var authorizationObjectNode in nodeNode.Element("node_elements")?.Element("authorization")?.Elements("auth_object") ?? Array.Empty<XElement>())
             {
                 var authName = authorizationObjectNode.Attribute("name").Value;
                 var authFieldName = authorizationObjectNode.Element("auth_field")?.Value;
                 var authNodeAttributeName = authorizationObjectNode.Element("node_attribute")?.Value;
                 var authorizationObject = new SAPAuthorizationObject(authName, node.elementWrapper.owningPackage);
-                if ( authorizationObject != null)
+                if (authorizationObject != null)
                 {
                     var authorizationCheck = new BOPFAuthorizationCheck(node, authorizationObject);
                     authorizationCheck.constraint = $"{node.name}.{authNodeAttributeName} = {authName}.{authFieldName}";
@@ -635,7 +674,7 @@ namespace SAP2EAImporter
                         //get the trigger action
                         var triggerAction = new BOPFAction(triggerActionName, node, "");
                         //create the relation between them
-                        new BOPFActionValidationTrigger (validation, triggerAction);
+                        new BOPFActionValidationTrigger(validation, triggerAction);
                         //TODO: ActionValidation has a nodeCategory property, but that doesn't seem to be present in the xml
                     }
                 }
@@ -712,7 +751,7 @@ namespace SAP2EAImporter
                 //Category and determinationclass from determination_settings
                 determination.category = determinationNode.Element("determination_settings")?.Element("det_category")?.Value;
                 var determinationClassName = determinationNode.Element("determination_settings")?.Element("det_class")?.Value;
-                if (! string.IsNullOrEmpty(determinationClassName))
+                if (!string.IsNullOrEmpty(determinationClassName))
                 {
                     determination.determinationClass = new SAPClass(determinationClassName, determination.elementWrapper.owningPackage);
                 }
@@ -722,8 +761,8 @@ namespace SAP2EAImporter
                 }
                 //dependencies to other determinations
                 //<necessary_determinations>
-				//  <determination name="SET_ENDDATE_31_12_9999"/>
-				//</necessary_determinations>
+                //  <determination name="SET_ENDDATE_31_12_9999"/>
+                //</necessary_determinations>
                 foreach (var dependingDeterminationNode in determinationNode.Element("necessary_determinations")?.Elements("determination") ?? Array.Empty<XElement>())
                 {
                     var dependingDeterminationName = dependingDeterminationNode.Attribute("name")?.Value;
@@ -737,7 +776,7 @@ namespace SAP2EAImporter
                 }
             }
         }
-        private bool getAttributeBoolValue (XElement node, string attributeName)
+        private bool getAttributeBoolValue(XElement node, string attributeName)
         {
             return "True".Equals(node.Attribute(attributeName)?.Value, StringComparison.InvariantCultureIgnoreCase);
         }
@@ -773,7 +812,7 @@ namespace SAP2EAImporter
                 var targetBO = new BOPFBusinessObject(targetBOName, sourceNode.wrappedElement.owningPackage, null);
                 var targetNode = new BOPFNode(targetNodeName, targetBO, targetKeyName);
                 //get association
-                var association = new SAPAssociation(sourceNode, targetNode, assocationName,associationKey );
+                var association = new SAPAssociation(sourceNode, targetNode, assocationName, associationKey);
                 //set notes
                 var notesNode = associationNode.Element("notes");
                 if (notesNode != null)
@@ -787,13 +826,13 @@ namespace SAP2EAImporter
                     //cardinality
                     var cardinalityString = settingsNode.Element("cardinality")?.Value;
                     var cardinalityParts = cardinalityString.Split(':');
-                    if (cardinalityParts.Length > 0 && ! string.IsNullOrEmpty(cardinalityParts[0]))
+                    if (cardinalityParts.Length > 0 && !string.IsNullOrEmpty(cardinalityParts[0]))
                     {
                         try
                         {
                             association.sourceMultiplicity = cardinalityParts[0];
                         }
-                        catch(FormatException)
+                        catch (FormatException)
                         {
                             EAOutputLogger.log(this.model, outputName
                             , $" Cannot convert '{cardinalityParts[0]}' into source multiplicity for association '{assocationName}' from node '{sourceNode.name}' to '{targetNode.name}'"
@@ -817,7 +856,7 @@ namespace SAP2EAImporter
                     }
                     //resolving node
                     var resolvingNode = settingsNode.Element("resolving_node")?.Value;
-                    if (! string.IsNullOrEmpty(resolvingNode))
+                    if (!string.IsNullOrEmpty(resolvingNode))
                     {
                         association.resolvingNode = resolvingNode;
                     }
@@ -828,7 +867,7 @@ namespace SAP2EAImporter
                         association.category = category;
                     }
                     //Association Class
-                    var associationClassName = settingsNode?.Element("implementation")?.Element("assoc_class")?. Value;
+                    var associationClassName = settingsNode?.Element("implementation")?.Element("assoc_class")?.Value;
                     if (!string.IsNullOrEmpty(associationClassName))
                     {
                         association.associationClass = new SAPClass(associationClassName, association.source.elementWrapper.owningPackage);

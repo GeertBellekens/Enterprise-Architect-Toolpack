@@ -75,6 +75,7 @@
     <Compile Include="Role.cs" />
     <Compile Include="RolePackage.cs" />
     <Compile Include="SAPElementFactory.cs" />
+    <Compile Include="SAPOperation.cs" />
     <Compile Include="SAPTable.cs" />
     <Compile Include="SAPView.cs" />
     <Compile Include="SingleRole.cs" />

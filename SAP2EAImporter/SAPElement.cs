@@ -20,8 +20,11 @@ namespace SAP2EAImporter
             set
             {
                 this._wrappedElement = value;
-                //add myself to the registry of SAPElements
-                SAPElement<ElementWrapper>.elementRegistry[value.uniqueID] = this;
+                if (value != null)
+                {
+                    //add myself to the registry of SAPElements
+                    SAPElement<ElementWrapper>.elementRegistry[value.uniqueID] = this;
+                }
             }
         }
         public ElementWrapper elementWrapper 
@@ -268,9 +271,12 @@ namespace SAP2EAImporter
             return attribute;
         }
 
+
         public virtual void formatDiagrams()
         {
             //default empty implementation
         }
+
+
     }
 }

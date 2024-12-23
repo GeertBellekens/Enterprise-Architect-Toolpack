@@ -44,11 +44,12 @@ namespace SAP2EAImporter
             {
                 this.wrappedDiagram = owner.elementWrapper.addOwnedDiagram<DeploymentDiagram>(owner.name);
                 this.wrappedDiagram.metaType = MDGType;
+                this.wrappedDiagram.hideConnectorStereotypes = true;
+                this.wrappedDiagram.disableFullyScopedObjectNames = true;
                 this.wrappedDiagram.save();
             }
             //make sure this diagram is the composite diagram
             this.owner.elementWrapper.compositeDiagram = this.wrappedDiagram;
-            this.owner.elementWrapper.save();
         }
         public void complete()
         {
@@ -95,9 +96,6 @@ namespace SAP2EAImporter
             }
             //layout links
             layoutDiagramLinks();
-            //reload
-            this.wrappedDiagram.reFresh();
-
         }
         private void layoutBusinessObjectDiagram()
         {
@@ -235,6 +233,9 @@ namespace SAP2EAImporter
             return sortedDiagramObjectList;
         }
 
-
+        internal void close()
+        {
+            this.wrappedDiagram?.close();
+        }
     }
 }

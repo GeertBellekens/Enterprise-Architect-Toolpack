@@ -42,6 +42,8 @@ namespace SAP2EAImporter
             this.diagram.complete();
             //format the diagram
             this.diagram.format();
+            //close the diagram
+            this.diagram.close();
         }
         private BOPFDiagram _diagram;
         private BOPFDiagram diagram
