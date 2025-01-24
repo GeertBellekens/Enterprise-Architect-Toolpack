@@ -9,6 +9,7 @@ using UML = TSF.UmlToolingFramework.UML;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using EAAddinFramework.Utilities;
+using TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EAJSON
 {
@@ -24,6 +25,8 @@ namespace EAJSON
 
         //xsd stereotypes
         const string xsdSimpleType = "XSDsimpleType";
+        //JSON tags
+        const string tv_composition = "compositionType";
 
         //(facet) tagged value names
         const string tv_minlength = "minlength";
@@ -208,6 +211,49 @@ namespace EAJSON
 
         private void addProperties(JSchema schema, TSF_EA.ElementWrapper element)
         {
+            //get composition type
+            var compositionType = element.taggedValues.FirstOrDefault(x => x.name.Equals(tv_composition, StringComparison.InvariantCultureIgnoreCase))?.tagValue.ToString();
+            switch (compositionType)
+            {
+                case "allOf":
+                case "anyOf":
+                case "oneOf":
+                    addCompositionProperties(compositionType, schema, element);
+                    break;
+                default:
+                    addRegularProperties(schema, element);
+                    break;
+            }
+            
+        }
+
+        private void addCompositionProperties(string compositionType, JSchema schema, ElementWrapper element)
+        {
+            IList<JSchema> compositionList;
+            switch (compositionType)
+            {
+                case "allOf":
+                    compositionList = schema.AllOf;
+                    break;
+                case "anyOf":
+                    compositionList = schema.AnyOf;
+                    break;
+                case "oneOf":
+                    compositionList = schema.OneOf;
+                    break;
+                default:
+                    return;
+
+            }
+            //loop attributes
+            foreach (var attribute in element.attributes)
+            {
+                compositionList.Add(getPropertySchema(attribute));
+            }
+        }
+
+        private void addRegularProperties(JSchema schema, TSF_EA.ElementWrapper element)
+        {
             //don't do anything if there are no attributes
             if (!element.attributes.Any()) return;
             //loop attributes
@@ -216,7 +262,7 @@ namespace EAJSON
                 //get the type of the attribute
                 schema.Properties.Add(attribute.name, getPropertySchema(attribute));
                 //add to required list if mandatory
-                if (attribute.lower > 0 )
+                if (attribute.lower > 0)
                 {
                     schema.Required.Add(attribute.name);
                 }
@@ -224,6 +270,7 @@ namespace EAJSON
             //don't allow additional properties
             schema.AllowAdditionalProperties = false;
         }
+
         private JSchema getPropertySchema(UML.Classes.Kernel.Property attribute)
         {
             var typeSchema = new JSchema();

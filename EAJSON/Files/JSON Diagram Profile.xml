@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="windows-1252"?>
+<?xml  version='1.0' encoding='windows-1252' ?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="867299E8-B" name="JSON" version="1.0" notes="JSON Schema Diagram"/>
+	<Documentation id="96CB0F5F23" name="JSON" version="1.0" notes="JSON Schema Diagram"/>
 	<Content>
 		<Stereotypes>
 			<Stereotype name="JSON" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">

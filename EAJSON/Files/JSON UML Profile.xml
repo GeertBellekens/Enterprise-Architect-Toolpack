@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="windows-1252"?>
+<?xml  version='1.0' encoding='windows-1252' ?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="AB7625DC-1" name="JSON" version="1.0" notes="Elements to model JSON Schemas"/>
+	<Documentation id="E7FD1431EF" name="JSON" version="1.0" notes="Elements to model JSON Schemas"/>
 	<Content>
 		<Stereotypes>
 			<Stereotype name="JSON_Attribute" metatype="JSONAttribute" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="JSON_Type" baseStereotypes="JSON_Type">
@@ -20,6 +20,7 @@
 					</Apply>
 				</AppliesTo>
 				<TaggedValues>
+					<Tag name="compositionType" type="enumeration" description="" unit="" values="none,allOf,anyOf,oneOf" default="none"/>
 					<Tag name="id" type="" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
@@ -31,22 +32,22 @@
 				</AppliesTo>
 				<TaggedValues>
 					<Tag name="id" type="" description="" unit="" values="" default=""/>
-					<Tag name="schema" type="enumeration" description="" unit="" values="http://json-schema.org/draft-04/schema#,http://json-schema.org/draft-05/schema#,http://json-schema.org/draft-06/schema#,http://json-schema.org/draft-07/schema#" default="http://json-schema.org/draft-04/schema#"/>
+					<Tag name="schema" type="enumeration" description="" unit="" values="http://json-schema.org/draft-04/schema#,http://json-schema.org/draft-05/schema#,http://json-schema.org/draft-06/schema#,http://json-schema.org/draft-07/schema#,https://json-schema.org/draft/2019-09/schema,https://json-schema.org/draft/2020-12/schema" default="http://json-schema.org/draft-04/schema#"/>
 					<Tag name="schemaFileName" type="" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="JSON_Type" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 				<TaggedValues>
 					<Tag name="enum" type="" description="" unit="" values="" default=""/>
-					<Tag name="exclusivemaximum" type="int" description="" unit="" values="" default=""/>
-					<Tag name="exclusiveminimum" type="int" description="" unit="" values="" default=""/>
 					<Tag name="format" type="enumeration" description="" unit="" values="date-time,time,date,email,idn-email,hostname,idn-hostname,ipv4,ipv6,uri,uri-reference,iri,iri-reference,uri-template,json-pointer,relative-json-pointer,regex,&lt;none&gt;" default=""/>
-					<Tag name="maximum" type="int" description="" unit="" values="" default=""/>
 					<Tag name="maxlength" type="" description="" unit="" values="" default=""/>
-					<Tag name="minimum" type="int" description="" unit="" values="" default=""/>
 					<Tag name="minlength" type="" description="" unit="" values="" default=""/>
-					<Tag name="multipleof" type="int" description="" unit="" values="" default=""/>
 					<Tag name="pattern" type="" description="" unit="" values="" default=""/>
+					<Tag name="minimum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="exclusiveminimum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="maximum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="exclusivemaximum" type="int" description="" unit="" values="" default=""/>
+					<Tag name="multipleof" type="int" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
 		</Stereotypes>
