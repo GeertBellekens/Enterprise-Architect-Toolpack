@@ -448,7 +448,8 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
         {
             return element != null
                     && !this.settings.hiddenElementTypes.Any(x => x.Equals(element.GetType().Name, StringComparison.InvariantCulture))
-                    && !this.settings.hiddenElementTypes.Intersect(element.stereotypes.Select(x => x.name)).Any();
+                    && !this.settings.hiddenElementTypes.Intersect(element.stereotypes.Select(x => x.name)).Any()
+                    && !(element is UML.Classes.Kernel.DataType && !this.settings.addDataTypes);
         }
 
         /// <summary>
