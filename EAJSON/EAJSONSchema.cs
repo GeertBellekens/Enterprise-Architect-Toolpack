@@ -70,6 +70,12 @@ namespace EAJSON
                 if (this._schemaId == null)
                 {
                     var idTag = this.rootElement.taggedValues.FirstOrDefault(x => x.name.Equals("id", StringComparison.InvariantCultureIgnoreCase));
+                    //if the id tag is empty, we fill it ourselves with the name of the root element
+                    if (idTag != null && string.IsNullOrEmpty(idTag.tagValue.ToString()))
+                    {
+                        idTag.tagValue = "https://" + Uri.EscapeDataString(this.rootElement.name);
+                        idTag.save();
+                    }
                     try
                     {
                         this._schemaId = new Uri(idTag?.tagValue.ToString());
