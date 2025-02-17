@@ -100,7 +100,7 @@ namespace EAJSON
                     var schemaTag = this.rootElement.taggedValues.FirstOrDefault(x => x.name.Equals("schema", StringComparison.InvariantCultureIgnoreCase));
                     try
                     {
-                        this._schemaVersion = new Uri(schemaTag?.tagValue.ToString());
+                        this._schemaVersion = new Uri(schemaTag?.tagValue?.ToString());
                     }
                     catch (System.UriFormatException e)
                     {

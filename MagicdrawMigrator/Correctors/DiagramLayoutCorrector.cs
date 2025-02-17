@@ -172,7 +172,7 @@ namespace MagicdrawMigrator
 				//update the bottoms
 				string sqlFixActivityPartitionsBottom = 
 						@"update dor set dor.RectBottom = do.RectBottom
-						from t_diagramObjects do
+						from t_diagramobjects do
 						inner join t_object o on do.Object_ID = o.Object_ID
 											and o.Object_Type = 'ActivityPartition'
 						inner join t_diagramobjects dor on do.Diagram_ID = dor.Diagram_ID
@@ -195,7 +195,7 @@ namespace MagicdrawMigrator
 				//update the right edges
 				string sqlFixActivityPartitionsRight =
 						@"update do set do.RectRight = dor.RectLeft
-						from t_diagramObjects do
+						from t_diagramobjects do
 						inner join t_object o on do.Object_ID = o.Object_ID
 											and o.Object_Type = 'ActivityPartition'
 						inner join t_diagramobjects dor on do.Diagram_ID = dor.Diagram_ID

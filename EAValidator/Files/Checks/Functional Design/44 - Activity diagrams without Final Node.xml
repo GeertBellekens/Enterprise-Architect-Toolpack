@@ -16,8 +16,8 @@
 			AND d.ea_guid not in (
 				SELECT d2.ea_guid
 				FROM t_diagram d2
-				INNER JOIN t_diagramobjects do ON d.Diagram_ID=do.Diagram_ID
-				INNER JOIN t_object o ON do.Object_ID = o.Object_ID
+				INNER JOIN t_diagramobjects dod ON d.Diagram_ID=dod.Diagram_ID
+				INNER JOIN t_object o ON dod.Object_ID = o.Object_ID
 				WHERE d2.Diagram_Type='Activity'
 				AND o.Stereotype like 'BAM%'
 			)
@@ -78,8 +78,8 @@
 			AND d.ea_guid not in (
 				SELECT d2.ea_guid
 				FROM t_diagram d2
-				INNER JOIN t_diagramobjects do ON d2.Diagram_ID=do.Diagram_ID
-				INNER JOIN t_object o ON do.Object_ID = o.Object_ID
+				INNER JOIN t_diagramobjects dod ON d2.Diagram_ID=dod.Diagram_ID
+				INNER JOIN t_object o ON dod.Object_ID = o.Object_ID
 				WHERE d2.Diagram_Type='Activity'
 				AND o.Object_Type = 'StateNode'
 				AND o.NType in (101, 102)

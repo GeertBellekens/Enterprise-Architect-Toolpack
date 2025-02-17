@@ -27,8 +27,8 @@
 				AND d.ea_guid in (
 					SELECT d.ea_guid 
 					FROM t_diagram d
-					INNER JOIN t_diagramobjects do ON d.Diagram_ID = do.Diagram_ID
-					INNER JOIN t_object oUC ON oUC.Object_ID = do.Object_ID
+					INNER JOIN t_diagramobjects dod ON d.Diagram_ID = dod.Diagram_ID
+					INNER JOIN t_object oUC ON oUC.Object_ID = dod.Object_ID
 					INNER JOIN t_objectproperties opUC ON oUC.Object_ID = opUC.Object_ID
 					WHERE opUC.Property = 'CR'
 					AND opUC.Value = '#SearchTerm#'
@@ -38,8 +38,8 @@
 				AND d.ea_guid in (
 					SELECT d.ea_guid 
 					FROM t_diagram d
-					INNER JOIN t_diagramobjects do ON d.Diagram_ID = do.Diagram_ID
-					INNER JOIN t_object oUC ON oUC.Object_ID = do.Object_ID
+					INNER JOIN t_diagramobjects dod ON d.Diagram_ID = dod.Diagram_ID
+					INNER JOIN t_object oUC ON oUC.Object_ID = dod.Object_ID
 					INNER JOIN t_objectproperties opUC ON oUC.Object_ID = opUC.Object_ID
 					WHERE opUC.Property = 'CR'
 					AND opUC.Value in (

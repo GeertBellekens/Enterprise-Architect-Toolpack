@@ -49,8 +49,8 @@
 			LEFT JOIN t_package package_p5 on package_p5.package_id = package_p4.parent_id)
 			WHERE d.ea_guid in (#ElementGuids#)
 			AND not exists (
-				SELECT do.Diagram_ID 
-				FROM t_diagramobjects do
+				SELECT dod.Diagram_ID 
+				FROM t_diagramobjects dod
 				WHERE d.Diagram_ID = d.Diagram_ID
 			)
 		</Main>

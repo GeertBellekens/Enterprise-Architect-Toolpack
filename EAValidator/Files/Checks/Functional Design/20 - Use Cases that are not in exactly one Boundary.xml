@@ -79,18 +79,18 @@
 			(
 				SELECT o.ea_guid
 				FROM t_object o
-				INNER JOIN t_diagramobjects do on do.Object_ID = o.Object_ID
-				INNER JOIN t_diagram d on d.Diagram_ID = do.Diagram_ID
+				INNER JOIN t_diagramobjects dod on dod.Object_ID = o.Object_ID
+				INNER JOIN t_diagram d on d.Diagram_ID = dod.Diagram_ID
 				INNER JOIN t_diagramobjects do2 on do2.Diagram_ID = d.Diagram_ID
 				INNER JOIN t_object o2 on o2.Object_ID = do2.Object_ID
 				WHERE o.Object_Type = 'UseCase'
 				AND d.Diagram_Type = 'Use Case'
 				AND (o.StereoType IS NULL OR (o.Stereotype &lt;&gt; 'bProcessUC' AND o.Stereotype  &lt;&gt; 'Business Transaction'))
 				AND o2.Object_Type = 'Boundary'
-				AND do2.RectRight &gt;= do.RectRight
-				AND do2.RectLeft &lt;= do.RectLeft
-				AND do2.RectBottom &lt;= do.RectBottom
-				AND do2.RectTop &gt;= do.RectTop
+				AND do2.RectRight &gt;= dod.RectRight
+				AND do2.RectLeft &lt;= dod.RectLeft
+				AND do2.RectBottom &lt;= dod.RectBottom
+				AND do2.RectTop &gt;= dod.RectTop
 				GROUP BY o.ea_guid
 				HAVING COUNT(o.ea_guid)=1
 			)

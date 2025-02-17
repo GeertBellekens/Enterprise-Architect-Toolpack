@@ -19,8 +19,8 @@
 				AND d.ea_guid in (
 					SELECT d.ea_guid 
 					FROM t_diagram d
-					INNER JOIN t_diagramobjects do ON d.Diagram_ID = do.Diagram_ID
-					INNER JOIN t_object oUC ON oUC.Object_ID = do.Object_ID
+					INNER JOIN t_diagramobjects dod ON d.Diagram_ID = dod.Diagram_ID
+					INNER JOIN t_object oUC ON oUC.Object_ID = dod.Object_ID
 					INNER JOIN t_objectproperties opUC ON oUC.Object_ID = opUC.Object_ID
 					WHERE opUC.Property = 'CR'
 					AND opUC.Value = '#SearchTerm#'
@@ -30,8 +30,8 @@
 				AND d.ea_guid in (
 					SELECT d.ea_guid 
 					FROM t_diagram d
-					INNER JOIN t_diagramobjects do ON d.Diagram_ID = do.Diagram_ID
-					INNER JOIN t_object oUC ON oUC.Object_ID = do.Object_ID
+					INNER JOIN t_diagramobjects dod ON d.Diagram_ID = dod.Diagram_ID
+					INNER JOIN t_object oUC ON oUC.Object_ID = dod.Object_ID
 					INNER JOIN t_objectproperties opUC ON oUC.Object_ID = opUC.Object_ID
 					WHERE opUC.Property = 'CR'
 					AND opUC.Value in (
@@ -75,8 +75,8 @@
 			AND d.ea_guid not in (
 				  SELECT d.ea_guid
 				  FROM t_diagram d
-				  INNER JOIN t_diagramobjects do on d.Diagram_ID = do.Diagram_ID
-				  INNER JOIN t_object o on o.Object_ID = do.Object_ID
+				  INNER JOIN t_diagramobjects dod on d.Diagram_ID = dod.Diagram_ID
+				  INNER JOIN t_object o on o.Object_ID = dod.Object_ID
 				  WHERE d.Diagram_Type = 'Use Case'
 				  AND o.Object_Type = 'Boundary'
 				  GROUP BY d.ea_guid

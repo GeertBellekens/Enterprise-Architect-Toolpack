@@ -4,10 +4,10 @@
 	<CheckDescription>Class with invalid color on diagram</CheckDescription>
 	<QueryToFindElements>
 		<Main>
-			SELECT do.Instance_ID AS ItemGuid
+			SELECT dod.Instance_ID AS ItemGuid
 			FROM ((((((t_object o
-			inner join t_diagramobjects do on do.Object_ID = o.Object_ID
-			inner join t_diagram d on d.Diagram_ID = do.Diagram_ID
+			inner join t_diagramobjects dod on dod.Object_ID = o.Object_ID
+			inner join t_diagram d on d.Diagram_ID = dod.Diagram_ID
 			INNER JOIN t_Package p ON p.Package_ID = d.Package_ID)
 			LEFT JOIN t_Package Package_p1 ON Package_p1.Package_id = p.parent_id)
 			LEFT JOIN t_Package Package_p2 ON Package_p2.Package_id = Package_p1.parent_id)
@@ -54,7 +54,7 @@
 		<Main>
 			SELECT o.Name + ' on diagram "' + d.name + '"' AS ItemName
 			, 'object' as ItemType
-			, do.Instance_ID AS ItemGuid
+			, dod.Instance_ID AS ItemGuid
 			, o.Object_Type AS ElementType
 			, o.StereoType AS ElementStereotype
 			, p.name AS PackageName
@@ -63,10 +63,10 @@
 			, package_p3.name AS PackageParentLevel3
 			, package_p4.name AS PackageParentLevel4
 			, package_p5.name AS PackageParentLevel5
-			,do.*
+			,dod.*
 			FROM ((((((t_object o
-			inner join t_diagramobjects do on do.Object_ID = o.Object_ID
-			inner join t_diagram d on d.Diagram_ID = do.Diagram_ID
+			inner join t_diagramobjects dod on dod.Object_ID = o.Object_ID
+			inner join t_diagram d on d.Diagram_ID = dod.Diagram_ID
 							and d.StyleEx like '%MDGDgm=LDM::LDM Diagram;%'
 			INNER JOIN t_Package p ON p.Package_ID = d.Package_ID)
 			LEFT JOIN t_package package_p1 ON package_p1.package_id = p.parent_id)
@@ -75,8 +75,8 @@
 			LEFT JOIN t_package package_p4 on package_p4.package_id = package_p3.parent_id)
 			LEFT JOIN t_package package_p5 on package_p5.package_id = package_p4.parent_id)
 			WHERE 
-			do.Instance_ID in (#ElementGuids#)
-			and do.ObjectStyle like '%BCol=[^-]%'
+			dod.Instance_ID in (#ElementGuids#)
+			and dod.ObjectStyle like '%BCol=[^-]%'
 		</Main>
 		<Parameters></Parameters>
 	</QueryToCheckFoundElements>
@@ -87,11 +87,11 @@
 		function resolve (itemGuid)
 			resolve = false 'initial value
 			dim sqlData
-			sqlGetData = "select do.Diagram_ID from t_diagramobjects do where do.Instance_ID = " &amp; itemGuid
+			sqlGetData = "select dod.Diagram_ID from t_diagramobjects dod where dod.Instance_ID = " &amp; itemGuid
 			dim diagram
 			set diagram = getDiagramFromQuery(sqlGetData)
 			'get element
-			sqlGetData = "select do.Object_ID from t_diagramobjects do where do.Instance_ID = " &amp; itemGuid
+			sqlGetData = "select dod.Object_ID from t_diagramobjects dod where dod.Instance_ID = " &amp; itemGuid
 			dim elements 
 			set elements = Repository.GetElementSet(sqlGetData,2)
 			dim element
