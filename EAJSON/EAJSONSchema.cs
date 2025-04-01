@@ -47,7 +47,7 @@ namespace EAJSON
             get => _rootElement;
             set
             {
-                if (value != null && 
+                if (value != null &&
                     value.stereotypes.Any(x => x.name.Equals(schemaStereotype, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     _rootElement = value;
@@ -80,7 +80,7 @@ namespace EAJSON
                     {
                         this._schemaId = new Uri(idTag?.tagValue.ToString());
                     }
-                    catch(System.UriFormatException e)
+                    catch (System.UriFormatException e)
                     {
                         var errorMessage = $"Fill the property 'id' of the element '{this.rootElement.name}' with a valid URL";
                         Logger.logError(errorMessage);
@@ -97,10 +97,23 @@ namespace EAJSON
             {
                 if (this._schemaVersion == null)
                 {
-                    var schemaTag = this.rootElement.taggedValues.FirstOrDefault(x => x.name.Equals("schema", StringComparison.InvariantCultureIgnoreCase));
+                    var schemaTagValue = this.rootElement.taggedValues.FirstOrDefault(x => x.name.Equals("schema", StringComparison.InvariantCultureIgnoreCase)).tagValue?.ToString();
                     try
                     {
-                        this._schemaVersion = new Uri(schemaTag?.tagValue?.ToString());
+                        //check if starts with http
+                        if (!schemaTagValue.StartsWith("http"))
+                        {
+                            //add http
+                            var prefix = "http";
+                            //version draft-04, draft-06 and draft-07 use http, the others use https
+                            if (!schemaTagValue.Contains("/draft-0"))
+                            {
+                                prefix += "s";
+                            }
+                            prefix += "://";
+                            schemaTagValue = prefix + schemaTagValue;
+                        }
+                        this._schemaVersion = new Uri(schemaTagValue);
                     }
                     catch (System.UriFormatException e)
                     {
@@ -163,9 +176,9 @@ namespace EAJSON
         /// </summary>
         public void print()
         {
-            if (! string.IsNullOrEmpty(this.schemaFileName))
+            if (!string.IsNullOrEmpty(this.schemaFileName))
             {
-                System.IO.File.WriteAllText(this.schemaFileName, this.schema.ToString());
+                System.IO.File.WriteAllText(this.schemaFileName, this.schema.ToString().Replace("\"prefixItems\":", "\"items\":")); //because of a bug in the JSON schema library we need to replace prefixItems with items. See https://stackoverflow.com/questions/79539377/newtonsoft-json-schema-generates-invalid-schema-with-prefixitems-instead-of-item?noredirect=1#comment140270450_79539377
             }
         }
         private JObject _definitions;
@@ -176,10 +189,16 @@ namespace EAJSON
                 if (_definitions == null)
                 {
                     _definitions = new JObject();
+                    foreach (var def in this.definitionDictionary.OrderBy(x => x.Key))
+                    {
+                        _definitions.Add(def.Key, def.Value);
+                    }
                 }
                 return _definitions;
             }
         }
+        private Dictionary<string, JToken> _definitionDictionary = new Dictionary<string, JToken>();
+        private Dictionary<string, JToken> definitionDictionary => this._definitionDictionary;
 
         private JSchema generateSchema()
         {
@@ -191,9 +210,18 @@ namespace EAJSON
             generatedSchema.Id = this.schemaId;
             generatedSchema.Title = this.rootElement.name;
             generatedSchema.Description = $"Version: {this.rootElement.version}" +
-                                          Environment.NewLine + this.rootElement.EAModel.convertFromEANotes(this.rootElement.notes,"TXT");
-            generatedSchema.ExtensionData.Add("definitions", this.definitions);
-
+                                          Environment.NewLine + this.rootElement.EAModel.convertFromEANotes(this.rootElement.notes, "TXT");
+            //definitions has been replaced by $defs since version 2019
+            string defName;
+            if (this.schemaVersion.ToString().Contains("draft-0"))
+            {
+                defName = "definitions";
+            }
+            else
+            {
+                defName = "$defs";
+            }
+            generatedSchema.ExtensionData.Add(defName, this.definitions);
             return generatedSchema;
         }
         private JSchema createSchemaForElement(UML.Classes.Kernel.Type type)
@@ -203,7 +231,7 @@ namespace EAJSON
             //some tools seem to have issues with the references to these type of ids.
             //elementSchema.Id = new Uri("#" + type.name, UriKind.Relative);
             //set description
-            elementSchema.Description = ((TSF_EA.Element)type).EAModel.convertFromEANotes(type.ownedComments .FirstOrDefault()?.body, "TXT");
+            elementSchema.Description = ((TSF_EA.Element)type).EAModel.convertFromEANotes(type.ownedComments.FirstOrDefault()?.body, "TXT");
             //set schema type
             setSchemaType(type, elementSchema);
             //add properties
@@ -230,7 +258,7 @@ namespace EAJSON
                     addRegularProperties(schema, element);
                     break;
             }
-            
+
         }
 
         private void addCompositionProperties(string compositionType, JSchema schema, ElementWrapper element)
@@ -252,10 +280,12 @@ namespace EAJSON
 
             }
             //loop attributes
-            foreach (var attribute in element.attributes)
+            foreach (var attribute in element.attributes.OrderBy(x => x.position).ThenBy(x => x.name))
             {
                 compositionList.Add(getPropertySchema(attribute));
             }
+            //don't allow additional properties
+            schema.AllowAdditionalProperties = false;
         }
 
         private void addRegularProperties(JSchema schema, TSF_EA.ElementWrapper element)
@@ -263,7 +293,7 @@ namespace EAJSON
             //don't do anything if there are no attributes
             if (!element.attributes.Any()) return;
             //loop attributes
-            foreach (var attribute in element.attributes)
+            foreach (var attribute in element.attributes.OrderBy(x => x.position).ThenBy(x => x.name))
             {
                 //get the type of the attribute
                 schema.Properties.Add(attribute.name, getPropertySchema(attribute));
@@ -311,12 +341,13 @@ namespace EAJSON
                 {
                     typeSchema.UniqueItems = true;
                 }
+                typeSchema.ItemsPositionValidation = false;
                 typeSchema.Items.Add(itemsType);
             }
-            else if(attribute.type is UML.Classes.Kernel.Class)
+            else if (attribute.type is UML.Classes.Kernel.Class)
             {
                 //add schema to definitions if of type object
-                typeSchema = this.addDefinition( attribute.type);
+                typeSchema = this.addDefinition(attribute.type);
             }
             else
             {
@@ -324,22 +355,22 @@ namespace EAJSON
             }
             //process facets on the attribute
             processFacets(attribute, typeSchema);
-            
+
             return typeSchema;
         }
         private JSchema addDefinition(UML.Classes.Kernel.Type type)
         {
-            JToken definitionSchema; 
+            JToken definitionSchema;
             //check if the definition doesn't exist yet
-            if (!this.definitions.TryGetValue(type.name, out definitionSchema))
+            if (!this.definitionDictionary.TryGetValue(type.name, out definitionSchema))
             {
                 //create the schema
                 definitionSchema = createSchemaForElement(type);
                 //add the definition
-                this.definitions.Add(type.name, definitionSchema);
+                this.definitionDictionary.Add(type.name, definitionSchema);
             }
             //return
-            return (JSchema) definitionSchema;
+            return (JSchema)definitionSchema;
         }
 
         private void setSchemaType(UML.Classes.Kernel.Type type, JSchema typeSchema)
@@ -352,14 +383,14 @@ namespace EAJSON
             else if (type is UML.Classes.Kernel.Enumeration)
             {
                 typeSchema.Type = JSchemaType.String;
-                foreach(var enumValue in ((UML.Classes.Kernel.Enumeration)type).ownedLiterals.OfType<TSF_EA.EnumerationLiteral>())
+                foreach (var enumValue in ((UML.Classes.Kernel.Enumeration)type).ownedLiterals.OfType<TSF_EA.EnumerationLiteral>())
                 {
                     //TODO: make configurable in setting
                     var valueToUse = string.IsNullOrEmpty(enumValue.alias)
                                     ? enumValue.name
                                     : enumValue.alias;
                     typeSchema.Enum.Add(JValue.CreateString(valueToUse));
-                }   
+                }
             }
             else if (type is UML.Classes.Kernel.DataType)
             {
@@ -383,7 +414,7 @@ namespace EAJSON
                 if (!typeSchema.Type.HasValue)
                 {
                     var dataType = type as TSF_EA.DataType;
-                    if (dataType!= null && dataType.superClasses.Any())
+                    if (dataType != null && dataType.superClasses.Any())
                     {
                         setSchemaType(((TSF_EA.DataType)type).superClasses.First(), typeSchema);
                     }
@@ -417,7 +448,7 @@ namespace EAJSON
 
                 switch (tag.name.ToLower())
                 {
-                    
+
                     //string facets
                     case tv_minlength:
                         typeSchema.MinimumLength = longValue;
@@ -455,7 +486,7 @@ namespace EAJSON
                         }
                         break;
                     case tv_enum:
-                        foreach(var enumValue in stringValue.Split(','))
+                        foreach (var enumValue in stringValue.Split(','))
                         {
                             typeSchema.Enum.Add(JValue.CreateString(enumValue));
                         }
@@ -501,7 +532,7 @@ namespace EAJSON
         }
         private static void transformElement(TSF_EA.ElementWrapper element, UML.Classes.Kernel.Class rootClass)
         {
-            EAOutputLogger.log( $"Processing Element '{element.name}'", element.id);
+            EAOutputLogger.log($"Processing Element '{element.name}'", element.id);
             //set stereotype (not for rootclass)
             if (element.uniqueID != rootClass?.uniqueID)
             {
@@ -514,10 +545,10 @@ namespace EAJSON
                 }
                 if (element is TSF_EA.DataType)
                 {
-                    if (! element.hasStereotype(datatypeStereotype))
+                    if (!element.hasStereotype(datatypeStereotype))
                     {
                         element.stereotypes = new HashSet<UML.Profiles.Stereotype>();
-                        element.addStereotype (profileName + "::" + datatypeStereotype);
+                        element.addStereotype(profileName + "::" + datatypeStereotype);
                         element.save();
                         //transform from XML datatypes
                         transformFromXmlDatatypes((TSF_EA.DataType)element);
@@ -549,7 +580,7 @@ namespace EAJSON
                 //determine other end
                 var otherEnd = association.source.uniqueID == element.uniqueID
                                 ? association.targetEnd
-                                : association.sourceEnd;   
+                                : association.sourceEnd;
                 //determine name
                 var name = otherEnd.name;
                 if (string.IsNullOrEmpty(name))
@@ -582,7 +613,7 @@ namespace EAJSON
                 case "float":
                 case "double":
                     dataType.name = "number";
-                    
+
                     break;
                 case "duration":
                     dataType.name = "string";
@@ -612,7 +643,7 @@ namespace EAJSON
                 case "gmonthday":
                     dataType.name = "string";
                     dataType.addTaggedValue(tv_pattern, @"^--(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?$");
-                    break;   
+                    break;
                 case "gday":
                     dataType.name = "string";
                     dataType.addTaggedValue(tv_pattern, @"^---(0[1-9]|[12][0-9]|3[01])(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?$");
@@ -751,6 +782,6 @@ namespace EAJSON
                     element.addTaggedValue(tv_exclusiveminimum, (Math.Pow(10, totalDigits.Value - fractionDigits.Value) * -1).ToString());
                 }
             }
-        }    
+        }
     }
 }
