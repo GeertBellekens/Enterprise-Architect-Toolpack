@@ -197,8 +197,8 @@ namespace EAJSON
                 return _definitions;
             }
         }
-        private Dictionary<string, JToken> _definitionDictionary = new Dictionary<string, JToken>();
-        private Dictionary<string, JToken> definitionDictionary => this._definitionDictionary;
+        private Dictionary<string, JSchema> _definitionDictionary = new Dictionary<string, JSchema>();
+        private Dictionary<string, JSchema> definitionDictionary => this._definitionDictionary;
 
         private JSchema generateSchema()
         {
@@ -280,7 +280,7 @@ namespace EAJSON
 
             }
             //loop attributes
-            foreach (var attribute in element.attributes.OrderBy(x => x.position).ThenBy(x => x.name))
+            foreach (var attribute in element.attributes.OrderBy(x => x.name))
             {
                 compositionList.Add(getPropertySchema(attribute));
             }
@@ -293,7 +293,7 @@ namespace EAJSON
             //don't do anything if there are no attributes
             if (!element.attributes.Any()) return;
             //loop attributes
-            foreach (var attribute in element.attributes.OrderBy(x => x.position).ThenBy(x => x.name))
+            foreach (var attribute in element.attributes.OrderBy(x => x.name))
             {
                 //get the type of the attribute
                 schema.Properties.Add(attribute.name, getPropertySchema(attribute));
@@ -348,6 +348,7 @@ namespace EAJSON
             {
                 //add schema to definitions if of type object
                 typeSchema = this.addDefinition(attribute.type);
+                typeSchema.AllowAdditionalProperties = false;
             }
             else
             {
@@ -360,7 +361,7 @@ namespace EAJSON
         }
         private JSchema addDefinition(UML.Classes.Kernel.Type type)
         {
-            JToken definitionSchema;
+            JSchema definitionSchema;
             //check if the definition doesn't exist yet
             if (!this.definitionDictionary.TryGetValue(type.name, out definitionSchema))
             {
@@ -370,7 +371,7 @@ namespace EAJSON
                 this.definitionDictionary.Add(type.name, definitionSchema);
             }
             //return
-            return (JSchema)definitionSchema;
+            return definitionSchema;
         }
 
         private void setSchemaType(UML.Classes.Kernel.Type type, JSchema typeSchema)
@@ -379,17 +380,31 @@ namespace EAJSON
             if (type is UML.Classes.Kernel.Class)
             {
                 typeSchema.Type = JSchemaType.Object;
+                //set additional properties
+                typeSchema.AllowAdditionalProperties = false;
             }
             else if (type is UML.Classes.Kernel.Enumeration)
             {
                 typeSchema.Type = JSchemaType.String;
-                foreach (var enumValue in ((UML.Classes.Kernel.Enumeration)type).ownedLiterals.OfType<TSF_EA.EnumerationLiteral>())
+                var metaEnum = new JObject();
+                var literals = ((UML.Classes.Kernel.Enumeration)type).ownedLiterals.OfType<TSF_EA.EnumerationLiteral>()
+                        .OrderBy(x => string.IsNullOrEmpty(x.alias)
+                                                            ? x.name
+                                                            : x.alias);
+                foreach (var enumValue in literals)
                 {
-                    //TODO: make configurable in setting
+                    //always use alias if available
                     var valueToUse = string.IsNullOrEmpty(enumValue.alias)
                                     ? enumValue.name
                                     : enumValue.alias;
                     typeSchema.Enum.Add(JValue.CreateString(valueToUse));
+                    //add documentation
+                    metaEnum.Add(valueToUse, enumValue.name);
+                }
+                if (literals.Any(x => !string.IsNullOrEmpty(x.alias)))
+                {
+                    //add meta enum only if there is at least one alias filled in
+                    typeSchema.ExtensionData.Add("meta:enum", metaEnum);
                 }
             }
             else if (type is UML.Classes.Kernel.DataType)
