@@ -404,7 +404,7 @@ namespace EAJSON
                 if (literals.Any(x => !string.IsNullOrEmpty(x.alias)))
                 {
                     //add meta enum only if there is at least one alias filled in
-                    typeSchema.ExtensionData.Add("meta:enum", metaEnum);
+                    typeSchema.ExtensionData.Add("x-enumDescriptions", metaEnum);
                 }
             }
             else if (type is UML.Classes.Kernel.DataType)
