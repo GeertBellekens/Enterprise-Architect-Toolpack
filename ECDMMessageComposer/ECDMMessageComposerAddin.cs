@@ -179,11 +179,18 @@ AppliesTo=Class,DataType,Enumeration,PrimitiveType;";
         {
             if (schema.containerElement != null)
             {
-                if (schema.containerElement.isReadOnly)
+                //check if package is writable
+                var isWritable = true;
+                if (this.settings.checkSecurity)
                 {
-                    schema.containerElement.makeWritable(false);
+                    if (schema.containerElement.isReadOnly)
+                    {
+                        schema.containerElement.makeWritable(false);
+                    }
+                    isWritable = !schema.containerElement.isReadOnly;
+     
                 }
-                if (!schema.containerElement.isReadOnly)
+                if (isWritable)
                 {
                     ((TSF_EA.ElementWrapper)schema.containerElement).addTaggedValue(targetPackageTagName, targetPackage.uniqueID);
                 }
