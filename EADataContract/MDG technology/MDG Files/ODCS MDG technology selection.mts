@@ -1,0 +1,6 @@
+<MDG.Selections model="TMF --- DBType=1;Connect=Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=TMF;Data Source=DESKTOP-BGN5EL4;LazyLoad=1;">
+	<Technology id="ODCS" name="Open Data Contract Specification (ODSC)" version="1.0" notes="Contains elements to model Open Data Contract Specifications (ODCS)" filename="C:\Users\geert\Documents\GitHub\Enterprise-Architect-Toolpack\EADataContract\MDG technology\MDG Files\ODCS MDG Technology.xml" infoURI="https://bellekens.com" supportURI="https://bellekens.com"/>
+	<Profiles directory="C:\Users\geert\Documents\GitHub\Enterprise-Architect-Toolpack\EADataContract\MDG technology\UML Profiles" files="ODCS UML Profile.xml"/>
+	<DiagramProfile directory="C:\Users\geert\Documents\GitHub\Enterprise-Architect-Toolpack\EADataContract\MDG technology\Diagram Profiles" files="ODCS Diagram Profile.xml"/>
+	<UIToolboxes directory="C:\Users\geert\Documents\GitHub\Enterprise-Architect-Toolpack\EADataContract\MDG technology\Toolbox Profiles" files="OODCS Toolbox Profile.xml"/>
+</MDG.Selections>

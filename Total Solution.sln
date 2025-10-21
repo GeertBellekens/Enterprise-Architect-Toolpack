@@ -108,6 +108,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EA Protobuf", "EA Protobuf\EA Protobuf.csproj", "{45272B1D-A9CB-4B51-A4AC-961513560D65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EADataContract", "EADataContract\EADataContract.csproj", "{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -523,6 +525,18 @@ Global
 		{45272B1D-A9CB-4B51-A4AC-961513560D65}.Release|x64.Build.0 = Release|Any CPU
 		{45272B1D-A9CB-4B51-A4AC-961513560D65}.Release|x86.ActiveCfg = Release|Any CPU
 		{45272B1D-A9CB-4B51-A4AC-961513560D65}.Release|x86.Build.0 = Release|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Debug|x64.Build.0 = Debug|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Debug|x86.Build.0 = Debug|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Release|x64.ActiveCfg = Release|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Release|x64.Build.0 = Release|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Release|x86.ActiveCfg = Release|Any CPU
+		{9F073F5F-2606-4C5B-ADD1-6137D039A4E5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

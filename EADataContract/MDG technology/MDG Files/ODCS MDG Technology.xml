@@ -1,0 +1,71 @@
+<?xml  version='1.0' encoding='windows-1252' ?>
+<MDG.Technology version="1.0"><Documentation id="ODCS" name="Open Data Contract Specification (ODSC)" version="1.0" notes="Contains elements to model Open Data Contract Specifications (ODCS)" infoURI="https://bellekens.com" supportURI="https://bellekens.com"/><UMLProfiles><UMLProfile profiletype="uml2">
+	<Documentation id="FF80B8C1D8" name="ODCS" version="1.0" notes="ODCS"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="ODCS_Object" metatype="Object" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="_HideUmlLinks" value="True"/>
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="ODCS_Property" metatype="Property" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Attribute"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="ODCS_Schema" metatype="Schema" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Package">
+						<Property name="_HideUmlLinks" value="True"/>
+						<Property name="URI" value=""/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+		<ViewDefinitions/>
+		<Metamodel/>
+	</Content>
+</UMLProfile></UMLProfiles><DiagramProfile><UMLProfile profiletype="uml2">
+	<Documentation id="FFA707967B" name="ODCS" version="1.0" notes="ODCS"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="ODCS Diagram" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Object">
+						<Property name="alias" value="ODCS"/>
+						<Property name="diagramID" value="ODCS"/>
+						<Property name="frameString" value="#DGMTYPE# #DGMNAME#"/>
+						<Property name="toolbox" value="ODCS"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+		<ViewDefinitions/>
+		<Metamodel/>
+	</Content>
+</UMLProfile></DiagramProfile><UIToolboxes><UMLProfile profiletype="uml2">
+	<Documentation id="B3D0BB1BF2" name="ODCS" version="1.0" notes="ODCS"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="ODCS elements" notes="" cx="227" cy="88" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="ODCS::ODCS_Object(UML::Class)" type="" description="" unit="" values="" default="Object"/>
+					<Tag name="ODCS::ODCS_Property(UML::Attribute)" type="" description="" unit="" values="" default="Property"/>
+					<Tag name="ODCS::ODCS_Schema(UML::Package)" type="" description="" unit="" values="" default="Schema"/>
+					<Tag name="UML::Enumeration" type="" description="" unit="" values="" default="Enumeration"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+		<ViewDefinitions/>
+		<Metamodel/>
+	</Content>
+</UMLProfile></UIToolboxes></MDG.Technology>
