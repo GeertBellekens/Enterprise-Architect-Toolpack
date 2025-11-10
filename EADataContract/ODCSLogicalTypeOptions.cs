@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TSF.UmlToolingFramework.Wrappers.EA;
 using YamlDotNet.RepresentationModel;
 
 namespace EADataContract
@@ -10,7 +11,7 @@ namespace EADataContract
     public class ODCSLogicalTypeOptions: ODCSItem
     {
         public ODCSLogicalTypeOptions() { }
-        public ODCSLogicalTypeOptions(YamlNode node):base(node)
+        public ODCSLogicalTypeOptions(YamlNode node, ODCSLogicalType owner):base(node, owner)
         {
             this.maxItems = getIntValue("maxItems");
             this.minItems = getIntValue("minItems");
@@ -20,7 +21,7 @@ namespace EADataContract
             this.minimum = getStringValue("minimum");
             this.exclusiveMaximum = getStringValue("exclusiveMaximum");
             this.exclusiveMinimum = getStringValue("exclusiveMinimum");
-            this.multipleOf = getStringValue("multipleOf");
+            this.multipleOf = getDecimalValue("multipleOf");
             this.maxLength = getIntValue("maxLength");
             this.minLength = getIntValue("minLength");
             this.pattern = getStringValue("pattern");
@@ -36,7 +37,7 @@ namespace EADataContract
         public string exclusiveMinimum { get; set; }
         public string maximum { get; set; }
         public string minimum { get; set; }
-        public string multipleOf { get; set; }
+        public decimal? multipleOf { get; set; }
         public int? maxLength { get; set; }
         public int? minLength { get; set; }
         public string pattern { get; set; }
@@ -44,6 +45,19 @@ namespace EADataContract
         public int? minProperties { get; set; }
         public bool? required { get; set; }
 
+        public override IEnumerable<ODCSItem> getChildItems()
+        {
+            return new List<ODCSItem>();//empty list
+        }
 
+        public override void getModelElement(Element context)
+        {
+            return; //no model element
+        }
+
+        public override void updateModelElement()
+        {
+            return; //no model element
+        }
     }
 }

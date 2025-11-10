@@ -5,17 +5,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YamlDotNet.RepresentationModel;
+using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
+
+
 
 namespace EADataContract
 {
     public abstract class ODCSItem
     {
+        public static string profile => "ODCS::";
         protected ODCSItem() { }
-        public ODCSItem(YamlNode node)
+        public ODCSItem(YamlNode node, ODCSItem owner)
         {
             this.node = node;
+            this.owner = owner;
         }
+        public TSF_EA.Element importToModel(TSF_EA.Element context)
+        {
+            this.getModelElement(context);
+            this.updateModelElement();
+            foreach (var childItem in this.getChildItems())
+            {
+                childItem.importToModel(modelElement);
+            }
+            return modelElement;
+        }
+        public abstract void getModelElement(TSF_EA.Element context);
+        public abstract void updateModelElement();
+        public abstract IEnumerable<ODCSItem> getChildItems();
         public YamlNode node { get; protected set; }
+        public ODCSItem owner { get; protected set; }
+
+        public TSF_EA.Element modelElement { get; protected set; } = null;
         protected string getStringValue(string key)
         {
             if (this.node is YamlMappingNode mappingNode)
@@ -44,6 +65,17 @@ namespace EADataContract
             if (int.TryParse(getStringValue(key), out var intValue))
             {
                 return intValue;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        protected decimal? getDecimalValue(string key)
+        {
+            if (decimal.TryParse(getStringValue(key), out var decimalValue))
+            {
+                return decimalValue;
             }
             else
             {

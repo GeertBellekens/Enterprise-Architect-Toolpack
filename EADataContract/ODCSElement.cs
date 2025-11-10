@@ -14,7 +14,7 @@ namespace EADataContract
         { 
             this.name = name;
         }
-        public ODCSElement(YamlMappingNode node):base(node)
+        public ODCSElement(YamlMappingNode node, ODCSItem owner) :base(node, owner)
         {
             this.name = getStringValue("name");
             this.physicalName = getStringValue("physicalName");
@@ -23,7 +23,7 @@ namespace EADataContract
             this.businessName = getStringValue("businessName");
             if (node.Children.TryGetValue("quality", out var qualityNode))
             {
-                this.quality = new ODCSQuality(qualityNode);
+                this.quality = new ODCSQuality(qualityNode, this);
             }
         }
 

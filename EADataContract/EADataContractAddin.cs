@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
-using UML = TSF.UmlToolingFramework.UML;
+using TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EADataContract
 {
@@ -44,7 +43,7 @@ namespace EADataContract
 
         private void import()
         {
-            var contract = new ODCSDataContract(@"C:\Temp\ODCS\ODCSDataContract.yaml");
+            var contract =  ODCSDataContract.Parse(@"C:\Temp\ODCS\ODCSDataContract.yaml");
             //test
             foreach (var odcsObject in contract.schema?.objects)
             {
@@ -60,6 +59,8 @@ namespace EADataContract
                           , LogTypeEnum.log);
                 }
             }
+            contract.importToModel(this.model.selectedTreePackage as Element);
+
         }
 
         private void export()

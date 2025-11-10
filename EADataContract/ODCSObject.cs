@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using TSF.UmlToolingFramework.Wrappers.EA;
 using YamlDotNet.RepresentationModel;
 
 namespace EADataContract
 {
     public class ODCSObject: ODCSElement
     {
+        public static string stereotype => profile + "ODCS_Object";
 
-        public ODCSObject(string name) : base(name)
+        public ODCSObject(YamlMappingNode node, ODCSSchema owner) : base(node, owner)
         {
-        }
-        public ODCSObject(YamlMappingNode node) : base(node)
-        {
+
         }
         private List<ODCSProperty> _properties = null;
+        private Class modelClass => this.modelElement as Class;
         public IEnumerable<ODCSProperty> properties
         {
             get
@@ -33,12 +36,55 @@ namespace EADataContract
                     this._properties = new List<ODCSProperty>();
                     foreach (var propertyNode in propertiesSequenceNode.Children.OfType<YamlMappingNode>())
                     {
-                        var odcsProperty = new ODCSProperty(propertyNode);
+                        var odcsProperty = new ODCSProperty(propertyNode, this);
                         this._properties.Add(odcsProperty);
                     }
                 }
                 return _properties;
             }
+        }
+
+        public override void getModelElement(Element context)
+        {
+            var contextWrapper = context as ElementWrapper;
+            if (contextWrapper == null)
+            {
+                throw new InvalidDataException("ODCS Object must be imported into an package");
+            }
+
+            //get existing element
+            var existingElement = context.ownedElements
+            .OfType<Class>()
+            .FirstOrDefault(x => x.name == this.name 
+                            && x.fqStereotype == stereotype);
+            if (existingElement != null)
+            {
+                this.modelElement = existingElement;
+            }
+            else 
+            {
+                //create new element
+                var newElement = contextWrapper.addOwnedElement<Class>(this.name);
+                newElement.fqStereotype = stereotype;
+                newElement.save();
+                this.modelElement = newElement;
+            }
+        }
+
+        public override void updateModelElement()
+        {
+            this.modelClass.name = this.name;
+            this.modelClass.notes = this.description;
+            this.modelClass.addTaggedValue("physicalName", this.physicalName);
+            this.modelClass.addTaggedValue("physicalType", this.physicalType);
+            this.modelClass.addTaggedValue("businessName", this.businessName);
+            //TODO : quality
+            this.modelClass.save();
+        }
+
+        public override IEnumerable<ODCSItem> getChildItems()
+        {
+            return this.properties;
         }
     }
 }
