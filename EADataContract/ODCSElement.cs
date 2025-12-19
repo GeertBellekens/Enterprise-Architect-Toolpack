@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +22,14 @@ namespace EADataContract
             this.physicalType = getStringValue("physicalType");
             this.description = getStringValue("description");
             this.businessName = getStringValue("businessName");
-            if (node.Children.TryGetValue("quality", out var qualityNode))
+            if (node.Children.TryGetValue("quality", out var qualityNode)
+                && qualityNode is YamlSequenceNode)
             {
-                this.quality = new ODCSQuality(qualityNode, this);
+                var qualitySeqNode = (YamlSequenceNode)qualityNode;
+                foreach (var child in qualitySeqNode.Children.OfType<YamlMappingNode>())
+                {
+                    this._qualityRules.Add(new ODCSQuality(child, this));
+                }
             }
         }
 
@@ -32,7 +38,8 @@ namespace EADataContract
         public string physicalType { get; set; }
         public string description { get; set; }
         public string businessName { get; set; }
-        public ODCSQuality quality { get; set; }
+        private List<ODCSQuality> _qualityRules = new List<ODCSQuality>();
+        public IEnumerable<ODCSQuality> qualityRules => this._qualityRules;
 
     }
 }

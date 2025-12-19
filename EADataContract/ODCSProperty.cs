@@ -1,22 +1,24 @@
-﻿using System;
+﻿using EAAddinFramework.Utilities;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TSF.UmlToolingFramework.Wrappers.EA;
-using TFS_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using YamlDotNet.RepresentationModel;
+using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EADataContract
 {
     public class ODCSProperty : ODCSElement
     {
         public static string stereotype => profile + "ODCS_Property";
-        internal TFS_EA.Attribute modelAttribute => this.modelElement as TFS_EA.Attribute;
+        internal TSF_EA.Attribute modelAttribute => this.modelElement as TSF_EA.Attribute;
         public ODCSProperty(string name) : base(name)
         {
         }
+        private YamlMappingNode propertyNode => this.node as YamlMappingNode;
         public ODCSProperty(YamlMappingNode node, ODCSObject owner) : base(node, owner)
         {
             this.primaryKey = getBooleanValue("primaryKey");
@@ -24,20 +26,14 @@ namespace EADataContract
             this.required = getBooleanValue("required");
             this.criticalDataElement = getBooleanValue("criticalDataElement");
             this.dataClassification = getStringValue("dataClassification");
-
-
-            var logicalTypeName = getStringValue("logicalType");
-            if (logicalTypeName != null)
+            this.logicalType = getStringValue("logicalType");
+            //get logicalTypeOptions if present
+            YamlMappingNode logicalTypeOptionsNode = null;
+            //check for sibling node with key logicalTypeOptions
+            if (node.Children.TryGetValue("logicalTypeOptions", out var optionsNode)
+                && optionsNode is YamlMappingNode)
             {
-                YamlMappingNode logicalTypeOptionsNode = null;
-                //check for sibling node with key logicalTypeOptions
-                if (node.Children.TryGetValue("logicalTypeOptions", out var optionsNode)
-                    && optionsNode is YamlMappingNode)
-                {
-                    logicalTypeOptionsNode = (YamlMappingNode)optionsNode;
-                }
-                //create logical type
-                this.logicalType = new ODCSLogicalType(logicalTypeName, logicalTypeOptionsNode, this);
+                logicalTypeOptionsNode = (YamlMappingNode)optionsNode;
             }
         }
         public bool? primaryKey { get; set; }
@@ -45,18 +41,32 @@ namespace EADataContract
         public bool? required { get; set; }
         public bool? criticalDataElement { get; set; }
         public string dataClassification { get; set; }
+        public string logicalType { get; set; }
 
-        
-        public ODCSLogicalType logicalType { get; set; }
-  
+        private ODCSLogicalTypeOptions _options = null;
+        public ODCSLogicalTypeOptions options
+        {
+            get
+            {
+                if (_options == null
+                    && this.propertyNode.Children.TryGetValue("logicalTypeOptions", out var optionsNode)
+                && optionsNode is YamlMappingNode)
+                {
+                    _options = new ODCSLogicalTypeOptions(optionsNode, this);
+                }
+                return _options;
+            }
+        }
+
 
         public override IEnumerable<ODCSItem> getChildItems()
         {
             var childItems = new List<ODCSItem>();
-            if (this.logicalType != null)
+            if (this.options != null)
             {
-                childItems.Add(this.logicalType);
+                childItems.Add(this.options);
             }
+            childItems.AddRange(this.qualityRules);
             return childItems;
         }
 
@@ -69,9 +79,9 @@ namespace EADataContract
             }
             //get existing attribute
             var existingAttribute = contextClass.attributes
-                                    .OfType<TFS_EA.Attribute>()
+                                    .OfType<TSF_EA.Attribute>()
                                     .FirstOrDefault(x => x.name == this.name
-                                                    && x.fqStereotype == stereotype); 
+                                                    && x.fqStereotype == stereotype);
             if (existingAttribute != null)
             {
                 this.modelElement = existingAttribute;
@@ -79,7 +89,7 @@ namespace EADataContract
             else
             {
                 //create new attribute
-                var newAttribute = contextClass.addOwnedElement<TFS_EA.Attribute>(this.name, "string"); //default to string type
+                var newAttribute = contextClass.addOwnedElement<TSF_EA.Attribute>(this.name, "string"); //default to string type
                 newAttribute.fqStereotype = stereotype;
                 newAttribute.save();
                 this.modelElement = newAttribute;
@@ -89,6 +99,9 @@ namespace EADataContract
 
         public override void updateModelElement()
         {
+            EAOutputLogger.log($"Updating attribute: {this.name}"
+               , 0
+               , LogTypeEnum.log);
             this.modelAttribute.name = this.name;
             this.modelAttribute.notes = this.description;
             this.modelAttribute.addTaggedValue("physicalName", this.physicalName);
@@ -99,6 +112,7 @@ namespace EADataContract
             this.modelAttribute.lower = (uint)(this.required == true ? 1 : 0);
             this.modelAttribute.addTaggedValue("criticalDataElement", this.criticalDataElement?.ToString());
             this.modelAttribute.addTaggedValue("dataClassification", this.dataClassification);
+            this.modelAttribute.addTaggedValue("logicalType", this.logicalType);
             this.modelAttribute.save();
         }
     }

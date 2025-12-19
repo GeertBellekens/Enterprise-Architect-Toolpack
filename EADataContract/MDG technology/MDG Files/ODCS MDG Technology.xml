@@ -60,13 +60,35 @@
 					<metaconstraint umlRole="type" constraint="ODCS::ODCS_LogicalType"/>
 				</metaconstraints>
 				<AppliesTo>
-					<Apply type="Attribute"/>
+					<Apply type="Attribute">
+						<Property name="_tagGroupings" value="exclusiveMaximum=Logical Type Options;exclusiveMinimum=Logical Type Options;format=Logical Type Options;maximum=Logical Type Options;maxItems=Logical Type Options;maxLength=Logical Type Options;maxProperties=Logical Type Options;minimum=Logical Type Options;minItems=Logical Type Options;minLength=Logical Type Options;minProperties=Logical Type Options;multipleOf=Logical Type Options;pattern=Logical Type Options;uniqueItems=Logical Type Options;timezone=Logical Type Options;defaultTimezone=Logical Type Options;required=Logical Type Options;"/>
+						<Property name="_tagGroups" value="Logical Type Options"/>
+						<Property name="_tagGroupStates" value="Logical Type Options=closed;"/>
+					</Apply>
 				</AppliesTo>
 				<TaggedValues>
-					<Tag name="dataClassification" type="" description="" unit="" values="" default=""/>
+					<Tag name="logicalType" type="enumeration" description="" unit="" values="string,date,number,integer,object,array,boolean" default="string"/>
 					<Tag name="primaryKey" type="Boolean" description="" unit="" values="True,False" default="False"/>
-					<Tag name="unique" type="Boolean" description="" unit="" values="True,False" default="False"/>
+					<Tag name="dataClassification" type="" description="" unit="" values="" default=""/>
 					<Tag name="criticalDataElement" type="Boolean" description="" unit="" values="True,False" default="False"/>
+					<Tag name="required" type="Boolean" description="" unit="" values="True,False" default="False"/>
+					<Tag name="defaultTimezone" type="" description="" unit="" values="" default=""/>
+					<Tag name="timezone" type="" description="" unit="" values="" default=""/>
+					<Tag name="maxItems" type="Integer" description="" unit="" values="" default="-1"/>
+					<Tag name="minItems" type="Integer" description="" unit="" values="" default="-1"/>
+					<Tag name="unique" type="Boolean" description="" unit="" values="True,False" default="False"/>
+					<Tag name="uniqueItems" type="Boolean" description="" unit="" values="True,False" default="False"/>
+					<Tag name="format" type="" description="" unit="" values="" default=""/>
+					<Tag name="exclusiveMaximum" type="" description="" unit="" values="" default=""/>
+					<Tag name="exclusiveMinimum" type="" description="" unit="" values="" default=""/>
+					<Tag name="maximum" type="" description="" unit="" values="" default=""/>
+					<Tag name="minimum" type="" description="" unit="" values="" default=""/>
+					<Tag name="multipleOf" type="Decimal" description="" unit="" values="" default="TBD"/>
+					<Tag name="maxLength" type="Integer" description="" unit="" values="" default="-1"/>
+					<Tag name="minLength" type="Integer" description="" unit="" values="" default="-1"/>
+					<Tag name="pattern" type="" description="" unit="" values="" default=""/>
+					<Tag name="maxProperties" type="Integer" description="" unit="" values="" default="-1"/>
+					<Tag name="minProperties" type="Integer" description="" unit="" values="" default="-1"/>
 				</TaggedValues>
 			</Stereotype>
 		</Stereotypes>

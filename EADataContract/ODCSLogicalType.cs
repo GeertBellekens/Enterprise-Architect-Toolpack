@@ -1,12 +1,13 @@
-﻿using System;
+﻿using EAAddinFramework.Utilities;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TSF.UmlToolingFramework.Wrappers.EA;
-using TFS_EA = TSF.UmlToolingFramework.Wrappers.EA;
 using YamlDotNet.RepresentationModel;
-using System.IO;
+using TFS_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EADataContract
 {
@@ -33,7 +34,7 @@ namespace EADataContract
                 if (_options == null
                     && this.node != null)
                 {
-                    _options = new ODCSLogicalTypeOptions(this.node, this);
+                    //_options = new ODCSLogicalTypeOptions(this.node, this);
                 }
                 return _options;
             }
@@ -57,16 +58,34 @@ namespace EADataContract
             {
                 //create new data type
                 var dataTypeName = $"{contextAttribute.name}_{this.type}_Type";
-                var newDataType = contextAttribute.getOwner<Package>().addOwnedElement<DataType>(dataTypeName);
-                newDataType.fqStereotype = stereotype;
-                newDataType.save();
-                this.modelElement = newDataType;
+                var datatype = getExistingDataType(contextAttribute.getOwner<Package>(), dataTypeName);
+                if (datatype != null)
+                {
+                    this.modelElement = datatype;
+                }
+                else
+                {
+                    var newDataType = contextAttribute.getOwner<Package>().addOwnedElement<DataType>(dataTypeName);
+                    newDataType.fqStereotype = stereotype;
+                    newDataType.save();
+                    this.modelElement = newDataType;
+                }
                 //TODO: add options as tagged values
             }
+        }
+        public DataType getExistingDataType(Package package, string datatypeName)
+        {
+            //check if a datatype exists with the given name and the correct stereotype
+            return package.ownedElementWrappers.OfType<DataType>()
+                .FirstOrDefault(x => x.name == datatypeName
+                                    && x.fqStereotype == stereotype);
         }
 
         public override void updateModelElement()
         {
+            EAOutputLogger.log($"Updating datatype: {this.modelDataType.name}"
+                           , this.modelDataType.id
+                           , LogTypeEnum.log);
             this.modelDataType.addTaggedValue("type", this.type.ToString());
             //update type of parent property
             this.ownerProperty.modelAttribute.type = this.modelDataType;

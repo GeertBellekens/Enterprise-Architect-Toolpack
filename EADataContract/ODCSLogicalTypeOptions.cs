@@ -1,17 +1,20 @@
-﻿using System;
+﻿using EAAddinFramework.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TSF.UmlToolingFramework.Wrappers.EA;
 using YamlDotNet.RepresentationModel;
+using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EADataContract
 {
     public class ODCSLogicalTypeOptions: ODCSItem
     {
         public ODCSLogicalTypeOptions() { }
-        public ODCSLogicalTypeOptions(YamlNode node, ODCSLogicalType owner):base(node, owner)
+        internal TSF_EA.Attribute modelAttribute => this.modelElement as TSF_EA.Attribute;
+        public ODCSLogicalTypeOptions(YamlNode node, ODCSProperty owner):base(node, owner)
         {
             this.maxItems = getIntValue("maxItems");
             this.minItems = getIntValue("minItems");
@@ -52,12 +55,32 @@ namespace EADataContract
 
         public override void getModelElement(Element context)
         {
-            return; //no model element
+            this.modelElement = context as TSF_EA.Attribute;
         }
 
         public override void updateModelElement()
         {
-            return; //no model element
+            EAOutputLogger.log($"Updating logical type options for attribute: {this.modelAttribute?.name}"
+              , 0
+              , LogTypeEnum.log);
+
+            this.modelAttribute.addTaggedValue("maxItems", (this.maxItems ?? -1).ToString());
+            this.modelAttribute.addTaggedValue("minItems", (this.minItems ?? -1).ToString());
+            this.modelAttribute.addTaggedValue("uniqueItems", this.uniqueItems?.ToString());
+            this.modelAttribute.addTaggedValue("format", this.format);
+            this.modelAttribute.addTaggedValue("maximum", this.maximum);
+            this.modelAttribute.addTaggedValue("minimum", this.minimum);
+            this.modelAttribute.addTaggedValue("exclusiveMaximum", this.exclusiveMaximum);
+            this.modelAttribute.addTaggedValue("exclusiveMinimum", this.exclusiveMinimum);
+            this.modelAttribute.addTaggedValue("multipleOf", (this.multipleOf ?? -1).ToString());
+            this.modelAttribute.addTaggedValue("maxLength", (this.maxLength ?? -1).ToString());
+            this.modelAttribute.addTaggedValue("minLength", (this.minLength ?? -1).ToString());
+            this.modelAttribute.addTaggedValue("pattern", this.pattern);
+            this.modelAttribute.addTaggedValue("maxProperties", (this.maxProperties ?? -1).ToString());
+            this.modelAttribute.addTaggedValue("minProperties", (this.minProperties ?? -1).ToString());
+            this.modelAttribute.addTaggedValue("required", this.required?.ToString());
+
+            this.modelAttribute.save();
         }
     }
 }

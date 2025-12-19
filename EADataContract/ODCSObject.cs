@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EAAddinFramework.Utilities;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,8 +19,8 @@ namespace EADataContract
         {
 
         }
-        private List<ODCSProperty> _properties = null;
         private Class modelClass => this.modelElement as Class;
+        private List<ODCSProperty> _properties = null;
         public IEnumerable<ODCSProperty> properties
         {
             get
@@ -73,6 +74,9 @@ namespace EADataContract
 
         public override void updateModelElement()
         {
+            EAOutputLogger.log( $"Updating object: {this.name}"
+                   , this.modelClass.id
+                  , LogTypeEnum.log);
             this.modelClass.name = this.name;
             this.modelClass.notes = this.description;
             this.modelClass.addTaggedValue("physicalName", this.physicalName);
@@ -84,7 +88,9 @@ namespace EADataContract
 
         public override IEnumerable<ODCSItem> getChildItems()
         {
-            return this.properties;
+            var childItems = new List<ODCSItem>(this.properties);
+            childItems.AddRange(this.qualityRules);
+            return childItems;
         }
     }
 }

@@ -47,26 +47,33 @@ namespace EADataContract
             var contract = ODCSDataContract.getUserSelectedContract();
             if (contract == null) return;
             //test
-            foreach (var odcsObject in contract.schema?.objects)
-            {
-                EAOutputLogger.log(this.model, outputName
-                       , $"Found object: {odcsObject.name}"
-                       , 0
-                      , LogTypeEnum.log);
-                foreach (var property in odcsObject.properties)
-                {
-                    EAOutputLogger.log(this.model, outputName
-                           , $"Found property: {property.name} of type {property.logicalType?.type} with options {property.logicalType?.options} "
-                           , 0
-                          , LogTypeEnum.log);
-                }
-            }
-            var selectedPackage = this.model.selectedTreePackage as Element;
+            //foreach (var odcsObject in contract.schema?.objects)
+            //{
+            //    EAOutputLogger.log(this.model, outputName
+            //           , $"Found object: {odcsObject.name}"
+            //           , 0
+            //          , LogTypeEnum.log);
+            //    foreach (var property in odcsObject.properties)
+            //    {
+            //        EAOutputLogger.log(this.model, outputName
+            //               , $"Found property: {property.name} of type {property.logicalType?.type} with options {property.logicalType?.options} "
+            //               , 0
+            //              , LogTypeEnum.log);
+            //    }
+            //}
+
+            var selectedPackage = this.model.selectedTreePackage;
             EAOutputLogger.log(this.model, outputName
                            , $"Starting import of datacontract {contract.name} in  {selectedPackage.name} "
                            , 0
                           , LogTypeEnum.log);
-            contract.importToModel(selectedPackage);
+            this.model.wrappedModel.EnableUIUpdates = false;
+            //this.model.wrappedModel.BatchAppend = true;
+            contract.importToModel(selectedPackage as Element);
+            this.model.wrappedModel.EnableUIUpdates = true;
+            //reload package to see changes
+            selectedPackage.refresh();
+            //this.model.wrappedModel.BatchAppend = false;
             EAOutputLogger.log(this.model, outputName
                            , $"Finished import of datacontract {contract.name} in  {selectedPackage.name} "
                            , 0
