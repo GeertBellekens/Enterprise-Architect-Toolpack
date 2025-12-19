@@ -43,7 +43,9 @@ namespace EADataContract
 
         private void import()
         {
-            var contract =  ODCSDataContract.Parse(@"C:\Temp\ODCS\ODCSDataContract.yaml");
+
+            var contract = ODCSDataContract.getUserSelectedContract();
+            if (contract == null) return;
             //test
             foreach (var odcsObject in contract.schema?.objects)
             {
@@ -59,7 +61,16 @@ namespace EADataContract
                           , LogTypeEnum.log);
                 }
             }
-            contract.importToModel(this.model.selectedTreePackage as Element);
+            var selectedPackage = this.model.selectedTreePackage as Element;
+            EAOutputLogger.log(this.model, outputName
+                           , $"Starting import of datacontract {contract.name} in  {selectedPackage.name} "
+                           , 0
+                          , LogTypeEnum.log);
+            contract.importToModel(selectedPackage);
+            EAOutputLogger.log(this.model, outputName
+                           , $"Finished import of datacontract {contract.name} in  {selectedPackage.name} "
+                           , 0
+                          , LogTypeEnum.log);
 
         }
 

@@ -52,7 +52,12 @@ namespace EADataContract
 
         public override IEnumerable<ODCSItem> getChildItems()
         {
-            return new List<ODCSItem>() { this.logicalType };
+            var childItems = new List<ODCSItem>();
+            if (this.logicalType != null)
+            {
+                childItems.Add(this.logicalType);
+            }
+            return childItems;
         }
 
         public override void getModelElement(Element context)

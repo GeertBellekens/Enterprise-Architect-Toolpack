@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using TSF.UmlToolingFramework.Wrappers.EA;
 using YamlDotNet.RepresentationModel;
 
@@ -43,6 +44,25 @@ namespace EADataContract
 
             var root = (YamlMappingNode)yaml.Documents[0]?.RootNode;
             var dataContract = new ODCSDataContract(filePath, root);
+            return dataContract;
+        }
+        public static ODCSDataContract getUserSelectedContract()
+        {
+            ODCSDataContract dataContract = null;
+            //Let the user select a .yaml file
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Select a Datacontract file",
+                Filter = "Datacontract files (*.yaml;*.yml)|*.yaml;*.yml|All files (*.*)|*.*",
+                FilterIndex = 1,
+                Multiselect = false
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var filePath = openFileDialog.FileName;
+                dataContract = Parse(filePath);
+            }
             return dataContract;
         }
 
