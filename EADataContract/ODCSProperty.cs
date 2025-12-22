@@ -25,7 +25,7 @@ namespace EADataContract
             this.unique = getBooleanValue("unique");
             this.required = getBooleanValue("required");
             this.criticalDataElement = getBooleanValue("criticalDataElement");
-            this.dataClassification = getStringValue("dataClassification");
+            this.classification = getStringValue("classification");
             this.logicalType = getStringValue("logicalType");
             //get logicalTypeOptions if present
             YamlMappingNode logicalTypeOptionsNode = null;
@@ -40,7 +40,7 @@ namespace EADataContract
         public bool? unique { get; set; }
         public bool? required { get; set; }
         public bool? criticalDataElement { get; set; }
-        public string dataClassification { get; set; }
+        public string classification { get; set; }
         public string logicalType { get; set; }
 
         private ODCSLogicalTypeOptions _options = null;
@@ -97,21 +97,18 @@ namespace EADataContract
 
         }
 
-        public override void updateModelElement()
+        public override void updateModelElement(int position)
         {
             EAOutputLogger.log($"Updating attribute: {this.name}"
                , 0
                , LogTypeEnum.log);
-            this.modelAttribute.name = this.name;
-            this.modelAttribute.notes = this.description;
-            this.modelAttribute.addTaggedValue("physicalName", this.physicalName);
-            this.modelAttribute.addTaggedValue("physicalType", this.physicalType);
-            this.modelAttribute.addTaggedValue("businessName", this.businessName);
-            this.modelAttribute.addTaggedValue("primaryKey", this.primaryKey?.ToString());
+            this.modelAttribute.position = position;
+
+            this.modelAttribute.isID = this.primaryKey == true;
             this.modelAttribute.addTaggedValue("unique", this.unique?.ToString());
             this.modelAttribute.lower = (uint)(this.required == true ? 1 : 0);
             this.modelAttribute.addTaggedValue("criticalDataElement", this.criticalDataElement?.ToString());
-            this.modelAttribute.addTaggedValue("dataClassification", this.dataClassification);
+            this.modelAttribute.addTaggedValue("classification", this.classification);
             this.modelAttribute.addTaggedValue("logicalType", this.logicalType);
             this.modelAttribute.save();
         }

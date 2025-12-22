@@ -98,7 +98,7 @@ namespace EADataContract
             }
         }
 
-        public override void updateModelElement()
+        public override void updateModelElement(int position)
         {
             this.modelPackage.name = this.name;
             this.modelPackage.version = this.version;

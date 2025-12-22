@@ -81,7 +81,7 @@ namespace EADataContract
                                     && x.fqStereotype == stereotype);
         }
 
-        public override void updateModelElement()
+        public override void updateModelElement(int position)
         {
             EAOutputLogger.log($"Updating datatype: {this.modelDataType.name}"
                            , this.modelDataType.id

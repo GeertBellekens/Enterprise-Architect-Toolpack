@@ -13,6 +13,7 @@
 			</Stereotype>
 			<Stereotype name="ODCS_Element" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 				<TaggedValues>
+					<Tag name="id" type="" description="" unit="" values="" default=""/>
 					<Tag name="businessName" type="" description="" unit="" values="" default=""/>
 					<Tag name="physicalName" type="" description="" unit="" values="" default=""/>
 					<Tag name="physicalType" type="" description="" unit="" values="" default=""/>
@@ -53,6 +54,9 @@
 						<Property name="isActive" value=""/>
 					</Apply>
 				</AppliesTo>
+				<TaggedValues>
+					<Tag name="dataGranularityDescription" type="" description="" unit="" values="" default=""/>
+				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="ODCS_Property" metatype="Property" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ODCS_Element" baseStereotypes="ODCS_Element">
 				<metaconstraints>
@@ -68,8 +72,7 @@
 				</AppliesTo>
 				<TaggedValues>
 					<Tag name="logicalType" type="enumeration" description="" unit="" values="string,date,number,integer,object,array,boolean" default="string"/>
-					<Tag name="primaryKey" type="Boolean" description="" unit="" values="True,False" default="False"/>
-					<Tag name="dataClassification" type="" description="" unit="" values="" default=""/>
+					<Tag name="classification" type="" description="" unit="" values="" default=""/>
 					<Tag name="criticalDataElement" type="Boolean" description="" unit="" values="True,False" default="False"/>
 					<Tag name="required" type="Boolean" description="" unit="" values="True,False" default="False"/>
 					<Tag name="defaultTimezone" type="" description="" unit="" values="" default=""/>
@@ -83,7 +86,7 @@
 					<Tag name="exclusiveMinimum" type="" description="" unit="" values="" default=""/>
 					<Tag name="maximum" type="" description="" unit="" values="" default=""/>
 					<Tag name="minimum" type="" description="" unit="" values="" default=""/>
-					<Tag name="multipleOf" type="Decimal" description="" unit="" values="" default="TBD"/>
+					<Tag name="multipleOf" type="Decimal" description="" unit="" values="" default="-1"/>
 					<Tag name="maxLength" type="Integer" description="" unit="" values="" default="-1"/>
 					<Tag name="minLength" type="Integer" description="" unit="" values="" default="-1"/>
 					<Tag name="pattern" type="" description="" unit="" values="" default=""/>

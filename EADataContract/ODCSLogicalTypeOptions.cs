@@ -58,7 +58,7 @@ namespace EADataContract
             this.modelElement = context as TSF_EA.Attribute;
         }
 
-        public override void updateModelElement()
+        public override void updateModelElement(int position)
         {
             EAOutputLogger.log($"Updating logical type options for attribute: {this.modelAttribute?.name}"
               , 0

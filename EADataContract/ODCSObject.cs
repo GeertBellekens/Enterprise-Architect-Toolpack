@@ -14,10 +14,11 @@ namespace EADataContract
     public class ODCSObject: ODCSElement
     {
         public static string stereotype => profile + "ODCS_Object";
+        private string dataGranularityDescription { get;set; }
 
         public ODCSObject(YamlMappingNode node, ODCSSchema owner) : base(node, owner)
         {
-
+            this.dataGranularityDescription = getStringValue("dataGranularityDescription");
         }
         private Class modelClass => this.modelElement as Class;
         private List<ODCSProperty> _properties = null;
@@ -72,16 +73,14 @@ namespace EADataContract
             }
         }
 
-        public override void updateModelElement()
+        public override void updateModelElement(int position)
         {
             EAOutputLogger.log( $"Updating object: {this.name}"
                    , this.modelClass.id
                   , LogTypeEnum.log);
-            this.modelClass.name = this.name;
-            this.modelClass.notes = this.description;
-            this.modelClass.addTaggedValue("physicalName", this.physicalName);
-            this.modelClass.addTaggedValue("physicalType", this.physicalType);
-            this.modelClass.addTaggedValue("businessName", this.businessName);
+            base.updateModelElement(position);
+            this.modelClass.position = position;
+            this.modelClass.addTaggedValue("dataGranularityDescription", this.dataGranularityDescription);
             //TODO : quality
             this.modelClass.save();
         }

@@ -37,7 +37,7 @@ namespace EADataContract
             this.modelElement = context;
         }
 
-        public override void updateModelElement()
+        public override void updateModelElement(int position)
         {
             return; //schema has no model element to update
         }

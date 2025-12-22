@@ -18,6 +18,7 @@ namespace EADataContract
         public ODCSElement(YamlMappingNode node, ODCSItem owner) :base(node, owner)
         {
             this.name = getStringValue("name");
+            
             this.physicalName = getStringValue("physicalName");
             this.physicalType = getStringValue("physicalType");
             this.description = getStringValue("description");
@@ -32,12 +33,21 @@ namespace EADataContract
                 }
             }
         }
-
+        public override void updateModelElement(int position)
+        {
+            this.modelElement.name = this.name;
+            this.modelElement.notes = this.description;
+            this.modelElement.addTaggedValue("id", this.id);
+            this.modelElement.addTaggedValue("physicalName", this.physicalName);
+            this.modelElement.addTaggedValue("physicalType", this.physicalType);
+            this.modelElement.addTaggedValue("businessName", this.businessName);
+        }
         public string name { get; set; }
         public string physicalName { get; set; }
         public string physicalType { get; set; }
         public string description { get; set; }
         public string businessName { get; set; }
+
         private List<ODCSQuality> _qualityRules = new List<ODCSQuality>();
         public IEnumerable<ODCSQuality> qualityRules => this._qualityRules;
 

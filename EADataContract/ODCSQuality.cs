@@ -9,12 +9,14 @@ using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
 namespace EADataContract
 {
-    public class ODCSQuality:ODCSItem
+    public class ODCSQuality : ODCSItem
     {
         public ODCSQuality() { }
-        public ODCSQuality(YamlNode node, ODCSElement owner):base(node, owner)
+        public ODCSQuality(YamlNode node, ODCSElement owner) : base(node, owner)
         {
         }
+        private TSF_EA.Enumeration enumType = null;
+        private List<string> enumValues = null;
         private YamlMappingNode qualityNode => this.node as YamlMappingNode;
         public override IEnumerable<ODCSItem> getChildItems()
         {
@@ -25,10 +27,10 @@ namespace EADataContract
         {
             //check if this is an enumeration quality Rule
             var contextAttribute = context as TSF_EA.Attribute;
-            if(contextAttribute != null)
+            if (contextAttribute != null)
             {
-                var enumValues = this.getEnumValues();
-                if (enumValues != null && enumValues.Count > 0)
+                this.getEnumValues();
+                if (this.enumValues.Count > 0)
                 {
                     // enumeration detected; enumValues contains the allowed values
                     // Use these values as needed by the caller
@@ -42,68 +44,76 @@ namespace EADataContract
         {
             if (attribute == null || enumValues == null || enumValues.Count == 0) return;
             //check if the attribute already has an enumeration type with the same values
-            var enumType = attribute.type as TSF_EA.Enumeration;
-            if (enumType == null)
+            this.enumType = attribute.type as TSF_EA.Enumeration;
+            if (this.enumType == null)
             {
-                //create new enumeration type
-                enumType = attribute.getOwner<Package>().addOwnedElement<TSF_EA.Enumeration>(attribute.name + "_Enum");
-                attribute.type = enumType;
+                var enumName = string.IsNullOrEmpty(this.id) 
+                                ? attribute.name + "_Enum" 
+                                : this.id;
+                //get existing enum
+                this.enumType = attribute.getOwner<Package>().ownedElementWrappers.OfType<TSF_EA.Enumeration>()
+                    .FirstOrDefault(e => e.name == enumName);
+                //create new if neded
+                if (this.enumType == null)
+                {
+                    this.enumType = attribute.getOwner<Package>().addOwnedElement<TSF_EA.Enumeration>(enumName);
+                }
+                //set enum type as type of attribute
+                attribute.type = this.enumType;
                 attribute.save();
             }
+        }
+
+        public override void updateModelElement(int position)
+        {
+            if (this.enumType == null) return;
             //remove existing literals that don't match the new values
-            foreach (var literal in enumType.ownedLiterals.Where(x => !enumValues.Contains(x.name)))
+            foreach (var literal in this.enumType.ownedLiterals.Where(x => !this.enumValues.Contains(x.name)))
             {
                 literal.delete();
             }
             //add missing literals
-            foreach (var literal in enumValues.Where(v => !enumType.ownedLiterals.Any(x => x.name == v)))
+            foreach (var literal in this.enumValues.Where(v => !this.enumType.ownedLiterals.Any(x => x.name == v)))
             {
                 var newLiteral = enumType.addOwnedElement<TSF_EA.EnumerationLiteral>(literal);
                 newLiteral.save();
             }
         }
+        private void getEnumValues()
+        {
+            this.enumValues = new List<string>();
 
-        public override void updateModelElement()
-        {
-            //TODO: implement
-        }
-        private List<string> getEnumValues()
-        {
-            var result = new List<string>();
-            
-            if (this.qualityNode == null) return null;
+            if (this.qualityNode == null) return;
             var metricName = getStringValue("metric");
-            if (metricName != "invalidValues") return null;
+            if (metricName != "invalidValues") return;
             var mustBeValue = getIntValue("mustBe");
-            if (mustBeValue != 0) return null; 
+            if (mustBeValue != 0) return;
 
             // find 'arguments' mapping
             var argsKey = this.qualityNode.Children.Keys
                 .OfType<YamlScalarNode>()
                 .FirstOrDefault(k => string.Equals(k.Value, "arguments", StringComparison.OrdinalIgnoreCase));
-            if (argsKey == null) return result;
+            if (argsKey == null) return ;
 
-            if (!this.qualityNode.Children.TryGetValue(argsKey, out var argsNode)) return result;
-            if (!(argsNode is YamlMappingNode argsMapping)) return result;
+            if (!this.qualityNode.Children.TryGetValue(argsKey, out var argsNode)) return ;
+            if (!(argsNode is YamlMappingNode argsMapping)) return ;
 
             // find 'validValues' sequence inside arguments
             var validKey = argsMapping.Children.Keys
                 .OfType<YamlScalarNode>()
                 .FirstOrDefault(k => string.Equals(k.Value, "validValues", StringComparison.OrdinalIgnoreCase));
-            if (validKey == null) return result;
+            if (validKey == null) return ;
 
-            if (!argsMapping.Children.TryGetValue(validKey, out var validNode)) return result;
-            if (!(validNode is YamlSequenceNode validSeq)) return result;
+            if (!argsMapping.Children.TryGetValue(validKey, out var validNode)) return ;
+            if (!(validNode is YamlSequenceNode validSeq)) return ;
 
             foreach (var item in validSeq.Children)
             {
                 if (item is YamlScalarNode s && s.Value != null)
                 {
-                    result.Add(s.Value);
+                    this.enumValues.Add(s.Value);
                 }
             }
-
-            return result;
         }
     }
 }
