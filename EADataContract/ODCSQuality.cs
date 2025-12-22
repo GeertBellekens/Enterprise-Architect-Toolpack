@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using TSF.UmlToolingFramework.Wrappers.EA;
 using YamlDotNet.RepresentationModel;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
+using UML = TSF.UmlToolingFramework.UML;
 
 namespace EADataContract
 {
@@ -25,6 +28,7 @@ namespace EADataContract
 
         public override void getModelElement(Element context)
         {
+            this.modelElement = context;
             //check if this is an enumeration quality Rule
             var contextAttribute = context as TSF_EA.Attribute;
             if (contextAttribute != null)
@@ -37,7 +41,6 @@ namespace EADataContract
                     updateEnumAttribute(contextAttribute, enumValues);
                 }
             }
-
         }
 
         private void updateEnumAttribute(TSF_EA.Attribute attribute, List<string> enumValues)
@@ -47,8 +50,8 @@ namespace EADataContract
             this.enumType = attribute.type as TSF_EA.Enumeration;
             if (this.enumType == null)
             {
-                var enumName = string.IsNullOrEmpty(this.id) 
-                                ? attribute.name + "_Enum" 
+                var enumName = string.IsNullOrEmpty(this.id)
+                                ? attribute.name + "_Enum"
                                 : this.id;
                 //get existing enum
                 this.enumType = attribute.getOwner<Package>().ownedElementWrappers.OfType<TSF_EA.Enumeration>()
@@ -66,7 +69,28 @@ namespace EADataContract
 
         public override void updateModelElement(int position)
         {
-            if (this.enumType == null) return;
+            if (this.enumType != null)
+            {
+                updateLiterals();
+            }
+            else
+            {
+                //regular quality rule, to be stored in the constraint
+                var constrainName = string.IsNullOrEmpty(this.id) ? $"Quality_{position}" : this.id;
+                var constraint = this.modelElement.constraints
+                       .FirstOrDefault(c => c.name == constrainName);
+                if (constraint == null)
+                {
+                    //create new constraint
+                    constraint = this.modelElement.addOwnedElement<UML.Classes.Kernel.Constraint>(constrainName);
+                }
+                constraint.specification  = new OpaqueExpression(this.getYamlString(), "Quality");
+                constraint.save();
+            }
+        }
+
+        private void updateLiterals()
+        {
             //remove existing literals that don't match the new values
             foreach (var literal in this.enumType.ownedLiterals.Where(x => !this.enumValues.Contains(x.name)))
             {
@@ -93,19 +117,19 @@ namespace EADataContract
             var argsKey = this.qualityNode.Children.Keys
                 .OfType<YamlScalarNode>()
                 .FirstOrDefault(k => string.Equals(k.Value, "arguments", StringComparison.OrdinalIgnoreCase));
-            if (argsKey == null) return ;
+            if (argsKey == null) return;
 
-            if (!this.qualityNode.Children.TryGetValue(argsKey, out var argsNode)) return ;
-            if (!(argsNode is YamlMappingNode argsMapping)) return ;
+            if (!this.qualityNode.Children.TryGetValue(argsKey, out var argsNode)) return;
+            if (!(argsNode is YamlMappingNode argsMapping)) return;
 
             // find 'validValues' sequence inside arguments
             var validKey = argsMapping.Children.Keys
                 .OfType<YamlScalarNode>()
                 .FirstOrDefault(k => string.Equals(k.Value, "validValues", StringComparison.OrdinalIgnoreCase));
-            if (validKey == null) return ;
+            if (validKey == null) return;
 
-            if (!argsMapping.Children.TryGetValue(validKey, out var validNode)) return ;
-            if (!(validNode is YamlSequenceNode validSeq)) return ;
+            if (!argsMapping.Children.TryGetValue(validKey, out var validNode)) return;
+            if (!(validNode is YamlSequenceNode validSeq)) return;
 
             foreach (var item in validSeq.Children)
             {

@@ -2,10 +2,14 @@
 using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YamlDotNet.Core;
+using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
+using YamlDotNet.Serialization;
 using TSF_EA = TSF.UmlToolingFramework.Wrappers.EA;
 
 
@@ -42,6 +46,18 @@ namespace EADataContract
         public ODCSItem owner { get; protected set; }
 
         public TSF_EA.Element modelElement { get; protected set; } = null;
+        public string getYamlString()
+        {
+
+            return new SerializerBuilder()
+                .Build().Serialize(this.node).Trim();
+            //var stream = new YamlStream(new YamlDocument(this.node));
+            //using (var writer = new StringWriter())
+            //{
+            //    stream.Save(writer, assignAnchors: false);
+            //    return writer.ToString();
+            //}
+        }
         protected string getStringValue(string key)
         {
             if (this.node is YamlMappingNode mappingNode)
