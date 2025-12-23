@@ -1,4 +1,5 @@
-﻿using Microsoft.SqlServer.Server;
+﻿using EAAddinFramework.Utilities;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +29,12 @@ namespace EADataContract
                 //create schema
                 this.schema = new ODCSSchema(schemaNode, this);
             }
+        }
+        public void importContract(Package package)
+        {
+            this.importToModel(package, 0);
+            EAOutputLogger.log("Importing Relationships" , 0, LogTypeEnum.log);
+            this.importRelationships(0);
         }
         public string filePath { get; set; }
         public string name { get; set; }

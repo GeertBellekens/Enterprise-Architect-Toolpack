@@ -94,6 +94,20 @@
 					<Tag name="minProperties" type="Integer" description="" unit="" values="" default="-1"/>
 				</TaggedValues>
 			</Stereotype>
+			<Stereotype name="ODCS_Relationship" metatype="Relationship" notes="" cx="0" cy="0" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<metaconstraints>
+					<metaconstraint umlRole="client" constraint="ODCS::ODCS_Object"/>
+					<metaconstraint umlRole="supplier" constraint="ODCS::ODCS_Object"/>
+				</metaconstraints>
+				<AppliesTo>
+					<Apply type="Association">
+						<Property name="_lineStyle" value="custom"/>
+						<Property name="_MeaningBackwards" value="Is Referenced by"/>
+						<Property name="_MeaningForwards" value="References"/>
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
 		</Stereotypes>
 		<TaggedValueTypes>
 			<TaggedValueType property="Boolean" description="" notes="Type=Boolean;"/>

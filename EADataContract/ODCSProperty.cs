@@ -102,6 +102,7 @@ namespace EADataContract
             EAOutputLogger.log($"Updating attribute: {this.name}"
                , 0
                , LogTypeEnum.log);
+            base.updateModelElement(position);
             this.modelAttribute.position = position;
 
             this.modelAttribute.isID = this.primaryKey == true;

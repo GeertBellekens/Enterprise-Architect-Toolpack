@@ -58,6 +58,7 @@
     <Compile Include="ODCSObject.cs" />
     <Compile Include="ODCSProperty.cs" />
     <Compile Include="ODCSQuality.cs" />
+    <Compile Include="ODCSRelationship.cs" />
     <Compile Include="ODCSSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -46,21 +46,21 @@ namespace EADataContract
 
             var contract = ODCSDataContract.getUserSelectedContract();
             if (contract == null) return;
-            var selectedPackage = this.model.selectedTreePackage;
+            var selectedPackage = this.model.selectedTreePackage as Package;
             EAOutputLogger.clearLog(this.model, outputName);
             EAOutputLogger.log(this.model, outputName
-                           , $"Starting import of datacontract {contract.name} in  {selectedPackage.name} "
+                           , $"Starting import of datacontract '{contract.name}' in package '{selectedPackage.name}'"
                            , 0
                           , LogTypeEnum.log);
             this.model.wrappedModel.EnableUIUpdates = false;
             //this.model.wrappedModel.BatchAppend = true;
-            contract.importToModel(selectedPackage as Element, 0);
+            contract.importContract(selectedPackage);
             this.model.wrappedModel.EnableUIUpdates = true;
             //reload package to see changes
             selectedPackage.refresh();
             //this.model.wrappedModel.BatchAppend = false;
             EAOutputLogger.log(this.model, outputName
-                           , $"Finished import of datacontract {contract.name} in  {selectedPackage.name} "
+                           , $"Finished import of datacontract '{contract.name}' in package '{selectedPackage.name}'"
                            , 0
                           , LogTypeEnum.log);
 
